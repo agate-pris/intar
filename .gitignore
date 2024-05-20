@@ -452,3 +452,20 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+##
+## Unity 3D
+##
+!*.asmdef.meta
+!*.cs.meta
+
+# Builds
+.bin
+
+# Ignore not needed meta files
+/Intar.meta
+/Intar.sln.meta
+/Intar.Tests.meta
+/LICENSE.meta
+/package.json.meta
+/README.md.meta
