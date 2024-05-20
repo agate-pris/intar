@@ -36,5 +36,38 @@ namespace AgatePris.Intar.Tests {
                 }
             }
         }
+
+        [Test]
+        public static void RotateRightTest() {
+            for (var i = 0; i < 32; ++i) {
+                AreEqual(0U, RotateRight(0U, i));
+            }
+            for (var i = 0; i < 64; ++i) {
+                AreEqual(0UL, RotateRight(0UL, i));
+            }
+            {
+                var k = new uint[] {
+                    0xFFFF_0000U, 0x00FF_FF00U, 0x0000_FFFFU, 0xFF00_00FFU,
+                };
+                for (var i = 0; i < 4; ++i) {
+                    AreEqual(k[i], RotateRight(k[i], 32));
+                    AreEqual(k[(i + 1) % 4], RotateRight(k[i], 8));
+                    AreEqual(k[(i + 2) % 4], RotateRight(k[i], 16));
+                    AreEqual(k[(i + 3) % 4], RotateRight(k[i], 24));
+                }
+            }
+            {
+                var k = new ulong[] {
+                    0xFFFF_0000_0000_0000UL, 0x0000_FFFF_0000_0000UL,
+                    0x0000_0000_FFFF_0000UL, 0x0000_0000_0000_FFFFUL,
+                };
+                for (var i = 0; i < 4; ++i) {
+                    AreEqual(k[i], RotateRight(k[i], 64));
+                    AreEqual(k[(i + 1) % 4], RotateRight(k[i], 16));
+                    AreEqual(k[(i + 2) % 4], RotateRight(k[i], 32));
+                    AreEqual(k[(i + 3) % 4], RotateRight(k[i], 48));
+                }
+            }
+        }
     }
 }

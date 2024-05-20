@@ -10,5 +10,13 @@ namespace AgatePris.Intar {
         public static ulong RotateLeft(ulong x, int k) {
             return (x << k) | (x >> (bitsOfLong - k));
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint RotateRight(uint x, int k) {
+            return (x >> k) | (x << (bitsOfInt - k));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong RotateRight(ulong x, int k) {
+            return (x >> k) | (x << (bitsOfLong - k));
+        }
     }
 }
