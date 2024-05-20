@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
 
+    <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
+    <BaseOutputPath>.bin\</BaseOutputPath>
+
+    <!-- Output intermediate outputs to .obj as same as bin -->
+    <IntermediateOutputPath>.obj\$(Configuration)\</IntermediateOutputPath>
+
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
