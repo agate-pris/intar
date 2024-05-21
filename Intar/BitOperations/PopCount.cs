@@ -1,8 +1,9 @@
 using System.Runtime.CompilerServices;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar {
     public static partial class BitOperations {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(AggressiveInlining)]
         public static int PopCount(uint x) {
             const uint k55 = 0x5555_5555;
             const uint k33 = 0x3333_3333;
@@ -17,7 +18,7 @@ namespace AgatePris.Intar {
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(AggressiveInlining)]
         public static int PopCount(ulong x) {
             const ulong k55 = 0x5555_5555_5555_5555;
             const ulong k33 = 0x3333_3333_3333_3333;

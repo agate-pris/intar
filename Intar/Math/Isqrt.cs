@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
 using static AgatePris.Intar.BitOperations;
+using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar {
     public static partial class Math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(AggressiveInlining)]
         public static uint Isqrt(uint x) {
             if (x <= 1) {
                 return x;
@@ -20,7 +21,7 @@ namespace AgatePris.Intar {
             return s;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(AggressiveInlining)]
         public static ulong Isqrt(ulong x) {
             if (x <= 1) {
                 return x;
