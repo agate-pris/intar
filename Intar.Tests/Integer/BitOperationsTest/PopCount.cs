@@ -1,41 +1,46 @@
+using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests {
+namespace AgatePris.Intar.Tests.Integer {
     public partial class BitOperationsTest {
-        static int LeadingZeroCount(uint x) {
-            const int bitsOfInt = sizeof(int) * 8;
-            for (var rhs = 1; rhs < bitsOfInt; rhs <<= 1) {
-                x |= x >> rhs;
+        static int PopCount(uint x) {
+            var mask = 1;
+            var count = 0;
+            while (mask != 0) {
+                if ((mask & x) != 0) {
+                    ++count;
+                }
+                mask <<= 1;
             }
-            unchecked {
-                return bitsOfInt - PopCount(x);
-            }
+            return count;
         }
 
-        static int LeadingZeroCount(ulong x) {
-            const int bitsOfLong = sizeof(long) * 8;
-            for (var rhs = 1; rhs < bitsOfLong; rhs <<= 1) {
-                x |= x >> rhs;
+        static int PopCount(ulong x) {
+            var mask = 1UL;
+            var count = 0;
+            while (mask != 0) {
+                if ((mask & x) != 0) {
+                    ++count;
+                }
+                mask <<= 1;
             }
-            unchecked {
-                return bitsOfLong - PopCount(x);
-            }
+            return count;
         }
 
         [Test]
-        public static void LeadingZeroCountTestUint() {
+        public static void PopCountTestUint() {
             void Test(uint x) {
-                var expected = LeadingZeroCount(x);
-                var actual = BitOperations.LeadingZeroCount(x);
+                var expected = PopCount(x);
+                var actual = BitOperations.PopCount(x);
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(32, BitOperations.LeadingZeroCount(0U));
-            Assert.AreEqual(0, BitOperations.LeadingZeroCount(uint.MaxValue));
+            Assert.AreEqual(0, BitOperations.PopCount(0U));
+            Assert.AreEqual(32, BitOperations.PopCount(uint.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
             Parallel.For(0, processorCount, n => {
@@ -48,17 +53,17 @@ namespace AgatePris.Intar.Tests {
         }
 
         [Test]
-        public static void LeadingZeroCountTestUlong() {
+        public static void PopCountTestUlong() {
             void Test(ulong x) {
-                var expected = LeadingZeroCount(x);
-                var actual = BitOperations.LeadingZeroCount(x);
+                var expected = PopCount(x);
+                var actual = BitOperations.PopCount(x);
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(64, BitOperations.LeadingZeroCount(0UL));
-            Assert.AreEqual(0, BitOperations.LeadingZeroCount(ulong.MaxValue));
+            Assert.AreEqual(0, BitOperations.PopCount(0UL));
+            Assert.AreEqual(64, BitOperations.PopCount(ulong.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
             Parallel.For(0, processorCount, n => {

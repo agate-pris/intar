@@ -1,4 +1,4 @@
-using static AgatePris.Intar.BitOperations;
+using static AgatePris.Intar.Integer.BitOperations;
 
 namespace AgatePris.Intar.Rand {
     public struct Xoroshiro128StarStar {

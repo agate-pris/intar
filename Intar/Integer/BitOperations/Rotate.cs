@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-namespace AgatePris.Intar {
+namespace AgatePris.Intar.Integer {
     public static partial class BitOperations {
         [MethodImpl(AggressiveInlining)]
         public static uint RotateLeft(uint x, int k) {

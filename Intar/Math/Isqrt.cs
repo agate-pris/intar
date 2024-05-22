@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using static AgatePris.Intar.BitOperations;
+using static AgatePris.Intar.Integer.BitOperations;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar {

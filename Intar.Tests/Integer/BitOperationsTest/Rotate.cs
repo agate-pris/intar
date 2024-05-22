@@ -1,8 +1,8 @@
 using NUnit.Framework;
-using static AgatePris.Intar.BitOperations;
+using static AgatePris.Intar.Integer.BitOperations;
 using static NUnit.Framework.Assert;
 
-namespace AgatePris.Intar.Tests {
+namespace AgatePris.Intar.Tests.Integer {
     public partial class BitOperationsTest {
         [Test]
         public static void RotateLeftTest() {
