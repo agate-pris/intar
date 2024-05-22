@@ -5,6 +5,12 @@ namespace AgatePris.Intar.Tests.Integer {
     public class SignTest {
         [Test]
         public static void Test() {
+#if NET7_0_OR_GREATER
+            Assert.IsTrue(int.IsPositive(0));
+            Assert.IsTrue(long.IsPositive(0));
+            Assert.IsFalse(int.IsNegative(0));
+            Assert.IsFalse(long.IsNegative(0));
+#endif
             Assert.IsTrue(0.IsNegativeInclusive());
             Assert.IsTrue(0.IsPositiveInclusive());
             Assert.IsTrue(0.IsZero());
