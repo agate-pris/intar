@@ -19,10 +19,10 @@ namespace AgatePris.Intar.Tests.Integer {
             Assert.IsTrue((-1).IsNegativeInclusive());
             Assert.IsTrue((-1L).IsNegativeExclusive());
             Assert.IsTrue((-1L).IsNegativeInclusive());
-            Assert.IsFalse(0.IsPositiveExclusive());
             Assert.IsFalse(0.IsNegativeExclusive());
-            Assert.IsFalse(0L.IsPositiveExclusive());
+            Assert.IsFalse(0.IsPositiveExclusive());
             Assert.IsFalse(0L.IsNegativeExclusive());
+            Assert.IsFalse(0L.IsPositiveExclusive());
             Assert.IsFalse(1.IsNegativeExclusive());
             Assert.IsFalse(1.IsNegativeInclusive());
             Assert.IsFalse(1.IsZero());

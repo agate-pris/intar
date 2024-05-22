@@ -6,10 +6,10 @@ namespace AgatePris.Intar.Integer {
         [MethodImpl(AggressiveInlining)] public static bool IsZero(this int x) => x == 0;
         [MethodImpl(AggressiveInlining)] public static bool IsZero(this long x) => x == 0;
 
-        [MethodImpl(AggressiveInlining)] public static bool IsPositiveExclusive(this int x) => x > 0;
-        [MethodImpl(AggressiveInlining)] public static bool IsPositiveExclusive(this long x) => x > 0;
         [MethodImpl(AggressiveInlining)] public static bool IsNegativeInclusive(this int x) => x <= 0;
         [MethodImpl(AggressiveInlining)] public static bool IsNegativeInclusive(this long x) => x <= 0;
+        [MethodImpl(AggressiveInlining)] public static bool IsPositiveExclusive(this int x) => x > 0;
+        [MethodImpl(AggressiveInlining)] public static bool IsPositiveExclusive(this long x) => x > 0;
 #if NET7_0_OR_GREATER
         [MethodImpl(AggressiveInlining)] public static bool IsNegativeExclusive(this int x) => int.IsNegative(x);
         [MethodImpl(AggressiveInlining)] public static bool IsNegativeExclusive(this long x) => long.IsNegative(x);
