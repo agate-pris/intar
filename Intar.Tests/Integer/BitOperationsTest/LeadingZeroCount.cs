@@ -27,7 +27,7 @@ namespace AgatePris.Intar.Tests.Integer {
 
         [Test]
         public static void LeadingZeroCountTestUint() {
-            void Test(uint x) {
+            static void Test(uint x) {
                 var expected = LeadingZeroCount(x);
                 var actual = BitOperations.LeadingZeroCount(x);
                 if (expected != actual) {
@@ -50,7 +50,7 @@ namespace AgatePris.Intar.Tests.Integer {
 
         [Test]
         public static void LeadingZeroCountTestUlong() {
-            void Test(ulong x) {
+            static void Test(ulong x) {
                 var expected = LeadingZeroCount(x);
                 var actual = BitOperations.LeadingZeroCount(x);
                 if (expected != actual) {

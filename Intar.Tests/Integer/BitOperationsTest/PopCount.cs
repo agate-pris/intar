@@ -31,7 +31,7 @@ namespace AgatePris.Intar.Tests.Integer {
 
         [Test]
         public static void PopCountTestUint() {
-            void Test(uint x) {
+            static void Test(uint x) {
                 var expected = PopCount(x);
                 var actual = BitOperations.PopCount(x);
                 if (expected != actual) {
@@ -54,7 +54,7 @@ namespace AgatePris.Intar.Tests.Integer {
 
         [Test]
         public static void PopCountTestUlong() {
-            void Test(ulong x) {
+            static void Test(ulong x) {
                 var expected = PopCount(x);
                 var actual = BitOperations.PopCount(x);
                 if (expected != actual) {
