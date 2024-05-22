@@ -1,7 +1,7 @@
-using AgatePris.Intar.Num;
+using AgatePris.Intar.Integer;
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests.Num {
+namespace AgatePris.Intar.Tests.Integer {
     public class SignTest {
         [Test]
         public static void Test() {

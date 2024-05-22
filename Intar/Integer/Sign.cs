@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-namespace AgatePris.Intar.Num {
+namespace AgatePris.Intar.Integer {
     public static class Sign {
         [MethodImpl(AggressiveInlining)] public static bool IsZero(this int x) => x == 0;
         [MethodImpl(AggressiveInlining)] public static bool IsZero(this long x) => x == 0;
