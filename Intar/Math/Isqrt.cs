@@ -1,5 +1,5 @@
+using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
-using static AgatePris.Intar.Integer.BitOperations;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar {
@@ -11,7 +11,7 @@ namespace AgatePris.Intar {
             }
 
             const int halfBits = sizeof(int) * 4;
-            var k = halfBits - (LeadingZeroCount(x - 1) >> 1);
+            var k = halfBits - ((x - 1).LeadingZeroCount() >> 1);
             var s = 1U << k;
             var t = (s + (x >> k)) >> 1;
             while (t < s) {
@@ -28,7 +28,7 @@ namespace AgatePris.Intar {
             }
 
             const int halfBits = sizeof(long) * 4;
-            var k = halfBits - (LeadingZeroCount(x - 1) >> 1);
+            var k = halfBits - ((x - 1).LeadingZeroCount() >> 1);
             var s = 1UL << k;
             var t = (s + (x >> k)) >> 1;
             while (t < s) {
