@@ -1,8 +1,9 @@
+using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests {
+namespace AgatePris.Intar.Tests.Integer {
     public partial class BitOperationsTest {
         static int LeadingZeroCount(uint x) {
             const int bitsOfInt = sizeof(int) * 8;
@@ -26,16 +27,16 @@ namespace AgatePris.Intar.Tests {
 
         [Test]
         public static void LeadingZeroCountTestUint() {
-            void Test(uint x) {
+            static void Test(uint x) {
                 var expected = LeadingZeroCount(x);
-                var actual = BitOperations.LeadingZeroCount(x);
+                var actual = x.LeadingZeroCount();
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(32, BitOperations.LeadingZeroCount(0U));
-            Assert.AreEqual(0, BitOperations.LeadingZeroCount(uint.MaxValue));
+            Assert.AreEqual(32, 0U.LeadingZeroCount());
+            Assert.AreEqual(0, uint.MaxValue.LeadingZeroCount());
 
             var processorCount = Environment.ProcessorCount;
             Parallel.For(0, processorCount, n => {
@@ -49,16 +50,16 @@ namespace AgatePris.Intar.Tests {
 
         [Test]
         public static void LeadingZeroCountTestUlong() {
-            void Test(ulong x) {
+            static void Test(ulong x) {
                 var expected = LeadingZeroCount(x);
-                var actual = BitOperations.LeadingZeroCount(x);
+                var actual = x.LeadingZeroCount();
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(64, BitOperations.LeadingZeroCount(0UL));
-            Assert.AreEqual(0, BitOperations.LeadingZeroCount(ulong.MaxValue));
+            Assert.AreEqual(64, 0UL.LeadingZeroCount());
+            Assert.AreEqual(0, ulong.MaxValue.LeadingZeroCount());
 
             var processorCount = Environment.ProcessorCount;
             Parallel.For(0, processorCount, n => {

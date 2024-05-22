@@ -1,8 +1,9 @@
+using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests {
+namespace AgatePris.Intar.Tests.Integer {
     public partial class BitOperationsTest {
         static int PopCount(uint x) {
             var mask = 1;
@@ -30,16 +31,16 @@ namespace AgatePris.Intar.Tests {
 
         [Test]
         public static void PopCountTestUint() {
-            void Test(uint x) {
+            static void Test(uint x) {
                 var expected = PopCount(x);
-                var actual = BitOperations.PopCount(x);
+                var actual = x.PopCount();
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(0, BitOperations.PopCount(0U));
-            Assert.AreEqual(32, BitOperations.PopCount(uint.MaxValue));
+            Assert.AreEqual(0, 0U.PopCount());
+            Assert.AreEqual(32, uint.MaxValue.PopCount());
 
             var processorCount = Environment.ProcessorCount;
             Parallel.For(0, processorCount, n => {
@@ -53,16 +54,16 @@ namespace AgatePris.Intar.Tests {
 
         [Test]
         public static void PopCountTestUlong() {
-            void Test(ulong x) {
+            static void Test(ulong x) {
                 var expected = PopCount(x);
-                var actual = BitOperations.PopCount(x);
+                var actual = x.PopCount();
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(0, BitOperations.PopCount(0UL));
-            Assert.AreEqual(64, BitOperations.PopCount(ulong.MaxValue));
+            Assert.AreEqual(0, 0UL.PopCount());
+            Assert.AreEqual(64, ulong.MaxValue.PopCount());
 
             var processorCount = Environment.ProcessorCount;
             Parallel.For(0, processorCount, n => {

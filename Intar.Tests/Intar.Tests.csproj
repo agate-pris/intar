@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net462;net7.0</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
 
     <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
     <BaseOutputPath>.bin\</BaseOutputPath>

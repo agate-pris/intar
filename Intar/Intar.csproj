@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net462;net7.0</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
 
     <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
     <BaseOutputPath>.bin\</BaseOutputPath>
@@ -9,5 +10,9 @@
     <!-- Output intermediate outputs to .obj as same as bin -->
     <IntermediateOutputPath>.obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+  </ItemGroup>
 
 </Project>
