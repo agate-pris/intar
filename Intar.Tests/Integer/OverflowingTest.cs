@@ -30,6 +30,10 @@ namespace AgatePris.Intar.Tests.Integer {
             const u16 u16_2 = 2;
             const u32 u32_2 = 2;
             const u64 u64_2 = 2;
+            const i08 i08_10 = 10;
+            const i16 i16_10 = 10;
+            const i32 i32_10 = 10;
+            const i64 i64_10 = 10;
             const i08 i08Neg2 = -2;
             const i16 i16Neg2 = -2;
             const i32 i32Neg2 = -2;
@@ -86,7 +90,10 @@ namespace AgatePris.Intar.Tests.Integer {
             AreEqual(u16_100.WrappingSub(u16.MaxValue), 101);
             AreEqual(u32_100.WrappingSub(u32.MaxValue), 101);
             AreEqual(u64_100.WrappingSub(u64.MaxValue), 101);
-            AreEqual(((i08)10).WrappingMul(12), 120);
+            AreEqual(i08_10.WrappingMul(12), 120);
+            AreEqual(i16_10.WrappingMul(12), 120);
+            AreEqual(i32_10.WrappingMul(12), 120);
+            AreEqual(i64_10.WrappingMul(12), 120);
             AreEqual(((i08)11).WrappingMul(12), -124);
             AreEqual(((u08)10).WrappingMul(12), 120);
             AreEqual(((u08)25).WrappingMul(12), 44);
