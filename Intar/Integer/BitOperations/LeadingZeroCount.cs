@@ -3,6 +3,10 @@ using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar.Integer {
     public static partial class BitOperations {
+#if NET7_0_OR_GREATER
+        [MethodImpl(AggressiveInlining)] public static int LeadingZeroCount(this uint x) => System.Numerics.BitOperations.LeadingZeroCount(x);
+        [MethodImpl(AggressiveInlining)] public static int LeadingZeroCount(this ulong x) => System.Numerics.BitOperations.LeadingZeroCount(x);
+#else
         [MethodImpl(AggressiveInlining)]
         public static int LeadingZeroCount(this uint x) {
             x |= x >> 1;
@@ -27,5 +31,6 @@ namespace AgatePris.Intar.Integer {
                 return bitsOfLong - x.PopCount();
             }
         }
+#endif
     }
 }
