@@ -4,7 +4,7 @@ using static System.Runtime.CompilerServices.MethodImplOptions;
 namespace AgatePris.Intar.Integer {
     public static partial class Math {
         [MethodImpl(AggressiveInlining)]
-        public static uint Isqrt(uint x) {
+        public static uint Isqrt(this uint x) {
             if (x <= 1) {
                 return x;
             }
@@ -21,7 +21,7 @@ namespace AgatePris.Intar.Integer {
         }
 
         [MethodImpl(AggressiveInlining)]
-        public static ulong Isqrt(ulong x) {
+        public static ulong Isqrt(this ulong x) {
             if (x <= 1) {
                 return x;
             }
