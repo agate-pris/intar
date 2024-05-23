@@ -3,6 +3,10 @@ using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar.Integer {
     public static partial class BitOperations {
+#if NET7_0_OR_GREATER
+        [MethodImpl(AggressiveInlining)] public static int PopCount(this uint x) => System.Numerics.BitOperations.PopCount(x);
+        [MethodImpl(AggressiveInlining)] public static int PopCount(this ulong x) => System.Numerics.BitOperations.PopCount(x);
+#else
         [MethodImpl(AggressiveInlining)]
         public static int PopCount(this uint x) {
             const uint k55 = 0x5555_5555;
@@ -33,5 +37,6 @@ namespace AgatePris.Intar.Integer {
                 return (int)x & (bitsOfLong * 2 - 1);
             }
         }
+#endif
     }
 }
