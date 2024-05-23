@@ -1,8 +1,7 @@
-using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-namespace AgatePris.Intar {
+namespace AgatePris.Intar.Integer {
     public static partial class Math {
         [MethodImpl(AggressiveInlining)]
         public static uint Isqrt(uint x) {
