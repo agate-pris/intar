@@ -17,6 +17,14 @@ namespace AgatePris.Intar.Integer {
         public static u16 Min(this u16 x, u16 y) => x < y ? x : y;
         public static u32 Min(this u32 x, u32 y) => x < y ? x : y;
         public static u64 Min(this u64 x, u64 y) => x < y ? x : y;
+        public static i08 Max(this i08 x, i08 y) => x > y ? x : y;
+        public static i16 Max(this i16 x, i16 y) => x > y ? x : y;
+        public static i32 Max(this i32 x, i32 y) => x > y ? x : y;
+        public static i64 Max(this i64 x, i64 y) => x > y ? x : y;
+        public static u08 Max(this u08 x, u08 y) => x > y ? x : y;
+        public static u16 Max(this u16 x, u16 y) => x > y ? x : y;
+        public static u32 Max(this u32 x, u32 y) => x > y ? x : y;
+        public static u64 Max(this u64 x, u64 y) => x > y ? x : y;
         public static i08 Clamp(this i08 x, i08 min, i08 max) => x < min ? min : (x > max ? max : x);
         public static i16 Clamp(this i16 x, i16 min, i16 max) => x < min ? min : (x > max ? max : x);
         public static i32 Clamp(this i32 x, i32 min, i32 max) => x < min ? min : (x > max ? max : x);
