@@ -1,5 +1,6 @@
 *.cs            text
 *.csproj        text
+*.editorconfig  text
 *.gitattributes text eol=lf
 *.gitignore     text eol=lf
 *.sln           text
