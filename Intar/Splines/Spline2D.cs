@@ -26,8 +26,8 @@ namespace AgatePris.Intar.Splines {
 #endif
         int t;
 
-        public ulong Distance => distance;
-        public int T => t;
+        public readonly ulong Distance => distance;
+        public readonly int T => t;
 
         public DistanceToInterpolation(ulong distance, int t) {
             this.distance = distance;
