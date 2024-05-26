@@ -2,10 +2,35 @@ using AgatePris.Intar.Mathematics;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
 
+#if !UNITY_5_6_OR_NEWER
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Soap;
+using System.Text;
+#endif
+
 namespace AgatePris.Intar.Tests.Mathematics {
     public class MathematicsTest {
         [Test]
         public void Vector2Test() {
+#if !UNITY_5_6_OR_NEWER
+            {
+                var v = new Int2(1, 2);
+
+                // Serialize v into string using SOAP formatter.
+                var formatter = new SoapFormatter();
+                var stream = new MemoryStream();
+                formatter.Serialize(stream, v);
+                var str = Encoding.UTF8.GetString(stream.GetBuffer());
+                Console.WriteLine(str);
+
+                // Deserialize into v from string using SOAP formatter.
+                stream = new MemoryStream(Encoding.UTF8.GetBytes(str));
+                v = (Int2)formatter.Deserialize(stream);
+                AreEqual(1, v.X);
+                AreEqual(2, v.Y);
+            }
+#endif
             {
                 var v = new Int2(1, 2);
                 AreEqual(1, v.X);
