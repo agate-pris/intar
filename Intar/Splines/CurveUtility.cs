@@ -58,5 +58,27 @@ namespace AgatePris.Intar.Splines {
             }
             return acc + curve.P3.AbsDiff(p).Length();
         }
+        public static int GetDistanceToInterpolation(
+            DistanceToInterpolation[] cumulativeCurveLengths, ulong distance
+        ) {
+            if (cumulativeCurveLengths == null ||
+                cumulativeCurveLengths.Length < 1 ||
+                distance <= 0) {
+                return 0;
+            }
+
+            var p = 0UL;
+            var t = 0;
+            foreach (var cumulativeCurveLength in cumulativeCurveLengths) {
+                var q = cumulativeCurveLength.Distance;
+                var u = cumulativeCurveLength.T;
+                if (distance < q) {
+                    return t + (int)((ulong)(u - t) * (distance - p) / (q - p));
+                }
+                p = q;
+                t = u;
+            }
+            return 1 << 30;
+        }
     }
 }
