@@ -107,11 +107,25 @@ namespace AgatePris.Intar.Splines {
                 metaData.Add(null);
             }
         }
+        void EnsureMetData() {
+#if UNITY_5_6_OR_NEWER
+            if (metaData == null) {
+                metaData = new List<MetaData>();
+            }
+#endif
+            if (knots.Count != metaData.Count) {
+                metaData.Clear();
+                while (metaData.Count < knots.Count) {
+                    metaData.Add(new MetaData());
+                }
+            }
+        }
         public BezierCurve2D GetCurve(int index) {
             var next = (index + 1).Min(knots.Count - 1);
             return new BezierCurve2D(knots[index], knots[next]);
         }
         DistanceToInterpolation[] GetCurveDistanceLut(int index) {
+            EnsureMetData();
             var metaData = this.metaData[index];
             if (metaData.IsDirty) {
                 var curve = GetCurve(index);
@@ -126,18 +140,7 @@ namespace AgatePris.Intar.Splines {
         }
         public int GetCurveInterpolation(int curveIndex, ulong curveDistance) {
             var cumulativeCurveLengths = GetCurveDistanceLut(curveIndex);
-            var p = 0UL;
-            var t = 0;
-            foreach (var cumulativeCurveLength in cumulativeCurveLengths) {
-                var q = cumulativeCurveLength.Distance;
-                var u = cumulativeCurveLength.T;
-                if (curveDistance <= q) {
-                    return t + (int)((ulong)(u - t) * (curveDistance - p) / (q - p));
-                }
-                t = u;
-                p = q;
-            }
-            return 1 << 30;
+            return CurveUtility.GetDistanceToInterpolation(cumulativeCurveLengths, curveDistance);
         }
         public ulong GetLength() {
             if (lengthCache.HasValue) {
