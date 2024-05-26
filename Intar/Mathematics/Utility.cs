@@ -4,6 +4,8 @@ using static System.Runtime.CompilerServices.MethodImplOptions;
 
 namespace AgatePris.Intar.Mathematics {
     public static partial class Utility {
+        [MethodImpl(AggressiveInlining)] public static Uint2 UnsignedAbs(this Int2 v) => new Uint2(v.X.UnsignedAbs(), v.Y.UnsignedAbs());
+        [MethodImpl(AggressiveInlining)] public static Ulong2 UnsignedAbs(this Long2 v) => new Ulong2(v.X.UnsignedAbs(), v.Y.UnsignedAbs());
         [MethodImpl(AggressiveInlining)] public static Int2 AsInt(this Long2 v) => new Int2((int)v.X, (int)v.Y);
         [MethodImpl(AggressiveInlining)] public static Long2 AsLong(this Int2 v) => new Long2(v.X, v.Y);
         [MethodImpl(AggressiveInlining)] public static Uint2 AsUint(this Ulong2 v) => new Uint2((uint)v.X, (uint)v.Y);
