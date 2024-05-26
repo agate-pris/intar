@@ -8,15 +8,22 @@ using UnityEngine;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-    public readonly struct Ulong2 : IEquatable<Ulong2>, IFormattable {
+#if !UNITY_5_6_OR_NEWER
+    readonly
+#endif
+    public struct Ulong2 : IEquatable<Ulong2>, IFormattable {
 #if UNITY_5_6_OR_NEWER
         [SerializeField]
+#else
+        readonly
 #endif
-        readonly ulong x;
+        ulong x;
 #if UNITY_5_6_OR_NEWER
         [SerializeField]
+#else
+        readonly
 #endif
-        readonly ulong y;
+        ulong y;
 
         public ulong X => x;
         public ulong Y => y;
