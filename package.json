@@ -1,4 +1,24 @@
 {
-    "name": "dev.agate-pris.intar",
-    "version": "0.0.0"
+  "name": "dev.agate-pris.intar",
+  "version": "0.1.0",
+  "displayName": "Intar",
+  "description": "An arithmetic library that uses integer arithmetic for most calculations to guarantee reproducibility, without emphasis on performance or accuracy",
+  "unity": "2018.3",
+  "dependencies": {
+    "com.unity.mathematics": "1.0.0"
+  },
+  "keywords": [
+    "arithmetic",
+    "integer",
+    "math"
+  ],
+  "author": {
+    "name": "Agate Pris",
+    "url": "https://www.agate-pris.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agate-pris/Intar",
+    "revision": ""
+  }
 }
