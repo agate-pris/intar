@@ -7,18 +7,6 @@ using static AgatePris.Intar.Mathematics.Math;
 
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
-        List<int> ReadInts(string path) {
-            var ints = new List<int>();
-            foreach (var line in File.ReadLines(path)) {
-                foreach (var s in line.Split(',')) {
-                    if (int.TryParse(s, out var v)) {
-                        ints.Add(v);
-                    }
-                }
-            }
-            return ints;
-        }
-
         public struct SinCase {
             public Func<int, int> sin;
             public Func<int, int> cos;
@@ -57,16 +45,6 @@ namespace AgatePris.Intar.Tests.Mathematics {
         ) {
             var sin = sinCase.sin;
             var cos = sinCase.cos;
-#if UNITY_5_6_OR_NEWER
-            var dataPath = Path.GetFullPath(
-                Path.Combine(
-                    "Packages/dev.agate-pris.intar/.data",
-                    sinCase.dataPath
-                )
-            );
-#else
-            var dataPath = Path.Combine(Environment.GetEnvironmentVariable("Data"), sinCase.dataPath);
-#endif
             var acceptableError = sinCase.acceptableError;
             const int rightExp = 15;
             const int right = 1 << rightExp;
@@ -75,7 +53,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             const int full = 2 * straight;
             const int negFull = -full;
             const int one = 1 << 30;
-            var data = ReadInts(dataPath);
+            var data = ReadInts(MakeUpPath(sinCase.dataPath));
             Assert.AreNotEqual(null, data);
             Assert.AreEqual(right + 1, data.Count);
             Assert.AreEqual(0, data[0]);
