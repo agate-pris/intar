@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using static AgatePris.Intar.Mathematics.Math;
 
+#pragma warning disable IDE0090 // 'new(...)' を使用する
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
         public struct SinCase {
@@ -21,12 +22,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 this.dataPath = dataPath;
                 this.acceptableError = acceptableError;
             }
-            public override string  ToString() {
+            public override readonly string ToString() {
                 return $"{dataPath}";
             }
         }
 
-        public static SinCase[] SinCases = {
+        public static readonly SinCase[] SinCases = {
             new SinCase(SinP2, CosP2, "sin_p2.json", 0.056010),
             new SinCase(SinP3_16384, CosP3_16384, "sin_p3.json", 0.020017),
             new SinCase(SinP4_7032, CosP4_7032, "sin_p4_7032.json", 0.002819),
@@ -83,14 +84,23 @@ namespace AgatePris.Intar.Tests.Mathematics {
                         _ => throw new System.Exception("Unreachable"),
                     };
                     if (expected != actual) {
-                        Assert.Fail();
+                        Assert.Fail(
+                            $"{nameof(x)}: {x}, " +
+                            $"{nameof(expected)}: {expected}, " +
+                            $"{nameof(actual)}: {actual}"
+                        );
                     }
                 }
                 {
                     var expected = System.Math.Sin(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (System.Math.Abs(actualReal - expected) > acceptableError) {
-                        Assert.Fail();
+                    if (System.Math.Abs(actualReal - expected) >= acceptableError) {
+                        Assert.Fail(
+                            $"{nameof(x)}: {x}, " +
+                            $"{nameof(actual)}: {actual}, " +
+                            $"{nameof(expected)}: {expected}, " +
+                            $"{nameof(actualReal)}: {actualReal}"
+                        );
                     }
                 }
             }
@@ -158,3 +168,4 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
     }
 }
+#pragma warning restore IDE0090 // 'new(...)' を使用する
