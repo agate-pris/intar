@@ -1,8 +1,6 @@
 using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using static AgatePris.Intar.Mathematics.Math;
 
 namespace AgatePris.Intar.Tests.Mathematics {
