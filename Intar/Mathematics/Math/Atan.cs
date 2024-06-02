@@ -30,6 +30,20 @@ namespace AgatePris.Intar.Mathematics {
             return x * (frac_k_4 + ((atanOne - xAbs) * a >> 15));
         }
 
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var x = (1 << 15) * 2 / 3;
+        /// var actual = Intar.Mathematics.Math.AtanP2_2850(x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 << 30);
+        /// Assert.AreEqual(expected, a, 0.003778);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int AtanP2_2850(int x) {
             return (x < atanOneNeg, x > atanOne) switch {
@@ -39,6 +53,22 @@ namespace AgatePris.Intar.Mathematics {
             };
         }
 
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var y = 2;
+        /// var x = 3;
+        /// var actual = Intar.Mathematics.Math.Atan2P2_2850(y, x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.003778);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan2P2_2850(int y, int x) {
             return (System.Math.Sign(y), System.Math.Sign(x)) switch {
@@ -70,6 +100,20 @@ namespace AgatePris.Intar.Mathematics {
             return x * (frac_k_4 + ((atanOne - xAbs) * (a + (xAbs * b >> 15)) >> 15));
         }
 
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var x = (1 << 15) * 2 / 3;
+        /// var actual = Intar.Mathematics.Math.AtanP3_2555_691(x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 << 30);
+        /// Assert.AreEqual(expected, a, 0.001543);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int AtanP3_2555_691(int x) {
             return (x < atanOneNeg, x > atanOne) switch {
@@ -79,6 +123,22 @@ namespace AgatePris.Intar.Mathematics {
             };
         }
 
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var y = 2;
+        /// var x = 3;
+        /// var actual = Intar.Mathematics.Math.Atan2P3_2555_691(y, x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.001543);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan2P3_2555_691(int y, int x) {
             return (System.Math.Sign(y), System.Math.Sign(x)) switch {
@@ -110,6 +170,20 @@ namespace AgatePris.Intar.Mathematics {
             return (c - ((b - (a * x2 >> 15)) * x2 >> 15)) * x;
         }
 
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var x = (1 << 15) * 2 / 3;
+        /// var actual = Intar.Mathematics.Math.AtanP5_787_2968(x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 << 30);
+        /// Assert.AreEqual(expected, a, 0.000767);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int AtanP5_787_2968(int x) {
             return (x < atanOneNeg, x > atanOne) switch {
@@ -119,6 +193,22 @@ namespace AgatePris.Intar.Mathematics {
             };
         }
 
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var y = 2;
+        /// var x = 3;
+        /// var actual = Intar.Mathematics.Math.Atan2P5_787_2968(y, x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.000767);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan2P5_787_2968(int y, int x) {
             return (System.Math.Sign(y), System.Math.Sign(x)) switch {
