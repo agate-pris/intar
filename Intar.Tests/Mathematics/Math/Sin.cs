@@ -3,7 +3,9 @@ using NUnit.Framework;
 using System;
 using static AgatePris.Intar.Mathematics.Math;
 
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0090 // 'new(...)' を使用する
+
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
         public struct SinCase {
@@ -168,4 +170,3 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
     }
 }
-#pragma warning restore IDE0090 // 'new(...)' を使用する

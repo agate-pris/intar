@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using AgatePris.Intar.Integer;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0090 // 'new(...)' を使用する
 
 namespace AgatePris.Intar.Mathematics {
@@ -25,5 +26,3 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(AggressiveInlining)] public static long SignedLength(this Uint2 v) => (long)v.Length();
     }
 }
-
-#pragma warning restore IDE0090 // 'new(...)' を使用する
