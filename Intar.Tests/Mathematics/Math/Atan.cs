@@ -262,6 +262,55 @@ namespace AgatePris.Intar.Tests.Mathematics {
         };
 
         [Test]
+        public static void DocTest() {
+            {
+                var x = (1 << 15) * 2 / 3;
+                var actual = Math.AtanP2_2850(x);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
+                Assert.AreEqual(expected, a, 0.003778);
+            }
+            {
+                var y = 2;
+                var x = 3;
+                var actual = Math.Atan2P2_2850(y, x);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
+                Assert.AreEqual(expected, a, 0.003778);
+            }
+            {
+                var x = (1 << 15) * 2 / 3;
+                var actual = Math.AtanP3_2555_691(x);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
+                Assert.AreEqual(expected, a, 0.001543);
+            }
+            {
+                var y = 2;
+                var x = 3;
+                var actual = Math.Atan2P3_2555_691(y, x);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
+                Assert.AreEqual(expected, a, 0.001543);
+            }
+            {
+                var x = (1 << 15) * 2 / 3;
+                var actual = Math.AtanP5_787_2968(x);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
+                Assert.AreEqual(expected, a, 0.000767);
+            }
+            {
+                var y = 2;
+                var x = 3;
+                var actual = Math.Atan2P5_787_2968(y, x);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
+                Assert.AreEqual(expected, a, 0.000767);
+            }
+        }
+
+        [Test]
         public static void AtanTest(
             [ValueSource(nameof(AtanCases))] AtanCase atanCase
         ) {
