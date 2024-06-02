@@ -1,24 +1,11 @@
 using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using static AgatePris.Intar.Mathematics.Math;
 
+#pragma warning disable IDE0090 // 'new(...)' を使用する
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
-        List<int> ReadInts(string path) {
-            var ints = new List<int>();
-            foreach (var line in File.ReadLines(path)) {
-                foreach (var s in line.Split(',')) {
-                    if (int.TryParse(s, out var v)) {
-                        ints.Add(v);
-                    }
-                }
-            }
-            return ints;
-        }
-
         public struct SinCase {
             public Func<int, int> sin;
             public Func<int, int> cos;
@@ -35,12 +22,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 this.dataPath = dataPath;
                 this.acceptableError = acceptableError;
             }
-            public override string  ToString() {
+            public override readonly string ToString() {
                 return $"{dataPath}";
             }
         }
 
-        public static SinCase[] SinCases = {
+        public static readonly SinCase[] SinCases = {
             new SinCase(SinP2, CosP2, "sin_p2.json", 0.056010),
             new SinCase(SinP3_16384, CosP3_16384, "sin_p3.json", 0.020017),
             new SinCase(SinP4_7032, CosP4_7032, "sin_p4_7032.json", 0.002819),
@@ -57,16 +44,6 @@ namespace AgatePris.Intar.Tests.Mathematics {
         ) {
             var sin = sinCase.sin;
             var cos = sinCase.cos;
-#if UNITY_5_6_OR_NEWER
-            var dataPath = Path.GetFullPath(
-                Path.Combine(
-                    "Packages/dev.agate-pris.intar/.data",
-                    sinCase.dataPath
-                )
-            );
-#else
-            var dataPath = Path.Combine(Environment.GetEnvironmentVariable("Data"), sinCase.dataPath);
-#endif
             var acceptableError = sinCase.acceptableError;
             const int rightExp = 15;
             const int right = 1 << rightExp;
@@ -75,7 +52,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             const int full = 2 * straight;
             const int negFull = -full;
             const int one = 1 << 30;
-            var data = ReadInts(dataPath);
+            var data = ReadInts(MakeUpPath(sinCase.dataPath));
             Assert.AreNotEqual(null, data);
             Assert.AreEqual(right + 1, data.Count);
             Assert.AreEqual(0, data[0]);
@@ -107,14 +84,23 @@ namespace AgatePris.Intar.Tests.Mathematics {
                         _ => throw new System.Exception("Unreachable"),
                     };
                     if (expected != actual) {
-                        Assert.Fail();
+                        Assert.Fail(
+                            $"{nameof(x)}: {x}, " +
+                            $"{nameof(expected)}: {expected}, " +
+                            $"{nameof(actual)}: {actual}"
+                        );
                     }
                 }
                 {
                     var expected = System.Math.Sin(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (System.Math.Abs(actualReal - expected) > acceptableError) {
-                        Assert.Fail();
+                    if (System.Math.Abs(actualReal - expected) >= acceptableError) {
+                        Assert.Fail(
+                            $"{nameof(x)}: {x}, " +
+                            $"{nameof(actual)}: {actual}, " +
+                            $"{nameof(expected)}: {expected}, " +
+                            $"{nameof(actualReal)}: {actualReal}"
+                        );
                     }
                 }
             }
@@ -182,3 +168,4 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
     }
 }
+#pragma warning restore IDE0090 // 'new(...)' を使用する

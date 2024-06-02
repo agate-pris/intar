@@ -2,6 +2,8 @@ using System.Runtime.CompilerServices;
 using AgatePris.Intar.Integer;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
+#pragma warning disable IDE0090 // 'new(...)' を使用する
+
 namespace AgatePris.Intar.Mathematics {
     public static partial class Utility {
         [MethodImpl(AggressiveInlining)] public static Uint2 UnsignedAbs(this Int2 v) => new Uint2(v.X.UnsignedAbs(), v.Y.UnsignedAbs());
@@ -23,3 +25,5 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(AggressiveInlining)] public static long SignedLength(this Uint2 v) => (long)v.Length();
     }
 }
+
+#pragma warning restore IDE0090 // 'new(...)' を使用する
