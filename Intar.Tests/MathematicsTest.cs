@@ -9,13 +9,17 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 #endif
 
+#if UNITY_2018_3_OR_NEWER
+using Unity.Mathematics;
+#endif
+
 namespace AgatePris.Intar.Tests.Mathematics {
     public class MathematicsTest {
         [Test]
         public void Vector2Test() {
 #if !UNITY_5_6_OR_NEWER
             {
-                var v = new Int2(1, 2);
+                var v = new int2(1, 2);
 
                 // Serialize v into string using SOAP formatter.
                 var formatter = new SoapFormatter();
@@ -26,16 +30,16 @@ namespace AgatePris.Intar.Tests.Mathematics {
 
                 // Deserialize into v from string using SOAP formatter.
                 stream = new MemoryStream(Encoding.UTF8.GetBytes(str));
-                v = (Int2)formatter.Deserialize(stream);
+                v = (int2)formatter.Deserialize(stream);
                 AreEqual(1, v.X);
                 AreEqual(2, v.Y);
             }
 #endif
             {
-                var v = new Int2(1, 2);
-                AreEqual(1, v.X);
-                AreEqual(2, v.Y);
-                AreEqual(11, v.Dot(new Int2(3, 4)));
+                var v = new int2(1, 2);
+                AreEqual(1, v.x);
+                AreEqual(2, v.y);
+                AreEqual(11, v.Dot(new int2(3, 4)));
                 var l = v.AsLong();
                 AreEqual(1, l.X);
                 AreEqual(2, l.Y);
@@ -55,8 +59,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(6, v.Y);
                 AreEqual(83, v.Dot(new Long2(7, 8)));
                 var i = v.AsInt();
-                AreEqual(5, i.X);
-                AreEqual(6, i.Y);
+                AreEqual(5, i.x);
+                AreEqual(6, i.y);
             }
             {
                 var v = new Ulong2(7, 8);
@@ -67,10 +71,10 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(7, i.X);
                 AreEqual(8, i.Y);
             }
-            AreEqual(50, new Int2(30, 40).Length());
-            AreEqual(50, new Int2(-30, 40).Length());
-            AreEqual(50, new Int2(30, -40).Length());
-            AreEqual(50, new Int2(-30, -40).Length());
+            AreEqual(50, new int2(30, 40).Length());
+            AreEqual(50, new int2(-30, 40).Length());
+            AreEqual(50, new int2(30, -40).Length());
+            AreEqual(50, new int2(-30, -40).Length());
             AreEqual(50, new Uint2(30, 40).Length());
         }
     }
