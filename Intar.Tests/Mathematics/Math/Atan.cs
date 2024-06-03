@@ -28,29 +28,38 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
 
         static List<(int, int)> CollectMostSteepPoints(int n) {
-            const int width = 1 << 16;
-            const int begin = int.MaxValue - (width - 1) + 1;
-            var max = (begin, (int)(begin * (2 * n + 1L) / width));
-            var list = new List<(int, int)> { max };
-            for (var i = 1; i < width - 1; ++i) {
-                var x = i + begin;
-                var mul = x * (2 * n + 1L);
-                var rem = mul % width;
-                var y = (int)(mul / width - (rem == 0 ? 1 : 0));
-                var item = (x, y);
-                var cmp = CompareSteep(max, item);
-                if (cmp == 1) {
+            const int resolutionTwice = 1 << 16;
+            const int lastCrossPointX = int.MaxValue - resolutionTwice + 1;
+            const int begin = lastCrossPointX + 1;
+            var steep = 2 * n + 1L;
+            var max = (begin, (int)(begin * steep / resolutionTwice));
+            var points = new List<(int, int)> { max };
+            for (var i = 2; i < resolutionTwice; ++i) {
+                var x = i + lastCrossPointX;
+                var mul = x * steep;
+#if DEBUG
+                var rem = mul % resolutionTwice;
+                if (rem == 0) {
+                    Assert.Fail();
+                }
+#endif
+                //var y = (int)(mul / resolutionTwice - (rem == 0 ? 1 : 0));
+                var y = (int)(mul / resolutionTwice);
+                var p = (x, y);
+                var cmp = CompareSteep(max, p);
+                if (cmp > 0) {
                     continue;
                 }
-                if (cmp == -1) {
-                    max = item;
-                    list.Clear();
-                    list.Add(item);
-                    continue;
+                if (cmp < 0) {
+                    max = p;
+                    points.Clear();
+                    points.Add(p);
                 }
-                list.Add(item);
+                else {
+                    points.Add(p);
+                }
             }
-            return list;
+            return points;
         }
 
         [Test]
