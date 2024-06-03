@@ -9,6 +9,10 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 #endif
 
+#if UNITY_2018_3_OR_NEWER
+using Unity.Mathematics;
+#endif
+
 namespace AgatePris.Intar.Tests.Mathematics {
     public class MathematicsTest {
         [Test]
@@ -33,8 +37,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
 #endif
             {
                 var v = new int2(1, 2);
-                AreEqual(1, v.X);
-                AreEqual(2, v.Y);
+                AreEqual(1, v.x);
+                AreEqual(2, v.y);
                 AreEqual(11, v.Dot(new int2(3, 4)));
                 var l = v.AsLong();
                 AreEqual(1, l.X);
@@ -55,8 +59,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(6, v.Y);
                 AreEqual(83, v.Dot(new Long2(7, 8)));
                 var i = v.AsInt();
-                AreEqual(5, i.X);
-                AreEqual(6, i.Y);
+                AreEqual(5, i.x);
+                AreEqual(6, i.y);
             }
             {
                 var v = new Ulong2(7, 8);

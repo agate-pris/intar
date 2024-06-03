@@ -1,3 +1,5 @@
+#if !UNITY_2018_3_OR_NEWER
+
 using System;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
@@ -86,3 +88,5 @@ namespace AgatePris.Intar.Mathematics {
         }
     }
 }
+
+#endif // !UNITY_2018_3_OR_NEWER
