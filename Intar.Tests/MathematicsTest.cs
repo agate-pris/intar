@@ -15,7 +15,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
         public void Vector2Test() {
 #if !UNITY_5_6_OR_NEWER
             {
-                var v = new Int2(1, 2);
+                var v = new int2(1, 2);
 
                 // Serialize v into string using SOAP formatter.
                 var formatter = new SoapFormatter();
@@ -26,16 +26,16 @@ namespace AgatePris.Intar.Tests.Mathematics {
 
                 // Deserialize into v from string using SOAP formatter.
                 stream = new MemoryStream(Encoding.UTF8.GetBytes(str));
-                v = (Int2)formatter.Deserialize(stream);
+                v = (int2)formatter.Deserialize(stream);
                 AreEqual(1, v.X);
                 AreEqual(2, v.Y);
             }
 #endif
             {
-                var v = new Int2(1, 2);
+                var v = new int2(1, 2);
                 AreEqual(1, v.X);
                 AreEqual(2, v.Y);
-                AreEqual(11, v.Dot(new Int2(3, 4)));
+                AreEqual(11, v.Dot(new int2(3, 4)));
                 var l = v.AsLong();
                 AreEqual(1, l.X);
                 AreEqual(2, l.Y);
@@ -67,10 +67,10 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(7, i.X);
                 AreEqual(8, i.Y);
             }
-            AreEqual(50, new Int2(30, 40).Length());
-            AreEqual(50, new Int2(-30, 40).Length());
-            AreEqual(50, new Int2(30, -40).Length());
-            AreEqual(50, new Int2(-30, -40).Length());
+            AreEqual(50, new int2(30, 40).Length());
+            AreEqual(50, new int2(-30, 40).Length());
+            AreEqual(50, new int2(30, -40).Length());
+            AreEqual(50, new int2(-30, -40).Length());
             AreEqual(50, new Uint2(30, 40).Length());
         }
     }
