@@ -31,8 +31,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 // Deserialize into v from string using SOAP formatter.
                 stream = new MemoryStream(Encoding.UTF8.GetBytes(str));
                 v = (int2)formatter.Deserialize(stream);
-                AreEqual(1, v.X);
-                AreEqual(2, v.Y);
+                AreEqual(1, v.x);
+                AreEqual(2, v.y);
             }
 #endif
             {
