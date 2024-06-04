@@ -45,10 +45,10 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(2, l.Y);
             }
             {
-                var v = new Uint2(3, 4);
-                AreEqual(3, v.X);
-                AreEqual(4, v.Y);
-                AreEqual(39, v.Dot(new Uint2(5, 6)));
+                var v = new uint2(3, 4);
+                AreEqual(3, v.x);
+                AreEqual(4, v.y);
+                AreEqual(39, v.Dot(new uint2(5, 6)));
                 var l = v.AsUlong();
                 AreEqual(3, l.X);
                 AreEqual(4, l.Y);
@@ -68,14 +68,14 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(8, v.Y);
                 AreEqual(143, v.Dot(new Ulong2(9, 10)));
                 var i = v.AsUint();
-                AreEqual(7, i.X);
-                AreEqual(8, i.Y);
+                AreEqual(7, i.x);
+                AreEqual(8, i.y);
             }
             AreEqual(50, new int2(30, 40).Length());
             AreEqual(50, new int2(-30, 40).Length());
             AreEqual(50, new int2(30, -40).Length());
             AreEqual(50, new int2(-30, -40).Length());
-            AreEqual(50, new Uint2(30, 40).Length());
+            AreEqual(50, new uint2(30, 40).Length());
         }
     }
 }
