@@ -2,10 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-#if UNITY_5_6_OR_NEWER
-using UnityEngine;
-#endif
-
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
 #pragma warning disable IDE1006 // 命名スタイル
