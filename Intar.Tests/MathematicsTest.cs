@@ -63,10 +63,10 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(6, i.y);
             }
             {
-                var v = new Ulong2(7, 8);
+                var v = new ulong2(7, 8);
                 AreEqual(7, v.X);
                 AreEqual(8, v.Y);
-                AreEqual(143, v.Dot(new Ulong2(9, 10)));
+                AreEqual(143, v.Dot(new ulong2(9, 10)));
                 var i = v.AsUint();
                 AreEqual(7, i.x);
                 AreEqual(8, i.y);
