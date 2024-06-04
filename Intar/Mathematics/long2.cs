@@ -8,25 +8,11 @@ using UnityEngine;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-#if !UNITY_5_6_OR_NEWER
-    readonly
-#endif
+#pragma warning disable IDE1006 // 命名スタイル
     public struct long2 : IEquatable<long2>, IFormattable {
-#if UNITY_5_6_OR_NEWER
-        [SerializeField]
-#else
-        readonly
-#endif
-        long x;
-#if UNITY_5_6_OR_NEWER
-        [SerializeField]
-#else
-        readonly
-#endif
-        long y;
-
-        public long X => x;
-        public long Y => y;
+#pragma warning restore IDE1006 // 命名スタイル
+        public long x;
+        public long y;
 
         public static readonly long2 Zero;
 
@@ -65,15 +51,18 @@ namespace AgatePris.Intar.Mathematics {
         // Object
         // ------
 
-        public override bool Equals(object obj) => obj is long2 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is long2 o && Equals(o);
         [MethodImpl(AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(x, y);
-        [MethodImpl(AggressiveInlining)] public override string ToString() => $"long2({x}, {y})";
+        public override readonly int GetHashCode() => HashCode.Combine(x, y);
+        [MethodImpl(AggressiveInlining)]
+        public override readonly string ToString() => $"long2({x}, {y})";
 
         // IEquatable<long2>
         // -----------------
 
-        [MethodImpl(AggressiveInlining)] public bool Equals(long2 rhs) => rhs.x == x && rhs.y == y;
+        [MethodImpl(AggressiveInlining)] public readonly bool Equals(long2 rhs)
+            => rhs.x == x
+            && rhs.y == y;
 
         // IFormattable
         // ------------
