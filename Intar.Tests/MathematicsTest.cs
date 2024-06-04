@@ -54,10 +54,10 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(4, l.Y);
             }
             {
-                var v = new Long2(5, 6);
+                var v = new long2(5, 6);
                 AreEqual(5, v.X);
                 AreEqual(6, v.Y);
-                AreEqual(83, v.Dot(new Long2(7, 8)));
+                AreEqual(83, v.Dot(new long2(7, 8)));
                 var i = v.AsInt();
                 AreEqual(5, i.x);
                 AreEqual(6, i.y);

@@ -11,7 +11,7 @@ namespace AgatePris.Intar.Mathematics {
 #if !UNITY_5_6_OR_NEWER
     readonly
 #endif
-    public struct Long2 : IEquatable<Long2>, IFormattable {
+    public struct long2 : IEquatable<long2>, IFormattable {
 #if UNITY_5_6_OR_NEWER
         [SerializeField]
 #else
@@ -28,52 +28,52 @@ namespace AgatePris.Intar.Mathematics {
         public long X => x;
         public long Y => y;
 
-        public static readonly Long2 Zero;
+        public static readonly long2 Zero;
 
         [MethodImpl(AggressiveInlining)]
-        public Long2(long x, long y) {
+        public long2(long x, long y) {
             this.x = x;
             this.y = y;
         }
-        [MethodImpl(AggressiveInlining)] public Long2(Long2 xy) : this(xy.x, xy.y) {}
-        [MethodImpl(AggressiveInlining)] public Long2(long v) : this(v, v) {}
+        [MethodImpl(AggressiveInlining)] public long2(long2 xy) : this(xy.x, xy.y) {}
+        [MethodImpl(AggressiveInlining)] public long2(long v) : this(v, v) {}
         [MethodImpl(AggressiveInlining)]
-        public static Long2 operator +(Long2 a, Long2 b) => new Long2(
+        public static long2 operator +(long2 a, long2 b) => new long2(
             a.x + b.x,
             a.y + b.y);
         [MethodImpl(AggressiveInlining)]
-        public static Long2 operator -(Long2 a, Long2 b) => new Long2(
+        public static long2 operator -(long2 a, long2 b) => new long2(
             a.x - b.x,
             a.y - b.y);
         [MethodImpl(AggressiveInlining)]
-        public static Long2 operator *(long scalar, Long2 vector) => new Long2(
+        public static long2 operator *(long scalar, long2 vector) => new long2(
             scalar * vector.x,
             scalar * vector.y);
         [MethodImpl(AggressiveInlining)]
-        public static Long2 operator *(Long2 vector, long scalar) => scalar * vector;
+        public static long2 operator *(long2 vector, long scalar) => scalar * vector;
         [MethodImpl(AggressiveInlining)]
-        public static Long2 operator /(Long2 vector, long scalar) => new Long2(
+        public static long2 operator /(long2 vector, long scalar) => new long2(
             vector.x / scalar,
             vector.y / scalar);
         [MethodImpl(AggressiveInlining)]
-        public static bool operator ==(Long2 lhs, Long2 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(long2 lhs, long2 rhs) => lhs.Equals(rhs);
         [MethodImpl(AggressiveInlining)]
-        public static bool operator !=(Long2 lhs, Long2 rhs) => !(lhs == rhs);
+        public static bool operator !=(long2 lhs, long2 rhs) => !(lhs == rhs);
         [MethodImpl(AggressiveInlining)]
-        public static implicit operator Long2(long v) => new Long2(v);
+        public static implicit operator long2(long v) => new long2(v);
 
         // Object
         // ------
 
-        public override bool Equals(object obj) => obj is Long2 o && Equals(o);
+        public override bool Equals(object obj) => obj is long2 o && Equals(o);
         [MethodImpl(AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(x, y);
-        [MethodImpl(AggressiveInlining)] public override string ToString() => $"Long2({x}, {y})";
+        [MethodImpl(AggressiveInlining)] public override string ToString() => $"long2({x}, {y})";
 
-        // IEquatable<Long2>
+        // IEquatable<long2>
         // -----------------
 
-        [MethodImpl(AggressiveInlining)] public bool Equals(Long2 rhs) => rhs.x == x && rhs.y == y;
+        [MethodImpl(AggressiveInlining)] public bool Equals(long2 rhs) => rhs.x == x && rhs.y == y;
 
         // IFormattable
         // ------------
@@ -82,7 +82,7 @@ namespace AgatePris.Intar.Mathematics {
         public string ToString(string format, IFormatProvider formatProvider) {
             var x = this.x.ToString(format, formatProvider);
             var y = this.y.ToString(format, formatProvider);
-            return $"Long2({x}, {y})";
+            return $"long2({x}, {y})";
         }
     }
 }
