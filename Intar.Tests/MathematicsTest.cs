@@ -50,8 +50,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 AreEqual(4, v.y);
                 AreEqual(39, v.Dot(new uint2(5, 6)));
                 var l = v.AsUlong();
-                AreEqual(3, l.X);
-                AreEqual(4, l.Y);
+                AreEqual(3, l.x);
+                AreEqual(4, l.y);
             }
             {
                 var v = new long2(5, 6);
@@ -64,8 +64,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
             }
             {
                 var v = new ulong2(7, 8);
-                AreEqual(7, v.X);
-                AreEqual(8, v.Y);
+                AreEqual(7, v.x);
+                AreEqual(8, v.y);
                 AreEqual(143, v.Dot(new ulong2(9, 10)));
                 var i = v.AsUint();
                 AreEqual(7, i.x);

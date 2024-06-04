@@ -2,31 +2,13 @@ using System;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-#if UNITY_5_6_OR_NEWER
-using UnityEngine;
-#endif
-
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-#if !UNITY_5_6_OR_NEWER
-    readonly
-#endif
+#pragma warning disable IDE1006 // 命名スタイル
     public struct ulong2 : IEquatable<ulong2>, IFormattable {
-#if UNITY_5_6_OR_NEWER
-        [SerializeField]
-#else
-        readonly
-#endif
-        ulong x;
-#if UNITY_5_6_OR_NEWER
-        [SerializeField]
-#else
-        readonly
-#endif
-        ulong y;
-
-        public ulong X => x;
-        public ulong Y => y;
+#pragma warning restore IDE1006 // 命名スタイル
+        public ulong x;
+        public ulong y;
 
         public static readonly ulong2 Zero;
 
@@ -65,15 +47,18 @@ namespace AgatePris.Intar.Mathematics {
         // Object
         // ------
 
-        public override bool Equals(object obj) => obj is ulong2 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is ulong2 o && Equals(o);
         [MethodImpl(AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(x, y);
-        [MethodImpl(AggressiveInlining)] public override string ToString() => $"Ulong2({x}, {y})";
+        public override readonly int GetHashCode() => HashCode.Combine(x, y);
+        [MethodImpl(AggressiveInlining)]
+        public override readonly string ToString() => $"ulong2({x}, {y})";
 
-        // IEquatable<Ulong2>
+        // IEquatable<ulong2>
         // ------------------
 
-        [MethodImpl(AggressiveInlining)] public bool Equals(ulong2 rhs) => rhs.x == x && rhs.y == y;
+        [MethodImpl(AggressiveInlining)] public readonly bool Equals(ulong2 rhs)
+            => rhs.x == x
+            && rhs.y == y;
 
         // IFormattable
         // ------------
@@ -82,7 +67,7 @@ namespace AgatePris.Intar.Mathematics {
         public string ToString(string format, IFormatProvider formatProvider) {
             var x = this.x.ToString(format, formatProvider);
             var y = this.y.ToString(format, formatProvider);
-            return $"Ulong2({x}, {y})";
+            return $"ulong2({x}, {y})";
         }
     }
 }
