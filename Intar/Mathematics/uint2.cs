@@ -18,8 +18,10 @@ namespace AgatePris.Intar.Mathematics {
             this.x = x;
             this.y = y;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public uint2(uint2 xy) : this(xy.x, xy.y) {}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public uint2(uint v) : this(v, v) {}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint2(uint2 xy) : this(xy.x, xy.y) {}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint2(uint v) : this(v, v) {}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 operator +(uint2 a, uint2 b) => new uint2(
             a.x + b.x,
@@ -51,12 +53,15 @@ namespace AgatePris.Intar.Mathematics {
         public override readonly bool Equals(object obj) => obj is uint2 o && Equals(o);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public override readonly string ToString() => $"uint2({x}, {y})";
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly string ToString() => $"uint2({x}, {y})";
 
         // IEquatable<uint2>
         // -----------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly bool Equals(uint2 rhs) => rhs.x == x && rhs.y == y;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly bool Equals(uint2 rhs)
+            => rhs.x == x
+            && rhs.y == y;
 
         // IFormattable
         // ------------

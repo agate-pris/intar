@@ -18,8 +18,10 @@ namespace AgatePris.Intar.Mathematics {
             this.x = x;
             this.y = y;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public int2(int2 xy) : this(xy.x, xy.y) {}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public int2(int v) : this(v, v) {}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int2(int2 xy) : this(xy.x, xy.y) {}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int2(int v) : this(v, v) {}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 operator +(int2 a, int2 b) => new int2(
             a.x + b.x,
@@ -51,7 +53,8 @@ namespace AgatePris.Intar.Mathematics {
         public override readonly bool Equals(object obj) => obj is int2 o && Equals(o);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public override readonly string ToString() => $"int2({x}, {y})";
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly string ToString() => $"int2({x}, {y})";
 
         // IEquatable<int2>
         // ----------------
