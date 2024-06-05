@@ -1,3 +1,22 @@
 {
-    "output_dest": []
+    "output_dest": [
+        {
+            "dir_path": "Intar/Mathematics",
+            "template_name": "vec.cs",
+            "files": [
+                { "file_name":  "int2.gen.cs", "params": { "type": "int", "dim": 2, "unity": true } },
+                { "file_name":  "int3.gen.cs", "params": { "type": "int", "dim": 3, "unity": true } },
+                { "file_name":  "int4.gen.cs", "params": { "type": "int", "dim": 4, "unity": true } },
+                { "file_name":  "uint2.gen.cs", "params": { "type": "uint", "dim": 2, "unity": true } },
+                { "file_name":  "uint3.gen.cs", "params": { "type": "uint", "dim": 3, "unity": true } },
+                { "file_name":  "uint4.gen.cs", "params": { "type": "uint", "dim": 4, "unity": true } },
+                { "file_name":  "long2.gen.cs", "params": { "type": "long", "dim": 2, "unity": false } },
+                { "file_name":  "long3.gen.cs", "params": { "type": "long", "dim": 3, "unity": false } },
+                { "file_name":  "long4.gen.cs", "params": { "type": "long", "dim": 4, "unity": false } },
+                { "file_name":  "ulong2.gen.cs", "params": { "type": "ulong", "dim": 2, "unity": false } },
+                { "file_name":  "ulong3.gen.cs", "params": { "type": "ulong", "dim": 3, "unity": false } },
+                { "file_name":  "ulong4.gen.cs", "params": { "type": "ulong", "dim": 4, "unity": false } }
+            ]
+        }
+    ]
 }
