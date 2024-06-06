@@ -30,12 +30,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
 
         public static readonly SinCase[] SinCases = {
-            new SinCase(SinP2, CosP2, "sin_p2.json", 0.056010),
-            new SinCase(SinP3_16384, CosP3_16384, "sin_p3.json", 0.020017),
-            new SinCase(SinP4_7032, CosP4_7032, "sin_p4_7032.json", 0.002819),
-            new SinCase(SinP4_7384, CosP4_7384, "sin_p4_7384.json", 0.001174),
-            new SinCase(SinP5_51472, CosP5_51472, "sin_p5_51472.json", 0.000425),
-            new SinCase(SinP5_51437, CosP5_51437, "sin_p5_51437.json", 0.000226),
+            new SinCase(sin_p2, cos_p2, "sin_p2.json", 0.056010),
+            new SinCase(sin_p3_16384, cos_p3_16384, "sin_p3.json", 0.020017),
+            new SinCase(sin_p4_7032, cos_p4_7032, "sin_p4_7032.json", 0.002819),
+            new SinCase(sin_p4_7384, cos_p4_7384, "sin_p4_7384.json", 0.001174),
+            new SinCase(sin_p5_51472, cos_p5_51472, "sin_p5_51472.json", 0.000425),
+            new SinCase(sin_p5_51437, cos_p5_51437, "sin_p5_51437.json", 0.000226),
         };
 
         [Test]
