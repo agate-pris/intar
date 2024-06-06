@@ -20,9 +20,11 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
 #pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
     public static partial class math {
 #pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
 #pragma warning disable IDE1006 // 命名スタイル
+
         {{ self::min(type = "int") }}
         {{ self::min(type = "uint") }}
         {{ self::min(type = "long") }}
@@ -34,9 +36,7 @@ namespace AgatePris.Intar.Mathematics {
         {{ self::min(type = "float") }}
         {{ self::min(type = "double") }}
         {{ self::min(type = "decimal") }}
-#pragma warning restore IDE1006 // 命名スタイル
 
-#pragma warning disable IDE1006 // 命名スタイル
         {{ self::max(type = "int") }}
         {{ self::max(type = "uint") }}
         {{ self::max(type = "long") }}
@@ -48,9 +48,7 @@ namespace AgatePris.Intar.Mathematics {
         {{ self::max(type = "float") }}
         {{ self::max(type = "double") }}
         {{ self::max(type = "decimal") }}
-#pragma warning restore IDE1006 // 命名スタイル
 
-#pragma warning disable IDE1006 // 命名スタイル
         {{ self::clamp(type = "int") }}
         {{ self::clamp(type = "uint") }}
         {{ self::clamp(type = "long") }}
@@ -63,6 +61,7 @@ namespace AgatePris.Intar.Mathematics {
         {{ self::clamp(type = "double") }}
         {{ self::clamp(type = "decimal") }}
 #pragma warning restore IDE1006 // 命名スタイル
+
     }
 }
 

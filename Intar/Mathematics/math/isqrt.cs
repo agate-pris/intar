@@ -42,6 +42,6 @@ namespace AgatePris.Intar.Mathematics {
             return s;
         }
     }
-
 #pragma warning restore IDE1006 // 命名スタイル
+
 }

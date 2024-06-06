@@ -5,9 +5,11 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
 #pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
     public static partial class math {
 #pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
 #pragma warning disable IDE1006 // 命名スタイル
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int min(int x, int y) => x < y ? x : y;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -30,9 +32,7 @@ namespace AgatePris.Intar.Mathematics {
         public static double min(double x, double y) => x < y ? x : y;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal min(decimal x, decimal y) => x < y ? x : y;
-#pragma warning restore IDE1006 // 命名スタイル
 
-#pragma warning disable IDE1006 // 命名スタイル
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int max(int x, int y) => x > y ? x : y;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,9 +55,7 @@ namespace AgatePris.Intar.Mathematics {
         public static double max(double x, double y) => x > y ? x : y;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal max(decimal x, decimal y) => x > y ? x : y;
-#pragma warning restore IDE1006 // 命名スタイル
 
-#pragma warning disable IDE1006 // 命名スタイル
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int clamp(int x, int a, int b) => max(a, min(b, x));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,6 +79,7 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal clamp(decimal x, decimal a, decimal b) => max(a, min(b, x));
 #pragma warning restore IDE1006 // 命名スタイル
+
     }
 }
 
