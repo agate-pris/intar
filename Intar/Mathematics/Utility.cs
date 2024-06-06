@@ -23,7 +23,7 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(AggressiveInlining)] public static uint Dot(this uint2 x, uint2 y) => x.x * y.x + x.y * y.y;
         [MethodImpl(AggressiveInlining)] public static long Dot(this long2 x, long2 y) => x.x * y.x + x.y * y.y;
         [MethodImpl(AggressiveInlining)] public static ulong Dot(this ulong2 x, ulong2 y) => x.x * y.x + x.y * y.y;
-        [MethodImpl(AggressiveInlining)] static ulong Length(this ulong2 v) => v.Dot(v).Isqrt();
+        [MethodImpl(AggressiveInlining)] static ulong Length(this ulong2 v) => math.isqrt(v.Dot(v));
         [MethodImpl(AggressiveInlining)] public static ulong Length(this uint2 v) => v.AsUlong().Length();
         [MethodImpl(AggressiveInlining)] public static ulong Length(this int2 v) => v.UnsignedAbs().Length();
         [MethodImpl(AggressiveInlining)] public static long SignedLength(this int2 v) => (long)v.Length();
