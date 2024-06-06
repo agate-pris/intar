@@ -1,6 +1,13 @@
 {
     "output_dest": [
         {
+            "dir_path": "Intar/Integer",
+            "template_name": "Overflowing.cs",
+            "files": [
+                { "file_name": "Overflowing.gen.cs", "params": {} }
+            ]
+        },
+        {
             "dir_path": "Intar/Mathematics/math",
             "template_name": "clamp.cs",
             "files": [
