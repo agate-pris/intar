@@ -2,7 +2,13 @@ using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-    public static partial class Math {
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE1006 // 命名スタイル
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+    public static partial class math {
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+#pragma warning restore IDE1006 // 命名スタイル
+#pragma warning restore IDE0079 // 不要な抑制を削除します
         const int sinRightExp = 8 * sizeof(int) / 2 - 1;
         const int sinRight = 1 << sinRightExp;
         const int sinRightMask = sinRight - 1;
@@ -52,7 +58,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP2(int x) {
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int cos_p2(int x) {
+#pragma warning restore IDE1006 // 命名スタイル
             var masked = x & sinRightMask;
             return ToSinQuadrant(x) switch {
                 SinQuadrant.Second => CosP2Detail(sinRight - masked) - sinOne,
@@ -79,7 +87,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP2(int x) => CosP2(x.WrappingSub(sinRight));
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int sin_p2(int x) => cos_p2(x.WrappingSub(sinRight));
+#pragma warning restore IDE1006 // 命名スタイル
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -97,7 +107,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP3_16384(int x) {
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int sin_p3_16384(int x) {
+#pragma warning restore IDE1006 // 命名スタイル
             const int b = sinRight / 2;
             const int a = sinRight + b;
             var z = MakeSinArgOdd(x);
@@ -121,7 +133,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP3_16384(int x) => SinP3_16384(x.WrappingAdd(sinRight));
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int cos_p3_16384(int x) => sin_p3_16384(x.WrappingAdd(sinRight));
+#pragma warning restore IDE1006 // 命名スタイル
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int CosP4_7032Detail(int z) {
@@ -147,7 +161,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP4_7032(int x) {
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int cos_p4_7032(int x) {
+#pragma warning restore IDE1006 // 命名スタイル
             var masked = x & sinRightMask;
             return ToSinQuadrant(x) switch {
                 SinQuadrant.Second => CosP4_7032Detail(sinRight - masked) - sinOne,
@@ -174,7 +190,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP4_7032(int x) => CosP4_7032(x.WrappingSub(sinRight));
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int sin_p4_7032(int x) => cos_p4_7032(x.WrappingSub(sinRight));
+#pragma warning restore IDE1006 // 命名スタイル
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int CosP4_7384Detail(int z) {
@@ -200,7 +218,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP4_7384(int x) {
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int cos_p4_7384(int x) {
+#pragma warning restore IDE1006 // 命名スタイル
             var masked = x & sinRightMask;
             return ToSinQuadrant(x) switch {
                 SinQuadrant.Second => CosP4_7384Detail(sinRight - masked) - sinOne,
@@ -227,7 +247,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP4_7384(int x) => CosP4_7384(x.WrappingSub(sinRight));
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int sin_p4_7384(int x) => cos_p4_7384(x.WrappingSub(sinRight));
+#pragma warning restore IDE1006 // 命名スタイル
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -245,7 +267,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5_51472(int x) {
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int sin_p5_51472(int x) {
+#pragma warning restore IDE1006 // 命名スタイル
             const int k = 51472;
             const int a = k * 2 - sinRight * 5 / 2;
             const int b = k - sinRight * 3 / 2;
@@ -270,7 +294,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5_51472(int x) => SinP5_51472(x.WrappingAdd(sinRight));
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int cos_p5_51472(int x) => sin_p5_51472(x.WrappingAdd(sinRight));
+#pragma warning restore IDE1006 // 命名スタイル
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -288,7 +314,9 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5_51437(int x) {
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int sin_p5_51437(int x) {
+#pragma warning restore IDE1006 // 命名スタイル
             const int k = 51437;
             const int a = k * 2 - sinRight * 5 / 2;
             const int b = k - sinRight * 3 / 2;
@@ -313,6 +341,8 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5_51437(int x) => SinP5_51437(x.WrappingAdd(sinRight));
+#pragma warning disable IDE1006 // 命名スタイル
+        public static int cos_p5_51437(int x) => sin_p5_51437(x.WrappingAdd(sinRight));
+#pragma warning restore IDE1006 // 命名スタイル
     }
 }
