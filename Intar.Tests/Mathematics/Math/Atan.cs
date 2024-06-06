@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Math = AgatePris.Intar.Mathematics.Math;
+using math = AgatePris.Intar.Mathematics.math;
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0090 // 'new(...)' を使用する
@@ -265,16 +265,16 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
 
         public static readonly AtanCase[] AtanCases = {
-            new AtanCase(Math.AtanP2_2850, Math.Atan2P2_2850, "atan_p2_i17f15.json", 0.003778, 0.003778),
-            new AtanCase(Math.AtanP3_2555_691, Math.Atan2P3_2555_691, "atan_p3_i17f15.json", 0.001543, 0.001543),
-            new AtanCase(Math.AtanP5_787_2968, Math.Atan2P5_787_2968, "atan_p5_i17f15.json", 0.000767, 0.000767),
+            new AtanCase(math.AtanP2_2850, math.Atan2P2_2850, "atan_p2_i17f15.json", 0.003778, 0.003778),
+            new AtanCase(math.AtanP3_2555_691, math.Atan2P3_2555_691, "atan_p3_i17f15.json", 0.001543, 0.001543),
+            new AtanCase(math.AtanP5_787_2968, math.Atan2P5_787_2968, "atan_p5_i17f15.json", 0.000767, 0.000767),
         };
 
         [Test]
         public static void DocTest() {
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Math.AtanP2_2850(x);
+                var actual = math.AtanP2_2850(x);
                 var expected = System.Math.Atan2(2, 3);
                 var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.003778);
@@ -282,14 +282,14 @@ namespace AgatePris.Intar.Tests.Mathematics {
             {
                 var y = 2;
                 var x = 3;
-                var actual = Math.Atan2P2_2850(y, x);
+                var actual = math.Atan2P2_2850(y, x);
                 var expected = System.Math.Atan2(2, 3);
                 var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.003778);
             }
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Math.AtanP3_2555_691(x);
+                var actual = math.AtanP3_2555_691(x);
                 var expected = System.Math.Atan2(2, 3);
                 var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.001543);
@@ -297,14 +297,14 @@ namespace AgatePris.Intar.Tests.Mathematics {
             {
                 var y = 2;
                 var x = 3;
-                var actual = Math.Atan2P3_2555_691(y, x);
+                var actual = math.Atan2P3_2555_691(y, x);
                 var expected = System.Math.Atan2(2, 3);
                 var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.001543);
             }
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Math.AtanP5_787_2968(x);
+                var actual = math.AtanP5_787_2968(x);
                 var expected = System.Math.Atan2(2, 3);
                 var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.000767);
@@ -312,7 +312,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             {
                 var y = 2;
                 var x = 3;
-                var actual = Math.Atan2P5_787_2968(y, x);
+                var actual = math.Atan2P5_787_2968(y, x);
                 var expected = System.Math.Atan2(2, 3);
                 var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.000767);

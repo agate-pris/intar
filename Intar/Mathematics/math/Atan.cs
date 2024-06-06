@@ -1,7 +1,13 @@
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-    public static partial class Math {
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE1006 // 命名スタイル
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+    public static partial class math {
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+#pragma warning restore IDE1006 // 命名スタイル
+#pragma warning restore IDE0079 // 不要な抑制を削除します
         const int atanOne = 1 << 15;
         const int atanOneNeg = -atanOne;
         const int atanStraight = 1 << 30;

@@ -1,7 +1,7 @@
 using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
-using static AgatePris.Intar.Mathematics.Math;
+using static AgatePris.Intar.Mathematics.math;
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0090 // 'new(...)' を使用する
