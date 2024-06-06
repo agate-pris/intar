@@ -1,7 +1,7 @@
 using AgatePris.Intar.Integer;
+using AgatePris.Intar.Mathematics;
 using NUnit.Framework;
 using System;
-using static AgatePris.Intar.Mathematics.math;
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0090 // 'new(...)' を使用する
@@ -30,12 +30,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
 
         public static readonly SinCase[] SinCases = {
-            new SinCase(sin_p2, cos_p2, "sin_p2.json", 0.056010),
-            new SinCase(sin_p3_16384, cos_p3_16384, "sin_p3.json", 0.020017),
-            new SinCase(sin_p4_7032, cos_p4_7032, "sin_p4_7032.json", 0.002819),
-            new SinCase(sin_p4_7384, cos_p4_7384, "sin_p4_7384.json", 0.001174),
-            new SinCase(sin_p5_51472, cos_p5_51472, "sin_p5_51472.json", 0.000425),
-            new SinCase(sin_p5_51437, cos_p5_51437, "sin_p5_51437.json", 0.000226),
+            new SinCase(math.sin_p2, math.cos_p2, "sin_p2.json", 0.056010),
+            new SinCase(math.sin_p3_16384, math.cos_p3_16384, "sin_p3.json", 0.020017),
+            new SinCase(math.sin_p4_7032, math.cos_p4_7032, "sin_p4_7032.json", 0.002819),
+            new SinCase(math.sin_p4_7384, math.cos_p4_7384, "sin_p4_7384.json", 0.001174),
+            new SinCase(math.sin_p5_51472, math.cos_p5_51472, "sin_p5_51472.json", 0.000425),
+            new SinCase(math.sin_p5_51437, math.cos_p5_51437, "sin_p5_51437.json", 0.000226),
         };
 
         [Test]
@@ -160,9 +160,13 @@ namespace AgatePris.Intar.Tests.Mathematics {
             var rng = new Intar.Rand.Xoroshiro128StarStar(s0, s1);
             for (var i = 0; i < 999; ++i) {
                 var x = unchecked(
-                    (int)(uint)Intar.Integer.Math.Clamp(
+#if UNITY_2018_3_OR_NEWER
+                    (int)(uint)Unity.Mathematics.math.clamp(
                         rng.Next(), 0, uint.MaxValue
                     )
+#else
+                    (int)(uint)math.clamp(rng.Next(), 0, uint.MaxValue)
+#endif
                 );
                 testSin(x);
                 testCos(x);
