@@ -3,12 +3,13 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar.Mathematics {
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE1006 // 命名スタイル
 #pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning disable IDE1006 // 命名スタイル
 
     public static partial class math {
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
 #pragma warning restore IDE1006 // 命名スタイル
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         internal static class Atan {
@@ -242,6 +243,7 @@ namespace AgatePris.Intar.Mathematics {
                 _ => 0,
             };
         }
+
 #pragma warning restore IDE1006 // 命名スタイル
 
     }

@@ -2,13 +2,15 @@ using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE1006 // 命名スタイル
 #pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning disable IDE1006 // 命名スタイル
 
     public static partial class math {
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
 #pragma warning restore IDE1006 // 命名スタイル
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         internal class Sin {
@@ -326,7 +328,8 @@ namespace AgatePris.Intar.Mathematics {
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cos_p5_51437(int x) => sin_p5_51437(x.WrappingAdd(Sin.Right));
-    }
+
 #pragma warning restore IDE1006 // 命名スタイル
 
+    }
 }
