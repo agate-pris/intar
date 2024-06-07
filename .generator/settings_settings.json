@@ -1,0 +1,12 @@
+{
+    "glob": "*.json",
+    "output_dest": [
+        {
+            "dir_path": "",
+            "template_name": "settings.json",
+            "files": [
+                { "file_name":  "settings.json", "params": {} }
+            ]
+        }
+    ]
+}
