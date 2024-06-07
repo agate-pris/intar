@@ -1,9 +1,9 @@
 use std::{collections::HashMap, fs::File, io::BufReader, path::Path};
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use clap::{arg, Parser};
 use serde::Deserialize;
-use tera::{Context, Tera};
+use tera::Tera;
 
 #[derive(Debug, Parser)]
 struct Args {
@@ -16,7 +16,7 @@ struct Args {
     settings: String,
 
     /// Glob pattern for templates
-    #[arg(long, default_value_t = String::from("templates/**/*.cs"))]
+    #[arg(long, default_value_t = String::from("templates"))]
     templates: String,
 
     /// What templates to generate
@@ -38,6 +38,7 @@ struct OutputDest {
 
 #[derive(Debug, Deserialize)]
 struct Settings {
+    glob: String,
     output_dest: Vec<OutputDest>,
 }
 
@@ -47,8 +48,8 @@ fn load_settings<P: AsRef<Path>>(path: P) -> Result<Settings> {
     Ok(serde_json::from_reader(reader)?)
 }
 
-fn make_context(params: &HashMap<String, serde_json::Value>) -> Context {
-    let mut context = Context::new();
+fn make_context(params: &HashMap<String, serde_json::Value>) -> tera::Context {
+    let mut context = tera::Context::new();
     for (name, value) in params {
         context.insert(name, &value);
     }
@@ -66,7 +67,12 @@ fn write_file<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> Result<()
 fn main() -> Result<()> {
     let args = Args::parse();
     let settings = load_settings(&args.settings)?;
-    let tera = Tera::new(&args.templates)?;
+    let tera = {
+        let path = &settings.glob;
+        let dir = Path::new(&args.templates).join(path);
+        let dir = dir.to_str().with_context(|| format!("dir: {:?}", dir))?;
+        Tera::new(dir)?
+    };
     let path = Path::new(&args.output);
     let targets_is_empty = args.targets.is_empty();
     for output_dest in settings.output_dest {
