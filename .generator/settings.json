@@ -16,7 +16,7 @@
             ]
         },
         {
-            "dir_path": "Intar/Mathematics",
+            "dir_path": "Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
                 { "file_name": "int2.gen.cs", "params": { "type": "int", "dim": 2, "unity": true } },

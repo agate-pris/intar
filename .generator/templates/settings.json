@@ -16,7 +16,7 @@
             ]
         },
         {
-            "dir_path": "Intar/Mathematics",
+            "dir_path": "Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
                 {%- for i in range(end = 3) %}
