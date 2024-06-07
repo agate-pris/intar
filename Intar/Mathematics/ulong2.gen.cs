@@ -3,9 +3,13 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
+
 #pragma warning disable IDE1006 // 命名スタイル
+
     public struct ulong2 : IEquatable<ulong2>, IFormattable {
+
 #pragma warning restore IDE1006 // 命名スタイル
+
         // Fields
         // ---------------------------------------
 
@@ -143,7 +147,7 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ToString(string format, IFormatProvider formatProvider) {
+        public readonly string ToString(string format, IFormatProvider formatProvider) {
             var x = this.x.ToString(format, formatProvider);
             var y = this.y.ToString(format, formatProvider);
             return $"ulong2({x}, {y})";
