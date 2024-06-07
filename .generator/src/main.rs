@@ -66,7 +66,8 @@ fn write_file<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> Result<()
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    let settings = load_settings(&args.settings)?;
+    let settings = load_settings(&args.settings)
+        .with_context(|| format!("args.settings: {}", args.settings))?;
     let tera = {
         let path = &settings.glob;
         let dir = Path::new(&args.templates).join(path);
@@ -83,7 +84,9 @@ fn main() -> Result<()> {
         for file in output_dest.files {
             let path = path.join(&file.file_name);
             let context = make_context(&file.params);
-            let contents = tera.render(&output_dest.template_name, &context)?;
+            let contents = tera
+                .render(&output_dest.template_name, &context)
+                .with_context(|| format!("file: {:?}", file))?;
             write_file(path, contents)?;
         }
     }
