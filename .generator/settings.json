@@ -1,4 +1,5 @@
 {
+    "glob": "**/*.cs",
     "output_dest": [
         {
             "dir_path": "Intar/Integer",
