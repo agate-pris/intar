@@ -29,7 +29,7 @@
                 { "file_name": "long{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }}, "unity": false } },
                 {%- endfor %}
                 {%- for i in range(end = 3) %}
-                { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }}, "unity": false } }{% if not loop.last %},{% endif %}
+                { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "ulong", "dim": {{ i + 2 }}, "unity": false } }{% if not loop.last %},{% endif %}
                 {%- endfor %}
             ]
         }

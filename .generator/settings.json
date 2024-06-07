@@ -28,9 +28,9 @@
                 { "file_name": "long2.gen.cs", "params": { "type": "long", "dim": 2, "unity": false } },
                 { "file_name": "long3.gen.cs", "params": { "type": "long", "dim": 3, "unity": false } },
                 { "file_name": "long4.gen.cs", "params": { "type": "long", "dim": 4, "unity": false } },
-                { "file_name": "ulong2.gen.cs", "params": { "type": "long", "dim": 2, "unity": false } },
-                { "file_name": "ulong3.gen.cs", "params": { "type": "long", "dim": 3, "unity": false } },
-                { "file_name": "ulong4.gen.cs", "params": { "type": "long", "dim": 4, "unity": false } }
+                { "file_name": "ulong2.gen.cs", "params": { "type": "ulong", "dim": 2, "unity": false } },
+                { "file_name": "ulong3.gen.cs", "params": { "type": "ulong", "dim": 3, "unity": false } },
+                { "file_name": "ulong4.gen.cs", "params": { "type": "ulong", "dim": 4, "unity": false } }
             ]
         }
     ]
