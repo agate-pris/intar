@@ -1,0 +1,37 @@
+{
+    "glob": "**/*.cs",
+    "output_dest": [
+        {
+            "dir_path": "Intar/Integer",
+            "template_name": "Overflowing.cs",
+            "files": [
+                { "file_name": "Overflowing.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "Intar/Mathematics/math",
+            "template_name": "clamp.cs",
+            "files": [
+                { "file_name": "clamp.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "Intar/Mathematics",
+            "template_name": "vec.cs",
+            "files": [
+                {%- for i in range(end = 3) %}
+                { "file_name": "int{{ i + 2 }}.gen.cs", "params": { "type": "int", "dim": {{ i + 2 }}, "unity": true } },
+                {%- endfor %}
+                {%- for i in range(end = 3) %}
+                { "file_name": "uint{{ i + 2 }}.gen.cs", "params": { "type": "uint", "dim": {{ i + 2 }}, "unity": true } },
+                {%- endfor %}
+                {%- for i in range(end = 3) %}
+                { "file_name": "long{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }}, "unity": false } },
+                {%- endfor %}
+                {%- for i in range(end = 3) %}
+                { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }}, "unity": false } }{% if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        }
+    ]
+}
