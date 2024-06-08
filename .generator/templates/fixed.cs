@@ -186,15 +186,13 @@ namespace AgatePris.Intar.Fixed {
         {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits }}F{{ frac_nbits -}}
         ({{ self::self_type() }} x) =>
         {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits }}F{{ frac_nbits -}}.FromBits(x.Bits);
-
-        {%- for i in range(end = 32) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator
+{% for i in range(end = 32) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator
             {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits - i - 1 }}F{{ frac_nbits + i + 1 -}}
         ({{ self::self_type() }} x) =>
             {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits - i - 1 }}F{{ frac_nbits + i + 1 -}}.FromBits((
             {%- if signed %}long{% else %}ulong{% endif %})x.Bits << {{ i + 1 }});
-        {%- endfor %}
+{%- endfor %}
 
 {%- endif %}
 

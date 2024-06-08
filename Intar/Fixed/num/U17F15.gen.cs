@@ -155,70 +155,39 @@ namespace AgatePris.Intar.Fixed {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator U49F15(U17F15 x) => U49F15.FromBits(x.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U48F16(U17F15 x) => U48F16.FromBits((ulong)x.Bits << 1);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U47F17(U17F15 x) => U47F17.FromBits((ulong)x.Bits << 2);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U46F18(U17F15 x) => U46F18.FromBits((ulong)x.Bits << 3);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U45F19(U17F15 x) => U45F19.FromBits((ulong)x.Bits << 4);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U44F20(U17F15 x) => U44F20.FromBits((ulong)x.Bits << 5);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U43F21(U17F15 x) => U43F21.FromBits((ulong)x.Bits << 6);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U42F22(U17F15 x) => U42F22.FromBits((ulong)x.Bits << 7);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U41F23(U17F15 x) => U41F23.FromBits((ulong)x.Bits << 8);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U40F24(U17F15 x) => U40F24.FromBits((ulong)x.Bits << 9);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U39F25(U17F15 x) => U39F25.FromBits((ulong)x.Bits << 10);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U38F26(U17F15 x) => U38F26.FromBits((ulong)x.Bits << 11);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U37F27(U17F15 x) => U37F27.FromBits((ulong)x.Bits << 12);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U36F28(U17F15 x) => U36F28.FromBits((ulong)x.Bits << 13);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U35F29(U17F15 x) => U35F29.FromBits((ulong)x.Bits << 14);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U34F30(U17F15 x) => U34F30.FromBits((ulong)x.Bits << 15);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U33F31(U17F15 x) => U33F31.FromBits((ulong)x.Bits << 16);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U32F32(U17F15 x) => U32F32.FromBits((ulong)x.Bits << 17);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U31F33(U17F15 x) => U31F33.FromBits((ulong)x.Bits << 18);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U30F34(U17F15 x) => U30F34.FromBits((ulong)x.Bits << 19);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U29F35(U17F15 x) => U29F35.FromBits((ulong)x.Bits << 20);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U28F36(U17F15 x) => U28F36.FromBits((ulong)x.Bits << 21);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U27F37(U17F15 x) => U27F37.FromBits((ulong)x.Bits << 22);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U26F38(U17F15 x) => U26F38.FromBits((ulong)x.Bits << 23);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U25F39(U17F15 x) => U25F39.FromBits((ulong)x.Bits << 24);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U24F40(U17F15 x) => U24F40.FromBits((ulong)x.Bits << 25);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U23F41(U17F15 x) => U23F41.FromBits((ulong)x.Bits << 26);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U22F42(U17F15 x) => U22F42.FromBits((ulong)x.Bits << 27);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U21F43(U17F15 x) => U21F43.FromBits((ulong)x.Bits << 28);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U20F44(U17F15 x) => U20F44.FromBits((ulong)x.Bits << 29);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U19F45(U17F15 x) => U19F45.FromBits((ulong)x.Bits << 30);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U18F46(U17F15 x) => U18F46.FromBits((ulong)x.Bits << 31);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U17F47(U17F15 x) => U17F47.FromBits((ulong)x.Bits << 32);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U48F16(U17F15 x) => U48F16.FromBits((ulong)x.Bits << 1);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U47F17(U17F15 x) => U47F17.FromBits((ulong)x.Bits << 2);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U46F18(U17F15 x) => U46F18.FromBits((ulong)x.Bits << 3);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U45F19(U17F15 x) => U45F19.FromBits((ulong)x.Bits << 4);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U44F20(U17F15 x) => U44F20.FromBits((ulong)x.Bits << 5);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U43F21(U17F15 x) => U43F21.FromBits((ulong)x.Bits << 6);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U42F22(U17F15 x) => U42F22.FromBits((ulong)x.Bits << 7);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U41F23(U17F15 x) => U41F23.FromBits((ulong)x.Bits << 8);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U40F24(U17F15 x) => U40F24.FromBits((ulong)x.Bits << 9);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U39F25(U17F15 x) => U39F25.FromBits((ulong)x.Bits << 10);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U38F26(U17F15 x) => U38F26.FromBits((ulong)x.Bits << 11);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U37F27(U17F15 x) => U37F27.FromBits((ulong)x.Bits << 12);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U36F28(U17F15 x) => U36F28.FromBits((ulong)x.Bits << 13);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U35F29(U17F15 x) => U35F29.FromBits((ulong)x.Bits << 14);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U34F30(U17F15 x) => U34F30.FromBits((ulong)x.Bits << 15);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U33F31(U17F15 x) => U33F31.FromBits((ulong)x.Bits << 16);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U32F32(U17F15 x) => U32F32.FromBits((ulong)x.Bits << 17);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U31F33(U17F15 x) => U31F33.FromBits((ulong)x.Bits << 18);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U30F34(U17F15 x) => U30F34.FromBits((ulong)x.Bits << 19);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U29F35(U17F15 x) => U29F35.FromBits((ulong)x.Bits << 20);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U28F36(U17F15 x) => U28F36.FromBits((ulong)x.Bits << 21);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U27F37(U17F15 x) => U27F37.FromBits((ulong)x.Bits << 22);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U26F38(U17F15 x) => U26F38.FromBits((ulong)x.Bits << 23);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U25F39(U17F15 x) => U25F39.FromBits((ulong)x.Bits << 24);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U24F40(U17F15 x) => U24F40.FromBits((ulong)x.Bits << 25);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U23F41(U17F15 x) => U23F41.FromBits((ulong)x.Bits << 26);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U22F42(U17F15 x) => U22F42.FromBits((ulong)x.Bits << 27);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U21F43(U17F15 x) => U21F43.FromBits((ulong)x.Bits << 28);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U20F44(U17F15 x) => U20F44.FromBits((ulong)x.Bits << 29);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U19F45(U17F15 x) => U19F45.FromBits((ulong)x.Bits << 30);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U18F46(U17F15 x) => U18F46.FromBits((ulong)x.Bits << 31);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U17F47(U17F15 x) => U17F47.FromBits((ulong)x.Bits << 32);
 
         // Explicit conversion operators
         // -----------------------------

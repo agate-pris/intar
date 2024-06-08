@@ -163,70 +163,39 @@ namespace AgatePris.Intar.Fixed {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator I57F7(I25F7 x) => I57F7.FromBits(x.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I56F8(I25F7 x) => I56F8.FromBits((long)x.Bits << 1);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I55F9(I25F7 x) => I55F9.FromBits((long)x.Bits << 2);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I54F10(I25F7 x) => I54F10.FromBits((long)x.Bits << 3);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I53F11(I25F7 x) => I53F11.FromBits((long)x.Bits << 4);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I52F12(I25F7 x) => I52F12.FromBits((long)x.Bits << 5);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I51F13(I25F7 x) => I51F13.FromBits((long)x.Bits << 6);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I50F14(I25F7 x) => I50F14.FromBits((long)x.Bits << 7);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I49F15(I25F7 x) => I49F15.FromBits((long)x.Bits << 8);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I48F16(I25F7 x) => I48F16.FromBits((long)x.Bits << 9);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I47F17(I25F7 x) => I47F17.FromBits((long)x.Bits << 10);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I46F18(I25F7 x) => I46F18.FromBits((long)x.Bits << 11);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I45F19(I25F7 x) => I45F19.FromBits((long)x.Bits << 12);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I44F20(I25F7 x) => I44F20.FromBits((long)x.Bits << 13);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I43F21(I25F7 x) => I43F21.FromBits((long)x.Bits << 14);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I42F22(I25F7 x) => I42F22.FromBits((long)x.Bits << 15);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I41F23(I25F7 x) => I41F23.FromBits((long)x.Bits << 16);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I40F24(I25F7 x) => I40F24.FromBits((long)x.Bits << 17);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I39F25(I25F7 x) => I39F25.FromBits((long)x.Bits << 18);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I38F26(I25F7 x) => I38F26.FromBits((long)x.Bits << 19);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I37F27(I25F7 x) => I37F27.FromBits((long)x.Bits << 20);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I36F28(I25F7 x) => I36F28.FromBits((long)x.Bits << 21);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I35F29(I25F7 x) => I35F29.FromBits((long)x.Bits << 22);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I34F30(I25F7 x) => I34F30.FromBits((long)x.Bits << 23);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I33F31(I25F7 x) => I33F31.FromBits((long)x.Bits << 24);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I32F32(I25F7 x) => I32F32.FromBits((long)x.Bits << 25);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I31F33(I25F7 x) => I31F33.FromBits((long)x.Bits << 26);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I30F34(I25F7 x) => I30F34.FromBits((long)x.Bits << 27);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I29F35(I25F7 x) => I29F35.FromBits((long)x.Bits << 28);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I28F36(I25F7 x) => I28F36.FromBits((long)x.Bits << 29);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I27F37(I25F7 x) => I27F37.FromBits((long)x.Bits << 30);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I26F38(I25F7 x) => I26F38.FromBits((long)x.Bits << 31);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator I25F39(I25F7 x) => I25F39.FromBits((long)x.Bits << 32);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I56F8(I25F7 x) => I56F8.FromBits((long)x.Bits << 1);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I55F9(I25F7 x) => I55F9.FromBits((long)x.Bits << 2);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I54F10(I25F7 x) => I54F10.FromBits((long)x.Bits << 3);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I53F11(I25F7 x) => I53F11.FromBits((long)x.Bits << 4);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I52F12(I25F7 x) => I52F12.FromBits((long)x.Bits << 5);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I51F13(I25F7 x) => I51F13.FromBits((long)x.Bits << 6);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I50F14(I25F7 x) => I50F14.FromBits((long)x.Bits << 7);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I49F15(I25F7 x) => I49F15.FromBits((long)x.Bits << 8);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I48F16(I25F7 x) => I48F16.FromBits((long)x.Bits << 9);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I47F17(I25F7 x) => I47F17.FromBits((long)x.Bits << 10);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I46F18(I25F7 x) => I46F18.FromBits((long)x.Bits << 11);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I45F19(I25F7 x) => I45F19.FromBits((long)x.Bits << 12);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I44F20(I25F7 x) => I44F20.FromBits((long)x.Bits << 13);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I43F21(I25F7 x) => I43F21.FromBits((long)x.Bits << 14);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I42F22(I25F7 x) => I42F22.FromBits((long)x.Bits << 15);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I41F23(I25F7 x) => I41F23.FromBits((long)x.Bits << 16);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I40F24(I25F7 x) => I40F24.FromBits((long)x.Bits << 17);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I39F25(I25F7 x) => I39F25.FromBits((long)x.Bits << 18);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I38F26(I25F7 x) => I38F26.FromBits((long)x.Bits << 19);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I37F27(I25F7 x) => I37F27.FromBits((long)x.Bits << 20);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I36F28(I25F7 x) => I36F28.FromBits((long)x.Bits << 21);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I35F29(I25F7 x) => I35F29.FromBits((long)x.Bits << 22);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I34F30(I25F7 x) => I34F30.FromBits((long)x.Bits << 23);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I33F31(I25F7 x) => I33F31.FromBits((long)x.Bits << 24);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I32F32(I25F7 x) => I32F32.FromBits((long)x.Bits << 25);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I31F33(I25F7 x) => I31F33.FromBits((long)x.Bits << 26);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I30F34(I25F7 x) => I30F34.FromBits((long)x.Bits << 27);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I29F35(I25F7 x) => I29F35.FromBits((long)x.Bits << 28);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I28F36(I25F7 x) => I28F36.FromBits((long)x.Bits << 29);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I27F37(I25F7 x) => I27F37.FromBits((long)x.Bits << 30);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I26F38(I25F7 x) => I26F38.FromBits((long)x.Bits << 31);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I25F39(I25F7 x) => I25F39.FromBits((long)x.Bits << 32);
 
         // Explicit conversion operators
         // -----------------------------
