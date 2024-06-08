@@ -58,6 +58,16 @@
             "dir_path": "Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
+                {%- for i in range(start = 2, end = 32) %}
+                {%- for dim in range(end = 3) %}
+                { "file_name": "I{{ i }}F{{ 32 - i }}_{{ dim + 2 }}.gen.cs", "params": { "type": "I{{ i }}F{{ 32 - i }}", "dim": {{ dim + 2 }}, "fixed": true } },
+                {%- endfor %}
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 32) %}
+                {%- for dim in range(end = 3) %}
+                { "file_name": "U{{ i }}F{{ 32 - i }}_{{ dim + 2 }}.gen.cs", "params": { "type": "U{{ i }}F{{ 32 - i }}", "dim": {{ dim + 2 }}, "fixed": true } },
+                {%- endfor %}
+                {%- endfor %}
                 {%- for i in range(end = 3) %}
                 { "file_name": "int{{ i + 2 }}.gen.cs", "params": { "type": "int", "dim": {{ i + 2 }}, "unity": true } },
                 {%- endfor %}
