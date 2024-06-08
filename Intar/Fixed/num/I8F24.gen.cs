@@ -229,6 +229,29 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I29F3(I8F24 x) => I29F3.FromBits(x.Bits / (1 << 21));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I30F2(I8F24 x) => I30F2.FromBits(x.Bits / (1 << 22));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I31F1(I8F24 x) => I31F1.FromBits(x.Bits / (1 << 23));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U9F23(I8F24 x) => U9F23.FromBits((uint)(x.Bits / (1 << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U10F22(I8F24 x) => U10F22.FromBits((uint)(x.Bits / (1 << 2)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U11F21(I8F24 x) => U11F21.FromBits((uint)(x.Bits / (1 << 3)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U12F20(I8F24 x) => U12F20.FromBits((uint)(x.Bits / (1 << 4)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U13F19(I8F24 x) => U13F19.FromBits((uint)(x.Bits / (1 << 5)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U14F18(I8F24 x) => U14F18.FromBits((uint)(x.Bits / (1 << 6)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U15F17(I8F24 x) => U15F17.FromBits((uint)(x.Bits / (1 << 7)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U16F16(I8F24 x) => U16F16.FromBits((uint)(x.Bits / (1 << 8)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U17F15(I8F24 x) => U17F15.FromBits((uint)(x.Bits / (1 << 9)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U18F14(I8F24 x) => U18F14.FromBits((uint)(x.Bits / (1 << 10)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U19F13(I8F24 x) => U19F13.FromBits((uint)(x.Bits / (1 << 11)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U20F12(I8F24 x) => U20F12.FromBits((uint)(x.Bits / (1 << 12)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U21F11(I8F24 x) => U21F11.FromBits((uint)(x.Bits / (1 << 13)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U22F10(I8F24 x) => U22F10.FromBits((uint)(x.Bits / (1 << 14)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U23F9(I8F24 x) => U23F9.FromBits((uint)(x.Bits / (1 << 15)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U24F8(I8F24 x) => U24F8.FromBits((uint)(x.Bits / (1 << 16)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U25F7(I8F24 x) => U25F7.FromBits((uint)(x.Bits / (1 << 17)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U26F6(I8F24 x) => U26F6.FromBits((uint)(x.Bits / (1 << 18)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U27F5(I8F24 x) => U27F5.FromBits((uint)(x.Bits / (1 << 19)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U28F4(I8F24 x) => U28F4.FromBits((uint)(x.Bits / (1 << 20)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U29F3(I8F24 x) => U29F3.FromBits((uint)(x.Bits / (1 << 21)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U30F2(I8F24 x) => U30F2.FromBits((uint)(x.Bits / (1 << 22)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U31F1(I8F24 x) => U31F1.FromBits((uint)(x.Bits / (1 << 23)));
 
         // Object
         // ---------------------------------------
