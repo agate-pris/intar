@@ -194,6 +194,8 @@ namespace AgatePris.Intar.Fixed {
             return k * x.bits;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I31F1(U62F2 x) => I31F1.FromBits((int)(x.Bits / (1UL << 1)));
+
         // Object
         // ---------------------------------------
 

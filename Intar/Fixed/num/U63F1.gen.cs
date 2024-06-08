@@ -195,6 +195,7 @@ namespace AgatePris.Intar.Fixed {
             return k * x.bits;
         }
 
+
         // Object
         // ---------------------------------------
 

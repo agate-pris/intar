@@ -182,6 +182,20 @@ namespace AgatePris.Intar.Fixed {
             return k * x.bits;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I19F13(I50F14 x) => I19F13.FromBits((int)(x.Bits / (1L << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I20F12(I50F14 x) => I20F12.FromBits((int)(x.Bits / (1L << 2)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I21F11(I50F14 x) => I21F11.FromBits((int)(x.Bits / (1L << 3)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I22F10(I50F14 x) => I22F10.FromBits((int)(x.Bits / (1L << 4)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I23F9(I50F14 x) => I23F9.FromBits((int)(x.Bits / (1L << 5)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I24F8(I50F14 x) => I24F8.FromBits((int)(x.Bits / (1L << 6)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I25F7(I50F14 x) => I25F7.FromBits((int)(x.Bits / (1L << 7)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I26F6(I50F14 x) => I26F6.FromBits((int)(x.Bits / (1L << 8)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I27F5(I50F14 x) => I27F5.FromBits((int)(x.Bits / (1L << 9)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I28F4(I50F14 x) => I28F4.FromBits((int)(x.Bits / (1L << 10)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I29F3(I50F14 x) => I29F3.FromBits((int)(x.Bits / (1L << 11)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I30F2(I50F14 x) => I30F2.FromBits((int)(x.Bits / (1L << 12)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I31F1(I50F14 x) => I31F1.FromBits((int)(x.Bits / (1L << 13)));
+
         // Object
         // ---------------------------------------
 

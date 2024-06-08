@@ -33,6 +33,30 @@
     {%- endif %}
 {%- endmacro -%}
 
+{% macro explicit_conversion_to_fixed() %}
+{%- if frac_nbits > 30 %}
+    {%- set end = 30 %}
+{%- else %}
+    {%- set end = frac_nbits %}
+{%- endif %}
+{%- if int_nbits + frac_nbits == 32 %}
+    {%- if signed %}
+        {%- set one = 1 %}
+    {%- else %}
+        {%- set one = "1U" %}
+    {%- endif %}
+{%- else %}
+    {%- if signed %}
+        {%- set one = "1L" %}
+    {%- else %}
+        {%- set one = "1UL" %}
+    {%- endif %}
+{%- endif %}
+{%- for i in range(start = 1, end = end) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I{{ 32 - end + i }}F{{ end - i }}({{ self::self_type() }} x) => I{{ 32 - end + i }}F{{ end - i }}.FromBits({% if not self::bits_type() == "int" %}(int)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - end + i }}{% if not self::bits_type() == "int" %}){% endif %}));
+{%- endfor %}
+{%- endmacro -%}
+
 using System;
 using System.Runtime.CompilerServices;
 
@@ -221,6 +245,7 @@ namespace AgatePris.Intar.Fixed {
             const decimal k = 1.0M / oneRepr;
             return k * x.bits;
         }
+{{ self::explicit_conversion_to_fixed() }}
 
         // Object
         // ---------------------------------------
