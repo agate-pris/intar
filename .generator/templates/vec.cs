@@ -1,5 +1,7 @@
 {% macro dim_type(dim) %}
-    {{- type }}{{ dim }}
+    {%- if fixed %}{{ type }}_{{ dim }}
+    {%- else %}{{ type }}{{ dim }}
+    {%- endif %}
 {%- endmacro -%}
 
 {% macro self_type() %}
@@ -37,6 +39,7 @@
 
 {% if unity %}#if !UNITY_2018_3_OR_NEWER
 
+{% endif %}{% if fixed %}using AgatePris.Intar.Fixed;
 {% endif %}using System;
 using System.Runtime.CompilerServices;
 
