@@ -124,6 +124,40 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U3F29 LosslessMul(U10F22 other) => U3F29.FromBits(bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 LosslessMul(U9F23 other) => U2F30.FromBits(bits * other.Bits);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U57F7 WideningMul(uint other) => U57F7.FromBits((ulong)bits * other);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U56F8 WideningMul(U31F1 other) => U56F8.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U55F9 WideningMul(U30F2 other) => U55F9.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U54F10 WideningMul(U29F3 other) => U54F10.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U53F11 WideningMul(U28F4 other) => U53F11.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U52F12 WideningMul(U27F5 other) => U52F12.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U51F13 WideningMul(U26F6 other) => U51F13.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U50F14 WideningMul(U25F7 other) => U50F14.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U49F15 WideningMul(U24F8 other) => U49F15.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U48F16 WideningMul(U23F9 other) => U48F16.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U47F17 WideningMul(U22F10 other) => U47F17.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U46F18 WideningMul(U21F11 other) => U46F18.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U45F19 WideningMul(U20F12 other) => U45F19.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U44F20 WideningMul(U19F13 other) => U44F20.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U43F21 WideningMul(U18F14 other) => U43F21.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U42F22 WideningMul(U17F15 other) => U42F22.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U41F23 WideningMul(U16F16 other) => U41F23.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U40F24 WideningMul(U15F17 other) => U40F24.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U39F25 WideningMul(U14F18 other) => U39F25.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U38F26 WideningMul(U13F19 other) => U38F26.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U37F27 WideningMul(U12F20 other) => U37F27.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U36F28 WideningMul(U11F21 other) => U36F28.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U35F29 WideningMul(U10F22 other) => U35F29.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U34F30 WideningMul(U9F23 other) => U34F30.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WideningMul(U8F24 other) => U33F31.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U32F32 WideningMul(U7F25 other) => U32F32.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U31F33 WideningMul(U6F26 other) => U31F33.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U30F34 WideningMul(U5F27 other) => U30F34.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U29F35 WideningMul(U4F28 other) => U29F35.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U28F36 WideningMul(U3F29 other) => U28F36.FromBits((ulong)bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U27F37 WideningMul(U2F30 other) => U27F37.FromBits((ulong)bits * other.Bits);
+
         // Implicit conversion operators
         // -----------------------------
 

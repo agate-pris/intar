@@ -150,13 +150,31 @@ namespace AgatePris.Intar.Fixed {
         public static bool operator ==({{ self::self_type() }} lhs, {{ self::self_type() }} rhs) => lhs.Equals(rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ self::self_type() }} lhs, {{ self::self_type() }} rhs) => !(lhs == rhs); {%- if int_nbits != 2 %}
+        public static bool operator !=({{ self::self_type() }} lhs, {{ self::self_type() }} rhs) => !(lhs == rhs); {%- if int_nbits != 2 or int_nbits + frac_nbits == 32 %}
 
         // Methods
         // -------
+{%- endif %}
+
+{%- if int_nbits != 2 %}
 {% for i in range(start = 1, end = int_nbits - 1) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(bits * other.Bits);
-        {%- endfor %} {%- endif %}
+{%- endfor %}
+{%- endif %}
+
+{%- if int_nbits + frac_nbits == 32 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
+            {%- if signed %}int{% else %}uint{% endif %} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
+            {%- if signed %}long
+            {%- else %}ulong
+            {%- endif %})bits * other);
+{% for i in range(start = 1, end = 31) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})bits * other.Bits);
+{%- endfor %}
+
+{%- endif %}
 
 {%- if int_nbits + frac_nbits == 32 %}
 
