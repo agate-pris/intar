@@ -97,6 +97,20 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(I12F20 lhs, I12F20 rhs) => !(lhs == rhs);
 
+        // Methods
+        // -------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I11F21 LosslessMul(I31F1 other) => I11F21.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I10F22 LosslessMul(I30F2 other) => I10F22.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 LosslessMul(I29F3 other) => I9F23.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F24 LosslessMul(I28F4 other) => I8F24.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I7F25 LosslessMul(I27F5 other) => I7F25.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I6F26 LosslessMul(I26F6 other) => I6F26.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I5F27 LosslessMul(I25F7 other) => I5F27.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F28 LosslessMul(I24F8 other) => I4F28.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F29 LosslessMul(I23F9 other) => I3F29.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 LosslessMul(I22F10 other) => I2F30.FromBits(bits * other.Bits);
+
         // Implicit conversion operators
         // -----------------------------
 

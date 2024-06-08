@@ -97,6 +97,12 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(U4F28 lhs, U4F28 rhs) => !(lhs == rhs);
 
+        // Methods
+        // -------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U3F29 LosslessMul(U31F1 other) => U3F29.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 LosslessMul(U30F2 other) => U2F30.FromBits(bits * other.Bits);
+
         // Implicit conversion operators
         // -----------------------------
 
