@@ -202,10 +202,10 @@ namespace AgatePris.Intar.Fixed {
         // Explicit conversion operators
         // -----------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator int(I29F3 x) {
-            return x.bits / oneRepr;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(I29F3 x) => x.bits / oneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(I29F3 x) => (uint)(x.bits / oneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(I29F3 x) => x.bits / oneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(I29F3 x) => (ulong)(x.bits / oneRepr);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(I29F3 x) {

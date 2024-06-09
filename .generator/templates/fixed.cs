@@ -233,10 +233,10 @@ namespace AgatePris.Intar.Fixed {
         // Explicit conversion operators
         // -----------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator {{ self::bits_type() }}({{ self::self_type() }} x) {
-            return x.bits / oneRepr;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self::self_type() }} x) => {% if self::bits_type() != "int" %}(int)({% endif %}x.bits / oneRepr{% if self::bits_type() != "int" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self::self_type() }} x) => {% if self::bits_type() != "uint" %}(uint)({% endif %}x.bits / oneRepr{% if self::bits_type() != "uint" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self::self_type() }} x) => {% if self::bits_type() == "ulong" %}(long)({% endif %}x.bits / oneRepr{% if self::bits_type() == "ulong" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong({{ self::self_type() }} x) => {% if signed %}(ulong)({% endif %}x.bits / oneRepr{% if signed %}){% endif %};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float({{ self::self_type() }} x) {
