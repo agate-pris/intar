@@ -166,9 +166,7 @@ namespace AgatePris.Intar.Fixed {
         // Implicit conversion operators
         // -----------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator U62F2(U30F2 x) => U62F2.FromBits(x.Bits);
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U62F2(U30F2 x) => U62F2.FromBits(x.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U61F3(U30F2 x) => U61F3.FromBits((ulong)x.Bits << 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U60F4(U30F2 x) => U60F4.FromBits((ulong)x.Bits << 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U59F5(U30F2 x) => U59F5.FromBits((ulong)x.Bits << 3);
