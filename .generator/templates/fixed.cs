@@ -180,6 +180,12 @@ namespace AgatePris.Intar.Fixed {
 
 {%- endif %}
 
+{%- if signed %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} operator -({{ self::self_type() }} x) => FromBits(-x.Bits);
+{%- endif %}
+
         // Comparison operators
         // --------------------
 

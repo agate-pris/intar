@@ -88,6 +88,9 @@ namespace AgatePris.Intar.Fixed {
             return FromBits((int)(l * oneRepr / right.Bits));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I18F14 operator -(I18F14 x) => FromBits(-x.Bits);
+
         // Comparison operators
         // --------------------
 
