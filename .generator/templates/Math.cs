@@ -15,8 +15,11 @@
         }
 {%- endmacro -%}
 
-using System;
 using System.Runtime.CompilerServices;
+
+#if !NET_STANDARD_2_1 && !NET5_0_OR_GREATER
+using System;
+#endif
 
 namespace AgatePris.Intar {
     public static partial class Math {
