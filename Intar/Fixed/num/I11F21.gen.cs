@@ -258,6 +258,15 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U14F18(I11F21 x) => U14F18.FromBits((uint)(x.Bits / (1 << 3)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U13F19(I11F21 x) => U13F19.FromBits((uint)(x.Bits / (1 << 2)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U12F20(I11F21 x) => U12F20.FromBits((uint)(x.Bits / (1 << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U10F22(I11F21 x) => U10F22.FromBits((uint)x.Bits * (1U << 1));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U9F23(I11F21 x) => U9F23.FromBits((uint)x.Bits * (1U << 2));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U8F24(I11F21 x) => U8F24.FromBits((uint)x.Bits * (1U << 3));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U7F25(I11F21 x) => U7F25.FromBits((uint)x.Bits * (1U << 4));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U6F26(I11F21 x) => U6F26.FromBits((uint)x.Bits * (1U << 5));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U5F27(I11F21 x) => U5F27.FromBits((uint)x.Bits * (1U << 6));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F28(I11F21 x) => U4F28.FromBits((uint)x.Bits * (1U << 7));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U3F29(I11F21 x) => U3F29.FromBits((uint)x.Bits * (1U << 8));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(I11F21 x) => U2F30.FromBits((uint)x.Bits * (1U << 9));
 
         // Object
         // ---------------------------------------

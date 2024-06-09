@@ -63,6 +63,11 @@
 {%- for i in range(start = 1, end = end) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U{{ 32 - i }}F{{ i }}({{ self::self_type() }} x) => U{{ 32 - i }}F{{ i }}.FromBits({% if not self::bits_type() == "uint" %}(uint)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if not self::bits_type() == "uint" %}){% endif %}));
 {%- endfor %}
+{%- if frac_nbits < 30 %}
+{%- for i in range(start = frac_nbits + 1, end = 31) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U{{ 32 - i }}F{{ i }}({{ self::self_type() }} x) => U{{ 32 - i }}F{{ i }}.FromBits({% if not self::bits_type() == "uint" %}(uint){% endif %}x.Bits * (1U << {{ i - frac_nbits }}));
+{%- endfor %}
+{%- endif %}
 {%- endmacro -%}
 
 using System;

@@ -258,6 +258,17 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U16F16(U13F19 x) => U16F16.FromBits(x.Bits / (1U << 3));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U15F17(U13F19 x) => U15F17.FromBits(x.Bits / (1U << 2));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U14F18(U13F19 x) => U14F18.FromBits(x.Bits / (1U << 1));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U12F20(U13F19 x) => U12F20.FromBits(x.Bits * (1U << 1));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U11F21(U13F19 x) => U11F21.FromBits(x.Bits * (1U << 2));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U10F22(U13F19 x) => U10F22.FromBits(x.Bits * (1U << 3));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U9F23(U13F19 x) => U9F23.FromBits(x.Bits * (1U << 4));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U8F24(U13F19 x) => U8F24.FromBits(x.Bits * (1U << 5));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U7F25(U13F19 x) => U7F25.FromBits(x.Bits * (1U << 6));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U6F26(U13F19 x) => U6F26.FromBits(x.Bits * (1U << 7));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U5F27(U13F19 x) => U5F27.FromBits(x.Bits * (1U << 8));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F28(U13F19 x) => U4F28.FromBits(x.Bits * (1U << 9));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U3F29(U13F19 x) => U3F29.FromBits(x.Bits * (1U << 10));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(U13F19 x) => U2F30.FromBits(x.Bits * (1U << 11));
 
         // Object
         // ---------------------------------------
