@@ -36,5 +36,20 @@ namespace AgatePris.Intar {
 
 #endif
 
+#if NET7_0_OR_GREATER
+{% for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign({{ type }} v) => {{ type }}.Sign(v);
+{%- endfor %}
+
+#else
+{% for type in ["int", "long", "short", "sbyte", "float", "double", "decimal"] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign({{ type }} v) => System.Math.Sign(v);
+{%- endfor %}
+{%- for type in ["uint", "ulong", "ushort", "byte"] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign({{ type }} v) => (v == 0) ? 0 : 1;
+{%- endfor %}
+
+#endif
+
     }
 }

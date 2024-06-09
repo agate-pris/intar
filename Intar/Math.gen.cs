@@ -135,5 +135,35 @@ namespace AgatePris.Intar {
 
 #endif
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(int v) => int.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(uint v) => uint.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(long v) => long.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ulong v) => ulong.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(short v) => short.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ushort v) => ushort.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(byte v) => byte.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(sbyte v) => sbyte.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(float v) => float.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(double v) => double.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(decimal v) => decimal.Sign(v);
+
+#else
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(int v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(long v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(short v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(sbyte v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(float v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(double v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(decimal v) => System.Math.Sign(v);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(uint v) => (v == 0) ? 0 : 1;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ulong v) => (v == 0) ? 0 : 1;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ushort v) => (v == 0) ? 0 : 1;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(byte v) => (v == 0) ? 0 : 1;
+
+#endif
+
     }
 }
