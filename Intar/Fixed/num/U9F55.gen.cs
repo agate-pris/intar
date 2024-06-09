@@ -104,6 +104,11 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(U9F55 lhs, U9F55 rhs) => !(lhs == rhs);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U9F55 left, U9F55 right) => left.Bits < right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U9F55 left, U9F55 right) => left.Bits > right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U9F55 left, U9F55 right) => left.Bits <= right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U9F55 left, U9F55 right) => left.Bits >= right.Bits;
+
         // Methods
         // -------
 
