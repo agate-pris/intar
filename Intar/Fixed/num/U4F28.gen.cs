@@ -229,6 +229,8 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I29F3(U4F28 x) => I29F3.FromBits((int)(x.Bits / (1U << 25)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I30F2(U4F28 x) => I30F2.FromBits((int)(x.Bits / (1U << 26)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I31F1(U4F28 x) => I31F1.FromBits((int)(x.Bits / (1U << 27)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I3F29(U4F28 x) => I3F29.FromBits((int)(x.Bits * (1 << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(U4F28 x) => I2F30.FromBits((int)(x.Bits * (1 << 2)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U5F27(U4F28 x) => U5F27.FromBits(x.Bits / (1U << 1));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U6F26(U4F28 x) => U6F26.FromBits(x.Bits / (1U << 2));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U7F25(U4F28 x) => U7F25.FromBits(x.Bits / (1U << 3));
