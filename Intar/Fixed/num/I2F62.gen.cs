@@ -112,6 +112,13 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I2F62 left, I2F62 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I2F62 left, I2F62 right) => left.Bits >= right.Bits;
 
+        // Methods
+        // -------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 Min(I2F62 other) => FromBits(System.Math.Min(bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 Max(I2F62 other) => FromBits(System.Math.Max(bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 Clamp(I2F62 min, I2F62 max) => FromBits(Math.Clamp(bits, min.Bits, max.Bits));
+
         // Explicit conversion operators
         // -----------------------------
 

@@ -198,11 +198,14 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits <= right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits >= right.Bits; {%- if int_nbits != 2 or int_nbits + frac_nbits == 32 %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits >= right.Bits;
 
         // Methods
         // -------
-{%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self::self_type() }} Min({{ self::self_type() }} other) => FromBits(System.Math.Min(bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self::self_type() }} Max({{ self::self_type() }} other) => FromBits(System.Math.Max(bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self::self_type() }} Clamp({{ self::self_type() }} min, {{ self::self_type() }} max) => FromBits(Math.Clamp(bits, min.Bits, max.Bits));
 
 {%- if int_nbits != 2 %}
 {% for i in range(start = 1, end = int_nbits - 1) %}
