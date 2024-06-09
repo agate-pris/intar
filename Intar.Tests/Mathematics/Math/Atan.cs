@@ -107,10 +107,10 @@ namespace AgatePris.Intar.Tests.Mathematics {
                         $"{nameof(actual)}: {actual}"
                     );
                 }
-                const double scale = Math.PI / atanStraight;
-                var expectedReal = Math.Atan(x / (double)atanOne);
+                const double scale = System.Math.PI / atanStraight;
+                var expectedReal = System.Math.Atan(x / (double)atanOne);
                 var actualReal = scale * actual;
-                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                if (System.Math.Abs(actualReal - expectedReal) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(x)}: {x}, " +
                         $"{nameof(expected)}: {expected}, " +
@@ -171,9 +171,9 @@ namespace AgatePris.Intar.Tests.Mathematics {
                         $"{nameof(actual)}: {actual}"
                     );
                 }
-                var expectedReal = Math.Atan2(y, x);
-                var actualReal = Math.PI * actual / atanStraight;
-                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                var expectedReal = System.Math.Atan2(y, x);
+                var actualReal = System.Math.PI * actual / atanStraight;
+                if (System.Math.Abs(actualReal - expectedReal) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(y)}: {y}, " +
                         $"{nameof(x)}: {x}, " +
@@ -275,46 +275,46 @@ namespace AgatePris.Intar.Tests.Mathematics {
             {
                 var x = (1 << 15) * 2 / 3;
                 var actual = math.atan_p2_2850(x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.003778);
             }
             {
                 var y = 2;
                 var x = 3;
                 var actual = math.atan2_p2_2850(y, x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.003778);
             }
             {
                 var x = (1 << 15) * 2 / 3;
                 var actual = math.atan_p3_2555_691(x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.001543);
             }
             {
                 var y = 2;
                 var x = 3;
                 var actual = math.atan2_p3_2555_691(y, x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.001543);
             }
             {
                 var x = (1 << 15) * 2 / 3;
                 var actual = math.atan_p5_787_2968(x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.000767);
             }
             {
                 var y = 2;
                 var x = 3;
                 var actual = math.atan2_p5_787_2968(y, x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
+                var expected = System.Math.Atan2(2, 3);
+                var a = actual * System.Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.000767);
             }
         }
