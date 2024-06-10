@@ -13,7 +13,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Clamp(int x, int a, int b) => System.Math.Clamp(x, a, b);
 
@@ -21,7 +21,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Clamp(uint x, uint a, uint b) => System.Math.Clamp(x, a, b);
 
@@ -29,7 +29,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Clamp(long x, long a, long b) => System.Math.Clamp(x, a, b);
 
@@ -37,7 +37,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Clamp(ulong x, ulong a, ulong b) => System.Math.Clamp(x, a, b);
 
@@ -45,7 +45,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static short Clamp(short x, short a, short b) => System.Math.Clamp(x, a, b);
 
@@ -53,7 +53,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ushort Clamp(ushort x, ushort a, ushort b) => System.Math.Clamp(x, a, b);
 
@@ -61,7 +61,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static byte Clamp(byte x, byte a, byte b) => System.Math.Clamp(x, a, b);
 
@@ -69,7 +69,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static sbyte Clamp(sbyte x, sbyte a, sbyte b) => System.Math.Clamp(x, a, b);
 
@@ -77,7 +77,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static float Clamp(float x, float a, float b) => System.Math.Clamp(x, a, b);
 
@@ -85,7 +85,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static double Clamp(double x, double a, double b) => System.Math.Clamp(x, a, b);
 
@@ -93,7 +93,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static decimal Clamp(decimal x, decimal a, decimal b) => System.Math.Clamp(x, a, b);
 
@@ -103,7 +103,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Clamp(int v, int min, int max) {
@@ -119,7 +119,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Clamp(uint v, uint min, uint max) {
@@ -135,7 +135,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Clamp(long v, long min, long max) {
@@ -151,7 +151,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Clamp(ulong v, ulong min, ulong max) {
@@ -167,7 +167,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short Clamp(short v, short min, short max) {
@@ -183,7 +183,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Clamp(ushort v, ushort min, ushort max) {
@@ -199,7 +199,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte Clamp(byte v, byte min, byte max) {
@@ -215,7 +215,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte Clamp(sbyte v, sbyte min, sbyte max) {
@@ -231,7 +231,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Clamp(float v, float min, float max) {
@@ -247,7 +247,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Clamp(double v, double min, double max) {
@@ -263,7 +263,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合, <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Clamp(decimal v, decimal min, decimal max) {
@@ -279,30 +279,160 @@ namespace AgatePris.Intar {
 
 #if NET7_0_OR_GREATER
 
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>int.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(int v) => int.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>uint.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(uint v) => uint.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>long.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(long v) => long.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>ulong.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ulong v) => ulong.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>short.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(short v) => short.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>ushort.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ushort v) => ushort.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>byte.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(byte v) => byte.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>sbyte.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(sbyte v) => sbyte.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>float.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(float v) => float.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>double.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(double v) => double.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>decimal.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(decimal v) => decimal.Sign(v);
 
 #else
 
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>int.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(int v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>long.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(long v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>short.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(short v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>sbyte.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(sbyte v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>float.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(float v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>double.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(double v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>decimal.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(decimal v) => System.Math.Sign(v);
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>uint.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(uint v) => (v == 0) ? 0 : 1;
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>ulong.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ulong v) => (v == 0) ? 0 : 1;
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>ushort.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(ushort v) => (v == 0) ? 0 : 1;
+
+        /// <summary>
+        /// この関数は .NET 7.0 以降の場合 <c>byte.Sign</c> を呼ぶ.
+        /// .NET 6.0 以前の場合, 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
+        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(byte v) => (v == 0) ? 0 : 1;
 
 #endif
