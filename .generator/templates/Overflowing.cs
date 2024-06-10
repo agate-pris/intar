@@ -29,7 +29,7 @@
 
 {% macro wrapping_abs(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingAbs(this {{ type }} x) => x.IsNegative() ? x.WrappingNeg() : x;
+        public static {{ type }} WrappingAbs(this {{ type }} x) => x.IsNegativeExclusive() ? x.WrappingNeg() : x;
 {%- endmacro -%}
 
 {% macro unsigned_abs(signed, unsigned) -%}
@@ -94,7 +94,7 @@
 {% macro checked_abs(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ type }}? CheckedAbs(this {{ type }} x) => x.IsNegative() ? x.CheckedNeg() : x;
+        //public static {{ type }}? CheckedAbs(this {{ type }} x) => x.IsNegativeExclusive() ? x.CheckedNeg() : x;
 {%- endmacro -%}
 
 {% macro abs_diff_unsigned(type) -%}

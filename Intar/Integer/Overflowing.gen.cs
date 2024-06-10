@@ -47,9 +47,9 @@ namespace AgatePris.Intar.Integer {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingNeg(this ulong x) => 0UL.WrappingSub(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAbs(this int x) => x.IsNegative() ? x.WrappingNeg() : x;
+        public static int WrappingAbs(this int x) => x.IsNegativeExclusive() ? x.WrappingNeg() : x;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAbs(this long x) => x.IsNegative() ? x.WrappingNeg() : x;
+        public static long WrappingAbs(this long x) => x.IsNegativeExclusive() ? x.WrappingNeg() : x;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint UnsignedAbs(this int x) => unchecked((uint)x.WrappingAbs());
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,10 +131,10 @@ namespace AgatePris.Intar.Integer {
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedAbs(this int x) => x.IsNegative() ? x.CheckedNeg() : x;
+        //public static int? CheckedAbs(this int x) => x.IsNegativeExclusive() ? x.CheckedNeg() : x;
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedAbs(this long x) => x.IsNegative() ? x.CheckedNeg() : x;
+        //public static long? CheckedAbs(this long x) => x.IsNegativeExclusive() ? x.CheckedNeg() : x;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint AbsDiff(this int x, int y) {
