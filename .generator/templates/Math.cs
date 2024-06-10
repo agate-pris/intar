@@ -8,24 +8,17 @@
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 {%- endmacro -%}
 
-using System.Runtime.CompilerServices;
-
-#if !NET_STANDARD_2_1 && !NET5_0_OR_GREATER
 using System;
-#endif
+using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public static partial class Math {

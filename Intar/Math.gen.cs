@@ -1,8 +1,5 @@
-using System.Runtime.CompilerServices;
-
-#if !NET_STANDARD_2_1 && !NET5_0_OR_GREATER
 using System;
-#endif
+using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public static partial class Math {
@@ -15,16 +12,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Clamp(int v, int min, int max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -35,16 +28,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Clamp(uint v, uint min, uint max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -55,16 +44,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Clamp(long v, long min, long max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -75,16 +60,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Clamp(ulong v, ulong min, ulong max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -95,16 +76,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short Clamp(short v, short min, short max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -115,16 +92,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Clamp(ushort v, ushort min, ushort max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -135,16 +108,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte Clamp(byte v, byte min, byte max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -155,16 +124,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte Clamp(sbyte v, sbyte min, sbyte max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -175,16 +140,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Clamp(float v, float min, float max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -195,16 +156,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Clamp(double v, double min, double max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
         /// <summary>
@@ -215,16 +172,12 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Clamp(decimal v, decimal min, decimal max) {
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
-#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
-#endif
         }
 
 #if NET7_0_OR_GREATER
