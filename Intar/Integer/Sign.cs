@@ -11,14 +11,6 @@ using i64 = System.Int64;
 
 namespace AgatePris.Intar.Integer {
     public static class Sign {
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this i08 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this i16 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this i32 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this i64 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this u08 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this u16 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this u32 x) => x == 0;
-        //[MethodImpl(AggressiveInlining)] public static bool IsZero(this u64 x) => x == 0;
 
         //[MethodImpl(AggressiveInlining)] public static bool IsNegativeInclusive(this i08 x) => x <= 0;
         //[MethodImpl(AggressiveInlining)] public static bool IsNegativeInclusive(this i16 x) => x <= 0;

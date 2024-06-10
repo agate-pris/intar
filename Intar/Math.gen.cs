@@ -4,6 +4,18 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     public static partial class Math {
 
+        public static bool IsZero(this int v) => v == 0;
+        public static bool IsZero(this uint v) => v == 0;
+        public static bool IsZero(this long v) => v == 0;
+        public static bool IsZero(this ulong v) => v == 0;
+        public static bool IsZero(this short v) => v == 0;
+        public static bool IsZero(this ushort v) => v == 0;
+        public static bool IsZero(this byte v) => v == 0;
+        public static bool IsZero(this sbyte v) => v == 0;
+        public static bool IsZero(this float v) => v == 0;
+        public static bool IsZero(this double v) => v == 0;
+        public static bool IsZero(this decimal v) => v == 0;
+
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
