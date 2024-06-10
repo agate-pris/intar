@@ -1,9 +1,22 @@
-{% macro net_6_clamp(type) -%}
+{% macro net_6_clamp(type) %}
+
+        /// <summary>
+        /// この関数は <c>Unity.Mathematics.math.clamp</c> や
+        /// <c>Intar.Mathematics.math.clamp</c> と異なり,
+        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Clamp({{ type }} x, {{ type }} a, {{ type }} b) => System.Math.Clamp(x, a, b);
 {%- endmacro -%}
 
 {% macro clamp(type) %}
 
+        /// <summary>
+        /// この関数は <c>Unity.Mathematics.math.clamp</c> や
+        /// <c>Intar.Mathematics.math.clamp</c> と異なり,
+        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
+        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
             if (min > max) {
@@ -25,8 +38,8 @@ namespace AgatePris.Intar {
     public static partial class Math {
 
 #if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-{% for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        {{ self::net_6_clamp(type = type) }}
+{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
+        {{- self::net_6_clamp(type = type) }}
 {%- endfor %}
 
 #else
