@@ -60,5 +60,34 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign({{ type }} v) => (v == 0) ? 0 : 1;
 {%- endfor %}
 
+{%- for type in ["int", "long", "short", "sbyte"] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} CopySign(this {{ type }} v, {{ type }} sign) {
+            unchecked {
+                var abs = {% if type == "short" or type == "sbyte" -%}
+                    ({{ type }})(
+                {%- endif -%}
+                        v < 0 ? -v : v
+                {%- if type == "short" or type == "sbyte" -%}
+                    )
+                {%- endif -%}
+                ;
+                if (sign >= 0) {
+                    if (abs < 0) {
+                        throw new OverflowException(
+                            "Negating the minimum value of a twos complement number is invalid."
+                        );
+                    }
+                    return abs;
+                }
+                return {% if type == "short" or type == "sbyte" -%}
+                    ({{ type }})
+                {%- endif -%}
+                    -abs;
+            }
+        }
+{%- endfor %}
+
     }
 }

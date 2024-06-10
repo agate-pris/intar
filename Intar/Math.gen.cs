@@ -302,5 +302,69 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(byte v) => (v == 0) ? 0 : 1;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CopySign(this int v, int sign) {
+            unchecked {
+                var abs = v < 0 ? -v : v;
+                if (sign >= 0) {
+                    if (abs < 0) {
+                        throw new OverflowException(
+                            "Negating the minimum value of a twos complement number is invalid."
+                        );
+                    }
+                    return abs;
+                }
+                return -abs;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long CopySign(this long v, long sign) {
+            unchecked {
+                var abs = v < 0 ? -v : v;
+                if (sign >= 0) {
+                    if (abs < 0) {
+                        throw new OverflowException(
+                            "Negating the minimum value of a twos complement number is invalid."
+                        );
+                    }
+                    return abs;
+                }
+                return -abs;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short CopySign(this short v, short sign) {
+            unchecked {
+                var abs = (short)(v < 0 ? -v : v);
+                if (sign >= 0) {
+                    if (abs < 0) {
+                        throw new OverflowException(
+                            "Negating the minimum value of a twos complement number is invalid."
+                        );
+                    }
+                    return abs;
+                }
+                return (short)-abs;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte CopySign(this sbyte v, sbyte sign) {
+            unchecked {
+                var abs = (sbyte)(v < 0 ? -v : v);
+                if (sign >= 0) {
+                    if (abs < 0) {
+                        throw new OverflowException(
+                            "Negating the minimum value of a twos complement number is invalid."
+                        );
+                    }
+                    return abs;
+                }
+                return (sbyte)-abs;
+            }
+        }
+
     }
 }
