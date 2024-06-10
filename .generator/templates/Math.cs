@@ -23,19 +23,19 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     public static partial class Math {
 {% for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        public static bool IsZero(this {{ type }} v) => v == 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsZero(this {{ type }} v) => v == 0;
 {%- endfor %}
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        public static bool IsNegativeExclusive(this {{ type }} v) => v < 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsNegativeExclusive(this {{ type }} v) => v < 0;
 {%- endfor %}
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        public static bool IsPositiveExclusive(this {{ type }} v) => v > 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsPositiveExclusive(this {{ type }} v) => v > 0;
 {%- endfor %}
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        public static bool IsNegativeInclusive(this {{ type }} v) => v <= 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsNegativeInclusive(this {{ type }} v) => v <= 0;
 {%- endfor %}
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        public static bool IsPositiveInclusive(this {{ type }} v) => v >= 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsPositiveInclusive(this {{ type }} v) => v >= 0;
 {%- endfor %}
 
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
