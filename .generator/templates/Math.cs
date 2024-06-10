@@ -1,30 +1,23 @@
-{% macro net_6_clamp(type) %}
-
-        /// <summary>
-        /// この関数は <c>Unity.Mathematics.math.clamp</c> や
-        /// <c>Intar.Mathematics.math.clamp</c> と異なり,
-        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Clamp({{ type }} x, {{ type }} a, {{ type }} b) => System.Math.Clamp(x, a, b);
-{%- endmacro -%}
-
 {% macro clamp(type) %}
 
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 6 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
+        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
+#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
+            return System.Math.Clamp(v, min, max);
+#else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
             return v < min
                 ? min : v > max
                 ? max : v;
+#endif
         }
 {%- endmacro -%}
 
@@ -37,17 +30,9 @@ using System;
 namespace AgatePris.Intar {
     public static partial class Math {
 
-#if NET_STANDARD_2_1 || NET5_0_OR_GREATER
-{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
-        {{- self::net_6_clamp(type = type) }}
-{%- endfor %}
-
-#else
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
         {{- self::clamp(type = type) }}
 {%- endfor %}
-
-#endif
 
 #if NET7_0_OR_GREATER
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
