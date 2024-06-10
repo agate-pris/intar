@@ -25,6 +25,18 @@ namespace AgatePris.Intar {
 {% for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
         public static bool IsZero(this {{ type }} v) => v == 0;
 {%- endfor %}
+{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
+        public static bool IsNegativeExclusive(this {{ type }} v) => v < 0;
+{%- endfor %}
+{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
+        public static bool IsPositiveExclusive(this {{ type }} v) => v > 0;
+{%- endfor %}
+{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
+        public static bool IsNegativeInclusive(this {{ type }} v) => v <= 0;
+{%- endfor %}
+{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
+        public static bool IsPositiveInclusive(this {{ type }} v) => v >= 0;
+{%- endfor %}
 
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte", "float", "double", "decimal"] %}
         {{- self::clamp(type = type) }}
