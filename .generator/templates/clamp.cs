@@ -8,7 +8,15 @@
         public static {{ type }} max({{ type }} x, {{ type }} y) => x > y ? x : y;
 {%- endmacro -%}
 
-{% macro clamp(type) -%}
+{% macro clamp(type) %}
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} clamp({{ type }} x, {{ type }} a, {{ type }} b) => max(a, min(b, x));
 {%- endmacro -%}

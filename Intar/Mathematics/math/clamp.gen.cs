@@ -61,26 +61,125 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal max(decimal x, decimal y) => x > y ? x : y;
 
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int clamp(int x, int a, int b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint clamp(uint x, uint a, uint b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long clamp(long x, long a, long b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong clamp(ulong x, ulong a, ulong b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short clamp(short x, short a, short b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort clamp(ushort x, ushort a, ushort b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte clamp(byte x, byte a, byte b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte clamp(sbyte x, sbyte a, sbyte b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float clamp(float x, float a, float b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double clamp(double x, double a, double b) => max(a, min(b, x));
+        
+
+        /// <summary>
+        /// この関数は <c>System.Math.Clamp</c> や
+        /// <c>Intar.Math.Clamp</c> と異なり
+        /// <c>min</c> が <c>max</c> より大きい場合でも例外を送出<b>しない</b>.
+        /// その場合の動作は規定されない.
+        /// この関数は <c>System.Math</c> に依存しない.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal clamp(decimal x, decimal a, decimal b) => max(a, min(b, x));
     }
