@@ -129,9 +129,7 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F29 LosslessMul(I23F9 other) => I3F29.FromBits(bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 LosslessMul(I22F10 other) => I2F30.FromBits(bits * other.Bits);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I44F20 WideningMul(int other) => I44F20.FromBits((long)bits * other);
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I44F20 WideningMul(int other) => I44F20.FromBits((long)bits * other);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I43F21 WideningMul(I31F1 other) => I43F21.FromBits((long)bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I42F22 WideningMul(I30F2 other) => I42F22.FromBits((long)bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I41F23 WideningMul(I29F3 other) => I41F23.FromBits((long)bits * other.Bits);
