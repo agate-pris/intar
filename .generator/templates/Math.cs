@@ -25,23 +25,5 @@ namespace AgatePris.Intar {
         {{- self::clamp(type = type) }}
 {%- endfor %}
 
-{%- for type in ["int", "long", "short", "sbyte", "float", "double", "decimal"] %}
-
-        /// <summary>
-        /// 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
-        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign({{ type }} v) => System.Math.Sign(v);
-{%- endfor %}
-
-{%- for type in ["uint", "ulong", "ushort", "byte"] %}
-
-        /// <summary>
-        /// 符号付き数値型の場合 <c>System.Math.Sign</c> を呼ぶ.
-        /// 符号なし整数型の場合 <c>v</c> が 0 の場合は 0 を, 0 より大きい場合は 1 を返す.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign({{ type }} v) => (v == 0) ? 0 : 1;
-{%- endfor %}
-
     }
 }
