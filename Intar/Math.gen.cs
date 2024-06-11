@@ -64,7 +64,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Clamp(int v, int min, int max) {
@@ -80,7 +79,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Clamp(uint v, uint min, uint max) {
@@ -96,7 +94,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Clamp(long v, long min, long max) {
@@ -112,7 +109,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Clamp(ulong v, ulong min, ulong max) {
@@ -128,7 +124,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short Clamp(short v, short min, short max) {
@@ -144,7 +139,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Clamp(ushort v, ushort min, ushort max) {
@@ -160,7 +154,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte Clamp(byte v, byte min, byte max) {
@@ -176,7 +169,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte Clamp(sbyte v, sbyte min, sbyte max) {
@@ -192,7 +184,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Clamp(float v, float min, float max) {
@@ -208,7 +199,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Clamp(double v, double min, double max) {
@@ -224,7 +214,6 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Clamp(decimal v, decimal min, decimal max) {

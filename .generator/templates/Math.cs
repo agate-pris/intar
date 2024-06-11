@@ -4,7 +4,6 @@
         /// この関数は <c>Unity.Mathematics.math.clamp</c> や
         /// <c>Intar.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// この関数は .NET 5 または .NET Standard 2.1 以降の場合 <c>System.Math.Clamp</c> を呼ぶ.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
