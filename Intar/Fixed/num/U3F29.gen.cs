@@ -45,8 +45,8 @@ namespace AgatePris.Intar.Fixed {
 
         public static readonly U3F29 Zero = FromNum(0);
         public static readonly U3F29 One = FromNum(1);
-        public static readonly U3F29 MinValue = FromNum(uint.MinValue);
-        public static readonly U3F29 MaxValue = FromNum(uint.MaxValue);
+        public static readonly U3F29 MinValue = FromBits(uint.MinValue);
+        public static readonly U3F29 MaxValue = FromBits(uint.MaxValue);
 
         // Constructors
         // ------------

@@ -45,8 +45,8 @@ namespace AgatePris.Intar.Fixed {
 
         public static readonly U37F27 Zero = FromNum(0);
         public static readonly U37F27 One = FromNum(1);
-        public static readonly U37F27 MinValue = FromNum(ulong.MinValue);
-        public static readonly U37F27 MaxValue = FromNum(ulong.MaxValue);
+        public static readonly U37F27 MinValue = FromBits(ulong.MinValue);
+        public static readonly U37F27 MaxValue = FromBits(ulong.MaxValue);
 
         // Constructors
         // ------------

@@ -45,8 +45,8 @@ namespace AgatePris.Intar.Fixed {
 
         public static readonly I18F14 Zero = FromNum(0);
         public static readonly I18F14 One = FromNum(1);
-        public static readonly I18F14 MinValue = FromNum(int.MinValue);
-        public static readonly I18F14 MaxValue = FromNum(int.MaxValue);
+        public static readonly I18F14 MinValue = FromBits(int.MinValue);
+        public static readonly I18F14 MaxValue = FromBits(int.MaxValue);
 
         // Constructors
         // ------------
