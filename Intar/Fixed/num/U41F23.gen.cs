@@ -95,6 +95,9 @@ namespace AgatePris.Intar.Fixed {
 
 #endif
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U41F23 operator +(U41F23 x) => FromBits(+x.Bits);
+
         // Comparison operators
         // --------------------
 
