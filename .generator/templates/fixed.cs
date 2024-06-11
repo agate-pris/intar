@@ -215,8 +215,10 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self::self_type() }} Abs() => FromBits(System.Math.Abs(bits));
 {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self::self_type() }} LosslessMul(
+            {{- self::bits_type() }} other) => {{ self::self_type() }}.FromBits(bits * other);
 {%- if int_nbits != 2 %}
-{% for i in range(start = 1, end = int_nbits - 1) %}
+{%- for i in range(start = 1, end = int_nbits - 1) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(bits * other.Bits);
 {%- endfor %}
 {%- endif %}
