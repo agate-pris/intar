@@ -519,11 +519,11 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(uint4 rhs)
-            => rhs.x == x
-            && rhs.y == y
-            && rhs.z == z
-            && rhs.w == w;
+        public readonly bool Equals(uint4 other)
+            => other.x == x
+            && other.y == y
+            && other.z == z
+            && other.w == w;
 
         // IFormattable
         // ---------------------------------------

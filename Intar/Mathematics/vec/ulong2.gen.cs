@@ -139,9 +139,9 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(ulong2 rhs)
-            => rhs.x == x
-            && rhs.y == y;
+        public readonly bool Equals(ulong2 other)
+            => other.x == x
+            && other.y == y;
 
         // IFormattable
         // ---------------------------------------

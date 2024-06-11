@@ -220,11 +220,11 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals({{ self::self_type() }} rhs)
-            => rhs.x == x
-            && rhs.y == y{% if dim > 2 %}
-            && rhs.z == z{% endif %}{% if dim > 3 %}
-            && rhs.w == w{% endif %};
+        public readonly bool Equals({{ self::self_type() }} other)
+            => other.x == x
+            && other.y == y{% if dim > 2 %}
+            && other.z == z{% endif %}{% if dim > 3 %}
+            && other.w == w{% endif %};
 
         // IFormattable
         // ---------------------------------------
