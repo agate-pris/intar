@@ -22,4 +22,4 @@ dotnet_diagnostic.IDE0024.severity = silent
 dotnet_style_require_accessibility_modifiers = omit_if_default
 
 # IDE0046: 条件式に変換します
-dotnet_diagnostic.IDE0046.severity = suggestion
+dotnet_diagnostic.IDE0046.severity = silent
