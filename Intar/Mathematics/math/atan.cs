@@ -35,8 +35,11 @@ namespace AgatePris.Intar.Mathematics {
             }
         }
 
-#pragma warning disable IDE1006 // 命名スタイル
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1707 // 識別子にアンダースコアを含めるべきではありません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+#pragma warning disable IDE1006 // 命名スタイル
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int atan_p2_2850_detail(int x) {
@@ -245,8 +248,11 @@ namespace AgatePris.Intar.Mathematics {
             };
         }
 
-#pragma warning restore CA1707 // 識別子にアンダースコアを含めるべきではありません
 #pragma warning restore IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning restore CA1707 // 識別子にアンダースコアを含めるべきではありません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
 }

@@ -43,7 +43,10 @@ namespace AgatePris.Intar.Mathematics {
             }
         }
 
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1707 // 識別子にアンダースコアを含めるべきではありません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
 #pragma warning disable IDE1006 // 命名スタイル
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -343,7 +346,10 @@ namespace AgatePris.Intar.Mathematics {
         public static int cos_p5_51437(int x) => sin_p5_51437(x.WrappingAdd(Sin.Right));
 
 #pragma warning restore IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning restore CA1707 // 識別子にアンダースコアを含めるべきではありません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
 }
