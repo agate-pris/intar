@@ -8,11 +8,15 @@ using System;
 
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
-        public struct SinCase {
-            public Func<int, int> sin;
-            public Func<int, int> cos;
-            public string dataPath;
-            public double acceptableError;
+        public readonly struct SinCase {
+            readonly Func<int, int> sin;
+            readonly Func<int, int> cos;
+
+            public readonly Func<int, int> Sin => sin;
+            public readonly Func<int, int> Cos => cos;
+            public readonly string DataPath { get; }
+            public readonly double AcceptableError { get; }
+
             public SinCase(
                 Func<int, int> sin,
                 Func<int, int> cos,
@@ -21,11 +25,11 @@ namespace AgatePris.Intar.Tests.Mathematics {
             ) {
                 this.sin = sin;
                 this.cos = cos;
-                this.dataPath = dataPath;
-                this.acceptableError = acceptableError;
+                DataPath = dataPath;
+                AcceptableError = acceptableError;
             }
             public override readonly string ToString() {
-                return $"{dataPath}";
+                return $"{DataPath}";
             }
         }
 
@@ -44,9 +48,9 @@ namespace AgatePris.Intar.Tests.Mathematics {
             [Random(1)] ulong s0,
             [Random(1)] ulong s1
         ) {
-            var sin = sinCase.sin;
-            var cos = sinCase.cos;
-            var acceptableError = sinCase.acceptableError;
+            var sin = sinCase.Sin;
+            var cos = sinCase.Cos;
+            var acceptableError = sinCase.AcceptableError;
             const int rightExp = 15;
             const int right = 1 << rightExp;
             const int rightMask = right - 1;
@@ -54,7 +58,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             const int full = 2 * straight;
             const int negFull = -full;
             const int one = 1 << 30;
-            var data = ReadInts(MakeUpPath(sinCase.dataPath));
+            var data = ReadInts(MakeUpPath(sinCase.DataPath));
             Assert.AreNotEqual(null, data);
             Assert.AreEqual(right + 1, data.Count);
             Assert.AreEqual(0, data[0]);
@@ -82,8 +86,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
                         0 => data[masked],
                         1 => data[right - masked],
                         2 => -data[masked],
+#if NET7_0_OR_GREATER
                         3 => -data[right - masked],
-                        _ => throw new System.Exception("Unreachable"),
+                        _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                        _ => -data[right - masked],
+#endif
                     };
                     if (expected != actual) {
                         Assert.Fail(
@@ -114,8 +122,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
                         0 => data[right - masked],
                         1 => -data[masked],
                         2 => -data[right - masked],
+#if NET7_0_OR_GREATER
                         3 => data[masked],
-                        _ => throw new System.Exception("Unreachable"),
+                        _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                        _ => data[masked],
+#endif
                     };
                     if (expected != actual) {
                         Assert.Fail();

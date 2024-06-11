@@ -52,10 +52,12 @@ namespace AgatePris.Intar.Mathematics {
         // Fields
         // ---------------------------------------
 
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
         public {{ type }} x;
         public {{ type }} y;{% if dim > 2 %}
         public {{ type }} z;{% endif %}{% if dim > 3 %}
         public {{ type }} w;{% endif %}
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 
         // Constants
         // ---------------------------------------

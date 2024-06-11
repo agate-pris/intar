@@ -13,8 +13,10 @@ namespace AgatePris.Intar.Mathematics {
         // Fields
         // ---------------------------------------
 
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
         public ulong x;
         public ulong y;
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 
         // Constants
         // ---------------------------------------

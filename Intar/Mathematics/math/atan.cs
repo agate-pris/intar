@@ -31,17 +31,18 @@ namespace AgatePris.Intar.Mathematics {
             internal static int Div(int a, int b) {
                 var al = ((long)a) << 16;
                 var bl = (long)b;
-                return (int)((al + System.Math.Sign(a) * System.Math.Abs(bl)) / (bl << 1));
+                return (int)((al + (System.Math.Sign(a) * System.Math.Abs(bl))) / (bl << 1));
             }
         }
 
 #pragma warning disable IDE1006 // 命名スタイル
+#pragma warning disable CA1707 // 識別子にアンダースコアを含めるべきではありません
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int atan_p2_2850_detail(int x) {
             const int a = 2850;
             var xAbs = System.Math.Abs(x);
-            return x * (Atan.FracK4 + ((Atan.One - xAbs) * a >> 15));
+            return x * (Atan.FracK4 + (((Atan.One - xAbs) * a) >> 15));
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace AgatePris.Intar.Mathematics {
             const int a = 2555;
             const int b = 691;
             var xAbs = System.Math.Abs(x);
-            return x * (Atan.FracK4 + ((Atan.One - xAbs) * (a + (xAbs * b >> 15)) >> 15));
+            return x * (Atan.FracK4 + (((Atan.One - xAbs) * (a + ((xAbs * b) >> 15))) >> 15));
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace AgatePris.Intar.Mathematics {
             const int b = 2968;
             const int c = (1 << 13) + b - a;
             var x2 = (x * x) >> 15;
-            return (c - ((b - (a * x2 >> 15)) * x2 >> 15)) * x;
+            return (c - (((b - ((a * x2) >> 15)) * x2) >> 15)) * x;
         }
 
         /// <summary>
@@ -244,6 +245,7 @@ namespace AgatePris.Intar.Mathematics {
             };
         }
 
+#pragma warning restore CA1707 // 識別子にアンダースコアを含めるべきではありません
 #pragma warning restore IDE1006 // 命名スタイル
 
     }

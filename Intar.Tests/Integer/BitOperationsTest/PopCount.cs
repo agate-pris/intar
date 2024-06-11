@@ -43,7 +43,7 @@ namespace AgatePris.Intar.Tests.Integer {
             Assert.AreEqual(32, uint.MaxValue.PopCount());
 
             var processorCount = Environment.ProcessorCount;
-            Parallel.For(0, processorCount, n => {
+            _ = Parallel.For(0, processorCount, n => {
                 var begin = uint.MaxValue * (ulong)n / (ulong)processorCount;
                 var end = uint.MaxValue * (ulong)(n + 1) / (ulong)processorCount;
                 for (var x = (uint)begin; x < (uint)end; ++x) {
@@ -66,7 +66,7 @@ namespace AgatePris.Intar.Tests.Integer {
             Assert.AreEqual(64, ulong.MaxValue.PopCount());
 
             var processorCount = Environment.ProcessorCount;
-            Parallel.For(0, processorCount, n => {
+            _ = Parallel.For(0, processorCount, n => {
                 var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
                 for (var i = 0; i < n; ++i) {
                     rng.Jump();

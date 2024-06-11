@@ -25,18 +25,18 @@ namespace AgatePris.Intar.Rand {
             var s0 = 0UL;
             var s1 = 0UL;
             for (var i = 0; i < 64; ++i) {
-                if ((k1 & 1UL << i) != 0) {
+                if ((k1 & (1UL << i)) != 0) {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                Next();
+                _ = Next();
             }
             for (var i = 0; i < 64; ++i) {
-                if ((k2 & 1UL << i) != 0) {
+                if ((k2 & (1UL << i)) != 0) {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                Next();
+                _ = Next();
             }
             this.s0 = s0;
             this.s1 = s1;
@@ -48,18 +48,18 @@ namespace AgatePris.Intar.Rand {
             var s0 = 0UL;
             var s1 = 0UL;
             for (var i = 0; i < 64; ++i) {
-                if ((k1 & 1UL << i) != 0) {
+                if ((k1 & (1UL << i)) != 0) {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                Next();
+                _ = Next();
             }
             for (var i = 0; i < 64; ++i) {
-                if ((k2 & 1UL << i) != 0) {
+                if ((k2 & (1UL << i)) != 0) {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                Next();
+                _ = Next();
             }
             this.s0 = s0;
             this.s1 = s1;

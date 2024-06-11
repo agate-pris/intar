@@ -31,7 +31,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             const int resolutionTwice = 1 << 16;
             const int lastCrossPointX = int.MaxValue - resolutionTwice + 1;
             const int begin = lastCrossPointX + 1;
-            var steep = 2 * n + 1L;
+            var steep = (2 * n) + 1L;
             var max = (begin, (int)(begin * steep / resolutionTwice));
             var points = new List<(int, int)> { max };
             for (var i = 2; i < resolutionTwice; ++i) {
@@ -69,12 +69,13 @@ namespace AgatePris.Intar.Tests.Mathematics {
             Assert.AreEqual((2147418113, 2129855), list[0]);
         }
 
-        public struct AtanCase {
-            public Func<int, int> Atan;
-            public Func<int, int, int> Atan2;
-            public string DataPath;
-            public double AcceptableErrorAtan;
-            public double AcceptableErrorAtan2;
+        public readonly struct AtanCase {
+            public readonly Func<int, int> Atan { get; }
+            public readonly Func<int, int, int> Atan2 { get; }
+            public readonly string DataPath { get; }
+            public readonly double AcceptableErrorAtan { get; }
+            public readonly double AcceptableErrorAtan2 { get; }
+
             public AtanCase(
                 Func<int, int> atan,
                 Func<int, int, int> atan2,
@@ -136,9 +137,9 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 test(int.MaxValue, expected);
             }
             var processorCount = Environment.ProcessorCount;
-            Parallel.For(0, processorCount, n => {
-                var begin = 2 + (atanOne - 1) * n / processorCount;
-                var end = 2 + (atanOne - 1) * (n + 1) / processorCount;
+            _ = Parallel.For(0, processorCount, n => {
+                var begin = 2 + ((atanOne - 1) * n / processorCount);
+                var end = 2 + ((atanOne - 1) * (n + 1) / processorCount);
                 for (var i = begin; i < end; ++i) {
                     var expected = data[i];
                     test(i, expected);
@@ -238,7 +239,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             }
 
             var processorCount = Environment.ProcessorCount;
-            Parallel.For(0, processorCount, n => {
+            _ = Parallel.For(0, processorCount, n => {
                 // Test far from x-axis
                 {
                     var begin = atanOne * n / processorCount;
@@ -253,11 +254,11 @@ namespace AgatePris.Intar.Tests.Mathematics {
 
                 // Test near to x-axis
                 {
-                    var begin = 1 + atanOne * n / processorCount;
-                    var end = 1 + atanOne * (n + 1) / processorCount;
+                    var begin = 1 + (atanOne * n / processorCount);
+                    var end = 1 + (atanOne * (n + 1) / processorCount);
                     for (var i = begin; i < end; ++i) {
                         var x = 1 << 16;
-                        var y = 2 * i - 1;
+                        var y = (2 * i) - 1;
                         testDefault(y, x, data[i]);
                     }
                 }

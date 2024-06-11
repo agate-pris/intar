@@ -13,8 +13,8 @@ namespace AgatePris.Intar.Mathematics {
 #pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        internal class Sin {
-            internal const int RightExp = 8 * sizeof(int) / 2 - 1;
+        internal sealed class Sin {
+            internal const int RightExp = (8 * sizeof(int) / 2) - 1;
             internal const int Right = 1 << RightExp;
             internal const int RightMask = Right - 1;
             internal const int One = Right * Right;
@@ -43,6 +43,7 @@ namespace AgatePris.Intar.Mathematics {
             }
         }
 
+#pragma warning disable CA1707 // 識別子にアンダースコアを含めるべきではありません
 #pragma warning disable IDE1006 // 命名スタイル
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -73,7 +74,11 @@ namespace AgatePris.Intar.Mathematics {
                 Sin.Quadrant.Fourth => Sin.One - cos_p2_detail(Sin.Right - masked),
                 Sin.Quadrant.Third => cos_p2_detail(masked) - Sin.One,
                 Sin.Quadrant.First => Sin.One - cos_p2_detail(masked),
-                _ => throw new System.Exception("Unreachable"),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
             };
         }
 
@@ -168,7 +173,11 @@ namespace AgatePris.Intar.Mathematics {
                 Sin.Quadrant.Fourth => Sin.One - CosP4_7032Detail(Sin.Right - masked),
                 Sin.Quadrant.Third => CosP4_7032Detail(masked) - Sin.One,
                 Sin.Quadrant.First => Sin.One - CosP4_7032Detail(masked),
-                _ => throw new System.Exception("Unreachable"),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
             };
         }
 
@@ -221,7 +230,11 @@ namespace AgatePris.Intar.Mathematics {
                 Sin.Quadrant.Fourth => Sin.One - CosP4_7384Detail(Sin.Right - masked),
                 Sin.Quadrant.Third => CosP4_7384Detail(masked) - Sin.One,
                 Sin.Quadrant.First => Sin.One - CosP4_7384Detail(masked),
-                _ => throw new System.Exception("Unreachable"),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
             };
         }
 
@@ -261,11 +274,11 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int sin_p5_51472(int x) {
             const int k = 51472;
-            const int a = k * 2 - Sin.Right * 5 / 2;
-            const int b = k - Sin.Right * 3 / 2;
+            const int a = (k * 2) - (Sin.Right * 5 / 2);
+            const int b = k - (Sin.Right * 3 / 2);
             var z = Sin.MakeArgOdd(x);
             var z_2 = (z * z) >> Sin.RightExp;
-            return (k - ((a - ((z_2 * b) >> Sin.RightExp)) * z_2 >> Sin.RightExp)) * z;
+            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
         }
 
         /// <summary>
@@ -304,11 +317,11 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int sin_p5_51437(int x) {
             const int k = 51437;
-            const int a = k * 2 - Sin.Right * 5 / 2;
-            const int b = k - Sin.Right * 3 / 2;
+            const int a = (k * 2) - (Sin.Right * 5 / 2);
+            const int b = k - (Sin.Right * 3 / 2);
             var z = Sin.MakeArgOdd(x);
             var z_2 = (z * z) >> Sin.RightExp;
-            return (k - ((a - ((z_2 * b) >> Sin.RightExp)) * z_2 >> Sin.RightExp)) * z;
+            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
         }
 
         /// <summary>
@@ -330,6 +343,7 @@ namespace AgatePris.Intar.Mathematics {
         public static int cos_p5_51437(int x) => sin_p5_51437(x.WrappingAdd(Sin.Right));
 
 #pragma warning restore IDE1006 // 命名スタイル
+#pragma warning restore CA1707 // 識別子にアンダースコアを含めるべきではありません
 
     }
 }

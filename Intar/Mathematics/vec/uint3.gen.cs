@@ -15,9 +15,11 @@ namespace AgatePris.Intar.Mathematics {
         // Fields
         // ---------------------------------------
 
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
         public uint x;
         public uint y;
         public uint z;
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 
         // Constants
         // ---------------------------------------

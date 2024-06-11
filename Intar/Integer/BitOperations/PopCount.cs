@@ -13,12 +13,12 @@ namespace AgatePris.Intar.Integer {
             const uint k33 = 0x3333_3333;
             const uint k0F = 0x0F0F_0F0F;
             unchecked {
-                x -= x >> 1 & k55;
-                x = (x >> 2 & k33) + (x & k33);
-                x = (x >> 4) + x & k0F;
+                x -= (x >> 1) & k55;
+                x = ((x >> 2) & k33) + (x & k33);
+                x = ((x >> 4) + x) & k0F;
                 x += x >> 8;
                 x += x >> 16;
-                return (int)x & (bitsOfInt * 2 - 1);
+                return (int)x & ((bitsOfInt * 2) - 1);
             }
         }
 
@@ -28,13 +28,13 @@ namespace AgatePris.Intar.Integer {
             const ulong k33 = 0x3333_3333_3333_3333;
             const ulong k0F = 0x0F0F_0F0F_0F0F_0F0F;
             unchecked {
-                x -= x >> 1 & k55;
-                x = (x >> 2 & k33) + (x & k33);
-                x = (x >> 4) + x & k0F;
+                x -= (x >> 1) & k55;
+                x = ((x >> 2) & k33) + (x & k33);
+                x = ((x >> 4) + x) & k0F;
                 x += x >> 8;
                 x += x >> 16;
                 x += x >> 32;
-                return (int)x & (bitsOfLong * 2 - 1);
+                return (int)x & ((bitsOfLong * 2) - 1);
             }
         }
 #endif

@@ -62,17 +62,18 @@ namespace AgatePris.Intar.Mathematics {
         {{ self::max(type = "double") }}
         {{ self::max(type = "decimal") }}
 
-        {{ self::clamp(type = "int") }}
-        {{ self::clamp(type = "uint") }}
-        {{ self::clamp(type = "long") }}
-        {{ self::clamp(type = "ulong") }}
-        {{ self::clamp(type = "short") }}
-        {{ self::clamp(type = "ushort") }}
-        {{ self::clamp(type = "byte") }}
-        {{ self::clamp(type = "sbyte") }}
-        {{ self::clamp(type = "float") }}
-        {{ self::clamp(type = "double") }}
-        {{ self::clamp(type = "decimal") }}
+        {{- self::clamp(type = "int") }}
+        {{- self::clamp(type = "uint") }}
+        {{- self::clamp(type = "long") }}
+        {{- self::clamp(type = "ulong") }}
+        {{- self::clamp(type = "short") }}
+        {{- self::clamp(type = "ushort") }}
+        {{- self::clamp(type = "byte") }}
+        {{- self::clamp(type = "sbyte") }}
+        {{- self::clamp(type = "float") }}
+        {{- self::clamp(type = "double") }}
+        {{- self::clamp(type = "decimal") }}
+
     }
 
 #pragma warning restore IDE1006 // 命名スタイル

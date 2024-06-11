@@ -10,7 +10,7 @@ namespace AgatePris.Intar.Tests.Integer {
             Assert.AreEqual(max, math.isqrt(uint.MaxValue));
 
             var processorCount = System.Environment.ProcessorCount;
-            Parallel.For(0, processorCount, n => {
+            _ = Parallel.For(0, processorCount, n => {
                 var begin = uint.MaxValue * (ulong)n / (ulong)processorCount;
                 var end = uint.MaxValue * (ulong)(n + 1) / (ulong)processorCount;
                 for (var x = (uint)begin; x < (uint)end; ++x) {
@@ -35,9 +35,9 @@ namespace AgatePris.Intar.Tests.Integer {
             Assert.AreEqual(max, math.isqrt(ulong.MaxValue));
 
             var processorCount = System.Environment.ProcessorCount;
-            Parallel.For(0, processorCount, n => {
-                var begin = 1 + max * (ulong)n / (ulong)processorCount;
-                var end = 1 + max * (ulong)(n + 1) / (ulong)processorCount;
+            _ = Parallel.For(0, processorCount, n => {
+                var begin = 1 + (max * (ulong)n / (ulong)processorCount);
+                var end = 1 + (max * (ulong)(n + 1) / (ulong)processorCount);
                 for (var y = begin; y < end; ++y) {
                     {
                         var actual = math.isqrt(y * y);
@@ -46,7 +46,7 @@ namespace AgatePris.Intar.Tests.Integer {
                         }
                     }
                     {
-                        var actual = math.isqrt(y * y - 1);
+                        var actual = math.isqrt((y * y) - 1);
                         if (actual != y - 1) {
                             Assert.Fail($"y: {y}, actual: {actual}");
                         }
