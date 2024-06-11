@@ -122,6 +122,8 @@ namespace AgatePris.Intar.Fixed {
 
         public static readonly {{ self::self_type() }} Zero = FromNum(0);
         public static readonly {{ self::self_type() }} One = FromNum(1);
+        public static readonly {{ self::self_type() }} MinValue = FromNum({{ self::bits_type() }}.MinValue);
+        public static readonly {{ self::self_type() }} MaxValue = FromNum({{ self::bits_type() }}.MaxValue);
 
         // Constructors
         // ------------

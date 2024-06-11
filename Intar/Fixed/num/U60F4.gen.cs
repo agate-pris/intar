@@ -45,6 +45,8 @@ namespace AgatePris.Intar.Fixed {
 
         public static readonly U60F4 Zero = FromNum(0);
         public static readonly U60F4 One = FromNum(1);
+        public static readonly U60F4 MinValue = FromNum(ulong.MinValue);
+        public static readonly U60F4 MaxValue = FromNum(ulong.MaxValue);
 
         // Constructors
         // ------------
