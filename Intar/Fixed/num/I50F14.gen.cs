@@ -125,7 +125,7 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I50F14 Clamp(I50F14 min, I50F14 max) => FromBits(Math.Clamp(bits, min.Bits, max.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I50F14 Abs() => FromBits(System.Math.Abs(bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I50F14 LosslessMul(long other) => I50F14.FromBits(bits * other);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I50F14 LosslessMul(long other) => FromBits(bits * other);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I49F15 LosslessMul(I63F1 other) => I49F15.FromBits(bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I48F16 LosslessMul(I62F2 other) => I48F16.FromBits(bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I47F17 LosslessMul(I61F3 other) => I47F17.FromBits(bits * other.Bits);
@@ -269,13 +269,13 @@ namespace AgatePris.Intar.Fixed {
         public override readonly int GetHashCode() => bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => ((double)this).ToString();
+        public override readonly string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         // IEquatable<I50F14>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(I50F14 rhs) => bits == rhs.bits;
+        public readonly bool Equals(I50F14 other) => bits == other.bits;
 
         // IFormattable
         // ---------------------------------------

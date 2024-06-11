@@ -216,7 +216,7 @@ namespace AgatePris.Intar.Fixed {
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self::self_type() }} LosslessMul(
-            {{- self::bits_type() }} other) => {{ self::self_type() }}.FromBits(bits * other);
+            {{- self::bits_type() }} other) => FromBits(bits * other);
 {%- if int_nbits != 2 %}
 {%- for i in range(start = 1, end = int_nbits - 1) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(bits * other.Bits);
@@ -288,13 +288,13 @@ namespace AgatePris.Intar.Fixed {
         public override readonly int GetHashCode() => bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => ((double)this).ToString();
+        public override readonly string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         // IEquatable<{{ self::self_type() }}>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals({{ self::self_type() }} rhs) => bits == rhs.bits;
+        public readonly bool Equals({{ self::self_type() }} other) => bits == other.bits;
 
         // IFormattable
         // ---------------------------------------
