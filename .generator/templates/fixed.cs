@@ -1,13 +1,12 @@
-{% macro fixed_type(signed, int_nbits, frac_nbits) %}
-    {%- if signed %}I
-    {%- else %}U
-    {%- endif %}
-    {{- int_nbits }}F
-    {{- frac_nbits }}
+{% macro fixed_type(s, i, f) %}
+    {%- if s %}I
+    {%- else %}U{% endif %}
+    {{- i }}F
+    {{- f }}
 {%- endmacro -%}
 
 {% macro self_type() %}
-    {{- self::fixed_type(signed = signed, int_nbits = int_nbits, frac_nbits = frac_nbits) }}
+    {{- self::fixed_type(s = signed, i = int_nbits, f = frac_nbits) }}
 {%- endmacro -%}
 
 {% macro bits_type() %}
@@ -58,11 +57,11 @@
     {%- set end = frac_nbits %}
 {%- endif %}
 {%- for i in range(start = 1, end = end) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I{{ 32 - i }}F{{ i }}({{ self::self_type() }} x) => I{{ 32 - i }}F{{ i }}.FromBits({% if not self::bits_type() == "int" %}(int)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if not self::bits_type() == "int" %}){% endif %}));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s = true, i = 32 - i, f = i) }}({{ self::self_type() }} x) => I{{ 32 - i }}F{{ i }}.FromBits({% if not self::bits_type() == "int" %}(int)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if not self::bits_type() == "int" %}){% endif %}));
 {%- endfor %}
 {%- if frac_nbits < 30 %}
 {%- for i in range(start = frac_nbits + 1, end = 31) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I{{ 32 - i }}F{{ i }}({{ self::self_type() }} x) => I{{ 32 - i }}F{{ i }}.FromBits({% if not self::bits_type() == "int" %}(int){% endif %}x.Bits * (1 << {{ i - frac_nbits }}));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s = true, i = 32 - i, f = i) }}({{ self::self_type() }} x) => I{{ 32 - i }}F{{ i }}.FromBits({% if not self::bits_type() == "int" %}(int){% endif %}x.Bits * (1 << {{ i - frac_nbits }}));
 {%- endfor %}
 {%- endif %}
 {%- for i in range(start = 1, end = end) %}
