@@ -9,11 +9,8 @@ using System;
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
         public readonly struct SinCase {
-            readonly Func<int, int> sin;
-            readonly Func<int, int> cos;
-
-            public readonly Func<int, int> Sin => sin;
-            public readonly Func<int, int> Cos => cos;
+            public readonly Func<int, int> Sin { get; }
+            public readonly Func<int, int> Cos { get; }
             public readonly string DataPath { get; }
             public readonly double AcceptableError { get; }
 
@@ -23,8 +20,8 @@ namespace AgatePris.Intar.Tests.Mathematics {
                 string dataPath,
                 double acceptableError
             ) {
-                this.sin = sin;
-                this.cos = cos;
+                Sin = sin;
+                Cos = cos;
                 DataPath = dataPath;
                 AcceptableError = acceptableError;
             }
