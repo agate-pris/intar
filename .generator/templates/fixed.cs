@@ -80,6 +80,18 @@
 {%- for i in range(start = 1, end = end) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=true, i=64-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=true, i=64-i, f=i) }}.FromBits({% if self::bits_type() != "int" and self::bits_type() != "long" %}(long)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if self::bits_type() != "int" and self::bits_type() != "long" %}){% endif %}));
 {%- endfor %}
+{%- if int_nbits + frac_nbits < 64 %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {% if signed %}implicit
+        {%- else %}explicit
+        {%- endif %} operator {{ self::fixed_type(s=true, i=32+int_nbits, f=frac_nbits) -}}
+        ({{ self::self_type() }} x) => {{ self::fixed_type(s=true, i=32+int_nbits, f=frac_nbits) -}}
+        .FromBits({%if self::bits_type() == "ulong" %}(long){% endif %}x.Bits);
+{%- endif %}
+{%- if frac_nbits < 63 %}
+{%- for i in range(start = frac_nbits + 1, end = 63) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=true, i=64-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=true, i=64-i, f=i) }}.FromBits({% if self::bits_type() == "ulong" %}(long){% endif %}x.Bits * (1L << {{ i - frac_nbits }}));
+{%- endfor %}
+{%- endif %}
 {%- endmacro -%}
 
 using System;
@@ -253,8 +265,6 @@ namespace AgatePris.Intar.Fixed {
         // Implicit conversion operators
         // -----------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits }}F{{ frac_nbits -}}({{ self::self_type() }} x) =>
-        {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits }}F{{ frac_nbits -}}.FromBits(x.Bits);
 {%- for i in range(end = 32) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator
             {%- if signed %} I{% else %} U{% endif %}{{ 32 + int_nbits - i - 1 }}F{{ frac_nbits + i + 1 -}}
