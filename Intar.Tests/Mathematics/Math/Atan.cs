@@ -70,11 +70,11 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
 
         public readonly struct AtanCase {
-            public readonly Func<int, int> Atan { get; }
-            public readonly Func<int, int, int> Atan2 { get; }
-            public readonly string DataPath { get; }
-            public readonly double AcceptableErrorAtan { get; }
-            public readonly double AcceptableErrorAtan2 { get; }
+            public Func<int, int> Atan { get; }
+            public Func<int, int, int> Atan2 { get; }
+            public string DataPath { get; }
+            public double AcceptableErrorAtan { get; }
+            public double AcceptableErrorAtan2 { get; }
 
             public AtanCase(
                 Func<int, int> atan,
