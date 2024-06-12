@@ -59,7 +59,7 @@
 {%- for i in range(start = 1, end = end) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=true, i=32-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=true, i=32-i, f=i) }}.FromBits({% if not self::bits_type() == "int" %}(int)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if not self::bits_type() == "int" %}){% endif %}));
 {%- endfor %}
-{%- if frac_nbits < 30 %}
+{%- if frac_nbits < 31 %}
 {%- for i in range(start = frac_nbits + 1, end = 31) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=true, i=32-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=true, i=32-i, f=i) }}.FromBits({% if not self::bits_type() == "int" %}(int){% endif %}x.Bits * (1 << {{ i - frac_nbits }}));
 {%- endfor %}
@@ -67,11 +67,19 @@
 {%- for i in range(start = 1, end = end) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=false, i=32-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=false, i=32-i, f=i) }}.FromBits({% if not self::bits_type() == "uint" %}(uint)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if not self::bits_type() == "uint" %}){% endif %}));
 {%- endfor %}
-{%- if frac_nbits < 30 %}
+{%- if frac_nbits < 31 %}
 {%- for i in range(start = frac_nbits + 1, end = 31) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=false, i=32-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=false, i=32-i, f=i) }}.FromBits({% if not self::bits_type() == "uint" %}(uint){% endif %}x.Bits * (1U << {{ i - frac_nbits }}));
 {%- endfor %}
 {%- endif %}
+{%- if frac_nbits > 62 %}
+    {%- set end = 62 %}
+{%- else %}
+    {%- set end = frac_nbits %}
+{%- endif %}
+{%- for i in range(start = 1, end = end) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{ self::fixed_type(s=true, i=64-i, f=i) }}({{ self::self_type() }} x) => {{ self::fixed_type(s=true, i=64-i, f=i) }}.FromBits({% if self::bits_type() != "int" and self::bits_type() != "long" %}(long)({% endif %}x.Bits / ({{ one }} << {{ frac_nbits - i }}{% if self::bits_type() != "int" and self::bits_type() != "long" %}){% endif %}));
+{%- endfor %}
 {%- endmacro -%}
 
 using System;
