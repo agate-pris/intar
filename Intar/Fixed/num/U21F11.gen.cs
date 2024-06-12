@@ -7,12 +7,13 @@ using UnityEngine;
 
 namespace AgatePris.Intar.Fixed {
     [Serializable]
+    public
 
 #if !UNITY_5_6_OR_NEWER
     readonly
 #endif
 
-    public struct U21F11 : IEquatable<U21F11>, IFormattable {
+    struct U21F11 : IEquatable<U21F11>, IFormattable {
         // Consts
         // ------
 
