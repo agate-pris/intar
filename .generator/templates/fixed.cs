@@ -1,8 +1,13 @@
-{% macro self_type() %}
+{% macro fixed_type(signed, int_nbits, frac_nbits) %}
     {%- if signed %}I
     {%- else %}U
     {%- endif %}
-    {{- int_nbits}}F{{ frac_nbits }}
+    {{- int_nbits }}F
+    {{- frac_nbits }}
+{%- endmacro -%}
+
+{% macro self_type() %}
+    {{- self::fixed_type(signed = signed, int_nbits = int_nbits, frac_nbits = frac_nbits) }}
 {%- endmacro -%}
 
 {% macro bits_type() %}
