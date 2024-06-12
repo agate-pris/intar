@@ -15,6 +15,9 @@ csharp_style_var_when_type_is_apparent = true
 # IDE0022: メソッドにブロック本体を使用する
 dotnet_diagnostic.IDE0022.severity = silent
 
+# IDE0023: 変換演算子にブロック本体を使用する
+dotnet_diagnostic.IDE0023.severity = silent
+
 # IDE0024: オペレーターにブロック本体を使用する
 dotnet_diagnostic.IDE0024.severity = silent
 
