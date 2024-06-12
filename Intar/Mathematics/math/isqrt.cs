@@ -1,5 +1,5 @@
-using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
+using AgatePris.Intar.Integer;
 
 namespace AgatePris.Intar.Mathematics {
 

@@ -1,7 +1,7 @@
-using AgatePris.Intar.Integer;
-using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using AgatePris.Intar.Integer;
+using NUnit.Framework;
 
 namespace AgatePris.Intar.Tests.Integer {
     public partial class BitOperationsTest {

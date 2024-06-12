@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using AgatePris.Intar.Mathematics;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace AgatePris.Intar.Tests.Integer {
     public partial class MathTest {
