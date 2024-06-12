@@ -79,12 +79,13 @@ using UnityEngine;
 
 namespace AgatePris.Intar.Fixed {
     [Serializable]
+    public
 
 #if !UNITY_5_6_OR_NEWER
     readonly
 #endif
 
-    public struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
+    struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
         // Consts
         // ------
 
