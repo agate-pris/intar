@@ -23,6 +23,24 @@
             ]
         },
         {
+            "dir_path": "Intar/Fixed/num",
+            "template_name": "fixed.cs",
+            "files": [
+                {%- for i in range(start = 2, end = 32) %}
+                { "file_name": "I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 32) %}
+                { "file_name": "U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 64) %}
+                { "file_name": "I{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 64) %}
+                { "file_name": "U{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } }{% if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
             "dir_path": "Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
