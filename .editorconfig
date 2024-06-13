@@ -26,3 +26,6 @@ dotnet_style_require_accessibility_modifiers = omit_if_default
 
 # IDE0046: 条件式に変換します
 dotnet_diagnostic.IDE0046.severity = silent
+
+# IDE0130: Namespace がフォルダー構造と一致しません
+dotnet_diagnostic.IDE0130.severity = silent
