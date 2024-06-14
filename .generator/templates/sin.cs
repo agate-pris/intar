@@ -54,6 +54,20 @@
         }
 {%- endmacro -%}
 
+{%- macro sin_p5(k) %}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int sin_p5_{{ k }}(int x) {
+            const int k = {{ k }};
+            const int a = (k * 2) - (Sin.Right * 5 / 2);
+            const int b = k - (Sin.Right * 3 / 2);
+            var z = Sin.MakeArgOdd(x);
+            var z_2 = (z * z) >> Sin.RightExp;
+            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
+        }
+{%- endmacro -%}
+
 using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
@@ -273,17 +287,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p5_51472(int x) {
-            const int k = 51472;
-            const int a = (k * 2) - (Sin.Right * 5 / 2);
-            const int b = k - (Sin.Right * 3 / 2);
-            var z = Sin.MakeArgOdd(x);
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
-        }
+        {{- self::sin_p5(k=51472) }}
 
         {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
 
@@ -317,17 +321,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p5_51437(int x) {
-            const int k = 51437;
-            const int a = (k * 2) - (Sin.Right * 5 / 2);
-            const int b = k - (Sin.Right * 3 / 2);
-            var z = Sin.MakeArgOdd(x);
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
-        }
+        {{- self::sin_p5(k=51437) }}
 
         {{- self::sin_fixed(name="sin_p5_51437", sin=true, dim=5) }}
 
