@@ -32,6 +32,17 @@
         public static int {{ cos }}(int x) => {{ sin }}(x.WrappingAdd(Sin.Right));
 {%- endmacro -%}
 
+{%- macro sin_fixed(name, sin, dim) %}
+
+        /// <summary>
+        /// {{ dim }} 次の多項式で{% if sin %}正弦比{% else %}余弦比{% endif %}を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>{% if sin %}正弦比{% else %}余弦比{% endif %}</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 {{ name }}(I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
+{%- endmacro -%}
+
 using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
@@ -104,13 +115,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_even(name="cos_p2", detail="cos_p2_detail") }}
 
-        /// <summary>
-        /// 2 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 cos_p2(I17F15 x) => I2F30.FromBits(cos_p2(x.Bits));
+        {{- self::sin_fixed(name="cos_p2", sin=false, dim=2) }}
 
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
@@ -127,13 +132,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::sin_even(sin="sin_p2", cos="cos_p2") }}
 
-        /// <summary>
-        /// 2 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 sin_p2(I17F15 x) => I2F30.FromBits(sin_p2(x.Bits));
+        {{- self::sin_fixed(name="sin_p2", sin=true, dim=2) }}
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -159,13 +158,7 @@ namespace AgatePris.Intar.Mathematics {
             return (a - ((z_2 * b) >> Sin.RightExp)) * z;
         }
 
-        /// <summary>
-        /// 3 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 sin_p3_16384(I17F15 x) => I2F30.FromBits(sin_p3_16384(x.Bits));
+        {{- self::sin_fixed(name="sin_p3_16384", sin=true, dim=3) }}
 
         /// <summary>
         /// 3 次の多項式で余弦比を近似する。
@@ -182,13 +175,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_odd(cos="cos_p3_16384", sin="sin_p3_16384") }}
 
-        /// <summary>
-        /// 3 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 cos_p3_16384(I17F15 x) => I2F30.FromBits(cos_p3_16384(x.Bits));
+        {{- self::sin_fixed(name="cos_p3_16384", sin=false, dim=3) }}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int CosP4_7032Detail(int z) {
@@ -213,13 +200,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_even(name="cos_p4_7032", detail="CosP4_7032Detail") }}
 
-        /// <summary>
-        /// 4 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 cos_p4_7032(I17F15 x) => I2F30.FromBits(cos_p4_7032(x.Bits));
+        {{- self::sin_fixed(name="cos_p4_7032", sin=false, dim=4) }}
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -236,13 +217,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::sin_even(sin="sin_p4_7032", cos="cos_p4_7032") }}
 
-        /// <summary>
-        /// 4 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 sin_p4_7032(I17F15 x) => I2F30.FromBits(sin_p4_7032(x.Bits));
+        {{- self::sin_fixed(name="sin_p4_7032", sin=true, dim=4) }}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int CosP4_7384Detail(int z) {
@@ -267,13 +242,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_even(name="cos_p4_7384", detail="CosP4_7384Detail") }}
 
-        /// <summary>
-        /// 4 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 cos_p4_7384(I17F15 x) => I2F30.FromBits(cos_p4_7384(x.Bits));
+        {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -290,13 +259,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::sin_even(sin="sin_p4_7384", cos="cos_p4_7384") }}
 
-        /// <summary>
-        /// 4 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 sin_p4_7384(I17F15 x) => I2F30.FromBits(sin_p4_7384(x.Bits));
+        {{- self::sin_fixed(name="sin_p4_7384", sin=true, dim=4) }}
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -323,13 +286,7 @@ namespace AgatePris.Intar.Mathematics {
             return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
         }
 
-        /// <summary>
-        /// 5 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 sin_p5_51472(I17F15 x) => I2F30.FromBits(sin_p5_51472(x.Bits));
+        {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -346,13 +303,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_odd(cos="cos_p5_51472", sin="sin_p5_51472") }}
 
-        /// <summary>
-        /// 5 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 cos_p5_51472(I17F15 x) => I2F30.FromBits(cos_p5_51472(x.Bits));
+        {{- self::sin_fixed(name="cos_p5_51472", sin=false, dim=5) }}
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -379,13 +330,7 @@ namespace AgatePris.Intar.Mathematics {
             return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
         }
 
-        /// <summary>
-        /// 5 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 sin_p5_51437(I17F15 x) => I2F30.FromBits(sin_p5_51437(x.Bits));
+        {{- self::sin_fixed(name="sin_p5_51437", sin=true, dim=5) }}
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -402,13 +347,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_odd(cos="cos_p5_51437", sin="sin_p5_51437") }}
 
-        /// <summary>
-        /// 5 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 cos_p5_51437(I17F15 x) => I2F30.FromBits(cos_p5_51437(x.Bits));
+        {{- self::sin_fixed(name="cos_p5_51437", sin=false, dim=5) }}
 
 #pragma warning restore IDE1006 // 命名スタイル
 
