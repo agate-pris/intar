@@ -25,6 +25,13 @@
         }
 {%- endmacro -%}
 
+{%- macro cos_odd(cos, sin) %}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int {{ cos }}(int x) => {{ sin }}(x.WrappingAdd(Sin.Right));
+{%- endmacro -%}
+
 using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
@@ -173,10 +180,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int cos_p3_16384(int x) => sin_p3_16384(x.WrappingAdd(Sin.Right));
+        {{- self::cos_odd(cos="cos_p3_16384", sin="sin_p3_16384") }}
 
         /// <summary>
         /// 3 次の多項式で余弦比を近似する。
@@ -340,10 +344,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int cos_p5_51472(int x) => sin_p5_51472(x.WrappingAdd(Sin.Right));
+        {{- self::cos_odd(cos="cos_p5_51472", sin="sin_p5_51472") }}
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -399,10 +400,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int cos_p5_51437(int x) => sin_p5_51437(x.WrappingAdd(Sin.Right));
+        {{- self::cos_odd(cos="cos_p5_51437", sin="sin_p5_51437") }}
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
