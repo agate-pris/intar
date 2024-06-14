@@ -43,6 +43,17 @@
         public static I2F30 {{ name }}(I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
 {%- endmacro -%}
 
+{%- macro cos_p4_detail(k) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static int cos_p4_{{ k }}_detail(int z) {
+            const int b = {{ k }};
+            const int a = b + Sin.Right;
+            var z_2 = (z * z) >> Sin.RightExp;
+            return (a - ((z_2 * b) >> Sin.RightExp)) * z_2;
+        }
+{%- endmacro -%}
+
 using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
@@ -177,13 +188,7 @@ namespace AgatePris.Intar.Mathematics {
 
         {{- self::sin_fixed(name="cos_p3_16384", sin=false, dim=3) }}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int CosP4_7032Detail(int z) {
-            const int b = 7032;
-            const int a = b + Sin.Right;
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (a - ((z_2 * b) >> Sin.RightExp)) * z_2;
-        }
+        {{- self::cos_p4_detail(k=7032) }}
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -198,7 +203,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p4_7032", detail="CosP4_7032Detail") }}
+        {{- self::cos_even(name="cos_p4_7032", detail="cos_p4_7032_detail") }}
 
         {{- self::sin_fixed(name="cos_p4_7032", sin=false, dim=4) }}
 
@@ -219,13 +224,7 @@ namespace AgatePris.Intar.Mathematics {
 
         {{- self::sin_fixed(name="sin_p4_7032", sin=true, dim=4) }}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int CosP4_7384Detail(int z) {
-            const int b = 7384;
-            const int a = b + Sin.Right;
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (a - ((z_2 * b) >> Sin.RightExp)) * z_2;
-        }
+        {{- self::cos_p4_detail(k=7384) }}
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -240,7 +239,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p4_7384", detail="CosP4_7384Detail") }}
+        {{- self::cos_even(name="cos_p4_7384", detail="cos_p4_7384_detail") }}
 
         {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
 
