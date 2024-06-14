@@ -23,6 +23,13 @@
             ]
         },
         {
+            "dir_path": "Intar/Mathematics/math",
+            "template_name": "sin.cs",
+            "files": [
+                { "file_name": "sin.gen.cs", "params": {} }
+            ]
+        },
+        {
             "dir_path": "Intar/Fixed/num",
             "template_name": "fixed.cs",
             "files": [
