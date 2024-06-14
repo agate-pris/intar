@@ -1,3 +1,10 @@
+{%- macro sin_even(sin, cos) %}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int {{ sin }}(int x) => {{ cos }}(x.WrappingSub(Sin.Right));
+{%- endmacro -%}
+
 {%- macro cos_even(name, detail) %}
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
@@ -111,10 +118,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p2(int x) => cos_p2(x.WrappingSub(Sin.Right));
+        {{- self::sin_even(sin="sin_p2", cos="cos_p2") }}
 
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
@@ -226,10 +230,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p4_7032(int x) => cos_p4_7032(x.WrappingSub(Sin.Right));
+        {{- self::sin_even(sin="sin_p4_7032", cos="cos_p4_7032") }}
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -283,10 +284,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p4_7384(int x) => cos_p4_7384(x.WrappingSub(Sin.Right));
+        {{- self::sin_even(sin="sin_p4_7384", cos="cos_p4_7384") }}
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
