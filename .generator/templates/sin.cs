@@ -1,3 +1,23 @@
+{%- macro cos_even(name, detail) %}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int {{ name }}(int x) {
+            var masked = x & Sin.RightMask;
+            return Sin.ToQuadrant(x) switch {
+                Sin.Quadrant.Second => {{ detail }}(Sin.Right - masked) - Sin.One,
+                Sin.Quadrant.Fourth => Sin.One - {{ detail }}(Sin.Right - masked),
+                Sin.Quadrant.Third => {{ detail }}(masked) - Sin.One,
+                Sin.Quadrant.First => Sin.One - {{ detail }}(masked),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
+            };
+        }
+{%- endmacro -%}
+
 using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
@@ -68,23 +88,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int cos_p2(int x) {
-            var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => cos_p2_detail(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - cos_p2_detail(Sin.Right - masked),
-                Sin.Quadrant.Third => cos_p2_detail(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - cos_p2_detail(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
-        }
+        {{- self::cos_even(name="cos_p2", detail="cos_p2_detail") }}
 
         /// <summary>
         /// 2 次の多項式で余弦比を近似する。
@@ -199,23 +203,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int cos_p4_7032(int x) {
-            var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => CosP4_7032Detail(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - CosP4_7032Detail(Sin.Right - masked),
-                Sin.Quadrant.Third => CosP4_7032Detail(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - CosP4_7032Detail(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
-        }
+        {{- self::cos_even(name="cos_p4_7032", detail="CosP4_7032Detail") }}
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -272,23 +260,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int cos_p4_7384(int x) {
-            var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => CosP4_7384Detail(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - CosP4_7384Detail(Sin.Right - masked),
-                Sin.Quadrant.Third => CosP4_7384Detail(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - CosP4_7384Detail(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
-        }
+        {{- self::cos_even(name="cos_p4_7384", detail="CosP4_7384Detail") }}
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
