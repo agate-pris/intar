@@ -140,8 +140,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_even(name="cos_p2", detail="cos_p2_detail") }}
 
-        {{- self::sin_fixed(name="cos_p2", sin=false, dim=2) }}
-
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
         /// <example>
@@ -156,8 +154,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </example>
         /// </summary>
         {{- self::sin_even(sin="sin_p2", cos="cos_p2") }}
-
-        {{- self::sin_fixed(name="sin_p2", sin=true, dim=2) }}
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -183,8 +179,6 @@ namespace AgatePris.Intar.Mathematics {
             return (a - ((z_2 * b) >> Sin.RightExp)) * z;
         }
 
-        {{- self::sin_fixed(name="sin_p3_16384", sin=true, dim=3) }}
-
         /// <summary>
         /// 3 次の多項式で余弦比を近似する。
         /// <example>
@@ -199,8 +193,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </example>
         /// </summary>
         {{- self::cos_odd(cos="cos_p3_16384", sin="sin_p3_16384") }}
-
-        {{- self::sin_fixed(name="cos_p3_16384", sin=false, dim=3) }}
 
         {{- self::cos_p4_detail(k=7032) }}
 
@@ -219,8 +211,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_even(name="cos_p4_7032", detail="cos_p4_7032_detail") }}
 
-        {{- self::sin_fixed(name="cos_p4_7032", sin=false, dim=4) }}
-
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
         /// <example>
@@ -235,8 +225,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </example>
         /// </summary>
         {{- self::sin_even(sin="sin_p4_7032", cos="cos_p4_7032") }}
-
-        {{- self::sin_fixed(name="sin_p4_7032", sin=true, dim=4) }}
 
         {{- self::cos_p4_detail(k=7384) }}
 
@@ -255,8 +243,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_even(name="cos_p4_7384", detail="cos_p4_7384_detail") }}
 
-        {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
-
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
         /// <example>
@@ -271,8 +257,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </example>
         /// </summary>
         {{- self::sin_even(sin="sin_p4_7384", cos="cos_p4_7384") }}
-
-        {{- self::sin_fixed(name="sin_p4_7384", sin=true, dim=4) }}
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -289,8 +273,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::sin_p5(k=51472) }}
 
-        {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
-
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
         /// <example>
@@ -305,8 +287,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </example>
         /// </summary>
         {{- self::cos_odd(cos="cos_p5_51472", sin="sin_p5_51472") }}
-
-        {{- self::sin_fixed(name="cos_p5_51472", sin=false, dim=5) }}
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -323,8 +303,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::sin_p5(k=51437) }}
 
-        {{- self::sin_fixed(name="sin_p5_51437", sin=true, dim=5) }}
-
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
         /// <example>
@@ -340,6 +318,17 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         {{- self::cos_odd(cos="cos_p5_51437", sin="sin_p5_51437") }}
 
+        {{- self::sin_fixed(name="sin_p2", sin=true, dim=2) }}
+        {{- self::sin_fixed(name="sin_p3_16384", sin=true, dim=3) }}
+        {{- self::sin_fixed(name="sin_p4_7032", sin=true, dim=4) }}
+        {{- self::sin_fixed(name="sin_p4_7384", sin=true, dim=4) }}
+        {{- self::sin_fixed(name="cos_p5_51472", sin=false, dim=5) }}
+        {{- self::sin_fixed(name="sin_p5_51437", sin=true, dim=5) }}
+        {{- self::sin_fixed(name="cos_p2", sin=false, dim=2) }}
+        {{- self::sin_fixed(name="cos_p3_16384", sin=false, dim=3) }}
+        {{- self::sin_fixed(name="cos_p4_7032", sin=false, dim=4) }}
+        {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
+        {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
         {{- self::sin_fixed(name="cos_p5_51437", sin=false, dim=5) }}
 
 #pragma warning restore IDE1006 // 命名スタイル
