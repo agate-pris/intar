@@ -2,9 +2,6 @@ using System.Runtime.CompilerServices;
 using AgatePris.Intar.Integer;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0090 // 'new(...)' を使用する
-
 #if UNITY_2018_3_OR_NEWER
 using Unity.Mathematics;
 #endif
