@@ -11,7 +11,6 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(AggressiveInlining)] public static uint2 UnsignedAbs(this int2 v) => new uint2(v.x.UnsignedAbs(), v.y.UnsignedAbs());
         [MethodImpl(AggressiveInlining)] public static ulong2 UnsignedAbs(this long2 v) => new ulong2(v.x.UnsignedAbs(), v.y.UnsignedAbs());
         [MethodImpl(AggressiveInlining)] public static int2 AsInt(this long2 v) => new int2((int)v.x, (int)v.y);
-        [MethodImpl(AggressiveInlining)] public static long2 AsLong(this int2 v) => new long2(v.x, v.y);
         [MethodImpl(AggressiveInlining)] public static uint2 AsUint(this ulong2 v) => new uint2((uint)v.x, (uint)v.y);
         [MethodImpl(AggressiveInlining)] public static ulong2 AsUlong(this uint2 v) => new ulong2(v.x, v.y);
         [MethodImpl(AggressiveInlining)] public static uint2 AbsDiff(this int2 x, int2 y) => new uint2(x.x.AbsDiff(y.x), x.y.AbsDiff(y.y));

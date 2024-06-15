@@ -36,15 +36,6 @@ namespace AgatePris.Intar.Tests.Mathematics {
             }
 #endif
             {
-                var v = new int2(1, 2);
-                AreEqual(1, v.x);
-                AreEqual(2, v.y);
-                AreEqual(11, v.Dot(new int2(3, 4)));
-                var l = v.AsLong();
-                AreEqual(1, l.x);
-                AreEqual(2, l.y);
-            }
-            {
                 var v = new uint2(3, 4);
                 AreEqual(3, v.x);
                 AreEqual(4, v.y);
