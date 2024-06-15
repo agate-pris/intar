@@ -16,6 +16,13 @@
             ]
         },
         {
+            "dir_path": "Intar/Mathematics",
+            "template_name": "Mathematics_math.cs",
+            "files": [
+                { "file_name": "math.gen.cs", "params": {} }
+            ]
+        },
+        {
             "dir_path": "Intar/Mathematics/math",
             "template_name": "clamp.cs",
             "files": [
