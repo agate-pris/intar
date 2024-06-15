@@ -1,30 +1,11 @@
-{% macro fixed_type(s, i, f) %}
-    {%- if s %}I
-    {%- else %}U{% endif %}
-    {{- i }}F
-    {{- f }}
-{%- endmacro -%}
+{% import "macros.cs" as macros %}
 
 {% macro self_type() %}
-    {{- self::fixed_type(s = signed, i = int_nbits, f = frac_nbits) }}
+    {{- macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) }}
 {%- endmacro -%}
 
-{%- macro bits_type(s, i, f) %}
-    {%- if s %}
-        {%- if i + f == 32 %}int
-        {%- elif i + f == 64 %}long
-        {%- else %}{{ throw(message = "invalid arguments. i: " ~ i ~ ", f: " ~ f ) }}
-        {%- endif %}
-    {%- else %}
-        {%- if i + f == 32 %}uint
-        {%- elif i + f == 64 %}ulong
-        {%- else %}{{ throw(message = "invalid arguments. i: " ~ i ~ ", f: " ~ f ) }}
-        {%- endif %}
-    {%- endif %}
-{%- endmacro %}
-
 {%- macro self_bits_type() %}
-    {{- self::bits_type(s=signed, i=int_nbits, f=frac_nbits) }}
+    {{- macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) }}
 {%- endmacro -%}
 
 {% macro wide_bits_type() %}
@@ -56,9 +37,9 @@
     {%- if s != signed or i != int_nbits or f != frac_nbits %}
         {%- set sbt = self::self_bits_type() %}
         {%- set self_bits_type_one = self::one_literal(t = sbt) %}
-        {%- set target_bits_type = self::bits_type(s=s, i=i, f=f) -%}
+        {%- set target_bits_type = macros::bits_type(s=s, i=i, f=f) -%}
         {%- set target_bits_type_one = self::one_literal(t = target_bits_type) %}
-        {%- set target_type = self::fixed_type(s=s, i=i, f=f) %}
+        {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
         {%- set explicit = signed and s == false or frac_nbits > f or
             signed and s and int_nbits > i or
             signed and not s and int_nbits - 1 > i or
