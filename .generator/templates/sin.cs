@@ -32,6 +32,19 @@
         public static int {{ cos }}(int x) => {{ sin }}(x.WrappingAdd(Sin.Right));
 {%- endmacro -%}
 
+{%- macro sincos(s, i, o) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_{{ s }}({{ i }} x, out {{ o }} s, out {{ o }} c) {
+            s = sin_{{ s }}(x);
+            c = cos_{{ s }}(x);
+        }
+{%- endmacro -%}
+
+{%- macro sincos_int(s) %}
+    {{- self::sincos(s=s, i="int", o="int") }}
+{%- endmacro -%}
+
 {%- macro sin_fixed(name, sin, dim) %}
 
         /// <summary>
@@ -331,6 +344,10 @@ namespace AgatePris.Intar.Mathematics {
         /// </example>
         /// </summary>
         {{- self::cos_odd(cos="cos_p5_51437", sin="sin_p5_51437") }}
+
+        {%- for suffix in ["p2", "p3_16384", "p4_7032", "p4_7384", "p5_51472", "p5_51437"] %}
+            {{- self::sincos_int(s=suffix) }}
+        {%- endfor %}
 
         {{- self::sin_fixed(name="sin_p2", sin=true, dim=2) }}
         {{- self::sin_fixed(name="sin_p3_16384", sin=true, dim=3) }}
