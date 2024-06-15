@@ -351,6 +351,42 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cos_p5_51437(int x) => sin_p5_51437(x.WrappingAdd(Sin.Right));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_p2(int x, out int s, out int c) {
+            s = sin_p2(x);
+            c = cos_p2(x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_p3_16384(int x, out int s, out int c) {
+            s = sin_p3_16384(x);
+            c = cos_p3_16384(x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_p4_7032(int x, out int s, out int c) {
+            s = sin_p4_7032(x);
+            c = cos_p4_7032(x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_p4_7384(int x, out int s, out int c) {
+            s = sin_p4_7384(x);
+            c = cos_p4_7384(x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_p5_51472(int x, out int s, out int c) {
+            s = sin_p5_51472(x);
+            c = cos_p5_51472(x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void sincos_p5_51437(int x, out int s, out int c) {
+            s = sin_p5_51437(x);
+            c = cos_p5_51437(x);
+        }
+
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
         /// </summary>
