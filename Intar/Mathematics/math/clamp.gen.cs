@@ -4,17 +4,7 @@
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-
-#pragma warning disable IDE1006 // 命名スタイル
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-
     public static partial class math {
-
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int min(int x, int y) => x < y ? x : y;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -170,11 +160,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal clamp(decimal x, decimal a, decimal b) => max(a, min(b, x));
-
     }
-
-#pragma warning restore IDE1006 // 命名スタイル
-
 }
 
 #endif
