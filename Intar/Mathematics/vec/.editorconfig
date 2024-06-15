@@ -4,9 +4,3 @@ dotnet_diagnostic.CA1051.severity = none
 
 # 識別子はアンダースコアを含むことはできません
 dotnet_diagnostic.CA1707.severity = none
-
-# 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-dotnet_diagnostic.CS8981.severity = none
-
-# 命名スタイル
-dotnet_diagnostic.IDE1006.severity = none
