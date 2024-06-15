@@ -6,21 +6,6 @@ using static Unity.Mathematics.math;
 namespace AgatePris.Intar.Mathematics {
     public static partial class math {
 
-        public static long2 aslong(this int2 x) => long2(
-            x.x,
-            x.y);
-
-        public static long3 aslong(this int3 x) => long3(
-            x.x,
-            x.y,
-            x.z);
-
-        public static long4 aslong(this int4 x) => long4(
-            x.x,
-            x.y,
-            x.z,
-            x.w);
-
         public static int2 asbits(this I2F30_2 x) => int2(
             x.x.Bits,
             x.y.Bits);
