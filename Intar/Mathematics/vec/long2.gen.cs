@@ -2,27 +2,13 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-
-#pragma warning disable IDE1006 // 命名スタイル
-
     [Serializable]
     public struct long2 : IEquatable<long2>, IFormattable {
-
-#pragma warning restore IDE1006 // 命名スタイル
-
         // Fields
         // ---------------------------------------
 
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         public long x;
         public long y;
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         // Constants
         // ---------------------------------------
@@ -90,8 +76,6 @@ namespace AgatePris.Intar.Mathematics {
         // Swizzling Properties
         // ---------------------------------------
 
-#pragma warning disable IDE1006 // 命名スタイル
-
         public readonly long2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new long2(x, x); }
         public readonly long2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new long2(x, y); }
         public readonly long2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new long2(y, x); }
@@ -120,8 +104,6 @@ namespace AgatePris.Intar.Mathematics {
         public readonly long4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new long4(y, y, x, y); }
         public readonly long4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new long4(y, y, y, x); }
         public readonly long4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new long4(y, y, y, y); }
-
-#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
@@ -162,23 +144,11 @@ namespace AgatePris.Intar.Mathematics {
         }
     }
 
-#pragma warning disable IDE1006 // 命名スタイル
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-
     public static partial class math {
-
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 long2(long x, long y) => new long2(x, y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 long2(long2 xy) => new long2(xy);
     }
-
-#pragma warning restore IDE1006 // 命名スタイル
-
 }

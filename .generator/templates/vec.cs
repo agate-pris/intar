@@ -41,29 +41,15 @@
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-
-#pragma warning disable IDE1006 // 命名スタイル
-
     [Serializable]
     public struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
-
-#pragma warning restore IDE1006 // 命名スタイル
-
         // Fields
         // ---------------------------------------
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         public {{ type }} x;
         public {{ type }} y;{% if dim > 2 %}
         public {{ type }} z;{% endif %}{% if dim > 3 %}
         public {{ type }} w;{% endif %}
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         // Constants
         // ---------------------------------------
@@ -198,11 +184,7 @@ namespace AgatePris.Intar.Mathematics {
 
         // Swizzling Properties
         // ---------------------------------------
-
-#pragma warning disable IDE1006 // 命名スタイル
 {{ self::swizzling() }}
-
-#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
@@ -247,16 +229,7 @@ namespace AgatePris.Intar.Mathematics {
         }
     }
 
-#pragma warning disable IDE1006 // 命名スタイル
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-
     public static partial class math {
-
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} {{ self::self_type() }}({{ type }} x, {{ type }} y{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) => new {{ self::self_type() }}(x, y{% if dim > 2 %}, z{% if dim > 3 %}, w{% endif %}{% endif %}); {%- if dim > 3 %}
 
@@ -284,9 +257,6 @@ namespace AgatePris.Intar.Mathematics {
         public static {{ self::self_type() }} {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) => new {{ self::self_type() }}(xy{% if dim > 2 %}, z{% endif %}{% if dim > 3 %}, w{% endif %});
         {%- endif %}
     }
-
-#pragma warning restore IDE1006 // 命名スタイル
-
 } {%- if unity %}
 
 #endif{% endif %}

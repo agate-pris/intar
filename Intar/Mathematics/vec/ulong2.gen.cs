@@ -2,27 +2,13 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-
-#pragma warning disable IDE1006 // 命名スタイル
-
     [Serializable]
     public struct ulong2 : IEquatable<ulong2>, IFormattable {
-
-#pragma warning restore IDE1006 // 命名スタイル
-
         // Fields
         // ---------------------------------------
 
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         public ulong x;
         public ulong y;
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         // Constants
         // ---------------------------------------
@@ -90,8 +76,6 @@ namespace AgatePris.Intar.Mathematics {
         // Swizzling Properties
         // ---------------------------------------
 
-#pragma warning disable IDE1006 // 命名スタイル
-
         public readonly ulong2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new ulong2(x, x); }
         public readonly ulong2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new ulong2(x, y); }
         public readonly ulong2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new ulong2(y, x); }
@@ -120,8 +104,6 @@ namespace AgatePris.Intar.Mathematics {
         public readonly ulong4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new ulong4(y, y, x, y); }
         public readonly ulong4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new ulong4(y, y, y, x); }
         public readonly ulong4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new ulong4(y, y, y, y); }
-
-#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
@@ -162,23 +144,11 @@ namespace AgatePris.Intar.Mathematics {
         }
     }
 
-#pragma warning disable IDE1006 // 命名スタイル
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-
     public static partial class math {
-
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 ulong2(ulong x, ulong y) => new ulong2(x, y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 ulong2(ulong2 xy) => new ulong2(xy);
     }
-
-#pragma warning restore IDE1006 // 命名スタイル
-
 }
