@@ -4,28 +4,14 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-
-#pragma warning disable IDE1006 // 命名スタイル
-
     [Serializable]
     public struct uint3 : IEquatable<uint3>, IFormattable {
-
-#pragma warning restore IDE1006 // 命名スタイル
-
         // Fields
         // ---------------------------------------
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         public uint x;
         public uint y;
         public uint z;
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         // Constants
         // ---------------------------------------
@@ -116,8 +102,6 @@ namespace AgatePris.Intar.Mathematics {
 
         // Swizzling Properties
         // ---------------------------------------
-
-#pragma warning disable IDE1006 // 命名スタイル
 
         public readonly uint2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new uint2(x, x); }
         public readonly uint2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new uint2(x, y); }
@@ -237,8 +221,6 @@ namespace AgatePris.Intar.Mathematics {
         public readonly uint4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new uint4(z, z, z, y); }
         public readonly uint4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new uint4(z, z, z, z); }
 
-#pragma warning restore IDE1006 // 命名スタイル
-
         // Comparison Operators
         // ---------------------------------------
 
@@ -280,16 +262,7 @@ namespace AgatePris.Intar.Mathematics {
         }
     }
 
-#pragma warning disable IDE1006 // 命名スタイル
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-
     public static partial class math {
-
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 uint3(uint x, uint y, uint z) => new uint3(x, y, z);
 
@@ -302,9 +275,6 @@ namespace AgatePris.Intar.Mathematics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 uint3(uint2 xy, uint z) => new uint3(xy, z);
     }
-
-#pragma warning restore IDE1006 // 命名スタイル
-
 }
 
 #endif
