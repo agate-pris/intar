@@ -1,17 +1,7 @@
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning disable IDE1006 // 命名スタイル
-
     public static partial class math {
-
-#pragma warning restore IDE1006 // 命名スタイル
-#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         internal static class Atan {
             internal const int One = 1 << 15;
             internal const int OneNeg = -One;
@@ -34,12 +24,6 @@ namespace AgatePris.Intar.Mathematics {
                 return (int)((al + (System.Math.Sign(a) * System.Math.Abs(bl))) / (bl << 1));
             }
         }
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CA1707 // 識別子にアンダースコアを含めるべきではありません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
-#pragma warning disable IDE1006 // 命名スタイル
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int atan_p2_2850_detail(int x) {
@@ -247,12 +231,5 @@ namespace AgatePris.Intar.Mathematics {
                 _ => 0,
             };
         }
-
-#pragma warning restore IDE1006 // 命名スタイル
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning restore CA1707 // 識別子にアンダースコアを含めるべきではありません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
     }
 }
