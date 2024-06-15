@@ -1,6 +1,3 @@
 [*.{cs,vb}]
 # 参照可能なインスタンス フィールドを宣言しません
 dotnet_diagnostic.CA1051.severity = none
-
-# 識別子はアンダースコアを含むことはできません
-dotnet_diagnostic.CA1707.severity = none
