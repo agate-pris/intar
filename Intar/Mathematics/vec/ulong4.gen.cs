@@ -543,4 +543,42 @@ namespace AgatePris.Intar.Mathematics {
             return $"ulong4({x}, {y}, {z}, {w})";
         }
     }
+
+#pragma warning disable IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
+    public static partial class math {
+
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong x, ulong y, ulong z, ulong w) => new ulong4(x, y, z, w);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong x, ulong y, ulong2 zw) => new ulong4(x, y, zw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong x, ulong3 yzw) => new ulong4(x, yzw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong2 xy, ulong2 zw) => new ulong4(xy, zw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong4 xyzw) => new ulong4(xyzw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong x, ulong2 yz, ulong w) => new ulong4(x, yz, w);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong3 xyz, ulong w) => new ulong4(xyz, w);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 ulong4(ulong2 xy, ulong z, ulong w) => new ulong4(xy, z, w);
+    }
+
+#pragma warning restore IDE1006 // 命名スタイル
+
 }

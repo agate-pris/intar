@@ -545,6 +545,44 @@ namespace AgatePris.Intar.Mathematics {
             return $"int4({x}, {y}, {z}, {w})";
         }
     }
+
+#pragma warning disable IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
+    public static partial class math {
+
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int x, int y, int z, int w) => new int4(x, y, z, w);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int x, int y, int2 zw) => new int4(x, y, zw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int x, int3 yzw) => new int4(x, yzw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int2 xy, int2 zw) => new int4(xy, zw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int4 xyzw) => new int4(xyzw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int x, int2 yz, int w) => new int4(x, yz, w);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int3 xyz, int w) => new int4(xyz, w);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 int4(int2 xy, int z, int w) => new int4(xy, z, w);
+    }
+
+#pragma warning restore IDE1006 // 命名スタイル
+
 }
 
 #endif
