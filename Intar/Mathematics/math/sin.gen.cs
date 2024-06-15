@@ -2,6 +2,11 @@ using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
+#if UNITY_2018_3_OR_NEWER
+using Unity.Mathematics;
+using static Unity.Mathematics.math;
+#endif
+
 namespace AgatePris.Intar.Mathematics {
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
@@ -441,6 +446,186 @@ namespace AgatePris.Intar.Mathematics {
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 cos_p5_51437(I17F15 x) => I2F30.FromBits(cos_p5_51437(x.Bits));
+
+        public static int2 sin_p2(int2 x) => int2(
+            sin_p2(x.x),
+            sin_p2(x.y));
+
+        public static int3 sin_p2(int3 x) => int3(
+            sin_p2(x.x),
+            sin_p2(x.y),
+            sin_p2(x.z));
+
+        public static int4 sin_p2(int4 x) => int4(
+            sin_p2(x.x),
+            sin_p2(x.y),
+            sin_p2(x.z),
+            sin_p2(x.w));
+
+        public static int2 sin_p3_16384(int2 x) => int2(
+            sin_p3_16384(x.x),
+            sin_p3_16384(x.y));
+
+        public static int3 sin_p3_16384(int3 x) => int3(
+            sin_p3_16384(x.x),
+            sin_p3_16384(x.y),
+            sin_p3_16384(x.z));
+
+        public static int4 sin_p3_16384(int4 x) => int4(
+            sin_p3_16384(x.x),
+            sin_p3_16384(x.y),
+            sin_p3_16384(x.z),
+            sin_p3_16384(x.w));
+
+        public static int2 sin_p4_7032(int2 x) => int2(
+            sin_p4_7032(x.x),
+            sin_p4_7032(x.y));
+
+        public static int3 sin_p4_7032(int3 x) => int3(
+            sin_p4_7032(x.x),
+            sin_p4_7032(x.y),
+            sin_p4_7032(x.z));
+
+        public static int4 sin_p4_7032(int4 x) => int4(
+            sin_p4_7032(x.x),
+            sin_p4_7032(x.y),
+            sin_p4_7032(x.z),
+            sin_p4_7032(x.w));
+
+        public static int2 sin_p4_7384(int2 x) => int2(
+            sin_p4_7384(x.x),
+            sin_p4_7384(x.y));
+
+        public static int3 sin_p4_7384(int3 x) => int3(
+            sin_p4_7384(x.x),
+            sin_p4_7384(x.y),
+            sin_p4_7384(x.z));
+
+        public static int4 sin_p4_7384(int4 x) => int4(
+            sin_p4_7384(x.x),
+            sin_p4_7384(x.y),
+            sin_p4_7384(x.z),
+            sin_p4_7384(x.w));
+
+        public static int2 sin_p5_51472(int2 x) => int2(
+            sin_p5_51472(x.x),
+            sin_p5_51472(x.y));
+
+        public static int3 sin_p5_51472(int3 x) => int3(
+            sin_p5_51472(x.x),
+            sin_p5_51472(x.y),
+            sin_p5_51472(x.z));
+
+        public static int4 sin_p5_51472(int4 x) => int4(
+            sin_p5_51472(x.x),
+            sin_p5_51472(x.y),
+            sin_p5_51472(x.z),
+            sin_p5_51472(x.w));
+
+        public static int2 sin_p5_51437(int2 x) => int2(
+            sin_p5_51437(x.x),
+            sin_p5_51437(x.y));
+
+        public static int3 sin_p5_51437(int3 x) => int3(
+            sin_p5_51437(x.x),
+            sin_p5_51437(x.y),
+            sin_p5_51437(x.z));
+
+        public static int4 sin_p5_51437(int4 x) => int4(
+            sin_p5_51437(x.x),
+            sin_p5_51437(x.y),
+            sin_p5_51437(x.z),
+            sin_p5_51437(x.w));
+
+        public static int2 cos_p2(int2 x) => int2(
+            cos_p2(x.x),
+            cos_p2(x.y));
+
+        public static int3 cos_p2(int3 x) => int3(
+            cos_p2(x.x),
+            cos_p2(x.y),
+            cos_p2(x.z));
+
+        public static int4 cos_p2(int4 x) => int4(
+            cos_p2(x.x),
+            cos_p2(x.y),
+            cos_p2(x.z),
+            cos_p2(x.w));
+
+        public static int2 cos_p3_16384(int2 x) => int2(
+            cos_p3_16384(x.x),
+            cos_p3_16384(x.y));
+
+        public static int3 cos_p3_16384(int3 x) => int3(
+            cos_p3_16384(x.x),
+            cos_p3_16384(x.y),
+            cos_p3_16384(x.z));
+
+        public static int4 cos_p3_16384(int4 x) => int4(
+            cos_p3_16384(x.x),
+            cos_p3_16384(x.y),
+            cos_p3_16384(x.z),
+            cos_p3_16384(x.w));
+
+        public static int2 cos_p4_7032(int2 x) => int2(
+            cos_p4_7032(x.x),
+            cos_p4_7032(x.y));
+
+        public static int3 cos_p4_7032(int3 x) => int3(
+            cos_p4_7032(x.x),
+            cos_p4_7032(x.y),
+            cos_p4_7032(x.z));
+
+        public static int4 cos_p4_7032(int4 x) => int4(
+            cos_p4_7032(x.x),
+            cos_p4_7032(x.y),
+            cos_p4_7032(x.z),
+            cos_p4_7032(x.w));
+
+        public static int2 cos_p4_7384(int2 x) => int2(
+            cos_p4_7384(x.x),
+            cos_p4_7384(x.y));
+
+        public static int3 cos_p4_7384(int3 x) => int3(
+            cos_p4_7384(x.x),
+            cos_p4_7384(x.y),
+            cos_p4_7384(x.z));
+
+        public static int4 cos_p4_7384(int4 x) => int4(
+            cos_p4_7384(x.x),
+            cos_p4_7384(x.y),
+            cos_p4_7384(x.z),
+            cos_p4_7384(x.w));
+
+        public static int2 cos_p5_51472(int2 x) => int2(
+            cos_p5_51472(x.x),
+            cos_p5_51472(x.y));
+
+        public static int3 cos_p5_51472(int3 x) => int3(
+            cos_p5_51472(x.x),
+            cos_p5_51472(x.y),
+            cos_p5_51472(x.z));
+
+        public static int4 cos_p5_51472(int4 x) => int4(
+            cos_p5_51472(x.x),
+            cos_p5_51472(x.y),
+            cos_p5_51472(x.z),
+            cos_p5_51472(x.w));
+
+        public static int2 cos_p5_51437(int2 x) => int2(
+            cos_p5_51437(x.x),
+            cos_p5_51437(x.y));
+
+        public static int3 cos_p5_51437(int3 x) => int3(
+            cos_p5_51437(x.x),
+            cos_p5_51437(x.y),
+            cos_p5_51437(x.z));
+
+        public static int4 cos_p5_51437(int4 x) => int4(
+            cos_p5_51437(x.x),
+            cos_p5_51437(x.y),
+            cos_p5_51437(x.z),
+            cos_p5_51437(x.w));
 
 #pragma warning restore IDE1006 // 命名スタイル
 

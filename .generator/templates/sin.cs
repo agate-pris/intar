@@ -43,6 +43,15 @@
         public static I2F30 {{ name }}(I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
 {%- endmacro -%}
 
+{%- macro sin_vec(n, t, d) %}
+
+        public static {{ t }} {{ n }}({{ t }} x) => {{ t }}(
+            {{ n }}(x.x),
+            {{ n }}(x.y){% if d > 2 %},
+            {{ n }}(x.z){% if d > 3 %},
+            {{ n }}(x.w){% endif %}{% endif %});
+{%- endmacro -%}
+
 {%- macro cos_p4_detail(k) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -71,6 +80,11 @@
 using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
+
+#if UNITY_2018_3_OR_NEWER
+using Unity.Mathematics;
+using static Unity.Mathematics.math;
+#endif
 
 namespace AgatePris.Intar.Mathematics {
 
@@ -330,6 +344,15 @@ namespace AgatePris.Intar.Mathematics {
         {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
         {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
         {{- self::sin_fixed(name="cos_p5_51437", sin=false, dim=5) }}
+
+        {%- for name in [
+            "sin_p2", "sin_p3_16384", "sin_p4_7032", "sin_p4_7384", "sin_p5_51472", "sin_p5_51437",
+            "cos_p2", "cos_p3_16384", "cos_p4_7032", "cos_p4_7384", "cos_p5_51472", "cos_p5_51437"
+        ] %}
+        {%- for dim in [2, 3, 4] %}
+        {{- self::sin_vec(n=name, t="int" ~ dim, d=dim) }}
+        {%- endfor %}
+        {%- endfor %}
 
 #pragma warning restore IDE1006 // 命名スタイル
 
