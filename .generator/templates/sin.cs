@@ -72,6 +72,11 @@ using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
+#if UNITY_2018_3_OR_NEWER
+using Unity.Mathematics;
+using static Unity.Mathematics.math;
+#endif
+
 namespace AgatePris.Intar.Mathematics {
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
