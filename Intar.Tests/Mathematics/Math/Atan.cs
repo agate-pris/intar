@@ -5,9 +5,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0090 // 'new(...)' を使用する
-
 namespace AgatePris.Intar.Tests.Mathematics {
     public partial class MathTest {
         const int atanOne = 1 << 15;
