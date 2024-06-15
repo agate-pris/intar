@@ -2,10 +2,10 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-    [Serializable]
 
 #pragma warning disable IDE1006 // 命名スタイル
 
+    [Serializable]
     public struct ulong3 : IEquatable<ulong3>, IFormattable {
 
 #pragma warning restore IDE1006 // 命名スタイル

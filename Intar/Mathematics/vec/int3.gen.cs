@@ -4,10 +4,10 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
-    [Serializable]
 
 #pragma warning disable IDE1006 // 命名スタイル
 
+    [Serializable]
     public struct int3 : IEquatable<int3>, IFormattable {
 
 #pragma warning restore IDE1006 // 命名スタイル
