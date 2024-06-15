@@ -163,6 +163,26 @@ namespace AgatePris.Intar.Mathematics {
             return $"int2({x}, {y})";
         }
     }
+
+#pragma warning disable IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
+    public static partial class math {
+
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 int2(int x, int y) => new int2(x, y);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 int2(int2 xy) => new int2(xy);
+    }
+
+#pragma warning restore IDE1006 // 命名スタイル
+
 }
 
 #endif

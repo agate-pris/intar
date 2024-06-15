@@ -246,6 +246,47 @@ namespace AgatePris.Intar.Mathematics {
             return $"{{ self::self_type() }}({x}, {y}{% if dim > 2 %}, {z}{% endif %}{% if dim > 3 %}, {w}{% endif %})";
         }
     }
+
+#pragma warning disable IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
+    public static partial class math {
+
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ type }} x, {{ type }} y{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) => new {{ self::self_type() }}(x, y{% if dim > 2 %}, z{% if dim > 3 %}, w{% endif %}{% endif %}); {%- if dim > 3 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ type }} x, {{ type }} y, {{ self::dim_type(dim = 2) }} zw) => new {{ self::self_type() }}(x, y, zw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 3) }} yzw) => new {{ self::self_type() }}(x, yzw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy, {{ self::dim_type(dim = 2) }} zw) => new {{ self::self_type() }}(xy, zw);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ self::dim_type(dim = 4) }} xyzw) => new {{ self::self_type() }}(xyzw);
+        {%- endif %} {%- if dim > 2 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 2) }} yz{% if dim > 3 %}, {{ type }} w{% endif %}) => new {{ self::self_type() }}(x, yz{% if dim > 3 %}, w{% endif %});
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ self::dim_type(dim = 3) }} xyz{% if dim > 3 %}, {{ type }} w{% endif %}) => new {{ self::self_type() }}(xyz{% if dim > 3 %}, w{% endif %});
+        {%- endif %} {%- if dim > 1 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self::self_type() }} {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) => new {{ self::self_type() }}(xy{% if dim > 2 %}, z{% endif %}{% if dim > 3 %}, w{% endif %});
+        {%- endif %}
+    }
+
+#pragma warning restore IDE1006 // 命名スタイル
+
 } {%- if unity %}
 
 #endif{% endif %}

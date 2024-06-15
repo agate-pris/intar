@@ -279,6 +279,32 @@ namespace AgatePris.Intar.Mathematics {
             return $"uint3({x}, {y}, {z})";
         }
     }
+
+#pragma warning disable IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
+    public static partial class math {
+
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 uint3(uint x, uint y, uint z) => new uint3(x, y, z);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 uint3(uint x, uint2 yz) => new uint3(x, yz);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 uint3(uint3 xyz) => new uint3(xyz);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 uint3(uint2 xy, uint z) => new uint3(xy, z);
+    }
+
+#pragma warning restore IDE1006 // 命名スタイル
+
 }
 
 #endif

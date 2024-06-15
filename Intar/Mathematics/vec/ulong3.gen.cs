@@ -277,4 +277,30 @@ namespace AgatePris.Intar.Mathematics {
             return $"ulong3({x}, {y}, {z})";
         }
     }
+
+#pragma warning disable IDE1006 // 命名スタイル
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+
+    public static partial class math {
+
+#pragma warning restore CS8981 // 型名には、小文字の ASCII 文字のみが含まれています。このような名前は、プログラミング言語用に予約されている可能性があります。
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 ulong3(ulong x, ulong y, ulong z) => new ulong3(x, y, z);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 ulong3(ulong x, ulong2 yz) => new ulong3(x, yz);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 ulong3(ulong3 xyz) => new ulong3(xyz);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 ulong3(ulong2 xy, ulong z) => new ulong3(xy, z);
+    }
+
+#pragma warning restore IDE1006 // 命名スタイル
+
 }
