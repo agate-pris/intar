@@ -405,6 +405,13 @@
         },
         {
             "dir_path": "Intar/Mathi",
+            "template_name": "Clamp.cs",
+            "files": [
+                { "file_name": "Clamp.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "Intar/Mathi",
             "template_name": "Sin.cs",
             "files": [
                 { "file_name": "Sin.gen.cs", "params": {} }
