@@ -67,20 +67,20 @@
 
 {%- macro cos_p4_detail(k) %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int cos_p4_{{ k }}_detail(int z) {
-            const int b = {{ k }};
-            const int a = b + Sin.Right;
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (a - ((z_2 * b) >> Sin.RightExp)) * z_2;
-        }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP4A{{ k }}(int z) {
+                const int a = {{ k }};
+                const int b = a + Right;
+                var z_2 = (z * z) >> RightExp;
+                return (b - ((z_2 * a) >> RightExp)) * z_2;
+            }
 {%- endmacro -%}
 
 {%- macro sin_p5(k) %}
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p5_{{ k }}(int x) {
+        public static int SinP5A{{ k }}(int x) {
             const int k = {{ k }};
             const int a = (k * 2) - (Sin.Right * 5 / 2);
             const int b = k - (Sin.Right * 3 / 2);
@@ -90,17 +90,11 @@
         }
 {%- endmacro -%}
 
-using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
-#if UNITY_2018_3_OR_NEWER
-using Unity.Mathematics;
-using static Unity.Mathematics.math;
-#endif
-
-namespace AgatePris.Intar.Mathematics {
-    public static partial class math {
+namespace AgatePris.Intar {
+    public static partial class Mathi {
         internal sealed class Sin {
             internal const int RightExp = (8 * sizeof(int) / 2) - 1;
             internal const int Right = 1 << RightExp;
@@ -129,11 +123,14 @@ namespace AgatePris.Intar.Mathematics {
                 };
                 return z;
             }
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int cos_p2_detail(int z) {
-            return z * z;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP2(int z) {
+                return z * z;
+            }
+
+            {{- self::cos_p4_detail(k=7032) }}
+            {{- self::cos_p4_detail(k=7384) }}
         }
 
         /// <summary>
@@ -149,7 +146,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p2", detail="cos_p2_detail") }}
+        {{- self::cos_even(name="CosP2", detail="Sin.CosP2") }}
 
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
@@ -164,7 +161,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_even(sin="sin_p2", cos="cos_p2") }}
+        {{- self::sin_even(sin="SinP2", cos="CosP2") }}
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -182,7 +179,7 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p3_16384(int x) {
+        public static int SinP3A16384(int x) {
             const int b = Sin.Right / 2;
             const int a = Sin.Right + b;
             var z = Sin.MakeArgOdd(x);
@@ -203,9 +200,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_odd(cos="cos_p3_16384", sin="sin_p3_16384") }}
-
-        {{- self::cos_p4_detail(k=7032) }}
+        {{- self::cos_odd(cos="CosP3A16384", sin="SinP3A16384") }}
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -220,7 +215,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p4_7032", detail="cos_p4_7032_detail") }}
+        {{- self::cos_even(name="CosP4A7032", detail="Sin.CosP4A7032") }}
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -235,9 +230,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_even(sin="sin_p4_7032", cos="cos_p4_7032") }}
-
-        {{- self::cos_p4_detail(k=7384) }}
+        {{- self::sin_even(sin="SinP4A7032", cos="CosP4A7032") }}
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -252,7 +245,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p4_7384", detail="cos_p4_7384_detail") }}
+        {{- self::cos_even(name="CosP4A7384", detail="Sin.CosP4A7384") }}
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -267,7 +260,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_even(sin="sin_p4_7384", cos="cos_p4_7384") }}
+        {{- self::sin_even(sin="SinP4A7384", cos="CosP4A7384") }}
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -297,7 +290,7 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_odd(cos="cos_p5_51472", sin="sin_p5_51472") }}
+        {{- self::cos_odd(cos="CosP5A51472", sin="SinP5A51472") }}
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -327,32 +320,6 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_odd(cos="cos_p5_51437", sin="sin_p5_51437") }}
-
-        {%- for suffix in ["p2", "p3_16384", "p4_7032", "p4_7384", "p5_51472", "p5_51437"] %}
-            {{- self::sincos_int(s=suffix) }}
-        {%- endfor %}
-
-        {{- self::sin_fixed(name="sin_p2", sin=true, dim=2) }}
-        {{- self::sin_fixed(name="sin_p3_16384", sin=true, dim=3) }}
-        {{- self::sin_fixed(name="sin_p4_7032", sin=true, dim=4) }}
-        {{- self::sin_fixed(name="sin_p4_7384", sin=true, dim=4) }}
-        {{- self::sin_fixed(name="cos_p5_51472", sin=false, dim=5) }}
-        {{- self::sin_fixed(name="sin_p5_51437", sin=true, dim=5) }}
-        {{- self::sin_fixed(name="cos_p2", sin=false, dim=2) }}
-        {{- self::sin_fixed(name="cos_p3_16384", sin=false, dim=3) }}
-        {{- self::sin_fixed(name="cos_p4_7032", sin=false, dim=4) }}
-        {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
-        {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
-        {{- self::sin_fixed(name="cos_p5_51437", sin=false, dim=5) }}
-
-        {%- for name in [
-            "sin_p2", "sin_p3_16384", "sin_p4_7032", "sin_p4_7384", "sin_p5_51472", "sin_p5_51437",
-            "cos_p2", "cos_p3_16384", "cos_p4_7032", "cos_p4_7384", "cos_p5_51472", "cos_p5_51437"
-        ] %}
-        {%- for dim in [2, 3, 4] %}
-        {{- self::sin_vec(n=name, t="int" ~ dim, d=dim) }}
-        {%- endfor %}
-        {%- endfor %}
+        {{- self::cos_odd(cos="CosP5A51437", sin="SinP5A51437") }}
     }
 }
