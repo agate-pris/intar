@@ -1,20 +1,19 @@
-using AgatePris.Intar.Mathematics;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests.Integer {
-    public partial class MathTest {
+namespace AgatePris.Intar.Tests.Mathi {
+    public partial class SqrtTest {
         [Test]
-        public static void IsqrtTestUint() {
+        public static void TestSqrtUint() {
             const uint max = 0xffff;
-            Assert.AreEqual(max, math.isqrt(uint.MaxValue));
+            Assert.AreEqual(max, Intar.Mathi.Sqrt(uint.MaxValue));
 
             var processorCount = System.Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
                 var begin = uint.MaxValue * (ulong)n / (ulong)processorCount;
                 var end = uint.MaxValue * (ulong)(n + 1) / (ulong)processorCount;
                 for (var x = (uint)begin; x < (uint)end; ++x) {
-                    var actual = math.isqrt(x);
+                    var actual = Intar.Mathi.Sqrt(x);
                     if (x < actual * actual) {
                         Assert.Fail();
                     }
@@ -31,8 +30,8 @@ namespace AgatePris.Intar.Tests.Integer {
         [Test]
         public static void IsqrtTestUlong() {
             const ulong max = 0xffff_ffff;
-            Assert.AreEqual(0, math.isqrt(0UL));
-            Assert.AreEqual(max, math.isqrt(ulong.MaxValue));
+            Assert.AreEqual(0, Intar.Mathi.Sqrt(0UL));
+            Assert.AreEqual(max, Intar.Mathi.Sqrt(ulong.MaxValue));
 
             var processorCount = System.Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
@@ -40,13 +39,13 @@ namespace AgatePris.Intar.Tests.Integer {
                 var end = 1 + (max * (ulong)(n + 1) / (ulong)processorCount);
                 for (var y = begin; y < end; ++y) {
                     {
-                        var actual = math.isqrt(y * y);
+                        var actual = Intar.Mathi.Sqrt(y * y);
                         if (actual != y) {
                             Assert.Fail($"y: {y}, actual: {actual}");
                         }
                     }
                     {
-                        var actual = math.isqrt((y * y) - 1);
+                        var actual = Intar.Mathi.Sqrt((y * y) - 1);
                         if (actual != y - 1) {
                             Assert.Fail($"y: {y}, actual: {actual}");
                         }

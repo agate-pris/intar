@@ -1,10 +1,10 @@
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Mathematics {
-    public static partial class math {
+namespace AgatePris.Intar {
+    public static partial class Mathi {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint isqrt(uint x) {
+        public static uint Sqrt(uint x) {
             if (x <= 1) {
                 return x;
             }
@@ -21,7 +21,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong isqrt(ulong x) {
+        public static ulong Sqrt(ulong x) {
             if (x <= 1) {
                 return x;
             }
