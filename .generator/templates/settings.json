@@ -2,13 +2,6 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "Intar",
-            "template_name": "Math.cs",
-            "files": [
-                { "file_name": "Math.gen.cs", "params": {} }
-            ]
-        },
-        {
             "dir_path": "Intar/Fixed/num",
             "template_name": "fixed.cs",
             "files": [
