@@ -213,13 +213,6 @@
             ]
         },
         {
-            "dir_path": "Intar/Mathematics/math",
-            "template_name": "clamp.cs",
-            "files": [
-                { "file_name": "clamp.gen.cs", "params": {} }
-            ]
-        },
-        {
             "dir_path": "Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
