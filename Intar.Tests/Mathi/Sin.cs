@@ -1,9 +1,10 @@
+using AgatePris.Intar.Mathematics;
 using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
 
-namespace AgatePris.Intar.Tests.Mathematics {
-    public partial class MathTest {
+namespace AgatePris.Intar.Tests.Mathi {
+    public class SinTest {
         public readonly struct SinCase {
             public Func<int, int> Sin { get; }
             public Func<int, int> Cos { get; }
@@ -36,7 +37,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
         };
 
         [Test]
-        public void SinTest(
+        public void TestSin(
             [ValueSource(nameof(SinCases))] SinCase sinCase,
             [Random(1)] ulong s0,
             [Random(1)] ulong s1
