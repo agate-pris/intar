@@ -2,13 +2,6 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "Intar",
-            "template_name": "Math.cs",
-            "files": [
-                { "file_name": "Math.gen.cs", "params": {} }
-            ]
-        },
-        {
             "dir_path": "Intar/Fixed/num",
             "template_name": "fixed.cs",
             "files": [
@@ -41,13 +34,6 @@
             ]
         },
         {
-            "dir_path": "Intar/Mathematics/math",
-            "template_name": "clamp.cs",
-            "files": [
-                { "file_name": "clamp.gen.cs", "params": {} }
-            ]
-        },
-        {
             "dir_path": "Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
@@ -73,6 +59,13 @@
                 {%- for i in range(end = 3) %}
                 { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "ulong", "dim": {{ i + 2 }} } }{% if not loop.last %},{% endif %}
                 {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "Intar/Mathi",
+            "template_name": "Clamp.cs",
+            "files": [
+                { "file_name": "Clamp.gen.cs", "params": {} }
             ]
         },
         {

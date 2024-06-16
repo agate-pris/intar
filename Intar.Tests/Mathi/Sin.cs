@@ -166,13 +166,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             var rng = new Intar.Rand.Xoroshiro128StarStar(s0, s1);
             for (var i = 0; i < 999; ++i) {
                 var x = unchecked(
-#if UNITY_2018_3_OR_NEWER
-                    (int)(uint)Unity.Mathematics.math.clamp(
-                        rng.Next(), 0, uint.MaxValue
-                    )
-#else
-                    (int)(uint)math.clamp(rng.Next(), 0, uint.MaxValue)
-#endif
+                    (int)(uint)Intar.Mathi.Clamp(rng.Next(), 0, uint.MaxValue)
                 );
                 testSin(x);
                 testCos(x);

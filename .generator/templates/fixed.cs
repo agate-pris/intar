@@ -231,9 +231,9 @@ namespace AgatePris.Intar.Fixed {
         // Methods
         // -------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Min({{ self::self_type() }} other) => FromBits(System.Math.Min(bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Max({{ self::self_type() }} other) => FromBits(System.Math.Max(bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Clamp({{ self::self_type() }} min, {{ self::self_type() }} max) => FromBits(Math.Clamp(bits, min.Bits, max.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Min({{ self::self_type() }} other) => FromBits(Math.Min(bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Max({{ self::self_type() }} other) => FromBits(Math.Max(bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Clamp({{ self::self_type() }} min, {{ self::self_type() }} max) => FromBits(Mathi.Clamp(bits, min.Bits, max.Bits));
 {%- if signed %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Abs() => FromBits(System.Math.Abs(bits));
 {%- endif %}
