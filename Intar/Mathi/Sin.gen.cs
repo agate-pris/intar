@@ -1,4 +1,5 @@
 using AgatePris.Intar.Integer;
+using AgatePris.Intar.Fixed;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
@@ -328,5 +329,101 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP5A51437(int x) => SinP5A51437(x.WrappingAdd(Sin.Right));
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 SinP2(I17F15 x) => I2F30.FromBits(SinP2(x.bits));
+
+        /// <summary>
+        /// 3 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 SinP3A16384(I17F15 x) => I2F30.FromBits(SinP3A16384(x.bits));
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 SinP4A7032(I17F15 x) => I2F30.FromBits(SinP4A7032(x.bits));
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 SinP4A7384(I17F15 x) => I2F30.FromBits(SinP4A7384(x.bits));
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 SinP5A51472(I17F15 x) => I2F30.FromBits(SinP5A51472(x.bits));
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 SinP5A51437(I17F15 x) => I2F30.FromBits(SinP5A51437(x.bits));
+
+        /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 CosP2(I17F15 x) => I2F30.FromBits(CosP2(x.bits));
+
+        /// <summary>
+        /// 3 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 CosP3A16384(I17F15 x) => I2F30.FromBits(CosP3A16384(x.bits));
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 CosP4A7032(I17F15 x) => I2F30.FromBits(CosP4A7032(x.bits));
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 CosP4A7384(I17F15 x) => I2F30.FromBits(CosP4A7384(x.bits));
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 CosP5A51472(I17F15 x) => I2F30.FromBits(CosP5A51472(x.bits));
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 CosP5A51437(I17F15 x) => I2F30.FromBits(CosP5A51437(x.bits));
     }
 }
