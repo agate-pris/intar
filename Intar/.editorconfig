@@ -14,6 +14,8 @@ tab_width = 4
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = error
 
+csharp_style_implicit_object_creation_when_type_is_apparent = false
+
 # CA1716 識別子はキーワードと同一にすることはできません
 # 一時的に警告にレベルを落とす
 dotnet_diagnostic.CA1716.severity = warning
