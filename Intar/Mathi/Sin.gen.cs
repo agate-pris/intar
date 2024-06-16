@@ -1,106 +1,8 @@
-{%- macro sin_even(sin, cos) %}
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ sin }}(int x) => {{ cos }}(x.WrappingSub(Sin.Right));
-{%- endmacro -%}
-
-{%- macro cos_even(name, detail) %}
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ name }}(int x) {
-            var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => {{ detail }}(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - {{ detail }}(Sin.Right - masked),
-                Sin.Quadrant.Third => {{ detail }}(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - {{ detail }}(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
-        }
-{%- endmacro -%}
-
-{%- macro cos_odd(cos, sin) %}
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ cos }}(int x) => {{ sin }}(x.WrappingAdd(Sin.Right));
-{%- endmacro -%}
-
-{%- macro sincos(s, i, o) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sincos_{{ s }}({{ i }} x, out {{ o }} s, out {{ o }} c) {
-            s = sin_{{ s }}(x);
-            c = cos_{{ s }}(x);
-        }
-{%- endmacro -%}
-
-{%- macro sincos_int(s) %}
-    {{- self::sincos(s=s, i="int", o="int") }}
-{%- endmacro -%}
-
-{%- macro sin_fixed(name, sin, dim) %}
-
-        /// <summary>
-        /// {{ dim }} 次の多項式で{% if sin %}正弦比{% else %}余弦比{% endif %}を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>{% if sin %}正弦比{% else %}余弦比{% endif %}</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 {{ name }}(I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
-{%- endmacro -%}
-
-{%- macro sin_vec(n, t, d) %}
-
-        public static {{ t }} {{ n }}({{ t }} x) => {{ t }}(
-            {{ n }}(x.x),
-            {{ n }}(x.y){% if d > 2 %},
-            {{ n }}(x.z){% if d > 3 %},
-            {{ n }}(x.w){% endif %}{% endif %});
-{%- endmacro -%}
-
-{%- macro cos_p4_detail(k) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int cos_p4_{{ k }}_detail(int z) {
-            const int b = {{ k }};
-            const int a = b + Sin.Right;
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (a - ((z_2 * b) >> Sin.RightExp)) * z_2;
-        }
-{%- endmacro -%}
-
-{%- macro sin_p5(k) %}
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p5_{{ k }}(int x) {
-            const int k = {{ k }};
-            const int a = (k * 2) - (Sin.Right * 5 / 2);
-            const int b = k - (Sin.Right * 3 / 2);
-            var z = Sin.MakeArgOdd(x);
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
-        }
-{%- endmacro -%}
-
-using AgatePris.Intar.Fixed;
 using AgatePris.Intar.Integer;
 using System.Runtime.CompilerServices;
 
-#if UNITY_2018_3_OR_NEWER
-using Unity.Mathematics;
-using static Unity.Mathematics.math;
-#endif
-
-namespace AgatePris.Intar.Mathematics {
-    public static partial class math {
+namespace AgatePris.Intar {
+    public static partial class Mathi {
         internal sealed class Sin {
             internal const int RightExp = (8 * sizeof(int) / 2) - 1;
             internal const int Right = 1 << RightExp;
@@ -129,11 +31,27 @@ namespace AgatePris.Intar.Mathematics {
                 };
                 return z;
             }
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int cos_p2_detail(int z) {
-            return z * z;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP2(int z) {
+                return z * z;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP4A7032(int z) {
+                const int a = 7032;
+                const int b = a + Right;
+                var z_2 = (z * z) >> RightExp;
+                return (b - ((z_2 * a) >> RightExp)) * z_2;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP4A7384(int z) {
+                const int a = 7384;
+                const int b = a + Right;
+                var z_2 = (z * z) >> RightExp;
+                return (b - ((z_2 * a) >> RightExp)) * z_2;
+            }
         }
 
         /// <summary>
@@ -149,7 +67,23 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p2", detail="cos_p2_detail") }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP2(int x) {
+            var masked = x & Sin.RightMask;
+            return Sin.ToQuadrant(x) switch {
+                Sin.Quadrant.Second => Sin.CosP2(Sin.Right - masked) - Sin.One,
+                Sin.Quadrant.Fourth => Sin.One - Sin.CosP2(Sin.Right - masked),
+                Sin.Quadrant.Third => Sin.CosP2(masked) - Sin.One,
+                Sin.Quadrant.First => Sin.One - Sin.CosP2(masked),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
+            };
+        }
 
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
@@ -164,7 +98,10 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_even(sin="sin_p2", cos="cos_p2") }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP2(int x) => CosP2(x.WrappingSub(Sin.Right));
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -182,7 +119,7 @@ namespace AgatePris.Intar.Mathematics {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sin_p3_16384(int x) {
+        public static int SinP3A16384(int x) {
             const int b = Sin.Right / 2;
             const int a = Sin.Right + b;
             var z = Sin.MakeArgOdd(x);
@@ -203,9 +140,10 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_odd(cos="cos_p3_16384", sin="sin_p3_16384") }}
-
-        {{- self::cos_p4_detail(k=7032) }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP3A16384(int x) => SinP3A16384(x.WrappingAdd(Sin.Right));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -220,7 +158,23 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p4_7032", detail="cos_p4_7032_detail") }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP4A7032(int x) {
+            var masked = x & Sin.RightMask;
+            return Sin.ToQuadrant(x) switch {
+                Sin.Quadrant.Second => Sin.CosP4A7032(Sin.Right - masked) - Sin.One,
+                Sin.Quadrant.Fourth => Sin.One - Sin.CosP4A7032(Sin.Right - masked),
+                Sin.Quadrant.Third => Sin.CosP4A7032(masked) - Sin.One,
+                Sin.Quadrant.First => Sin.One - Sin.CosP4A7032(masked),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
+            };
+        }
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -235,9 +189,10 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_even(sin="sin_p4_7032", cos="cos_p4_7032") }}
-
-        {{- self::cos_p4_detail(k=7384) }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP4A7032(int x) => CosP4A7032(x.WrappingSub(Sin.Right));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -252,7 +207,23 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_even(name="cos_p4_7384", detail="cos_p4_7384_detail") }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP4A7384(int x) {
+            var masked = x & Sin.RightMask;
+            return Sin.ToQuadrant(x) switch {
+                Sin.Quadrant.Second => Sin.CosP4A7384(Sin.Right - masked) - Sin.One,
+                Sin.Quadrant.Fourth => Sin.One - Sin.CosP4A7384(Sin.Right - masked),
+                Sin.Quadrant.Third => Sin.CosP4A7384(masked) - Sin.One,
+                Sin.Quadrant.First => Sin.One - Sin.CosP4A7384(masked),
+#if NET7_0_OR_GREATER
+                _ => throw new System.Diagnostics.UnreachableException(),
+#else
+                _ => throw new System.NotImplementedException(),
+#endif
+            };
+        }
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -267,7 +238,10 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_even(sin="sin_p4_7384", cos="cos_p4_7384") }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP4A7384(int x) => CosP4A7384(x.WrappingSub(Sin.Right));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -282,7 +256,17 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_p5(k=51472) }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP5A51472(int x) {
+            const int k = 51472;
+            const int a = (k * 2) - (Sin.Right * 5 / 2);
+            const int b = k - (Sin.Right * 3 / 2);
+            var z = Sin.MakeArgOdd(x);
+            var z_2 = (z * z) >> Sin.RightExp;
+            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
+        }
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -297,7 +281,10 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_odd(cos="cos_p5_51472", sin="sin_p5_51472") }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP5A51472(int x) => SinP5A51472(x.WrappingAdd(Sin.Right));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -312,7 +299,17 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::sin_p5(k=51437) }}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP5A51437(int x) {
+            const int k = 51437;
+            const int a = (k * 2) - (Sin.Right * 5 / 2);
+            const int b = k - (Sin.Right * 3 / 2);
+            var z = Sin.MakeArgOdd(x);
+            var z_2 = (z * z) >> Sin.RightExp;
+            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
+        }
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -327,32 +324,9 @@ namespace AgatePris.Intar.Mathematics {
         /// </code>
         /// </example>
         /// </summary>
-        {{- self::cos_odd(cos="cos_p5_51437", sin="sin_p5_51437") }}
-
-        {%- for suffix in ["p2", "p3_16384", "p4_7032", "p4_7384", "p5_51472", "p5_51437"] %}
-            {{- self::sincos_int(s=suffix) }}
-        {%- endfor %}
-
-        {{- self::sin_fixed(name="sin_p2", sin=true, dim=2) }}
-        {{- self::sin_fixed(name="sin_p3_16384", sin=true, dim=3) }}
-        {{- self::sin_fixed(name="sin_p4_7032", sin=true, dim=4) }}
-        {{- self::sin_fixed(name="sin_p4_7384", sin=true, dim=4) }}
-        {{- self::sin_fixed(name="cos_p5_51472", sin=false, dim=5) }}
-        {{- self::sin_fixed(name="sin_p5_51437", sin=true, dim=5) }}
-        {{- self::sin_fixed(name="cos_p2", sin=false, dim=2) }}
-        {{- self::sin_fixed(name="cos_p3_16384", sin=false, dim=3) }}
-        {{- self::sin_fixed(name="cos_p4_7032", sin=false, dim=4) }}
-        {{- self::sin_fixed(name="cos_p4_7384", sin=false, dim=4) }}
-        {{- self::sin_fixed(name="sin_p5_51472", sin=true, dim=5) }}
-        {{- self::sin_fixed(name="cos_p5_51437", sin=false, dim=5) }}
-
-        {%- for name in [
-            "sin_p2", "sin_p3_16384", "sin_p4_7032", "sin_p4_7384", "sin_p5_51472", "sin_p5_51437",
-            "cos_p2", "cos_p3_16384", "cos_p4_7032", "cos_p4_7384", "cos_p5_51472", "cos_p5_51437"
-        ] %}
-        {%- for dim in [2, 3, 4] %}
-        {{- self::sin_vec(n=name, t="int" ~ dim, d=dim) }}
-        {%- endfor %}
-        {%- endfor %}
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP5A51437(int x) => SinP5A51437(x.WrappingAdd(Sin.Right));
     }
 }

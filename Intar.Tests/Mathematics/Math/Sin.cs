@@ -1,5 +1,4 @@
 using AgatePris.Intar.Integer;
-using AgatePris.Intar.Mathematics;
 using NUnit.Framework;
 using System;
 
@@ -28,12 +27,12 @@ namespace AgatePris.Intar.Tests.Mathematics {
         }
 
         public static readonly SinCase[] SinCases = {
-            new SinCase(math.sin_p2, math.cos_p2, "sin_p2.json", 0.056010),
-            new SinCase(math.sin_p3_16384, math.cos_p3_16384, "sin_p3.json", 0.020017),
-            new SinCase(math.sin_p4_7032, math.cos_p4_7032, "sin_p4_7032.json", 0.002819),
-            new SinCase(math.sin_p4_7384, math.cos_p4_7384, "sin_p4_7384.json", 0.001174),
-            new SinCase(math.sin_p5_51472, math.cos_p5_51472, "sin_p5_51472.json", 0.000425),
-            new SinCase(math.sin_p5_51437, math.cos_p5_51437, "sin_p5_51437.json", 0.000226),
+            new SinCase(Intar.Mathi.SinP2, Intar.Mathi.CosP2, "sin_p2.json", 0.056010),
+            new SinCase(Intar.Mathi.SinP3A16384, Intar.Mathi.CosP3A16384, "sin_p3.json", 0.020017),
+            new SinCase(Intar.Mathi.SinP4A7032, Intar.Mathi.CosP4A7032, "sin_p4_7032.json", 0.002819),
+            new SinCase(Intar.Mathi.SinP4A7384, Intar.Mathi.CosP4A7384, "sin_p4_7384.json", 0.001174),
+            new SinCase(Intar.Mathi.SinP5A51472, Intar.Mathi.CosP5A51472, "sin_p5_51472.json", 0.000425),
+            new SinCase(Intar.Mathi.SinP5A51437, Intar.Mathi.CosP5A51437, "sin_p5_51437.json", 0.000226),
         };
 
         [Test]
