@@ -52,7 +52,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
             const int full = 2 * straight;
             const int negFull = -full;
             const int one = 1 << 30;
-            var data = ReadInts(MakeUpPath(sinCase.DataPath));
+            var data = Utility.ReadInts(Utility.MakeUpPath(sinCase.DataPath));
             Assert.AreNotEqual(null, data);
             Assert.AreEqual(right + 1, data.Count);
             Assert.AreEqual(0, data[0]);

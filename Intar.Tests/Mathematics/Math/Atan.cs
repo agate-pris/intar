@@ -321,7 +321,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
         public static void AtanTest(
             [ValueSource(nameof(AtanCases))] AtanCase atanCase
         ) {
-            var data = ReadInts(MakeUpPath(atanCase.DataPath));
+            var data = Utility.ReadInts(Utility.MakeUpPath(atanCase.DataPath));
             Assert.AreEqual(data.Count, atanOne + 1);
             Assert.AreEqual(data[0], 0);
             Assert.AreEqual(data[atanOne], atanRightHalf);

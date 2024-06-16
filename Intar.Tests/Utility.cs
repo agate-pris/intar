@@ -5,9 +5,9 @@ using System.IO;
 using System;
 #endif
 
-namespace AgatePris.Intar.Tests.Mathematics {
-    public partial class MathTest {
-        static string MakeUpPath(string path) {
+namespace AgatePris.Intar.Tests {
+    public partial class Utility {
+        internal static string MakeUpPath(string path) {
 #if UNITY_5_6_OR_NEWER
             return Path.GetFullPath(
                 Path.Combine(
@@ -23,7 +23,7 @@ namespace AgatePris.Intar.Tests.Mathematics {
 #endif
         }
 
-        static List<int> ReadInts(string path) {
+        internal static List<int> ReadInts(string path) {
             var ints = new List<int>();
             foreach (var line in File.ReadLines(path)) {
                 foreach (var s in line.Split(',')) {
