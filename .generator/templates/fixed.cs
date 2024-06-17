@@ -60,15 +60,15 @@
         .FromBits(
         {%- if f == frac_nbits -%}
             {%- if cast %}({{ target_bits_type }}){% endif -%}
-            x.Bits
+            x.bits
             {%- elif f > frac_nbits -%}
             {%- if cast %}({{ target_bits_type }}){% endif -%}
-            x.Bits * (
+            x.bits * (
                 {{- target_bits_type_one }} << {{ f - frac_nbits -}}
             )
             {%- else -%}
             {%- if cast %}({{ target_bits_type }})({% endif -%}
-            x.Bits / (
+            x.bits / (
                 {{- self_bits_type_one }} << {{ frac_nbits - f -}}
             )
             {%- if cast %}){% endif %}
@@ -101,13 +101,7 @@ using UnityEngine;
 
 namespace AgatePris.Intar.Fixed {
     [Serializable]
-    public
-
-#if !UNITY_5_6_OR_NEWER
-    readonly
-#endif
-
-    struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
+    public struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
         // Consts
         // ------
 
@@ -124,21 +118,7 @@ namespace AgatePris.Intar.Fixed {
         // Fields
         // ------
 
-#if UNITY_5_6_OR_NEWER
-        [SerializeField]
-#else
-        readonly
-#endif
-
-        {{ self::self_bits_type() }} bits;
-
-        // Properties
-        // ----------
-
-        public readonly {{ self::self_bits_type() }} Bits {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => bits;
-        }
+        public {{ self::self_bits_type() }} bits;
 
         // Static readonly properties
         // --------------------------
@@ -170,12 +150,12 @@ namespace AgatePris.Intar.Fixed {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator +({{ self::self_type() }} left, {{ self::self_type() }} right) {
-            return FromBits(left.Bits + right.Bits);
+            return FromBits(left.bits + right.bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator -({{ self::self_type() }} left, {{ self::self_type() }} right) {
-            return FromBits(left.Bits - right.Bits);
+            return FromBits(left.bits - right.bits);
         }
 
 {%- if int_nbits + frac_nbits == 64 %}
@@ -189,14 +169,14 @@ namespace AgatePris.Intar.Fixed {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator *({{ self::self_type() }} left, {{ self::self_type() }} right) {
-            {{ self::wide_bits_type() }} l = left.Bits;
-            return FromBits(({{ self::self_bits_type() }})(l * right.Bits / oneRepr));
+            {{ self::wide_bits_type() }} l = left.bits;
+            return FromBits(({{ self::self_bits_type() }})(l * right.bits / oneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator /({{ self::self_type() }} left, {{ self::self_type() }} right) {
-            {{ self::wide_bits_type() }} l = left.Bits;
-            return FromBits(({{ self::self_bits_type() }})(l * oneRepr / right.Bits));
+            {{ self::wide_bits_type() }} l = left.bits;
+            return FromBits(({{ self::self_bits_type() }})(l * oneRepr / right.bits));
         }
 
 {%- if int_nbits + frac_nbits == 64 %}
@@ -206,12 +186,12 @@ namespace AgatePris.Intar.Fixed {
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self::self_type() }} operator +({{ self::self_type() }} x) => FromBits(+x.Bits);
+        public static {{ self::self_type() }} operator +({{ self::self_type() }} x) => FromBits(+x.bits);
 
 {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self::self_type() }} operator -({{ self::self_type() }} x) => FromBits(-x.Bits);
+        public static {{ self::self_type() }} operator -({{ self::self_type() }} x) => FromBits(-x.bits);
 {%- endif %}
 
         // Comparison operators
@@ -223,17 +203,17 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=({{ self::self_type() }} lhs, {{ self::self_type() }} rhs) => !(lhs == rhs);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits < right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits > right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits <= right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.Bits >= right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <({{ self::self_type() }} left, {{ self::self_type() }} right) => left.bits < right.bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >({{ self::self_type() }} left, {{ self::self_type() }} right) => left.bits > right.bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.bits <= right.bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=({{ self::self_type() }} left, {{ self::self_type() }} right) => left.bits >= right.bits;
 
         // Methods
         // -------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Min({{ self::self_type() }} other) => FromBits(Math.Min(bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Max({{ self::self_type() }} other) => FromBits(Math.Max(bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Clamp({{ self::self_type() }} min, {{ self::self_type() }} max) => FromBits(Mathi.Clamp(bits, min.Bits, max.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Min({{ self::self_type() }} other) => FromBits(Math.Min(bits, other.bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Max({{ self::self_type() }} other) => FromBits(Math.Max(bits, other.bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Clamp({{ self::self_type() }} min, {{ self::self_type() }} max) => FromBits(Mathi.Clamp(bits, min.bits, max.bits));
 {%- if signed %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Abs() => FromBits(System.Math.Abs(bits));
 {%- endif %}
@@ -242,7 +222,7 @@ namespace AgatePris.Intar.Fixed {
             {{- self::self_bits_type() }} other) => FromBits(bits * other);
 {%- if int_nbits != 2 %}
 {%- for i in range(start = 1, end = int_nbits - 1) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(bits * other.bits);
 {%- endfor %}
 {%- endif %}
 
@@ -253,7 +233,7 @@ namespace AgatePris.Intar.Fixed {
                 {{- self::wide_bits_type() -}}
             )bits * other);
 {%- for i in range(start = 1, end = 31) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})bits * other.bits);
 {%- endfor %}
 
 {%- endif %}
