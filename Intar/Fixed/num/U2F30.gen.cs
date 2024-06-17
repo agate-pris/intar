@@ -19,13 +19,7 @@ namespace AgatePris.Intar.Fixed {
         // Fields
         // ------
 
-#if UNITY_5_6_OR_NEWER
-        [SerializeField]
-#else
-        readonly
-#endif
-
-        uint bits;
+        public uint bits;
 
         // Static readonly properties
         // --------------------------
