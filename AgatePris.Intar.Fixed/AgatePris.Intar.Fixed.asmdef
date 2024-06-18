@@ -1,10 +1,7 @@
 {
-    "name": "AgatePris.Intar",
-    "rootNamespace": "AgatePris.Intar",
-    "references": [
-        "GUID:c33b1c20f2ed52549a3d3d3db249b250",
-        "GUID:d8b63aba1907145bea998dd612889d6b"
-    ],
+    "name": "AgatePris.Intar.Fixed",
+    "rootNamespace": "",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -13,5 +10,5 @@
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false
+    "noEngineReferences": true
 }
