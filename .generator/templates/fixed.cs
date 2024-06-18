@@ -95,10 +95,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-#if UNITY_5_6_OR_NEWER
-using UnityEngine;
-#endif
-
 namespace AgatePris.Intar.Fixed {
     [Serializable]
     public struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
