@@ -221,7 +221,6 @@ namespace AgatePris.Intar.Fixed {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Min({{ self::self_type() }} other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Max({{ self::self_type() }} other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Clamp({{ self::self_type() }} min, {{ self::self_type() }} max) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 {%- if signed %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self::self_type() }} Abs() => FromBits(Math.Abs(Bits));
 {%- endif %}
