@@ -19,7 +19,15 @@ namespace AgatePris.Intar.Fixed {
         // Fields
         // ------
 
+#if NET5_0_OR_GREATER
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
+
         public long bits;
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
 
         // Static readonly properties
         // --------------------------
