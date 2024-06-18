@@ -112,7 +112,7 @@ namespace AgatePris.Intar.Fixed {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I59F5 Min(I59F5 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I59F5 Max(I59F5 other) => FromBits(Math.Max(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I59F5 Clamp(I59F5 min, I59F5 max) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I59F5 Abs() => FromBits(System.Math.Abs(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I59F5 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I59F5 LosslessMul(long other) => FromBits(Bits * other);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I58F6 LosslessMul(I63F1 other) => I58F6.FromBits(Bits * other.Bits);
