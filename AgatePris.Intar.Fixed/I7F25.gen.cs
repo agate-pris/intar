@@ -1,10 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-#if UNITY_5_6_OR_NEWER
-using UnityEngine;
-#endif
-
 namespace AgatePris.Intar.Fixed {
     [Serializable]
     public struct I7F25 : IEquatable<I7F25>, IFormattable {
@@ -104,7 +100,6 @@ namespace AgatePris.Intar.Fixed {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I7F25 Min(I7F25 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I7F25 Max(I7F25 other) => FromBits(Math.Max(Bits, other.Bits));
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I7F25 Clamp(I7F25 min, I7F25 max) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I7F25 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I7F25 LosslessMul(int other) => FromBits(Bits * other);
