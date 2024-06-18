@@ -2,7 +2,7 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "Intar/Fixed/num",
+            "dir_path": "AgatePris.Intar.Fixed",
             "template_name": "fixed.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
