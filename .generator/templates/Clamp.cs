@@ -7,12 +7,12 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
 #if NET6_0_OR_GREATER
-            return System.Math.Clamp(v, min, max);
+            return Math.Clamp(v, min, max);
 #else
             if (min > max) {
                 throw new ArgumentException($"'{min}' cannot be greater than {max}.");
             }
-            return System.Math.Min(System.Math.Max(v, min), max);
+            return Math.Min(Math.Max(v, min), max);
 #endif
         }
 {%- endmacro -%}
