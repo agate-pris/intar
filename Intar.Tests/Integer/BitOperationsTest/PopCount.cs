@@ -33,14 +33,14 @@ namespace AgatePris.Intar.Tests.Integer {
         public static void PopCountTestUint() {
             static void Test(uint x) {
                 var expected = PopCount(x);
-                var actual = x.PopCount();
+                var actual = BitOperations.PopCount(x);
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(0, 0U.PopCount());
-            Assert.AreEqual(32, uint.MaxValue.PopCount());
+            Assert.AreEqual(0, BitOperations.PopCount(0U));
+            Assert.AreEqual(32, BitOperations.PopCount(uint.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
@@ -56,14 +56,14 @@ namespace AgatePris.Intar.Tests.Integer {
         public static void PopCountTestUlong() {
             static void Test(ulong x) {
                 var expected = PopCount(x);
-                var actual = x.PopCount();
+                var actual = BitOperations.PopCount(x);
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(0, 0UL.PopCount());
-            Assert.AreEqual(64, ulong.MaxValue.PopCount());
+            Assert.AreEqual(0, BitOperations.PopCount(0UL));
+            Assert.AreEqual(64, BitOperations.PopCount(ulong.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {

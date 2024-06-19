@@ -1,5 +1,3 @@
-using AgatePris.Intar.Integer;
-
 namespace AgatePris.Intar.Rand {
     public struct Xoroshiro128StarStar {
         ulong s0, s1;
@@ -12,10 +10,10 @@ namespace AgatePris.Intar.Rand {
         public ulong Next() {
             var s0 = this.s0;
             var s1 = this.s1;
-            var result = unchecked((s0 * 5).RotateLeft(7) * 9);
+            var result = unchecked(BitOperations.RotateLeft(s0 * 5, 7) * 9);
             s1 ^= s0;
-            this.s0 = s0.RotateLeft(24) ^ s1 ^ (s1 << 16);
-            this.s1 = s1.RotateLeft(37);
+            this.s0 = BitOperations.RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);
+            this.s1 = BitOperations.RotateLeft(s1, 37);
             return result;
         }
 
