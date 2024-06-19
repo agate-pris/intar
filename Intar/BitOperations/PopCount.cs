@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
-namespace AgatePris.Intar.Integer {
+namespace AgatePris.Intar {
     public static partial class BitOperations {
 #if NET7_0_OR_GREATER
         [MethodImpl(AggressiveInlining)] public static int PopCount(this uint x) => System.Numerics.BitOperations.PopCount(x);
