@@ -9,7 +9,7 @@ namespace AgatePris.Intar.Extensions {
         [MethodImpl(AggressiveInlining)] public static int PopCount(this ulong x) => Intar.BitOperations.PopCount(x);
         [MethodImpl(AggressiveInlining)] public static uint RotateLeft(this uint x, int k) => Intar.BitOperations.RotateLeft(x, k);
         [MethodImpl(AggressiveInlining)] public static ulong RotateLeft(this ulong x, int k) => Intar.BitOperations.RotateLeft(x, k);
-        [MethodImpl(AggressiveInlining)] public static uint RotateRight(uint x, int k) => Intar.BitOperations.RotateRight(x, k);
-        [MethodImpl(AggressiveInlining)] public static ulong RotateRight(ulong x, int k) => Intar.BitOperations.RotateRight(x, k);
+        [MethodImpl(AggressiveInlining)] public static uint RotateRight(this uint x, int k) => Intar.BitOperations.RotateRight(x, k);
+        [MethodImpl(AggressiveInlining)] public static ulong RotateRight(this ulong x, int k) => Intar.BitOperations.RotateRight(x, k);
     }
 }
