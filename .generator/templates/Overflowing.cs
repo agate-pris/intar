@@ -1,51 +1,51 @@
 {% macro wrapping_add(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingAdd(this {{ type }} x, {{ type }} y) => unchecked(x + y);
+        public static {{ type }} WrappingAdd({{ type }} x, {{ type }} y) => unchecked(x + y);
 {%- endmacro -%}
 
 {% macro wrapping_sub(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingSub(this {{ type }} x, {{ type }} y) => unchecked(x - y);
+        public static {{ type }} WrappingSub({{ type }} x, {{ type }} y) => unchecked(x - y);
 {%- endmacro -%}
 
 {% macro wrapping_mul(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingMul(this {{ type }} x, {{ type }} y) => unchecked(x * y);
+        public static {{ type }} WrappingMul({{ type }} x, {{ type }} y) => unchecked(x * y);
 {%- endmacro -%}
 
 {% macro wrapping_add_sub_signed_unsigned(signed, unsigned) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ unsigned }} WrappingAddSigned(this {{ unsigned }} x, {{ signed }} y) => x.WrappingAdd(unchecked(({{ unsigned }})y));
+        public static {{ unsigned }} WrappingAddSigned({{ unsigned }} x, {{ signed }} y) => WrappingAdd(x, unchecked(({{ unsigned }})y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ signed }} WrappingAddUnsigned(this {{ signed }} x, {{ unsigned }} y) => x.WrappingAdd(unchecked(({{ signed }})y));
+        public static {{ signed }} WrappingAddUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingAdd(x, unchecked(({{ signed }})y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ signed }} WrappingSubUnsigned(this {{ signed }} x, {{ unsigned }} y) => x.WrappingSub(unchecked(({{ signed }})y));
+        public static {{ signed }} WrappingSubUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingSub(x, unchecked(({{ signed }})y));
 {%- endmacro -%}
 
 {% macro wrapping_neg(type, zero) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingNeg(this {{ type }} x) => {{ zero }}.WrappingSub(x);
+        public static {{ type }} WrappingNeg({{ type }} x) => WrappingSub({{ zero }}, x);
 {%- endmacro -%}
 
 {% macro wrapping_abs(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingAbs(this {{ type }} x) => (x < 0) ? x.WrappingNeg() : x;
+        public static {{ type }} WrappingAbs({{ type }} x) => (x < 0) ? WrappingNeg(x) : x;
 {%- endmacro -%}
 
 {% macro unsigned_abs(signed, unsigned) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ unsigned }} UnsignedAbs(this {{ signed }} x) => unchecked(({{ unsigned }})x.WrappingAbs());
+        public static {{ unsigned }} UnsignedAbs({{ signed }} x) => unchecked(({{ unsigned }})WrappingAbs(x));
 {%- endmacro -%}
 
 {% macro abs_diff_signed(signed, unsigned) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ unsigned }} AbsDiff(this {{ signed }} x, {{ signed }} y) {
+        public static {{ unsigned }} AbsDiff({{ signed }} x, {{ signed }} y) {
             unchecked {
                 var ux = ({{ unsigned }})x;
                 var uy = ({{ unsigned }})y;
                 return (x < y)
-                    ? uy.WrappingSub(ux)
-                    : ux.WrappingSub(uy);
+                    ? WrappingSub(uy, ux)
+                    : WrappingSub(ux, uy);
             }
         }
 {%- endmacro -%}
@@ -53,7 +53,7 @@
 {% macro overflowing_abs(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(this {{ type }}, out {{ type }} result) {
+        //public static bool OverflowingAbs({{ type }}, out {{ type }} result) {
         //    result = x.WrappingAbs();
         //    return x == {{ type }}.MinValue;
         //}
@@ -62,7 +62,7 @@
 {% macro overflowing_neg_signed(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(this {{ type }} x, out {{ type }} result) {
+        //public static bool OverflowingNeg({{ type }} x, out {{ type }} result) {
         //    if (x == {{ type }}.MinValue) {
         //        result = {{ type }}.MinValue;
         //        return true;
@@ -76,7 +76,7 @@
 {% macro overflowing_neg_unsigned(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(this {{ type }} x, out {{ type }} result) {
+        //public static bool OverflowingNeg({{ type }} x, out {{ type }} result) {
         //    result = (~x).WrappingAdd(1);
         //    return x != 0;
         //}
@@ -85,7 +85,7 @@
 {% macro checked_neg(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ type }}? CheckedNeg(this {{ type }} x) {
+        //public static {{ type }}? CheckedNeg({{ type }} x) {
         //    var b = x.OverflowingNeg(out var result);
         //    return b ? ({{ type }}?)null : result;
         //}
@@ -94,12 +94,12 @@
 {% macro checked_abs(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ type }}? CheckedAbs(this {{ type }} x) => (x < 0) ? x.CheckedNeg() : x;
+        //public static {{ type }}? CheckedAbs({{ type }} x) => (x < 0) ? x.CheckedNeg() : x;
 {%- endmacro -%}
 
 {% macro abs_diff_unsigned(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} AbsDiff(this {{ type }} x, {{ type }} y) {
+        public static {{ type }} AbsDiff({{ type }} x, {{ type }} y) {
             return (x < y)
                 ? y - x
                 : x - y;
