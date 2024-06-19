@@ -1,4 +1,3 @@
-using AgatePris.Intar.Integer;
 using AgatePris.Intar.Fixed;
 using System.Runtime.CompilerServices;
 

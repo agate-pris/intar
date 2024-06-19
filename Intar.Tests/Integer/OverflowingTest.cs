@@ -1,4 +1,3 @@
-using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
 using i32 = System.Int32;

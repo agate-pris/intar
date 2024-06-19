@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Integer {
+namespace AgatePris.Intar {
     public static class Overflowing {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAdd(this int x, int y) => unchecked(x + y);

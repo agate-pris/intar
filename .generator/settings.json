@@ -2,6 +2,13 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
+            "dir_path": "Intar",
+            "template_name": "Overflowing.cs",
+            "files": [
+                { "file_name": "Overflowing.gen.cs", "params": {} }
+            ]
+        },
+        {
             "dir_path": "AgatePris.Intar.Fixed",
             "template_name": "fixed.cs",
             "files": [
@@ -189,13 +196,6 @@
                 { "file_name": "U61F3.gen.cs", "params": { "signed": false, "int_nbits": 61, "frac_nbits": 3 } },
                 { "file_name": "U62F2.gen.cs", "params": { "signed": false, "int_nbits": 62, "frac_nbits": 2 } },
                 { "file_name": "U63F1.gen.cs", "params": { "signed": false, "int_nbits": 63, "frac_nbits": 1 } }
-            ]
-        },
-        {
-            "dir_path": "Intar/Integer",
-            "template_name": "Overflowing.cs",
-            "files": [
-                { "file_name": "Overflowing.gen.cs", "params": {} }
             ]
         },
         {
