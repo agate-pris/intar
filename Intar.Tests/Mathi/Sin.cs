@@ -146,7 +146,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             }
 
             int[] starts = {
-                int.MinValue.WrappingSub(full),
+                Overflowing.WrappingSub(int.MinValue, full),
                 int.MinValue,
                 negFull,
                 0
