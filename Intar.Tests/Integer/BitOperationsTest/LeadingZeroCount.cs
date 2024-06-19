@@ -29,14 +29,14 @@ namespace AgatePris.Intar.Tests.Integer {
         public static void LeadingZeroCountTestUint() {
             static void Test(uint x) {
                 var expected = LeadingZeroCount(x);
-                var actual = x.LeadingZeroCount();
+                var actual = BitOperations.LeadingZeroCount(x);
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(32, 0U.LeadingZeroCount());
-            Assert.AreEqual(0, uint.MaxValue.LeadingZeroCount());
+            Assert.AreEqual(32, BitOperations.LeadingZeroCount(0U));
+            Assert.AreEqual(0, BitOperations.LeadingZeroCount(uint.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
@@ -52,14 +52,14 @@ namespace AgatePris.Intar.Tests.Integer {
         public static void LeadingZeroCountTestUlong() {
             static void Test(ulong x) {
                 var expected = LeadingZeroCount(x);
-                var actual = x.LeadingZeroCount();
+                var actual = BitOperations.LeadingZeroCount(x);
                 if (expected != actual) {
                     Assert.Fail();
                 }
             }
 
-            Assert.AreEqual(64, 0UL.LeadingZeroCount());
-            Assert.AreEqual(0, ulong.MaxValue.LeadingZeroCount());
+            Assert.AreEqual(64, BitOperations.LeadingZeroCount(0UL));
+            Assert.AreEqual(0, BitOperations.LeadingZeroCount(ulong.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
