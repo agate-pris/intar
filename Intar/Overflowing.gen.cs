@@ -3,74 +3,74 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     public static class Overflowing {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAdd(this int x, int y) => unchecked(x + y);
+        public static int WrappingAdd(int x, int y) => unchecked(x + y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingAdd(this uint x, uint y) => unchecked(x + y);
+        public static uint WrappingAdd(uint x, uint y) => unchecked(x + y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAdd(this long x, long y) => unchecked(x + y);
+        public static long WrappingAdd(long x, long y) => unchecked(x + y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingAdd(this ulong x, ulong y) => unchecked(x + y);
+        public static ulong WrappingAdd(ulong x, ulong y) => unchecked(x + y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingSub(this int x, int y) => unchecked(x - y);
+        public static int WrappingSub(int x, int y) => unchecked(x - y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingSub(this uint x, uint y) => unchecked(x - y);
+        public static uint WrappingSub(uint x, uint y) => unchecked(x - y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingSub(this long x, long y) => unchecked(x - y);
+        public static long WrappingSub(long x, long y) => unchecked(x - y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingSub(this ulong x, ulong y) => unchecked(x - y);
+        public static ulong WrappingSub(ulong x, ulong y) => unchecked(x - y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingMul(this int x, int y) => unchecked(x * y);
+        public static int WrappingMul(int x, int y) => unchecked(x * y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingMul(this uint x, uint y) => unchecked(x * y);
+        public static uint WrappingMul(uint x, uint y) => unchecked(x * y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingMul(this long x, long y) => unchecked(x * y);
+        public static long WrappingMul(long x, long y) => unchecked(x * y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingMul(this ulong x, ulong y) => unchecked(x * y);
+        public static ulong WrappingMul(ulong x, ulong y) => unchecked(x * y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingAddSigned(this uint x, int y) => x.WrappingAdd(unchecked((uint)y));
+        public static uint WrappingAddSigned(uint x, int y) => WrappingAdd(x, unchecked((uint)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAddUnsigned(this int x, uint y) => x.WrappingAdd(unchecked((int)y));
+        public static int WrappingAddUnsigned(int x, uint y) => WrappingAdd(x, unchecked((int)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingSubUnsigned(this int x, uint y) => x.WrappingSub(unchecked((int)y));
+        public static int WrappingSubUnsigned(int x, uint y) => WrappingSub(x, unchecked((int)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingAddSigned(this ulong x, long y) => x.WrappingAdd(unchecked((ulong)y));
+        public static ulong WrappingAddSigned(ulong x, long y) => WrappingAdd(x, unchecked((ulong)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAddUnsigned(this long x, ulong y) => x.WrappingAdd(unchecked((long)y));
+        public static long WrappingAddUnsigned(long x, ulong y) => WrappingAdd(x, unchecked((long)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingSubUnsigned(this long x, ulong y) => x.WrappingSub(unchecked((long)y));
+        public static long WrappingSubUnsigned(long x, ulong y) => WrappingSub(x, unchecked((long)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingNeg(this int x) => 0.WrappingSub(x);
+        public static int WrappingNeg(int x) => WrappingSub(0, x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingNeg(this long x) => 0L.WrappingSub(x);
+        public static long WrappingNeg(long x) => WrappingSub(0L, x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingNeg(this uint x) => 0U.WrappingSub(x);
+        public static uint WrappingNeg(uint x) => WrappingSub(0U, x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingNeg(this ulong x) => 0UL.WrappingSub(x);
+        public static ulong WrappingNeg(ulong x) => WrappingSub(0UL, x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAbs(this int x) => (x < 0) ? x.WrappingNeg() : x;
+        public static int WrappingAbs(int x) => (x < 0) ? WrappingNeg(x) : x;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAbs(this long x) => (x < 0) ? x.WrappingNeg() : x;
+        public static long WrappingAbs(long x) => (x < 0) ? WrappingNeg(x) : x;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint UnsignedAbs(this int x) => unchecked((uint)x.WrappingAbs());
+        public static uint UnsignedAbs(int x) => unchecked((uint)WrappingAbs(x));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong UnsignedAbs(this long x) => unchecked((ulong)x.WrappingAbs());
+        public static ulong UnsignedAbs(long x) => unchecked((ulong)WrappingAbs(x));
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(this int, out int result) {
+        //public static bool OverflowingAbs(int, out int result) {
         //    result = x.WrappingAbs();
         //    return x == int.MinValue;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(this long, out long result) {
+        //public static bool OverflowingAbs(long, out long result) {
         //    result = x.WrappingAbs();
         //    return x == long.MinValue;
         //}
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(this int x, out int result) {
+        //public static bool OverflowingNeg(int x, out int result) {
         //    if (x == int.MinValue) {
         //        result = int.MinValue;
         //        return true;
@@ -81,7 +81,7 @@ namespace AgatePris.Intar {
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(this long x, out long result) {
+        //public static bool OverflowingNeg(long x, out long result) {
         //    if (x == long.MinValue) {
         //        result = long.MinValue;
         //        return true;
@@ -93,78 +93,78 @@ namespace AgatePris.Intar {
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(this uint x, out uint result) {
+        //public static bool OverflowingNeg(uint x, out uint result) {
         //    result = (~x).WrappingAdd(1);
         //    return x != 0;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(this ulong x, out ulong result) {
+        //public static bool OverflowingNeg(ulong x, out ulong result) {
         //    result = (~x).WrappingAdd(1);
         //    return x != 0;
         //}
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedNeg(this int x) {
+        //public static int? CheckedNeg(int x) {
         //    var b = x.OverflowingNeg(out var result);
         //    return b ? (int?)null : result;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedNeg(this long x) {
+        //public static long? CheckedNeg(long x) {
         //    var b = x.OverflowingNeg(out var result);
         //    return b ? (long?)null : result;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static uint? CheckedNeg(this uint x) {
+        //public static uint? CheckedNeg(uint x) {
         //    var b = x.OverflowingNeg(out var result);
         //    return b ? (uint?)null : result;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ulong? CheckedNeg(this ulong x) {
+        //public static ulong? CheckedNeg(ulong x) {
         //    var b = x.OverflowingNeg(out var result);
         //    return b ? (ulong?)null : result;
         //}
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedAbs(this int x) => (x < 0) ? x.CheckedNeg() : x;
+        //public static int? CheckedAbs(int x) => (x < 0) ? x.CheckedNeg() : x;
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedAbs(this long x) => (x < 0) ? x.CheckedNeg() : x;
+        //public static long? CheckedAbs(long x) => (x < 0) ? x.CheckedNeg() : x;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint AbsDiff(this int x, int y) {
+        public static uint AbsDiff(int x, int y) {
             unchecked {
                 var ux = (uint)x;
                 var uy = (uint)y;
                 return (x < y)
-                    ? uy.WrappingSub(ux)
-                    : ux.WrappingSub(uy);
+                    ? WrappingSub(uy, ux)
+                    : WrappingSub(ux, uy);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong AbsDiff(this long x, long y) {
+        public static ulong AbsDiff(long x, long y) {
             unchecked {
                 var ux = (ulong)x;
                 var uy = (ulong)y;
                 return (x < y)
-                    ? uy.WrappingSub(ux)
-                    : ux.WrappingSub(uy);
+                    ? WrappingSub(uy, ux)
+                    : WrappingSub(ux, uy);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint AbsDiff(this uint x, uint y) {
+        public static uint AbsDiff(uint x, uint y) {
             return (x < y)
                 ? y - x
                 : x - y;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong AbsDiff(this ulong x, ulong y) {
+        public static ulong AbsDiff(ulong x, ulong y) {
             return (x < y)
                 ? y - x
                 : x - y;
