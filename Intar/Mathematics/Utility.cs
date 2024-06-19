@@ -7,13 +7,13 @@ using Unity.Mathematics;
 
 namespace AgatePris.Intar.Mathematics {
     public static partial class Utility {
-        [MethodImpl(AggressiveInlining)] public static uint2 UnsignedAbs(this int2 v) => new uint2(v.x.UnsignedAbs(), v.y.UnsignedAbs());
-        [MethodImpl(AggressiveInlining)] public static ulong2 UnsignedAbs(this long2 v) => new ulong2(v.x.UnsignedAbs(), v.y.UnsignedAbs());
+        [MethodImpl(AggressiveInlining)] public static uint2 UnsignedAbs(this int2 v) => new uint2(Overflowing.UnsignedAbs(v.x), Overflowing.UnsignedAbs(v.y));
+        [MethodImpl(AggressiveInlining)] public static ulong2 UnsignedAbs(this long2 v) => new ulong2(Overflowing.UnsignedAbs(v.x), Overflowing.UnsignedAbs(v.y));
         [MethodImpl(AggressiveInlining)] public static int2 AsInt(this long2 v) => new int2((int)v.x, (int)v.y);
         [MethodImpl(AggressiveInlining)] public static uint2 AsUint(this ulong2 v) => new uint2((uint)v.x, (uint)v.y);
         [MethodImpl(AggressiveInlining)] public static ulong2 AsUlong(this uint2 v) => new ulong2(v.x, v.y);
-        [MethodImpl(AggressiveInlining)] public static uint2 AbsDiff(this int2 x, int2 y) => new uint2(x.x.AbsDiff(y.x), x.y.AbsDiff(y.y));
-        [MethodImpl(AggressiveInlining)] public static ulong2 AbsDiff(this long2 x, long2 y) => new ulong2(x.x.AbsDiff(y.x), x.y.AbsDiff(y.y));
+        [MethodImpl(AggressiveInlining)] public static uint2 AbsDiff(this int2 x, int2 y) => new uint2(Overflowing.AbsDiff(x.x, y.x), Overflowing.AbsDiff(x.y, y.y));
+        [MethodImpl(AggressiveInlining)] public static ulong2 AbsDiff(this long2 x, long2 y) => new ulong2(Overflowing.AbsDiff(x.x, y.x), Overflowing.AbsDiff(x.y, y.y));
         [MethodImpl(AggressiveInlining)] public static int Dot(this int2 x, int2 y) => (x.x * y.x) + (x.y * y.y);
         [MethodImpl(AggressiveInlining)] public static uint Dot(this uint2 x, uint2 y) => (x.x * y.x) + (x.y * y.y);
         [MethodImpl(AggressiveInlining)] public static long Dot(this long2 x, long2 y) => (x.x * y.x) + (x.y * y.y);
