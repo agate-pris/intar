@@ -108,7 +108,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Integer {
+namespace AgatePris.Intar {
     public static class Overflowing {
         {{ self::wrapping_add(type = "int") }}
         {{ self::wrapping_add(type = "uint") }}
