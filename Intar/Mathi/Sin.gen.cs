@@ -101,7 +101,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP2(int x) => CosP2(x.WrappingSub(Sin.Right));
+        public static int SinP2(int x) => CosP2(Overflowing.WrappingSub(x, Sin.Right));
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -143,7 +143,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP3A16384(int x) => SinP3A16384(x.WrappingAdd(Sin.Right));
+        public static int CosP3A16384(int x) => SinP3A16384(Overflowing.WrappingAdd(x, Sin.Right));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -192,7 +192,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP4A7032(int x) => CosP4A7032(x.WrappingSub(Sin.Right));
+        public static int SinP4A7032(int x) => CosP4A7032(Overflowing.WrappingSub(x, Sin.Right));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -241,7 +241,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP4A7384(int x) => CosP4A7384(x.WrappingSub(Sin.Right));
+        public static int SinP4A7384(int x) => CosP4A7384(Overflowing.WrappingSub(x, Sin.Right));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -284,7 +284,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5A51472(int x) => SinP5A51472(x.WrappingAdd(Sin.Right));
+        public static int CosP5A51472(int x) => SinP5A51472(Overflowing.WrappingAdd(x, Sin.Right));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -327,7 +327,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5A51437(int x) => SinP5A51437(x.WrappingAdd(Sin.Right));
+        public static int CosP5A51437(int x) => SinP5A51437(Overflowing.WrappingAdd(x, Sin.Right));
 
         /// <summary>
         /// 2 次の多項式で正弦比を近似する。
