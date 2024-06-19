@@ -1,5 +1,4 @@
 using AgatePris.Intar.Mathematics;
-using AgatePris.Intar.Integer;
 using NUnit.Framework;
 using System;
 

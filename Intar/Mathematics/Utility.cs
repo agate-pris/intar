@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using AgatePris.Intar.Integer;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 
 #if UNITY_2018_3_OR_NEWER
