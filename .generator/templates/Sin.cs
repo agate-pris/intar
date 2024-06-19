@@ -2,7 +2,7 @@
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ sin }}(int x) => {{ cos }}(x.WrappingSub(Sin.Right));
+        public static int {{ sin }}(int x) => {{ cos }}(Overflowing.WrappingSub(x, Sin.Right));
 {%- endmacro -%}
 
 {%- macro cos_even(name, detail) %}
@@ -29,7 +29,7 @@
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ cos }}(int x) => {{ sin }}(x.WrappingAdd(Sin.Right));
+        public static int {{ cos }}(int x) => {{ sin }}(Overflowing.WrappingAdd(x, Sin.Right));
 {%- endmacro -%}
 
 {%- macro sincos(s, i, o) %}
