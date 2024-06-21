@@ -32,7 +32,7 @@ csharp_style_implicit_object_creation_when_type_is_apparent = false
 csharp_new_line_before_open_brace = none
 
 # Default severity for all analyzer diagnostics
-dotnet_analyzer_diagnostic.severity = error
+dotnet_analyzer_diagnostic.severity = warning
 
 # IDE0022: メソッドにブロック本体を使用する
 dotnet_diagnostic.IDE0022.severity = silent
