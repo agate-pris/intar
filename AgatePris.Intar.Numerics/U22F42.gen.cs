@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Fixed {
+namespace AgatePris.Intar.Numerics {
     [Serializable]
     public struct U22F42 : IEquatable<U22F42>, IFormattable {
         // Consts
