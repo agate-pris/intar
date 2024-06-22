@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar", "AgatePri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Tests", "AgatePris.Intar.Tests\AgatePris.Intar.Tests.csproj", "{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Fixed", "AgatePris.Intar.Fixed\AgatePris.Intar.Fixed.csproj", "{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Numerics", "AgatePris.Intar.Numerics\AgatePris.Intar.Numerics.csproj", "{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
