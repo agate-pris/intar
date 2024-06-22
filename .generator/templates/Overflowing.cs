@@ -13,11 +13,17 @@
         public static {{ type }} WrappingMul({{ type }} x, {{ type }} y) => unchecked(x * y);
 {%- endmacro -%}
 
-{% macro wrapping_add_sub_signed_unsigned(signed, unsigned) -%}
+{% macro wrapping_add_signed(unsigned, signed) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ unsigned }} WrappingAddSigned({{ unsigned }} x, {{ signed }} y) => WrappingAdd(x, unchecked(({{ unsigned }})y));
+{%- endmacro -%}
+
+{% macro wrapping_add_unsigned(signed, unsigned) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ signed }} WrappingAddUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingAdd(x, unchecked(({{ signed }})y));
+{%- endmacro -%}
+
+{% macro wrapping_sub_unsigned(signed, unsigned) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ signed }} WrappingSubUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingSub(x, unchecked(({{ signed }})y));
 {%- endmacro -%}
@@ -114,16 +120,24 @@ namespace AgatePris.Intar {
         {{ self::wrapping_add(type = "uint") }}
         {{ self::wrapping_add(type = "long") }}
         {{ self::wrapping_add(type = "ulong") }}
+        {{- self::wrapping_add_signed(unsigned="uint", signed="int") }}
+        {{- self::wrapping_add_signed(unsigned="ulong", signed="long") }}
+        {{- self::wrapping_add_unsigned(signed="int", unsigned="uint") }}
+        {{- self::wrapping_add_unsigned(signed="long", unsigned="ulong") }}
+        {{ self::overflowing_neg_unsigned(type = "uint") }}
+        {{ self::overflowing_neg_unsigned(type = "ulong") }}
+        {{ self::checked_neg(type = "uint") }}
+        {{ self::checked_neg(type = "ulong") }}
+        {{ self::checked_abs(type = "int") }}
+        {{ self::checked_abs(type = "long") }}
         {{ self::wrapping_sub(type = "int") }}
         {{ self::wrapping_sub(type = "uint") }}
         {{ self::wrapping_sub(type = "long") }}
         {{ self::wrapping_sub(type = "ulong") }}
-        {{ self::wrapping_mul(type = "int") }}
-        {{ self::wrapping_mul(type = "uint") }}
-        {{ self::wrapping_mul(type = "long") }}
-        {{ self::wrapping_mul(type = "ulong") }}
-        {{ self::wrapping_add_sub_signed_unsigned(signed = "int", unsigned = "uint") }}
-        {{ self::wrapping_add_sub_signed_unsigned(signed = "long", unsigned = "ulong") }}
+        {{- self::wrapping_sub_unsigned(signed="int", unsigned="uint") }}
+        {{- self::wrapping_sub_unsigned(signed="long", unsigned="ulong") }}
+        {{ self::abs_diff_signed(signed = "int", unsigned = "uint") }}
+        {{ self::abs_diff_signed(signed = "long", unsigned = "ulong") }}
         {{ self::wrapping_neg(type = "int", zero = "0") }}
         {{ self::wrapping_neg(type = "long", zero = "0L") }}
         {{ self::wrapping_neg(type = "uint", zero = "0U") }}
@@ -132,28 +146,20 @@ namespace AgatePris.Intar {
         {{ self::wrapping_abs(type = "long") }}
         {{ self::unsigned_abs(signed = "int", unsigned = "uint") }}
         {{ self::unsigned_abs(signed = "long", unsigned = "ulong") }}
-
         {{ self::overflowing_abs(type = "int") }}
         {{ self::overflowing_abs(type = "long") }}
 
-        {{ self::overflowing_neg_signed(type = "int") }}
-        {{ self::overflowing_neg_signed(type = "long") }}
-
-        {{ self::overflowing_neg_unsigned(type = "uint") }}
-        {{ self::overflowing_neg_unsigned(type = "ulong") }}
-
-        {{ self::checked_neg(type = "int") }}
-        {{ self::checked_neg(type = "long") }}
-        {{ self::checked_neg(type = "uint") }}
-        {{ self::checked_neg(type = "ulong") }}
-
-        {{ self::checked_abs(type = "int") }}
-        {{ self::checked_abs(type = "long") }}
-
-        {{ self::abs_diff_signed(signed = "int", unsigned = "uint") }}
-        {{ self::abs_diff_signed(signed = "long", unsigned = "ulong") }}
+        {{ self::wrapping_mul(type = "int") }}
+        {{ self::wrapping_mul(type = "uint") }}
+        {{ self::wrapping_mul(type = "long") }}
+        {{ self::wrapping_mul(type = "ulong") }}
 
         {{ self::abs_diff_unsigned(type = "uint") }}
         {{ self::abs_diff_unsigned(type = "ulong") }}
+
+        {{ self::overflowing_neg_signed(type = "int") }}
+        {{ self::overflowing_neg_signed(type = "long") }}
+        {{ self::checked_neg(type = "int") }}
+        {{ self::checked_neg(type = "long") }}
     }
 }
