@@ -144,12 +144,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"I26F6_2({x}, {y})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I26F6_2 I26F6_2(I26F6 x, I26F6 y) => new I26F6_2(x, y);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I26F6_2 I26F6_2(I26F6_2 xy) => new I26F6_2(xy);
-    }
 }

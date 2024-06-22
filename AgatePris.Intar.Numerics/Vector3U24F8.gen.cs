@@ -260,18 +260,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U24F8_3({x}, {y}, {z})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U24F8_3 U24F8_3(U24F8 x, U24F8 y, U24F8 z) => new U24F8_3(x, y, z);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U24F8_3 U24F8_3(U24F8 x, U24F8_2 yz) => new U24F8_3(x, yz);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U24F8_3 U24F8_3(U24F8_3 xyz) => new U24F8_3(xyz);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U24F8_3 U24F8_3(U24F8_2 xy, U24F8 z) => new U24F8_3(xy, z);
-    }
 }

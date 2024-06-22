@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U23F9_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9 x, U23F9 y, U23F9 z, U23F9 w) => new U23F9_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9 x, U23F9 y, U23F9_2 zw) => new U23F9_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9 x, U23F9_3 yzw) => new U23F9_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9_2 xy, U23F9_2 zw) => new U23F9_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9_4 xyzw) => new U23F9_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9 x, U23F9_2 yz, U23F9 w) => new U23F9_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9_3 xyz, U23F9 w) => new U23F9_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U23F9_4 U23F9_4(U23F9_2 xy, U23F9 z, U23F9 w) => new U23F9_4(xy, z, w);
-    }
 }

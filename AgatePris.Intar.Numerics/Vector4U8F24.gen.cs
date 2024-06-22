@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U8F24_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24 x, U8F24 y, U8F24 z, U8F24 w) => new U8F24_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24 x, U8F24 y, U8F24_2 zw) => new U8F24_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24 x, U8F24_3 yzw) => new U8F24_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24_2 xy, U8F24_2 zw) => new U8F24_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24_4 xyzw) => new U8F24_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24 x, U8F24_2 yz, U8F24 w) => new U8F24_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24_3 xyz, U8F24 w) => new U8F24_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U8F24_4 U8F24_4(U8F24_2 xy, U8F24 z, U8F24 w) => new U8F24_4(xy, z, w);
-    }
 }

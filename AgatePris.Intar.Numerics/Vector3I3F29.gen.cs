@@ -260,18 +260,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"I3F29_3({x}, {y}, {z})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I3F29_3 I3F29_3(I3F29 x, I3F29 y, I3F29 z) => new I3F29_3(x, y, z);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I3F29_3 I3F29_3(I3F29 x, I3F29_2 yz) => new I3F29_3(x, yz);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I3F29_3 I3F29_3(I3F29_3 xyz) => new I3F29_3(xyz);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I3F29_3 I3F29_3(I3F29_2 xy, I3F29 z) => new I3F29_3(xy, z);
-    }
 }

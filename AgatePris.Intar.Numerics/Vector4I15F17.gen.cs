@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"I15F17_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17 x, I15F17 y, I15F17 z, I15F17 w) => new I15F17_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17 x, I15F17 y, I15F17_2 zw) => new I15F17_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17 x, I15F17_3 yzw) => new I15F17_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17_2 xy, I15F17_2 zw) => new I15F17_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17_4 xyzw) => new I15F17_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17 x, I15F17_2 yz, I15F17 w) => new I15F17_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17_3 xyz, I15F17 w) => new I15F17_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17_4 I15F17_4(I15F17_2 xy, I15F17 z, I15F17 w) => new I15F17_4(xy, z, w);
-    }
 }

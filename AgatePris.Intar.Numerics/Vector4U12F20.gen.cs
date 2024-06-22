@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U12F20_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20 x, U12F20 y, U12F20 z, U12F20 w) => new U12F20_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20 x, U12F20 y, U12F20_2 zw) => new U12F20_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20 x, U12F20_3 yzw) => new U12F20_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20_2 xy, U12F20_2 zw) => new U12F20_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20_4 xyzw) => new U12F20_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20 x, U12F20_2 yz, U12F20 w) => new U12F20_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20_3 xyz, U12F20 w) => new U12F20_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U12F20_4 U12F20_4(U12F20_2 xy, U12F20 z, U12F20 w) => new U12F20_4(xy, z, w);
-    }
 }

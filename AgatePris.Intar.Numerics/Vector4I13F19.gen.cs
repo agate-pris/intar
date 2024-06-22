@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"I13F19_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19 x, I13F19 y, I13F19 z, I13F19 w) => new I13F19_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19 x, I13F19 y, I13F19_2 zw) => new I13F19_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19 x, I13F19_3 yzw) => new I13F19_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19_2 xy, I13F19_2 zw) => new I13F19_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19_4 xyzw) => new I13F19_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19 x, I13F19_2 yz, I13F19 w) => new I13F19_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19_3 xyz, I13F19 w) => new I13F19_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19_4 I13F19_4(I13F19_2 xy, I13F19 z, I13F19 w) => new I13F19_4(xy, z, w);
-    }
 }

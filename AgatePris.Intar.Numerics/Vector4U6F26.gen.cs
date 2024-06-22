@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U6F26_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26 x, U6F26 y, U6F26 z, U6F26 w) => new U6F26_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26 x, U6F26 y, U6F26_2 zw) => new U6F26_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26 x, U6F26_3 yzw) => new U6F26_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26_2 xy, U6F26_2 zw) => new U6F26_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26_4 xyzw) => new U6F26_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26 x, U6F26_2 yz, U6F26 w) => new U6F26_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26_3 xyz, U6F26 w) => new U6F26_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U6F26_4 U6F26_4(U6F26_2 xy, U6F26 z, U6F26 w) => new U6F26_4(xy, z, w);
-    }
 }

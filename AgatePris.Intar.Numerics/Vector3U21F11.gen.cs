@@ -260,18 +260,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U21F11_3({x}, {y}, {z})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U21F11_3 U21F11_3(U21F11 x, U21F11 y, U21F11 z) => new U21F11_3(x, y, z);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U21F11_3 U21F11_3(U21F11 x, U21F11_2 yz) => new U21F11_3(x, yz);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U21F11_3 U21F11_3(U21F11_3 xyz) => new U21F11_3(xyz);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U21F11_3 U21F11_3(U21F11_2 xy, U21F11 z) => new U21F11_3(xy, z);
-    }
 }

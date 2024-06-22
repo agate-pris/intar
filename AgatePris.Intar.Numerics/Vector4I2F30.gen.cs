@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"I2F30_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30 x, I2F30 y, I2F30 z, I2F30 w) => new I2F30_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30 x, I2F30 y, I2F30_2 zw) => new I2F30_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30 x, I2F30_3 yzw) => new I2F30_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30_2 xy, I2F30_2 zw) => new I2F30_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30_4 xyzw) => new I2F30_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30 x, I2F30_2 yz, I2F30 w) => new I2F30_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30_3 xyz, I2F30 w) => new I2F30_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30_4 I2F30_4(I2F30_2 xy, I2F30 z, I2F30 w) => new I2F30_4(xy, z, w);
-    }
 }

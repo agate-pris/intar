@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"U5F27_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27 x, U5F27 y, U5F27 z, U5F27 w) => new U5F27_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27 x, U5F27 y, U5F27_2 zw) => new U5F27_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27 x, U5F27_3 yzw) => new U5F27_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27_2 xy, U5F27_2 zw) => new U5F27_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27_4 xyzw) => new U5F27_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27 x, U5F27_2 yz, U5F27 w) => new U5F27_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27_3 xyz, U5F27 w) => new U5F27_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_4 U5F27_4(U5F27_2 xy, U5F27 z, U5F27 w) => new U5F27_4(xy, z, w);
-    }
 }

@@ -526,30 +526,4 @@ namespace AgatePris.Intar.Mathematics {
             return $"I21F11_4({x}, {y}, {z}, {w})";
         }
     }
-
-    public static partial class math {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11 x, I21F11 y, I21F11 z, I21F11 w) => new I21F11_4(x, y, z, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11 x, I21F11 y, I21F11_2 zw) => new I21F11_4(x, y, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11 x, I21F11_3 yzw) => new I21F11_4(x, yzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11_2 xy, I21F11_2 zw) => new I21F11_4(xy, zw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11_4 xyzw) => new I21F11_4(xyzw);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11 x, I21F11_2 yz, I21F11 w) => new I21F11_4(x, yz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11_3 xyz, I21F11 w) => new I21F11_4(xyz, w);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11_4 I21F11_4(I21F11_2 xy, I21F11 z, I21F11 w) => new I21F11_4(xy, z, w);
-    }
 }
