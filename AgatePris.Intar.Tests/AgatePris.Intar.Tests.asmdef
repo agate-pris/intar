@@ -2,7 +2,7 @@
     "name": "AgatePris.Intar.Tests",
     "rootNamespace": "AgatePris.Intar.Tests",
     "references": [
-        "GUID:c33b1c20f2ed52549a3d3d3db249b250",
+        "GUID:bf48c5cd67371dc428596a4c9089d170",
         "GUID:fc6b850f7ef686149b93de80ca2b03bc",
         "GUID:d8b63aba1907145bea998dd612889d6b"
     ],
