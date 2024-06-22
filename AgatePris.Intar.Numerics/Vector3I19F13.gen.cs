@@ -8,9 +8,17 @@ namespace AgatePris.Intar.Mathematics {
         // Fields
         // ---------------------------------------
 
-        public I19F13 x;
-        public I19F13 y;
-        public I19F13 z;
+#if NET5_0_OR_GREATER
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
+
+        public I19F13 X;
+        public I19F13 Y;
+        public I19F13 Z;
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
 
         // Constants
         // ---------------------------------------
@@ -22,30 +30,30 @@ namespace AgatePris.Intar.Mathematics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I19F13(I19F13 x, I19F13 y, I19F13 z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I19F13(I19F13 x, Vector2I19F13 yz) {
-            this.x = x;
-            y = yz.x;
-            z = yz.y;
+            X = x;
+            Y = yz.X;
+            Z = yz.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I19F13(Vector3I19F13 xyz) {
-            x = xyz.x;
-            y = xyz.y;
-            z = xyz.z;
+            X = xyz.X;
+            Y = xyz.Y;
+            Z = xyz.Z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I19F13(Vector2I19F13 xy, I19F13 z) {
-            x = xy.x;
-            y = xy.y;
-            this.z = z;
+            X = xy.X;
+            Y = xy.Y;
+            Z = z;
         }
 
         // Arithmetic Operators
@@ -53,174 +61,174 @@ namespace AgatePris.Intar.Mathematics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator +(Vector3I19F13 a, Vector3I19F13 b) => new Vector3I19F13(
-            a.x + b.x,
-            a.y + b.y,
-            a.z + b.z);
+            a.X + b.X,
+            a.Y + b.Y,
+            a.Z + b.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator -(Vector3I19F13 a, Vector3I19F13 b) => new Vector3I19F13(
-            a.x - b.x,
-            a.y - b.y,
-            a.z - b.z);
+            a.X - b.X,
+            a.Y - b.Y,
+            a.Z - b.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator *(Vector3I19F13 a, Vector3I19F13 b) => new Vector3I19F13(
-            a.x * b.x,
-            a.y * b.y,
-            a.z * b.z);
+            a.X * b.X,
+            a.Y * b.Y,
+            a.Z * b.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator *(Vector3I19F13 a, I19F13 b) => new Vector3I19F13(
-            a.x * b,
-            a.y * b,
-            a.z * b);
+            a.X * b,
+            a.Y * b,
+            a.Z * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator *(I19F13 a, Vector3I19F13 b) => new Vector3I19F13(
-            a * b.x,
-            a * b.y,
-            a * b.z);
+            a * b.X,
+            a * b.Y,
+            a * b.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator /(Vector3I19F13 a, Vector3I19F13 b) => new Vector3I19F13(
-            a.x / b.x,
-            a.y / b.y,
-            a.z / b.z);
+            a.X / b.X,
+            a.Y / b.Y,
+            a.Z / b.Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator /(Vector3I19F13 a, I19F13 b) => new Vector3I19F13(
-            a.x / b,
-            a.y / b,
-            a.z / b);
+            a.X / b,
+            a.Y / b,
+            a.Z / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 operator /(I19F13 a, Vector3I19F13 b) => new Vector3I19F13(
-            a / b.x,
-            a / b.y,
-            a / b.z);
+            a / b.X,
+            a / b.Y,
+            a / b.Z);
 
         // Swizzling Properties
         // ---------------------------------------
 
 #pragma warning disable IDE1006 // 命名スタイル
 
-        public readonly Vector2I19F13 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(x, x); }
-        public readonly Vector2I19F13 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(x, y); }
-        public readonly Vector2I19F13 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(x, z); }
-        public readonly Vector2I19F13 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(y, x); }
-        public readonly Vector2I19F13 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(y, y); }
-        public readonly Vector2I19F13 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(y, z); }
-        public readonly Vector2I19F13 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(z, x); }
-        public readonly Vector2I19F13 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(z, y); }
-        public readonly Vector2I19F13 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(z, z); }
-        public readonly Vector3I19F13 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, x, x); }
-        public readonly Vector3I19F13 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, x, y); }
-        public readonly Vector3I19F13 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, x, z); }
-        public readonly Vector3I19F13 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, y, x); }
-        public readonly Vector3I19F13 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, y, y); }
-        public readonly Vector3I19F13 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, y, z); }
-        public readonly Vector3I19F13 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, z, x); }
-        public readonly Vector3I19F13 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, z, y); }
-        public readonly Vector3I19F13 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(x, z, z); }
-        public readonly Vector3I19F13 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, x, x); }
-        public readonly Vector3I19F13 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, x, y); }
-        public readonly Vector3I19F13 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, x, z); }
-        public readonly Vector3I19F13 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, y, x); }
-        public readonly Vector3I19F13 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, y, y); }
-        public readonly Vector3I19F13 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, y, z); }
-        public readonly Vector3I19F13 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, z, x); }
-        public readonly Vector3I19F13 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, z, y); }
-        public readonly Vector3I19F13 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(y, z, z); }
-        public readonly Vector3I19F13 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, x, x); }
-        public readonly Vector3I19F13 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, x, y); }
-        public readonly Vector3I19F13 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, x, z); }
-        public readonly Vector3I19F13 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, y, x); }
-        public readonly Vector3I19F13 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, y, y); }
-        public readonly Vector3I19F13 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, y, z); }
-        public readonly Vector3I19F13 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, z, x); }
-        public readonly Vector3I19F13 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, z, y); }
-        public readonly Vector3I19F13 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(z, z, z); }
-        public readonly Vector4I19F13 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, x, x); }
-        public readonly Vector4I19F13 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, x, y); }
-        public readonly Vector4I19F13 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, x, z); }
-        public readonly Vector4I19F13 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, y, x); }
-        public readonly Vector4I19F13 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, y, y); }
-        public readonly Vector4I19F13 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, y, z); }
-        public readonly Vector4I19F13 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, z, x); }
-        public readonly Vector4I19F13 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, z, y); }
-        public readonly Vector4I19F13 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, x, z, z); }
-        public readonly Vector4I19F13 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, x, x); }
-        public readonly Vector4I19F13 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, x, y); }
-        public readonly Vector4I19F13 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, x, z); }
-        public readonly Vector4I19F13 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, y, x); }
-        public readonly Vector4I19F13 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, y, y); }
-        public readonly Vector4I19F13 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, y, z); }
-        public readonly Vector4I19F13 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, z, x); }
-        public readonly Vector4I19F13 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, z, y); }
-        public readonly Vector4I19F13 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, y, z, z); }
-        public readonly Vector4I19F13 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, x, x); }
-        public readonly Vector4I19F13 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, x, y); }
-        public readonly Vector4I19F13 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, x, z); }
-        public readonly Vector4I19F13 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, y, x); }
-        public readonly Vector4I19F13 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, y, y); }
-        public readonly Vector4I19F13 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, y, z); }
-        public readonly Vector4I19F13 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, z, x); }
-        public readonly Vector4I19F13 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, z, y); }
-        public readonly Vector4I19F13 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(x, z, z, z); }
-        public readonly Vector4I19F13 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, x, x); }
-        public readonly Vector4I19F13 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, x, y); }
-        public readonly Vector4I19F13 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, x, z); }
-        public readonly Vector4I19F13 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, y, x); }
-        public readonly Vector4I19F13 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, y, y); }
-        public readonly Vector4I19F13 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, y, z); }
-        public readonly Vector4I19F13 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, z, x); }
-        public readonly Vector4I19F13 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, z, y); }
-        public readonly Vector4I19F13 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, x, z, z); }
-        public readonly Vector4I19F13 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, x, x); }
-        public readonly Vector4I19F13 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, x, y); }
-        public readonly Vector4I19F13 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, x, z); }
-        public readonly Vector4I19F13 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, y, x); }
-        public readonly Vector4I19F13 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, y, y); }
-        public readonly Vector4I19F13 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, y, z); }
-        public readonly Vector4I19F13 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, z, x); }
-        public readonly Vector4I19F13 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, z, y); }
-        public readonly Vector4I19F13 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, y, z, z); }
-        public readonly Vector4I19F13 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, x, x); }
-        public readonly Vector4I19F13 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, x, y); }
-        public readonly Vector4I19F13 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, x, z); }
-        public readonly Vector4I19F13 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, y, x); }
-        public readonly Vector4I19F13 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, y, y); }
-        public readonly Vector4I19F13 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, y, z); }
-        public readonly Vector4I19F13 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, z, x); }
-        public readonly Vector4I19F13 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, z, y); }
-        public readonly Vector4I19F13 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(y, z, z, z); }
-        public readonly Vector4I19F13 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, x, x); }
-        public readonly Vector4I19F13 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, x, y); }
-        public readonly Vector4I19F13 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, x, z); }
-        public readonly Vector4I19F13 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, y, x); }
-        public readonly Vector4I19F13 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, y, y); }
-        public readonly Vector4I19F13 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, y, z); }
-        public readonly Vector4I19F13 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, z, x); }
-        public readonly Vector4I19F13 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, z, y); }
-        public readonly Vector4I19F13 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, x, z, z); }
-        public readonly Vector4I19F13 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, x, x); }
-        public readonly Vector4I19F13 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, x, y); }
-        public readonly Vector4I19F13 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, x, z); }
-        public readonly Vector4I19F13 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, y, x); }
-        public readonly Vector4I19F13 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, y, y); }
-        public readonly Vector4I19F13 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, y, z); }
-        public readonly Vector4I19F13 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, z, x); }
-        public readonly Vector4I19F13 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, z, y); }
-        public readonly Vector4I19F13 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, y, z, z); }
-        public readonly Vector4I19F13 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, x, x); }
-        public readonly Vector4I19F13 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, x, y); }
-        public readonly Vector4I19F13 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, x, z); }
-        public readonly Vector4I19F13 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, y, x); }
-        public readonly Vector4I19F13 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, y, y); }
-        public readonly Vector4I19F13 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, y, z); }
-        public readonly Vector4I19F13 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, z, x); }
-        public readonly Vector4I19F13 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, z, y); }
-        public readonly Vector4I19F13 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(z, z, z, z); }
+        public readonly Vector2I19F13 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(X, X); }
+        public readonly Vector2I19F13 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(X, Y); }
+        public readonly Vector2I19F13 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(X, Z); }
+        public readonly Vector2I19F13 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(Y, X); }
+        public readonly Vector2I19F13 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(Y, Y); }
+        public readonly Vector2I19F13 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(Y, Z); }
+        public readonly Vector2I19F13 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(Z, X); }
+        public readonly Vector2I19F13 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(Z, Y); }
+        public readonly Vector2I19F13 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I19F13(Z, Z); }
+        public readonly Vector3I19F13 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, X, X); }
+        public readonly Vector3I19F13 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, X, Y); }
+        public readonly Vector3I19F13 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, X, Z); }
+        public readonly Vector3I19F13 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, Y, X); }
+        public readonly Vector3I19F13 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, Y, Y); }
+        public readonly Vector3I19F13 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, Y, Z); }
+        public readonly Vector3I19F13 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, Z, X); }
+        public readonly Vector3I19F13 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, Z, Y); }
+        public readonly Vector3I19F13 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(X, Z, Z); }
+        public readonly Vector3I19F13 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, X, X); }
+        public readonly Vector3I19F13 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, X, Y); }
+        public readonly Vector3I19F13 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, X, Z); }
+        public readonly Vector3I19F13 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, Y, X); }
+        public readonly Vector3I19F13 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, Y, Y); }
+        public readonly Vector3I19F13 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, Y, Z); }
+        public readonly Vector3I19F13 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, Z, X); }
+        public readonly Vector3I19F13 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, Z, Y); }
+        public readonly Vector3I19F13 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Y, Z, Z); }
+        public readonly Vector3I19F13 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, X, X); }
+        public readonly Vector3I19F13 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, X, Y); }
+        public readonly Vector3I19F13 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, X, Z); }
+        public readonly Vector3I19F13 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, Y, X); }
+        public readonly Vector3I19F13 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, Y, Y); }
+        public readonly Vector3I19F13 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, Y, Z); }
+        public readonly Vector3I19F13 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, Z, X); }
+        public readonly Vector3I19F13 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, Z, Y); }
+        public readonly Vector3I19F13 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I19F13(Z, Z, Z); }
+        public readonly Vector4I19F13 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, X, X); }
+        public readonly Vector4I19F13 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, X, Y); }
+        public readonly Vector4I19F13 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, X, Z); }
+        public readonly Vector4I19F13 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, Y, X); }
+        public readonly Vector4I19F13 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, Y, Y); }
+        public readonly Vector4I19F13 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, Y, Z); }
+        public readonly Vector4I19F13 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, Z, X); }
+        public readonly Vector4I19F13 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, Z, Y); }
+        public readonly Vector4I19F13 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, X, Z, Z); }
+        public readonly Vector4I19F13 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, X, X); }
+        public readonly Vector4I19F13 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, X, Y); }
+        public readonly Vector4I19F13 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, X, Z); }
+        public readonly Vector4I19F13 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, Y, X); }
+        public readonly Vector4I19F13 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, Y, Y); }
+        public readonly Vector4I19F13 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, Y, Z); }
+        public readonly Vector4I19F13 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, Z, X); }
+        public readonly Vector4I19F13 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, Z, Y); }
+        public readonly Vector4I19F13 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Y, Z, Z); }
+        public readonly Vector4I19F13 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, X, X); }
+        public readonly Vector4I19F13 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, X, Y); }
+        public readonly Vector4I19F13 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, X, Z); }
+        public readonly Vector4I19F13 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, Y, X); }
+        public readonly Vector4I19F13 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, Y, Y); }
+        public readonly Vector4I19F13 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, Y, Z); }
+        public readonly Vector4I19F13 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, Z, X); }
+        public readonly Vector4I19F13 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, Z, Y); }
+        public readonly Vector4I19F13 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(X, Z, Z, Z); }
+        public readonly Vector4I19F13 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, X, X); }
+        public readonly Vector4I19F13 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, X, Y); }
+        public readonly Vector4I19F13 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, X, Z); }
+        public readonly Vector4I19F13 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, Y, X); }
+        public readonly Vector4I19F13 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, Y, Y); }
+        public readonly Vector4I19F13 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, Y, Z); }
+        public readonly Vector4I19F13 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, Z, X); }
+        public readonly Vector4I19F13 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, Z, Y); }
+        public readonly Vector4I19F13 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, X, Z, Z); }
+        public readonly Vector4I19F13 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, X, X); }
+        public readonly Vector4I19F13 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, X, Y); }
+        public readonly Vector4I19F13 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, X, Z); }
+        public readonly Vector4I19F13 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, Y, X); }
+        public readonly Vector4I19F13 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, Y, Y); }
+        public readonly Vector4I19F13 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, Y, Z); }
+        public readonly Vector4I19F13 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, Z, X); }
+        public readonly Vector4I19F13 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, Z, Y); }
+        public readonly Vector4I19F13 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Y, Z, Z); }
+        public readonly Vector4I19F13 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, X, X); }
+        public readonly Vector4I19F13 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, X, Y); }
+        public readonly Vector4I19F13 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, X, Z); }
+        public readonly Vector4I19F13 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, Y, X); }
+        public readonly Vector4I19F13 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, Y, Y); }
+        public readonly Vector4I19F13 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, Y, Z); }
+        public readonly Vector4I19F13 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, Z, X); }
+        public readonly Vector4I19F13 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, Z, Y); }
+        public readonly Vector4I19F13 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Y, Z, Z, Z); }
+        public readonly Vector4I19F13 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, X, X); }
+        public readonly Vector4I19F13 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, X, Y); }
+        public readonly Vector4I19F13 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, X, Z); }
+        public readonly Vector4I19F13 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, Y, X); }
+        public readonly Vector4I19F13 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, Y, Y); }
+        public readonly Vector4I19F13 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, Y, Z); }
+        public readonly Vector4I19F13 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, Z, X); }
+        public readonly Vector4I19F13 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, Z, Y); }
+        public readonly Vector4I19F13 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, X, Z, Z); }
+        public readonly Vector4I19F13 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, X, X); }
+        public readonly Vector4I19F13 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, X, Y); }
+        public readonly Vector4I19F13 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, X, Z); }
+        public readonly Vector4I19F13 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, Y, X); }
+        public readonly Vector4I19F13 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, Y, Y); }
+        public readonly Vector4I19F13 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, Y, Z); }
+        public readonly Vector4I19F13 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, Z, X); }
+        public readonly Vector4I19F13 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, Z, Y); }
+        public readonly Vector4I19F13 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Y, Z, Z); }
+        public readonly Vector4I19F13 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, X, X); }
+        public readonly Vector4I19F13 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, X, Y); }
+        public readonly Vector4I19F13 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, X, Z); }
+        public readonly Vector4I19F13 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, Y, X); }
+        public readonly Vector4I19F13 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, Y, Y); }
+        public readonly Vector4I19F13 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, Y, Z); }
+        public readonly Vector4I19F13 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, Z, X); }
+        public readonly Vector4I19F13 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, Z, Y); }
+        public readonly Vector4I19F13 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I19F13(Z, Z, Z, Z); }
 
 #pragma warning restore IDE1006 // 命名スタイル
 
@@ -239,28 +247,28 @@ namespace AgatePris.Intar.Mathematics {
         public override readonly bool Equals(object obj) => obj is Vector3I19F13 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => HashCode.Combine(x, y, z);
+        public override readonly int GetHashCode() => HashCode.Combine(X, Y, Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"Vector3I19F13({x}, {y}, {z})";
+        public override readonly string ToString() => $"Vector3I19F13({X}, {Y}, {Z})";
 
         // IEquatable<Vector3I19F13>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(Vector3I19F13 other)
-            => other.x == x
-            && other.y == y
-            && other.z == z;
+            => other.X == X
+            && other.Y == Y
+            && other.Z == Z;
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly string ToString(string format, IFormatProvider formatProvider) {
-            var x = this.x.ToString(format, formatProvider);
-            var y = this.y.ToString(format, formatProvider);
-            var z = this.z.ToString(format, formatProvider);
+            var x = X.ToString(format, formatProvider);
+            var y = Y.ToString(format, formatProvider);
+            var z = Z.ToString(format, formatProvider);
             return $"Vector3I19F13({x}, {y}, {z})";
         }
     }

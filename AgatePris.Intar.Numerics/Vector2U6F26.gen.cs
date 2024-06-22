@@ -8,8 +8,16 @@ namespace AgatePris.Intar.Mathematics {
         // Fields
         // ---------------------------------------
 
-        public U6F26 x;
-        public U6F26 y;
+#if NET5_0_OR_GREATER
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
+
+        public U6F26 X;
+        public U6F26 Y;
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
 
         // Constants
         // ---------------------------------------
@@ -21,14 +29,14 @@ namespace AgatePris.Intar.Mathematics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2U6F26(U6F26 x, U6F26 y) {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2U6F26(Vector2U6F26 xy) {
-            x = xy.x;
-            y = xy.y;
+            X = xy.X;
+            Y = xy.Y;
         }
 
         // Arithmetic Operators
@@ -36,77 +44,77 @@ namespace AgatePris.Intar.Mathematics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator +(Vector2U6F26 a, Vector2U6F26 b) => new Vector2U6F26(
-            a.x + b.x,
-            a.y + b.y);
+            a.X + b.X,
+            a.Y + b.Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator -(Vector2U6F26 a, Vector2U6F26 b) => new Vector2U6F26(
-            a.x - b.x,
-            a.y - b.y);
+            a.X - b.X,
+            a.Y - b.Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator *(Vector2U6F26 a, Vector2U6F26 b) => new Vector2U6F26(
-            a.x * b.x,
-            a.y * b.y);
+            a.X * b.X,
+            a.Y * b.Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator *(Vector2U6F26 a, U6F26 b) => new Vector2U6F26(
-            a.x * b,
-            a.y * b);
+            a.X * b,
+            a.Y * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator *(U6F26 a, Vector2U6F26 b) => new Vector2U6F26(
-            a * b.x,
-            a * b.y);
+            a * b.X,
+            a * b.Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator /(Vector2U6F26 a, Vector2U6F26 b) => new Vector2U6F26(
-            a.x / b.x,
-            a.y / b.y);
+            a.X / b.X,
+            a.Y / b.Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator /(Vector2U6F26 a, U6F26 b) => new Vector2U6F26(
-            a.x / b,
-            a.y / b);
+            a.X / b,
+            a.Y / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 operator /(U6F26 a, Vector2U6F26 b) => new Vector2U6F26(
-            a / b.x,
-            a / b.y);
+            a / b.X,
+            a / b.Y);
 
         // Swizzling Properties
         // ---------------------------------------
 
 #pragma warning disable IDE1006 // 命名スタイル
 
-        public readonly Vector2U6F26 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(x, x); }
-        public readonly Vector2U6F26 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(x, y); }
-        public readonly Vector2U6F26 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(y, x); }
-        public readonly Vector2U6F26 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(y, y); }
-        public readonly Vector3U6F26 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(x, x, x); }
-        public readonly Vector3U6F26 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(x, x, y); }
-        public readonly Vector3U6F26 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(x, y, x); }
-        public readonly Vector3U6F26 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(x, y, y); }
-        public readonly Vector3U6F26 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(y, x, x); }
-        public readonly Vector3U6F26 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(y, x, y); }
-        public readonly Vector3U6F26 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(y, y, x); }
-        public readonly Vector3U6F26 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(y, y, y); }
-        public readonly Vector4U6F26 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, x, x, x); }
-        public readonly Vector4U6F26 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, x, x, y); }
-        public readonly Vector4U6F26 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, x, y, x); }
-        public readonly Vector4U6F26 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, x, y, y); }
-        public readonly Vector4U6F26 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, y, x, x); }
-        public readonly Vector4U6F26 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, y, x, y); }
-        public readonly Vector4U6F26 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, y, y, x); }
-        public readonly Vector4U6F26 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(x, y, y, y); }
-        public readonly Vector4U6F26 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, x, x, x); }
-        public readonly Vector4U6F26 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, x, x, y); }
-        public readonly Vector4U6F26 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, x, y, x); }
-        public readonly Vector4U6F26 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, x, y, y); }
-        public readonly Vector4U6F26 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, y, x, x); }
-        public readonly Vector4U6F26 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, y, x, y); }
-        public readonly Vector4U6F26 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, y, y, x); }
-        public readonly Vector4U6F26 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(y, y, y, y); }
+        public readonly Vector2U6F26 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(X, X); }
+        public readonly Vector2U6F26 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(X, Y); }
+        public readonly Vector2U6F26 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(Y, X); }
+        public readonly Vector2U6F26 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U6F26(Y, Y); }
+        public readonly Vector3U6F26 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(X, X, X); }
+        public readonly Vector3U6F26 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(X, X, Y); }
+        public readonly Vector3U6F26 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(X, Y, X); }
+        public readonly Vector3U6F26 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(X, Y, Y); }
+        public readonly Vector3U6F26 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(Y, X, X); }
+        public readonly Vector3U6F26 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(Y, X, Y); }
+        public readonly Vector3U6F26 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(Y, Y, X); }
+        public readonly Vector3U6F26 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U6F26(Y, Y, Y); }
+        public readonly Vector4U6F26 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, X, X, X); }
+        public readonly Vector4U6F26 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, X, X, Y); }
+        public readonly Vector4U6F26 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, X, Y, X); }
+        public readonly Vector4U6F26 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, X, Y, Y); }
+        public readonly Vector4U6F26 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, Y, X, X); }
+        public readonly Vector4U6F26 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, Y, X, Y); }
+        public readonly Vector4U6F26 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, Y, Y, X); }
+        public readonly Vector4U6F26 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(X, Y, Y, Y); }
+        public readonly Vector4U6F26 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, X, X, X); }
+        public readonly Vector4U6F26 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, X, X, Y); }
+        public readonly Vector4U6F26 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, X, Y, X); }
+        public readonly Vector4U6F26 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, X, Y, Y); }
+        public readonly Vector4U6F26 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, Y, X, X); }
+        public readonly Vector4U6F26 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, Y, X, Y); }
+        public readonly Vector4U6F26 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, Y, Y, X); }
+        public readonly Vector4U6F26 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U6F26(Y, Y, Y, Y); }
 
 #pragma warning restore IDE1006 // 命名スタイル
 
@@ -125,26 +133,26 @@ namespace AgatePris.Intar.Mathematics {
         public override readonly bool Equals(object obj) => obj is Vector2U6F26 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => HashCode.Combine(x, y);
+        public override readonly int GetHashCode() => HashCode.Combine(X, Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"Vector2U6F26({x}, {y})";
+        public override readonly string ToString() => $"Vector2U6F26({X}, {Y})";
 
         // IEquatable<Vector2U6F26>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(Vector2U6F26 other)
-            => other.x == x
-            && other.y == y;
+            => other.X == X
+            && other.Y == Y;
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly string ToString(string format, IFormatProvider formatProvider) {
-            var x = this.x.ToString(format, formatProvider);
-            var y = this.y.ToString(format, formatProvider);
+            var x = X.ToString(format, formatProvider);
+            var y = Y.ToString(format, formatProvider);
             return $"Vector2U6F26({x}, {y})";
         }
     }

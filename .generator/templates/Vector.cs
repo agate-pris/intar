@@ -14,13 +14,13 @@
         {%- endif -%}
         {%- for x in cmp %}
         {%- for y in cmp %}
-        public readonly {{ self::dim_type(dim = 2) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 2) }}({{ x }}, {{ y }}); }
+        public readonly {{ self::dim_type(dim = 2) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 2) }}({% filter upper %}{{ x }}, {{ y }}{% endfilter %}); }
         {%- endfor %}
         {%- endfor %}
         {%- for x in cmp %}
         {%- for y in cmp %}
         {%- for z in cmp %}
-        public readonly {{ self::dim_type(dim = 3) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 3) }}({{ x }}, {{ y }}, {{ z }}); }
+        public readonly {{ self::dim_type(dim = 3) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 3) }}({% filter upper %}{{ x }}, {{ y }}, {{ z }}{% endfilter %}); }
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -28,7 +28,7 @@
         {%- for y in cmp %}
         {%- for z in cmp %}
         {%- for w in cmp %}
-        public readonly {{ self::dim_type(dim = 4) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 4) }}({{ x }}, {{ y }}, {{ z }}, {{ w }}); }
+        public readonly {{ self::dim_type(dim = 4) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 4) }}({% filter upper %}{{ x }}, {{ y }}, {{ z }}, {{ w }}{% endfilter %}); }
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -47,10 +47,18 @@ namespace AgatePris.Intar.Mathematics {
         // Fields
         // ---------------------------------------
 
-        public {{ type }} x;
-        public {{ type }} y;{% if dim > 2 %}
-        public {{ type }} z;{% endif %}{% if dim > 3 %}
-        public {{ type }} w;{% endif %}
+#if NET5_0_OR_GREATER
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
+
+        public {{ type }} X;
+        public {{ type }} Y;{% if dim > 2 %}
+        public {{ type }} Z;{% if dim > 3 %}
+        public {{ type }} W;{% endif %}{% endif %}
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
 
         // Constants
         // ---------------------------------------
@@ -62,66 +70,66 @@ namespace AgatePris.Intar.Mathematics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ type }} x, {{ type }} y{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            this.x = x;
-            this.y = y;{% if dim > 2 %}
-            this.z = z;{% endif %}{% if dim > 3 %}
-            this.w = w;{% endif %}
+            X = x;
+            Y = y;{% if dim > 2 %}
+            Z = z;{% if dim > 3 %}
+            W = w;{% endif %}{% endif %}
         } {%- if dim > 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ type }} x, {{ type }} y, {{ self::dim_type(dim = 2) }} zw) {
-            this.x = x;
-            this.y = y;
-            z = zw.x;
-            w = zw.y;
+            X = x;
+            Y = y;
+            Z = zw.X;
+            W = zw.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 3) }} yzw) {
-            this.x = x;
-            y = yzw.x;
-            z = yzw.y;
-            w = yzw.z;
+            X = x;
+            Y = yzw.X;
+            Z = yzw.Y;
+            W = yzw.Z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy, {{ self::dim_type(dim = 2) }} zw) {
-            x = xy.x;
-            y = xy.y;
-            z = zw.x;
-            w = zw.y;
+            X = xy.X;
+            Y = xy.Y;
+            Z = zw.X;
+            W = zw.Y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ self::dim_type(dim = 4) }} xyzw) {
-            x = xyzw.x;
-            y = xyzw.y;
-            z = xyzw.z;
-            w = xyzw.w;
+            X = xyzw.X;
+            Y = xyzw.Y;
+            Z = xyzw.Z;
+            W = xyzw.W;
         } {%- endif %} {%- if dim > 2 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 2) }} yz{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            this.x = x;
-            y = yz.x;
-            z = yz.y;{% if dim > 3 %}
-            this.w = w;{% endif %}
+            X = x;
+            Y = yz.X;
+            Z = yz.Y;{% if dim > 3 %}
+            W = w;{% endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ self::dim_type(dim = 3) }} xyz{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            x = xyz.x;
-            y = xyz.y;
-            z = xyz.z;{% if dim > 3 %}
-            this.w = w;{% endif %}
+            X = xyz.X;
+            Y = xyz.Y;
+            Z = xyz.Z;{% if dim > 3 %}
+            W = w;{% endif %}
         } {%- endif %} {%- if dim > 1 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            x = xy.x;
-            y = xy.y;{% if dim > 2 %}
-            this.z = z;{% endif %}{% if dim > 3 %}
-            this.w = w;{% endif %}
+            X = xy.X;
+            Y = xy.Y;{% if dim > 2 %}
+            Z = z;{% if dim > 3 %}
+            W = w;{% endif %}{% endif %}
         } {%- endif %}
 
         // Arithmetic Operators
@@ -129,59 +137,59 @@ namespace AgatePris.Intar.Mathematics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator +({{ self::self_type() }} a, {{ self::self_type() }} b) => new {{ self::self_type() }}(
-            a.x + b.x,
-            a.y + b.y{% if dim > 2 %},
-            a.z + b.z{% endif %}{% if dim > 3 %},
-            a.w + b.w{% endif %});
+            a.X + b.X,
+            a.Y + b.Y{% if dim > 2 %},
+            a.Z + b.Z{% if dim > 3 %},
+            a.W + b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator -({{ self::self_type() }} a, {{ self::self_type() }} b) => new {{ self::self_type() }}(
-            a.x - b.x,
-            a.y - b.y{% if dim > 2 %},
-            a.z - b.z{% endif %}{% if dim > 3 %},
-            a.w - b.w{% endif %});
+            a.X - b.X,
+            a.Y - b.Y{% if dim > 2 %},
+            a.Z - b.Z{% if dim > 3 %},
+            a.W - b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator *({{ self::self_type() }} a, {{ self::self_type() }} b) => new {{ self::self_type() }}(
-            a.x * b.x,
-            a.y * b.y{% if dim > 2 %},
-            a.z * b.z{% endif %}{% if dim > 3 %},
-            a.w * b.w{% endif %});
+            a.X * b.X,
+            a.Y * b.Y{% if dim > 2 %},
+            a.Z * b.Z{% if dim > 3 %},
+            a.W * b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator *({{ self::self_type() }} a, {{type}} b) => new {{ self::self_type() }}(
-            a.x * b,
-            a.y * b{% if dim > 2 %},
-            a.z * b{% endif %}{% if dim > 3 %},
-            a.w * b{% endif %});
+            a.X * b,
+            a.Y * b{% if dim > 2 %},
+            a.Z * b{% if dim > 3 %},
+            a.W * b{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator *({{type}} a, {{ self::self_type() }} b) => new {{ self::self_type() }}(
-            a * b.x,
-            a * b.y{% if dim > 2 %},
-            a * b.z{% endif %}{% if dim > 3 %},
-            a * b.w{% endif %});
+            a * b.X,
+            a * b.Y{% if dim > 2 %},
+            a * b.Z{% if dim > 3 %},
+            a * b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator /({{ self::self_type() }} a, {{ self::self_type() }} b) => new {{ self::self_type() }}(
-            a.x / b.x,
-            a.y / b.y{% if dim > 2 %},
-            a.z / b.z{% endif %}{% if dim > 3 %},
-            a.w / b.w{% endif %});
+            a.X / b.X,
+            a.Y / b.Y{% if dim > 2 %},
+            a.Z / b.Z{% if dim > 3 %},
+            a.W / b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator /({{ self::self_type() }} a, {{type}} b) => new {{ self::self_type() }}(
-            a.x / b,
-            a.y / b{% if dim > 2 %},
-            a.z / b{% endif %}{% if dim > 3 %},
-            a.w / b{% endif %});
+            a.X / b,
+            a.Y / b{% if dim > 2 %},
+            a.Z / b{% if dim > 3 %},
+            a.W / b{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} operator /({{type}} a, {{ self::self_type() }} b) => new {{ self::self_type() }}(
-            a / b.x,
-            a / b.y{% if dim > 2 %},
-            a / b.z{% endif %}{% if dim > 3 %},
-            a / b.w{% endif %});
+            a / b.X,
+            a / b.Y{% if dim > 2 %},
+            a / b.Z{% if dim > 3 %},
+            a / b.W{% endif %}{% endif %});
 
         // Swizzling Properties
         // ---------------------------------------
@@ -206,30 +214,30 @@ namespace AgatePris.Intar.Mathematics {
         public override readonly bool Equals(object obj) => obj is {{ self::self_type() }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => HashCode.Combine(x, y{% if dim > 2 %}, z{% endif %}{% if dim > 3 %}, w{% endif %});
+        public override readonly int GetHashCode() => HashCode.Combine(X, Y{% if dim > 2 %}, Z{% endif %}{% if dim > 3 %}, W{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"{{ self::self_type() }}({x}, {y}{% if dim > 2 %}, {z}{% endif %}{% if dim > 3 %}, {w}{% endif %})";
+        public override readonly string ToString() => $"{{ self::self_type() }}({X}, {Y}{% if dim > 2 %}, {Z}{% endif %}{% if dim > 3 %}, {W}{% endif %})";
 
         // IEquatable<{{ self::self_type() }}>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals({{ self::self_type() }} other)
-            => other.x == x
-            && other.y == y{% if dim > 2 %}
-            && other.z == z{% endif %}{% if dim > 3 %}
-            && other.w == w{% endif %};
+            => other.X == X
+            && other.Y == Y{% if dim > 2 %}
+            && other.Z == Z{% if dim > 3 %}
+            && other.W == W{% endif %}{% endif %};
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly string ToString(string format, IFormatProvider formatProvider) {
-            var x = this.x.ToString(format, formatProvider);
-            var y = this.y.ToString(format, formatProvider);{% if dim > 2 %}
-            var z = this.z.ToString(format, formatProvider);{% endif %}{% if dim > 3 %}
-            var w = this.w.ToString(format, formatProvider);{% endif %}
+            var x = X.ToString(format, formatProvider);
+            var y = Y.ToString(format, formatProvider);{% if dim > 2 %}
+            var z = Z.ToString(format, formatProvider);{% if dim > 3 %}
+            var w = W.ToString(format, formatProvider);{% endif %}{% endif %}
             return $"{{ self::self_type() }}({x}, {y}{% if dim > 2 %}, {z}{% endif %}{% if dim > 3 %}, {w}{% endif %})";
         }
     }
