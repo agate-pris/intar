@@ -59,7 +59,7 @@
         },
         {
             "dir_path": "AgatePris.Intar.Numerics",
-            "template_name": "fixed.cs",
+            "template_name": "Fixed.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
                 { "file_name": "I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
