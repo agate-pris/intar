@@ -34,10 +34,6 @@ csharp_new_line_before_open_brace = none
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = warning
 
-# CA1716 識別子はキーワードと同一にすることはできません
-# 一時的に警告にレベルを落とす
-dotnet_diagnostic.CA1716.severity = warning
-
 # IDE0022: メソッドにブロック本体を使用する
 dotnet_diagnostic.IDE0022.severity = silent
 
@@ -49,6 +45,3 @@ dotnet_diagnostic.IDE0024.severity = silent
 
 # IDE0046: 条件式に変換します
 dotnet_diagnostic.IDE0046.severity = silent
-
-# IDE0130: Namespace がフォルダー構造と一致しません
-dotnet_diagnostic.IDE0130.severity = silent
