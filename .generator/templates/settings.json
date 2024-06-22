@@ -58,7 +58,7 @@
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Fixed",
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "fixed.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
