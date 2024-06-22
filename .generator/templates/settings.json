@@ -9,13 +9,6 @@
             ]
         },
         {
-            "dir_path": "AgatePris.Intar/Mathematics",
-            "template_name": "Mathematics_math.cs",
-            "files": [
-                { "file_name": "math.gen.cs", "params": {} }
-            ]
-        },
-        {
             "dir_path": "AgatePris.Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
