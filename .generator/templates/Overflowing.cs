@@ -54,7 +54,7 @@
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingAbs({{ type }}, out {{ type }} result) {
-        //    result = x.WrappingAbs();
+        //    result = WrappingAbs(x);
         //    return x == {{ type }}.MinValue;
         //}
 {%- endmacro -%}
@@ -77,7 +77,7 @@
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg({{ type }} x, out {{ type }} result) {
-        //    result = (~x).WrappingAdd(1);
+        //    result = WrappingAdd(~x, 1);
         //    return x != 0;
         //}
 {%- endmacro -%}
@@ -86,7 +86,7 @@
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static {{ type }}? CheckedNeg({{ type }} x) {
-        //    var b = x.OverflowingNeg(out var result);
+        //    var b = OverflowingNeg(x, out var result);
         //    return b ? ({{ type }}?)null : result;
         //}
 {%- endmacro -%}

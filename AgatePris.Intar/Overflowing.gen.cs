@@ -58,13 +58,13 @@ namespace AgatePris.Intar {
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingAbs(int, out int result) {
-        //    result = x.WrappingAbs();
+        //    result = WrappingAbs(x);
         //    return x == int.MinValue;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingAbs(long, out long result) {
-        //    result = x.WrappingAbs();
+        //    result = WrappingAbs(x);
         //    return x == long.MinValue;
         //}
 
@@ -94,38 +94,38 @@ namespace AgatePris.Intar {
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(uint x, out uint result) {
-        //    result = (~x).WrappingAdd(1);
+        //    result = WrappingAdd(~x, 1);
         //    return x != 0;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(ulong x, out ulong result) {
-        //    result = (~x).WrappingAdd(1);
+        //    result = WrappingAdd(~x, 1);
         //    return x != 0;
         //}
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static int? CheckedNeg(int x) {
-        //    var b = x.OverflowingNeg(out var result);
+        //    var b = OverflowingNeg(x, out var result);
         //    return b ? (int?)null : result;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static long? CheckedNeg(long x) {
-        //    var b = x.OverflowingNeg(out var result);
+        //    var b = OverflowingNeg(x, out var result);
         //    return b ? (long?)null : result;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static uint? CheckedNeg(uint x) {
-        //    var b = x.OverflowingNeg(out var result);
+        //    var b = OverflowingNeg(x, out var result);
         //    return b ? (uint?)null : result;
         //}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static ulong? CheckedNeg(ulong x) {
-        //    var b = x.OverflowingNeg(out var result);
+        //    var b = OverflowingNeg(x, out var result);
         //    return b ? (ulong?)null : result;
         //}
 
