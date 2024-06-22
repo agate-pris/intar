@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AgatePris.Intar.Fixed\AgatePris.Intar.Fixed.csproj" />
+    <ProjectReference Include="..\AgatePris.Intar.Numerics\AgatePris.Intar.Numerics.csproj" />
   </ItemGroup>
 
 </Project>
