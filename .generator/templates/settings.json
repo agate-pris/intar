@@ -2,39 +2,21 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "Intar",
+            "dir_path": "AgatePris.Intar",
             "template_name": "Overflowing.cs",
             "files": [
                 { "file_name": "Overflowing.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Fixed",
-            "template_name": "fixed.cs",
-            "files": [
-                {%- for i in range(start = 2, end = 32) %}
-                { "file_name": "I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 32) %}
-                { "file_name": "U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 64) %}
-                { "file_name": "I{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } },
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 64) %}
-                { "file_name": "U{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } }{% if not loop.last %},{% endif %}
-                {%- endfor %}
-            ]
-        },
-        {
-            "dir_path": "Intar/Mathematics",
+            "dir_path": "AgatePris.Intar/Mathematics",
             "template_name": "Mathematics_math.cs",
             "files": [
                 { "file_name": "math.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "Intar/Mathematics/vec",
+            "dir_path": "AgatePris.Intar/Mathematics/vec",
             "template_name": "vec.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
@@ -62,17 +44,35 @@
             ]
         },
         {
-            "dir_path": "Intar/Mathi",
+            "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Clamp.cs",
             "files": [
                 { "file_name": "Clamp.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "Intar/Mathi",
+            "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Sin.cs",
             "files": [
                 { "file_name": "Sin.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Fixed",
+            "template_name": "fixed.cs",
+            "files": [
+                {%- for i in range(start = 2, end = 32) %}
+                { "file_name": "I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 32) %}
+                { "file_name": "U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 64) %}
+                { "file_name": "I{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 64) %}
+                { "file_name": "U{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } }{% if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         }
     ]
