@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-    public struct U22F10_4 : IEquatable<U22F10_4>, IFormattable {
+    public struct Vector4U22F10 : IEquatable<Vector4U22F10>, IFormattable {
         // Fields
         // ---------------------------------------
 
@@ -16,13 +16,13 @@ namespace AgatePris.Intar.Mathematics {
         // Constants
         // ---------------------------------------
 
-        public static readonly U22F10_4 zero;
+        public static readonly Vector4U22F10 zero;
 
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10 x, U22F10 y, U22F10 z, U22F10 w) {
+        public Vector4U22F10(U22F10 x, U22F10 y, U22F10 z, U22F10 w) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -30,7 +30,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10 x, U22F10 y, U22F10_2 zw) {
+        public Vector4U22F10(U22F10 x, U22F10 y, Vector2U22F10 zw) {
             this.x = x;
             this.y = y;
             z = zw.x;
@@ -38,7 +38,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10 x, U22F10_3 yzw) {
+        public Vector4U22F10(U22F10 x, Vector3U22F10 yzw) {
             this.x = x;
             y = yzw.x;
             z = yzw.y;
@@ -46,7 +46,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10_2 xy, U22F10_2 zw) {
+        public Vector4U22F10(Vector2U22F10 xy, Vector2U22F10 zw) {
             x = xy.x;
             y = xy.y;
             z = zw.x;
@@ -54,7 +54,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10_4 xyzw) {
+        public Vector4U22F10(Vector4U22F10 xyzw) {
             x = xyzw.x;
             y = xyzw.y;
             z = xyzw.z;
@@ -62,7 +62,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10 x, U22F10_2 yz, U22F10 w) {
+        public Vector4U22F10(U22F10 x, Vector2U22F10 yz, U22F10 w) {
             this.x = x;
             y = yz.x;
             z = yz.y;
@@ -70,7 +70,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10_3 xyz, U22F10 w) {
+        public Vector4U22F10(Vector3U22F10 xyz, U22F10 w) {
             x = xyz.x;
             y = xyz.y;
             z = xyz.z;
@@ -78,7 +78,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U22F10_4(U22F10_2 xy, U22F10 z, U22F10 w) {
+        public Vector4U22F10(Vector2U22F10 xy, U22F10 z, U22F10 w) {
             x = xy.x;
             y = xy.y;
             this.z = z;
@@ -89,56 +89,56 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator +(U22F10_4 a, U22F10_4 b) => new U22F10_4(
+        public static Vector4U22F10 operator +(Vector4U22F10 a, Vector4U22F10 b) => new Vector4U22F10(
             a.x + b.x,
             a.y + b.y,
             a.z + b.z,
             a.w + b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator -(U22F10_4 a, U22F10_4 b) => new U22F10_4(
+        public static Vector4U22F10 operator -(Vector4U22F10 a, Vector4U22F10 b) => new Vector4U22F10(
             a.x - b.x,
             a.y - b.y,
             a.z - b.z,
             a.w - b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator *(U22F10_4 a, U22F10_4 b) => new U22F10_4(
+        public static Vector4U22F10 operator *(Vector4U22F10 a, Vector4U22F10 b) => new Vector4U22F10(
             a.x * b.x,
             a.y * b.y,
             a.z * b.z,
             a.w * b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator *(U22F10_4 a, U22F10 b) => new U22F10_4(
+        public static Vector4U22F10 operator *(Vector4U22F10 a, U22F10 b) => new Vector4U22F10(
             a.x * b,
             a.y * b,
             a.z * b,
             a.w * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator *(U22F10 a, U22F10_4 b) => new U22F10_4(
+        public static Vector4U22F10 operator *(U22F10 a, Vector4U22F10 b) => new Vector4U22F10(
             a * b.x,
             a * b.y,
             a * b.z,
             a * b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator /(U22F10_4 a, U22F10_4 b) => new U22F10_4(
+        public static Vector4U22F10 operator /(Vector4U22F10 a, Vector4U22F10 b) => new Vector4U22F10(
             a.x / b.x,
             a.y / b.y,
             a.z / b.z,
             a.w / b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator /(U22F10_4 a, U22F10 b) => new U22F10_4(
+        public static Vector4U22F10 operator /(Vector4U22F10 a, U22F10 b) => new Vector4U22F10(
             a.x / b,
             a.y / b,
             a.z / b,
             a.w / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U22F10_4 operator /(U22F10 a, U22F10_4 b) => new U22F10_4(
+        public static Vector4U22F10 operator /(U22F10 a, Vector4U22F10 b) => new Vector4U22F10(
             a / b.x,
             a / b.y,
             a / b.z,
@@ -147,368 +147,372 @@ namespace AgatePris.Intar.Mathematics {
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly U22F10_2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(x, x); }
-        public readonly U22F10_2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(x, y); }
-        public readonly U22F10_2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(x, z); }
-        public readonly U22F10_2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(x, w); }
-        public readonly U22F10_2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(y, x); }
-        public readonly U22F10_2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(y, y); }
-        public readonly U22F10_2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(y, z); }
-        public readonly U22F10_2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(y, w); }
-        public readonly U22F10_2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(z, x); }
-        public readonly U22F10_2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(z, y); }
-        public readonly U22F10_2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(z, z); }
-        public readonly U22F10_2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(z, w); }
-        public readonly U22F10_2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(w, x); }
-        public readonly U22F10_2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(w, y); }
-        public readonly U22F10_2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(w, z); }
-        public readonly U22F10_2 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_2(w, w); }
-        public readonly U22F10_3 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, x, x); }
-        public readonly U22F10_3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, x, y); }
-        public readonly U22F10_3 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, x, z); }
-        public readonly U22F10_3 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, x, w); }
-        public readonly U22F10_3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, y, x); }
-        public readonly U22F10_3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, y, y); }
-        public readonly U22F10_3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, y, z); }
-        public readonly U22F10_3 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, y, w); }
-        public readonly U22F10_3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, z, x); }
-        public readonly U22F10_3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, z, y); }
-        public readonly U22F10_3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, z, z); }
-        public readonly U22F10_3 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, z, w); }
-        public readonly U22F10_3 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, w, x); }
-        public readonly U22F10_3 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, w, y); }
-        public readonly U22F10_3 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, w, z); }
-        public readonly U22F10_3 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(x, w, w); }
-        public readonly U22F10_3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, x, x); }
-        public readonly U22F10_3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, x, y); }
-        public readonly U22F10_3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, x, z); }
-        public readonly U22F10_3 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, x, w); }
-        public readonly U22F10_3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, y, x); }
-        public readonly U22F10_3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, y, y); }
-        public readonly U22F10_3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, y, z); }
-        public readonly U22F10_3 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, y, w); }
-        public readonly U22F10_3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, z, x); }
-        public readonly U22F10_3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, z, y); }
-        public readonly U22F10_3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, z, z); }
-        public readonly U22F10_3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, z, w); }
-        public readonly U22F10_3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, w, x); }
-        public readonly U22F10_3 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, w, y); }
-        public readonly U22F10_3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, w, z); }
-        public readonly U22F10_3 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(y, w, w); }
-        public readonly U22F10_3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, x, x); }
-        public readonly U22F10_3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, x, y); }
-        public readonly U22F10_3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, x, z); }
-        public readonly U22F10_3 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, x, w); }
-        public readonly U22F10_3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, y, x); }
-        public readonly U22F10_3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, y, y); }
-        public readonly U22F10_3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, y, z); }
-        public readonly U22F10_3 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, y, w); }
-        public readonly U22F10_3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, z, x); }
-        public readonly U22F10_3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, z, y); }
-        public readonly U22F10_3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, z, z); }
-        public readonly U22F10_3 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, z, w); }
-        public readonly U22F10_3 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, w, x); }
-        public readonly U22F10_3 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, w, y); }
-        public readonly U22F10_3 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, w, z); }
-        public readonly U22F10_3 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(z, w, w); }
-        public readonly U22F10_3 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, x, x); }
-        public readonly U22F10_3 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, x, y); }
-        public readonly U22F10_3 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, x, z); }
-        public readonly U22F10_3 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, x, w); }
-        public readonly U22F10_3 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, y, x); }
-        public readonly U22F10_3 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, y, y); }
-        public readonly U22F10_3 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, y, z); }
-        public readonly U22F10_3 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, y, w); }
-        public readonly U22F10_3 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, z, x); }
-        public readonly U22F10_3 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, z, y); }
-        public readonly U22F10_3 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, z, z); }
-        public readonly U22F10_3 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, z, w); }
-        public readonly U22F10_3 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, w, x); }
-        public readonly U22F10_3 wwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, w, y); }
-        public readonly U22F10_3 wwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, w, z); }
-        public readonly U22F10_3 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_3(w, w, w); }
-        public readonly U22F10_4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, x, x); }
-        public readonly U22F10_4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, x, y); }
-        public readonly U22F10_4 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, x, z); }
-        public readonly U22F10_4 xxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, x, w); }
-        public readonly U22F10_4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, y, x); }
-        public readonly U22F10_4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, y, y); }
-        public readonly U22F10_4 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, y, z); }
-        public readonly U22F10_4 xxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, y, w); }
-        public readonly U22F10_4 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, z, x); }
-        public readonly U22F10_4 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, z, y); }
-        public readonly U22F10_4 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, z, z); }
-        public readonly U22F10_4 xxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, z, w); }
-        public readonly U22F10_4 xxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, w, x); }
-        public readonly U22F10_4 xxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, w, y); }
-        public readonly U22F10_4 xxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, w, z); }
-        public readonly U22F10_4 xxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, x, w, w); }
-        public readonly U22F10_4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, x, x); }
-        public readonly U22F10_4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, x, y); }
-        public readonly U22F10_4 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, x, z); }
-        public readonly U22F10_4 xyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, x, w); }
-        public readonly U22F10_4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, y, x); }
-        public readonly U22F10_4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, y, y); }
-        public readonly U22F10_4 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, y, z); }
-        public readonly U22F10_4 xyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, y, w); }
-        public readonly U22F10_4 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, z, x); }
-        public readonly U22F10_4 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, z, y); }
-        public readonly U22F10_4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, z, z); }
-        public readonly U22F10_4 xyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, z, w); }
-        public readonly U22F10_4 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, w, x); }
-        public readonly U22F10_4 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, w, y); }
-        public readonly U22F10_4 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, w, z); }
-        public readonly U22F10_4 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, y, w, w); }
-        public readonly U22F10_4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, x, x); }
-        public readonly U22F10_4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, x, y); }
-        public readonly U22F10_4 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, x, z); }
-        public readonly U22F10_4 xzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, x, w); }
-        public readonly U22F10_4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, y, x); }
-        public readonly U22F10_4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, y, y); }
-        public readonly U22F10_4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, y, z); }
-        public readonly U22F10_4 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, y, w); }
-        public readonly U22F10_4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, z, x); }
-        public readonly U22F10_4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, z, y); }
-        public readonly U22F10_4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, z, z); }
-        public readonly U22F10_4 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, z, w); }
-        public readonly U22F10_4 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, w, x); }
-        public readonly U22F10_4 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, w, y); }
-        public readonly U22F10_4 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, w, z); }
-        public readonly U22F10_4 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, z, w, w); }
-        public readonly U22F10_4 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, x, x); }
-        public readonly U22F10_4 xwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, x, y); }
-        public readonly U22F10_4 xwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, x, z); }
-        public readonly U22F10_4 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, x, w); }
-        public readonly U22F10_4 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, y, x); }
-        public readonly U22F10_4 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, y, y); }
-        public readonly U22F10_4 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, y, z); }
-        public readonly U22F10_4 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, y, w); }
-        public readonly U22F10_4 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, z, x); }
-        public readonly U22F10_4 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, z, y); }
-        public readonly U22F10_4 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, z, z); }
-        public readonly U22F10_4 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, z, w); }
-        public readonly U22F10_4 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, w, x); }
-        public readonly U22F10_4 xwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, w, y); }
-        public readonly U22F10_4 xwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, w, z); }
-        public readonly U22F10_4 xwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(x, w, w, w); }
-        public readonly U22F10_4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, x, x); }
-        public readonly U22F10_4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, x, y); }
-        public readonly U22F10_4 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, x, z); }
-        public readonly U22F10_4 yxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, x, w); }
-        public readonly U22F10_4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, y, x); }
-        public readonly U22F10_4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, y, y); }
-        public readonly U22F10_4 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, y, z); }
-        public readonly U22F10_4 yxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, y, w); }
-        public readonly U22F10_4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, z, x); }
-        public readonly U22F10_4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, z, y); }
-        public readonly U22F10_4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, z, z); }
-        public readonly U22F10_4 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, z, w); }
-        public readonly U22F10_4 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, w, x); }
-        public readonly U22F10_4 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, w, y); }
-        public readonly U22F10_4 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, w, z); }
-        public readonly U22F10_4 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, x, w, w); }
-        public readonly U22F10_4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, x, x); }
-        public readonly U22F10_4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, x, y); }
-        public readonly U22F10_4 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, x, z); }
-        public readonly U22F10_4 yyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, x, w); }
-        public readonly U22F10_4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, y, x); }
-        public readonly U22F10_4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, y, y); }
-        public readonly U22F10_4 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, y, z); }
-        public readonly U22F10_4 yyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, y, w); }
-        public readonly U22F10_4 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, z, x); }
-        public readonly U22F10_4 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, z, y); }
-        public readonly U22F10_4 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, z, z); }
-        public readonly U22F10_4 yyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, z, w); }
-        public readonly U22F10_4 yywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, w, x); }
-        public readonly U22F10_4 yywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, w, y); }
-        public readonly U22F10_4 yywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, w, z); }
-        public readonly U22F10_4 yyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, y, w, w); }
-        public readonly U22F10_4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, x, x); }
-        public readonly U22F10_4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, x, y); }
-        public readonly U22F10_4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, x, z); }
-        public readonly U22F10_4 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, x, w); }
-        public readonly U22F10_4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, y, x); }
-        public readonly U22F10_4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, y, y); }
-        public readonly U22F10_4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, y, z); }
-        public readonly U22F10_4 yzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, y, w); }
-        public readonly U22F10_4 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, z, x); }
-        public readonly U22F10_4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, z, y); }
-        public readonly U22F10_4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, z, z); }
-        public readonly U22F10_4 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, z, w); }
-        public readonly U22F10_4 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, w, x); }
-        public readonly U22F10_4 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, w, y); }
-        public readonly U22F10_4 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, w, z); }
-        public readonly U22F10_4 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, z, w, w); }
-        public readonly U22F10_4 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, x, x); }
-        public readonly U22F10_4 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, x, y); }
-        public readonly U22F10_4 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, x, z); }
-        public readonly U22F10_4 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, x, w); }
-        public readonly U22F10_4 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, y, x); }
-        public readonly U22F10_4 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, y, y); }
-        public readonly U22F10_4 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, y, z); }
-        public readonly U22F10_4 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, y, w); }
-        public readonly U22F10_4 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, z, x); }
-        public readonly U22F10_4 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, z, y); }
-        public readonly U22F10_4 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, z, z); }
-        public readonly U22F10_4 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, z, w); }
-        public readonly U22F10_4 ywwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, w, x); }
-        public readonly U22F10_4 ywwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, w, y); }
-        public readonly U22F10_4 ywwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, w, z); }
-        public readonly U22F10_4 ywww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(y, w, w, w); }
-        public readonly U22F10_4 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, x, x); }
-        public readonly U22F10_4 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, x, y); }
-        public readonly U22F10_4 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, x, z); }
-        public readonly U22F10_4 zxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, x, w); }
-        public readonly U22F10_4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, y, x); }
-        public readonly U22F10_4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, y, y); }
-        public readonly U22F10_4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, y, z); }
-        public readonly U22F10_4 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, y, w); }
-        public readonly U22F10_4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, z, x); }
-        public readonly U22F10_4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, z, y); }
-        public readonly U22F10_4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, z, z); }
-        public readonly U22F10_4 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, z, w); }
-        public readonly U22F10_4 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, w, x); }
-        public readonly U22F10_4 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, w, y); }
-        public readonly U22F10_4 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, w, z); }
-        public readonly U22F10_4 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, x, w, w); }
-        public readonly U22F10_4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, x, x); }
-        public readonly U22F10_4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, x, y); }
-        public readonly U22F10_4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, x, z); }
-        public readonly U22F10_4 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, x, w); }
-        public readonly U22F10_4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, y, x); }
-        public readonly U22F10_4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, y, y); }
-        public readonly U22F10_4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, y, z); }
-        public readonly U22F10_4 zyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, y, w); }
-        public readonly U22F10_4 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, z, x); }
-        public readonly U22F10_4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, z, y); }
-        public readonly U22F10_4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, z, z); }
-        public readonly U22F10_4 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, z, w); }
-        public readonly U22F10_4 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, w, x); }
-        public readonly U22F10_4 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, w, y); }
-        public readonly U22F10_4 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, w, z); }
-        public readonly U22F10_4 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, y, w, w); }
-        public readonly U22F10_4 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, x, x); }
-        public readonly U22F10_4 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, x, y); }
-        public readonly U22F10_4 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, x, z); }
-        public readonly U22F10_4 zzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, x, w); }
-        public readonly U22F10_4 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, y, x); }
-        public readonly U22F10_4 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, y, y); }
-        public readonly U22F10_4 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, y, z); }
-        public readonly U22F10_4 zzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, y, w); }
-        public readonly U22F10_4 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, z, x); }
-        public readonly U22F10_4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, z, y); }
-        public readonly U22F10_4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, z, z); }
-        public readonly U22F10_4 zzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, z, w); }
-        public readonly U22F10_4 zzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, w, x); }
-        public readonly U22F10_4 zzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, w, y); }
-        public readonly U22F10_4 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, w, z); }
-        public readonly U22F10_4 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, z, w, w); }
-        public readonly U22F10_4 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, x, x); }
-        public readonly U22F10_4 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, x, y); }
-        public readonly U22F10_4 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, x, z); }
-        public readonly U22F10_4 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, x, w); }
-        public readonly U22F10_4 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, y, x); }
-        public readonly U22F10_4 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, y, y); }
-        public readonly U22F10_4 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, y, z); }
-        public readonly U22F10_4 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, y, w); }
-        public readonly U22F10_4 zwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, z, x); }
-        public readonly U22F10_4 zwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, z, y); }
-        public readonly U22F10_4 zwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, z, z); }
-        public readonly U22F10_4 zwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, z, w); }
-        public readonly U22F10_4 zwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, w, x); }
-        public readonly U22F10_4 zwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, w, y); }
-        public readonly U22F10_4 zwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, w, z); }
-        public readonly U22F10_4 zwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(z, w, w, w); }
-        public readonly U22F10_4 wxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, x, x); }
-        public readonly U22F10_4 wxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, x, y); }
-        public readonly U22F10_4 wxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, x, z); }
-        public readonly U22F10_4 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, x, w); }
-        public readonly U22F10_4 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, y, x); }
-        public readonly U22F10_4 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, y, y); }
-        public readonly U22F10_4 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, y, z); }
-        public readonly U22F10_4 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, y, w); }
-        public readonly U22F10_4 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, z, x); }
-        public readonly U22F10_4 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, z, y); }
-        public readonly U22F10_4 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, z, z); }
-        public readonly U22F10_4 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, z, w); }
-        public readonly U22F10_4 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, w, x); }
-        public readonly U22F10_4 wxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, w, y); }
-        public readonly U22F10_4 wxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, w, z); }
-        public readonly U22F10_4 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, x, w, w); }
-        public readonly U22F10_4 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, x, x); }
-        public readonly U22F10_4 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, x, y); }
-        public readonly U22F10_4 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, x, z); }
-        public readonly U22F10_4 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, x, w); }
-        public readonly U22F10_4 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, y, x); }
-        public readonly U22F10_4 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, y, y); }
-        public readonly U22F10_4 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, y, z); }
-        public readonly U22F10_4 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, y, w); }
-        public readonly U22F10_4 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, z, x); }
-        public readonly U22F10_4 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, z, y); }
-        public readonly U22F10_4 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, z, z); }
-        public readonly U22F10_4 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, z, w); }
-        public readonly U22F10_4 wywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, w, x); }
-        public readonly U22F10_4 wywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, w, y); }
-        public readonly U22F10_4 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, w, z); }
-        public readonly U22F10_4 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, y, w, w); }
-        public readonly U22F10_4 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, x, x); }
-        public readonly U22F10_4 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, x, y); }
-        public readonly U22F10_4 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, x, z); }
-        public readonly U22F10_4 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, x, w); }
-        public readonly U22F10_4 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, y, x); }
-        public readonly U22F10_4 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, y, y); }
-        public readonly U22F10_4 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, y, z); }
-        public readonly U22F10_4 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, y, w); }
-        public readonly U22F10_4 wzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, z, x); }
-        public readonly U22F10_4 wzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, z, y); }
-        public readonly U22F10_4 wzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, z, z); }
-        public readonly U22F10_4 wzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, z, w); }
-        public readonly U22F10_4 wzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, w, x); }
-        public readonly U22F10_4 wzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, w, y); }
-        public readonly U22F10_4 wzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, w, z); }
-        public readonly U22F10_4 wzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, z, w, w); }
-        public readonly U22F10_4 wwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, x, x); }
-        public readonly U22F10_4 wwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, x, y); }
-        public readonly U22F10_4 wwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, x, z); }
-        public readonly U22F10_4 wwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, x, w); }
-        public readonly U22F10_4 wwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, y, x); }
-        public readonly U22F10_4 wwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, y, y); }
-        public readonly U22F10_4 wwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, y, z); }
-        public readonly U22F10_4 wwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, y, w); }
-        public readonly U22F10_4 wwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, z, x); }
-        public readonly U22F10_4 wwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, z, y); }
-        public readonly U22F10_4 wwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, z, z); }
-        public readonly U22F10_4 wwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, z, w); }
-        public readonly U22F10_4 wwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, w, x); }
-        public readonly U22F10_4 wwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, w, y); }
-        public readonly U22F10_4 wwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, w, z); }
-        public readonly U22F10_4 wwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U22F10_4(w, w, w, w); }
+#pragma warning disable IDE1006 // 命名スタイル
+
+        public readonly Vector2U22F10 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(x, x); }
+        public readonly Vector2U22F10 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(x, y); }
+        public readonly Vector2U22F10 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(x, z); }
+        public readonly Vector2U22F10 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(x, w); }
+        public readonly Vector2U22F10 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(y, x); }
+        public readonly Vector2U22F10 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(y, y); }
+        public readonly Vector2U22F10 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(y, z); }
+        public readonly Vector2U22F10 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(y, w); }
+        public readonly Vector2U22F10 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(z, x); }
+        public readonly Vector2U22F10 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(z, y); }
+        public readonly Vector2U22F10 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(z, z); }
+        public readonly Vector2U22F10 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(z, w); }
+        public readonly Vector2U22F10 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(w, x); }
+        public readonly Vector2U22F10 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(w, y); }
+        public readonly Vector2U22F10 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(w, z); }
+        public readonly Vector2U22F10 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U22F10(w, w); }
+        public readonly Vector3U22F10 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, x, x); }
+        public readonly Vector3U22F10 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, x, y); }
+        public readonly Vector3U22F10 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, x, z); }
+        public readonly Vector3U22F10 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, x, w); }
+        public readonly Vector3U22F10 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, y, x); }
+        public readonly Vector3U22F10 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, y, y); }
+        public readonly Vector3U22F10 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, y, z); }
+        public readonly Vector3U22F10 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, y, w); }
+        public readonly Vector3U22F10 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, z, x); }
+        public readonly Vector3U22F10 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, z, y); }
+        public readonly Vector3U22F10 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, z, z); }
+        public readonly Vector3U22F10 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, z, w); }
+        public readonly Vector3U22F10 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, w, x); }
+        public readonly Vector3U22F10 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, w, y); }
+        public readonly Vector3U22F10 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, w, z); }
+        public readonly Vector3U22F10 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(x, w, w); }
+        public readonly Vector3U22F10 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, x, x); }
+        public readonly Vector3U22F10 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, x, y); }
+        public readonly Vector3U22F10 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, x, z); }
+        public readonly Vector3U22F10 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, x, w); }
+        public readonly Vector3U22F10 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, y, x); }
+        public readonly Vector3U22F10 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, y, y); }
+        public readonly Vector3U22F10 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, y, z); }
+        public readonly Vector3U22F10 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, y, w); }
+        public readonly Vector3U22F10 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, z, x); }
+        public readonly Vector3U22F10 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, z, y); }
+        public readonly Vector3U22F10 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, z, z); }
+        public readonly Vector3U22F10 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, z, w); }
+        public readonly Vector3U22F10 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, w, x); }
+        public readonly Vector3U22F10 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, w, y); }
+        public readonly Vector3U22F10 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, w, z); }
+        public readonly Vector3U22F10 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(y, w, w); }
+        public readonly Vector3U22F10 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, x, x); }
+        public readonly Vector3U22F10 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, x, y); }
+        public readonly Vector3U22F10 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, x, z); }
+        public readonly Vector3U22F10 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, x, w); }
+        public readonly Vector3U22F10 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, y, x); }
+        public readonly Vector3U22F10 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, y, y); }
+        public readonly Vector3U22F10 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, y, z); }
+        public readonly Vector3U22F10 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, y, w); }
+        public readonly Vector3U22F10 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, z, x); }
+        public readonly Vector3U22F10 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, z, y); }
+        public readonly Vector3U22F10 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, z, z); }
+        public readonly Vector3U22F10 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, z, w); }
+        public readonly Vector3U22F10 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, w, x); }
+        public readonly Vector3U22F10 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, w, y); }
+        public readonly Vector3U22F10 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, w, z); }
+        public readonly Vector3U22F10 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(z, w, w); }
+        public readonly Vector3U22F10 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, x, x); }
+        public readonly Vector3U22F10 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, x, y); }
+        public readonly Vector3U22F10 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, x, z); }
+        public readonly Vector3U22F10 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, x, w); }
+        public readonly Vector3U22F10 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, y, x); }
+        public readonly Vector3U22F10 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, y, y); }
+        public readonly Vector3U22F10 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, y, z); }
+        public readonly Vector3U22F10 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, y, w); }
+        public readonly Vector3U22F10 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, z, x); }
+        public readonly Vector3U22F10 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, z, y); }
+        public readonly Vector3U22F10 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, z, z); }
+        public readonly Vector3U22F10 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, z, w); }
+        public readonly Vector3U22F10 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, w, x); }
+        public readonly Vector3U22F10 wwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, w, y); }
+        public readonly Vector3U22F10 wwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, w, z); }
+        public readonly Vector3U22F10 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U22F10(w, w, w); }
+        public readonly Vector4U22F10 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, x, x); }
+        public readonly Vector4U22F10 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, x, y); }
+        public readonly Vector4U22F10 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, x, z); }
+        public readonly Vector4U22F10 xxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, x, w); }
+        public readonly Vector4U22F10 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, y, x); }
+        public readonly Vector4U22F10 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, y, y); }
+        public readonly Vector4U22F10 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, y, z); }
+        public readonly Vector4U22F10 xxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, y, w); }
+        public readonly Vector4U22F10 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, z, x); }
+        public readonly Vector4U22F10 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, z, y); }
+        public readonly Vector4U22F10 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, z, z); }
+        public readonly Vector4U22F10 xxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, z, w); }
+        public readonly Vector4U22F10 xxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, w, x); }
+        public readonly Vector4U22F10 xxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, w, y); }
+        public readonly Vector4U22F10 xxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, w, z); }
+        public readonly Vector4U22F10 xxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, x, w, w); }
+        public readonly Vector4U22F10 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, x, x); }
+        public readonly Vector4U22F10 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, x, y); }
+        public readonly Vector4U22F10 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, x, z); }
+        public readonly Vector4U22F10 xyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, x, w); }
+        public readonly Vector4U22F10 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, y, x); }
+        public readonly Vector4U22F10 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, y, y); }
+        public readonly Vector4U22F10 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, y, z); }
+        public readonly Vector4U22F10 xyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, y, w); }
+        public readonly Vector4U22F10 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, z, x); }
+        public readonly Vector4U22F10 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, z, y); }
+        public readonly Vector4U22F10 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, z, z); }
+        public readonly Vector4U22F10 xyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, z, w); }
+        public readonly Vector4U22F10 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, w, x); }
+        public readonly Vector4U22F10 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, w, y); }
+        public readonly Vector4U22F10 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, w, z); }
+        public readonly Vector4U22F10 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, y, w, w); }
+        public readonly Vector4U22F10 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, x, x); }
+        public readonly Vector4U22F10 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, x, y); }
+        public readonly Vector4U22F10 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, x, z); }
+        public readonly Vector4U22F10 xzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, x, w); }
+        public readonly Vector4U22F10 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, y, x); }
+        public readonly Vector4U22F10 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, y, y); }
+        public readonly Vector4U22F10 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, y, z); }
+        public readonly Vector4U22F10 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, y, w); }
+        public readonly Vector4U22F10 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, z, x); }
+        public readonly Vector4U22F10 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, z, y); }
+        public readonly Vector4U22F10 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, z, z); }
+        public readonly Vector4U22F10 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, z, w); }
+        public readonly Vector4U22F10 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, w, x); }
+        public readonly Vector4U22F10 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, w, y); }
+        public readonly Vector4U22F10 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, w, z); }
+        public readonly Vector4U22F10 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, z, w, w); }
+        public readonly Vector4U22F10 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, x, x); }
+        public readonly Vector4U22F10 xwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, x, y); }
+        public readonly Vector4U22F10 xwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, x, z); }
+        public readonly Vector4U22F10 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, x, w); }
+        public readonly Vector4U22F10 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, y, x); }
+        public readonly Vector4U22F10 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, y, y); }
+        public readonly Vector4U22F10 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, y, z); }
+        public readonly Vector4U22F10 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, y, w); }
+        public readonly Vector4U22F10 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, z, x); }
+        public readonly Vector4U22F10 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, z, y); }
+        public readonly Vector4U22F10 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, z, z); }
+        public readonly Vector4U22F10 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, z, w); }
+        public readonly Vector4U22F10 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, w, x); }
+        public readonly Vector4U22F10 xwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, w, y); }
+        public readonly Vector4U22F10 xwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, w, z); }
+        public readonly Vector4U22F10 xwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(x, w, w, w); }
+        public readonly Vector4U22F10 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, x, x); }
+        public readonly Vector4U22F10 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, x, y); }
+        public readonly Vector4U22F10 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, x, z); }
+        public readonly Vector4U22F10 yxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, x, w); }
+        public readonly Vector4U22F10 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, y, x); }
+        public readonly Vector4U22F10 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, y, y); }
+        public readonly Vector4U22F10 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, y, z); }
+        public readonly Vector4U22F10 yxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, y, w); }
+        public readonly Vector4U22F10 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, z, x); }
+        public readonly Vector4U22F10 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, z, y); }
+        public readonly Vector4U22F10 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, z, z); }
+        public readonly Vector4U22F10 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, z, w); }
+        public readonly Vector4U22F10 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, w, x); }
+        public readonly Vector4U22F10 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, w, y); }
+        public readonly Vector4U22F10 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, w, z); }
+        public readonly Vector4U22F10 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, x, w, w); }
+        public readonly Vector4U22F10 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, x, x); }
+        public readonly Vector4U22F10 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, x, y); }
+        public readonly Vector4U22F10 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, x, z); }
+        public readonly Vector4U22F10 yyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, x, w); }
+        public readonly Vector4U22F10 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, y, x); }
+        public readonly Vector4U22F10 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, y, y); }
+        public readonly Vector4U22F10 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, y, z); }
+        public readonly Vector4U22F10 yyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, y, w); }
+        public readonly Vector4U22F10 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, z, x); }
+        public readonly Vector4U22F10 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, z, y); }
+        public readonly Vector4U22F10 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, z, z); }
+        public readonly Vector4U22F10 yyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, z, w); }
+        public readonly Vector4U22F10 yywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, w, x); }
+        public readonly Vector4U22F10 yywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, w, y); }
+        public readonly Vector4U22F10 yywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, w, z); }
+        public readonly Vector4U22F10 yyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, y, w, w); }
+        public readonly Vector4U22F10 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, x, x); }
+        public readonly Vector4U22F10 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, x, y); }
+        public readonly Vector4U22F10 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, x, z); }
+        public readonly Vector4U22F10 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, x, w); }
+        public readonly Vector4U22F10 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, y, x); }
+        public readonly Vector4U22F10 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, y, y); }
+        public readonly Vector4U22F10 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, y, z); }
+        public readonly Vector4U22F10 yzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, y, w); }
+        public readonly Vector4U22F10 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, z, x); }
+        public readonly Vector4U22F10 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, z, y); }
+        public readonly Vector4U22F10 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, z, z); }
+        public readonly Vector4U22F10 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, z, w); }
+        public readonly Vector4U22F10 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, w, x); }
+        public readonly Vector4U22F10 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, w, y); }
+        public readonly Vector4U22F10 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, w, z); }
+        public readonly Vector4U22F10 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, z, w, w); }
+        public readonly Vector4U22F10 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, x, x); }
+        public readonly Vector4U22F10 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, x, y); }
+        public readonly Vector4U22F10 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, x, z); }
+        public readonly Vector4U22F10 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, x, w); }
+        public readonly Vector4U22F10 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, y, x); }
+        public readonly Vector4U22F10 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, y, y); }
+        public readonly Vector4U22F10 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, y, z); }
+        public readonly Vector4U22F10 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, y, w); }
+        public readonly Vector4U22F10 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, z, x); }
+        public readonly Vector4U22F10 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, z, y); }
+        public readonly Vector4U22F10 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, z, z); }
+        public readonly Vector4U22F10 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, z, w); }
+        public readonly Vector4U22F10 ywwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, w, x); }
+        public readonly Vector4U22F10 ywwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, w, y); }
+        public readonly Vector4U22F10 ywwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, w, z); }
+        public readonly Vector4U22F10 ywww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(y, w, w, w); }
+        public readonly Vector4U22F10 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, x, x); }
+        public readonly Vector4U22F10 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, x, y); }
+        public readonly Vector4U22F10 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, x, z); }
+        public readonly Vector4U22F10 zxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, x, w); }
+        public readonly Vector4U22F10 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, y, x); }
+        public readonly Vector4U22F10 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, y, y); }
+        public readonly Vector4U22F10 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, y, z); }
+        public readonly Vector4U22F10 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, y, w); }
+        public readonly Vector4U22F10 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, z, x); }
+        public readonly Vector4U22F10 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, z, y); }
+        public readonly Vector4U22F10 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, z, z); }
+        public readonly Vector4U22F10 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, z, w); }
+        public readonly Vector4U22F10 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, w, x); }
+        public readonly Vector4U22F10 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, w, y); }
+        public readonly Vector4U22F10 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, w, z); }
+        public readonly Vector4U22F10 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, x, w, w); }
+        public readonly Vector4U22F10 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, x, x); }
+        public readonly Vector4U22F10 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, x, y); }
+        public readonly Vector4U22F10 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, x, z); }
+        public readonly Vector4U22F10 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, x, w); }
+        public readonly Vector4U22F10 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, y, x); }
+        public readonly Vector4U22F10 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, y, y); }
+        public readonly Vector4U22F10 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, y, z); }
+        public readonly Vector4U22F10 zyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, y, w); }
+        public readonly Vector4U22F10 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, z, x); }
+        public readonly Vector4U22F10 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, z, y); }
+        public readonly Vector4U22F10 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, z, z); }
+        public readonly Vector4U22F10 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, z, w); }
+        public readonly Vector4U22F10 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, w, x); }
+        public readonly Vector4U22F10 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, w, y); }
+        public readonly Vector4U22F10 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, w, z); }
+        public readonly Vector4U22F10 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, y, w, w); }
+        public readonly Vector4U22F10 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, x, x); }
+        public readonly Vector4U22F10 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, x, y); }
+        public readonly Vector4U22F10 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, x, z); }
+        public readonly Vector4U22F10 zzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, x, w); }
+        public readonly Vector4U22F10 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, y, x); }
+        public readonly Vector4U22F10 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, y, y); }
+        public readonly Vector4U22F10 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, y, z); }
+        public readonly Vector4U22F10 zzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, y, w); }
+        public readonly Vector4U22F10 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, z, x); }
+        public readonly Vector4U22F10 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, z, y); }
+        public readonly Vector4U22F10 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, z, z); }
+        public readonly Vector4U22F10 zzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, z, w); }
+        public readonly Vector4U22F10 zzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, w, x); }
+        public readonly Vector4U22F10 zzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, w, y); }
+        public readonly Vector4U22F10 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, w, z); }
+        public readonly Vector4U22F10 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, z, w, w); }
+        public readonly Vector4U22F10 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, x, x); }
+        public readonly Vector4U22F10 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, x, y); }
+        public readonly Vector4U22F10 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, x, z); }
+        public readonly Vector4U22F10 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, x, w); }
+        public readonly Vector4U22F10 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, y, x); }
+        public readonly Vector4U22F10 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, y, y); }
+        public readonly Vector4U22F10 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, y, z); }
+        public readonly Vector4U22F10 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, y, w); }
+        public readonly Vector4U22F10 zwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, z, x); }
+        public readonly Vector4U22F10 zwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, z, y); }
+        public readonly Vector4U22F10 zwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, z, z); }
+        public readonly Vector4U22F10 zwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, z, w); }
+        public readonly Vector4U22F10 zwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, w, x); }
+        public readonly Vector4U22F10 zwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, w, y); }
+        public readonly Vector4U22F10 zwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, w, z); }
+        public readonly Vector4U22F10 zwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(z, w, w, w); }
+        public readonly Vector4U22F10 wxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, x, x); }
+        public readonly Vector4U22F10 wxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, x, y); }
+        public readonly Vector4U22F10 wxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, x, z); }
+        public readonly Vector4U22F10 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, x, w); }
+        public readonly Vector4U22F10 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, y, x); }
+        public readonly Vector4U22F10 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, y, y); }
+        public readonly Vector4U22F10 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, y, z); }
+        public readonly Vector4U22F10 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, y, w); }
+        public readonly Vector4U22F10 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, z, x); }
+        public readonly Vector4U22F10 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, z, y); }
+        public readonly Vector4U22F10 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, z, z); }
+        public readonly Vector4U22F10 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, z, w); }
+        public readonly Vector4U22F10 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, w, x); }
+        public readonly Vector4U22F10 wxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, w, y); }
+        public readonly Vector4U22F10 wxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, w, z); }
+        public readonly Vector4U22F10 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, x, w, w); }
+        public readonly Vector4U22F10 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, x, x); }
+        public readonly Vector4U22F10 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, x, y); }
+        public readonly Vector4U22F10 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, x, z); }
+        public readonly Vector4U22F10 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, x, w); }
+        public readonly Vector4U22F10 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, y, x); }
+        public readonly Vector4U22F10 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, y, y); }
+        public readonly Vector4U22F10 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, y, z); }
+        public readonly Vector4U22F10 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, y, w); }
+        public readonly Vector4U22F10 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, z, x); }
+        public readonly Vector4U22F10 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, z, y); }
+        public readonly Vector4U22F10 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, z, z); }
+        public readonly Vector4U22F10 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, z, w); }
+        public readonly Vector4U22F10 wywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, w, x); }
+        public readonly Vector4U22F10 wywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, w, y); }
+        public readonly Vector4U22F10 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, w, z); }
+        public readonly Vector4U22F10 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, y, w, w); }
+        public readonly Vector4U22F10 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, x, x); }
+        public readonly Vector4U22F10 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, x, y); }
+        public readonly Vector4U22F10 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, x, z); }
+        public readonly Vector4U22F10 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, x, w); }
+        public readonly Vector4U22F10 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, y, x); }
+        public readonly Vector4U22F10 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, y, y); }
+        public readonly Vector4U22F10 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, y, z); }
+        public readonly Vector4U22F10 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, y, w); }
+        public readonly Vector4U22F10 wzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, z, x); }
+        public readonly Vector4U22F10 wzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, z, y); }
+        public readonly Vector4U22F10 wzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, z, z); }
+        public readonly Vector4U22F10 wzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, z, w); }
+        public readonly Vector4U22F10 wzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, w, x); }
+        public readonly Vector4U22F10 wzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, w, y); }
+        public readonly Vector4U22F10 wzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, w, z); }
+        public readonly Vector4U22F10 wzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, z, w, w); }
+        public readonly Vector4U22F10 wwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, x, x); }
+        public readonly Vector4U22F10 wwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, x, y); }
+        public readonly Vector4U22F10 wwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, x, z); }
+        public readonly Vector4U22F10 wwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, x, w); }
+        public readonly Vector4U22F10 wwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, y, x); }
+        public readonly Vector4U22F10 wwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, y, y); }
+        public readonly Vector4U22F10 wwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, y, z); }
+        public readonly Vector4U22F10 wwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, y, w); }
+        public readonly Vector4U22F10 wwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, z, x); }
+        public readonly Vector4U22F10 wwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, z, y); }
+        public readonly Vector4U22F10 wwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, z, z); }
+        public readonly Vector4U22F10 wwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, z, w); }
+        public readonly Vector4U22F10 wwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, w, x); }
+        public readonly Vector4U22F10 wwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, w, y); }
+        public readonly Vector4U22F10 wwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, w, z); }
+        public readonly Vector4U22F10 wwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U22F10(w, w, w, w); }
+
+#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(U22F10_4 lhs, U22F10_4 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(Vector4U22F10 lhs, Vector4U22F10 rhs) => lhs.Equals(rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(U22F10_4 lhs, U22F10_4 rhs) => !(lhs == rhs);
+        public static bool operator !=(Vector4U22F10 lhs, Vector4U22F10 rhs) => !(lhs == rhs);
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is U22F10_4 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is Vector4U22F10 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y, z, w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"U22F10_4({x}, {y}, {z}, {w})";
+        public override readonly string ToString() => $"Vector4U22F10({x}, {y}, {z}, {w})";
 
-        // IEquatable<U22F10_4>
+        // IEquatable<Vector4U22F10>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(U22F10_4 other)
+        public readonly bool Equals(Vector4U22F10 other)
             => other.x == x
             && other.y == y
             && other.z == z
@@ -523,7 +527,7 @@ namespace AgatePris.Intar.Mathematics {
             var y = this.y.ToString(format, formatProvider);
             var z = this.z.ToString(format, formatProvider);
             var w = this.w.ToString(format, formatProvider);
-            return $"U22F10_4({x}, {y}, {z}, {w})";
+            return $"Vector4U22F10({x}, {y}, {z}, {w})";
         }
     }
 }

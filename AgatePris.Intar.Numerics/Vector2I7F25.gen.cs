@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-    public struct I7F25_2 : IEquatable<I7F25_2>, IFormattable {
+    public struct Vector2I7F25 : IEquatable<Vector2I7F25>, IFormattable {
         // Fields
         // ---------------------------------------
 
@@ -14,19 +14,19 @@ namespace AgatePris.Intar.Mathematics {
         // Constants
         // ---------------------------------------
 
-        public static readonly I7F25_2 zero;
+        public static readonly Vector2I7F25 zero;
 
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I7F25_2(I7F25 x, I7F25 y) {
+        public Vector2I7F25(I7F25 x, I7F25 y) {
             this.x = x;
             this.y = y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I7F25_2(I7F25_2 xy) {
+        public Vector2I7F25(Vector2I7F25 xy) {
             x = xy.x;
             y = xy.y;
         }
@@ -35,102 +35,106 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator +(I7F25_2 a, I7F25_2 b) => new I7F25_2(
+        public static Vector2I7F25 operator +(Vector2I7F25 a, Vector2I7F25 b) => new Vector2I7F25(
             a.x + b.x,
             a.y + b.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator -(I7F25_2 a, I7F25_2 b) => new I7F25_2(
+        public static Vector2I7F25 operator -(Vector2I7F25 a, Vector2I7F25 b) => new Vector2I7F25(
             a.x - b.x,
             a.y - b.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator *(I7F25_2 a, I7F25_2 b) => new I7F25_2(
+        public static Vector2I7F25 operator *(Vector2I7F25 a, Vector2I7F25 b) => new Vector2I7F25(
             a.x * b.x,
             a.y * b.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator *(I7F25_2 a, I7F25 b) => new I7F25_2(
+        public static Vector2I7F25 operator *(Vector2I7F25 a, I7F25 b) => new Vector2I7F25(
             a.x * b,
             a.y * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator *(I7F25 a, I7F25_2 b) => new I7F25_2(
+        public static Vector2I7F25 operator *(I7F25 a, Vector2I7F25 b) => new Vector2I7F25(
             a * b.x,
             a * b.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator /(I7F25_2 a, I7F25_2 b) => new I7F25_2(
+        public static Vector2I7F25 operator /(Vector2I7F25 a, Vector2I7F25 b) => new Vector2I7F25(
             a.x / b.x,
             a.y / b.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator /(I7F25_2 a, I7F25 b) => new I7F25_2(
+        public static Vector2I7F25 operator /(Vector2I7F25 a, I7F25 b) => new Vector2I7F25(
             a.x / b,
             a.y / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25_2 operator /(I7F25 a, I7F25_2 b) => new I7F25_2(
+        public static Vector2I7F25 operator /(I7F25 a, Vector2I7F25 b) => new Vector2I7F25(
             a / b.x,
             a / b.y);
 
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly I7F25_2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_2(x, x); }
-        public readonly I7F25_2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_2(x, y); }
-        public readonly I7F25_2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_2(y, x); }
-        public readonly I7F25_2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_2(y, y); }
-        public readonly I7F25_3 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(x, x, x); }
-        public readonly I7F25_3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(x, x, y); }
-        public readonly I7F25_3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(x, y, x); }
-        public readonly I7F25_3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(x, y, y); }
-        public readonly I7F25_3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(y, x, x); }
-        public readonly I7F25_3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(y, x, y); }
-        public readonly I7F25_3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(y, y, x); }
-        public readonly I7F25_3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_3(y, y, y); }
-        public readonly I7F25_4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, x, x, x); }
-        public readonly I7F25_4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, x, x, y); }
-        public readonly I7F25_4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, x, y, x); }
-        public readonly I7F25_4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, x, y, y); }
-        public readonly I7F25_4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, y, x, x); }
-        public readonly I7F25_4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, y, x, y); }
-        public readonly I7F25_4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, y, y, x); }
-        public readonly I7F25_4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(x, y, y, y); }
-        public readonly I7F25_4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, x, x, x); }
-        public readonly I7F25_4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, x, x, y); }
-        public readonly I7F25_4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, x, y, x); }
-        public readonly I7F25_4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, x, y, y); }
-        public readonly I7F25_4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, y, x, x); }
-        public readonly I7F25_4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, y, x, y); }
-        public readonly I7F25_4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, y, y, x); }
-        public readonly I7F25_4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new I7F25_4(y, y, y, y); }
+#pragma warning disable IDE1006 // 命名スタイル
+
+        public readonly Vector2I7F25 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I7F25(x, x); }
+        public readonly Vector2I7F25 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I7F25(x, y); }
+        public readonly Vector2I7F25 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I7F25(y, x); }
+        public readonly Vector2I7F25 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I7F25(y, y); }
+        public readonly Vector3I7F25 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(x, x, x); }
+        public readonly Vector3I7F25 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(x, x, y); }
+        public readonly Vector3I7F25 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(x, y, x); }
+        public readonly Vector3I7F25 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(x, y, y); }
+        public readonly Vector3I7F25 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(y, x, x); }
+        public readonly Vector3I7F25 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(y, x, y); }
+        public readonly Vector3I7F25 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(y, y, x); }
+        public readonly Vector3I7F25 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I7F25(y, y, y); }
+        public readonly Vector4I7F25 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, x, x, x); }
+        public readonly Vector4I7F25 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, x, x, y); }
+        public readonly Vector4I7F25 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, x, y, x); }
+        public readonly Vector4I7F25 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, x, y, y); }
+        public readonly Vector4I7F25 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, y, x, x); }
+        public readonly Vector4I7F25 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, y, x, y); }
+        public readonly Vector4I7F25 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, y, y, x); }
+        public readonly Vector4I7F25 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(x, y, y, y); }
+        public readonly Vector4I7F25 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, x, x, x); }
+        public readonly Vector4I7F25 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, x, x, y); }
+        public readonly Vector4I7F25 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, x, y, x); }
+        public readonly Vector4I7F25 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, x, y, y); }
+        public readonly Vector4I7F25 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, y, x, x); }
+        public readonly Vector4I7F25 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, y, x, y); }
+        public readonly Vector4I7F25 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, y, y, x); }
+        public readonly Vector4I7F25 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I7F25(y, y, y, y); }
+
+#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(I7F25_2 lhs, I7F25_2 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(Vector2I7F25 lhs, Vector2I7F25 rhs) => lhs.Equals(rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(I7F25_2 lhs, I7F25_2 rhs) => !(lhs == rhs);
+        public static bool operator !=(Vector2I7F25 lhs, Vector2I7F25 rhs) => !(lhs == rhs);
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is I7F25_2 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is Vector2I7F25 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"I7F25_2({x}, {y})";
+        public override readonly string ToString() => $"Vector2I7F25({x}, {y})";
 
-        // IEquatable<I7F25_2>
+        // IEquatable<Vector2I7F25>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(I7F25_2 other)
+        public readonly bool Equals(Vector2I7F25 other)
             => other.x == x
             && other.y == y;
 
@@ -141,7 +145,7 @@ namespace AgatePris.Intar.Mathematics {
         public readonly string ToString(string format, IFormatProvider formatProvider) {
             var x = this.x.ToString(format, formatProvider);
             var y = this.y.ToString(format, formatProvider);
-            return $"I7F25_2({x}, {y})";
+            return $"Vector2I7F25({x}, {y})";
         }
     }
 }

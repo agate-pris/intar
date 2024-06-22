@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-    public struct U31F1_4 : IEquatable<U31F1_4>, IFormattable {
+    public struct Vector4U31F1 : IEquatable<Vector4U31F1>, IFormattable {
         // Fields
         // ---------------------------------------
 
@@ -16,13 +16,13 @@ namespace AgatePris.Intar.Mathematics {
         // Constants
         // ---------------------------------------
 
-        public static readonly U31F1_4 zero;
+        public static readonly Vector4U31F1 zero;
 
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1 x, U31F1 y, U31F1 z, U31F1 w) {
+        public Vector4U31F1(U31F1 x, U31F1 y, U31F1 z, U31F1 w) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -30,7 +30,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1 x, U31F1 y, U31F1_2 zw) {
+        public Vector4U31F1(U31F1 x, U31F1 y, Vector2U31F1 zw) {
             this.x = x;
             this.y = y;
             z = zw.x;
@@ -38,7 +38,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1 x, U31F1_3 yzw) {
+        public Vector4U31F1(U31F1 x, Vector3U31F1 yzw) {
             this.x = x;
             y = yzw.x;
             z = yzw.y;
@@ -46,7 +46,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1_2 xy, U31F1_2 zw) {
+        public Vector4U31F1(Vector2U31F1 xy, Vector2U31F1 zw) {
             x = xy.x;
             y = xy.y;
             z = zw.x;
@@ -54,7 +54,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1_4 xyzw) {
+        public Vector4U31F1(Vector4U31F1 xyzw) {
             x = xyzw.x;
             y = xyzw.y;
             z = xyzw.z;
@@ -62,7 +62,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1 x, U31F1_2 yz, U31F1 w) {
+        public Vector4U31F1(U31F1 x, Vector2U31F1 yz, U31F1 w) {
             this.x = x;
             y = yz.x;
             z = yz.y;
@@ -70,7 +70,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1_3 xyz, U31F1 w) {
+        public Vector4U31F1(Vector3U31F1 xyz, U31F1 w) {
             x = xyz.x;
             y = xyz.y;
             z = xyz.z;
@@ -78,7 +78,7 @@ namespace AgatePris.Intar.Mathematics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1_4(U31F1_2 xy, U31F1 z, U31F1 w) {
+        public Vector4U31F1(Vector2U31F1 xy, U31F1 z, U31F1 w) {
             x = xy.x;
             y = xy.y;
             this.z = z;
@@ -89,56 +89,56 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator +(U31F1_4 a, U31F1_4 b) => new U31F1_4(
+        public static Vector4U31F1 operator +(Vector4U31F1 a, Vector4U31F1 b) => new Vector4U31F1(
             a.x + b.x,
             a.y + b.y,
             a.z + b.z,
             a.w + b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator -(U31F1_4 a, U31F1_4 b) => new U31F1_4(
+        public static Vector4U31F1 operator -(Vector4U31F1 a, Vector4U31F1 b) => new Vector4U31F1(
             a.x - b.x,
             a.y - b.y,
             a.z - b.z,
             a.w - b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator *(U31F1_4 a, U31F1_4 b) => new U31F1_4(
+        public static Vector4U31F1 operator *(Vector4U31F1 a, Vector4U31F1 b) => new Vector4U31F1(
             a.x * b.x,
             a.y * b.y,
             a.z * b.z,
             a.w * b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator *(U31F1_4 a, U31F1 b) => new U31F1_4(
+        public static Vector4U31F1 operator *(Vector4U31F1 a, U31F1 b) => new Vector4U31F1(
             a.x * b,
             a.y * b,
             a.z * b,
             a.w * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator *(U31F1 a, U31F1_4 b) => new U31F1_4(
+        public static Vector4U31F1 operator *(U31F1 a, Vector4U31F1 b) => new Vector4U31F1(
             a * b.x,
             a * b.y,
             a * b.z,
             a * b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator /(U31F1_4 a, U31F1_4 b) => new U31F1_4(
+        public static Vector4U31F1 operator /(Vector4U31F1 a, Vector4U31F1 b) => new Vector4U31F1(
             a.x / b.x,
             a.y / b.y,
             a.z / b.z,
             a.w / b.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator /(U31F1_4 a, U31F1 b) => new U31F1_4(
+        public static Vector4U31F1 operator /(Vector4U31F1 a, U31F1 b) => new Vector4U31F1(
             a.x / b,
             a.y / b,
             a.z / b,
             a.w / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U31F1_4 operator /(U31F1 a, U31F1_4 b) => new U31F1_4(
+        public static Vector4U31F1 operator /(U31F1 a, Vector4U31F1 b) => new Vector4U31F1(
             a / b.x,
             a / b.y,
             a / b.z,
@@ -147,368 +147,372 @@ namespace AgatePris.Intar.Mathematics {
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly U31F1_2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(x, x); }
-        public readonly U31F1_2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(x, y); }
-        public readonly U31F1_2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(x, z); }
-        public readonly U31F1_2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(x, w); }
-        public readonly U31F1_2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(y, x); }
-        public readonly U31F1_2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(y, y); }
-        public readonly U31F1_2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(y, z); }
-        public readonly U31F1_2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(y, w); }
-        public readonly U31F1_2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(z, x); }
-        public readonly U31F1_2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(z, y); }
-        public readonly U31F1_2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(z, z); }
-        public readonly U31F1_2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(z, w); }
-        public readonly U31F1_2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(w, x); }
-        public readonly U31F1_2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(w, y); }
-        public readonly U31F1_2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(w, z); }
-        public readonly U31F1_2 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_2(w, w); }
-        public readonly U31F1_3 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, x, x); }
-        public readonly U31F1_3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, x, y); }
-        public readonly U31F1_3 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, x, z); }
-        public readonly U31F1_3 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, x, w); }
-        public readonly U31F1_3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, y, x); }
-        public readonly U31F1_3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, y, y); }
-        public readonly U31F1_3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, y, z); }
-        public readonly U31F1_3 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, y, w); }
-        public readonly U31F1_3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, z, x); }
-        public readonly U31F1_3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, z, y); }
-        public readonly U31F1_3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, z, z); }
-        public readonly U31F1_3 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, z, w); }
-        public readonly U31F1_3 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, w, x); }
-        public readonly U31F1_3 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, w, y); }
-        public readonly U31F1_3 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, w, z); }
-        public readonly U31F1_3 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(x, w, w); }
-        public readonly U31F1_3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, x, x); }
-        public readonly U31F1_3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, x, y); }
-        public readonly U31F1_3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, x, z); }
-        public readonly U31F1_3 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, x, w); }
-        public readonly U31F1_3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, y, x); }
-        public readonly U31F1_3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, y, y); }
-        public readonly U31F1_3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, y, z); }
-        public readonly U31F1_3 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, y, w); }
-        public readonly U31F1_3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, z, x); }
-        public readonly U31F1_3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, z, y); }
-        public readonly U31F1_3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, z, z); }
-        public readonly U31F1_3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, z, w); }
-        public readonly U31F1_3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, w, x); }
-        public readonly U31F1_3 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, w, y); }
-        public readonly U31F1_3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, w, z); }
-        public readonly U31F1_3 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(y, w, w); }
-        public readonly U31F1_3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, x, x); }
-        public readonly U31F1_3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, x, y); }
-        public readonly U31F1_3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, x, z); }
-        public readonly U31F1_3 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, x, w); }
-        public readonly U31F1_3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, y, x); }
-        public readonly U31F1_3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, y, y); }
-        public readonly U31F1_3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, y, z); }
-        public readonly U31F1_3 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, y, w); }
-        public readonly U31F1_3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, z, x); }
-        public readonly U31F1_3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, z, y); }
-        public readonly U31F1_3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, z, z); }
-        public readonly U31F1_3 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, z, w); }
-        public readonly U31F1_3 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, w, x); }
-        public readonly U31F1_3 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, w, y); }
-        public readonly U31F1_3 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, w, z); }
-        public readonly U31F1_3 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(z, w, w); }
-        public readonly U31F1_3 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, x, x); }
-        public readonly U31F1_3 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, x, y); }
-        public readonly U31F1_3 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, x, z); }
-        public readonly U31F1_3 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, x, w); }
-        public readonly U31F1_3 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, y, x); }
-        public readonly U31F1_3 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, y, y); }
-        public readonly U31F1_3 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, y, z); }
-        public readonly U31F1_3 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, y, w); }
-        public readonly U31F1_3 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, z, x); }
-        public readonly U31F1_3 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, z, y); }
-        public readonly U31F1_3 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, z, z); }
-        public readonly U31F1_3 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, z, w); }
-        public readonly U31F1_3 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, w, x); }
-        public readonly U31F1_3 wwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, w, y); }
-        public readonly U31F1_3 wwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, w, z); }
-        public readonly U31F1_3 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_3(w, w, w); }
-        public readonly U31F1_4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, x, x); }
-        public readonly U31F1_4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, x, y); }
-        public readonly U31F1_4 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, x, z); }
-        public readonly U31F1_4 xxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, x, w); }
-        public readonly U31F1_4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, y, x); }
-        public readonly U31F1_4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, y, y); }
-        public readonly U31F1_4 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, y, z); }
-        public readonly U31F1_4 xxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, y, w); }
-        public readonly U31F1_4 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, z, x); }
-        public readonly U31F1_4 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, z, y); }
-        public readonly U31F1_4 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, z, z); }
-        public readonly U31F1_4 xxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, z, w); }
-        public readonly U31F1_4 xxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, w, x); }
-        public readonly U31F1_4 xxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, w, y); }
-        public readonly U31F1_4 xxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, w, z); }
-        public readonly U31F1_4 xxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, x, w, w); }
-        public readonly U31F1_4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, x, x); }
-        public readonly U31F1_4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, x, y); }
-        public readonly U31F1_4 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, x, z); }
-        public readonly U31F1_4 xyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, x, w); }
-        public readonly U31F1_4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, y, x); }
-        public readonly U31F1_4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, y, y); }
-        public readonly U31F1_4 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, y, z); }
-        public readonly U31F1_4 xyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, y, w); }
-        public readonly U31F1_4 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, z, x); }
-        public readonly U31F1_4 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, z, y); }
-        public readonly U31F1_4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, z, z); }
-        public readonly U31F1_4 xyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, z, w); }
-        public readonly U31F1_4 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, w, x); }
-        public readonly U31F1_4 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, w, y); }
-        public readonly U31F1_4 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, w, z); }
-        public readonly U31F1_4 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, y, w, w); }
-        public readonly U31F1_4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, x, x); }
-        public readonly U31F1_4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, x, y); }
-        public readonly U31F1_4 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, x, z); }
-        public readonly U31F1_4 xzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, x, w); }
-        public readonly U31F1_4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, y, x); }
-        public readonly U31F1_4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, y, y); }
-        public readonly U31F1_4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, y, z); }
-        public readonly U31F1_4 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, y, w); }
-        public readonly U31F1_4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, z, x); }
-        public readonly U31F1_4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, z, y); }
-        public readonly U31F1_4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, z, z); }
-        public readonly U31F1_4 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, z, w); }
-        public readonly U31F1_4 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, w, x); }
-        public readonly U31F1_4 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, w, y); }
-        public readonly U31F1_4 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, w, z); }
-        public readonly U31F1_4 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, z, w, w); }
-        public readonly U31F1_4 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, x, x); }
-        public readonly U31F1_4 xwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, x, y); }
-        public readonly U31F1_4 xwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, x, z); }
-        public readonly U31F1_4 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, x, w); }
-        public readonly U31F1_4 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, y, x); }
-        public readonly U31F1_4 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, y, y); }
-        public readonly U31F1_4 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, y, z); }
-        public readonly U31F1_4 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, y, w); }
-        public readonly U31F1_4 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, z, x); }
-        public readonly U31F1_4 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, z, y); }
-        public readonly U31F1_4 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, z, z); }
-        public readonly U31F1_4 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, z, w); }
-        public readonly U31F1_4 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, w, x); }
-        public readonly U31F1_4 xwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, w, y); }
-        public readonly U31F1_4 xwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, w, z); }
-        public readonly U31F1_4 xwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(x, w, w, w); }
-        public readonly U31F1_4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, x, x); }
-        public readonly U31F1_4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, x, y); }
-        public readonly U31F1_4 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, x, z); }
-        public readonly U31F1_4 yxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, x, w); }
-        public readonly U31F1_4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, y, x); }
-        public readonly U31F1_4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, y, y); }
-        public readonly U31F1_4 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, y, z); }
-        public readonly U31F1_4 yxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, y, w); }
-        public readonly U31F1_4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, z, x); }
-        public readonly U31F1_4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, z, y); }
-        public readonly U31F1_4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, z, z); }
-        public readonly U31F1_4 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, z, w); }
-        public readonly U31F1_4 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, w, x); }
-        public readonly U31F1_4 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, w, y); }
-        public readonly U31F1_4 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, w, z); }
-        public readonly U31F1_4 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, x, w, w); }
-        public readonly U31F1_4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, x, x); }
-        public readonly U31F1_4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, x, y); }
-        public readonly U31F1_4 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, x, z); }
-        public readonly U31F1_4 yyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, x, w); }
-        public readonly U31F1_4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, y, x); }
-        public readonly U31F1_4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, y, y); }
-        public readonly U31F1_4 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, y, z); }
-        public readonly U31F1_4 yyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, y, w); }
-        public readonly U31F1_4 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, z, x); }
-        public readonly U31F1_4 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, z, y); }
-        public readonly U31F1_4 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, z, z); }
-        public readonly U31F1_4 yyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, z, w); }
-        public readonly U31F1_4 yywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, w, x); }
-        public readonly U31F1_4 yywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, w, y); }
-        public readonly U31F1_4 yywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, w, z); }
-        public readonly U31F1_4 yyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, y, w, w); }
-        public readonly U31F1_4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, x, x); }
-        public readonly U31F1_4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, x, y); }
-        public readonly U31F1_4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, x, z); }
-        public readonly U31F1_4 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, x, w); }
-        public readonly U31F1_4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, y, x); }
-        public readonly U31F1_4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, y, y); }
-        public readonly U31F1_4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, y, z); }
-        public readonly U31F1_4 yzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, y, w); }
-        public readonly U31F1_4 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, z, x); }
-        public readonly U31F1_4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, z, y); }
-        public readonly U31F1_4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, z, z); }
-        public readonly U31F1_4 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, z, w); }
-        public readonly U31F1_4 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, w, x); }
-        public readonly U31F1_4 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, w, y); }
-        public readonly U31F1_4 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, w, z); }
-        public readonly U31F1_4 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, z, w, w); }
-        public readonly U31F1_4 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, x, x); }
-        public readonly U31F1_4 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, x, y); }
-        public readonly U31F1_4 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, x, z); }
-        public readonly U31F1_4 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, x, w); }
-        public readonly U31F1_4 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, y, x); }
-        public readonly U31F1_4 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, y, y); }
-        public readonly U31F1_4 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, y, z); }
-        public readonly U31F1_4 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, y, w); }
-        public readonly U31F1_4 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, z, x); }
-        public readonly U31F1_4 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, z, y); }
-        public readonly U31F1_4 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, z, z); }
-        public readonly U31F1_4 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, z, w); }
-        public readonly U31F1_4 ywwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, w, x); }
-        public readonly U31F1_4 ywwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, w, y); }
-        public readonly U31F1_4 ywwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, w, z); }
-        public readonly U31F1_4 ywww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(y, w, w, w); }
-        public readonly U31F1_4 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, x, x); }
-        public readonly U31F1_4 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, x, y); }
-        public readonly U31F1_4 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, x, z); }
-        public readonly U31F1_4 zxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, x, w); }
-        public readonly U31F1_4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, y, x); }
-        public readonly U31F1_4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, y, y); }
-        public readonly U31F1_4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, y, z); }
-        public readonly U31F1_4 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, y, w); }
-        public readonly U31F1_4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, z, x); }
-        public readonly U31F1_4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, z, y); }
-        public readonly U31F1_4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, z, z); }
-        public readonly U31F1_4 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, z, w); }
-        public readonly U31F1_4 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, w, x); }
-        public readonly U31F1_4 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, w, y); }
-        public readonly U31F1_4 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, w, z); }
-        public readonly U31F1_4 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, x, w, w); }
-        public readonly U31F1_4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, x, x); }
-        public readonly U31F1_4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, x, y); }
-        public readonly U31F1_4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, x, z); }
-        public readonly U31F1_4 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, x, w); }
-        public readonly U31F1_4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, y, x); }
-        public readonly U31F1_4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, y, y); }
-        public readonly U31F1_4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, y, z); }
-        public readonly U31F1_4 zyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, y, w); }
-        public readonly U31F1_4 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, z, x); }
-        public readonly U31F1_4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, z, y); }
-        public readonly U31F1_4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, z, z); }
-        public readonly U31F1_4 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, z, w); }
-        public readonly U31F1_4 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, w, x); }
-        public readonly U31F1_4 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, w, y); }
-        public readonly U31F1_4 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, w, z); }
-        public readonly U31F1_4 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, y, w, w); }
-        public readonly U31F1_4 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, x, x); }
-        public readonly U31F1_4 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, x, y); }
-        public readonly U31F1_4 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, x, z); }
-        public readonly U31F1_4 zzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, x, w); }
-        public readonly U31F1_4 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, y, x); }
-        public readonly U31F1_4 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, y, y); }
-        public readonly U31F1_4 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, y, z); }
-        public readonly U31F1_4 zzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, y, w); }
-        public readonly U31F1_4 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, z, x); }
-        public readonly U31F1_4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, z, y); }
-        public readonly U31F1_4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, z, z); }
-        public readonly U31F1_4 zzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, z, w); }
-        public readonly U31F1_4 zzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, w, x); }
-        public readonly U31F1_4 zzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, w, y); }
-        public readonly U31F1_4 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, w, z); }
-        public readonly U31F1_4 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, z, w, w); }
-        public readonly U31F1_4 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, x, x); }
-        public readonly U31F1_4 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, x, y); }
-        public readonly U31F1_4 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, x, z); }
-        public readonly U31F1_4 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, x, w); }
-        public readonly U31F1_4 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, y, x); }
-        public readonly U31F1_4 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, y, y); }
-        public readonly U31F1_4 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, y, z); }
-        public readonly U31F1_4 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, y, w); }
-        public readonly U31F1_4 zwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, z, x); }
-        public readonly U31F1_4 zwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, z, y); }
-        public readonly U31F1_4 zwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, z, z); }
-        public readonly U31F1_4 zwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, z, w); }
-        public readonly U31F1_4 zwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, w, x); }
-        public readonly U31F1_4 zwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, w, y); }
-        public readonly U31F1_4 zwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, w, z); }
-        public readonly U31F1_4 zwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(z, w, w, w); }
-        public readonly U31F1_4 wxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, x, x); }
-        public readonly U31F1_4 wxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, x, y); }
-        public readonly U31F1_4 wxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, x, z); }
-        public readonly U31F1_4 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, x, w); }
-        public readonly U31F1_4 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, y, x); }
-        public readonly U31F1_4 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, y, y); }
-        public readonly U31F1_4 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, y, z); }
-        public readonly U31F1_4 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, y, w); }
-        public readonly U31F1_4 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, z, x); }
-        public readonly U31F1_4 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, z, y); }
-        public readonly U31F1_4 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, z, z); }
-        public readonly U31F1_4 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, z, w); }
-        public readonly U31F1_4 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, w, x); }
-        public readonly U31F1_4 wxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, w, y); }
-        public readonly U31F1_4 wxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, w, z); }
-        public readonly U31F1_4 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, x, w, w); }
-        public readonly U31F1_4 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, x, x); }
-        public readonly U31F1_4 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, x, y); }
-        public readonly U31F1_4 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, x, z); }
-        public readonly U31F1_4 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, x, w); }
-        public readonly U31F1_4 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, y, x); }
-        public readonly U31F1_4 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, y, y); }
-        public readonly U31F1_4 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, y, z); }
-        public readonly U31F1_4 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, y, w); }
-        public readonly U31F1_4 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, z, x); }
-        public readonly U31F1_4 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, z, y); }
-        public readonly U31F1_4 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, z, z); }
-        public readonly U31F1_4 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, z, w); }
-        public readonly U31F1_4 wywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, w, x); }
-        public readonly U31F1_4 wywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, w, y); }
-        public readonly U31F1_4 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, w, z); }
-        public readonly U31F1_4 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, y, w, w); }
-        public readonly U31F1_4 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, x, x); }
-        public readonly U31F1_4 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, x, y); }
-        public readonly U31F1_4 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, x, z); }
-        public readonly U31F1_4 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, x, w); }
-        public readonly U31F1_4 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, y, x); }
-        public readonly U31F1_4 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, y, y); }
-        public readonly U31F1_4 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, y, z); }
-        public readonly U31F1_4 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, y, w); }
-        public readonly U31F1_4 wzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, z, x); }
-        public readonly U31F1_4 wzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, z, y); }
-        public readonly U31F1_4 wzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, z, z); }
-        public readonly U31F1_4 wzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, z, w); }
-        public readonly U31F1_4 wzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, w, x); }
-        public readonly U31F1_4 wzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, w, y); }
-        public readonly U31F1_4 wzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, w, z); }
-        public readonly U31F1_4 wzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, z, w, w); }
-        public readonly U31F1_4 wwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, x, x); }
-        public readonly U31F1_4 wwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, x, y); }
-        public readonly U31F1_4 wwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, x, z); }
-        public readonly U31F1_4 wwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, x, w); }
-        public readonly U31F1_4 wwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, y, x); }
-        public readonly U31F1_4 wwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, y, y); }
-        public readonly U31F1_4 wwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, y, z); }
-        public readonly U31F1_4 wwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, y, w); }
-        public readonly U31F1_4 wwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, z, x); }
-        public readonly U31F1_4 wwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, z, y); }
-        public readonly U31F1_4 wwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, z, z); }
-        public readonly U31F1_4 wwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, z, w); }
-        public readonly U31F1_4 wwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, w, x); }
-        public readonly U31F1_4 wwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, w, y); }
-        public readonly U31F1_4 wwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, w, z); }
-        public readonly U31F1_4 wwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U31F1_4(w, w, w, w); }
+#pragma warning disable IDE1006 // 命名スタイル
+
+        public readonly Vector2U31F1 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(x, x); }
+        public readonly Vector2U31F1 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(x, y); }
+        public readonly Vector2U31F1 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(x, z); }
+        public readonly Vector2U31F1 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(x, w); }
+        public readonly Vector2U31F1 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(y, x); }
+        public readonly Vector2U31F1 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(y, y); }
+        public readonly Vector2U31F1 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(y, z); }
+        public readonly Vector2U31F1 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(y, w); }
+        public readonly Vector2U31F1 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(z, x); }
+        public readonly Vector2U31F1 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(z, y); }
+        public readonly Vector2U31F1 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(z, z); }
+        public readonly Vector2U31F1 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(z, w); }
+        public readonly Vector2U31F1 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(w, x); }
+        public readonly Vector2U31F1 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(w, y); }
+        public readonly Vector2U31F1 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(w, z); }
+        public readonly Vector2U31F1 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U31F1(w, w); }
+        public readonly Vector3U31F1 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, x, x); }
+        public readonly Vector3U31F1 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, x, y); }
+        public readonly Vector3U31F1 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, x, z); }
+        public readonly Vector3U31F1 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, x, w); }
+        public readonly Vector3U31F1 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, y, x); }
+        public readonly Vector3U31F1 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, y, y); }
+        public readonly Vector3U31F1 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, y, z); }
+        public readonly Vector3U31F1 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, y, w); }
+        public readonly Vector3U31F1 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, z, x); }
+        public readonly Vector3U31F1 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, z, y); }
+        public readonly Vector3U31F1 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, z, z); }
+        public readonly Vector3U31F1 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, z, w); }
+        public readonly Vector3U31F1 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, w, x); }
+        public readonly Vector3U31F1 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, w, y); }
+        public readonly Vector3U31F1 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, w, z); }
+        public readonly Vector3U31F1 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(x, w, w); }
+        public readonly Vector3U31F1 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, x, x); }
+        public readonly Vector3U31F1 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, x, y); }
+        public readonly Vector3U31F1 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, x, z); }
+        public readonly Vector3U31F1 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, x, w); }
+        public readonly Vector3U31F1 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, y, x); }
+        public readonly Vector3U31F1 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, y, y); }
+        public readonly Vector3U31F1 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, y, z); }
+        public readonly Vector3U31F1 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, y, w); }
+        public readonly Vector3U31F1 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, z, x); }
+        public readonly Vector3U31F1 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, z, y); }
+        public readonly Vector3U31F1 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, z, z); }
+        public readonly Vector3U31F1 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, z, w); }
+        public readonly Vector3U31F1 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, w, x); }
+        public readonly Vector3U31F1 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, w, y); }
+        public readonly Vector3U31F1 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, w, z); }
+        public readonly Vector3U31F1 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(y, w, w); }
+        public readonly Vector3U31F1 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, x, x); }
+        public readonly Vector3U31F1 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, x, y); }
+        public readonly Vector3U31F1 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, x, z); }
+        public readonly Vector3U31F1 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, x, w); }
+        public readonly Vector3U31F1 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, y, x); }
+        public readonly Vector3U31F1 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, y, y); }
+        public readonly Vector3U31F1 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, y, z); }
+        public readonly Vector3U31F1 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, y, w); }
+        public readonly Vector3U31F1 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, z, x); }
+        public readonly Vector3U31F1 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, z, y); }
+        public readonly Vector3U31F1 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, z, z); }
+        public readonly Vector3U31F1 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, z, w); }
+        public readonly Vector3U31F1 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, w, x); }
+        public readonly Vector3U31F1 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, w, y); }
+        public readonly Vector3U31F1 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, w, z); }
+        public readonly Vector3U31F1 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(z, w, w); }
+        public readonly Vector3U31F1 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, x, x); }
+        public readonly Vector3U31F1 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, x, y); }
+        public readonly Vector3U31F1 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, x, z); }
+        public readonly Vector3U31F1 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, x, w); }
+        public readonly Vector3U31F1 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, y, x); }
+        public readonly Vector3U31F1 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, y, y); }
+        public readonly Vector3U31F1 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, y, z); }
+        public readonly Vector3U31F1 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, y, w); }
+        public readonly Vector3U31F1 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, z, x); }
+        public readonly Vector3U31F1 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, z, y); }
+        public readonly Vector3U31F1 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, z, z); }
+        public readonly Vector3U31F1 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, z, w); }
+        public readonly Vector3U31F1 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, w, x); }
+        public readonly Vector3U31F1 wwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, w, y); }
+        public readonly Vector3U31F1 wwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, w, z); }
+        public readonly Vector3U31F1 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U31F1(w, w, w); }
+        public readonly Vector4U31F1 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, x, x); }
+        public readonly Vector4U31F1 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, x, y); }
+        public readonly Vector4U31F1 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, x, z); }
+        public readonly Vector4U31F1 xxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, x, w); }
+        public readonly Vector4U31F1 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, y, x); }
+        public readonly Vector4U31F1 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, y, y); }
+        public readonly Vector4U31F1 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, y, z); }
+        public readonly Vector4U31F1 xxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, y, w); }
+        public readonly Vector4U31F1 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, z, x); }
+        public readonly Vector4U31F1 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, z, y); }
+        public readonly Vector4U31F1 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, z, z); }
+        public readonly Vector4U31F1 xxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, z, w); }
+        public readonly Vector4U31F1 xxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, w, x); }
+        public readonly Vector4U31F1 xxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, w, y); }
+        public readonly Vector4U31F1 xxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, w, z); }
+        public readonly Vector4U31F1 xxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, x, w, w); }
+        public readonly Vector4U31F1 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, x, x); }
+        public readonly Vector4U31F1 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, x, y); }
+        public readonly Vector4U31F1 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, x, z); }
+        public readonly Vector4U31F1 xyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, x, w); }
+        public readonly Vector4U31F1 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, y, x); }
+        public readonly Vector4U31F1 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, y, y); }
+        public readonly Vector4U31F1 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, y, z); }
+        public readonly Vector4U31F1 xyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, y, w); }
+        public readonly Vector4U31F1 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, z, x); }
+        public readonly Vector4U31F1 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, z, y); }
+        public readonly Vector4U31F1 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, z, z); }
+        public readonly Vector4U31F1 xyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, z, w); }
+        public readonly Vector4U31F1 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, w, x); }
+        public readonly Vector4U31F1 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, w, y); }
+        public readonly Vector4U31F1 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, w, z); }
+        public readonly Vector4U31F1 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, y, w, w); }
+        public readonly Vector4U31F1 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, x, x); }
+        public readonly Vector4U31F1 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, x, y); }
+        public readonly Vector4U31F1 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, x, z); }
+        public readonly Vector4U31F1 xzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, x, w); }
+        public readonly Vector4U31F1 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, y, x); }
+        public readonly Vector4U31F1 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, y, y); }
+        public readonly Vector4U31F1 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, y, z); }
+        public readonly Vector4U31F1 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, y, w); }
+        public readonly Vector4U31F1 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, z, x); }
+        public readonly Vector4U31F1 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, z, y); }
+        public readonly Vector4U31F1 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, z, z); }
+        public readonly Vector4U31F1 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, z, w); }
+        public readonly Vector4U31F1 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, w, x); }
+        public readonly Vector4U31F1 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, w, y); }
+        public readonly Vector4U31F1 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, w, z); }
+        public readonly Vector4U31F1 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, z, w, w); }
+        public readonly Vector4U31F1 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, x, x); }
+        public readonly Vector4U31F1 xwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, x, y); }
+        public readonly Vector4U31F1 xwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, x, z); }
+        public readonly Vector4U31F1 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, x, w); }
+        public readonly Vector4U31F1 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, y, x); }
+        public readonly Vector4U31F1 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, y, y); }
+        public readonly Vector4U31F1 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, y, z); }
+        public readonly Vector4U31F1 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, y, w); }
+        public readonly Vector4U31F1 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, z, x); }
+        public readonly Vector4U31F1 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, z, y); }
+        public readonly Vector4U31F1 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, z, z); }
+        public readonly Vector4U31F1 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, z, w); }
+        public readonly Vector4U31F1 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, w, x); }
+        public readonly Vector4U31F1 xwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, w, y); }
+        public readonly Vector4U31F1 xwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, w, z); }
+        public readonly Vector4U31F1 xwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(x, w, w, w); }
+        public readonly Vector4U31F1 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, x, x); }
+        public readonly Vector4U31F1 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, x, y); }
+        public readonly Vector4U31F1 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, x, z); }
+        public readonly Vector4U31F1 yxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, x, w); }
+        public readonly Vector4U31F1 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, y, x); }
+        public readonly Vector4U31F1 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, y, y); }
+        public readonly Vector4U31F1 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, y, z); }
+        public readonly Vector4U31F1 yxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, y, w); }
+        public readonly Vector4U31F1 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, z, x); }
+        public readonly Vector4U31F1 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, z, y); }
+        public readonly Vector4U31F1 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, z, z); }
+        public readonly Vector4U31F1 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, z, w); }
+        public readonly Vector4U31F1 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, w, x); }
+        public readonly Vector4U31F1 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, w, y); }
+        public readonly Vector4U31F1 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, w, z); }
+        public readonly Vector4U31F1 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, x, w, w); }
+        public readonly Vector4U31F1 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, x, x); }
+        public readonly Vector4U31F1 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, x, y); }
+        public readonly Vector4U31F1 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, x, z); }
+        public readonly Vector4U31F1 yyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, x, w); }
+        public readonly Vector4U31F1 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, y, x); }
+        public readonly Vector4U31F1 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, y, y); }
+        public readonly Vector4U31F1 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, y, z); }
+        public readonly Vector4U31F1 yyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, y, w); }
+        public readonly Vector4U31F1 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, z, x); }
+        public readonly Vector4U31F1 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, z, y); }
+        public readonly Vector4U31F1 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, z, z); }
+        public readonly Vector4U31F1 yyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, z, w); }
+        public readonly Vector4U31F1 yywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, w, x); }
+        public readonly Vector4U31F1 yywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, w, y); }
+        public readonly Vector4U31F1 yywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, w, z); }
+        public readonly Vector4U31F1 yyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, y, w, w); }
+        public readonly Vector4U31F1 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, x, x); }
+        public readonly Vector4U31F1 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, x, y); }
+        public readonly Vector4U31F1 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, x, z); }
+        public readonly Vector4U31F1 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, x, w); }
+        public readonly Vector4U31F1 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, y, x); }
+        public readonly Vector4U31F1 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, y, y); }
+        public readonly Vector4U31F1 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, y, z); }
+        public readonly Vector4U31F1 yzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, y, w); }
+        public readonly Vector4U31F1 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, z, x); }
+        public readonly Vector4U31F1 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, z, y); }
+        public readonly Vector4U31F1 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, z, z); }
+        public readonly Vector4U31F1 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, z, w); }
+        public readonly Vector4U31F1 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, w, x); }
+        public readonly Vector4U31F1 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, w, y); }
+        public readonly Vector4U31F1 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, w, z); }
+        public readonly Vector4U31F1 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, z, w, w); }
+        public readonly Vector4U31F1 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, x, x); }
+        public readonly Vector4U31F1 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, x, y); }
+        public readonly Vector4U31F1 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, x, z); }
+        public readonly Vector4U31F1 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, x, w); }
+        public readonly Vector4U31F1 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, y, x); }
+        public readonly Vector4U31F1 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, y, y); }
+        public readonly Vector4U31F1 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, y, z); }
+        public readonly Vector4U31F1 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, y, w); }
+        public readonly Vector4U31F1 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, z, x); }
+        public readonly Vector4U31F1 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, z, y); }
+        public readonly Vector4U31F1 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, z, z); }
+        public readonly Vector4U31F1 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, z, w); }
+        public readonly Vector4U31F1 ywwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, w, x); }
+        public readonly Vector4U31F1 ywwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, w, y); }
+        public readonly Vector4U31F1 ywwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, w, z); }
+        public readonly Vector4U31F1 ywww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(y, w, w, w); }
+        public readonly Vector4U31F1 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, x, x); }
+        public readonly Vector4U31F1 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, x, y); }
+        public readonly Vector4U31F1 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, x, z); }
+        public readonly Vector4U31F1 zxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, x, w); }
+        public readonly Vector4U31F1 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, y, x); }
+        public readonly Vector4U31F1 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, y, y); }
+        public readonly Vector4U31F1 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, y, z); }
+        public readonly Vector4U31F1 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, y, w); }
+        public readonly Vector4U31F1 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, z, x); }
+        public readonly Vector4U31F1 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, z, y); }
+        public readonly Vector4U31F1 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, z, z); }
+        public readonly Vector4U31F1 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, z, w); }
+        public readonly Vector4U31F1 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, w, x); }
+        public readonly Vector4U31F1 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, w, y); }
+        public readonly Vector4U31F1 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, w, z); }
+        public readonly Vector4U31F1 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, x, w, w); }
+        public readonly Vector4U31F1 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, x, x); }
+        public readonly Vector4U31F1 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, x, y); }
+        public readonly Vector4U31F1 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, x, z); }
+        public readonly Vector4U31F1 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, x, w); }
+        public readonly Vector4U31F1 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, y, x); }
+        public readonly Vector4U31F1 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, y, y); }
+        public readonly Vector4U31F1 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, y, z); }
+        public readonly Vector4U31F1 zyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, y, w); }
+        public readonly Vector4U31F1 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, z, x); }
+        public readonly Vector4U31F1 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, z, y); }
+        public readonly Vector4U31F1 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, z, z); }
+        public readonly Vector4U31F1 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, z, w); }
+        public readonly Vector4U31F1 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, w, x); }
+        public readonly Vector4U31F1 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, w, y); }
+        public readonly Vector4U31F1 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, w, z); }
+        public readonly Vector4U31F1 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, y, w, w); }
+        public readonly Vector4U31F1 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, x, x); }
+        public readonly Vector4U31F1 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, x, y); }
+        public readonly Vector4U31F1 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, x, z); }
+        public readonly Vector4U31F1 zzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, x, w); }
+        public readonly Vector4U31F1 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, y, x); }
+        public readonly Vector4U31F1 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, y, y); }
+        public readonly Vector4U31F1 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, y, z); }
+        public readonly Vector4U31F1 zzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, y, w); }
+        public readonly Vector4U31F1 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, z, x); }
+        public readonly Vector4U31F1 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, z, y); }
+        public readonly Vector4U31F1 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, z, z); }
+        public readonly Vector4U31F1 zzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, z, w); }
+        public readonly Vector4U31F1 zzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, w, x); }
+        public readonly Vector4U31F1 zzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, w, y); }
+        public readonly Vector4U31F1 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, w, z); }
+        public readonly Vector4U31F1 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, z, w, w); }
+        public readonly Vector4U31F1 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, x, x); }
+        public readonly Vector4U31F1 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, x, y); }
+        public readonly Vector4U31F1 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, x, z); }
+        public readonly Vector4U31F1 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, x, w); }
+        public readonly Vector4U31F1 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, y, x); }
+        public readonly Vector4U31F1 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, y, y); }
+        public readonly Vector4U31F1 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, y, z); }
+        public readonly Vector4U31F1 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, y, w); }
+        public readonly Vector4U31F1 zwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, z, x); }
+        public readonly Vector4U31F1 zwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, z, y); }
+        public readonly Vector4U31F1 zwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, z, z); }
+        public readonly Vector4U31F1 zwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, z, w); }
+        public readonly Vector4U31F1 zwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, w, x); }
+        public readonly Vector4U31F1 zwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, w, y); }
+        public readonly Vector4U31F1 zwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, w, z); }
+        public readonly Vector4U31F1 zwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(z, w, w, w); }
+        public readonly Vector4U31F1 wxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, x, x); }
+        public readonly Vector4U31F1 wxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, x, y); }
+        public readonly Vector4U31F1 wxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, x, z); }
+        public readonly Vector4U31F1 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, x, w); }
+        public readonly Vector4U31F1 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, y, x); }
+        public readonly Vector4U31F1 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, y, y); }
+        public readonly Vector4U31F1 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, y, z); }
+        public readonly Vector4U31F1 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, y, w); }
+        public readonly Vector4U31F1 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, z, x); }
+        public readonly Vector4U31F1 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, z, y); }
+        public readonly Vector4U31F1 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, z, z); }
+        public readonly Vector4U31F1 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, z, w); }
+        public readonly Vector4U31F1 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, w, x); }
+        public readonly Vector4U31F1 wxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, w, y); }
+        public readonly Vector4U31F1 wxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, w, z); }
+        public readonly Vector4U31F1 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, x, w, w); }
+        public readonly Vector4U31F1 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, x, x); }
+        public readonly Vector4U31F1 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, x, y); }
+        public readonly Vector4U31F1 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, x, z); }
+        public readonly Vector4U31F1 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, x, w); }
+        public readonly Vector4U31F1 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, y, x); }
+        public readonly Vector4U31F1 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, y, y); }
+        public readonly Vector4U31F1 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, y, z); }
+        public readonly Vector4U31F1 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, y, w); }
+        public readonly Vector4U31F1 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, z, x); }
+        public readonly Vector4U31F1 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, z, y); }
+        public readonly Vector4U31F1 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, z, z); }
+        public readonly Vector4U31F1 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, z, w); }
+        public readonly Vector4U31F1 wywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, w, x); }
+        public readonly Vector4U31F1 wywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, w, y); }
+        public readonly Vector4U31F1 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, w, z); }
+        public readonly Vector4U31F1 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, y, w, w); }
+        public readonly Vector4U31F1 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, x, x); }
+        public readonly Vector4U31F1 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, x, y); }
+        public readonly Vector4U31F1 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, x, z); }
+        public readonly Vector4U31F1 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, x, w); }
+        public readonly Vector4U31F1 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, y, x); }
+        public readonly Vector4U31F1 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, y, y); }
+        public readonly Vector4U31F1 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, y, z); }
+        public readonly Vector4U31F1 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, y, w); }
+        public readonly Vector4U31F1 wzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, z, x); }
+        public readonly Vector4U31F1 wzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, z, y); }
+        public readonly Vector4U31F1 wzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, z, z); }
+        public readonly Vector4U31F1 wzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, z, w); }
+        public readonly Vector4U31F1 wzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, w, x); }
+        public readonly Vector4U31F1 wzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, w, y); }
+        public readonly Vector4U31F1 wzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, w, z); }
+        public readonly Vector4U31F1 wzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, z, w, w); }
+        public readonly Vector4U31F1 wwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, x, x); }
+        public readonly Vector4U31F1 wwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, x, y); }
+        public readonly Vector4U31F1 wwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, x, z); }
+        public readonly Vector4U31F1 wwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, x, w); }
+        public readonly Vector4U31F1 wwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, y, x); }
+        public readonly Vector4U31F1 wwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, y, y); }
+        public readonly Vector4U31F1 wwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, y, z); }
+        public readonly Vector4U31F1 wwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, y, w); }
+        public readonly Vector4U31F1 wwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, z, x); }
+        public readonly Vector4U31F1 wwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, z, y); }
+        public readonly Vector4U31F1 wwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, z, z); }
+        public readonly Vector4U31F1 wwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, z, w); }
+        public readonly Vector4U31F1 wwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, w, x); }
+        public readonly Vector4U31F1 wwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, w, y); }
+        public readonly Vector4U31F1 wwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, w, z); }
+        public readonly Vector4U31F1 wwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U31F1(w, w, w, w); }
+
+#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(U31F1_4 lhs, U31F1_4 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(Vector4U31F1 lhs, Vector4U31F1 rhs) => lhs.Equals(rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(U31F1_4 lhs, U31F1_4 rhs) => !(lhs == rhs);
+        public static bool operator !=(Vector4U31F1 lhs, Vector4U31F1 rhs) => !(lhs == rhs);
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is U31F1_4 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is Vector4U31F1 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y, z, w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"U31F1_4({x}, {y}, {z}, {w})";
+        public override readonly string ToString() => $"Vector4U31F1({x}, {y}, {z}, {w})";
 
-        // IEquatable<U31F1_4>
+        // IEquatable<Vector4U31F1>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(U31F1_4 other)
+        public readonly bool Equals(Vector4U31F1 other)
             => other.x == x
             && other.y == y
             && other.z == z
@@ -523,7 +527,7 @@ namespace AgatePris.Intar.Mathematics {
             var y = this.y.ToString(format, formatProvider);
             var z = this.z.ToString(format, formatProvider);
             var w = this.w.ToString(format, formatProvider);
-            return $"U31F1_4({x}, {y}, {z}, {w})";
+            return $"Vector4U31F1({x}, {y}, {z}, {w})";
         }
     }
 }

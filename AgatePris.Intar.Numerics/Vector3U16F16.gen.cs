@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-    public struct U16F16_3 : IEquatable<U16F16_3>, IFormattable {
+    public struct Vector3U16F16 : IEquatable<Vector3U16F16>, IFormattable {
         // Fields
         // ---------------------------------------
 
@@ -15,34 +15,34 @@ namespace AgatePris.Intar.Mathematics {
         // Constants
         // ---------------------------------------
 
-        public static readonly U16F16_3 zero;
+        public static readonly Vector3U16F16 zero;
 
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U16F16_3(U16F16 x, U16F16 y, U16F16 z) {
+        public Vector3U16F16(U16F16 x, U16F16 y, U16F16 z) {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U16F16_3(U16F16 x, U16F16_2 yz) {
+        public Vector3U16F16(U16F16 x, Vector2U16F16 yz) {
             this.x = x;
             y = yz.x;
             z = yz.y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U16F16_3(U16F16_3 xyz) {
+        public Vector3U16F16(Vector3U16F16 xyz) {
             x = xyz.x;
             y = xyz.y;
             z = xyz.z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U16F16_3(U16F16_2 xy, U16F16 z) {
+        public Vector3U16F16(Vector2U16F16 xy, U16F16 z) {
             x = xy.x;
             y = xy.y;
             this.z = z;
@@ -52,49 +52,49 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator +(U16F16_3 a, U16F16_3 b) => new U16F16_3(
+        public static Vector3U16F16 operator +(Vector3U16F16 a, Vector3U16F16 b) => new Vector3U16F16(
             a.x + b.x,
             a.y + b.y,
             a.z + b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator -(U16F16_3 a, U16F16_3 b) => new U16F16_3(
+        public static Vector3U16F16 operator -(Vector3U16F16 a, Vector3U16F16 b) => new Vector3U16F16(
             a.x - b.x,
             a.y - b.y,
             a.z - b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator *(U16F16_3 a, U16F16_3 b) => new U16F16_3(
+        public static Vector3U16F16 operator *(Vector3U16F16 a, Vector3U16F16 b) => new Vector3U16F16(
             a.x * b.x,
             a.y * b.y,
             a.z * b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator *(U16F16_3 a, U16F16 b) => new U16F16_3(
+        public static Vector3U16F16 operator *(Vector3U16F16 a, U16F16 b) => new Vector3U16F16(
             a.x * b,
             a.y * b,
             a.z * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator *(U16F16 a, U16F16_3 b) => new U16F16_3(
+        public static Vector3U16F16 operator *(U16F16 a, Vector3U16F16 b) => new Vector3U16F16(
             a * b.x,
             a * b.y,
             a * b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator /(U16F16_3 a, U16F16_3 b) => new U16F16_3(
+        public static Vector3U16F16 operator /(Vector3U16F16 a, Vector3U16F16 b) => new Vector3U16F16(
             a.x / b.x,
             a.y / b.y,
             a.z / b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator /(U16F16_3 a, U16F16 b) => new U16F16_3(
+        public static Vector3U16F16 operator /(Vector3U16F16 a, U16F16 b) => new Vector3U16F16(
             a.x / b,
             a.y / b,
             a.z / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U16F16_3 operator /(U16F16 a, U16F16_3 b) => new U16F16_3(
+        public static Vector3U16F16 operator /(U16F16 a, Vector3U16F16 b) => new Vector3U16F16(
             a / b.x,
             a / b.y,
             a / b.z);
@@ -102,149 +102,153 @@ namespace AgatePris.Intar.Mathematics {
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly U16F16_2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(x, x); }
-        public readonly U16F16_2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(x, y); }
-        public readonly U16F16_2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(x, z); }
-        public readonly U16F16_2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(y, x); }
-        public readonly U16F16_2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(y, y); }
-        public readonly U16F16_2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(y, z); }
-        public readonly U16F16_2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(z, x); }
-        public readonly U16F16_2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(z, y); }
-        public readonly U16F16_2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_2(z, z); }
-        public readonly U16F16_3 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, x, x); }
-        public readonly U16F16_3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, x, y); }
-        public readonly U16F16_3 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, x, z); }
-        public readonly U16F16_3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, y, x); }
-        public readonly U16F16_3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, y, y); }
-        public readonly U16F16_3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, y, z); }
-        public readonly U16F16_3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, z, x); }
-        public readonly U16F16_3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, z, y); }
-        public readonly U16F16_3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(x, z, z); }
-        public readonly U16F16_3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, x, x); }
-        public readonly U16F16_3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, x, y); }
-        public readonly U16F16_3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, x, z); }
-        public readonly U16F16_3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, y, x); }
-        public readonly U16F16_3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, y, y); }
-        public readonly U16F16_3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, y, z); }
-        public readonly U16F16_3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, z, x); }
-        public readonly U16F16_3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, z, y); }
-        public readonly U16F16_3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(y, z, z); }
-        public readonly U16F16_3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, x, x); }
-        public readonly U16F16_3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, x, y); }
-        public readonly U16F16_3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, x, z); }
-        public readonly U16F16_3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, y, x); }
-        public readonly U16F16_3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, y, y); }
-        public readonly U16F16_3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, y, z); }
-        public readonly U16F16_3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, z, x); }
-        public readonly U16F16_3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, z, y); }
-        public readonly U16F16_3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_3(z, z, z); }
-        public readonly U16F16_4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, x, x); }
-        public readonly U16F16_4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, x, y); }
-        public readonly U16F16_4 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, x, z); }
-        public readonly U16F16_4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, y, x); }
-        public readonly U16F16_4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, y, y); }
-        public readonly U16F16_4 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, y, z); }
-        public readonly U16F16_4 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, z, x); }
-        public readonly U16F16_4 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, z, y); }
-        public readonly U16F16_4 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, x, z, z); }
-        public readonly U16F16_4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, x, x); }
-        public readonly U16F16_4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, x, y); }
-        public readonly U16F16_4 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, x, z); }
-        public readonly U16F16_4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, y, x); }
-        public readonly U16F16_4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, y, y); }
-        public readonly U16F16_4 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, y, z); }
-        public readonly U16F16_4 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, z, x); }
-        public readonly U16F16_4 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, z, y); }
-        public readonly U16F16_4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, y, z, z); }
-        public readonly U16F16_4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, x, x); }
-        public readonly U16F16_4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, x, y); }
-        public readonly U16F16_4 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, x, z); }
-        public readonly U16F16_4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, y, x); }
-        public readonly U16F16_4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, y, y); }
-        public readonly U16F16_4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, y, z); }
-        public readonly U16F16_4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, z, x); }
-        public readonly U16F16_4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, z, y); }
-        public readonly U16F16_4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(x, z, z, z); }
-        public readonly U16F16_4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, x, x); }
-        public readonly U16F16_4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, x, y); }
-        public readonly U16F16_4 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, x, z); }
-        public readonly U16F16_4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, y, x); }
-        public readonly U16F16_4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, y, y); }
-        public readonly U16F16_4 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, y, z); }
-        public readonly U16F16_4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, z, x); }
-        public readonly U16F16_4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, z, y); }
-        public readonly U16F16_4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, x, z, z); }
-        public readonly U16F16_4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, x, x); }
-        public readonly U16F16_4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, x, y); }
-        public readonly U16F16_4 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, x, z); }
-        public readonly U16F16_4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, y, x); }
-        public readonly U16F16_4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, y, y); }
-        public readonly U16F16_4 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, y, z); }
-        public readonly U16F16_4 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, z, x); }
-        public readonly U16F16_4 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, z, y); }
-        public readonly U16F16_4 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, y, z, z); }
-        public readonly U16F16_4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, x, x); }
-        public readonly U16F16_4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, x, y); }
-        public readonly U16F16_4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, x, z); }
-        public readonly U16F16_4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, y, x); }
-        public readonly U16F16_4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, y, y); }
-        public readonly U16F16_4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, y, z); }
-        public readonly U16F16_4 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, z, x); }
-        public readonly U16F16_4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, z, y); }
-        public readonly U16F16_4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(y, z, z, z); }
-        public readonly U16F16_4 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, x, x); }
-        public readonly U16F16_4 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, x, y); }
-        public readonly U16F16_4 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, x, z); }
-        public readonly U16F16_4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, y, x); }
-        public readonly U16F16_4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, y, y); }
-        public readonly U16F16_4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, y, z); }
-        public readonly U16F16_4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, z, x); }
-        public readonly U16F16_4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, z, y); }
-        public readonly U16F16_4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, x, z, z); }
-        public readonly U16F16_4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, x, x); }
-        public readonly U16F16_4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, x, y); }
-        public readonly U16F16_4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, x, z); }
-        public readonly U16F16_4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, y, x); }
-        public readonly U16F16_4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, y, y); }
-        public readonly U16F16_4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, y, z); }
-        public readonly U16F16_4 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, z, x); }
-        public readonly U16F16_4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, z, y); }
-        public readonly U16F16_4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, y, z, z); }
-        public readonly U16F16_4 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, x, x); }
-        public readonly U16F16_4 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, x, y); }
-        public readonly U16F16_4 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, x, z); }
-        public readonly U16F16_4 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, y, x); }
-        public readonly U16F16_4 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, y, y); }
-        public readonly U16F16_4 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, y, z); }
-        public readonly U16F16_4 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, z, x); }
-        public readonly U16F16_4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, z, y); }
-        public readonly U16F16_4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U16F16_4(z, z, z, z); }
+#pragma warning disable IDE1006 // 命名スタイル
+
+        public readonly Vector2U16F16 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(x, x); }
+        public readonly Vector2U16F16 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(x, y); }
+        public readonly Vector2U16F16 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(x, z); }
+        public readonly Vector2U16F16 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(y, x); }
+        public readonly Vector2U16F16 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(y, y); }
+        public readonly Vector2U16F16 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(y, z); }
+        public readonly Vector2U16F16 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(z, x); }
+        public readonly Vector2U16F16 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(z, y); }
+        public readonly Vector2U16F16 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U16F16(z, z); }
+        public readonly Vector3U16F16 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, x, x); }
+        public readonly Vector3U16F16 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, x, y); }
+        public readonly Vector3U16F16 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, x, z); }
+        public readonly Vector3U16F16 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, y, x); }
+        public readonly Vector3U16F16 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, y, y); }
+        public readonly Vector3U16F16 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, y, z); }
+        public readonly Vector3U16F16 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, z, x); }
+        public readonly Vector3U16F16 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, z, y); }
+        public readonly Vector3U16F16 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(x, z, z); }
+        public readonly Vector3U16F16 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, x, x); }
+        public readonly Vector3U16F16 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, x, y); }
+        public readonly Vector3U16F16 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, x, z); }
+        public readonly Vector3U16F16 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, y, x); }
+        public readonly Vector3U16F16 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, y, y); }
+        public readonly Vector3U16F16 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, y, z); }
+        public readonly Vector3U16F16 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, z, x); }
+        public readonly Vector3U16F16 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, z, y); }
+        public readonly Vector3U16F16 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(y, z, z); }
+        public readonly Vector3U16F16 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, x, x); }
+        public readonly Vector3U16F16 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, x, y); }
+        public readonly Vector3U16F16 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, x, z); }
+        public readonly Vector3U16F16 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, y, x); }
+        public readonly Vector3U16F16 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, y, y); }
+        public readonly Vector3U16F16 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, y, z); }
+        public readonly Vector3U16F16 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, z, x); }
+        public readonly Vector3U16F16 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, z, y); }
+        public readonly Vector3U16F16 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U16F16(z, z, z); }
+        public readonly Vector4U16F16 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, x, x); }
+        public readonly Vector4U16F16 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, x, y); }
+        public readonly Vector4U16F16 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, x, z); }
+        public readonly Vector4U16F16 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, y, x); }
+        public readonly Vector4U16F16 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, y, y); }
+        public readonly Vector4U16F16 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, y, z); }
+        public readonly Vector4U16F16 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, z, x); }
+        public readonly Vector4U16F16 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, z, y); }
+        public readonly Vector4U16F16 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, x, z, z); }
+        public readonly Vector4U16F16 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, x, x); }
+        public readonly Vector4U16F16 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, x, y); }
+        public readonly Vector4U16F16 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, x, z); }
+        public readonly Vector4U16F16 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, y, x); }
+        public readonly Vector4U16F16 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, y, y); }
+        public readonly Vector4U16F16 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, y, z); }
+        public readonly Vector4U16F16 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, z, x); }
+        public readonly Vector4U16F16 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, z, y); }
+        public readonly Vector4U16F16 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, y, z, z); }
+        public readonly Vector4U16F16 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, x, x); }
+        public readonly Vector4U16F16 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, x, y); }
+        public readonly Vector4U16F16 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, x, z); }
+        public readonly Vector4U16F16 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, y, x); }
+        public readonly Vector4U16F16 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, y, y); }
+        public readonly Vector4U16F16 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, y, z); }
+        public readonly Vector4U16F16 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, z, x); }
+        public readonly Vector4U16F16 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, z, y); }
+        public readonly Vector4U16F16 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(x, z, z, z); }
+        public readonly Vector4U16F16 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, x, x); }
+        public readonly Vector4U16F16 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, x, y); }
+        public readonly Vector4U16F16 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, x, z); }
+        public readonly Vector4U16F16 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, y, x); }
+        public readonly Vector4U16F16 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, y, y); }
+        public readonly Vector4U16F16 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, y, z); }
+        public readonly Vector4U16F16 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, z, x); }
+        public readonly Vector4U16F16 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, z, y); }
+        public readonly Vector4U16F16 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, x, z, z); }
+        public readonly Vector4U16F16 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, x, x); }
+        public readonly Vector4U16F16 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, x, y); }
+        public readonly Vector4U16F16 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, x, z); }
+        public readonly Vector4U16F16 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, y, x); }
+        public readonly Vector4U16F16 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, y, y); }
+        public readonly Vector4U16F16 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, y, z); }
+        public readonly Vector4U16F16 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, z, x); }
+        public readonly Vector4U16F16 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, z, y); }
+        public readonly Vector4U16F16 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, y, z, z); }
+        public readonly Vector4U16F16 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, x, x); }
+        public readonly Vector4U16F16 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, x, y); }
+        public readonly Vector4U16F16 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, x, z); }
+        public readonly Vector4U16F16 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, y, x); }
+        public readonly Vector4U16F16 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, y, y); }
+        public readonly Vector4U16F16 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, y, z); }
+        public readonly Vector4U16F16 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, z, x); }
+        public readonly Vector4U16F16 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, z, y); }
+        public readonly Vector4U16F16 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(y, z, z, z); }
+        public readonly Vector4U16F16 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, x, x); }
+        public readonly Vector4U16F16 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, x, y); }
+        public readonly Vector4U16F16 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, x, z); }
+        public readonly Vector4U16F16 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, y, x); }
+        public readonly Vector4U16F16 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, y, y); }
+        public readonly Vector4U16F16 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, y, z); }
+        public readonly Vector4U16F16 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, z, x); }
+        public readonly Vector4U16F16 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, z, y); }
+        public readonly Vector4U16F16 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, x, z, z); }
+        public readonly Vector4U16F16 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, x, x); }
+        public readonly Vector4U16F16 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, x, y); }
+        public readonly Vector4U16F16 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, x, z); }
+        public readonly Vector4U16F16 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, y, x); }
+        public readonly Vector4U16F16 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, y, y); }
+        public readonly Vector4U16F16 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, y, z); }
+        public readonly Vector4U16F16 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, z, x); }
+        public readonly Vector4U16F16 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, z, y); }
+        public readonly Vector4U16F16 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, y, z, z); }
+        public readonly Vector4U16F16 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, x, x); }
+        public readonly Vector4U16F16 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, x, y); }
+        public readonly Vector4U16F16 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, x, z); }
+        public readonly Vector4U16F16 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, y, x); }
+        public readonly Vector4U16F16 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, y, y); }
+        public readonly Vector4U16F16 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, y, z); }
+        public readonly Vector4U16F16 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, z, x); }
+        public readonly Vector4U16F16 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, z, y); }
+        public readonly Vector4U16F16 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U16F16(z, z, z, z); }
+
+#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(U16F16_3 lhs, U16F16_3 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(Vector3U16F16 lhs, Vector3U16F16 rhs) => lhs.Equals(rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(U16F16_3 lhs, U16F16_3 rhs) => !(lhs == rhs);
+        public static bool operator !=(Vector3U16F16 lhs, Vector3U16F16 rhs) => !(lhs == rhs);
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is U16F16_3 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is Vector3U16F16 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y, z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"U16F16_3({x}, {y}, {z})";
+        public override readonly string ToString() => $"Vector3U16F16({x}, {y}, {z})";
 
-        // IEquatable<U16F16_3>
+        // IEquatable<Vector3U16F16>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(U16F16_3 other)
+        public readonly bool Equals(Vector3U16F16 other)
             => other.x == x
             && other.y == y
             && other.z == z;
@@ -257,7 +261,7 @@ namespace AgatePris.Intar.Mathematics {
             var x = this.x.ToString(format, formatProvider);
             var y = this.y.ToString(format, formatProvider);
             var z = this.z.ToString(format, formatProvider);
-            return $"U16F16_3({x}, {y}, {z})";
+            return $"Vector3U16F16({x}, {y}, {z})";
         }
     }
 }

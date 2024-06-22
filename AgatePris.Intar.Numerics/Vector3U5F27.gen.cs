@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Mathematics {
     [Serializable]
-    public struct U5F27_3 : IEquatable<U5F27_3>, IFormattable {
+    public struct Vector3U5F27 : IEquatable<Vector3U5F27>, IFormattable {
         // Fields
         // ---------------------------------------
 
@@ -15,34 +15,34 @@ namespace AgatePris.Intar.Mathematics {
         // Constants
         // ---------------------------------------
 
-        public static readonly U5F27_3 zero;
+        public static readonly Vector3U5F27 zero;
 
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U5F27_3(U5F27 x, U5F27 y, U5F27 z) {
+        public Vector3U5F27(U5F27 x, U5F27 y, U5F27 z) {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U5F27_3(U5F27 x, U5F27_2 yz) {
+        public Vector3U5F27(U5F27 x, Vector2U5F27 yz) {
             this.x = x;
             y = yz.x;
             z = yz.y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U5F27_3(U5F27_3 xyz) {
+        public Vector3U5F27(Vector3U5F27 xyz) {
             x = xyz.x;
             y = xyz.y;
             z = xyz.z;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U5F27_3(U5F27_2 xy, U5F27 z) {
+        public Vector3U5F27(Vector2U5F27 xy, U5F27 z) {
             x = xy.x;
             y = xy.y;
             this.z = z;
@@ -52,49 +52,49 @@ namespace AgatePris.Intar.Mathematics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator +(U5F27_3 a, U5F27_3 b) => new U5F27_3(
+        public static Vector3U5F27 operator +(Vector3U5F27 a, Vector3U5F27 b) => new Vector3U5F27(
             a.x + b.x,
             a.y + b.y,
             a.z + b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator -(U5F27_3 a, U5F27_3 b) => new U5F27_3(
+        public static Vector3U5F27 operator -(Vector3U5F27 a, Vector3U5F27 b) => new Vector3U5F27(
             a.x - b.x,
             a.y - b.y,
             a.z - b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator *(U5F27_3 a, U5F27_3 b) => new U5F27_3(
+        public static Vector3U5F27 operator *(Vector3U5F27 a, Vector3U5F27 b) => new Vector3U5F27(
             a.x * b.x,
             a.y * b.y,
             a.z * b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator *(U5F27_3 a, U5F27 b) => new U5F27_3(
+        public static Vector3U5F27 operator *(Vector3U5F27 a, U5F27 b) => new Vector3U5F27(
             a.x * b,
             a.y * b,
             a.z * b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator *(U5F27 a, U5F27_3 b) => new U5F27_3(
+        public static Vector3U5F27 operator *(U5F27 a, Vector3U5F27 b) => new Vector3U5F27(
             a * b.x,
             a * b.y,
             a * b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator /(U5F27_3 a, U5F27_3 b) => new U5F27_3(
+        public static Vector3U5F27 operator /(Vector3U5F27 a, Vector3U5F27 b) => new Vector3U5F27(
             a.x / b.x,
             a.y / b.y,
             a.z / b.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator /(U5F27_3 a, U5F27 b) => new U5F27_3(
+        public static Vector3U5F27 operator /(Vector3U5F27 a, U5F27 b) => new Vector3U5F27(
             a.x / b,
             a.y / b,
             a.z / b);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U5F27_3 operator /(U5F27 a, U5F27_3 b) => new U5F27_3(
+        public static Vector3U5F27 operator /(U5F27 a, Vector3U5F27 b) => new Vector3U5F27(
             a / b.x,
             a / b.y,
             a / b.z);
@@ -102,149 +102,153 @@ namespace AgatePris.Intar.Mathematics {
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly U5F27_2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(x, x); }
-        public readonly U5F27_2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(x, y); }
-        public readonly U5F27_2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(x, z); }
-        public readonly U5F27_2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(y, x); }
-        public readonly U5F27_2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(y, y); }
-        public readonly U5F27_2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(y, z); }
-        public readonly U5F27_2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(z, x); }
-        public readonly U5F27_2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(z, y); }
-        public readonly U5F27_2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_2(z, z); }
-        public readonly U5F27_3 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, x, x); }
-        public readonly U5F27_3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, x, y); }
-        public readonly U5F27_3 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, x, z); }
-        public readonly U5F27_3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, y, x); }
-        public readonly U5F27_3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, y, y); }
-        public readonly U5F27_3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, y, z); }
-        public readonly U5F27_3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, z, x); }
-        public readonly U5F27_3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, z, y); }
-        public readonly U5F27_3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(x, z, z); }
-        public readonly U5F27_3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, x, x); }
-        public readonly U5F27_3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, x, y); }
-        public readonly U5F27_3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, x, z); }
-        public readonly U5F27_3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, y, x); }
-        public readonly U5F27_3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, y, y); }
-        public readonly U5F27_3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, y, z); }
-        public readonly U5F27_3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, z, x); }
-        public readonly U5F27_3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, z, y); }
-        public readonly U5F27_3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(y, z, z); }
-        public readonly U5F27_3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, x, x); }
-        public readonly U5F27_3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, x, y); }
-        public readonly U5F27_3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, x, z); }
-        public readonly U5F27_3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, y, x); }
-        public readonly U5F27_3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, y, y); }
-        public readonly U5F27_3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, y, z); }
-        public readonly U5F27_3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, z, x); }
-        public readonly U5F27_3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, z, y); }
-        public readonly U5F27_3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_3(z, z, z); }
-        public readonly U5F27_4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, x, x); }
-        public readonly U5F27_4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, x, y); }
-        public readonly U5F27_4 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, x, z); }
-        public readonly U5F27_4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, y, x); }
-        public readonly U5F27_4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, y, y); }
-        public readonly U5F27_4 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, y, z); }
-        public readonly U5F27_4 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, z, x); }
-        public readonly U5F27_4 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, z, y); }
-        public readonly U5F27_4 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, x, z, z); }
-        public readonly U5F27_4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, x, x); }
-        public readonly U5F27_4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, x, y); }
-        public readonly U5F27_4 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, x, z); }
-        public readonly U5F27_4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, y, x); }
-        public readonly U5F27_4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, y, y); }
-        public readonly U5F27_4 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, y, z); }
-        public readonly U5F27_4 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, z, x); }
-        public readonly U5F27_4 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, z, y); }
-        public readonly U5F27_4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, y, z, z); }
-        public readonly U5F27_4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, x, x); }
-        public readonly U5F27_4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, x, y); }
-        public readonly U5F27_4 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, x, z); }
-        public readonly U5F27_4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, y, x); }
-        public readonly U5F27_4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, y, y); }
-        public readonly U5F27_4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, y, z); }
-        public readonly U5F27_4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, z, x); }
-        public readonly U5F27_4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, z, y); }
-        public readonly U5F27_4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(x, z, z, z); }
-        public readonly U5F27_4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, x, x); }
-        public readonly U5F27_4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, x, y); }
-        public readonly U5F27_4 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, x, z); }
-        public readonly U5F27_4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, y, x); }
-        public readonly U5F27_4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, y, y); }
-        public readonly U5F27_4 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, y, z); }
-        public readonly U5F27_4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, z, x); }
-        public readonly U5F27_4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, z, y); }
-        public readonly U5F27_4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, x, z, z); }
-        public readonly U5F27_4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, x, x); }
-        public readonly U5F27_4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, x, y); }
-        public readonly U5F27_4 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, x, z); }
-        public readonly U5F27_4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, y, x); }
-        public readonly U5F27_4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, y, y); }
-        public readonly U5F27_4 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, y, z); }
-        public readonly U5F27_4 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, z, x); }
-        public readonly U5F27_4 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, z, y); }
-        public readonly U5F27_4 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, y, z, z); }
-        public readonly U5F27_4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, x, x); }
-        public readonly U5F27_4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, x, y); }
-        public readonly U5F27_4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, x, z); }
-        public readonly U5F27_4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, y, x); }
-        public readonly U5F27_4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, y, y); }
-        public readonly U5F27_4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, y, z); }
-        public readonly U5F27_4 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, z, x); }
-        public readonly U5F27_4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, z, y); }
-        public readonly U5F27_4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(y, z, z, z); }
-        public readonly U5F27_4 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, x, x); }
-        public readonly U5F27_4 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, x, y); }
-        public readonly U5F27_4 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, x, z); }
-        public readonly U5F27_4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, y, x); }
-        public readonly U5F27_4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, y, y); }
-        public readonly U5F27_4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, y, z); }
-        public readonly U5F27_4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, z, x); }
-        public readonly U5F27_4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, z, y); }
-        public readonly U5F27_4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, x, z, z); }
-        public readonly U5F27_4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, x, x); }
-        public readonly U5F27_4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, x, y); }
-        public readonly U5F27_4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, x, z); }
-        public readonly U5F27_4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, y, x); }
-        public readonly U5F27_4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, y, y); }
-        public readonly U5F27_4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, y, z); }
-        public readonly U5F27_4 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, z, x); }
-        public readonly U5F27_4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, z, y); }
-        public readonly U5F27_4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, y, z, z); }
-        public readonly U5F27_4 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, x, x); }
-        public readonly U5F27_4 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, x, y); }
-        public readonly U5F27_4 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, x, z); }
-        public readonly U5F27_4 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, y, x); }
-        public readonly U5F27_4 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, y, y); }
-        public readonly U5F27_4 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, y, z); }
-        public readonly U5F27_4 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, z, x); }
-        public readonly U5F27_4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, z, y); }
-        public readonly U5F27_4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new U5F27_4(z, z, z, z); }
+#pragma warning disable IDE1006 // 命名スタイル
+
+        public readonly Vector2U5F27 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(x, x); }
+        public readonly Vector2U5F27 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(x, y); }
+        public readonly Vector2U5F27 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(x, z); }
+        public readonly Vector2U5F27 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(y, x); }
+        public readonly Vector2U5F27 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(y, y); }
+        public readonly Vector2U5F27 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(y, z); }
+        public readonly Vector2U5F27 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(z, x); }
+        public readonly Vector2U5F27 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(z, y); }
+        public readonly Vector2U5F27 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U5F27(z, z); }
+        public readonly Vector3U5F27 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, x, x); }
+        public readonly Vector3U5F27 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, x, y); }
+        public readonly Vector3U5F27 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, x, z); }
+        public readonly Vector3U5F27 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, y, x); }
+        public readonly Vector3U5F27 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, y, y); }
+        public readonly Vector3U5F27 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, y, z); }
+        public readonly Vector3U5F27 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, z, x); }
+        public readonly Vector3U5F27 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, z, y); }
+        public readonly Vector3U5F27 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(x, z, z); }
+        public readonly Vector3U5F27 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, x, x); }
+        public readonly Vector3U5F27 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, x, y); }
+        public readonly Vector3U5F27 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, x, z); }
+        public readonly Vector3U5F27 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, y, x); }
+        public readonly Vector3U5F27 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, y, y); }
+        public readonly Vector3U5F27 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, y, z); }
+        public readonly Vector3U5F27 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, z, x); }
+        public readonly Vector3U5F27 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, z, y); }
+        public readonly Vector3U5F27 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(y, z, z); }
+        public readonly Vector3U5F27 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, x, x); }
+        public readonly Vector3U5F27 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, x, y); }
+        public readonly Vector3U5F27 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, x, z); }
+        public readonly Vector3U5F27 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, y, x); }
+        public readonly Vector3U5F27 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, y, y); }
+        public readonly Vector3U5F27 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, y, z); }
+        public readonly Vector3U5F27 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, z, x); }
+        public readonly Vector3U5F27 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, z, y); }
+        public readonly Vector3U5F27 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U5F27(z, z, z); }
+        public readonly Vector4U5F27 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, x, x); }
+        public readonly Vector4U5F27 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, x, y); }
+        public readonly Vector4U5F27 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, x, z); }
+        public readonly Vector4U5F27 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, y, x); }
+        public readonly Vector4U5F27 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, y, y); }
+        public readonly Vector4U5F27 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, y, z); }
+        public readonly Vector4U5F27 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, z, x); }
+        public readonly Vector4U5F27 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, z, y); }
+        public readonly Vector4U5F27 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, x, z, z); }
+        public readonly Vector4U5F27 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, x, x); }
+        public readonly Vector4U5F27 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, x, y); }
+        public readonly Vector4U5F27 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, x, z); }
+        public readonly Vector4U5F27 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, y, x); }
+        public readonly Vector4U5F27 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, y, y); }
+        public readonly Vector4U5F27 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, y, z); }
+        public readonly Vector4U5F27 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, z, x); }
+        public readonly Vector4U5F27 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, z, y); }
+        public readonly Vector4U5F27 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, y, z, z); }
+        public readonly Vector4U5F27 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, x, x); }
+        public readonly Vector4U5F27 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, x, y); }
+        public readonly Vector4U5F27 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, x, z); }
+        public readonly Vector4U5F27 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, y, x); }
+        public readonly Vector4U5F27 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, y, y); }
+        public readonly Vector4U5F27 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, y, z); }
+        public readonly Vector4U5F27 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, z, x); }
+        public readonly Vector4U5F27 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, z, y); }
+        public readonly Vector4U5F27 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(x, z, z, z); }
+        public readonly Vector4U5F27 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, x, x); }
+        public readonly Vector4U5F27 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, x, y); }
+        public readonly Vector4U5F27 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, x, z); }
+        public readonly Vector4U5F27 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, y, x); }
+        public readonly Vector4U5F27 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, y, y); }
+        public readonly Vector4U5F27 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, y, z); }
+        public readonly Vector4U5F27 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, z, x); }
+        public readonly Vector4U5F27 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, z, y); }
+        public readonly Vector4U5F27 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, x, z, z); }
+        public readonly Vector4U5F27 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, x, x); }
+        public readonly Vector4U5F27 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, x, y); }
+        public readonly Vector4U5F27 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, x, z); }
+        public readonly Vector4U5F27 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, y, x); }
+        public readonly Vector4U5F27 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, y, y); }
+        public readonly Vector4U5F27 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, y, z); }
+        public readonly Vector4U5F27 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, z, x); }
+        public readonly Vector4U5F27 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, z, y); }
+        public readonly Vector4U5F27 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, y, z, z); }
+        public readonly Vector4U5F27 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, x, x); }
+        public readonly Vector4U5F27 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, x, y); }
+        public readonly Vector4U5F27 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, x, z); }
+        public readonly Vector4U5F27 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, y, x); }
+        public readonly Vector4U5F27 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, y, y); }
+        public readonly Vector4U5F27 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, y, z); }
+        public readonly Vector4U5F27 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, z, x); }
+        public readonly Vector4U5F27 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, z, y); }
+        public readonly Vector4U5F27 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(y, z, z, z); }
+        public readonly Vector4U5F27 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, x, x); }
+        public readonly Vector4U5F27 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, x, y); }
+        public readonly Vector4U5F27 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, x, z); }
+        public readonly Vector4U5F27 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, y, x); }
+        public readonly Vector4U5F27 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, y, y); }
+        public readonly Vector4U5F27 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, y, z); }
+        public readonly Vector4U5F27 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, z, x); }
+        public readonly Vector4U5F27 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, z, y); }
+        public readonly Vector4U5F27 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, x, z, z); }
+        public readonly Vector4U5F27 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, x, x); }
+        public readonly Vector4U5F27 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, x, y); }
+        public readonly Vector4U5F27 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, x, z); }
+        public readonly Vector4U5F27 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, y, x); }
+        public readonly Vector4U5F27 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, y, y); }
+        public readonly Vector4U5F27 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, y, z); }
+        public readonly Vector4U5F27 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, z, x); }
+        public readonly Vector4U5F27 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, z, y); }
+        public readonly Vector4U5F27 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, y, z, z); }
+        public readonly Vector4U5F27 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, x, x); }
+        public readonly Vector4U5F27 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, x, y); }
+        public readonly Vector4U5F27 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, x, z); }
+        public readonly Vector4U5F27 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, y, x); }
+        public readonly Vector4U5F27 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, y, y); }
+        public readonly Vector4U5F27 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, y, z); }
+        public readonly Vector4U5F27 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, z, x); }
+        public readonly Vector4U5F27 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, z, y); }
+        public readonly Vector4U5F27 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U5F27(z, z, z, z); }
+
+#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(U5F27_3 lhs, U5F27_3 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(Vector3U5F27 lhs, Vector3U5F27 rhs) => lhs.Equals(rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(U5F27_3 lhs, U5F27_3 rhs) => !(lhs == rhs);
+        public static bool operator !=(Vector3U5F27 lhs, Vector3U5F27 rhs) => !(lhs == rhs);
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is U5F27_3 o && Equals(o);
+        public override readonly bool Equals(object obj) => obj is Vector3U5F27 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode() => HashCode.Combine(x, y, z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"U5F27_3({x}, {y}, {z})";
+        public override readonly string ToString() => $"Vector3U5F27({x}, {y}, {z})";
 
-        // IEquatable<U5F27_3>
+        // IEquatable<Vector3U5F27>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(U5F27_3 other)
+        public readonly bool Equals(Vector3U5F27 other)
             => other.x == x
             && other.y == y
             && other.z == z;
@@ -257,7 +261,7 @@ namespace AgatePris.Intar.Mathematics {
             var x = this.x.ToString(format, formatProvider);
             var y = this.y.ToString(format, formatProvider);
             var z = this.z.ToString(format, formatProvider);
-            return $"U5F27_3({x}, {y}, {z})";
+            return $"Vector3U5F27({x}, {y}, {z})";
         }
     }
 }

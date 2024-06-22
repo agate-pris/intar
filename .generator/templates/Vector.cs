@@ -1,11 +1,9 @@
-{% macro dim_type(dim) %}
-    {%- if fixed %}{{ type }}_{{ dim }}
-    {%- else %}{{ type }}{{ dim }}
-    {%- endif %}
+{% macro dim_type(dim) -%}
+    Vector{{ dim }}{{ type }}
 {%- endmacro -%}
 
-{% macro self_type() %}
-    {{- self::dim_type(dim = dim) }}
+{% macro self_type() -%}
+    {{ self::dim_type(dim = dim) }}
 {%- endmacro -%}
 
 {% macro swizzling() %}
@@ -187,7 +185,11 @@ namespace AgatePris.Intar.Mathematics {
 
         // Swizzling Properties
         // ---------------------------------------
+
+#pragma warning disable IDE1006 // 命名スタイル
 {{ self::swizzling() }}
+
+#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
