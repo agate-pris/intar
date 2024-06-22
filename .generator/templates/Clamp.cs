@@ -19,7 +19,7 @@
         }
 {%- endmacro -%}
 
-using AgatePris.Intar.Fixed;
+using AgatePris.Intar.Numerics;
 using System;
 using System.Runtime.CompilerServices;
 

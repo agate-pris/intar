@@ -39,7 +39,7 @@
 
 {% if unity %}#if !UNITY_2018_3_OR_NEWER
 
-{% endif %}{% if fixed %}using AgatePris.Intar.Fixed;
+{% endif %}{% if fixed %}using AgatePris.Intar.Numerics;
 {% endif %}using System;
 using System.Runtime.CompilerServices;
 
