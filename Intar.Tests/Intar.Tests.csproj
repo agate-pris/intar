@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Intar\Intar.csproj" />
+    <ProjectReference Include="..\AgatePris.Intar\AgatePris.Intar.csproj" />
   </ItemGroup>
 
 </Project>
