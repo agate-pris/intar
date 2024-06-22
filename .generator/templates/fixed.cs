@@ -95,7 +95,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Fixed {
+namespace AgatePris.Intar.Numerics {
     [Serializable]
     public struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
         // Consts

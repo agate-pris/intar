@@ -228,7 +228,7 @@
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Fixed",
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "fixed.cs",
             "files": [
                 { "file_name": "I2F30.gen.cs", "params": { "signed": true, "int_nbits": 2, "frac_nbits": 30 } },

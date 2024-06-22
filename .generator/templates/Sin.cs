@@ -90,7 +90,7 @@
         }
 {%- endmacro -%}
 
-using AgatePris.Intar.Fixed;
+using AgatePris.Intar.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
