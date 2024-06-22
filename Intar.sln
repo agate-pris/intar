@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar", "AgatePris.Intar\AgatePris.Intar.csproj", "{5E85CA8F-9B76-4018-B1C2-33E52D58EB85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intar.Tests", "Intar.Tests\Intar.Tests.csproj", "{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Tests", "AgatePris.Intar.Tests\AgatePris.Intar.Tests.csproj", "{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Fixed", "AgatePris.Intar.Fixed\AgatePris.Intar.Fixed.csproj", "{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}"
 EndProject
