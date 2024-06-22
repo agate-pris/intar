@@ -9,34 +9,6 @@
             ]
         },
         {
-            "dir_path": "AgatePris.Intar/Mathematics/vec",
-            "template_name": "vec.cs",
-            "files": [
-                {%- for i in range(start = 2, end = 32) %}
-                {%- for dim in range(end = 3) %}
-                { "file_name": "I{{ i }}F{{ 32 - i }}_{{ dim + 2 }}.gen.cs", "params": { "type": "I{{ i }}F{{ 32 - i }}", "dim": {{ dim + 2 }}, "fixed": true } },
-                {%- endfor %}
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 32) %}
-                {%- for dim in range(end = 3) %}
-                { "file_name": "U{{ i }}F{{ 32 - i }}_{{ dim + 2 }}.gen.cs", "params": { "type": "U{{ i }}F{{ 32 - i }}", "dim": {{ dim + 2 }}, "fixed": true } },
-                {%- endfor %}
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "int{{ i + 2 }}.gen.cs", "params": { "type": "int", "dim": {{ i + 2 }}, "unity": true } },
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "uint{{ i + 2 }}.gen.cs", "params": { "type": "uint", "dim": {{ i + 2 }}, "unity": true } },
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "long{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }} } },
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "ulong", "dim": {{ i + 2 }} } }{% if not loop.last %},{% endif %}
-                {%- endfor %}
-            ]
-        },
-        {
             "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Clamp.cs",
             "files": [
@@ -66,6 +38,37 @@
                 {%- for i in range(start = 2, end = 64) %}
                 { "file_name": "U{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } }{% if not loop.last %},{% endif %}
                 {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Numerics",
+            "template_name": "Vector.cs",
+            "files": [
+                {%- for i in range(start = 2, end = 32) %}
+                {%- for dim in range(end = 3) %}
+                { "file_name": "Vector{{ dim + 2 }}I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "type": "I{{ i }}F{{ 32 - i }}", "dim": {{ dim + 2 }}, "fixed": true } },
+                {%- endfor %}
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 32) %}
+                {%- for dim in range(end = 3) %}
+                { "file_name": "Vector{{ dim + 2 }}U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "type": "U{{ i }}F{{ 32 - i }}", "dim": {{ dim + 2 }}, "fixed": true } }
+                {%- if not loop.last or i != 31 %},{% endif %}
+                {%- endfor %}
+                {%- endfor %}
+                {#-
+                {%- for i in range(end = 3) %}
+                { "file_name": "int{{ i + 2 }}.gen.cs", "params": { "type": "int", "dim": {{ i + 2 }}, "unity": true } },
+                {%- endfor %}
+                {%- for i in range(end = 3) %}
+                { "file_name": "uint{{ i + 2 }}.gen.cs", "params": { "type": "uint", "dim": {{ i + 2 }}, "unity": true } },
+                {%- endfor %}
+                {%- for i in range(end = 3) %}
+                { "file_name": "long{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }} } },
+                {%- endfor %}
+                {%- for i in range(end = 3) %}
+                { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "ulong", "dim": {{ i + 2 }} } }{% if not loop.last %},{% endif %}
+                {%- endfor %}
+                #}
             ]
         }
     ]
