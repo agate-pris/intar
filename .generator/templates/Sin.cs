@@ -56,13 +56,13 @@
         public static I2F30 {{ name }}(this I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
 {%- endmacro -%}
 
-{%- macro sin_vec(n, t, d) %}
+{%- macro sin_vec(n, d) %}
 
-        public static {{ t }} {{ n }}({{ t }} x) => {{ t }}(
-            {{ n }}(x.x),
-            {{ n }}(x.y){% if d > 2 %},
-            {{ n }}(x.z){% if d > 3 %},
-            {{ n }}(x.w){% endif %}{% endif %});
+        public static Vector{{ d }}I2F30 {{ n }}(this Vector{{ d }}I17F15 x) => new Vector{{ d }}I2F30(
+            x.X.{{ n }}(),
+            x.Y.{{ n }}(){% if d > 2 %},
+            x.Z.{{ n }}(){% if d > 3 %},
+            x.W.{{ n }}(){% endif %}{% endif %});
 {%- endmacro -%}
 
 {%- macro cos_p4_detail(k) %}
@@ -334,5 +334,24 @@ namespace AgatePris.Intar {
         {{- self::sin_fixed(name="CosP4A7384", sin=false, dim=4) }}
         {{- self::sin_fixed(name="CosP5A51472", sin=false, dim=5) }}
         {{- self::sin_fixed(name="CosP5A51437", sin=false, dim=5) }}
+
+        {%- for d in range(start=2, end=5) %}
+        {%- for n in [
+            "SinP2",
+            "SinP3A16384",
+            "SinP4A7032",
+            "SinP4A7384",
+            "SinP5A51472",
+            "SinP5A51437",
+            "CosP2",
+            "CosP3A16384",
+            "CosP4A7032",
+            "CosP4A7384",
+            "CosP5A51472",
+            "CosP5A51437"
+        ] %}
+        {{- self::sin_vec(n=n, d=d) }}
+        {%- endfor %}
+        {%- endfor %}
     }
 }

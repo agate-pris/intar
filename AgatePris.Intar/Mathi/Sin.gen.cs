@@ -424,5 +424,185 @@ namespace AgatePris.Intar {
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 CosP5A51437(this I17F15 x) => I2F30.FromBits(CosP5A51437(x.Bits));
+
+        public static Vector2I2F30 SinP2(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.SinP2(),
+            x.Y.SinP2());
+
+        public static Vector2I2F30 SinP3A16384(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.SinP3A16384(),
+            x.Y.SinP3A16384());
+
+        public static Vector2I2F30 SinP4A7032(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.SinP4A7032(),
+            x.Y.SinP4A7032());
+
+        public static Vector2I2F30 SinP4A7384(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.SinP4A7384(),
+            x.Y.SinP4A7384());
+
+        public static Vector2I2F30 SinP5A51472(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.SinP5A51472(),
+            x.Y.SinP5A51472());
+
+        public static Vector2I2F30 SinP5A51437(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.SinP5A51437(),
+            x.Y.SinP5A51437());
+
+        public static Vector2I2F30 CosP2(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.CosP2(),
+            x.Y.CosP2());
+
+        public static Vector2I2F30 CosP3A16384(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.CosP3A16384(),
+            x.Y.CosP3A16384());
+
+        public static Vector2I2F30 CosP4A7032(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.CosP4A7032(),
+            x.Y.CosP4A7032());
+
+        public static Vector2I2F30 CosP4A7384(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.CosP4A7384(),
+            x.Y.CosP4A7384());
+
+        public static Vector2I2F30 CosP5A51472(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.CosP5A51472(),
+            x.Y.CosP5A51472());
+
+        public static Vector2I2F30 CosP5A51437(this Vector2I17F15 x) => new Vector2I2F30(
+            x.X.CosP5A51437(),
+            x.Y.CosP5A51437());
+
+        public static Vector3I2F30 SinP2(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.SinP2(),
+            x.Y.SinP2(),
+            x.Z.SinP2());
+
+        public static Vector3I2F30 SinP3A16384(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.SinP3A16384(),
+            x.Y.SinP3A16384(),
+            x.Z.SinP3A16384());
+
+        public static Vector3I2F30 SinP4A7032(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.SinP4A7032(),
+            x.Y.SinP4A7032(),
+            x.Z.SinP4A7032());
+
+        public static Vector3I2F30 SinP4A7384(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.SinP4A7384(),
+            x.Y.SinP4A7384(),
+            x.Z.SinP4A7384());
+
+        public static Vector3I2F30 SinP5A51472(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.SinP5A51472(),
+            x.Y.SinP5A51472(),
+            x.Z.SinP5A51472());
+
+        public static Vector3I2F30 SinP5A51437(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.SinP5A51437(),
+            x.Y.SinP5A51437(),
+            x.Z.SinP5A51437());
+
+        public static Vector3I2F30 CosP2(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.CosP2(),
+            x.Y.CosP2(),
+            x.Z.CosP2());
+
+        public static Vector3I2F30 CosP3A16384(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.CosP3A16384(),
+            x.Y.CosP3A16384(),
+            x.Z.CosP3A16384());
+
+        public static Vector3I2F30 CosP4A7032(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.CosP4A7032(),
+            x.Y.CosP4A7032(),
+            x.Z.CosP4A7032());
+
+        public static Vector3I2F30 CosP4A7384(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.CosP4A7384(),
+            x.Y.CosP4A7384(),
+            x.Z.CosP4A7384());
+
+        public static Vector3I2F30 CosP5A51472(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.CosP5A51472(),
+            x.Y.CosP5A51472(),
+            x.Z.CosP5A51472());
+
+        public static Vector3I2F30 CosP5A51437(this Vector3I17F15 x) => new Vector3I2F30(
+            x.X.CosP5A51437(),
+            x.Y.CosP5A51437(),
+            x.Z.CosP5A51437());
+
+        public static Vector4I2F30 SinP2(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.SinP2(),
+            x.Y.SinP2(),
+            x.Z.SinP2(),
+            x.W.SinP2());
+
+        public static Vector4I2F30 SinP3A16384(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.SinP3A16384(),
+            x.Y.SinP3A16384(),
+            x.Z.SinP3A16384(),
+            x.W.SinP3A16384());
+
+        public static Vector4I2F30 SinP4A7032(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.SinP4A7032(),
+            x.Y.SinP4A7032(),
+            x.Z.SinP4A7032(),
+            x.W.SinP4A7032());
+
+        public static Vector4I2F30 SinP4A7384(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.SinP4A7384(),
+            x.Y.SinP4A7384(),
+            x.Z.SinP4A7384(),
+            x.W.SinP4A7384());
+
+        public static Vector4I2F30 SinP5A51472(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.SinP5A51472(),
+            x.Y.SinP5A51472(),
+            x.Z.SinP5A51472(),
+            x.W.SinP5A51472());
+
+        public static Vector4I2F30 SinP5A51437(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.SinP5A51437(),
+            x.Y.SinP5A51437(),
+            x.Z.SinP5A51437(),
+            x.W.SinP5A51437());
+
+        public static Vector4I2F30 CosP2(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.CosP2(),
+            x.Y.CosP2(),
+            x.Z.CosP2(),
+            x.W.CosP2());
+
+        public static Vector4I2F30 CosP3A16384(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.CosP3A16384(),
+            x.Y.CosP3A16384(),
+            x.Z.CosP3A16384(),
+            x.W.CosP3A16384());
+
+        public static Vector4I2F30 CosP4A7032(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.CosP4A7032(),
+            x.Y.CosP4A7032(),
+            x.Z.CosP4A7032(),
+            x.W.CosP4A7032());
+
+        public static Vector4I2F30 CosP4A7384(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.CosP4A7384(),
+            x.Y.CosP4A7384(),
+            x.Z.CosP4A7384(),
+            x.W.CosP4A7384());
+
+        public static Vector4I2F30 CosP5A51472(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.CosP5A51472(),
+            x.Y.CosP5A51472(),
+            x.Z.CosP5A51472(),
+            x.W.CosP5A51472());
+
+        public static Vector4I2F30 CosP5A51437(this Vector4I17F15 x) => new Vector4I2F30(
+            x.X.CosP5A51437(),
+            x.Y.CosP5A51437(),
+            x.Z.CosP5A51437(),
+            x.W.CosP5A51437());
     }
 }
