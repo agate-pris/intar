@@ -53,7 +53,7 @@
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>{% if sin %}正弦比{% else %}余弦比{% endif %}</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 {{ name }}(I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
+        public static I2F30 {{ name }}(this I17F15 x) => I2F30.FromBits({{ name }}(x.Bits));
 {%- endmacro -%}
 
 {%- macro sin_vec(n, t, d) %}
