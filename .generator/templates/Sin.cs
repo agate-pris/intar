@@ -138,7 +138,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 60 / 90;
-        /// var actual = Intar.Mathematics.Math.CosP2(x);
+        /// var actual = Intar.Mathi.CosP2(x);
         /// var rad = System.Math.PI / 3;
         /// var expected = System.Math.Cos(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -153,7 +153,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 30 / 90;
-        /// var actual = Intar.Mathematics.Math.SinP2(x);
+        /// var actual = Intar.Mathi.SinP2(x);
         /// var rad = System.Math.PI / 6;
         /// var expected = System.Math.Sin(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -168,7 +168,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 30 / 90;
-        /// var actual = Intar.Mathematics.Math.SinP3_16384(x);
+        /// var actual = Intar.Mathi.SinP3_16384(x);
         /// var rad = System.Math.PI / 6;
         /// var expected = System.Math.Sin(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -192,7 +192,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 60 / 90;
-        /// var actual = Intar.Mathematics.Math.CosP3_16384(x);
+        /// var actual = Intar.Mathi.CosP3_16384(x);
         /// var rad = System.Math.PI / 3;
         /// var expected = System.Math.Cos(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -207,7 +207,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 60 / 90;
-        /// var actual = Intar.Mathematics.Math.CosP4_7032(x);
+        /// var actual = Intar.Mathi.CosP4_7032(x);
         /// var rad = System.Math.PI / 3;
         /// var expected = System.Math.Cos(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -222,7 +222,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 30 / 90;
-        /// var actual = Intar.Mathematics.Math.SinP4_7032(x);
+        /// var actual = Intar.Mathi.SinP4_7032(x);
         /// var rad = System.Math.PI / 6;
         /// var expected = System.Math.Sin(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -237,7 +237,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 60 / 90;
-        /// var actual = Intar.Mathematics.Math.CosP4_7384(x);
+        /// var actual = Intar.Mathi.CosP4_7384(x);
         /// var rad = System.Math.PI / 3;
         /// var expected = System.Math.Cos(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -252,7 +252,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 30 / 90;
-        /// var actual = Intar.Mathematics.Math.SinP4_7384(x);
+        /// var actual = Intar.Mathi.SinP4_7384(x);
         /// var rad = System.Math.PI / 6;
         /// var expected = System.Math.Sin(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -267,7 +267,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 30 / 90;
-        /// var actual = Intar.Mathematics.Math.SinP5_51472(x);
+        /// var actual = Intar.Mathi.SinP5_51472(x);
         /// var rad = System.Math.PI / 6;
         /// var expected = System.Math.Sin(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -282,7 +282,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 60 / 90;
-        /// var actual = Intar.Mathematics.Math.CosP5_51472(x);
+        /// var actual = Intar.Mathi.CosP5_51472(x);
         /// var rad = System.Math.PI / 3;
         /// var expected = System.Math.Cos(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -297,7 +297,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 30 / 90;
-        /// var actual = Intar.Mathematics.Math.SinP5_51437(x);
+        /// var actual = Intar.Mathi.SinP5_51437(x);
         /// var rad = System.Math.PI / 6;
         /// var expected = System.Math.Sin(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
@@ -312,7 +312,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// <code>
         /// var x = (1 &lt;&lt; 15) * 60 / 90;
-        /// var actual = Intar.Mathematics.Math.CosP5_51472(x);
+        /// var actual = Intar.Mathi.CosP5_51472(x);
         /// var rad = System.Math.PI / 3;
         /// var expected = System.Math.Cos(rad);
         /// var a = actual / (float)(1 &lt;&lt; 30);
