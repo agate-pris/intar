@@ -108,6 +108,7 @@ namespace AgatePris.Intar {
         //    result = WrappingAbs(x);
         //    return x == long.MinValue;
         //}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingMul(int x, int y) => unchecked(x * y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
