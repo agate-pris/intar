@@ -1,8 +1,7 @@
-using AgatePris.Intar.Numerics;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Mathematics {
+namespace AgatePris.Intar.Numerics {
     [Serializable]
     public struct Vector3I16F16 : IEquatable<Vector3I16F16>, IFormattable {
         // Fields

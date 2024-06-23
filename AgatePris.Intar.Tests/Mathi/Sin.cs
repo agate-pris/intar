@@ -1,4 +1,3 @@
-using AgatePris.Intar.Mathematics;
 using NUnit.Framework;
 using System;
 

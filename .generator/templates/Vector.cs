@@ -37,11 +37,10 @@
 
 {% if unity %}#if !UNITY_2018_3_OR_NEWER
 
-{% endif %}{% if fixed %}using AgatePris.Intar.Numerics;
 {% endif %}using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Mathematics {
+namespace AgatePris.Intar.Numerics {
     [Serializable]
     public struct {{ self::self_type() }} : IEquatable<{{ self::self_type() }}>, IFormattable {
         // Fields
