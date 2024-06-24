@@ -35,25 +35,13 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3U14F18(U14F18 x, Vector2U14F18 yz) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;
-        }
+        public Vector3U14F18(U14F18 x, Vector2U14F18 yz) : this(x, yz.X, yz.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3U14F18(Vector3U14F18 xyz) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;
-        }
+        public Vector3U14F18(Vector3U14F18 xyz) : this(xyz.X, xyz.Y, xyz.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3U14F18(Vector2U14F18 xy, U14F18 z) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = z;
-        }
+        public Vector3U14F18(Vector2U14F18 xy, U14F18 z) : this(xy.X, xy.Y, z) { }
 
         // Arithmetic Operators
         // ---------------------------------------

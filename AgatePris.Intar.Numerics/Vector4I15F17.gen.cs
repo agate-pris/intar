@@ -37,60 +37,25 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(I15F17 x, I15F17 y, Vector2I15F17 zw) {
-            X = x;
-            Y = y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I15F17(I15F17 x, I15F17 y, Vector2I15F17 zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(I15F17 x, Vector3I15F17 yzw) {
-            X = x;
-            Y = yzw.X;
-            Z = yzw.Y;
-            W = yzw.Z;
-        }
+        public Vector4I15F17(I15F17 x, Vector3I15F17 yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(Vector2I15F17 xy, Vector2I15F17 zw) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I15F17(Vector2I15F17 xy, Vector2I15F17 zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(Vector4I15F17 xyzw) {
-            X = xyzw.X;
-            Y = xyzw.Y;
-            Z = xyzw.Z;
-            W = xyzw.W;
-        }
+        public Vector4I15F17(Vector4I15F17 xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(I15F17 x, Vector2I15F17 yz, I15F17 w) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;
-            W = w;
-        }
+        public Vector4I15F17(I15F17 x, Vector2I15F17 yz, I15F17 w) : this(x, yz.X, yz.Y, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(Vector3I15F17 xyz, I15F17 w) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;
-            W = w;
-        }
+        public Vector4I15F17(Vector3I15F17 xyz, I15F17 w) : this(xyz.X, xyz.Y, xyz.Z, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I15F17(Vector2I15F17 xy, I15F17 z, I15F17 w) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = z;
-            W = w;
-        }
+        public Vector4I15F17(Vector2I15F17 xy, I15F17 z, I15F17 w) : this(xy.X, xy.Y, z, w) { }
 
         // Arithmetic Operators
         // ---------------------------------------

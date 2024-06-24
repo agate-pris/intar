@@ -37,60 +37,25 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(I12F20 x, I12F20 y, Vector2I12F20 zw) {
-            X = x;
-            Y = y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I12F20(I12F20 x, I12F20 y, Vector2I12F20 zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(I12F20 x, Vector3I12F20 yzw) {
-            X = x;
-            Y = yzw.X;
-            Z = yzw.Y;
-            W = yzw.Z;
-        }
+        public Vector4I12F20(I12F20 x, Vector3I12F20 yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(Vector2I12F20 xy, Vector2I12F20 zw) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I12F20(Vector2I12F20 xy, Vector2I12F20 zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(Vector4I12F20 xyzw) {
-            X = xyzw.X;
-            Y = xyzw.Y;
-            Z = xyzw.Z;
-            W = xyzw.W;
-        }
+        public Vector4I12F20(Vector4I12F20 xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(I12F20 x, Vector2I12F20 yz, I12F20 w) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;
-            W = w;
-        }
+        public Vector4I12F20(I12F20 x, Vector2I12F20 yz, I12F20 w) : this(x, yz.X, yz.Y, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(Vector3I12F20 xyz, I12F20 w) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;
-            W = w;
-        }
+        public Vector4I12F20(Vector3I12F20 xyz, I12F20 w) : this(xyz.X, xyz.Y, xyz.Z, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I12F20(Vector2I12F20 xy, I12F20 z, I12F20 w) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = z;
-            W = w;
-        }
+        public Vector4I12F20(Vector2I12F20 xy, I12F20 z, I12F20 w) : this(xy.X, xy.Y, z, w) { }
 
         // Arithmetic Operators
         // ---------------------------------------

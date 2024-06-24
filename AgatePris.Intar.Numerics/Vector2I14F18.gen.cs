@@ -33,10 +33,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I14F18(Vector2I14F18 xy) {
-            X = xy.X;
-            Y = xy.Y;
-        }
+        public Vector2I14F18(Vector2I14F18 xy) : this(xy.X, xy.Y) { }
 
         // Arithmetic Operators
         // ---------------------------------------

@@ -37,60 +37,25 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(I14F18 x, I14F18 y, Vector2I14F18 zw) {
-            X = x;
-            Y = y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I14F18(I14F18 x, I14F18 y, Vector2I14F18 zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(I14F18 x, Vector3I14F18 yzw) {
-            X = x;
-            Y = yzw.X;
-            Z = yzw.Y;
-            W = yzw.Z;
-        }
+        public Vector4I14F18(I14F18 x, Vector3I14F18 yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(Vector2I14F18 xy, Vector2I14F18 zw) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I14F18(Vector2I14F18 xy, Vector2I14F18 zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(Vector4I14F18 xyzw) {
-            X = xyzw.X;
-            Y = xyzw.Y;
-            Z = xyzw.Z;
-            W = xyzw.W;
-        }
+        public Vector4I14F18(Vector4I14F18 xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(I14F18 x, Vector2I14F18 yz, I14F18 w) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;
-            W = w;
-        }
+        public Vector4I14F18(I14F18 x, Vector2I14F18 yz, I14F18 w) : this(x, yz.X, yz.Y, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(Vector3I14F18 xyz, I14F18 w) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;
-            W = w;
-        }
+        public Vector4I14F18(Vector3I14F18 xyz, I14F18 w) : this(xyz.X, xyz.Y, xyz.Z, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I14F18(Vector2I14F18 xy, I14F18 z, I14F18 w) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = z;
-            W = w;
-        }
+        public Vector4I14F18(Vector2I14F18 xy, I14F18 z, I14F18 w) : this(xy.X, xy.Y, z, w) { }
 
         // Arithmetic Operators
         // ---------------------------------------

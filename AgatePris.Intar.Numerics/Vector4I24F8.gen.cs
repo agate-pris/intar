@@ -37,60 +37,25 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(I24F8 x, I24F8 y, Vector2I24F8 zw) {
-            X = x;
-            Y = y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I24F8(I24F8 x, I24F8 y, Vector2I24F8 zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(I24F8 x, Vector3I24F8 yzw) {
-            X = x;
-            Y = yzw.X;
-            Z = yzw.Y;
-            W = yzw.Z;
-        }
+        public Vector4I24F8(I24F8 x, Vector3I24F8 yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(Vector2I24F8 xy, Vector2I24F8 zw) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4I24F8(Vector2I24F8 xy, Vector2I24F8 zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(Vector4I24F8 xyzw) {
-            X = xyzw.X;
-            Y = xyzw.Y;
-            Z = xyzw.Z;
-            W = xyzw.W;
-        }
+        public Vector4I24F8(Vector4I24F8 xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(I24F8 x, Vector2I24F8 yz, I24F8 w) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;
-            W = w;
-        }
+        public Vector4I24F8(I24F8 x, Vector2I24F8 yz, I24F8 w) : this(x, yz.X, yz.Y, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(Vector3I24F8 xyz, I24F8 w) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;
-            W = w;
-        }
+        public Vector4I24F8(Vector3I24F8 xyz, I24F8 w) : this(xyz.X, xyz.Y, xyz.Z, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I24F8(Vector2I24F8 xy, I24F8 z, I24F8 w) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = z;
-            W = w;
-        }
+        public Vector4I24F8(Vector2I24F8 xy, I24F8 z, I24F8 w) : this(xy.X, xy.Y, z, w) { }
 
         // Arithmetic Operators
         // ---------------------------------------

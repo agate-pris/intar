@@ -76,60 +76,28 @@ namespace AgatePris.Intar.Numerics {
         } {%- if dim > 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ type }} x, {{ type }} y, {{ self::dim_type(dim = 2) }} zw) {
-            X = x;
-            Y = y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public {{ self::self_type() }}({{ type }} x, {{ type }} y, {{ self::dim_type(dim = 2) }} zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 3) }} yzw) {
-            X = x;
-            Y = yzw.X;
-            Z = yzw.Y;
-            W = yzw.Z;
-        }
+        public {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 3) }} yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy, {{ self::dim_type(dim = 2) }} zw) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy, {{ self::dim_type(dim = 2) }} zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ self::dim_type(dim = 4) }} xyzw) {
-            X = xyzw.X;
-            Y = xyzw.Y;
-            Z = xyzw.Z;
-            W = xyzw.W;
-        } {%- endif %} {%- if dim > 2 %}
+        public {{ self::self_type() }}({{ self::dim_type(dim = 4) }} xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
+        {%- endif %} {%- if dim > 2 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 2) }} yz{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;{% if dim > 3 %}
-            W = w;{% endif %}
-        }
+        public {{ self::self_type() }}({{ type }} x, {{ self::dim_type(dim = 2) }} yz{% if dim > 3 %}, {{ type }} w{% endif %}) : this(x, yz.X, yz.Y{% if dim > 3 %}, w{% endif %}) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ self::dim_type(dim = 3) }} xyz{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;{% if dim > 3 %}
-            W = w;{% endif %}
-        } {%- endif %} {%- if dim > 1 %}
+        public {{ self::self_type() }}({{ self::dim_type(dim = 3) }} xyz{% if dim > 3 %}, {{ type }} w{% endif %}) : this(xyz.X, xyz.Y, xyz.Z{% if dim > 3 %}, w{% endif %}) { }
+        {%- endif %} {%- if dim > 1 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) {
-            X = xy.X;
-            Y = xy.Y;{% if dim > 2 %}
-            Z = z;{% if dim > 3 %}
-            W = w;{% endif %}{% endif %}
-        } {%- endif %}
+        public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) : this(xy.X, xy.Y{% if dim > 2 %}, z{% endif %}{% if dim > 3 %}, w{% endif %}) { }
+        {%- endif %}
 
         // Arithmetic Operators
         // ---------------------------------------

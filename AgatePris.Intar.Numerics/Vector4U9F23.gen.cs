@@ -37,60 +37,25 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(U9F23 x, U9F23 y, Vector2U9F23 zw) {
-            X = x;
-            Y = y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4U9F23(U9F23 x, U9F23 y, Vector2U9F23 zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(U9F23 x, Vector3U9F23 yzw) {
-            X = x;
-            Y = yzw.X;
-            Z = yzw.Y;
-            W = yzw.Z;
-        }
+        public Vector4U9F23(U9F23 x, Vector3U9F23 yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(Vector2U9F23 xy, Vector2U9F23 zw) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = zw.X;
-            W = zw.Y;
-        }
+        public Vector4U9F23(Vector2U9F23 xy, Vector2U9F23 zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(Vector4U9F23 xyzw) {
-            X = xyzw.X;
-            Y = xyzw.Y;
-            Z = xyzw.Z;
-            W = xyzw.W;
-        }
+        public Vector4U9F23(Vector4U9F23 xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(U9F23 x, Vector2U9F23 yz, U9F23 w) {
-            X = x;
-            Y = yz.X;
-            Z = yz.Y;
-            W = w;
-        }
+        public Vector4U9F23(U9F23 x, Vector2U9F23 yz, U9F23 w) : this(x, yz.X, yz.Y, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(Vector3U9F23 xyz, U9F23 w) {
-            X = xyz.X;
-            Y = xyz.Y;
-            Z = xyz.Z;
-            W = w;
-        }
+        public Vector4U9F23(Vector3U9F23 xyz, U9F23 w) : this(xyz.X, xyz.Y, xyz.Z, w) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U9F23(Vector2U9F23 xy, U9F23 z, U9F23 w) {
-            X = xy.X;
-            Y = xy.Y;
-            Z = z;
-            W = w;
-        }
+        public Vector4U9F23(Vector2U9F23 xy, U9F23 z, U9F23 w) : this(xy.X, xy.Y, z, w) { }
 
         // Arithmetic Operators
         // ---------------------------------------
