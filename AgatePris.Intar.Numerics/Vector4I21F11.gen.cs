@@ -37,6 +37,9 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I21F11(I21F11 value) : this(value, value, value, value) { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I21F11(I21F11 x, I21F11 y, Vector2I21F11 zw) : this(x, y, zw.X, zw.Y) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

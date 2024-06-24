@@ -33,6 +33,9 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2U11F21(U11F21 value) : this(value, value) { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2U11F21(Vector2U11F21 xy) : this(xy.X, xy.Y) { }
 
         // Arithmetic Operators

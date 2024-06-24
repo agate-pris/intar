@@ -73,7 +73,10 @@ namespace AgatePris.Intar.Numerics {
             Y = y;{% if dim > 2 %}
             Z = z;{% if dim > 3 %}
             W = w;{% endif %}{% endif %}
-        } {%- if dim > 3 %}
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self::self_type() }}({{ type }} value) : this(value, value{% if dim > 2 %}, value{% endif %}{% if dim > 3 %}, value{% endif %}) { } {%- if dim > 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ type }} x, {{ type }} y, {{ self::dim_type(dim = 2) }} zw) : this(x, y, zw.X, zw.Y) { }
