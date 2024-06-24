@@ -124,14 +124,6 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Static readonly properties
-        // --------------------------
-
-        public static readonly {{ self::self_type() }} Zero = FromNum(0);
-        public static readonly {{ self::self_type() }} One = FromNum(1);
-        public static readonly {{ self::self_type() }} MinValue = FromBits({{ self::self_bits_type() }}.MinValue);
-        public static readonly {{ self::self_type() }} MaxValue = FromBits({{ self::self_bits_type() }}.MaxValue);
-
         // Constructors
         // ------------
 
@@ -148,6 +140,26 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self::self_type() }} FromNum({{ self::self_bits_type() }} num) => FromBits(num * oneRepr);
+
+        // Static Properties
+        // -----------------
+
+        public static {{ self::self_type() }} Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromNum(0);
+        }
+        public static {{ self::self_type() }} One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromNum(1);
+        }
+        public static {{ self::self_type() }} MinValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits({{ self::self_bits_type() }}.MinValue);
+        }
+        public static {{ self::self_type() }} MaxValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits({{ self::self_bits_type() }}.MaxValue);
+        }
 
         // Arithmetic Operators
         // --------------------

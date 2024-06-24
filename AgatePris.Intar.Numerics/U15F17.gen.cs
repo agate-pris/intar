@@ -25,14 +25,6 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Static readonly properties
-        // --------------------------
-
-        public static readonly U15F17 Zero = FromNum(0);
-        public static readonly U15F17 One = FromNum(1);
-        public static readonly U15F17 MinValue = FromBits(uint.MinValue);
-        public static readonly U15F17 MaxValue = FromBits(uint.MaxValue);
-
         // Constructors
         // ------------
 
@@ -49,6 +41,26 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U15F17 FromNum(uint num) => FromBits(num * oneRepr);
+
+        // Static Properties
+        // -----------------
+
+        public static U15F17 Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromNum(0);
+        }
+        public static U15F17 One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromNum(1);
+        }
+        public static U15F17 MinValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(uint.MinValue);
+        }
+        public static U15F17 MaxValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(uint.MaxValue);
+        }
 
         // Arithmetic Operators
         // --------------------

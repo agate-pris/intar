@@ -25,14 +25,6 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Static readonly properties
-        // --------------------------
-
-        public static readonly U21F43 Zero = FromNum(0);
-        public static readonly U21F43 One = FromNum(1);
-        public static readonly U21F43 MinValue = FromBits(ulong.MinValue);
-        public static readonly U21F43 MaxValue = FromBits(ulong.MaxValue);
-
         // Constructors
         // ------------
 
@@ -49,6 +41,26 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U21F43 FromNum(ulong num) => FromBits(num * oneRepr);
+
+        // Static Properties
+        // -----------------
+
+        public static U21F43 Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromNum(0);
+        }
+        public static U21F43 One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromNum(1);
+        }
+        public static U21F43 MinValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(ulong.MinValue);
+        }
+        public static U21F43 MaxValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(ulong.MaxValue);
+        }
 
         // Arithmetic Operators
         // --------------------
