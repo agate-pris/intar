@@ -20,11 +20,6 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Constants
-        // ---------------------------------------
-
-        public static readonly Vector4I10F22 zero;
-
         // Constructors
         // ---------------------------------------
 
@@ -59,6 +54,18 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I10F22(Vector2I10F22 xy, I10F22 z, I10F22 w) : this(xy.X, xy.Y, z, w) { }
+
+        // Constants
+        // ---------------------------------------
+
+        public static Vector4I10F22 Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector4I10F22(I10F22.Zero);
+        }
+        public static Vector4I10F22 One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector4I10F22(I10F22.One);
+        }
 
         // Arithmetic Operators
         // ---------------------------------------

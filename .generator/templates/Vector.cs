@@ -59,11 +59,6 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Constants
-        // ---------------------------------------
-
-        public static readonly {{ self::self_type() }} zero;
-
         // Constructors
         // ---------------------------------------
 
@@ -101,6 +96,18 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self::self_type() }}({{ self::dim_type(dim = 2) }} xy{% if dim > 2 %}, {{ type }} z{% endif %}{% if dim > 3 %}, {{ type }} w{% endif %}) : this(xy.X, xy.Y{% if dim > 2 %}, z{% endif %}{% if dim > 3 %}, w{% endif %}) { }
         {%- endif %}
+
+        // Constants
+        // ---------------------------------------
+
+        public static {{ self::self_type() }} Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self::self_type() }}({{ type }}.Zero);
+        }
+        public static {{ self::self_type() }} One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self::self_type() }}({{ type }}.One);
+        }
 
         // Arithmetic Operators
         // ---------------------------------------
