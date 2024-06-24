@@ -108,6 +108,22 @@ namespace AgatePris.Intar.Numerics {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => new {{ self::self_type() }}({{ type }}.One);
         }
+        public static {{ self::self_type() }} UnitX {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self::self_type() }}({{ type }}.One, {{ type }}.Zero{% if dim > 2 %}, {{ type }}.Zero{% endif %}{% if dim > 3 %}, {{ type }}.Zero{% endif %});
+        }
+        public static {{ self::self_type() }} UnitY {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self::self_type() }}({{ type }}.Zero, {{ type }}.One{% if dim > 2 %}, {{ type }}.Zero{% endif %}{% if dim > 3 %}, {{ type }}.Zero{% endif %});
+        } {%- if dim > 2 %}
+        public static {{ self::self_type() }} UnitZ {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self::self_type() }}({{ type }}.Zero, {{ type }}.Zero, {{ type }}.One{% if dim > 3 %}, {{ type }}.Zero{% endif %});
+        } {%- endif %} {%- if dim > 3 %}
+        public static {{ self::self_type() }} UnitW {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self::self_type() }}({{ type }}.Zero, {{ type }}.Zero, {{ type }}.Zero, {{ type }}.One);
+        } {%- endif %}
 
         // Arithmetic Operators
         // ---------------------------------------

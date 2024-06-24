@@ -52,6 +52,18 @@ namespace AgatePris.Intar.Numerics {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => new Vector3I15F17(I15F17.One);
         }
+        public static Vector3I15F17 UnitX {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector3I15F17(I15F17.One, I15F17.Zero, I15F17.Zero);
+        }
+        public static Vector3I15F17 UnitY {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector3I15F17(I15F17.Zero, I15F17.One, I15F17.Zero);
+        }
+        public static Vector3I15F17 UnitZ {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector3I15F17(I15F17.Zero, I15F17.Zero, I15F17.One);
+        }
 
         // Arithmetic Operators
         // ---------------------------------------

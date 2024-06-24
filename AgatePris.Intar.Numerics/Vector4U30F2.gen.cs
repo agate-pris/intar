@@ -66,6 +66,22 @@ namespace AgatePris.Intar.Numerics {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => new Vector4U30F2(U30F2.One);
         }
+        public static Vector4U30F2 UnitX {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector4U30F2(U30F2.One, U30F2.Zero, U30F2.Zero, U30F2.Zero);
+        }
+        public static Vector4U30F2 UnitY {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector4U30F2(U30F2.Zero, U30F2.One, U30F2.Zero, U30F2.Zero);
+        }
+        public static Vector4U30F2 UnitZ {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector4U30F2(U30F2.Zero, U30F2.Zero, U30F2.One, U30F2.Zero);
+        }
+        public static Vector4U30F2 UnitW {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new Vector4U30F2(U30F2.Zero, U30F2.Zero, U30F2.Zero, U30F2.One);
+        }
 
         // Arithmetic Operators
         // ---------------------------------------
