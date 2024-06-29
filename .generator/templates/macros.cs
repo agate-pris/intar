@@ -18,3 +18,7 @@
         {%- endif %}
     {%- endif %}
 {%- endmacro %}
+
+{%- macro vector_type(dim, type) -%}
+    Vector{{ dim }}{{ type }}
+{%- endmacro -%}
