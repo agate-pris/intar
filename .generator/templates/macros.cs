@@ -19,6 +19,19 @@
     {%- endif %}
 {%- endmacro %}
 
+{%- macro wide_type(type) %}
+    {%- if   type == "int"   %}long
+    {%- elif type == "uint"  %}ulong
+    {%- elif type == "long"  %}Int128
+    {%- elif type == "ulong" %}UInt128
+    {%- else %}{{ throw(message = "invalid arguments. type: " ~ type) }}
+    {%- endif %}
+{%- endmacro %}
+
+{%- macro wide_bits_type(s, i, f) %}
+    {{- self::wide_type(type=self::bits_type(s=s, i=i, f=f)) }}
+{%- endmacro -%}
+
 {%- macro vector_type(dim, type) -%}
     Vector{{ dim }}{{ type }}
 {%- endmacro -%}
