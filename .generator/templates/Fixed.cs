@@ -9,17 +9,7 @@
 {%- endmacro -%}
 
 {% macro self_wide_bits_type() %}
-    {%- if signed %}
-        {%- if int_nbits + frac_nbits == 32 %}long
-        {%- elif int_nbits + frac_nbits == 64 %}Int128
-        {%- else %}{{ throw(message = "invalid arguments. int_nbits: " ~ int_nbits ~ ", frac_nbits: " ~ frac_nbits ) }}
-        {%- endif %}
-    {%- else %}
-        {%- if int_nbits + frac_nbits == 32 %}ulong
-        {%- elif int_nbits + frac_nbits == 64 %}UInt128
-        {%- else %}{{ throw(message = "invalid arguments. int_nbits: " ~ int_nbits ~ ", frac_nbits: " ~ frac_nbits ) }}
-        {%- endif %}
-    {%- endif %}
+    {{- macros::wide_bits_type(s=signed, i=int_nbits, f=frac_nbits) }}
 {%- endmacro -%}
 
 {%- macro one_literal(t) %}
