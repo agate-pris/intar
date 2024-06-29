@@ -1,5 +1,7 @@
+{% import "macros.cs" as macros %}
+
 {% macro dim_type(dim) -%}
-    Vector{{ dim }}{{ type }}
+    {{ macros::vector_type(dim=dim, type=type) }}
 {%- endmacro -%}
 
 {% macro self_type() -%}
