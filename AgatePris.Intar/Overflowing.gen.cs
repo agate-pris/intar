@@ -205,9 +205,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I2F30 x, I2F30 y, out I2F30 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I2F30.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I2F30.One.Bits;
+            result = I2F30.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -225,9 +227,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I3F29 x, I3F29 y, out I3F29 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I3F29.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I3F29.One.Bits;
+            result = I3F29.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -245,9 +249,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I4F28 x, I4F28 y, out I4F28 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I4F28.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I4F28.One.Bits;
+            result = I4F28.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -265,9 +271,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I5F27 x, I5F27 y, out I5F27 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I5F27.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I5F27.One.Bits;
+            result = I5F27.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -285,9 +293,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I6F26 x, I6F26 y, out I6F26 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I6F26.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I6F26.One.Bits;
+            result = I6F26.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -305,9 +315,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I7F25 x, I7F25 y, out I7F25 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I7F25.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I7F25.One.Bits;
+            result = I7F25.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -325,9 +337,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I8F24 x, I8F24 y, out I8F24 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I8F24.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I8F24.One.Bits;
+            result = I8F24.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -345,9 +359,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I9F23 x, I9F23 y, out I9F23 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I9F23.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I9F23.One.Bits;
+            result = I9F23.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -365,9 +381,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I10F22 x, I10F22 y, out I10F22 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I10F22.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I10F22.One.Bits;
+            result = I10F22.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -385,9 +403,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I11F21 x, I11F21 y, out I11F21 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I11F21.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I11F21.One.Bits;
+            result = I11F21.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -405,9 +425,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I12F20 x, I12F20 y, out I12F20 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I12F20.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I12F20.One.Bits;
+            result = I12F20.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -425,9 +447,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I13F19 x, I13F19 y, out I13F19 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I13F19.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I13F19.One.Bits;
+            result = I13F19.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -445,9 +469,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I14F18 x, I14F18 y, out I14F18 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I14F18.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I14F18.One.Bits;
+            result = I14F18.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -465,9 +491,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I15F17 x, I15F17 y, out I15F17 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I15F17.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I15F17.One.Bits;
+            result = I15F17.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -485,9 +513,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I16F16 x, I16F16 y, out I16F16 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I16F16.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I16F16.One.Bits;
+            result = I16F16.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -505,9 +535,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I17F15 x, I17F15 y, out I17F15 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I17F15.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I17F15.One.Bits;
+            result = I17F15.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -525,9 +557,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I18F14 x, I18F14 y, out I18F14 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I18F14.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I18F14.One.Bits;
+            result = I18F14.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -545,9 +579,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I19F13 x, I19F13 y, out I19F13 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I19F13.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I19F13.One.Bits;
+            result = I19F13.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -565,9 +601,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I20F12 x, I20F12 y, out I20F12 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I20F12.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I20F12.One.Bits;
+            result = I20F12.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -585,9 +623,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I21F11 x, I21F11 y, out I21F11 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I21F11.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I21F11.One.Bits;
+            result = I21F11.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -605,9 +645,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I22F10 x, I22F10 y, out I22F10 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I22F10.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I22F10.One.Bits;
+            result = I22F10.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -625,9 +667,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I23F9 x, I23F9 y, out I23F9 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I23F9.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I23F9.One.Bits;
+            result = I23F9.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -645,9 +689,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I24F8 x, I24F8 y, out I24F8 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I24F8.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I24F8.One.Bits;
+            result = I24F8.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -665,9 +711,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I25F7 x, I25F7 y, out I25F7 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I25F7.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I25F7.One.Bits;
+            result = I25F7.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -685,9 +733,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I26F6 x, I26F6 y, out I26F6 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I26F6.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I26F6.One.Bits;
+            result = I26F6.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -705,9 +755,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I27F5 x, I27F5 y, out I27F5 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I27F5.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I27F5.One.Bits;
+            result = I27F5.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -725,9 +777,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I28F4 x, I28F4 y, out I28F4 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I28F4.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I28F4.One.Bits;
+            result = I28F4.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -745,9 +799,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I29F3 x, I29F3 y, out I29F3 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I29F3.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I29F3.One.Bits;
+            result = I29F3.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -765,9 +821,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I30F2 x, I30F2 y, out I30F2 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I30F2.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I30F2.One.Bits;
+            result = I30F2.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -785,9 +843,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I31F1 x, I31F1 y, out I31F1 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = I31F1.FromBits(bits);
-            return b;
+            long bits = x.Bits;
+            bits *= y.Bits;
+            bits /= I31F1.One.Bits;
+            result = I31F1.FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -805,9 +865,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U2F30 x, U2F30 y, out U2F30 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U2F30.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U2F30.One.Bits;
+            result = U2F30.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -818,16 +880,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F30 SaturatingMul(this U2F30 x, U2F30 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U2F30.MaxValue
-                : U2F30.MinValue);
+            return x.CheckedMul(y) ?? U2F30.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U3F29 x, U3F29 y, out U3F29 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U3F29.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U3F29.One.Bits;
+            result = U3F29.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -838,16 +900,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U3F29 SaturatingMul(this U3F29 x, U3F29 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U3F29.MaxValue
-                : U3F29.MinValue);
+            return x.CheckedMul(y) ?? U3F29.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U4F28 x, U4F28 y, out U4F28 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U4F28.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U4F28.One.Bits;
+            result = U4F28.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -858,16 +920,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F28 SaturatingMul(this U4F28 x, U4F28 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U4F28.MaxValue
-                : U4F28.MinValue);
+            return x.CheckedMul(y) ?? U4F28.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U5F27 x, U5F27 y, out U5F27 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U5F27.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U5F27.One.Bits;
+            result = U5F27.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -878,16 +940,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U5F27 SaturatingMul(this U5F27 x, U5F27 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U5F27.MaxValue
-                : U5F27.MinValue);
+            return x.CheckedMul(y) ?? U5F27.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U6F26 x, U6F26 y, out U6F26 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U6F26.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U6F26.One.Bits;
+            result = U6F26.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -898,16 +960,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U6F26 SaturatingMul(this U6F26 x, U6F26 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U6F26.MaxValue
-                : U6F26.MinValue);
+            return x.CheckedMul(y) ?? U6F26.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U7F25 x, U7F25 y, out U7F25 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U7F25.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U7F25.One.Bits;
+            result = U7F25.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -918,16 +980,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U7F25 SaturatingMul(this U7F25 x, U7F25 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U7F25.MaxValue
-                : U7F25.MinValue);
+            return x.CheckedMul(y) ?? U7F25.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U8F24 x, U8F24 y, out U8F24 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U8F24.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U8F24.One.Bits;
+            result = U8F24.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -938,16 +1000,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U8F24 SaturatingMul(this U8F24 x, U8F24 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U8F24.MaxValue
-                : U8F24.MinValue);
+            return x.CheckedMul(y) ?? U8F24.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U9F23 x, U9F23 y, out U9F23 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U9F23.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U9F23.One.Bits;
+            result = U9F23.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -958,16 +1020,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U9F23 SaturatingMul(this U9F23 x, U9F23 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U9F23.MaxValue
-                : U9F23.MinValue);
+            return x.CheckedMul(y) ?? U9F23.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U10F22 x, U10F22 y, out U10F22 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U10F22.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U10F22.One.Bits;
+            result = U10F22.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -978,16 +1040,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U10F22 SaturatingMul(this U10F22 x, U10F22 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U10F22.MaxValue
-                : U10F22.MinValue);
+            return x.CheckedMul(y) ?? U10F22.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U11F21 x, U11F21 y, out U11F21 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U11F21.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U11F21.One.Bits;
+            result = U11F21.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -998,16 +1060,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U11F21 SaturatingMul(this U11F21 x, U11F21 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U11F21.MaxValue
-                : U11F21.MinValue);
+            return x.CheckedMul(y) ?? U11F21.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U12F20 x, U12F20 y, out U12F20 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U12F20.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U12F20.One.Bits;
+            result = U12F20.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1018,16 +1080,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U12F20 SaturatingMul(this U12F20 x, U12F20 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U12F20.MaxValue
-                : U12F20.MinValue);
+            return x.CheckedMul(y) ?? U12F20.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U13F19 x, U13F19 y, out U13F19 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U13F19.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U13F19.One.Bits;
+            result = U13F19.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1038,16 +1100,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U13F19 SaturatingMul(this U13F19 x, U13F19 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U13F19.MaxValue
-                : U13F19.MinValue);
+            return x.CheckedMul(y) ?? U13F19.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U14F18 x, U14F18 y, out U14F18 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U14F18.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U14F18.One.Bits;
+            result = U14F18.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1058,16 +1120,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U14F18 SaturatingMul(this U14F18 x, U14F18 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U14F18.MaxValue
-                : U14F18.MinValue);
+            return x.CheckedMul(y) ?? U14F18.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U15F17 x, U15F17 y, out U15F17 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U15F17.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U15F17.One.Bits;
+            result = U15F17.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1078,16 +1140,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U15F17 SaturatingMul(this U15F17 x, U15F17 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U15F17.MaxValue
-                : U15F17.MinValue);
+            return x.CheckedMul(y) ?? U15F17.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U16F16 x, U16F16 y, out U16F16 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U16F16.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U16F16.One.Bits;
+            result = U16F16.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1098,16 +1160,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U16F16 SaturatingMul(this U16F16 x, U16F16 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U16F16.MaxValue
-                : U16F16.MinValue);
+            return x.CheckedMul(y) ?? U16F16.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U17F15 x, U17F15 y, out U17F15 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U17F15.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U17F15.One.Bits;
+            result = U17F15.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1118,16 +1180,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 SaturatingMul(this U17F15 x, U17F15 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U17F15.MaxValue
-                : U17F15.MinValue);
+            return x.CheckedMul(y) ?? U17F15.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U18F14 x, U18F14 y, out U18F14 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U18F14.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U18F14.One.Bits;
+            result = U18F14.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1138,16 +1200,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U18F14 SaturatingMul(this U18F14 x, U18F14 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U18F14.MaxValue
-                : U18F14.MinValue);
+            return x.CheckedMul(y) ?? U18F14.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U19F13 x, U19F13 y, out U19F13 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U19F13.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U19F13.One.Bits;
+            result = U19F13.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1158,16 +1220,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U19F13 SaturatingMul(this U19F13 x, U19F13 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U19F13.MaxValue
-                : U19F13.MinValue);
+            return x.CheckedMul(y) ?? U19F13.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U20F12 x, U20F12 y, out U20F12 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U20F12.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U20F12.One.Bits;
+            result = U20F12.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1178,16 +1240,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U20F12 SaturatingMul(this U20F12 x, U20F12 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U20F12.MaxValue
-                : U20F12.MinValue);
+            return x.CheckedMul(y) ?? U20F12.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U21F11 x, U21F11 y, out U21F11 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U21F11.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U21F11.One.Bits;
+            result = U21F11.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1198,16 +1260,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U21F11 SaturatingMul(this U21F11 x, U21F11 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U21F11.MaxValue
-                : U21F11.MinValue);
+            return x.CheckedMul(y) ?? U21F11.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U22F10 x, U22F10 y, out U22F10 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U22F10.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U22F10.One.Bits;
+            result = U22F10.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1218,16 +1280,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U22F10 SaturatingMul(this U22F10 x, U22F10 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U22F10.MaxValue
-                : U22F10.MinValue);
+            return x.CheckedMul(y) ?? U22F10.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U23F9 x, U23F9 y, out U23F9 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U23F9.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U23F9.One.Bits;
+            result = U23F9.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1238,16 +1300,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U23F9 SaturatingMul(this U23F9 x, U23F9 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U23F9.MaxValue
-                : U23F9.MinValue);
+            return x.CheckedMul(y) ?? U23F9.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U24F8 x, U24F8 y, out U24F8 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U24F8.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U24F8.One.Bits;
+            result = U24F8.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1258,16 +1320,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U24F8 SaturatingMul(this U24F8 x, U24F8 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U24F8.MaxValue
-                : U24F8.MinValue);
+            return x.CheckedMul(y) ?? U24F8.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U25F7 x, U25F7 y, out U25F7 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U25F7.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U25F7.One.Bits;
+            result = U25F7.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1278,16 +1340,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U25F7 SaturatingMul(this U25F7 x, U25F7 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U25F7.MaxValue
-                : U25F7.MinValue);
+            return x.CheckedMul(y) ?? U25F7.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U26F6 x, U26F6 y, out U26F6 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U26F6.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U26F6.One.Bits;
+            result = U26F6.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1298,16 +1360,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U26F6 SaturatingMul(this U26F6 x, U26F6 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U26F6.MaxValue
-                : U26F6.MinValue);
+            return x.CheckedMul(y) ?? U26F6.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U27F5 x, U27F5 y, out U27F5 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U27F5.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U27F5.One.Bits;
+            result = U27F5.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1318,16 +1380,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U27F5 SaturatingMul(this U27F5 x, U27F5 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U27F5.MaxValue
-                : U27F5.MinValue);
+            return x.CheckedMul(y) ?? U27F5.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U28F4 x, U28F4 y, out U28F4 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U28F4.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U28F4.One.Bits;
+            result = U28F4.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1338,16 +1400,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U28F4 SaturatingMul(this U28F4 x, U28F4 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U28F4.MaxValue
-                : U28F4.MinValue);
+            return x.CheckedMul(y) ?? U28F4.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U29F3 x, U29F3 y, out U29F3 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U29F3.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U29F3.One.Bits;
+            result = U29F3.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1358,16 +1420,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U29F3 SaturatingMul(this U29F3 x, U29F3 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U29F3.MaxValue
-                : U29F3.MinValue);
+            return x.CheckedMul(y) ?? U29F3.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U30F2 x, U30F2 y, out U30F2 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U30F2.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U30F2.One.Bits;
+            result = U30F2.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1378,16 +1440,16 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U30F2 SaturatingMul(this U30F2 x, U30F2 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U30F2.MaxValue
-                : U30F2.MinValue);
+            return x.CheckedMul(y) ?? U30F2.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U31F1 x, U31F1 y, out U31F1 result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = U31F1.FromBits(bits);
-            return b;
+            ulong bits = x.Bits;
+            bits *= y.Bits;
+            bits /= U31F1.One.Bits;
+            result = U31F1.FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1398,9 +1460,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U31F1 SaturatingMul(this U31F1 x, U31F1 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? U31F1.MaxValue
-                : U31F1.MinValue);
+            return x.CheckedMul(y) ?? U31F1.MaxValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -203,13 +203,20 @@ namespace AgatePris.Intar {
 
 {%- for sign in [true, false] %}
 {%- for int_nbits in range(start=2, end=32) %}
+{%- set bits_type = macros::bits_type(s=sign, i=int_nbits, f=32-int_nbits) %}
 {%- set type = macros::fixed_type(s=sign, i=int_nbits, f=32-int_nbits) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this {{ type }} x, {{ type }} y, out {{ type }} result) {
-            var b = OverflowingMul(x.Bits, y.Bits, out var bits);
-            result = {{ type }}.FromBits(bits);
-            return b;
+            {{ macros::wide_bits_type(s=sign, i=int_nbits, f=32-int_nbits) }} bits = x.Bits;
+            bits *= y.Bits;
+            bits /= {{ type }}.One.Bits;
+            result = {{ type }}.FromBits(unchecked(({{ bits_type }})bits));
+            {%- if sign %}
+            return bits < {{ bits_type }}.MinValue || bits > {{ bits_type }}.MaxValue;
+            {%- else %}
+            return bits > {{ bits_type }}.MaxValue;
+            {%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -220,9 +227,13 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} SaturatingMul(this {{ type }} x, {{ type }} y) {
+            {%- if sign %}
             return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
                 ? {{ type }}.MaxValue
                 : {{ type }}.MinValue);
+            {%- else %}
+            return x.CheckedMul(y) ?? {{ type }}.MaxValue;
+            {%- endif %}
         }
 {%- endfor %}
 {%- endfor %}
