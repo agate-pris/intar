@@ -37,6 +37,9 @@ csharp_new_line_before_open_brace = none
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = warning
 
+# IDE0021: コンストラクターにブロック本体を使用する
+dotnet_diagnostic.IDE0021.severity = silent
+
 # IDE0022: メソッドにブロック本体を使用する
 dotnet_diagnostic.IDE0022.severity = silent
 
