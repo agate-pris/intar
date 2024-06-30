@@ -27,7 +27,11 @@ namespace AgatePris.Intar {
                     Quadrant.Fourth => masked - Right,
                     Quadrant.Third => -masked,
                     Quadrant.First => masked,
+#if NET7_0_OR_GREATER
+                    _ => throw new System.Diagnostics.UnreachableException(),
+#else
                     _ => throw new System.NotImplementedException(),
+#endif
                 };
                 return z;
             }
