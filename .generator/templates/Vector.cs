@@ -9,20 +9,20 @@
 {%- endmacro -%}
 
 {% macro swizzling() %}
-        {%- if dim == 2 %}   {%- set cmp = ['x', 'y'] %}
-        {%- elif dim == 3 %} {%- set cmp = ['x', 'y', 'z'] %}
-        {%- elif dim == 4 %} {%- set cmp = ['x', 'y', 'z', 'w'] %}
+        {%- if dim == 2 %}   {%- set cmp = ['X', 'Y'] %}
+        {%- elif dim == 3 %} {%- set cmp = ['X', 'Y', 'Z'] %}
+        {%- elif dim == 4 %} {%- set cmp = ['X', 'Y', 'Z', 'W'] %}
         {%- else %}          {{- "Unexpected dim. dim: " ~ dim }}
         {%- endif -%}
         {%- for x in cmp %}
         {%- for y in cmp %}
-        public readonly {{ self::dim_type(dim = 2) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 2) }}({% filter upper %}{{ x }}, {{ y }}{% endfilter %}); }
+        public readonly {{ self::dim_type(dim = 2) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 2) }}({{ x }}, {{ y }}); }
         {%- endfor %}
         {%- endfor %}
         {%- for x in cmp %}
         {%- for y in cmp %}
         {%- for z in cmp %}
-        public readonly {{ self::dim_type(dim = 3) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 3) }}({% filter upper %}{{ x }}, {{ y }}, {{ z }}{% endfilter %}); }
+        public readonly {{ self::dim_type(dim = 3) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 3) }}({{ x }}, {{ y }}, {{ z }}); }
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -30,7 +30,7 @@
         {%- for y in cmp %}
         {%- for z in cmp %}
         {%- for w in cmp %}
-        public readonly {{ self::dim_type(dim = 4) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 4) }}({% filter upper %}{{ x }}, {{ y }}, {{ z }}, {{ w }}{% endfilter %}); }
+        public readonly {{ self::dim_type(dim = 4) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ self::dim_type(dim = 4) }}({{ x }}, {{ y }}, {{ z }}, {{ w }}); }
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -188,11 +188,7 @@ namespace AgatePris.Intar.Numerics {
 
         // Swizzling Properties
         // ---------------------------------------
-
-#pragma warning disable IDE1006 // 命名スタイル
 {{ self::swizzling() }}
-
-#pragma warning restore IDE1006 // 命名スタイル
 
         // Comparison Operators
         // ---------------------------------------
