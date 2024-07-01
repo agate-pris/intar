@@ -180,11 +180,11 @@ namespace AgatePris.Intar {
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SaturatingMul(int x, int y) {
-            return CheckedMul(x, y) ?? ((x < 0) == (y < 0)
-                ? int.MaxValue
-                : int.MinValue);
-        }
+        public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
+            ((x < 0) == (y < 0))
+            ? int.MaxValue
+            : int.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(uint x, uint y, out uint result) {
@@ -199,9 +199,7 @@ namespace AgatePris.Intar {
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingMul(uint x, uint y) {
-            return CheckedMul(x, y) ?? uint.MaxValue;
-        }
+        public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I2F30 x, I2F30 y, out I2F30 result) {
@@ -219,11 +217,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 SaturatingMul(this I2F30 x, I2F30 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I2F30.MaxValue
-                : I2F30.MinValue);
-        }
+        public static I2F30 SaturatingMul(this I2F30 x, I2F30 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I2F30.MaxValue
+            : I2F30.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I3F29 x, I3F29 y, out I3F29 result) {
@@ -241,11 +239,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I3F29 SaturatingMul(this I3F29 x, I3F29 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I3F29.MaxValue
-                : I3F29.MinValue);
-        }
+        public static I3F29 SaturatingMul(this I3F29 x, I3F29 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I3F29.MaxValue
+            : I3F29.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I4F28 x, I4F28 y, out I4F28 result) {
@@ -263,11 +261,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I4F28 SaturatingMul(this I4F28 x, I4F28 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I4F28.MaxValue
-                : I4F28.MinValue);
-        }
+        public static I4F28 SaturatingMul(this I4F28 x, I4F28 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I4F28.MaxValue
+            : I4F28.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I5F27 x, I5F27 y, out I5F27 result) {
@@ -285,11 +283,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I5F27 SaturatingMul(this I5F27 x, I5F27 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I5F27.MaxValue
-                : I5F27.MinValue);
-        }
+        public static I5F27 SaturatingMul(this I5F27 x, I5F27 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I5F27.MaxValue
+            : I5F27.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I6F26 x, I6F26 y, out I6F26 result) {
@@ -307,11 +305,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I6F26 SaturatingMul(this I6F26 x, I6F26 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I6F26.MaxValue
-                : I6F26.MinValue);
-        }
+        public static I6F26 SaturatingMul(this I6F26 x, I6F26 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I6F26.MaxValue
+            : I6F26.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I7F25 x, I7F25 y, out I7F25 result) {
@@ -329,11 +327,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I7F25 SaturatingMul(this I7F25 x, I7F25 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I7F25.MaxValue
-                : I7F25.MinValue);
-        }
+        public static I7F25 SaturatingMul(this I7F25 x, I7F25 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I7F25.MaxValue
+            : I7F25.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I8F24 x, I8F24 y, out I8F24 result) {
@@ -351,11 +349,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I8F24 SaturatingMul(this I8F24 x, I8F24 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I8F24.MaxValue
-                : I8F24.MinValue);
-        }
+        public static I8F24 SaturatingMul(this I8F24 x, I8F24 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I8F24.MaxValue
+            : I8F24.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I9F23 x, I9F23 y, out I9F23 result) {
@@ -373,11 +371,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I9F23 SaturatingMul(this I9F23 x, I9F23 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I9F23.MaxValue
-                : I9F23.MinValue);
-        }
+        public static I9F23 SaturatingMul(this I9F23 x, I9F23 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I9F23.MaxValue
+            : I9F23.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I10F22 x, I10F22 y, out I10F22 result) {
@@ -395,11 +393,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I10F22 SaturatingMul(this I10F22 x, I10F22 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I10F22.MaxValue
-                : I10F22.MinValue);
-        }
+        public static I10F22 SaturatingMul(this I10F22 x, I10F22 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I10F22.MaxValue
+            : I10F22.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I11F21 x, I11F21 y, out I11F21 result) {
@@ -417,11 +415,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I11F21 SaturatingMul(this I11F21 x, I11F21 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I11F21.MaxValue
-                : I11F21.MinValue);
-        }
+        public static I11F21 SaturatingMul(this I11F21 x, I11F21 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I11F21.MaxValue
+            : I11F21.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I12F20 x, I12F20 y, out I12F20 result) {
@@ -439,11 +437,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I12F20 SaturatingMul(this I12F20 x, I12F20 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I12F20.MaxValue
-                : I12F20.MinValue);
-        }
+        public static I12F20 SaturatingMul(this I12F20 x, I12F20 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I12F20.MaxValue
+            : I12F20.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I13F19 x, I13F19 y, out I13F19 result) {
@@ -461,11 +459,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I13F19 SaturatingMul(this I13F19 x, I13F19 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I13F19.MaxValue
-                : I13F19.MinValue);
-        }
+        public static I13F19 SaturatingMul(this I13F19 x, I13F19 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I13F19.MaxValue
+            : I13F19.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I14F18 x, I14F18 y, out I14F18 result) {
@@ -483,11 +481,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I14F18 SaturatingMul(this I14F18 x, I14F18 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I14F18.MaxValue
-                : I14F18.MinValue);
-        }
+        public static I14F18 SaturatingMul(this I14F18 x, I14F18 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I14F18.MaxValue
+            : I14F18.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I15F17 x, I15F17 y, out I15F17 result) {
@@ -505,11 +503,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I15F17 SaturatingMul(this I15F17 x, I15F17 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I15F17.MaxValue
-                : I15F17.MinValue);
-        }
+        public static I15F17 SaturatingMul(this I15F17 x, I15F17 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I15F17.MaxValue
+            : I15F17.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I16F16 x, I16F16 y, out I16F16 result) {
@@ -527,11 +525,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I16F16 SaturatingMul(this I16F16 x, I16F16 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I16F16.MaxValue
-                : I16F16.MinValue);
-        }
+        public static I16F16 SaturatingMul(this I16F16 x, I16F16 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I16F16.MaxValue
+            : I16F16.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I17F15 x, I17F15 y, out I17F15 result) {
@@ -549,11 +547,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 SaturatingMul(this I17F15 x, I17F15 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I17F15.MaxValue
-                : I17F15.MinValue);
-        }
+        public static I17F15 SaturatingMul(this I17F15 x, I17F15 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I17F15.MaxValue
+            : I17F15.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I18F14 x, I18F14 y, out I18F14 result) {
@@ -571,11 +569,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I18F14 SaturatingMul(this I18F14 x, I18F14 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I18F14.MaxValue
-                : I18F14.MinValue);
-        }
+        public static I18F14 SaturatingMul(this I18F14 x, I18F14 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I18F14.MaxValue
+            : I18F14.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I19F13 x, I19F13 y, out I19F13 result) {
@@ -593,11 +591,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I19F13 SaturatingMul(this I19F13 x, I19F13 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I19F13.MaxValue
-                : I19F13.MinValue);
-        }
+        public static I19F13 SaturatingMul(this I19F13 x, I19F13 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I19F13.MaxValue
+            : I19F13.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I20F12 x, I20F12 y, out I20F12 result) {
@@ -615,11 +613,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I20F12 SaturatingMul(this I20F12 x, I20F12 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I20F12.MaxValue
-                : I20F12.MinValue);
-        }
+        public static I20F12 SaturatingMul(this I20F12 x, I20F12 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I20F12.MaxValue
+            : I20F12.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I21F11 x, I21F11 y, out I21F11 result) {
@@ -637,11 +635,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I21F11 SaturatingMul(this I21F11 x, I21F11 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I21F11.MaxValue
-                : I21F11.MinValue);
-        }
+        public static I21F11 SaturatingMul(this I21F11 x, I21F11 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I21F11.MaxValue
+            : I21F11.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I22F10 x, I22F10 y, out I22F10 result) {
@@ -659,11 +657,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I22F10 SaturatingMul(this I22F10 x, I22F10 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I22F10.MaxValue
-                : I22F10.MinValue);
-        }
+        public static I22F10 SaturatingMul(this I22F10 x, I22F10 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I22F10.MaxValue
+            : I22F10.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I23F9 x, I23F9 y, out I23F9 result) {
@@ -681,11 +679,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I23F9 SaturatingMul(this I23F9 x, I23F9 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I23F9.MaxValue
-                : I23F9.MinValue);
-        }
+        public static I23F9 SaturatingMul(this I23F9 x, I23F9 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I23F9.MaxValue
+            : I23F9.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I24F8 x, I24F8 y, out I24F8 result) {
@@ -703,11 +701,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I24F8 SaturatingMul(this I24F8 x, I24F8 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I24F8.MaxValue
-                : I24F8.MinValue);
-        }
+        public static I24F8 SaturatingMul(this I24F8 x, I24F8 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I24F8.MaxValue
+            : I24F8.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I25F7 x, I25F7 y, out I25F7 result) {
@@ -725,11 +723,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I25F7 SaturatingMul(this I25F7 x, I25F7 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I25F7.MaxValue
-                : I25F7.MinValue);
-        }
+        public static I25F7 SaturatingMul(this I25F7 x, I25F7 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I25F7.MaxValue
+            : I25F7.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I26F6 x, I26F6 y, out I26F6 result) {
@@ -747,11 +745,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I26F6 SaturatingMul(this I26F6 x, I26F6 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I26F6.MaxValue
-                : I26F6.MinValue);
-        }
+        public static I26F6 SaturatingMul(this I26F6 x, I26F6 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I26F6.MaxValue
+            : I26F6.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I27F5 x, I27F5 y, out I27F5 result) {
@@ -769,11 +767,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I27F5 SaturatingMul(this I27F5 x, I27F5 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I27F5.MaxValue
-                : I27F5.MinValue);
-        }
+        public static I27F5 SaturatingMul(this I27F5 x, I27F5 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I27F5.MaxValue
+            : I27F5.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I28F4 x, I28F4 y, out I28F4 result) {
@@ -791,11 +789,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I28F4 SaturatingMul(this I28F4 x, I28F4 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I28F4.MaxValue
-                : I28F4.MinValue);
-        }
+        public static I28F4 SaturatingMul(this I28F4 x, I28F4 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I28F4.MaxValue
+            : I28F4.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I29F3 x, I29F3 y, out I29F3 result) {
@@ -813,11 +811,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I29F3 SaturatingMul(this I29F3 x, I29F3 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I29F3.MaxValue
-                : I29F3.MinValue);
-        }
+        public static I29F3 SaturatingMul(this I29F3 x, I29F3 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I29F3.MaxValue
+            : I29F3.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I30F2 x, I30F2 y, out I30F2 result) {
@@ -835,11 +833,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I30F2 SaturatingMul(this I30F2 x, I30F2 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I30F2.MaxValue
-                : I30F2.MinValue);
-        }
+        public static I30F2 SaturatingMul(this I30F2 x, I30F2 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I30F2.MaxValue
+            : I30F2.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this I31F1 x, I31F1 y, out I31F1 result) {
@@ -857,11 +855,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I31F1 SaturatingMul(this I31F1 x, I31F1 y) {
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? I31F1.MaxValue
-                : I31F1.MinValue);
-        }
+        public static I31F1 SaturatingMul(this I31F1 x, I31F1 y) => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? I31F1.MaxValue
+            : I31F1.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(this U2F30 x, U2F30 y, out U2F30 result) {
@@ -1469,7 +1467,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I2F30 SaturatingMul(this Vector2I2F30 x, I2F30 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I2F30 SaturatingMul(this Vector2I2F30 x, I2F30 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I3F29 SaturatingMul(this I3F29 x, Vector2I3F29 y) {
@@ -1477,7 +1479,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I3F29 SaturatingMul(this Vector2I3F29 x, I3F29 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I3F29 SaturatingMul(this Vector2I3F29 x, I3F29 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I4F28 SaturatingMul(this I4F28 x, Vector2I4F28 y) {
@@ -1485,7 +1491,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I4F28 SaturatingMul(this Vector2I4F28 x, I4F28 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I4F28 SaturatingMul(this Vector2I4F28 x, I4F28 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I5F27 SaturatingMul(this I5F27 x, Vector2I5F27 y) {
@@ -1493,7 +1503,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I5F27 SaturatingMul(this Vector2I5F27 x, I5F27 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I5F27 SaturatingMul(this Vector2I5F27 x, I5F27 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I6F26 SaturatingMul(this I6F26 x, Vector2I6F26 y) {
@@ -1501,7 +1515,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I6F26 SaturatingMul(this Vector2I6F26 x, I6F26 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I6F26 SaturatingMul(this Vector2I6F26 x, I6F26 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I7F25 SaturatingMul(this I7F25 x, Vector2I7F25 y) {
@@ -1509,7 +1527,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I7F25 SaturatingMul(this Vector2I7F25 x, I7F25 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I7F25 SaturatingMul(this Vector2I7F25 x, I7F25 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I8F24 SaturatingMul(this I8F24 x, Vector2I8F24 y) {
@@ -1517,7 +1539,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I8F24 SaturatingMul(this Vector2I8F24 x, I8F24 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I8F24 SaturatingMul(this Vector2I8F24 x, I8F24 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I9F23 SaturatingMul(this I9F23 x, Vector2I9F23 y) {
@@ -1525,7 +1551,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I9F23 SaturatingMul(this Vector2I9F23 x, I9F23 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I9F23 SaturatingMul(this Vector2I9F23 x, I9F23 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I10F22 SaturatingMul(this I10F22 x, Vector2I10F22 y) {
@@ -1533,7 +1563,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I10F22 SaturatingMul(this Vector2I10F22 x, I10F22 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I10F22 SaturatingMul(this Vector2I10F22 x, I10F22 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I11F21 SaturatingMul(this I11F21 x, Vector2I11F21 y) {
@@ -1541,7 +1575,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I11F21 SaturatingMul(this Vector2I11F21 x, I11F21 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I11F21 SaturatingMul(this Vector2I11F21 x, I11F21 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I12F20 SaturatingMul(this I12F20 x, Vector2I12F20 y) {
@@ -1549,7 +1587,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I12F20 SaturatingMul(this Vector2I12F20 x, I12F20 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I12F20 SaturatingMul(this Vector2I12F20 x, I12F20 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I13F19 SaturatingMul(this I13F19 x, Vector2I13F19 y) {
@@ -1557,7 +1599,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I13F19 SaturatingMul(this Vector2I13F19 x, I13F19 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I13F19 SaturatingMul(this Vector2I13F19 x, I13F19 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I14F18 SaturatingMul(this I14F18 x, Vector2I14F18 y) {
@@ -1565,7 +1611,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I14F18 SaturatingMul(this Vector2I14F18 x, I14F18 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I14F18 SaturatingMul(this Vector2I14F18 x, I14F18 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I15F17 SaturatingMul(this I15F17 x, Vector2I15F17 y) {
@@ -1573,7 +1623,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I15F17 SaturatingMul(this Vector2I15F17 x, I15F17 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I15F17 SaturatingMul(this Vector2I15F17 x, I15F17 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I16F16 SaturatingMul(this I16F16 x, Vector2I16F16 y) {
@@ -1581,7 +1635,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I16F16 SaturatingMul(this Vector2I16F16 x, I16F16 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I16F16 SaturatingMul(this Vector2I16F16 x, I16F16 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I17F15 SaturatingMul(this I17F15 x, Vector2I17F15 y) {
@@ -1589,7 +1647,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I17F15 SaturatingMul(this Vector2I17F15 x, I17F15 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I17F15 SaturatingMul(this Vector2I17F15 x, I17F15 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I18F14 SaturatingMul(this I18F14 x, Vector2I18F14 y) {
@@ -1597,7 +1659,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I18F14 SaturatingMul(this Vector2I18F14 x, I18F14 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I18F14 SaturatingMul(this Vector2I18F14 x, I18F14 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I19F13 SaturatingMul(this I19F13 x, Vector2I19F13 y) {
@@ -1605,7 +1671,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I19F13 SaturatingMul(this Vector2I19F13 x, I19F13 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I19F13 SaturatingMul(this Vector2I19F13 x, I19F13 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I20F12 SaturatingMul(this I20F12 x, Vector2I20F12 y) {
@@ -1613,7 +1683,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I20F12 SaturatingMul(this Vector2I20F12 x, I20F12 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I20F12 SaturatingMul(this Vector2I20F12 x, I20F12 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I21F11 SaturatingMul(this I21F11 x, Vector2I21F11 y) {
@@ -1621,7 +1695,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I21F11 SaturatingMul(this Vector2I21F11 x, I21F11 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I21F11 SaturatingMul(this Vector2I21F11 x, I21F11 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I22F10 SaturatingMul(this I22F10 x, Vector2I22F10 y) {
@@ -1629,7 +1707,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I22F10 SaturatingMul(this Vector2I22F10 x, I22F10 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I22F10 SaturatingMul(this Vector2I22F10 x, I22F10 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I23F9 SaturatingMul(this I23F9 x, Vector2I23F9 y) {
@@ -1637,7 +1719,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I23F9 SaturatingMul(this Vector2I23F9 x, I23F9 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I23F9 SaturatingMul(this Vector2I23F9 x, I23F9 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I24F8 SaturatingMul(this I24F8 x, Vector2I24F8 y) {
@@ -1645,7 +1731,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I24F8 SaturatingMul(this Vector2I24F8 x, I24F8 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I24F8 SaturatingMul(this Vector2I24F8 x, I24F8 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I25F7 SaturatingMul(this I25F7 x, Vector2I25F7 y) {
@@ -1653,7 +1743,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I25F7 SaturatingMul(this Vector2I25F7 x, I25F7 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I25F7 SaturatingMul(this Vector2I25F7 x, I25F7 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I26F6 SaturatingMul(this I26F6 x, Vector2I26F6 y) {
@@ -1661,7 +1755,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I26F6 SaturatingMul(this Vector2I26F6 x, I26F6 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I26F6 SaturatingMul(this Vector2I26F6 x, I26F6 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I27F5 SaturatingMul(this I27F5 x, Vector2I27F5 y) {
@@ -1669,7 +1767,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I27F5 SaturatingMul(this Vector2I27F5 x, I27F5 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I27F5 SaturatingMul(this Vector2I27F5 x, I27F5 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I28F4 SaturatingMul(this I28F4 x, Vector2I28F4 y) {
@@ -1677,7 +1779,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I28F4 SaturatingMul(this Vector2I28F4 x, I28F4 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I28F4 SaturatingMul(this Vector2I28F4 x, I28F4 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I29F3 SaturatingMul(this I29F3 x, Vector2I29F3 y) {
@@ -1685,7 +1791,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I29F3 SaturatingMul(this Vector2I29F3 x, I29F3 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I29F3 SaturatingMul(this Vector2I29F3 x, I29F3 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I30F2 SaturatingMul(this I30F2 x, Vector2I30F2 y) {
@@ -1693,7 +1803,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I30F2 SaturatingMul(this Vector2I30F2 x, I30F2 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I30F2 SaturatingMul(this Vector2I30F2 x, I30F2 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I31F1 SaturatingMul(this I31F1 x, Vector2I31F1 y) {
@@ -1701,7 +1815,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I31F1 SaturatingMul(this Vector2I31F1 x, I31F1 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I31F1 SaturatingMul(this Vector2I31F1 x, I31F1 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U2F30 SaturatingMul(this U2F30 x, Vector2U2F30 y) {
@@ -1709,7 +1827,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U2F30 SaturatingMul(this Vector2U2F30 x, U2F30 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U2F30 SaturatingMul(this Vector2U2F30 x, U2F30 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U3F29 SaturatingMul(this U3F29 x, Vector2U3F29 y) {
@@ -1717,7 +1839,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U3F29 SaturatingMul(this Vector2U3F29 x, U3F29 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U3F29 SaturatingMul(this Vector2U3F29 x, U3F29 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U4F28 SaturatingMul(this U4F28 x, Vector2U4F28 y) {
@@ -1725,7 +1851,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U4F28 SaturatingMul(this Vector2U4F28 x, U4F28 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U4F28 SaturatingMul(this Vector2U4F28 x, U4F28 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U5F27 SaturatingMul(this U5F27 x, Vector2U5F27 y) {
@@ -1733,7 +1863,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U5F27 SaturatingMul(this Vector2U5F27 x, U5F27 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U5F27 SaturatingMul(this Vector2U5F27 x, U5F27 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U6F26 SaturatingMul(this U6F26 x, Vector2U6F26 y) {
@@ -1741,7 +1875,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U6F26 SaturatingMul(this Vector2U6F26 x, U6F26 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U6F26 SaturatingMul(this Vector2U6F26 x, U6F26 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U7F25 SaturatingMul(this U7F25 x, Vector2U7F25 y) {
@@ -1749,7 +1887,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U7F25 SaturatingMul(this Vector2U7F25 x, U7F25 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U7F25 SaturatingMul(this Vector2U7F25 x, U7F25 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U8F24 SaturatingMul(this U8F24 x, Vector2U8F24 y) {
@@ -1757,7 +1899,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U8F24 SaturatingMul(this Vector2U8F24 x, U8F24 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U8F24 SaturatingMul(this Vector2U8F24 x, U8F24 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U9F23 SaturatingMul(this U9F23 x, Vector2U9F23 y) {
@@ -1765,7 +1911,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U9F23 SaturatingMul(this Vector2U9F23 x, U9F23 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U9F23 SaturatingMul(this Vector2U9F23 x, U9F23 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U10F22 SaturatingMul(this U10F22 x, Vector2U10F22 y) {
@@ -1773,7 +1923,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U10F22 SaturatingMul(this Vector2U10F22 x, U10F22 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U10F22 SaturatingMul(this Vector2U10F22 x, U10F22 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U11F21 SaturatingMul(this U11F21 x, Vector2U11F21 y) {
@@ -1781,7 +1935,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U11F21 SaturatingMul(this Vector2U11F21 x, U11F21 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U11F21 SaturatingMul(this Vector2U11F21 x, U11F21 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U12F20 SaturatingMul(this U12F20 x, Vector2U12F20 y) {
@@ -1789,7 +1947,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U12F20 SaturatingMul(this Vector2U12F20 x, U12F20 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U12F20 SaturatingMul(this Vector2U12F20 x, U12F20 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U13F19 SaturatingMul(this U13F19 x, Vector2U13F19 y) {
@@ -1797,7 +1959,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U13F19 SaturatingMul(this Vector2U13F19 x, U13F19 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U13F19 SaturatingMul(this Vector2U13F19 x, U13F19 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U14F18 SaturatingMul(this U14F18 x, Vector2U14F18 y) {
@@ -1805,7 +1971,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U14F18 SaturatingMul(this Vector2U14F18 x, U14F18 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U14F18 SaturatingMul(this Vector2U14F18 x, U14F18 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U15F17 SaturatingMul(this U15F17 x, Vector2U15F17 y) {
@@ -1813,7 +1983,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U15F17 SaturatingMul(this Vector2U15F17 x, U15F17 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U15F17 SaturatingMul(this Vector2U15F17 x, U15F17 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U16F16 SaturatingMul(this U16F16 x, Vector2U16F16 y) {
@@ -1821,7 +1995,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U16F16 SaturatingMul(this Vector2U16F16 x, U16F16 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U16F16 SaturatingMul(this Vector2U16F16 x, U16F16 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U17F15 SaturatingMul(this U17F15 x, Vector2U17F15 y) {
@@ -1829,7 +2007,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U17F15 SaturatingMul(this Vector2U17F15 x, U17F15 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U17F15 SaturatingMul(this Vector2U17F15 x, U17F15 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U18F14 SaturatingMul(this U18F14 x, Vector2U18F14 y) {
@@ -1837,7 +2019,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U18F14 SaturatingMul(this Vector2U18F14 x, U18F14 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U18F14 SaturatingMul(this Vector2U18F14 x, U18F14 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U19F13 SaturatingMul(this U19F13 x, Vector2U19F13 y) {
@@ -1845,7 +2031,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U19F13 SaturatingMul(this Vector2U19F13 x, U19F13 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U19F13 SaturatingMul(this Vector2U19F13 x, U19F13 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U20F12 SaturatingMul(this U20F12 x, Vector2U20F12 y) {
@@ -1853,7 +2043,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U20F12 SaturatingMul(this Vector2U20F12 x, U20F12 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U20F12 SaturatingMul(this Vector2U20F12 x, U20F12 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U21F11 SaturatingMul(this U21F11 x, Vector2U21F11 y) {
@@ -1861,7 +2055,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U21F11 SaturatingMul(this Vector2U21F11 x, U21F11 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U21F11 SaturatingMul(this Vector2U21F11 x, U21F11 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U22F10 SaturatingMul(this U22F10 x, Vector2U22F10 y) {
@@ -1869,7 +2067,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U22F10 SaturatingMul(this Vector2U22F10 x, U22F10 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U22F10 SaturatingMul(this Vector2U22F10 x, U22F10 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U23F9 SaturatingMul(this U23F9 x, Vector2U23F9 y) {
@@ -1877,7 +2079,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U23F9 SaturatingMul(this Vector2U23F9 x, U23F9 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U23F9 SaturatingMul(this Vector2U23F9 x, U23F9 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U24F8 SaturatingMul(this U24F8 x, Vector2U24F8 y) {
@@ -1885,7 +2091,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U24F8 SaturatingMul(this Vector2U24F8 x, U24F8 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U24F8 SaturatingMul(this Vector2U24F8 x, U24F8 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U25F7 SaturatingMul(this U25F7 x, Vector2U25F7 y) {
@@ -1893,7 +2103,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U25F7 SaturatingMul(this Vector2U25F7 x, U25F7 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U25F7 SaturatingMul(this Vector2U25F7 x, U25F7 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U26F6 SaturatingMul(this U26F6 x, Vector2U26F6 y) {
@@ -1901,7 +2115,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U26F6 SaturatingMul(this Vector2U26F6 x, U26F6 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U26F6 SaturatingMul(this Vector2U26F6 x, U26F6 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U27F5 SaturatingMul(this U27F5 x, Vector2U27F5 y) {
@@ -1909,7 +2127,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U27F5 SaturatingMul(this Vector2U27F5 x, U27F5 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U27F5 SaturatingMul(this Vector2U27F5 x, U27F5 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U28F4 SaturatingMul(this U28F4 x, Vector2U28F4 y) {
@@ -1917,7 +2139,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U28F4 SaturatingMul(this Vector2U28F4 x, U28F4 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U28F4 SaturatingMul(this Vector2U28F4 x, U28F4 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U29F3 SaturatingMul(this U29F3 x, Vector2U29F3 y) {
@@ -1925,7 +2151,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U29F3 SaturatingMul(this Vector2U29F3 x, U29F3 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U29F3 SaturatingMul(this Vector2U29F3 x, U29F3 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U30F2 SaturatingMul(this U30F2 x, Vector2U30F2 y) {
@@ -1933,7 +2163,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U30F2 SaturatingMul(this Vector2U30F2 x, U30F2 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U30F2 SaturatingMul(this Vector2U30F2 x, U30F2 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2U31F1 SaturatingMul(this U31F1 x, Vector2U31F1 y) {
@@ -1941,7 +2175,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.X),
                 x.SaturatingMul(y.Y));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U31F1 SaturatingMul(this Vector2U31F1 x, U31F1 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2U31F1 SaturatingMul(this Vector2U31F1 x, U31F1 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I2F30 SaturatingMul(this I2F30 x, Vector3I2F30 y) {
@@ -1950,7 +2188,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I2F30 SaturatingMul(this Vector3I2F30 x, I2F30 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I2F30 SaturatingMul(this Vector3I2F30 x, I2F30 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I3F29 SaturatingMul(this I3F29 x, Vector3I3F29 y) {
@@ -1959,7 +2201,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I3F29 SaturatingMul(this Vector3I3F29 x, I3F29 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I3F29 SaturatingMul(this Vector3I3F29 x, I3F29 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F28 SaturatingMul(this I4F28 x, Vector3I4F28 y) {
@@ -1968,7 +2214,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I4F28 SaturatingMul(this Vector3I4F28 x, I4F28 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I4F28 SaturatingMul(this Vector3I4F28 x, I4F28 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I5F27 SaturatingMul(this I5F27 x, Vector3I5F27 y) {
@@ -1977,7 +2227,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I5F27 SaturatingMul(this Vector3I5F27 x, I5F27 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I5F27 SaturatingMul(this Vector3I5F27 x, I5F27 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I6F26 SaturatingMul(this I6F26 x, Vector3I6F26 y) {
@@ -1986,7 +2240,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I6F26 SaturatingMul(this Vector3I6F26 x, I6F26 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I6F26 SaturatingMul(this Vector3I6F26 x, I6F26 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I7F25 SaturatingMul(this I7F25 x, Vector3I7F25 y) {
@@ -1995,7 +2253,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I7F25 SaturatingMul(this Vector3I7F25 x, I7F25 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I7F25 SaturatingMul(this Vector3I7F25 x, I7F25 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I8F24 SaturatingMul(this I8F24 x, Vector3I8F24 y) {
@@ -2004,7 +2266,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I8F24 SaturatingMul(this Vector3I8F24 x, I8F24 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I8F24 SaturatingMul(this Vector3I8F24 x, I8F24 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I9F23 SaturatingMul(this I9F23 x, Vector3I9F23 y) {
@@ -2013,7 +2279,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I9F23 SaturatingMul(this Vector3I9F23 x, I9F23 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I9F23 SaturatingMul(this Vector3I9F23 x, I9F23 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I10F22 SaturatingMul(this I10F22 x, Vector3I10F22 y) {
@@ -2022,7 +2292,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I10F22 SaturatingMul(this Vector3I10F22 x, I10F22 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I10F22 SaturatingMul(this Vector3I10F22 x, I10F22 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I11F21 SaturatingMul(this I11F21 x, Vector3I11F21 y) {
@@ -2031,7 +2305,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I11F21 SaturatingMul(this Vector3I11F21 x, I11F21 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I11F21 SaturatingMul(this Vector3I11F21 x, I11F21 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I12F20 SaturatingMul(this I12F20 x, Vector3I12F20 y) {
@@ -2040,7 +2318,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I12F20 SaturatingMul(this Vector3I12F20 x, I12F20 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I12F20 SaturatingMul(this Vector3I12F20 x, I12F20 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I13F19 SaturatingMul(this I13F19 x, Vector3I13F19 y) {
@@ -2049,7 +2331,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I13F19 SaturatingMul(this Vector3I13F19 x, I13F19 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I13F19 SaturatingMul(this Vector3I13F19 x, I13F19 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I14F18 SaturatingMul(this I14F18 x, Vector3I14F18 y) {
@@ -2058,7 +2344,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I14F18 SaturatingMul(this Vector3I14F18 x, I14F18 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I14F18 SaturatingMul(this Vector3I14F18 x, I14F18 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I15F17 SaturatingMul(this I15F17 x, Vector3I15F17 y) {
@@ -2067,7 +2357,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I15F17 SaturatingMul(this Vector3I15F17 x, I15F17 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I15F17 SaturatingMul(this Vector3I15F17 x, I15F17 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I16F16 SaturatingMul(this I16F16 x, Vector3I16F16 y) {
@@ -2076,7 +2370,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I16F16 SaturatingMul(this Vector3I16F16 x, I16F16 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I16F16 SaturatingMul(this Vector3I16F16 x, I16F16 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I17F15 SaturatingMul(this I17F15 x, Vector3I17F15 y) {
@@ -2085,7 +2383,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I17F15 SaturatingMul(this Vector3I17F15 x, I17F15 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 SaturatingMul(this Vector3I17F15 x, I17F15 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I18F14 SaturatingMul(this I18F14 x, Vector3I18F14 y) {
@@ -2094,7 +2396,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I18F14 SaturatingMul(this Vector3I18F14 x, I18F14 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I18F14 SaturatingMul(this Vector3I18F14 x, I18F14 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I19F13 SaturatingMul(this I19F13 x, Vector3I19F13 y) {
@@ -2103,7 +2409,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I19F13 SaturatingMul(this Vector3I19F13 x, I19F13 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I19F13 SaturatingMul(this Vector3I19F13 x, I19F13 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I20F12 SaturatingMul(this I20F12 x, Vector3I20F12 y) {
@@ -2112,7 +2422,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I20F12 SaturatingMul(this Vector3I20F12 x, I20F12 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I20F12 SaturatingMul(this Vector3I20F12 x, I20F12 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I21F11 SaturatingMul(this I21F11 x, Vector3I21F11 y) {
@@ -2121,7 +2435,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I21F11 SaturatingMul(this Vector3I21F11 x, I21F11 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I21F11 SaturatingMul(this Vector3I21F11 x, I21F11 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I22F10 SaturatingMul(this I22F10 x, Vector3I22F10 y) {
@@ -2130,7 +2448,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I22F10 SaturatingMul(this Vector3I22F10 x, I22F10 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I22F10 SaturatingMul(this Vector3I22F10 x, I22F10 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I23F9 SaturatingMul(this I23F9 x, Vector3I23F9 y) {
@@ -2139,7 +2461,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I23F9 SaturatingMul(this Vector3I23F9 x, I23F9 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I23F9 SaturatingMul(this Vector3I23F9 x, I23F9 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I24F8 SaturatingMul(this I24F8 x, Vector3I24F8 y) {
@@ -2148,7 +2474,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I24F8 SaturatingMul(this Vector3I24F8 x, I24F8 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I24F8 SaturatingMul(this Vector3I24F8 x, I24F8 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I25F7 SaturatingMul(this I25F7 x, Vector3I25F7 y) {
@@ -2157,7 +2487,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I25F7 SaturatingMul(this Vector3I25F7 x, I25F7 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I25F7 SaturatingMul(this Vector3I25F7 x, I25F7 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I26F6 SaturatingMul(this I26F6 x, Vector3I26F6 y) {
@@ -2166,7 +2500,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I26F6 SaturatingMul(this Vector3I26F6 x, I26F6 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I26F6 SaturatingMul(this Vector3I26F6 x, I26F6 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I27F5 SaturatingMul(this I27F5 x, Vector3I27F5 y) {
@@ -2175,7 +2513,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I27F5 SaturatingMul(this Vector3I27F5 x, I27F5 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I27F5 SaturatingMul(this Vector3I27F5 x, I27F5 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I28F4 SaturatingMul(this I28F4 x, Vector3I28F4 y) {
@@ -2184,7 +2526,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I28F4 SaturatingMul(this Vector3I28F4 x, I28F4 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I28F4 SaturatingMul(this Vector3I28F4 x, I28F4 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I29F3 SaturatingMul(this I29F3 x, Vector3I29F3 y) {
@@ -2193,7 +2539,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I29F3 SaturatingMul(this Vector3I29F3 x, I29F3 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I29F3 SaturatingMul(this Vector3I29F3 x, I29F3 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I30F2 SaturatingMul(this I30F2 x, Vector3I30F2 y) {
@@ -2202,7 +2552,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I30F2 SaturatingMul(this Vector3I30F2 x, I30F2 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I30F2 SaturatingMul(this Vector3I30F2 x, I30F2 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I31F1 SaturatingMul(this I31F1 x, Vector3I31F1 y) {
@@ -2211,7 +2565,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I31F1 SaturatingMul(this Vector3I31F1 x, I31F1 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I31F1 SaturatingMul(this Vector3I31F1 x, I31F1 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U2F30 SaturatingMul(this U2F30 x, Vector3U2F30 y) {
@@ -2220,7 +2578,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U2F30 SaturatingMul(this Vector3U2F30 x, U2F30 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U2F30 SaturatingMul(this Vector3U2F30 x, U2F30 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U3F29 SaturatingMul(this U3F29 x, Vector3U3F29 y) {
@@ -2229,7 +2591,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U3F29 SaturatingMul(this Vector3U3F29 x, U3F29 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U3F29 SaturatingMul(this Vector3U3F29 x, U3F29 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U4F28 SaturatingMul(this U4F28 x, Vector3U4F28 y) {
@@ -2238,7 +2604,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U4F28 SaturatingMul(this Vector3U4F28 x, U4F28 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U4F28 SaturatingMul(this Vector3U4F28 x, U4F28 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U5F27 SaturatingMul(this U5F27 x, Vector3U5F27 y) {
@@ -2247,7 +2617,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U5F27 SaturatingMul(this Vector3U5F27 x, U5F27 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U5F27 SaturatingMul(this Vector3U5F27 x, U5F27 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U6F26 SaturatingMul(this U6F26 x, Vector3U6F26 y) {
@@ -2256,7 +2630,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U6F26 SaturatingMul(this Vector3U6F26 x, U6F26 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U6F26 SaturatingMul(this Vector3U6F26 x, U6F26 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U7F25 SaturatingMul(this U7F25 x, Vector3U7F25 y) {
@@ -2265,7 +2643,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U7F25 SaturatingMul(this Vector3U7F25 x, U7F25 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U7F25 SaturatingMul(this Vector3U7F25 x, U7F25 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U8F24 SaturatingMul(this U8F24 x, Vector3U8F24 y) {
@@ -2274,7 +2656,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U8F24 SaturatingMul(this Vector3U8F24 x, U8F24 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U8F24 SaturatingMul(this Vector3U8F24 x, U8F24 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U9F23 SaturatingMul(this U9F23 x, Vector3U9F23 y) {
@@ -2283,7 +2669,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U9F23 SaturatingMul(this Vector3U9F23 x, U9F23 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U9F23 SaturatingMul(this Vector3U9F23 x, U9F23 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U10F22 SaturatingMul(this U10F22 x, Vector3U10F22 y) {
@@ -2292,7 +2682,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U10F22 SaturatingMul(this Vector3U10F22 x, U10F22 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U10F22 SaturatingMul(this Vector3U10F22 x, U10F22 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U11F21 SaturatingMul(this U11F21 x, Vector3U11F21 y) {
@@ -2301,7 +2695,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U11F21 SaturatingMul(this Vector3U11F21 x, U11F21 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U11F21 SaturatingMul(this Vector3U11F21 x, U11F21 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U12F20 SaturatingMul(this U12F20 x, Vector3U12F20 y) {
@@ -2310,7 +2708,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U12F20 SaturatingMul(this Vector3U12F20 x, U12F20 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U12F20 SaturatingMul(this Vector3U12F20 x, U12F20 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U13F19 SaturatingMul(this U13F19 x, Vector3U13F19 y) {
@@ -2319,7 +2721,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U13F19 SaturatingMul(this Vector3U13F19 x, U13F19 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U13F19 SaturatingMul(this Vector3U13F19 x, U13F19 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U14F18 SaturatingMul(this U14F18 x, Vector3U14F18 y) {
@@ -2328,7 +2734,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U14F18 SaturatingMul(this Vector3U14F18 x, U14F18 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U14F18 SaturatingMul(this Vector3U14F18 x, U14F18 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U15F17 SaturatingMul(this U15F17 x, Vector3U15F17 y) {
@@ -2337,7 +2747,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U15F17 SaturatingMul(this Vector3U15F17 x, U15F17 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U15F17 SaturatingMul(this Vector3U15F17 x, U15F17 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U16F16 SaturatingMul(this U16F16 x, Vector3U16F16 y) {
@@ -2346,7 +2760,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U16F16 SaturatingMul(this Vector3U16F16 x, U16F16 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U16F16 SaturatingMul(this Vector3U16F16 x, U16F16 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U17F15 SaturatingMul(this U17F15 x, Vector3U17F15 y) {
@@ -2355,7 +2773,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U17F15 SaturatingMul(this Vector3U17F15 x, U17F15 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U17F15 SaturatingMul(this Vector3U17F15 x, U17F15 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U18F14 SaturatingMul(this U18F14 x, Vector3U18F14 y) {
@@ -2364,7 +2786,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U18F14 SaturatingMul(this Vector3U18F14 x, U18F14 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U18F14 SaturatingMul(this Vector3U18F14 x, U18F14 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U19F13 SaturatingMul(this U19F13 x, Vector3U19F13 y) {
@@ -2373,7 +2799,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U19F13 SaturatingMul(this Vector3U19F13 x, U19F13 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U19F13 SaturatingMul(this Vector3U19F13 x, U19F13 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U20F12 SaturatingMul(this U20F12 x, Vector3U20F12 y) {
@@ -2382,7 +2812,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U20F12 SaturatingMul(this Vector3U20F12 x, U20F12 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U20F12 SaturatingMul(this Vector3U20F12 x, U20F12 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U21F11 SaturatingMul(this U21F11 x, Vector3U21F11 y) {
@@ -2391,7 +2825,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U21F11 SaturatingMul(this Vector3U21F11 x, U21F11 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U21F11 SaturatingMul(this Vector3U21F11 x, U21F11 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U22F10 SaturatingMul(this U22F10 x, Vector3U22F10 y) {
@@ -2400,7 +2838,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U22F10 SaturatingMul(this Vector3U22F10 x, U22F10 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U22F10 SaturatingMul(this Vector3U22F10 x, U22F10 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U23F9 SaturatingMul(this U23F9 x, Vector3U23F9 y) {
@@ -2409,7 +2851,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U23F9 SaturatingMul(this Vector3U23F9 x, U23F9 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U23F9 SaturatingMul(this Vector3U23F9 x, U23F9 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U24F8 SaturatingMul(this U24F8 x, Vector3U24F8 y) {
@@ -2418,7 +2864,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U24F8 SaturatingMul(this Vector3U24F8 x, U24F8 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U24F8 SaturatingMul(this Vector3U24F8 x, U24F8 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U25F7 SaturatingMul(this U25F7 x, Vector3U25F7 y) {
@@ -2427,7 +2877,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U25F7 SaturatingMul(this Vector3U25F7 x, U25F7 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U25F7 SaturatingMul(this Vector3U25F7 x, U25F7 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U26F6 SaturatingMul(this U26F6 x, Vector3U26F6 y) {
@@ -2436,7 +2890,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U26F6 SaturatingMul(this Vector3U26F6 x, U26F6 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U26F6 SaturatingMul(this Vector3U26F6 x, U26F6 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U27F5 SaturatingMul(this U27F5 x, Vector3U27F5 y) {
@@ -2445,7 +2903,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U27F5 SaturatingMul(this Vector3U27F5 x, U27F5 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U27F5 SaturatingMul(this Vector3U27F5 x, U27F5 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U28F4 SaturatingMul(this U28F4 x, Vector3U28F4 y) {
@@ -2454,7 +2916,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U28F4 SaturatingMul(this Vector3U28F4 x, U28F4 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U28F4 SaturatingMul(this Vector3U28F4 x, U28F4 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U29F3 SaturatingMul(this U29F3 x, Vector3U29F3 y) {
@@ -2463,7 +2929,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U29F3 SaturatingMul(this Vector3U29F3 x, U29F3 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U29F3 SaturatingMul(this Vector3U29F3 x, U29F3 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U30F2 SaturatingMul(this U30F2 x, Vector3U30F2 y) {
@@ -2472,7 +2942,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U30F2 SaturatingMul(this Vector3U30F2 x, U30F2 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U30F2 SaturatingMul(this Vector3U30F2 x, U30F2 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3U31F1 SaturatingMul(this U31F1 x, Vector3U31F1 y) {
@@ -2481,7 +2955,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Y),
                 x.SaturatingMul(y.Z));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U31F1 SaturatingMul(this Vector3U31F1 x, U31F1 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3U31F1 SaturatingMul(this Vector3U31F1 x, U31F1 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 SaturatingMul(this I2F30 x, Vector4I2F30 y) {
@@ -2491,7 +2969,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 SaturatingMul(this Vector4I2F30 x, I2F30 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I2F30 SaturatingMul(this Vector4I2F30 x, I2F30 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I3F29 SaturatingMul(this I3F29 x, Vector4I3F29 y) {
@@ -2501,7 +2983,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 SaturatingMul(this Vector4I3F29 x, I3F29 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I3F29 SaturatingMul(this Vector4I3F29 x, I3F29 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I4F28 SaturatingMul(this I4F28 x, Vector4I4F28 y) {
@@ -2511,7 +2997,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 SaturatingMul(this Vector4I4F28 x, I4F28 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F28 SaturatingMul(this Vector4I4F28 x, I4F28 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I5F27 SaturatingMul(this I5F27 x, Vector4I5F27 y) {
@@ -2521,7 +3011,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I5F27 SaturatingMul(this Vector4I5F27 x, I5F27 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I5F27 SaturatingMul(this Vector4I5F27 x, I5F27 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I6F26 SaturatingMul(this I6F26 x, Vector4I6F26 y) {
@@ -2531,7 +3025,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I6F26 SaturatingMul(this Vector4I6F26 x, I6F26 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I6F26 SaturatingMul(this Vector4I6F26 x, I6F26 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I7F25 SaturatingMul(this I7F25 x, Vector4I7F25 y) {
@@ -2541,7 +3039,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I7F25 SaturatingMul(this Vector4I7F25 x, I7F25 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I7F25 SaturatingMul(this Vector4I7F25 x, I7F25 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I8F24 SaturatingMul(this I8F24 x, Vector4I8F24 y) {
@@ -2551,7 +3053,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I8F24 SaturatingMul(this Vector4I8F24 x, I8F24 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I8F24 SaturatingMul(this Vector4I8F24 x, I8F24 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I9F23 SaturatingMul(this I9F23 x, Vector4I9F23 y) {
@@ -2561,7 +3067,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I9F23 SaturatingMul(this Vector4I9F23 x, I9F23 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I9F23 SaturatingMul(this Vector4I9F23 x, I9F23 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I10F22 SaturatingMul(this I10F22 x, Vector4I10F22 y) {
@@ -2571,7 +3081,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I10F22 SaturatingMul(this Vector4I10F22 x, I10F22 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I10F22 SaturatingMul(this Vector4I10F22 x, I10F22 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I11F21 SaturatingMul(this I11F21 x, Vector4I11F21 y) {
@@ -2581,7 +3095,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I11F21 SaturatingMul(this Vector4I11F21 x, I11F21 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I11F21 SaturatingMul(this Vector4I11F21 x, I11F21 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I12F20 SaturatingMul(this I12F20 x, Vector4I12F20 y) {
@@ -2591,7 +3109,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I12F20 SaturatingMul(this Vector4I12F20 x, I12F20 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I12F20 SaturatingMul(this Vector4I12F20 x, I12F20 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I13F19 SaturatingMul(this I13F19 x, Vector4I13F19 y) {
@@ -2601,7 +3123,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I13F19 SaturatingMul(this Vector4I13F19 x, I13F19 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I13F19 SaturatingMul(this Vector4I13F19 x, I13F19 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I14F18 SaturatingMul(this I14F18 x, Vector4I14F18 y) {
@@ -2611,7 +3137,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I14F18 SaturatingMul(this Vector4I14F18 x, I14F18 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I14F18 SaturatingMul(this Vector4I14F18 x, I14F18 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I15F17 SaturatingMul(this I15F17 x, Vector4I15F17 y) {
@@ -2621,7 +3151,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I15F17 SaturatingMul(this Vector4I15F17 x, I15F17 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I15F17 SaturatingMul(this Vector4I15F17 x, I15F17 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I16F16 SaturatingMul(this I16F16 x, Vector4I16F16 y) {
@@ -2631,7 +3165,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I16F16 SaturatingMul(this Vector4I16F16 x, I16F16 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I16F16 SaturatingMul(this Vector4I16F16 x, I16F16 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I17F15 SaturatingMul(this I17F15 x, Vector4I17F15 y) {
@@ -2641,7 +3179,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I17F15 SaturatingMul(this Vector4I17F15 x, I17F15 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I17F15 SaturatingMul(this Vector4I17F15 x, I17F15 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I18F14 SaturatingMul(this I18F14 x, Vector4I18F14 y) {
@@ -2651,7 +3193,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I18F14 SaturatingMul(this Vector4I18F14 x, I18F14 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I18F14 SaturatingMul(this Vector4I18F14 x, I18F14 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I19F13 SaturatingMul(this I19F13 x, Vector4I19F13 y) {
@@ -2661,7 +3207,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I19F13 SaturatingMul(this Vector4I19F13 x, I19F13 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I19F13 SaturatingMul(this Vector4I19F13 x, I19F13 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I20F12 SaturatingMul(this I20F12 x, Vector4I20F12 y) {
@@ -2671,7 +3221,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I20F12 SaturatingMul(this Vector4I20F12 x, I20F12 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I20F12 SaturatingMul(this Vector4I20F12 x, I20F12 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I21F11 SaturatingMul(this I21F11 x, Vector4I21F11 y) {
@@ -2681,7 +3235,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I21F11 SaturatingMul(this Vector4I21F11 x, I21F11 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I21F11 SaturatingMul(this Vector4I21F11 x, I21F11 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I22F10 SaturatingMul(this I22F10 x, Vector4I22F10 y) {
@@ -2691,7 +3249,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I22F10 SaturatingMul(this Vector4I22F10 x, I22F10 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I22F10 SaturatingMul(this Vector4I22F10 x, I22F10 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I23F9 SaturatingMul(this I23F9 x, Vector4I23F9 y) {
@@ -2701,7 +3263,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I23F9 SaturatingMul(this Vector4I23F9 x, I23F9 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I23F9 SaturatingMul(this Vector4I23F9 x, I23F9 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I24F8 SaturatingMul(this I24F8 x, Vector4I24F8 y) {
@@ -2711,7 +3277,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I24F8 SaturatingMul(this Vector4I24F8 x, I24F8 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I24F8 SaturatingMul(this Vector4I24F8 x, I24F8 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I25F7 SaturatingMul(this I25F7 x, Vector4I25F7 y) {
@@ -2721,7 +3291,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I25F7 SaturatingMul(this Vector4I25F7 x, I25F7 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I25F7 SaturatingMul(this Vector4I25F7 x, I25F7 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I26F6 SaturatingMul(this I26F6 x, Vector4I26F6 y) {
@@ -2731,7 +3305,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I26F6 SaturatingMul(this Vector4I26F6 x, I26F6 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I26F6 SaturatingMul(this Vector4I26F6 x, I26F6 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I27F5 SaturatingMul(this I27F5 x, Vector4I27F5 y) {
@@ -2741,7 +3319,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I27F5 SaturatingMul(this Vector4I27F5 x, I27F5 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I27F5 SaturatingMul(this Vector4I27F5 x, I27F5 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I28F4 SaturatingMul(this I28F4 x, Vector4I28F4 y) {
@@ -2751,7 +3333,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 SaturatingMul(this Vector4I28F4 x, I28F4 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I28F4 SaturatingMul(this Vector4I28F4 x, I28F4 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I29F3 SaturatingMul(this I29F3 x, Vector4I29F3 y) {
@@ -2761,7 +3347,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 SaturatingMul(this Vector4I29F3 x, I29F3 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I29F3 SaturatingMul(this Vector4I29F3 x, I29F3 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I30F2 SaturatingMul(this I30F2 x, Vector4I30F2 y) {
@@ -2771,7 +3361,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 SaturatingMul(this Vector4I30F2 x, I30F2 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I30F2 SaturatingMul(this Vector4I30F2 x, I30F2 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I31F1 SaturatingMul(this I31F1 x, Vector4I31F1 y) {
@@ -2781,7 +3375,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 SaturatingMul(this Vector4I31F1 x, I31F1 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I31F1 SaturatingMul(this Vector4I31F1 x, I31F1 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U2F30 SaturatingMul(this U2F30 x, Vector4U2F30 y) {
@@ -2791,7 +3389,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 SaturatingMul(this Vector4U2F30 x, U2F30 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U2F30 SaturatingMul(this Vector4U2F30 x, U2F30 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U3F29 SaturatingMul(this U3F29 x, Vector4U3F29 y) {
@@ -2801,7 +3403,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 SaturatingMul(this Vector4U3F29 x, U3F29 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U3F29 SaturatingMul(this Vector4U3F29 x, U3F29 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U4F28 SaturatingMul(this U4F28 x, Vector4U4F28 y) {
@@ -2811,7 +3417,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 SaturatingMul(this Vector4U4F28 x, U4F28 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U4F28 SaturatingMul(this Vector4U4F28 x, U4F28 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U5F27 SaturatingMul(this U5F27 x, Vector4U5F27 y) {
@@ -2821,7 +3431,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U5F27 SaturatingMul(this Vector4U5F27 x, U5F27 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U5F27 SaturatingMul(this Vector4U5F27 x, U5F27 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U6F26 SaturatingMul(this U6F26 x, Vector4U6F26 y) {
@@ -2831,7 +3445,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U6F26 SaturatingMul(this Vector4U6F26 x, U6F26 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U6F26 SaturatingMul(this Vector4U6F26 x, U6F26 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U7F25 SaturatingMul(this U7F25 x, Vector4U7F25 y) {
@@ -2841,7 +3459,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U7F25 SaturatingMul(this Vector4U7F25 x, U7F25 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U7F25 SaturatingMul(this Vector4U7F25 x, U7F25 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U8F24 SaturatingMul(this U8F24 x, Vector4U8F24 y) {
@@ -2851,7 +3473,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U8F24 SaturatingMul(this Vector4U8F24 x, U8F24 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U8F24 SaturatingMul(this Vector4U8F24 x, U8F24 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U9F23 SaturatingMul(this U9F23 x, Vector4U9F23 y) {
@@ -2861,7 +3487,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U9F23 SaturatingMul(this Vector4U9F23 x, U9F23 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U9F23 SaturatingMul(this Vector4U9F23 x, U9F23 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U10F22 SaturatingMul(this U10F22 x, Vector4U10F22 y) {
@@ -2871,7 +3501,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U10F22 SaturatingMul(this Vector4U10F22 x, U10F22 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U10F22 SaturatingMul(this Vector4U10F22 x, U10F22 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U11F21 SaturatingMul(this U11F21 x, Vector4U11F21 y) {
@@ -2881,7 +3515,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U11F21 SaturatingMul(this Vector4U11F21 x, U11F21 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U11F21 SaturatingMul(this Vector4U11F21 x, U11F21 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U12F20 SaturatingMul(this U12F20 x, Vector4U12F20 y) {
@@ -2891,7 +3529,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U12F20 SaturatingMul(this Vector4U12F20 x, U12F20 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U12F20 SaturatingMul(this Vector4U12F20 x, U12F20 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U13F19 SaturatingMul(this U13F19 x, Vector4U13F19 y) {
@@ -2901,7 +3543,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U13F19 SaturatingMul(this Vector4U13F19 x, U13F19 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U13F19 SaturatingMul(this Vector4U13F19 x, U13F19 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U14F18 SaturatingMul(this U14F18 x, Vector4U14F18 y) {
@@ -2911,7 +3557,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U14F18 SaturatingMul(this Vector4U14F18 x, U14F18 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U14F18 SaturatingMul(this Vector4U14F18 x, U14F18 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U15F17 SaturatingMul(this U15F17 x, Vector4U15F17 y) {
@@ -2921,7 +3571,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U15F17 SaturatingMul(this Vector4U15F17 x, U15F17 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U15F17 SaturatingMul(this Vector4U15F17 x, U15F17 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U16F16 SaturatingMul(this U16F16 x, Vector4U16F16 y) {
@@ -2931,7 +3585,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U16F16 SaturatingMul(this Vector4U16F16 x, U16F16 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U16F16 SaturatingMul(this Vector4U16F16 x, U16F16 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U17F15 SaturatingMul(this U17F15 x, Vector4U17F15 y) {
@@ -2941,7 +3599,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U17F15 SaturatingMul(this Vector4U17F15 x, U17F15 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U17F15 SaturatingMul(this Vector4U17F15 x, U17F15 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U18F14 SaturatingMul(this U18F14 x, Vector4U18F14 y) {
@@ -2951,7 +3613,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U18F14 SaturatingMul(this Vector4U18F14 x, U18F14 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U18F14 SaturatingMul(this Vector4U18F14 x, U18F14 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U19F13 SaturatingMul(this U19F13 x, Vector4U19F13 y) {
@@ -2961,7 +3627,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U19F13 SaturatingMul(this Vector4U19F13 x, U19F13 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U19F13 SaturatingMul(this Vector4U19F13 x, U19F13 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U20F12 SaturatingMul(this U20F12 x, Vector4U20F12 y) {
@@ -2971,7 +3641,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U20F12 SaturatingMul(this Vector4U20F12 x, U20F12 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U20F12 SaturatingMul(this Vector4U20F12 x, U20F12 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U21F11 SaturatingMul(this U21F11 x, Vector4U21F11 y) {
@@ -2981,7 +3655,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U21F11 SaturatingMul(this Vector4U21F11 x, U21F11 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U21F11 SaturatingMul(this Vector4U21F11 x, U21F11 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U22F10 SaturatingMul(this U22F10 x, Vector4U22F10 y) {
@@ -2991,7 +3669,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U22F10 SaturatingMul(this Vector4U22F10 x, U22F10 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U22F10 SaturatingMul(this Vector4U22F10 x, U22F10 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U23F9 SaturatingMul(this U23F9 x, Vector4U23F9 y) {
@@ -3001,7 +3683,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U23F9 SaturatingMul(this Vector4U23F9 x, U23F9 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U23F9 SaturatingMul(this Vector4U23F9 x, U23F9 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U24F8 SaturatingMul(this U24F8 x, Vector4U24F8 y) {
@@ -3011,7 +3697,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U24F8 SaturatingMul(this Vector4U24F8 x, U24F8 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U24F8 SaturatingMul(this Vector4U24F8 x, U24F8 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U25F7 SaturatingMul(this U25F7 x, Vector4U25F7 y) {
@@ -3021,7 +3711,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U25F7 SaturatingMul(this Vector4U25F7 x, U25F7 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U25F7 SaturatingMul(this Vector4U25F7 x, U25F7 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U26F6 SaturatingMul(this U26F6 x, Vector4U26F6 y) {
@@ -3031,7 +3725,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U26F6 SaturatingMul(this Vector4U26F6 x, U26F6 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U26F6 SaturatingMul(this Vector4U26F6 x, U26F6 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U27F5 SaturatingMul(this U27F5 x, Vector4U27F5 y) {
@@ -3041,7 +3739,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U27F5 SaturatingMul(this Vector4U27F5 x, U27F5 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U27F5 SaturatingMul(this Vector4U27F5 x, U27F5 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U28F4 SaturatingMul(this U28F4 x, Vector4U28F4 y) {
@@ -3051,7 +3753,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 SaturatingMul(this Vector4U28F4 x, U28F4 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U28F4 SaturatingMul(this Vector4U28F4 x, U28F4 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U29F3 SaturatingMul(this U29F3 x, Vector4U29F3 y) {
@@ -3061,7 +3767,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 SaturatingMul(this Vector4U29F3 x, U29F3 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U29F3 SaturatingMul(this Vector4U29F3 x, U29F3 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U30F2 SaturatingMul(this U30F2 x, Vector4U30F2 y) {
@@ -3071,7 +3781,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 SaturatingMul(this Vector4U30F2 x, U30F2 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U30F2 SaturatingMul(this Vector4U30F2 x, U30F2 y) {
+            return y.SaturatingMul(x);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4U31F1 SaturatingMul(this U31F1 x, Vector4U31F1 y) {
@@ -3081,7 +3795,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z),
                 x.SaturatingMul(y.W));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 SaturatingMul(this Vector4U31F1 x, U31F1 y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4U31F1 SaturatingMul(this Vector4U31F1 x, U31F1 y) {
+            return y.SaturatingMul(x);
+        }
 
     }
 }

@@ -178,11 +178,11 @@ namespace AgatePris.Intar {
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SaturatingMul(int x, int y) {
-            return CheckedMul(x, y) ?? ((x < 0) == (y < 0)
-                ? int.MaxValue
-                : int.MinValue);
-        }
+        public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
+            ((x < 0) == (y < 0))
+            ? int.MaxValue
+            : int.MinValue
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(uint x, uint y, out uint result) {
@@ -197,9 +197,7 @@ namespace AgatePris.Intar {
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingMul(uint x, uint y) {
-            return CheckedMul(x, y) ?? uint.MaxValue;
-        }
+        public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
 
 {%- for sign in [true, false] %}
 {%- for int_nbits in range(start=2, end=32) %}
@@ -226,15 +224,14 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SaturatingMul(this {{ type }} x, {{ type }} y) {
-            {%- if sign %}
-            return x.CheckedMul(y) ?? ((x.Bits < 0) == (y.Bits < 0)
-                ? {{ type }}.MaxValue
-                : {{ type }}.MinValue);
-            {%- else %}
+        public static {{ type }} SaturatingMul(this {{ type }} x, {{ type }} y)
+        {%- if sign %} => x.CheckedMul(y) ?? (
+            ((x.Bits < 0) == (y.Bits < 0))
+            ? {{ type }}.MaxValue
+            : {{ type }}.MinValue
+        ); {%- else %} {
             return x.CheckedMul(y) ?? {{ type }}.MaxValue;
-            {%- endif %}
-        }
+        } {%- endif %}
 {%- endfor %}
 {%- endfor %}
 
@@ -252,7 +249,11 @@ namespace AgatePris.Intar {
                 x.SaturatingMul(y.Z){%if dim > 3 %},
                 x.SaturatingMul(y.W){% endif %}{% endif %});
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ vector_type }} SaturatingMul(this {{ vector_type }} x, {{ type }} y) => y.SaturatingMul(x);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector_type }} SaturatingMul(this {{ vector_type }} x, {{ type }} y) {
+            return y.SaturatingMul(x);
+        }
 
 {%- endfor %}
 {%- endfor %}
