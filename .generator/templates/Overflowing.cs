@@ -166,6 +166,116 @@ namespace AgatePris.Intar {
         {{ self::checked_neg(type = "long") }}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingAdd(int x, int y, out int result) {
+            var tmp = ((long)x) + y;
+            result = unchecked((int)tmp);
+            return tmp < int.MinValue || tmp > int.MaxValue;
+        }
+        {%- for i in range(start=2, end=32) %}
+        {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingAdd(this {{ type }} x, {{ type }} y, out {{ type }} result) {
+            var b = OverflowingAdd(x.Bits, y.Bits, out var bits);
+            result = {{ type }}.FromBits(bits);
+            return b;
+        }
+        {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int? CheckedAdd(int x, int y) {
+            int? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+        {%- for i in range(start=2, end=32) %}
+        {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }}? CheckedAdd(this {{ type }} x, {{ type }} y) {
+            {{ type }}? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+        {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SaturatingAdd(int x, int y) {
+            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
+                ? int.MinValue
+                : int.MaxValue);
+        }
+        {%- for i in range(start=2, end=32) %}
+        {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} SaturatingAdd(this {{ type }} x, {{ type }} y) {
+            return CheckedAdd(x, y) ?? ((x < {{ type }}.Zero) && (y < {{ type }}.Zero)
+                ? {{ type }}.MinValue
+                : {{ type }}.MaxValue);
+        }
+        {%- for dim in range(start=2, end=5) %}
+        {%- set vector_type = macros::vector_type(dim=dim, type=type) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector_type }} SaturatingAdd(
+            this {{ vector_type }} x, {{ vector_type }} y
+        ) => new {{ vector_type }}(
+            x.X.SaturatingAdd(y.X),
+            x.Y.SaturatingAdd(y.Y){% if dim > 2 %},
+            x.Z.SaturatingAdd(y.Z){% if dim > 3 %},
+            x.W.SaturatingAdd(y.W){% endif %}{% endif %});
+        {%- endfor %}
+        {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingAdd(uint x, uint y, out uint result) {
+            var tmp = ((ulong)x) + y;
+            result = unchecked((uint)tmp);
+            return tmp > uint.MaxValue;
+        }
+        {%- for i in range(start=2, end=32) %}
+        {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingAdd(this {{ type }} x, {{ type }} y, out {{ type }} result) {
+            var b = OverflowingAdd(x.Bits, y.Bits, out var bits);
+            result = {{ type }}.FromBits(bits);
+            return b;
+        }
+        {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint? CheckedAdd(uint x, uint y) {
+            uint? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+        {%- for i in range(start=2, end=32) %}
+        {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }}? CheckedAdd(this {{ type }} x, {{ type }} y) {
+            {{ type }}? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+        {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint SaturatingAdd(uint x, uint y) {
+            return CheckedAdd(x, y) ?? uint.MaxValue;
+        }
+        {%- for i in range(start=2, end=32) %}
+        {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} SaturatingAdd(this {{ type }} x, {{ type }} y) {
+            return CheckedAdd(x, y) ?? {{ type }}.MaxValue;
+        }
+        {%- for dim in range(start=2, end=5) %}
+        {%- set vector_type = macros::vector_type(dim=dim, type=type) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector_type }} SaturatingAdd(
+            this {{ vector_type }} x, {{ vector_type }} y
+        ) => new {{ vector_type }}(
+            x.X.SaturatingAdd(y.X),
+            x.Y.SaturatingAdd(y.Y){% if dim > 2 %},
+            x.Z.SaturatingAdd(y.Z){% if dim > 3 %},
+            x.W.SaturatingAdd(y.W){% endif %}{% endif %});
+        {%- endfor %}
+        {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(int x, int y, out int result) {
             long l = x;
             l *= y;
