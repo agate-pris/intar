@@ -9,6 +9,13 @@
             ]
         },
         {
+            "dir_path": "AgatePris.Intar",
+            "template_name": "VectorExtension.cs",
+            "files": [
+                { "file_name": "VectorExtension.gen.cs", "params": {} }
+            ]
+        },
+        {
             "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Clamp.cs",
             "files": [

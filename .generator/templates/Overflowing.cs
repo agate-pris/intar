@@ -201,17 +201,6 @@ namespace AgatePris.Intar {
                 ? {{ type }}.MinValue
                 : {{ type }}.MaxValue);
         }
-        {%- for dim in range(start=2, end=5) %}
-        {%- set vector_type = macros::vector_type(dim=dim, type=type) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ vector_type }} SaturatingAdd(
-            this {{ vector_type }} x, {{ vector_type }} y
-        ) => new {{ vector_type }}(
-            x.X.SaturatingAdd(y.X),
-            x.Y.SaturatingAdd(y.Y){% if dim > 2 %},
-            x.Z.SaturatingAdd(y.Z){% if dim > 3 %},
-            x.W.SaturatingAdd(y.W){% endif %}{% endif %});
-        {%- endfor %}
         {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -240,17 +229,6 @@ namespace AgatePris.Intar {
         {%- for i in range(start=2, end=32) %}
         {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
         {{ macros::saturating_add_unsigned(type=type, ext=true) | indent(prefix="        ") }}
-        {%- for dim in range(start=2, end=5) %}
-        {%- set vector_type = macros::vector_type(dim=dim, type=type) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ vector_type }} SaturatingAdd(
-            this {{ vector_type }} x, {{ vector_type }} y
-        ) => new {{ vector_type }}(
-            x.X.SaturatingAdd(y.X),
-            x.Y.SaturatingAdd(y.Y){% if dim > 2 %},
-            x.Z.SaturatingAdd(y.Z){% if dim > 3 %},
-            x.W.SaturatingAdd(y.W){% endif %}{% endif %});
-        {%- endfor %}
         {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -320,30 +298,6 @@ namespace AgatePris.Intar {
         ); {%- else %} {
             return x.CheckedMul(y) ?? {{ type }}.MaxValue;
         } {%- endif %}
-{%- endfor %}
-{%- endfor %}
-
-{%- for dim in range(start=2, end=5) %}
-{%- for sign in [true, false] %}
-{%- for int_nbits in range(start=2, end=32) %}
-{%- set type = macros::fixed_type(s=sign, i=int_nbits, f=32-int_nbits) %}
-{%- set vector_type = macros::vector_type(dim=dim, type=type) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ vector_type }} SaturatingMul(this {{ type }} x, {{ vector_type }} y) {
-            return new {{ vector_type }}(
-                x.SaturatingMul(y.X),
-                x.SaturatingMul(y.Y){%if dim > 2 %},
-                x.SaturatingMul(y.Z){%if dim > 3 %},
-                x.SaturatingMul(y.W){% endif %}{% endif %});
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ vector_type }} SaturatingMul(this {{ vector_type }} x, {{ type }} y) {
-            return y.SaturatingMul(x);
-        }
-
-{%- endfor %}
 {%- endfor %}
 {%- endfor %}
 
