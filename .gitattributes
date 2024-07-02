@@ -1,4 +1,4 @@
-*.cs            text
+*.cs            text eol=lf
 *.csproj        text
 *.editorconfig  text
 *.gitattributes text eol=lf
