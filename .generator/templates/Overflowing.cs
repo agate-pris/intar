@@ -236,16 +236,10 @@ namespace AgatePris.Intar {
         {{ macros::checked_add(type=type, ext=true) | indent(prefix="        ") }}
         {%- endfor %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingAdd(uint x, uint y) {
-            return CheckedAdd(x, y) ?? uint.MaxValue;
-        }
+        {{ macros::saturating_add_unsigned(type="uint", ext=false) | indent(prefix="        ") }}
         {%- for i in range(start=2, end=32) %}
         {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SaturatingAdd(this {{ type }} x, {{ type }} y) {
-            return CheckedAdd(x, y) ?? {{ type }}.MaxValue;
-        }
+        {{ macros::saturating_add_unsigned(type=type, ext=true) | indent(prefix="        ") }}
         {%- for dim in range(start=2, end=5) %}
         {%- set vector_type = macros::vector_type(dim=dim, type=type) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
