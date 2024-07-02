@@ -181,18 +181,10 @@ namespace AgatePris.Intar {
         }
         {%- endfor %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int? CheckedAdd(int x, int y) {
-            int? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
+        {{ macros::checked_add(type="int", ext=false) | indent(prefix="        ") }}
         {%- for i in range(start=2, end=32) %}
         {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }}? CheckedAdd(this {{ type }} x, {{ type }} y) {
-            {{ type }}? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
+        {{ macros::checked_add(type=type, ext=true) | indent(prefix="        ") }}
         {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -238,18 +230,10 @@ namespace AgatePris.Intar {
         }
         {%- endfor %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint? CheckedAdd(uint x, uint y) {
-            uint? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
+        {{ macros::checked_add(type="uint", ext=false) | indent(prefix="        ") }}
         {%- for i in range(start=2, end=32) %}
         {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }}? CheckedAdd(this {{ type }} x, {{ type }} y) {
-            {{ type }}? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
+        {{ macros::checked_add(type=type, ext=true) | indent(prefix="        ") }}
         {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
