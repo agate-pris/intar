@@ -1,6 +1,6 @@
 {
     "name": "AgatePris.Intar.Numerics",
-    "rootNamespace": "",
+    "rootNamespace": "AgatePris.Intar.Numerics",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
