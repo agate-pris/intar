@@ -387,5 +387,11 @@ namespace AgatePris.Intar.Numerics {
         public readonly string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
+
+        // Methods
+        // ---------------------------------------
+
+        public readonly U36F28 Half() => FromBits(Mathi.Half(Bits));
+
     }
 }
