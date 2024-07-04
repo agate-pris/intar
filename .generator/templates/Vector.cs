@@ -245,6 +245,20 @@ namespace AgatePris.Intar.Numerics {
             Z.Twice(){% if dim > 3 %},
             W.Twice(){% endif %}{% endif %});
 
+        public readonly {{ self_type }} Clamp({{ type }} min, {{ type }} max) => new {{ self_type }}(
+            X.Clamp(min, max),
+            Y.Clamp(min, max){% if dim > 2 %},
+            Z.Clamp(min, max){% if dim > 3 %},
+            W.Clamp(min, max){% endif %}{% endif %});
+
+        public readonly {{ self_type }} Clamp(
+            {{ self_type }} min, {{ self_type }} max
+        ) => new {{ self_type }}(
+            X.Clamp(min.X, max.X),
+            Y.Clamp(min.Y, max.Y){% if dim > 2 %},
+            Z.Clamp(min.Z, max.Z){% if dim > 3 %},
+            W.Clamp(min.W, max.W){% endif %}{% endif %});
+
     }
 } {%- if unity %}
 

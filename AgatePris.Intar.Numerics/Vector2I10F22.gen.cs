@@ -177,5 +177,15 @@ namespace AgatePris.Intar.Numerics {
             X.Twice(),
             Y.Twice());
 
+        public readonly Vector2I10F22 Clamp(I10F22 min, I10F22 max) => new Vector2I10F22(
+            X.Clamp(min, max),
+            Y.Clamp(min, max));
+
+        public readonly Vector2I10F22 Clamp(
+            Vector2I10F22 min, Vector2I10F22 max
+        ) => new Vector2I10F22(
+            X.Clamp(min.X, max.X),
+            Y.Clamp(min.Y, max.Y));
+
     }
 }
