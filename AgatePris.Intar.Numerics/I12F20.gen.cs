@@ -422,5 +422,23 @@ namespace AgatePris.Intar.Numerics {
                 : MaxValue);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool OverflowingMul(I12F20 other, out I12F20 result) {
+            var bits = ((long)Bits) * other.Bits / oneRepr;
+            result = FromBits(unchecked((int)bits));
+            return bits < int.MinValue || bits > int.MaxValue;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I12F20? CheckedMul(I12F20 other) {
+            I12F20? @null = null;
+            return OverflowingMul(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I12F20 SaturatingMul(I12F20 other) {
+            return CheckedMul(other) ?? (((Bits < 0) == (other.Bits < 0))
+                ? MaxValue
+                : MinValue);
+        }
+
     }
 }

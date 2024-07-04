@@ -322,6 +322,32 @@ namespace AgatePris.Intar.Numerics {
         }
         {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
+            var bits = (({{ self_wide_bits_type }})Bits) * other.Bits / oneRepr;
+            result = FromBits(unchecked(({{ self_bits_type }})bits));
+            {%- if signed %}
+            return bits < {{ self_bits_type }}.MinValue || bits > {{ self_bits_type }}.MaxValue;
+            {%- else %}
+            return bits > {{ self_bits_type }}.MaxValue;
+            {%- endif %}
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }}? CheckedMul({{ self_type }} other) {
+            {{ self_type }}? @null = null;
+            return OverflowingMul(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} SaturatingMul({{ self_type }} other) {
+            {%- if signed %}
+            return CheckedMul(other) ?? (((Bits < 0) == (other.Bits < 0))
+                ? MaxValue
+                : MinValue);
+            {%- else %}
+            return CheckedMul(other) ?? MaxValue;
+            {%- endif %}
+        }
+
         {%- endif %}
 
     }
