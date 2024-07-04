@@ -389,5 +389,9 @@ namespace AgatePris.Intar.Numerics {
 
         public readonly I3F29 Half() => FromBits(Mathi.Half(Bits));
 
+        public readonly I3F29 Clamp(
+            I3F29 min, I3F29 max
+        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
     }
 }

@@ -414,5 +414,9 @@ namespace AgatePris.Intar.Numerics {
 
         public readonly U57F7 Half() => FromBits(Mathi.Half(Bits));
 
+        public readonly U57F7 Clamp(
+            U57F7 min, U57F7 max
+        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
     }
 }

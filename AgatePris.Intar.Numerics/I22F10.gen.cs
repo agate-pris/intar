@@ -408,5 +408,9 @@ namespace AgatePris.Intar.Numerics {
 
         public readonly I22F10 Half() => FromBits(Mathi.Half(Bits));
 
+        public readonly I22F10 Clamp(
+            I22F10 min, I22F10 max
+        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
     }
 }
