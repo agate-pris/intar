@@ -1,11 +1,8 @@
 {% import "macros.cs" as macros %}
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
+{%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
 
-{%- macro self_bits_type() %}
-    {{- macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) }}
-{%- endmacro -%}
-
-{% macro self_wide_bits_type() %}
+{%- macro self_wide_bits_type() %}
     {{- macros::wide_bits_type(s=signed, i=int_nbits, f=frac_nbits) }}
 {%- endmacro -%}
 
@@ -19,11 +16,10 @@
     {%- endif %}
 {%- endmacro %}
 
-{%- macro def_conv(self_type, s, i, f) %}
+{%- macro def_conv(self_type, self_bits_type, s, i, f) %}
     {#- 自身と異なる型の場合のみ定義する #}
     {%- if s != signed or i != int_nbits or f != frac_nbits %}
-        {%- set sbt = self::self_bits_type() %}
-        {%- set self_bits_type_one = self::one_literal(t = sbt) %}
+        {%- set self_bits_type_one = self::one_literal(t = self_bits_type) %}
         {%- set target_bits_type = macros::bits_type(s=s, i=i, f=f) -%}
         {%- set target_bits_type_one = self::one_literal(t = target_bits_type) %}
         {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
@@ -34,10 +30,10 @@
             not signed and not s and int_nbits > i
         %}
         {%- set cast =
-            sbt == "int" and (target_bits_type == "uint" or target_bits_type == "ulong") or
-            sbt == "uint" and (target_bits_type == "int") or
-            sbt == "long" and (target_bits_type == "int" or target_bits_type == "uint" or target_bits_type == "ulong") or
-            sbt == "ulong" and (target_bits_type == "int" or target_bits_type == "uint" or target_bits_type == "long")
+            self_bits_type == "int" and (target_bits_type == "uint" or target_bits_type == "ulong") or
+            self_bits_type == "uint" and (target_bits_type == "int") or
+            self_bits_type == "long" and (target_bits_type == "int" or target_bits_type == "uint" or target_bits_type == "ulong") or
+            self_bits_type == "ulong" and (target_bits_type == "int" or target_bits_type == "uint" or target_bits_type == "long")
         %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static
         {%- if explicit %} explicit
@@ -64,18 +60,18 @@
     {%- endif %}
 {%- endmacro %}
 
-{%- macro explicit_conversion_to_fixed(self_type) %}
+{%- macro explicit_conversion_to_fixed(self_type, self_bits_type) %}
 {%- for i in range(start = 1, end = 31) %}
-    {{- self::def_conv(self_type=self_type, s=true, i=32-i, f=i) }}
+    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=true, i=32-i, f=i) }}
 {%- endfor %}
 {%- for i in range(start = 1, end = 31) %}
-    {{- self::def_conv(self_type=self_type, s=false, i=32-i, f=i) }}
+    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=false, i=32-i, f=i) }}
 {%- endfor %}
 {%- for i in range(start = 1, end = 63) %}
-    {{- self::def_conv(self_type=self_type, s=true, i=64-i, f=i) }}
+    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=true, i=64-i, f=i) }}
 {%- endfor %}
 {%- for i in range(start = 1, end = 63) %}
-    {{- self::def_conv(self_type=self_type, s=false, i=64-i, f=i) }}
+    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=false, i=64-i, f=i) }}
 {%- endfor %}
 {%- endmacro -%}
 
@@ -91,10 +87,10 @@ namespace AgatePris.Intar.Numerics {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
-        const {{ self::self_bits_type() }} oneRepr = 1{% if self::self_bits_type() == "int" -%}
-        {%- elif self::self_bits_type() == "uint" -%}U
-        {%- elif self::self_bits_type() == "long" -%}L
-        {%- elif self::self_bits_type() == "ulong" -%}UL
+        const {{ self_bits_type }} oneRepr = 1{% if self_bits_type == "int" -%}
+        {%- elif self_bits_type == "uint" -%}U
+        {%- elif self_bits_type == "long" -%}L
+        {%- elif self_bits_type == "ulong" -%}UL
         {%- else %}{{ throw(message = "self::self_bits_type returns unknown value.") }}
         {%- endif %} << FracNbits;
 
@@ -105,7 +101,7 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public {{ self::self_bits_type() }} Bits;
+        public {{ self_bits_type }} Bits;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -115,7 +111,7 @@ namespace AgatePris.Intar.Numerics {
         // ------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_type }}({{ self::self_bits_type() }} bits) {
+        {{ self_type }}({{ self_bits_type }} bits) {
             Bits = bits;
         }
 
@@ -123,10 +119,10 @@ namespace AgatePris.Intar.Numerics {
         // --------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} FromBits({{ self::self_bits_type() }} bits) => new {{ self_type }}(bits);
+        public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} FromNum({{ self::self_bits_type() }} num) => FromBits(num * oneRepr);
+        public static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * oneRepr);
 
         // Static Properties
         // -----------------
@@ -141,11 +137,11 @@ namespace AgatePris.Intar.Numerics {
         }
         public static {{ self_type }} MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits({{ self::self_bits_type() }}.MinValue);
+            get => FromBits({{ self_bits_type }}.MinValue);
         }
         public static {{ self_type }} MaxValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits({{ self::self_bits_type() }}.MaxValue);
+            get => FromBits({{ self_bits_type }}.MaxValue);
         }
 
         // Arithmetic Operators
@@ -173,13 +169,13 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
             {{ self::self_wide_bits_type() }} l = left.Bits;
-            return FromBits(({{ self::self_bits_type() }})(l * right.Bits / oneRepr));
+            return FromBits(({{ self_bits_type }})(l * right.Bits / oneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator /({{ self_type }} left, {{ self_type }} right) {
             {{ self::self_wide_bits_type() }} l = left.Bits;
-            return FromBits(({{ self::self_bits_type() }})(l * oneRepr / right.Bits));
+            return FromBits(({{ self_bits_type }})(l * oneRepr / right.Bits));
         }
 
 {%- if int_nbits + frac_nbits == 64 %}
@@ -221,7 +217,7 @@ namespace AgatePris.Intar.Numerics {
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} LosslessMul(
-            {{- self::self_bits_type() }} other) => FromBits(Bits * other);
+            {{- self_bits_type }} other) => FromBits(Bits * other);
 {%- if int_nbits != 2 %}
 {%- for i in range(start = 1, end = int_nbits - 1) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(Bits * other.Bits);
@@ -231,7 +227,7 @@ namespace AgatePris.Intar.Numerics {
 {%- if int_nbits + frac_nbits == 32 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
-            {{- self::self_bits_type() }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
+            {{- self_bits_type }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
                 {{- self::self_wide_bits_type() -}}
             )Bits * other);
 {%- for i in range(start = 1, end = 31) %}
@@ -243,9 +239,9 @@ namespace AgatePris.Intar.Numerics {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self_type }} x) => {% if self::self_bits_type() != "int" %}(int)({% endif %}x.Bits / oneRepr{% if self::self_bits_type() != "int" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self_type }} x) => {% if self::self_bits_type() != "uint" %}(uint)({% endif %}x.Bits / oneRepr{% if self::self_bits_type() != "uint" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self_type }} x) => {% if self::self_bits_type() == "ulong" %}(long)({% endif %}x.Bits / oneRepr{% if self::self_bits_type() == "ulong" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self_type }} x) => {% if self_bits_type != "int" %}(int)({% endif %}x.Bits / oneRepr{% if self_bits_type != "int" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self_type }} x) => {% if self_bits_type != "uint" %}(uint)({% endif %}x.Bits / oneRepr{% if self_bits_type != "uint" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self_type }} x) => {% if self_bits_type == "ulong" %}(long)({% endif %}x.Bits / oneRepr{% if self_bits_type == "ulong" %}){% endif %};
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong({{ self_type }} x) => {% if signed %}(ulong)({% endif %}x.Bits / oneRepr{% if signed %}){% endif %};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -265,7 +261,7 @@ namespace AgatePris.Intar.Numerics {
             const decimal k = 1.0M / oneRepr;
             return k * x.Bits;
         }
-{{ self::explicit_conversion_to_fixed(self_type=self_type) }}
+{{ self::explicit_conversion_to_fixed(self_type=self_type, self_bits_type=self_bits_type) }}
 
         // Object
         // ---------------------------------------
