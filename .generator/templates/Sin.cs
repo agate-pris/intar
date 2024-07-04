@@ -90,7 +90,6 @@
         }
 {%- endmacro -%}
 
-using AgatePris.Intar.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
@@ -326,36 +325,5 @@ namespace AgatePris.Intar {
         /// </summary>
         {{- self::cos_odd(cos="CosP5A51437", sin="SinP5A51437") }}
 
-        {{- self::sin_fixed(name="SinP2", sin=true, dim=2) }}
-        {{- self::sin_fixed(name="SinP3A16384", sin=true, dim=3) }}
-        {{- self::sin_fixed(name="SinP4A7032", sin=true, dim=4) }}
-        {{- self::sin_fixed(name="SinP4A7384", sin=true, dim=4) }}
-        {{- self::sin_fixed(name="SinP5A51472", sin=true, dim=5) }}
-        {{- self::sin_fixed(name="SinP5A51437", sin=true, dim=5) }}
-        {{- self::sin_fixed(name="CosP2", sin=false, dim=2) }}
-        {{- self::sin_fixed(name="CosP3A16384", sin=false, dim=3) }}
-        {{- self::sin_fixed(name="CosP4A7032", sin=false, dim=4) }}
-        {{- self::sin_fixed(name="CosP4A7384", sin=false, dim=4) }}
-        {{- self::sin_fixed(name="CosP5A51472", sin=false, dim=5) }}
-        {{- self::sin_fixed(name="CosP5A51437", sin=false, dim=5) }}
-
-        {%- for d in range(start=2, end=5) %}
-        {%- for n in [
-            "SinP2",
-            "SinP3A16384",
-            "SinP4A7032",
-            "SinP4A7384",
-            "SinP5A51472",
-            "SinP5A51437",
-            "CosP2",
-            "CosP3A16384",
-            "CosP4A7032",
-            "CosP4A7384",
-            "CosP5A51472",
-            "CosP5A51437"
-        ] %}
-        {{- self::sin_vec(n=n, d=d) }}
-        {%- endfor %}
-        {%- endfor %}
     }
 }

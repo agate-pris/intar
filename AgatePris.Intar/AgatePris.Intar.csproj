@@ -16,8 +16,4 @@
     <PackageReference Include="SoapFormatter" Version="1.1.9" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AgatePris.Intar.Numerics\AgatePris.Intar.Numerics.csproj" />
-  </ItemGroup>
-
 </Project>

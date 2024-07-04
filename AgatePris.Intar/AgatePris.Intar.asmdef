@@ -1,9 +1,7 @@
 {
     "name": "AgatePris.Intar",
     "rootNamespace": "AgatePris.Intar",
-    "references": [
-        "GUID:bf48c5cd67371dc428596a4c9089d170"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
