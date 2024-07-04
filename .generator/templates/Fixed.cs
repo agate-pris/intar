@@ -350,5 +350,34 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
+        {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
+        {%- for name in [
+            "SinP2",
+            "SinP3A16384",
+            "SinP4A7032",
+            "SinP4A7384",
+            "SinP5A51472",
+            "SinP5A51437",
+            "CosP2",
+            "CosP3A16384",
+            "CosP4A7032",
+            "CosP4A7384",
+            "CosP5A51472",
+            "CosP5A51437",
+        ] %}
+        {%- set sin = name is starting_with("Sin") %}
+        {%- set dim = name | trim_start_matches(pat="SinP") | trim_start_matches(pat="CosP") | truncate(length=1, end="") %}
+
+        /// <summary>
+        /// {{ dim }} 次の多項式で{% if sin %}正弦比{% else %}余弦比{% endif %}を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>{% if sin %}正弦比{% else %}余弦比{% endif %}</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
+
+        {%- endfor %}
+        {%- endif %}
+
     }
 }
