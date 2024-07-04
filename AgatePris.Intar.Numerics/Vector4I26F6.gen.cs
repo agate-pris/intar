@@ -523,5 +523,15 @@ namespace AgatePris.Intar.Numerics {
             var w = W.ToString(format, formatProvider);
             return $"Vector4I26F6({x}, {y}, {z}, {w})";
         }
+
+        // Methods
+        // ---------------------------------------
+
+        public readonly Vector4I26F6 Half() => new Vector4I26F6(
+            X.Half(),
+            Y.Half(),
+            Z.Half(),
+            W.Half());
+
     }
 }

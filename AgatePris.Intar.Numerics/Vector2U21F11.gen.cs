@@ -165,5 +165,13 @@ namespace AgatePris.Intar.Numerics {
             var y = Y.ToString(format, formatProvider);
             return $"Vector2U21F11({x}, {y})";
         }
+
+        // Methods
+        // ---------------------------------------
+
+        public readonly Vector2U21F11 Half() => new Vector2U21F11(
+            X.Half(),
+            Y.Half());
+
     }
 }

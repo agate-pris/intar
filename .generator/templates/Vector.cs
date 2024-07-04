@@ -229,6 +229,16 @@ namespace AgatePris.Intar.Numerics {
             var w = W.ToString(format, formatProvider);{% endif %}{% endif %}
             return $"{{ self_type }}({x}, {y}{% if dim > 2 %}, {z}{% endif %}{% if dim > 3 %}, {w}{% endif %})";
         }
+
+        // Methods
+        // ---------------------------------------
+
+        public readonly {{ self_type }} Half() => new {{ self_type }}(
+            X.Half(),
+            Y.Half(){% if dim > 2 %},
+            Z.Half(){% if dim > 3 %},
+            W.Half(){% endif %}{% endif %});
+
     }
 } {%- if unity %}
 

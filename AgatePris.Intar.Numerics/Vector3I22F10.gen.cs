@@ -276,5 +276,14 @@ namespace AgatePris.Intar.Numerics {
             var z = Z.ToString(format, formatProvider);
             return $"Vector3I22F10({x}, {y}, {z})";
         }
+
+        // Methods
+        // ---------------------------------------
+
+        public readonly Vector3I22F10 Half() => new Vector3I22F10(
+            X.Half(),
+            Y.Half(),
+            Z.Half());
+
     }
 }
