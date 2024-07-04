@@ -114,7 +114,6 @@
         }
 {%- endmacro -%}
 
-using AgatePris.Intar.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
@@ -171,37 +170,13 @@ namespace AgatePris.Intar {
             result = unchecked((int)tmp);
             return tmp < int.MinValue || tmp > int.MaxValue;
         }
-        {%- for i in range(start=2, end=32) %}
-        {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingAdd(this {{ type }} x, {{ type }} y, out {{ type }} result) {
-            var b = OverflowingAdd(x.Bits, y.Bits, out var bits);
-            result = {{ type }}.FromBits(bits);
-            return b;
-        }
-        {%- endfor %}
-
         {{ macros::checked_add(type="int", ext=false) | indent(prefix="        ") }}
-        {%- for i in range(start=2, end=32) %}
-        {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
-        {{ macros::checked_add(type=type, ext=true) | indent(prefix="        ") }}
-        {%- endfor %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SaturatingAdd(int x, int y) {
             return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
                 ? int.MinValue
                 : int.MaxValue);
         }
-        {%- for i in range(start=2, end=32) %}
-        {%- set type = macros::fixed_type(s=true, i=i, f=32-i) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SaturatingAdd(this {{ type }} x, {{ type }} y) {
-            return CheckedAdd(x, y) ?? ((x < {{ type }}.Zero) && (y < {{ type }}.Zero)
-                ? {{ type }}.MinValue
-                : {{ type }}.MaxValue);
-        }
-        {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingAdd(uint x, uint y, out uint result) {
@@ -209,27 +184,8 @@ namespace AgatePris.Intar {
             result = unchecked((uint)tmp);
             return tmp > uint.MaxValue;
         }
-        {%- for i in range(start=2, end=32) %}
-        {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingAdd(this {{ type }} x, {{ type }} y, out {{ type }} result) {
-            var b = OverflowingAdd(x.Bits, y.Bits, out var bits);
-            result = {{ type }}.FromBits(bits);
-            return b;
-        }
-        {%- endfor %}
-
         {{ macros::checked_add(type="uint", ext=false) | indent(prefix="        ") }}
-        {%- for i in range(start=2, end=32) %}
-        {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
-        {{ macros::checked_add(type=type, ext=true) | indent(prefix="        ") }}
-        {%- endfor %}
-
         {{ macros::saturating_add_unsigned(type="uint", ext=false) | indent(prefix="        ") }}
-        {%- for i in range(start=2, end=32) %}
-        {%- set type = macros::fixed_type(s=false, i=i, f=32-i) %}
-        {{ macros::saturating_add_unsigned(type=type, ext=true) | indent(prefix="        ") }}
-        {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(int x, int y, out int result) {
@@ -264,42 +220,6 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
-
-{%- for sign in [true, false] %}
-{%- for int_nbits in range(start=2, end=32) %}
-{%- set bits_type = macros::bits_type(s=sign, i=int_nbits, f=32-int_nbits) %}
-{%- set type = macros::fixed_type(s=sign, i=int_nbits, f=32-int_nbits) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(this {{ type }} x, {{ type }} y, out {{ type }} result) {
-            {{ macros::wide_bits_type(s=sign, i=int_nbits, f=32-int_nbits) }} bits = x.Bits;
-            bits *= y.Bits;
-            bits /= {{ type }}.One.Bits;
-            result = {{ type }}.FromBits(unchecked(({{ bits_type }})bits));
-            {%- if sign %}
-            return bits < {{ bits_type }}.MinValue || bits > {{ bits_type }}.MaxValue;
-            {%- else %}
-            return bits > {{ bits_type }}.MaxValue;
-            {%- endif %}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }}? CheckedMul(this {{ type }} x, {{ type }} y) {
-            {{ type }}? @null = null;
-            return x.OverflowingMul(y, out var result) ? @null : result;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SaturatingMul(this {{ type }} x, {{ type }} y)
-        {%- if sign %} => x.CheckedMul(y) ?? (
-            ((x.Bits < 0) == (y.Bits < 0))
-            ? {{ type }}.MaxValue
-            : {{ type }}.MinValue
-        ); {%- else %} {
-            return x.CheckedMul(y) ?? {{ type }}.MaxValue;
-        } {%- endif %}
-{%- endfor %}
-{%- endfor %}
 
     }
 }
