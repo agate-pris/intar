@@ -259,6 +259,32 @@ namespace AgatePris.Intar.Numerics {
             Z.Clamp(min.Z, max.Z){% if dim > 3 %},
             W.Clamp(min.W, max.W){% endif %}{% endif %});
 
+        {%- if type == "I17F15" %}
+        {%- for name in [
+            "SinP2",
+            "SinP3A16384",
+            "SinP4A7032",
+            "SinP4A7384",
+            "SinP5A51472",
+            "SinP5A51437",
+            "CosP2",
+            "CosP3A16384",
+            "CosP4A7032",
+            "CosP4A7384",
+            "CosP5A51472",
+            "CosP5A51437",
+        ] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ macros::vector_type(dim=dim, type="I2F30") }} {{ name }}() => new {{ macros::vector_type(dim=dim, type="I2F30") }}(
+            X.{{ name }}(),
+            Y.{{ name }}(){% if dim > 2 %},
+            Z.{{ name }}(){% if dim > 3 %},
+            W.{{ name }}(){% endif %}{% endif %});
+
+        {%- endfor %}
+        {%- endif %}
+
     }
 } {%- if unity %}
 
