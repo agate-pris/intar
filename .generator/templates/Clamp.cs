@@ -19,7 +19,6 @@
         }
 {%- endmacro -%}
 
-using AgatePris.Intar.Numerics;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -27,14 +26,6 @@ namespace AgatePris.Intar {
     public static partial class Mathi {
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}
-{%- endfor %}
-
-{% for end in [32, 64] %}
-{% for s in [true, false] %}
-{% for i in range(start=2, end=end) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ macros::fixed_type(s=s, i=i, f=end-i) }} Clamp(this {{ macros::fixed_type(s=s, i=i, f=end-i) }} x, {{ macros::fixed_type(s=s, i=i, f=end-i) }} min, {{ macros::fixed_type(s=s, i=i, f=end-i) }} max) => {{ macros::fixed_type(s=s, i=i, f=end-i) }}.FromBits(Clamp(x.Bits, min.Bits, max.Bits));
-{%- endfor %}
-{%- endfor %}
 {%- endfor %}
 
     }
