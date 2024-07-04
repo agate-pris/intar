@@ -296,5 +296,33 @@ namespace AgatePris.Intar.Numerics {
             {{ self_type }} min, {{ self_type }} max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        {%- if int_nbits + frac_nbits <= 32 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
+            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+            result = FromBits(bits);
+            return b;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }}? CheckedAdd({{ self_type }} other) {
+            {{ self_type }}? @null = null;
+            return OverflowingAdd(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        {%- if signed %}
+        public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) {
+            return CheckedAdd(other) ?? ((Bits < 0) && (other.Bits < 0)
+                ? MinValue
+                : MaxValue);
+        }
+        {%- else %}
+        public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) {
+            return CheckedAdd(other) ?? MaxValue;
+        }
+        {%- endif %}
+
+        {%- endif %}
+
     }
 }

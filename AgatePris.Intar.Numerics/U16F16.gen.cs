@@ -404,5 +404,21 @@ namespace AgatePris.Intar.Numerics {
             U16F16 min, U16F16 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool OverflowingAdd(U16F16 other, out U16F16 result) {
+            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+            result = FromBits(bits);
+            return b;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U16F16? CheckedAdd(U16F16 other) {
+            U16F16? @null = null;
+            return OverflowingAdd(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U16F16 SaturatingAdd(U16F16 other) {
+            return CheckedAdd(other) ?? MaxValue;
+        }
+
     }
 }
