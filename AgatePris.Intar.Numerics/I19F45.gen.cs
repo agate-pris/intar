@@ -380,6 +380,8 @@ namespace AgatePris.Intar.Numerics {
 
         public readonly I19F45 Half() => FromBits(Mathi.Half(Bits));
 
+        public readonly I19F45 Twice() => FromBits(Mathi.Twice(Bits));
+
         public readonly I19F45 Clamp(
             I19F45 min, I19F45 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));

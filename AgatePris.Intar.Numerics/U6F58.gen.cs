@@ -363,6 +363,8 @@ namespace AgatePris.Intar.Numerics {
 
         public readonly U6F58 Half() => FromBits(Mathi.Half(Bits));
 
+        public readonly U6F58 Twice() => FromBits(Mathi.Twice(Bits));
+
         public readonly U6F58 Clamp(
             U6F58 min, U6F58 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));

@@ -290,6 +290,8 @@ namespace AgatePris.Intar.Numerics {
 
         public readonly {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
 
+        public readonly {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
+
         public readonly {{ self_type }} Clamp(
             {{ self_type }} min, {{ self_type }} max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
