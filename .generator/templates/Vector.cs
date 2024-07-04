@@ -239,6 +239,12 @@ namespace AgatePris.Intar.Numerics {
             Z.Half(){% if dim > 3 %},
             W.Half(){% endif %}{% endif %});
 
+        public readonly {{ self_type }} Twice() => new {{ self_type }}(
+            X.Twice(),
+            Y.Twice(){% if dim > 2 %},
+            Z.Twice(){% if dim > 3 %},
+            W.Twice(){% endif %}{% endif %});
+
     }
 } {%- if unity %}
 

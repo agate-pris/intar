@@ -173,5 +173,9 @@ namespace AgatePris.Intar.Numerics {
             X.Half(),
             Y.Half());
 
+        public readonly Vector2U3F29 Twice() => new Vector2U3F29(
+            X.Twice(),
+            Y.Twice());
+
     }
 }

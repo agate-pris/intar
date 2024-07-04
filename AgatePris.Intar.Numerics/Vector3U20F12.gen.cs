@@ -285,5 +285,10 @@ namespace AgatePris.Intar.Numerics {
             Y.Half(),
             Z.Half());
 
+        public readonly Vector3U20F12 Twice() => new Vector3U20F12(
+            X.Twice(),
+            Y.Twice(),
+            Z.Twice());
+
     }
 }
