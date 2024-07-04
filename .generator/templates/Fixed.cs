@@ -1,10 +1,7 @@
 {% import "macros.cs" as macros %}
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
 {%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
-
-{%- macro self_wide_bits_type() %}
-    {{- macros::wide_bits_type(s=signed, i=int_nbits, f=frac_nbits) }}
-{%- endmacro -%}
+{%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
 
 {%- macro one_literal(t) %}
     {%- if t == "int"     -%}1
@@ -168,13 +165,13 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
-            {{ self::self_wide_bits_type() }} l = left.Bits;
+            {{ self_wide_bits_type }} l = left.Bits;
             return FromBits(({{ self_bits_type }})(l * right.Bits / oneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator /({{ self_type }} left, {{ self_type }} right) {
-            {{ self::self_wide_bits_type() }} l = left.Bits;
+            {{ self_wide_bits_type }} l = left.Bits;
             return FromBits(({{ self_bits_type }})(l * oneRepr / right.Bits));
         }
 
@@ -228,7 +225,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
             {{- self_bits_type }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
-                {{- self::self_wide_bits_type() -}}
+                {{- self_wide_bits_type -}}
             )Bits * other);
 {%- for i in range(start = 1, end = 31) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})Bits * other.Bits);
