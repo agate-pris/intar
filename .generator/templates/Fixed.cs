@@ -77,7 +77,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
+    public partial struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
         // Consts
         // ------
 

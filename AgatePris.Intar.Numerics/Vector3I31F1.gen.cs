@@ -315,4 +315,9 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other));
 
     }
+
+    partial struct I31F1 {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I31F1 SaturatingMul(Vector3I31F1 other) => other.SaturatingMul(this);
+    }
 }

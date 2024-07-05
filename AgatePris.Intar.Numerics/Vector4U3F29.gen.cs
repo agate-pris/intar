@@ -568,4 +568,9 @@ namespace AgatePris.Intar.Numerics {
             W.SaturatingMul(other));
 
     }
+
+    partial struct U3F29 {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector4U3F29 SaturatingMul(Vector4U3F29 other) => other.SaturatingMul(this);
+    }
 }

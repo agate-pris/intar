@@ -300,6 +300,11 @@ namespace AgatePris.Intar.Numerics {
         {%- endif %}
 
     }
+
+    partial struct {{ type }} {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} SaturatingMul({{ self_type }} other) => other.SaturatingMul(this);
+    }
 } {%- if unity %}
 
 #endif{% endif %}

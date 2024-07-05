@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public struct I9F23 : IEquatable<I9F23>, IFormattable {
+    public partial struct I9F23 : IEquatable<I9F23>, IFormattable {
         // Consts
         // ------
 

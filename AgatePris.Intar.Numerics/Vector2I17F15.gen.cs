@@ -258,4 +258,9 @@ namespace AgatePris.Intar.Numerics {
             Y.CosP5A51437());
 
     }
+
+    partial struct I17F15 {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I17F15 SaturatingMul(Vector2I17F15 other) => other.SaturatingMul(this);
+    }
 }
