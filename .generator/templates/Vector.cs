@@ -259,6 +259,13 @@ namespace AgatePris.Intar.Numerics {
             Z.Clamp(min.Z, max.Z){% if dim > 3 %},
             W.Clamp(min.W, max.W){% endif %}{% endif %});
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
+            X.SaturatingAdd(other.X),
+            Y.SaturatingAdd(other.Y){% if dim > 2 %},
+            Z.SaturatingAdd(other.Z){% if dim > 3 %},
+            W.SaturatingAdd(other.W){% endif %}{% endif %});
+
         {%- if type == "I17F15" %}
         {%- for name in [
             "SinP2",
