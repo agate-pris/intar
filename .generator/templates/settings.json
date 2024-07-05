@@ -70,6 +70,15 @@
         },
         {
             "dir_path": "AgatePris.Intar.Numerics",
+            "template_name": "Matrix.cs",
+            "files": [
+                {%- for i in range(start = 2, end = 32) %}
+                { "file_name": "MatrixI{{ i }}F{{ 32 - i }}.gen.cs", "params": { "self_fixed_type": "I{{ i }}F{{ 32 - i }}" } }{% if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "Vector.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
