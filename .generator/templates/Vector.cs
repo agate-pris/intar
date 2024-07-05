@@ -206,7 +206,7 @@ namespace AgatePris.Intar.Numerics {
         public override readonly int GetHashCode() => HashCode.Combine(X, Y{% if dim > 2 %}, Z{% endif %}{% if dim > 3 %}, W{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"{{ self_type }}({X}, {Y}{% if dim > 2 %}, {Z}{% endif %}{% if dim > 3 %}, {W}{% endif %})";
+        public override readonly string ToString() => $"<{X}, {Y}{% if dim > 2 %}, {Z}{% if dim > 3 %}, {W}{% endif %}{% endif %}>";
 
         // IEquatable<{{ self_type }}>
         // ---------------------------------------
@@ -227,7 +227,7 @@ namespace AgatePris.Intar.Numerics {
             var y = Y.ToString(format, formatProvider);{% if dim > 2 %}
             var z = Z.ToString(format, formatProvider);{% if dim > 3 %}
             var w = W.ToString(format, formatProvider);{% endif %}{% endif %}
-            return $"{{ self_type }}({x}, {y}{% if dim > 2 %}, {z}{% endif %}{% if dim > 3 %}, {w}{% endif %})";
+            return $"<{x}, {y}{% if dim > 2 %}, {z}{% if dim > 3 %}, {w}{% endif %}{% endif %}>";
         }
 
         // Methods

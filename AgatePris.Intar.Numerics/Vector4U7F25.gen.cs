@@ -500,7 +500,7 @@ namespace AgatePris.Intar.Numerics {
         public override readonly int GetHashCode() => HashCode.Combine(X, Y, Z, W);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"Vector4U7F25({X}, {Y}, {Z}, {W})";
+        public override readonly string ToString() => $"<{X}, {Y}, {Z}, {W}>";
 
         // IEquatable<Vector4U7F25>
         // ---------------------------------------
@@ -521,7 +521,7 @@ namespace AgatePris.Intar.Numerics {
             var y = Y.ToString(format, formatProvider);
             var z = Z.ToString(format, formatProvider);
             var w = W.ToString(format, formatProvider);
-            return $"Vector4U7F25({x}, {y}, {z}, {w})";
+            return $"<{x}, {y}, {z}, {w}>";
         }
 
         // Methods

@@ -255,7 +255,7 @@ namespace AgatePris.Intar.Numerics {
         public override readonly int GetHashCode() => HashCode.Combine(X, Y, Z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"Vector3I29F3({X}, {Y}, {Z})";
+        public override readonly string ToString() => $"<{X}, {Y}, {Z}>";
 
         // IEquatable<Vector3I29F3>
         // ---------------------------------------
@@ -274,7 +274,7 @@ namespace AgatePris.Intar.Numerics {
             var x = X.ToString(format, formatProvider);
             var y = Y.ToString(format, formatProvider);
             var z = Z.ToString(format, formatProvider);
-            return $"Vector3I29F3({x}, {y}, {z})";
+            return $"<{x}, {y}, {z}>";
         }
 
         // Methods

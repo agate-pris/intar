@@ -146,7 +146,7 @@ namespace AgatePris.Intar.Numerics {
         public override readonly int GetHashCode() => HashCode.Combine(X, Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"Vector2U16F16({X}, {Y})";
+        public override readonly string ToString() => $"<{X}, {Y}>";
 
         // IEquatable<Vector2U16F16>
         // ---------------------------------------
@@ -163,7 +163,7 @@ namespace AgatePris.Intar.Numerics {
         public readonly string ToString(string format, IFormatProvider formatProvider) {
             var x = X.ToString(format, formatProvider);
             var y = Y.ToString(format, formatProvider);
-            return $"Vector2U16F16({x}, {y})";
+            return $"<{x}, {y}>";
         }
 
         // Methods
