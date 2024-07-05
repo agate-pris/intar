@@ -308,5 +308,11 @@ namespace AgatePris.Intar.Numerics {
             Y.SaturatingAdd(other.Y),
             Z.SaturatingAdd(other.Z));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3U9F23 SaturatingMul(U9F23 other) => new Vector3U9F23(
+            X.SaturatingMul(other),
+            Y.SaturatingMul(other),
+            Z.SaturatingMul(other));
+
     }
 }

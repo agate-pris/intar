@@ -192,5 +192,10 @@ namespace AgatePris.Intar.Numerics {
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I26F6 SaturatingMul(I26F6 other) => new Vector2I26F6(
+            X.SaturatingMul(other),
+            Y.SaturatingMul(other));
+
     }
 }
