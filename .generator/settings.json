@@ -45,6 +45,13 @@
         },
         {
             "dir_path": "AgatePris.Intar.Numerics",
+            "template_name": "Generator.cs",
+            "files": [
+                { "file_name": "Generator.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "Fixed.cs",
             "files": [
                 { "file_name": "I2F30.gen.cs", "params": { "signed": true, "int_nbits": 2, "frac_nbits": 30 } },

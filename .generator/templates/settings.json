@@ -45,6 +45,13 @@
         },
         {
             "dir_path": "AgatePris.Intar.Numerics",
+            "template_name": "Generator.cs",
+            "files": [
+                { "file_name": "Generator.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "Fixed.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
