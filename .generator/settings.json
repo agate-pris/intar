@@ -50,6 +50,19 @@
         },
         {
             "dir_path": "AgatePris.Intar.Numerics",
+            "template_name": "Matrix.cs",
+            "files": [
+                {%- for i in range(start = 2, end = 31) %}
+                { "file_name": "Matrix3x3I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "self_fixed_type": "I{{ i }}F{{ 32 - i }}", "row":3, "column":3 } },
+                {%- endfor %}
+                {%- for i in range(start = 2, end = 31) %}
+                { "file_name": "Matrix4x4I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "self_fixed_type": "I{{ i }}F{{ 32 - i }}", "row":4, "column":4 } }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "Quaternion.cs",
             "files": [
                 { "file_name": "QuaternionI17F15.gen.cs", "params": {} }
