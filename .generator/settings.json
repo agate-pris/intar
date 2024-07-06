@@ -50,6 +50,13 @@
         },
         {
             "dir_path": "AgatePris.Intar.Numerics",
+            "template_name": "Quaternion.cs",
+            "files": [
+                { "file_name": "QuaternionI17F15.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar.Numerics",
             "template_name": "Vector.cs",
             "files": [
                 {%- for i in range(start = 2, end = 31) %}
