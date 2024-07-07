@@ -270,6 +270,15 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other){% if dim > 3 %},
             W.SaturatingMul(other){% endif %}{% endif %});
 
+        {%- if dim == 3 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} Cross({{ self_type }} other) {
+            return (this * other.YZX - this.YZX * other).YZX;
+        }
+
+        {%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_component_type }} Dot({{ self_type }} other) {
             return
