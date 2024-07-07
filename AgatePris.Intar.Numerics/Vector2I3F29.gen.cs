@@ -198,19 +198,19 @@ namespace AgatePris.Intar.Numerics {
             Y.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I8F56 WideningDot(Vector2I3F29 other) {
-            var x = X.WideningMul(other.X);
-            var y = Y.WideningMul(other.Y);
+        public readonly I3F29 Dot(Vector2I3F29 other) {
+            var x = ((long)X.Bits) * other.X.Bits;
+            var y = ((long)Y.Bits) * other.Y.Bits;
 
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
             var bits =
-                (x.Bits / 4) +
-                (y.Bits / 4);
-            return I8F56.FromBits(bits);
+                (x / 4) +
+                (y / 4);
+
+            const long k = 1L << 27;
+            return I3F29.FromBits((int)(bits / k));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I3F29 Dot(Vector2I3F29 other) => (I3F29)WideningDot(other);
 
     }
 

@@ -301,23 +301,27 @@ namespace AgatePris.Intar.Numerics {
         {%- if frac_nbits > 1 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} WideningDot({{ self_type }} other) {
-            var x = X.WideningMul(other.X);
-            var y = Y.WideningMul(other.Y);{% if dim > 2 %}
-            var z = Z.WideningMul(other.Z);{% if dim > 3 %}
-            var w = W.WideningMul(other.W);{% endif %}{% endif %}
+        public readonly {{ self_component_type }} Dot({{ self_type }} other) {
+            var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
+            var y = (({{ self_wide_bits_type }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
+            var z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
+            var w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
 
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
             var bits =
-                (x.Bits / 4) +
-                (y.Bits / 4){% if dim > 2 %} +
-                (z.Bits / 4){% if dim > 3 %} +
-                (w.Bits / 4){% endif %}{% endif %};
-            return {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }}.FromBits(bits);
+                (x / 4) +
+                (y / 4){% if dim > 2 %} +
+                (z / 4){% if dim > 3 %} +
+                (w / 4){% endif %}{% endif %};
+
+            const {{ self_wide_bits_type }} k =
+            {%- if self_wide_bits_type == "long" %} 1L
+            {%- elif self_wide_bits_type == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            {%- endif %} << {{ frac_nbits - 2 }};
+            return {{ self_component_type }}.FromBits(({{ self_bits_type }})(bits / k));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} Dot({{ self_type }} other) => ({{ self_component_type }})WideningDot(other);
 
         {%- endif %}
 

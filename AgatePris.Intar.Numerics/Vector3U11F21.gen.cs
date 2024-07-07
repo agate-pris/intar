@@ -333,21 +333,21 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U24F40 WideningDot(Vector3U11F21 other) {
-            var x = X.WideningMul(other.X);
-            var y = Y.WideningMul(other.Y);
-            var z = Z.WideningMul(other.Z);
+        public readonly U11F21 Dot(Vector3U11F21 other) {
+            var x = ((ulong)X.Bits) * other.X.Bits;
+            var y = ((ulong)Y.Bits) * other.Y.Bits;
+            var z = ((ulong)Z.Bits) * other.Z.Bits;
 
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
             var bits =
-                (x.Bits / 4) +
-                (y.Bits / 4) +
-                (z.Bits / 4);
-            return U24F40.FromBits(bits);
+                (x / 4) +
+                (y / 4) +
+                (z / 4);
+
+            const ulong k = 1UL << 19;
+            return U11F21.FromBits((uint)(bits / k));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U11F21 Dot(Vector3U11F21 other) => (U11F21)WideningDot(other);
 
     }
 
