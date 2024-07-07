@@ -279,14 +279,26 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
+        {%- if frac_nbits > 1 %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} Dot({{ self_type }} other) {
-            return
-                X * other.X +
-                Y * other.Y{% if dim > 2 %} +
-                Z * other.Z{% if dim > 3 %} +
-                W * other.W{% endif %}{% endif %};
+        public readonly {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} Dot({{ self_type }} other) {
+            var x = X.WideningMul(other.X);
+            var y = Y.WideningMul(other.Y);{% if dim > 2 %}
+            var z = Z.WideningMul(other.Z);{% if dim > 3 %}
+            var w = W.WideningMul(other.W);{% endif %}{% endif %}
+
+            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
+            // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
+            var bits =
+                (x.Bits / 4) +
+                (y.Bits / 4){% if dim > 2 %} +
+                (z.Bits / 4){% if dim > 3 %} +
+                (w.Bits / 4){% endif %}{% endif %};
+            return {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }}.FromBits(bits);
         }
+
+        {%- endif %}
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [

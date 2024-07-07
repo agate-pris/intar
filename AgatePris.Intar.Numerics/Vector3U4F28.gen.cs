@@ -320,11 +320,18 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U4F28 Dot(Vector3U4F28 other) {
-            return
-                X * other.X +
-                Y * other.Y +
-                Z * other.Z;
+        public readonly U10F54 Dot(Vector3U4F28 other) {
+            var x = X.WideningMul(other.X);
+            var y = Y.WideningMul(other.Y);
+            var z = Z.WideningMul(other.Z);
+
+            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
+            // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
+            var bits =
+                (x.Bits / 4) +
+                (y.Bits / 4) +
+                (z.Bits / 4);
+            return U10F54.FromBits(bits);
         }
 
     }
