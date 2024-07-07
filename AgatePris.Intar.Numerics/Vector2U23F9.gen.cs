@@ -197,6 +197,13 @@ namespace AgatePris.Intar.Numerics {
             X.SaturatingMul(other),
             Y.SaturatingMul(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U23F9 Dot(Vector2U23F9 other) {
+            return
+                X * other.X +
+                Y * other.Y;
+        }
+
     }
 
     partial struct U23F9 {

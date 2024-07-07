@@ -197,6 +197,13 @@ namespace AgatePris.Intar.Numerics {
             X.SaturatingMul(other),
             Y.SaturatingMul(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I2F30 Dot(Vector2I2F30 other) {
+            return
+                X * other.X +
+                Y * other.Y;
+        }
+
     }
 
     partial struct I2F30 {

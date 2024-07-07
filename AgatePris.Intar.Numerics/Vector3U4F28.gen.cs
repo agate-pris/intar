@@ -314,6 +314,14 @@ namespace AgatePris.Intar.Numerics {
             Y.SaturatingMul(other),
             Z.SaturatingMul(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U4F28 Dot(Vector3U4F28 other) {
+            return
+                X * other.X +
+                Y * other.Y +
+                Z * other.Z;
+        }
+
     }
 
     partial struct U4F28 {

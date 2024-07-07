@@ -273,6 +273,15 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other){% if dim > 3 %},
             W.SaturatingMul(other){% endif %}{% endif %});
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ type }} Dot({{ self_type }} other) {
+            return
+                X * other.X +
+                Y * other.Y{% if dim > 2 %} +
+                Z * other.Z{% if dim > 3 %} +
+                W * other.W{% endif %}{% endif %};
+        }
+
         {%- if type == "I17F15" %}
         {%- for name in [
             "SinP2",

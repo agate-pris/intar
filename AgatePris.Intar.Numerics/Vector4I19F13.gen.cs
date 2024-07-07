@@ -567,6 +567,15 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other),
             W.SaturatingMul(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I19F13 Dot(Vector4I19F13 other) {
+            return
+                X * other.X +
+                Y * other.Y +
+                Z * other.Z +
+                W * other.W;
+        }
+
     }
 
     partial struct I19F13 {
