@@ -316,7 +316,20 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I9F23 Cross(Vector3I9F23 other) {
-            return ((this * other.YZX) - (YZX * other)).YZX;
+            const long k = 1L << 23;
+            var ax = (long)X.Bits;
+            var ay = (long)Y.Bits;
+            var az = (long)Z.Bits;
+            var bx = (long)other.X.Bits;
+            var by = (long)other.Y.Bits;
+            var bz = (long)other.Z.Bits;
+            var x = (ay * bz) - (az * by);
+            var y = (az * bx) - (ax * bz);
+            var z = (ax * by) - (ay * bx);
+            return new Vector3I9F23(
+                I9F23.FromBits((int)(x / k)),
+                I9F23.FromBits((int)(y / k)),
+                I9F23.FromBits((int)(z / k)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

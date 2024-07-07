@@ -29,6 +29,8 @@
         {%- endfor %}
 {%- endmacro -%}
 
+{%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
+{%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
 {%- set self_component_type = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) %}
 
@@ -274,7 +276,24 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} Cross({{ self_type }} other) {
-            return ((this * other.YZX) - (YZX * other)).YZX;
+            const {{ self_wide_bits_type }} k =
+            {%- if self_wide_bits_type == "long" %} 1L
+            {%- elif self_wide_bits_type == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            {%- endif %} << {{ frac_nbits }};
+            var ax = ({{ self_wide_bits_type }})X.Bits;
+            var ay = ({{ self_wide_bits_type }})Y.Bits;
+            var az = ({{ self_wide_bits_type }})Z.Bits;
+            var bx = ({{ self_wide_bits_type }})other.X.Bits;
+            var by = ({{ self_wide_bits_type }})other.Y.Bits;
+            var bz = ({{ self_wide_bits_type }})other.Z.Bits;
+            var x = (ay * bz) - (az * by);
+            var y = (az * bx) - (ax * bz);
+            var z = (ax * by) - (ay * bx);
+            return new {{ self_type }}(
+                {{ self_component_type }}.FromBits(({{ self_bits_type}})(x / k)),
+                {{ self_component_type }}.FromBits(({{ self_bits_type}})(y / k)),
+                {{ self_component_type }}.FromBits(({{ self_bits_type}})(z / k)));
         }
 
         {%- endif %}
