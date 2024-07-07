@@ -316,7 +316,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3U14F18 Cross(Vector3U14F18 other) {
-            return (this * other.YZX - this.YZX * other).YZX;
+            return ((this * other.YZX) - (YZX * other)).YZX;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
