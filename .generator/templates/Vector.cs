@@ -184,10 +184,6 @@ namespace AgatePris.Intar.Numerics {
             a / b.Z{% if dim > 3 %},
             a / b.W{% endif %}{% endif %});
 
-        // Swizzling Properties
-        // ---------------------------------------
-{{ self::swizzling() }}
-
         // Comparison Operators
         // ---------------------------------------
 
@@ -196,6 +192,10 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => !(lhs == rhs);
+
+        // Swizzling Properties
+        // ---------------------------------------
+{{ self::swizzling() }}
 
         // Object
         // ---------------------------------------

@@ -142,6 +142,15 @@ namespace AgatePris.Intar.Numerics {
             a / b.Z,
             a / b.W);
 
+        // Comparison Operators
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Vector4I4F28 lhs, Vector4I4F28 rhs) => lhs.Equals(rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Vector4I4F28 lhs, Vector4I4F28 rhs) => !(lhs == rhs);
+
         // Swizzling Properties
         // ---------------------------------------
 
@@ -481,15 +490,6 @@ namespace AgatePris.Intar.Numerics {
         public readonly Vector4I4F28 WWWY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I4F28(W, W, W, Y); }
         public readonly Vector4I4F28 WWWZ { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I4F28(W, W, W, Z); }
         public readonly Vector4I4F28 WWWW { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I4F28(W, W, W, W); }
-
-        // Comparison Operators
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector4I4F28 lhs, Vector4I4F28 rhs) => lhs.Equals(rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector4I4F28 lhs, Vector4I4F28 rhs) => !(lhs == rhs);
 
         // Object
         // ---------------------------------------
