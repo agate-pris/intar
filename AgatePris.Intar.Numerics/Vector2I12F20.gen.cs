@@ -198,7 +198,7 @@ namespace AgatePris.Intar.Numerics {
             Y.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I26F38 Dot(Vector2I12F20 other) {
+        public readonly I26F38 WideningDot(Vector2I12F20 other) {
             var x = X.WideningMul(other.X);
             var y = Y.WideningMul(other.Y);
 
@@ -209,6 +209,8 @@ namespace AgatePris.Intar.Numerics {
                 (y.Bits / 4);
             return I26F38.FromBits(bits);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I12F20 Dot(Vector2I12F20 other) => (I12F20)WideningDot(other);
 
     }
 

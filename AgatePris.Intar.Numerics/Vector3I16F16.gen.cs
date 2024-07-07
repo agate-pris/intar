@@ -320,7 +320,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I34F30 Dot(Vector3I16F16 other) {
+        public readonly I34F30 WideningDot(Vector3I16F16 other) {
             var x = X.WideningMul(other.X);
             var y = Y.WideningMul(other.Y);
             var z = Z.WideningMul(other.Z);
@@ -333,6 +333,8 @@ namespace AgatePris.Intar.Numerics {
                 (z.Bits / 4);
             return I34F30.FromBits(bits);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I16F16 Dot(Vector3I16F16 other) => (I16F16)WideningDot(other);
 
     }
 

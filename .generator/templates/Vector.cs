@@ -282,7 +282,7 @@ namespace AgatePris.Intar.Numerics {
         {%- if frac_nbits > 1 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} Dot({{ self_type }} other) {
+        public readonly {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} WideningDot({{ self_type }} other) {
             var x = X.WideningMul(other.X);
             var y = Y.WideningMul(other.Y);{% if dim > 2 %}
             var z = Z.WideningMul(other.Z);{% if dim > 3 %}
@@ -297,6 +297,12 @@ namespace AgatePris.Intar.Numerics {
                 (w.Bits / 4){% endif %}{% endif %};
             return {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }}.FromBits(bits);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_component_type }} Dot({{ self_type }} other) => ({{ self_component_type }})WideningDot(other);
+
+        {%- endif %}
+
+        {%- if dim == 2 %}
 
         {%- endif %}
 

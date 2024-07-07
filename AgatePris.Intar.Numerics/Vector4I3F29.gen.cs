@@ -568,7 +568,7 @@ namespace AgatePris.Intar.Numerics {
             W.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I8F56 Dot(Vector4I3F29 other) {
+        public readonly I8F56 WideningDot(Vector4I3F29 other) {
             var x = X.WideningMul(other.X);
             var y = Y.WideningMul(other.Y);
             var z = Z.WideningMul(other.Z);
@@ -583,6 +583,8 @@ namespace AgatePris.Intar.Numerics {
                 (w.Bits / 4);
             return I8F56.FromBits(bits);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I3F29 Dot(Vector4I3F29 other) => (I3F29)WideningDot(other);
 
     }
 
