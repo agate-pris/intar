@@ -315,6 +315,11 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I17F15 Cross(Vector3I17F15 other) {
+            return (this * other.YZX - this.YZX * other).YZX;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I17F15 Dot(Vector3I17F15 other) {
             return
                 X * other.X +
