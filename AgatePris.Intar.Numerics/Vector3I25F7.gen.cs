@@ -383,6 +383,18 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I25F7 Dot(Vector3I25F7 other) => I25F7.FromBits((int)DotInternal(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I25F7 SaturatingDot(Vector3I25F7 other) {
+            var bits = DotInternal(other);
+            if (bits > int.MaxValue) {
+                return I25F7.MaxValue;
+            } else if (bits < int.MinValue) {
+                return I25F7.MinValue;
+            } else {
+                return I25F7.FromBits((int)bits);
+            }
+        }
+
     }
 
     partial struct I25F7 {

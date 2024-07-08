@@ -590,6 +590,16 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U22F10 Dot(Vector4U22F10 other) => U22F10.FromBits((uint)DotInternal(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U22F10 SaturatingDot(Vector4U22F10 other) {
+            var bits = DotInternal(other);
+            if (bits > uint.MaxValue) {
+                return U22F10.MaxValue;
+            } else {
+                return U22F10.FromBits((uint)bits);
+            }
+        }
+
     }
 
     partial struct U22F10 {

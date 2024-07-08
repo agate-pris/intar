@@ -335,6 +335,16 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U26F6 Dot(Vector3U26F6 other) => U26F6.FromBits((uint)DotInternal(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U26F6 SaturatingDot(Vector3U26F6 other) {
+            var bits = DotInternal(other);
+            if (bits > uint.MaxValue) {
+                return U26F6.MaxValue;
+            } else {
+                return U26F6.FromBits((uint)bits);
+            }
+        }
+
     }
 
     partial struct U26F6 {

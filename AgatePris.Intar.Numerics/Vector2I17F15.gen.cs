@@ -217,6 +217,18 @@ namespace AgatePris.Intar.Numerics {
         public readonly I17F15 Dot(Vector2I17F15 other) => I17F15.FromBits((int)DotInternal(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I17F15 SaturatingDot(Vector2I17F15 other) {
+            var bits = DotInternal(other);
+            if (bits > int.MaxValue) {
+                return I17F15.MaxValue;
+            } else if (bits < int.MinValue) {
+                return I17F15.MinValue;
+            } else {
+                return I17F15.FromBits((int)bits);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector2I2F30 SinP2() => new Vector2I2F30(
             X.SinP2(),
             Y.SinP2());

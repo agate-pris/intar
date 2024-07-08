@@ -590,6 +590,18 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I16F16 Dot(Vector4I16F16 other) => I16F16.FromBits((int)DotInternal(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I16F16 SaturatingDot(Vector4I16F16 other) {
+            var bits = DotInternal(other);
+            if (bits > int.MaxValue) {
+                return I16F16.MaxValue;
+            } else if (bits < int.MinValue) {
+                return I16F16.MinValue;
+            } else {
+                return I16F16.FromBits((int)bits);
+            }
+        }
+
     }
 
     partial struct I16F16 {

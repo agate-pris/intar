@@ -347,6 +347,20 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_component_type }} Dot({{ self_type }} other) => {{ self_component_type }}.FromBits(({{ self_bits_type }})DotInternal(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_component_type }} SaturatingDot({{ self_type }} other) {
+            var bits = DotInternal(other);
+            if (bits > {{ self_bits_type }}.MaxValue) {
+                return {{ self_component_type }}.MaxValue;
+            {%- if signed %}
+            } else if (bits < {{ self_bits_type }}.MinValue) {
+                return {{ self_component_type }}.MinValue;
+            {%- endif %}
+            } else {
+                return {{ self_component_type }}.FromBits(({{ self_bits_type }})bits);
+            }
+        }
+
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
             "SinP2",

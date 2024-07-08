@@ -590,6 +590,18 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I8F24 Dot(Vector4I8F24 other) => I8F24.FromBits((int)DotInternal(other));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I8F24 SaturatingDot(Vector4I8F24 other) {
+            var bits = DotInternal(other);
+            if (bits > int.MaxValue) {
+                return I8F24.MaxValue;
+            } else if (bits < int.MinValue) {
+                return I8F24.MinValue;
+            } else {
+                return I8F24.FromBits((int)bits);
+            }
+        }
+
     }
 
     partial struct I8F24 {
