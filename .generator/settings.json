@@ -331,9 +331,6 @@
                 { "file_name": "Vector2I30F2.gen.cs", "params": { "dim": 2, "signed": true, "int_nbits": 30, "frac_nbits": 2, "fixed": true } },
                 { "file_name": "Vector3I30F2.gen.cs", "params": { "dim": 3, "signed": true, "int_nbits": 30, "frac_nbits": 2, "fixed": true } },
                 { "file_name": "Vector4I30F2.gen.cs", "params": { "dim": 4, "signed": true, "int_nbits": 30, "frac_nbits": 2, "fixed": true } },
-                { "file_name": "Vector2I31F1.gen.cs", "params": { "dim": 2, "signed": true, "int_nbits": 31, "frac_nbits": 1, "fixed": true } },
-                { "file_name": "Vector3I31F1.gen.cs", "params": { "dim": 3, "signed": true, "int_nbits": 31, "frac_nbits": 1, "fixed": true } },
-                { "file_name": "Vector4I31F1.gen.cs", "params": { "dim": 4, "signed": true, "int_nbits": 31, "frac_nbits": 1, "fixed": true } },
                 { "file_name": "Vector2U2F30.gen.cs", "params": { "dim": 2, "signed": false, "int_nbits": 2, "frac_nbits": 30, "fixed": true } },
                 { "file_name": "Vector3U2F30.gen.cs", "params": { "dim": 3, "signed": false, "int_nbits": 2, "frac_nbits": 30, "fixed": true } },
                 { "file_name": "Vector4U2F30.gen.cs", "params": { "dim": 4, "signed": false, "int_nbits": 2, "frac_nbits": 30, "fixed": true } },
@@ -420,10 +417,7 @@
                 { "file_name": "Vector4U29F3.gen.cs", "params": { "dim": 4, "signed": false, "int_nbits": 29, "frac_nbits": 3, "fixed": true } },
                 { "file_name": "Vector2U30F2.gen.cs", "params": { "dim": 2, "signed": false, "int_nbits": 30, "frac_nbits": 2, "fixed": true } },
                 { "file_name": "Vector3U30F2.gen.cs", "params": { "dim": 3, "signed": false, "int_nbits": 30, "frac_nbits": 2, "fixed": true } },
-                { "file_name": "Vector4U30F2.gen.cs", "params": { "dim": 4, "signed": false, "int_nbits": 30, "frac_nbits": 2, "fixed": true } },
-                { "file_name": "Vector2U31F1.gen.cs", "params": { "dim": 2, "signed": false, "int_nbits": 31, "frac_nbits": 1, "fixed": true } },
-                { "file_name": "Vector3U31F1.gen.cs", "params": { "dim": 3, "signed": false, "int_nbits": 31, "frac_nbits": 1, "fixed": true } },
-                { "file_name": "Vector4U31F1.gen.cs", "params": { "dim": 4, "signed": false, "int_nbits": 31, "frac_nbits": 1, "fixed": true } }
+                { "file_name": "Vector4U30F2.gen.cs", "params": { "dim": 4, "signed": false, "int_nbits": 30, "frac_nbits": 2, "fixed": true } }
             ]
         }
     ]
