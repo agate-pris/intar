@@ -372,6 +372,22 @@ namespace AgatePris.Intar.Numerics {
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        readonly {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
+
+        /// <summary>
+        /// ベクトルの長さの 2 乗を返します｡
+        /// </summary>
+        /// <remarks>
+        /// オーバーフローを防ぐため､ 計算の過程で 4 で除算しています｡
+        /// そのため､ 精度が犠牲になっています｡
+        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} LengthSquared() {
+            return {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }}.FromBits(LengthSquaredInternal());
+        }
+
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
             "SinP2",

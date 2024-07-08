@@ -400,6 +400,22 @@ namespace AgatePris.Intar.Numerics {
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        readonly long LengthSquaredInternal() => DotInternal(this);
+
+        /// <summary>
+        /// ベクトルの長さの 2 乗を返します｡
+        /// </summary>
+        /// <remarks>
+        /// オーバーフローを防ぐため､ 計算の過程で 4 で除算しています｡
+        /// そのため､ 精度が犠牲になっています｡
+        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I54F10 LengthSquared() {
+            return I54F10.FromBits(LengthSquaredInternal());
+        }
+
     }
 
     partial struct I26F6 {
