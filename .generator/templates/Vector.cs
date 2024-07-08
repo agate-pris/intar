@@ -275,25 +275,31 @@ namespace AgatePris.Intar.Numerics {
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Cross({{ self_type }} other) {
-            const {{ self_wide_bits_type }} k =
-            {%- if self_wide_bits_type == "long" %} 1L
-            {%- elif self_wide_bits_type == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
-            {%- endif %} << {{ frac_nbits }};
+        public readonly void CrossInternal({{ self_type }} other, out {{ self_wide_bits_type }} x, out {{ self_wide_bits_type }} y, out {{ self_wide_bits_type }} z) {
             var ax = ({{ self_wide_bits_type }})X.Bits;
             var ay = ({{ self_wide_bits_type }})Y.Bits;
             var az = ({{ self_wide_bits_type }})Z.Bits;
             var bx = ({{ self_wide_bits_type }})other.X.Bits;
             var by = ({{ self_wide_bits_type }})other.Y.Bits;
             var bz = ({{ self_wide_bits_type }})other.Z.Bits;
-            var x = (ay * bz) - (az * by);
-            var y = (az * bx) - (ax * bz);
-            var z = (ax * by) - (ay * bx);
+
+            const {{ self_wide_bits_type }} k =
+            {%- if self_wide_bits_type == "long" %} 1L
+            {%- elif self_wide_bits_type == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            {%- endif %} << {{ frac_nbits }};
+            x = ((ay * bz) - (az * by)) / k;
+            y = ((az * bx) - (ax * bz)) / k;
+            z = ((ax * by) - (ay * bx)) / k;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} Cross({{ self_type }} other) {
+            CrossInternal(other, out var x, out var y, out var z);
             return new {{ self_type }}(
-                {{ self_component_type }}.FromBits(({{ self_bits_type}})(x / k)),
-                {{ self_component_type }}.FromBits(({{ self_bits_type}})(y / k)),
-                {{ self_component_type }}.FromBits(({{ self_bits_type}})(z / k)));
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})x),
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})y),
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})z));
         }
 
         {%- endif %}

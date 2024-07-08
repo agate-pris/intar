@@ -315,21 +315,27 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector3I21F11 Cross(Vector3I21F11 other) {
-            const long k = 1L << 11;
+        public readonly void CrossInternal(Vector3I21F11 other, out long x, out long y, out long z) {
             var ax = (long)X.Bits;
             var ay = (long)Y.Bits;
             var az = (long)Z.Bits;
             var bx = (long)other.X.Bits;
             var by = (long)other.Y.Bits;
             var bz = (long)other.Z.Bits;
-            var x = (ay * bz) - (az * by);
-            var y = (az * bx) - (ax * bz);
-            var z = (ax * by) - (ay * bx);
+
+            const long k = 1L << 11;
+            x = ((ay * bz) - (az * by)) / k;
+            y = ((az * bx) - (ax * bz)) / k;
+            z = ((ax * by) - (ay * bx)) / k;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I21F11 Cross(Vector3I21F11 other) {
+            CrossInternal(other, out var x, out var y, out var z);
             return new Vector3I21F11(
-                I21F11.FromBits((int)(x / k)),
-                I21F11.FromBits((int)(y / k)),
-                I21F11.FromBits((int)(z / k)));
+                I21F11.FromBits((int)x),
+                I21F11.FromBits((int)y),
+                I21F11.FromBits((int)z));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
