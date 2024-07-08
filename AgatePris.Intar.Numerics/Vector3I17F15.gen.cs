@@ -363,21 +363,25 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I17F15 Dot(Vector3I17F15 other) {
+        readonly long DotInternal(Vector3I17F15 other) {
             var x = ((long)X.Bits) * other.X.Bits;
             var y = ((long)Y.Bits) * other.Y.Bits;
             var z = ((long)Z.Bits) * other.Z.Bits;
 
+            // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
+            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
             var bits =
                 (x / 4) +
                 (y / 4) +
                 (z / 4);
 
             const long k = 1L << 13;
-            return I17F15.FromBits((int)(bits / k));
+            return bits / k;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I17F15 Dot(Vector3I17F15 other) => I17F15.FromBits((int)DotInternal(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I2F30 SinP2() => new Vector3I2F30(

@@ -315,21 +315,25 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U28F4 Dot(Vector3U28F4 other) {
+        readonly ulong DotInternal(Vector3U28F4 other) {
             var x = ((ulong)X.Bits) * other.X.Bits;
             var y = ((ulong)Y.Bits) * other.Y.Bits;
             var z = ((ulong)Z.Bits) * other.Z.Bits;
 
+            // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
+            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
             var bits =
                 (x / 4) +
                 (y / 4) +
                 (z / 4);
 
             const ulong k = 1UL << 2;
-            return U28F4.FromBits((uint)(bits / k));
+            return bits / k;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U28F4 Dot(Vector3U28F4 other) => U28F4.FromBits((uint)DotInternal(other));
 
     }
 

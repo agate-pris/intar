@@ -321,14 +321,15 @@ namespace AgatePris.Intar.Numerics {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} Dot({{ self_type }} other) {
+        readonly {{ self_wide_bits_type }} DotInternal({{ self_type }} other) {
             var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
             var y = (({{ self_wide_bits_type }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
             var z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
             var w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
 
+            // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算結果に合わせる｡
+            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
             var bits =
                 (x / 4) +
                 (y / 4){% if dim > 2 %} +
@@ -340,8 +341,11 @@ namespace AgatePris.Intar.Numerics {
             {%- elif self_wide_bits_type == "ulong" %} 1UL
             {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
             {%- endif %} << {{ frac_nbits - 2 }};
-            return {{ self_component_type }}.FromBits(({{ self_bits_type }})(bits / k));
+            return bits / k;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_component_type }} Dot({{ self_type }} other) => {{ self_component_type }}.FromBits(({{ self_bits_type }})DotInternal(other));
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
