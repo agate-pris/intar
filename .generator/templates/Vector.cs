@@ -298,8 +298,6 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
-        {%- if frac_nbits > 1 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_component_type }} Dot({{ self_type }} other) {
             var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
@@ -322,8 +320,6 @@ namespace AgatePris.Intar.Numerics {
             {%- endif %} << {{ frac_nbits - 2 }};
             return {{ self_component_type }}.FromBits(({{ self_bits_type }})(bits / k));
         }
-
-        {%- endif %}
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
