@@ -31,7 +31,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I28F4 Vector(I28F4 x, I28F4 y) => new Vector2I28F4(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I29F3 Vector(I29F3 x, I29F3 y) => new Vector2I29F3(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I30F2 Vector(I30F2 x, I30F2 y) => new Vector2I30F2(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2I31F1 Vector(I31F1 x, I31F1 y) => new Vector2I31F1(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U2F30 Vector(U2F30 x, U2F30 y) => new Vector2U2F30(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U3F29 Vector(U3F29 x, U3F29 y) => new Vector2U3F29(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U4F28 Vector(U4F28 x, U4F28 y) => new Vector2U4F28(x, y);
@@ -61,7 +60,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U28F4 Vector(U28F4 x, U28F4 y) => new Vector2U28F4(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U29F3 Vector(U29F3 x, U29F3 y) => new Vector2U29F3(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U30F2 Vector(U30F2 x, U30F2 y) => new Vector2U30F2(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector2U31F1 Vector(U31F1 x, U31F1 y) => new Vector2U31F1(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I2F30 Vector(I2F30 x, I2F30 y, I2F30 z) => new Vector3I2F30(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I3F29 Vector(I3F29 x, I3F29 y, I3F29 z) => new Vector3I3F29(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I4F28 Vector(I4F28 x, I4F28 y, I4F28 z) => new Vector3I4F28(x, y, z);
@@ -91,7 +89,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I28F4 Vector(I28F4 x, I28F4 y, I28F4 z) => new Vector3I28F4(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I29F3 Vector(I29F3 x, I29F3 y, I29F3 z) => new Vector3I29F3(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I30F2 Vector(I30F2 x, I30F2 y, I30F2 z) => new Vector3I30F2(x, y, z);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I31F1 Vector(I31F1 x, I31F1 y, I31F1 z) => new Vector3I31F1(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U2F30 Vector(U2F30 x, U2F30 y, U2F30 z) => new Vector3U2F30(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U3F29 Vector(U3F29 x, U3F29 y, U3F29 z) => new Vector3U3F29(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U4F28 Vector(U4F28 x, U4F28 y, U4F28 z) => new Vector3U4F28(x, y, z);
@@ -121,7 +118,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U28F4 Vector(U28F4 x, U28F4 y, U28F4 z) => new Vector3U28F4(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U29F3 Vector(U29F3 x, U29F3 y, U29F3 z) => new Vector3U29F3(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U30F2 Vector(U30F2 x, U30F2 y, U30F2 z) => new Vector3U30F2(x, y, z);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U31F1 Vector(U31F1 x, U31F1 y, U31F1 z) => new Vector3U31F1(x, y, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I2F30 Vector(I2F30 x, Vector2I2F30 yz) => new Vector3I2F30(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I3F29 Vector(I3F29 x, Vector2I3F29 yz) => new Vector3I3F29(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I4F28 Vector(I4F28 x, Vector2I4F28 yz) => new Vector3I4F28(x, yz);
@@ -151,7 +147,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I28F4 Vector(I28F4 x, Vector2I28F4 yz) => new Vector3I28F4(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I29F3 Vector(I29F3 x, Vector2I29F3 yz) => new Vector3I29F3(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I30F2 Vector(I30F2 x, Vector2I30F2 yz) => new Vector3I30F2(x, yz);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I31F1 Vector(I31F1 x, Vector2I31F1 yz) => new Vector3I31F1(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U2F30 Vector(U2F30 x, Vector2U2F30 yz) => new Vector3U2F30(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U3F29 Vector(U3F29 x, Vector2U3F29 yz) => new Vector3U3F29(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U4F28 Vector(U4F28 x, Vector2U4F28 yz) => new Vector3U4F28(x, yz);
@@ -181,7 +176,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U28F4 Vector(U28F4 x, Vector2U28F4 yz) => new Vector3U28F4(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U29F3 Vector(U29F3 x, Vector2U29F3 yz) => new Vector3U29F3(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U30F2 Vector(U30F2 x, Vector2U30F2 yz) => new Vector3U30F2(x, yz);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U31F1 Vector(U31F1 x, Vector2U31F1 yz) => new Vector3U31F1(x, yz);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I2F30 Vector(Vector2I2F30 xy, I2F30 z) => new Vector3I2F30(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I3F29 Vector(Vector2I3F29 xy, I3F29 z) => new Vector3I3F29(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I4F28 Vector(Vector2I4F28 xy, I4F28 z) => new Vector3I4F28(xy, z);
@@ -211,7 +205,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I28F4 Vector(Vector2I28F4 xy, I28F4 z) => new Vector3I28F4(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I29F3 Vector(Vector2I29F3 xy, I29F3 z) => new Vector3I29F3(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I30F2 Vector(Vector2I30F2 xy, I30F2 z) => new Vector3I30F2(xy, z);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3I31F1 Vector(Vector2I31F1 xy, I31F1 z) => new Vector3I31F1(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U2F30 Vector(Vector2U2F30 xy, U2F30 z) => new Vector3U2F30(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U3F29 Vector(Vector2U3F29 xy, U3F29 z) => new Vector3U3F29(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U4F28 Vector(Vector2U4F28 xy, U4F28 z) => new Vector3U4F28(xy, z);
@@ -241,7 +234,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U28F4 Vector(Vector2U28F4 xy, U28F4 z) => new Vector3U28F4(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U29F3 Vector(Vector2U29F3 xy, U29F3 z) => new Vector3U29F3(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U30F2 Vector(Vector2U30F2 xy, U30F2 z) => new Vector3U30F2(xy, z);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector3U31F1 Vector(Vector2U31F1 xy, U31F1 z) => new Vector3U31F1(xy, z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(I2F30 x, I2F30 y, I2F30 z, I2F30 w) => new Vector4I2F30(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(I3F29 x, I3F29 y, I3F29 z, I3F29 w) => new Vector4I3F29(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(I4F28 x, I4F28 y, I4F28 z, I4F28 w) => new Vector4I4F28(x, y, z, w);
@@ -271,7 +263,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(I28F4 x, I28F4 y, I28F4 z, I28F4 w) => new Vector4I28F4(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(I29F3 x, I29F3 y, I29F3 z, I29F3 w) => new Vector4I29F3(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(I30F2 x, I30F2 y, I30F2 z, I30F2 w) => new Vector4I30F2(x, y, z, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(I31F1 x, I31F1 y, I31F1 z, I31F1 w) => new Vector4I31F1(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(U2F30 x, U2F30 y, U2F30 z, U2F30 w) => new Vector4U2F30(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(U3F29 x, U3F29 y, U3F29 z, U3F29 w) => new Vector4U3F29(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(U4F28 x, U4F28 y, U4F28 z, U4F28 w) => new Vector4U4F28(x, y, z, w);
@@ -301,7 +292,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(U28F4 x, U28F4 y, U28F4 z, U28F4 w) => new Vector4U28F4(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(U29F3 x, U29F3 y, U29F3 z, U29F3 w) => new Vector4U29F3(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(U30F2 x, U30F2 y, U30F2 z, U30F2 w) => new Vector4U30F2(x, y, z, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(U31F1 x, U31F1 y, U31F1 z, U31F1 w) => new Vector4U31F1(x, y, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(I2F30 x, I2F30 y, Vector2I2F30 zw) => new Vector4I2F30(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(I3F29 x, I3F29 y, Vector2I3F29 zw) => new Vector4I3F29(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(I4F28 x, I4F28 y, Vector2I4F28 zw) => new Vector4I4F28(x, y, zw);
@@ -331,7 +321,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(I28F4 x, I28F4 y, Vector2I28F4 zw) => new Vector4I28F4(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(I29F3 x, I29F3 y, Vector2I29F3 zw) => new Vector4I29F3(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(I30F2 x, I30F2 y, Vector2I30F2 zw) => new Vector4I30F2(x, y, zw);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(I31F1 x, I31F1 y, Vector2I31F1 zw) => new Vector4I31F1(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(U2F30 x, U2F30 y, Vector2U2F30 zw) => new Vector4U2F30(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(U3F29 x, U3F29 y, Vector2U3F29 zw) => new Vector4U3F29(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(U4F28 x, U4F28 y, Vector2U4F28 zw) => new Vector4U4F28(x, y, zw);
@@ -361,7 +350,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(U28F4 x, U28F4 y, Vector2U28F4 zw) => new Vector4U28F4(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(U29F3 x, U29F3 y, Vector2U29F3 zw) => new Vector4U29F3(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(U30F2 x, U30F2 y, Vector2U30F2 zw) => new Vector4U30F2(x, y, zw);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(U31F1 x, U31F1 y, Vector2U31F1 zw) => new Vector4U31F1(x, y, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(I2F30 x, Vector2I2F30 yz, I2F30 w) => new Vector4I2F30(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(I3F29 x, Vector2I3F29 yz, I3F29 w) => new Vector4I3F29(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(I4F28 x, Vector2I4F28 yz, I4F28 w) => new Vector4I4F28(x, yz, w);
@@ -391,7 +379,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(I28F4 x, Vector2I28F4 yz, I28F4 w) => new Vector4I28F4(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(I29F3 x, Vector2I29F3 yz, I29F3 w) => new Vector4I29F3(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(I30F2 x, Vector2I30F2 yz, I30F2 w) => new Vector4I30F2(x, yz, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(I31F1 x, Vector2I31F1 yz, I31F1 w) => new Vector4I31F1(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(U2F30 x, Vector2U2F30 yz, U2F30 w) => new Vector4U2F30(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(U3F29 x, Vector2U3F29 yz, U3F29 w) => new Vector4U3F29(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(U4F28 x, Vector2U4F28 yz, U4F28 w) => new Vector4U4F28(x, yz, w);
@@ -421,7 +408,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(U28F4 x, Vector2U28F4 yz, U28F4 w) => new Vector4U28F4(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(U29F3 x, Vector2U29F3 yz, U29F3 w) => new Vector4U29F3(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(U30F2 x, Vector2U30F2 yz, U30F2 w) => new Vector4U30F2(x, yz, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(U31F1 x, Vector2U31F1 yz, U31F1 w) => new Vector4U31F1(x, yz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(Vector2I2F30 xy, I2F30 z, I2F30 w) => new Vector4I2F30(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(Vector2I3F29 xy, I3F29 z, I3F29 w) => new Vector4I3F29(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(Vector2I4F28 xy, I4F28 z, I4F28 w) => new Vector4I4F28(xy, z, w);
@@ -451,7 +437,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(Vector2I28F4 xy, I28F4 z, I28F4 w) => new Vector4I28F4(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(Vector2I29F3 xy, I29F3 z, I29F3 w) => new Vector4I29F3(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(Vector2I30F2 xy, I30F2 z, I30F2 w) => new Vector4I30F2(xy, z, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(Vector2I31F1 xy, I31F1 z, I31F1 w) => new Vector4I31F1(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(Vector2U2F30 xy, U2F30 z, U2F30 w) => new Vector4U2F30(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(Vector2U3F29 xy, U3F29 z, U3F29 w) => new Vector4U3F29(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(Vector2U4F28 xy, U4F28 z, U4F28 w) => new Vector4U4F28(xy, z, w);
@@ -481,7 +466,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(Vector2U28F4 xy, U28F4 z, U28F4 w) => new Vector4U28F4(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(Vector2U29F3 xy, U29F3 z, U29F3 w) => new Vector4U29F3(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(Vector2U30F2 xy, U30F2 z, U30F2 w) => new Vector4U30F2(xy, z, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(Vector2U31F1 xy, U31F1 z, U31F1 w) => new Vector4U31F1(xy, z, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(Vector2I2F30 xy, Vector2I2F30 zw) => new Vector4I2F30(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(Vector2I3F29 xy, Vector2I3F29 zw) => new Vector4I3F29(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(Vector2I4F28 xy, Vector2I4F28 zw) => new Vector4I4F28(xy, zw);
@@ -511,7 +495,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(Vector2I28F4 xy, Vector2I28F4 zw) => new Vector4I28F4(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(Vector2I29F3 xy, Vector2I29F3 zw) => new Vector4I29F3(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(Vector2I30F2 xy, Vector2I30F2 zw) => new Vector4I30F2(xy, zw);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(Vector2I31F1 xy, Vector2I31F1 zw) => new Vector4I31F1(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(Vector2U2F30 xy, Vector2U2F30 zw) => new Vector4U2F30(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(Vector2U3F29 xy, Vector2U3F29 zw) => new Vector4U3F29(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(Vector2U4F28 xy, Vector2U4F28 zw) => new Vector4U4F28(xy, zw);
@@ -541,7 +524,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(Vector2U28F4 xy, Vector2U28F4 zw) => new Vector4U28F4(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(Vector2U29F3 xy, Vector2U29F3 zw) => new Vector4U29F3(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(Vector2U30F2 xy, Vector2U30F2 zw) => new Vector4U30F2(xy, zw);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(Vector2U31F1 xy, Vector2U31F1 zw) => new Vector4U31F1(xy, zw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(I2F30 x, Vector3I2F30 yzw) => new Vector4I2F30(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(I3F29 x, Vector3I3F29 yzw) => new Vector4I3F29(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(I4F28 x, Vector3I4F28 yzw) => new Vector4I4F28(x, yzw);
@@ -571,7 +553,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(I28F4 x, Vector3I28F4 yzw) => new Vector4I28F4(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(I29F3 x, Vector3I29F3 yzw) => new Vector4I29F3(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(I30F2 x, Vector3I30F2 yzw) => new Vector4I30F2(x, yzw);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(I31F1 x, Vector3I31F1 yzw) => new Vector4I31F1(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(U2F30 x, Vector3U2F30 yzw) => new Vector4U2F30(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(U3F29 x, Vector3U3F29 yzw) => new Vector4U3F29(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(U4F28 x, Vector3U4F28 yzw) => new Vector4U4F28(x, yzw);
@@ -601,7 +582,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(U28F4 x, Vector3U28F4 yzw) => new Vector4U28F4(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(U29F3 x, Vector3U29F3 yzw) => new Vector4U29F3(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(U30F2 x, Vector3U30F2 yzw) => new Vector4U30F2(x, yzw);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(U31F1 x, Vector3U31F1 yzw) => new Vector4U31F1(x, yzw);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I2F30 Vector(Vector3I2F30 xyz, I2F30 w) => new Vector4I2F30(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I3F29 Vector(Vector3I3F29 xyz, I3F29 w) => new Vector4I3F29(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I4F28 Vector(Vector3I4F28 xyz, I4F28 w) => new Vector4I4F28(xyz, w);
@@ -631,7 +611,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I28F4 Vector(Vector3I28F4 xyz, I28F4 w) => new Vector4I28F4(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I29F3 Vector(Vector3I29F3 xyz, I29F3 w) => new Vector4I29F3(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I30F2 Vector(Vector3I30F2 xyz, I30F2 w) => new Vector4I30F2(xyz, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4I31F1 Vector(Vector3I31F1 xyz, I31F1 w) => new Vector4I31F1(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U2F30 Vector(Vector3U2F30 xyz, U2F30 w) => new Vector4U2F30(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U3F29 Vector(Vector3U3F29 xyz, U3F29 w) => new Vector4U3F29(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U4F28 Vector(Vector3U4F28 xyz, U4F28 w) => new Vector4U4F28(xyz, w);
@@ -661,6 +640,5 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U28F4 Vector(Vector3U28F4 xyz, U28F4 w) => new Vector4U28F4(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U29F3 Vector(Vector3U29F3 xyz, U29F3 w) => new Vector4U29F3(xyz, w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U30F2 Vector(Vector3U30F2 xyz, U30F2 w) => new Vector4U30F2(xyz, w);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static Vector4U31F1 Vector(Vector3U31F1 xyz, U31F1 w) => new Vector4U31F1(xyz, w);
     }
 }
