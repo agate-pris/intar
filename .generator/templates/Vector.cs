@@ -330,26 +330,31 @@ namespace AgatePris.Intar.Numerics {
             // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            var bits =
+            return
                 (x / 4) +
                 (y / 4){% if dim > 2 %} +
                 (z / 4){% if dim > 3 %} +
                 (w / 4){% endif %}{% endif %};
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_component_type }} Dot({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
             {%- if self_wide_bits_type == "long" %} 1L
             {%- elif self_wide_bits_type == "ulong" %} 1UL
             {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
             {%- endif %} << {{ frac_nbits - 2 }};
-            return bits / k;
+            return {{ self_component_type }}.FromBits(({{ self_bits_type }})(DotInternal(other) / k));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} Dot({{ self_type }} other) => {{ self_component_type }}.FromBits(({{ self_bits_type }})DotInternal(other));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_component_type }} SaturatingDot({{ self_type }} other) {
-            var bits = DotInternal(other);
+            const {{ self_wide_bits_type }} k =
+            {%- if self_wide_bits_type == "long" %} 1L
+            {%- elif self_wide_bits_type == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            {%- endif %} << {{ frac_nbits - 2 }};
+            var bits = DotInternal(other) / k;
             if (bits > {{ self_bits_type }}.MaxValue) {
                 return {{ self_component_type }}.MaxValue;
             {%- if signed %}

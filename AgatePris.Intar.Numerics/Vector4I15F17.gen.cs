@@ -577,22 +577,23 @@ namespace AgatePris.Intar.Numerics {
             // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            var bits =
+            return
                 (x / 4) +
                 (y / 4) +
                 (z / 4) +
                 (w / 4);
-
-            const long k = 1L << 15;
-            return bits / k;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I15F17 Dot(Vector4I15F17 other) => I15F17.FromBits((int)DotInternal(other));
+        public readonly I15F17 Dot(Vector4I15F17 other) {
+            const long k = 1L << 15;
+            return I15F17.FromBits((int)(DotInternal(other) / k));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I15F17 SaturatingDot(Vector4I15F17 other) {
-            var bits = DotInternal(other);
+            const long k = 1L << 15;
+            var bits = DotInternal(other) / k;
             if (bits > int.MaxValue) {
                 return I15F17.MaxValue;
             } else if (bits < int.MinValue) {

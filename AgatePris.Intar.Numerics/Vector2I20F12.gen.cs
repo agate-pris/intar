@@ -205,20 +205,21 @@ namespace AgatePris.Intar.Numerics {
             // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            var bits =
+            return
                 (x / 4) +
                 (y / 4);
-
-            const long k = 1L << 10;
-            return bits / k;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I20F12 Dot(Vector2I20F12 other) => I20F12.FromBits((int)DotInternal(other));
+        public readonly I20F12 Dot(Vector2I20F12 other) {
+            const long k = 1L << 10;
+            return I20F12.FromBits((int)(DotInternal(other) / k));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I20F12 SaturatingDot(Vector2I20F12 other) {
-            var bits = DotInternal(other);
+            const long k = 1L << 10;
+            var bits = DotInternal(other) / k;
             if (bits > int.MaxValue) {
                 return I20F12.MaxValue;
             } else if (bits < int.MinValue) {

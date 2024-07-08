@@ -205,20 +205,21 @@ namespace AgatePris.Intar.Numerics {
             // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            var bits =
+            return
                 (x / 4) +
                 (y / 4);
-
-            const ulong k = 1UL << 19;
-            return bits / k;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U11F21 Dot(Vector2U11F21 other) => U11F21.FromBits((uint)DotInternal(other));
+        public readonly U11F21 Dot(Vector2U11F21 other) {
+            const ulong k = 1UL << 19;
+            return U11F21.FromBits((uint)(DotInternal(other) / k));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U11F21 SaturatingDot(Vector2U11F21 other) {
-            var bits = DotInternal(other);
+            const ulong k = 1UL << 19;
+            var bits = DotInternal(other) / k;
             if (bits > uint.MaxValue) {
                 return U11F21.MaxValue;
             } else {
