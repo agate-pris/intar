@@ -325,10 +325,6 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
-        {%- if dim == 2 %}
-
-        {%- endif %}
-
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
             "SinP2",
