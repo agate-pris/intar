@@ -283,29 +283,35 @@ namespace AgatePris.Intar.Numerics {
             var by = ({{ self_wide_bits_type }})other.Y.Bits;
             var bz = ({{ self_wide_bits_type }})other.Z.Bits;
 
+            x = (ay * bz) - (az * by);
+            y = (az * bx) - (ax * bz);
+            z = (ax * by) - (ay * bx);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} Cross({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
             {%- if self_wide_bits_type == "long" %} 1L
             {%- elif self_wide_bits_type == "ulong" %} 1UL
             {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
             {%- endif %} << {{ frac_nbits }};
-            x = ((ay * bz) - (az * by)) / k;
-            y = ((az * bx) - (ax * bz)) / k;
-            z = ((ax * by) - (ay * bx)) / k;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Cross({{ self_type }} other) {
             CrossInternal(other, out var x, out var y, out var z);
             return new {{ self_type }}(
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})x),
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})y),
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})z));
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})(x / k)),
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})(y / k)),
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})(z / k)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} SaturatingCross({{ self_type }} other) {
+            const {{ self_wide_bits_type }} k =
+            {%- if self_wide_bits_type == "long" %} 1L
+            {%- elif self_wide_bits_type == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            {%- endif %} << {{ frac_nbits }};
             CrossInternal(other, out var x, out var y, out var z);
             {%- for component in ["x", "y", "z"] %}
+            {{ component }} /= k;
             if ({{ component }} > {{ self_bits_type }}.MaxValue) {
                 {{ component }} = {{ self_bits_type }}.MaxValue;
             } else if ({{ component }} < {{ self_bits_type }}.MinValue) {

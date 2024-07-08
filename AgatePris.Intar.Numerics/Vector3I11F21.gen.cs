@@ -323,34 +323,38 @@ namespace AgatePris.Intar.Numerics {
             var by = (long)other.Y.Bits;
             var bz = (long)other.Z.Bits;
 
-            const long k = 1L << 21;
-            x = ((ay * bz) - (az * by)) / k;
-            y = ((az * bx) - (ax * bz)) / k;
-            z = ((ax * by) - (ay * bx)) / k;
+            x = (ay * bz) - (az * by);
+            y = (az * bx) - (ax * bz);
+            z = (ax * by) - (ay * bx);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I11F21 Cross(Vector3I11F21 other) {
+            const long k = 1L << 21;
             CrossInternal(other, out var x, out var y, out var z);
             return new Vector3I11F21(
-                I11F21.FromBits((int)x),
-                I11F21.FromBits((int)y),
-                I11F21.FromBits((int)z));
+                I11F21.FromBits((int)(x / k)),
+                I11F21.FromBits((int)(y / k)),
+                I11F21.FromBits((int)(z / k)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I11F21 SaturatingCross(Vector3I11F21 other) {
+            const long k = 1L << 21;
             CrossInternal(other, out var x, out var y, out var z);
+            x /= k;
             if (x > int.MaxValue) {
                 x = int.MaxValue;
             } else if (x < int.MinValue) {
                 x = int.MinValue;
             }
+            y /= k;
             if (y > int.MaxValue) {
                 y = int.MaxValue;
             } else if (y < int.MinValue) {
                 y = int.MinValue;
             }
+            z /= k;
             if (z > int.MaxValue) {
                 z = int.MaxValue;
             } else if (z < int.MinValue) {
