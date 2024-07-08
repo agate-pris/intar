@@ -302,6 +302,22 @@ namespace AgatePris.Intar.Numerics {
                 {{ self_component_type }}.FromBits(({{ self_bits_type }})z));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_type }} SaturatingCross({{ self_type }} other) {
+            CrossInternal(other, out var x, out var y, out var z);
+            {%- for component in ["x", "y", "z"] %}
+            if ({{ component }} > {{ self_bits_type }}.MaxValue) {
+                {{ component }} = {{ self_bits_type }}.MaxValue;
+            } else if ({{ component }} < {{ self_bits_type }}.MinValue) {
+                {{ component }} = {{ self_bits_type }}.MinValue;
+            }
+            {%- endfor %}
+            return new {{ self_type }}(
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})x),
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})y),
+                {{ self_component_type }}.FromBits(({{ self_bits_type }})z));
+        }
+
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

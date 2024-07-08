@@ -339,6 +339,30 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I9F23 SaturatingCross(Vector3I9F23 other) {
+            CrossInternal(other, out var x, out var y, out var z);
+            if (x > int.MaxValue) {
+                x = int.MaxValue;
+            } else if (x < int.MinValue) {
+                x = int.MinValue;
+            }
+            if (y > int.MaxValue) {
+                y = int.MaxValue;
+            } else if (y < int.MinValue) {
+                y = int.MinValue;
+            }
+            if (z > int.MaxValue) {
+                z = int.MaxValue;
+            } else if (z < int.MinValue) {
+                z = int.MinValue;
+            }
+            return new Vector3I9F23(
+                I9F23.FromBits((int)x),
+                I9F23.FromBits((int)y),
+                I9F23.FromBits((int)z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I9F23 Dot(Vector3I9F23 other) {
             var x = ((long)X.Bits) * other.X.Bits;
             var y = ((long)Y.Bits) * other.Y.Bits;
