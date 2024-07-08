@@ -315,24 +315,6 @@ namespace AgatePris.Intar.Numerics {
             Z.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector3U30F2 Cross(Vector3U30F2 other) {
-            const ulong k = 1UL << 2;
-            var ax = (ulong)X.Bits;
-            var ay = (ulong)Y.Bits;
-            var az = (ulong)Z.Bits;
-            var bx = (ulong)other.X.Bits;
-            var by = (ulong)other.Y.Bits;
-            var bz = (ulong)other.Z.Bits;
-            var x = (ay * bz) - (az * by);
-            var y = (az * bx) - (ax * bz);
-            var z = (ax * by) - (ay * bx);
-            return new Vector3U30F2(
-                U30F2.FromBits((uint)(x / k)),
-                U30F2.FromBits((uint)(y / k)),
-                U30F2.FromBits((uint)(z / k)));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U30F2 Dot(Vector3U30F2 other) {
             var x = ((ulong)X.Bits) * other.X.Bits;
             var y = ((ulong)Y.Bits) * other.Y.Bits;
