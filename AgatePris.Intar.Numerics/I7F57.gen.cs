@@ -374,5 +374,10 @@ namespace AgatePris.Intar.Numerics {
             I7F57 min, I7F57 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U7F57 UnsignedAbs() {
+            return U7F57.FromBits(Overflowing.UnsignedAbs(Bits));
+        }
+
     }
 }

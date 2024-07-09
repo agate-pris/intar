@@ -417,6 +417,11 @@ namespace AgatePris.Intar.Numerics {
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U24F8 UnsignedAbs() {
+            return U24F8.FromBits(Overflowing.UnsignedAbs(Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool OverflowingAdd(I24F8 other, out I24F8 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);

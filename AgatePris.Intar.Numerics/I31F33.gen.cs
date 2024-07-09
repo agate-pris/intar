@@ -398,5 +398,10 @@ namespace AgatePris.Intar.Numerics {
             I31F33 min, I31F33 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U31F33 UnsignedAbs() {
+            return U31F33.FromBits(Overflowing.UnsignedAbs(Bits));
+        }
+
     }
 }

@@ -296,6 +296,15 @@ namespace AgatePris.Intar.Numerics {
             {{ self_type }} min, {{ self_type }} max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        {%- if signed %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} UnsignedAbs() {
+            return {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }}.FromBits(Overflowing.UnsignedAbs(Bits));
+        }
+
+        {%- endif %}
+
         {%- if int_nbits + frac_nbits <= 32 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
