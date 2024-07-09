@@ -5,7 +5,7 @@ using System;
 namespace AgatePris.Intar.Tests.Numerics {
     public class VectorTest {
         [Test]
-        public void TestLengthSquared() {
+        public static void TestLengthSquared() {
             {
                 var v = Generator.Vector(
                     I17F15.FromNum(1),
