@@ -123,5 +123,29 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
             }
         }
+
+        [Test]
+        public static void TestLength() {
+            {
+                var v = Generator.Vector(
+                    I17F15.FromNum(6),
+                    I17F15.FromNum(8));
+                {
+                    var actual = v.Length();
+                    var expected = I18F14.FromNum(10);
+                    if (expected != actual) {
+                        Assert.Fail($"expected: {expected} actual: {actual}");
+                    }
+                }
+                {
+                    var actual = v.LengthHalf();
+                    var expected = I17F15.FromNum(5);
+                    if (expected != actual)
+                    {
+                        Assert.Fail($"expected: {expected} actual: {actual}");
+                    }
+                }
+            }
+        }
     }
 }
