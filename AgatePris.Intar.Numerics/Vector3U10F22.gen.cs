@@ -362,6 +362,17 @@ namespace AgatePris.Intar.Numerics {
             return U22F42.FromBits(LengthSquaredInternal());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        readonly uint LengthInternal() {
+            return (uint)Mathi.Sqrt(LengthSquaredInternal());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U10F22 LengthHalf() => U10F22.FromBits(LengthInternal());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly U11F21 Length() => U11F21.FromBits(LengthInternal());
+
     }
 
     partial struct U10F22 {

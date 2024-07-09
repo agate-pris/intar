@@ -388,6 +388,22 @@ namespace AgatePris.Intar.Numerics {
             return {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }}.FromBits(LengthSquaredInternal());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        readonly {{ self_bits_type }} LengthInternal() {
+            {%- if signed %}
+            var squared = LengthSquaredInternal();
+            return ({{ self_bits_type }})Mathi.Sqrt(({{ macros::bits_type(s=false, i=2*int_nbits, f=2*frac_nbits) }})squared);
+            {%- else %}
+            return ({{ self_bits_type }})Mathi.Sqrt(LengthSquaredInternal());
+            {%- endif %}
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ self_component_type }} LengthHalf() => {{ self_component_type }}.FromBits(LengthInternal());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }} Length() => {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }}.FromBits(LengthInternal());
+
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
             "SinP2",

@@ -246,6 +246,18 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        readonly int LengthInternal() {
+            var squared = LengthSquaredInternal();
+            return (int)Mathi.Sqrt((ulong)squared);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I17F15 LengthHalf() => I17F15.FromBits(LengthInternal());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I18F14 Length() => I18F14.FromBits(LengthInternal());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector2I2F30 SinP2() => new Vector2I2F30(
             X.SinP2(),
             Y.SinP2());

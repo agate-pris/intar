@@ -416,6 +416,18 @@ namespace AgatePris.Intar.Numerics {
             return I56F8.FromBits(LengthSquaredInternal());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        readonly int LengthInternal() {
+            var squared = LengthSquaredInternal();
+            return (int)Mathi.Sqrt((ulong)squared);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I27F5 LengthHalf() => I27F5.FromBits(LengthInternal());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly I28F4 Length() => I28F4.FromBits(LengthInternal());
+
     }
 
     partial struct I27F5 {
