@@ -572,6 +572,34 @@ namespace AgatePris.Intar.Numerics {
             W.Clamp(min.W, max.W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector4U25F7 WrappingAdd(Vector4U25F7 other) => new Vector4U25F7(
+            X.WrappingAdd(other.X),
+            Y.WrappingAdd(other.Y),
+            Z.WrappingAdd(other.Z),
+            W.WrappingAdd(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector4U25F7 WrappingSub(Vector4U25F7 other) => new Vector4U25F7(
+            X.WrappingSub(other.X),
+            Y.WrappingSub(other.Y),
+            Z.WrappingSub(other.Z),
+            W.WrappingSub(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector4U25F7 WrappingMul(Vector4U25F7 other) => new Vector4U25F7(
+            X.WrappingMul(other.X),
+            Y.WrappingMul(other.Y),
+            Z.WrappingMul(other.Z),
+            W.WrappingMul(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector4U25F7 WrappingAddSigned(Vector4I25F7 other) => new Vector4U25F7(
+            X.WrappingAddSigned(other.X),
+            Y.WrappingAddSigned(other.Y),
+            Z.WrappingAddSigned(other.Z),
+            W.WrappingAddSigned(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector4U25F7 SaturatingAdd(Vector4U25F7 other) => new Vector4U25F7(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y),

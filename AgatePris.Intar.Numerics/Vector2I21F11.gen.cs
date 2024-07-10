@@ -207,6 +207,31 @@ namespace AgatePris.Intar.Numerics {
             Y.Clamp(min.Y, max.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I21F11 WrappingAdd(Vector2I21F11 other) => new Vector2I21F11(
+            X.WrappingAdd(other.X),
+            Y.WrappingAdd(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I21F11 WrappingSub(Vector2I21F11 other) => new Vector2I21F11(
+            X.WrappingSub(other.X),
+            Y.WrappingSub(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I21F11 WrappingMul(Vector2I21F11 other) => new Vector2I21F11(
+            X.WrappingMul(other.X),
+            Y.WrappingMul(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I21F11 WrappingAddUnsigned(Vector2U21F11 other) => new Vector2I21F11(
+            X.WrappingAddUnsigned(other.X),
+            Y.WrappingAddUnsigned(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2I21F11 WrappingSubUnsigned(Vector2U21F11 other) => new Vector2I21F11(
+            X.WrappingSubUnsigned(other.X),
+            Y.WrappingSubUnsigned(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector2I21F11 SaturatingAdd(Vector2I21F11 other) => new Vector2I21F11(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y));

@@ -202,6 +202,26 @@ namespace AgatePris.Intar.Numerics {
             Y.Clamp(min.Y, max.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2U6F26 WrappingAdd(Vector2U6F26 other) => new Vector2U6F26(
+            X.WrappingAdd(other.X),
+            Y.WrappingAdd(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2U6F26 WrappingSub(Vector2U6F26 other) => new Vector2U6F26(
+            X.WrappingSub(other.X),
+            Y.WrappingSub(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2U6F26 WrappingMul(Vector2U6F26 other) => new Vector2U6F26(
+            X.WrappingMul(other.X),
+            Y.WrappingMul(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2U6F26 WrappingAddSigned(Vector2I6F26 other) => new Vector2U6F26(
+            X.WrappingAddSigned(other.X),
+            Y.WrappingAddSigned(other.Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector2U6F26 SaturatingAdd(Vector2U6F26 other) => new Vector2U6F26(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y));

@@ -325,6 +325,36 @@ namespace AgatePris.Intar.Numerics {
             Z.Clamp(min.Z, max.Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I21F11 WrappingAdd(Vector3I21F11 other) => new Vector3I21F11(
+            X.WrappingAdd(other.X),
+            Y.WrappingAdd(other.Y),
+            Z.WrappingAdd(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I21F11 WrappingSub(Vector3I21F11 other) => new Vector3I21F11(
+            X.WrappingSub(other.X),
+            Y.WrappingSub(other.Y),
+            Z.WrappingSub(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I21F11 WrappingMul(Vector3I21F11 other) => new Vector3I21F11(
+            X.WrappingMul(other.X),
+            Y.WrappingMul(other.Y),
+            Z.WrappingMul(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I21F11 WrappingAddUnsigned(Vector3U21F11 other) => new Vector3I21F11(
+            X.WrappingAddUnsigned(other.X),
+            Y.WrappingAddUnsigned(other.Y),
+            Z.WrappingAddUnsigned(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3I21F11 WrappingSubUnsigned(Vector3U21F11 other) => new Vector3I21F11(
+            X.WrappingSubUnsigned(other.X),
+            Y.WrappingSubUnsigned(other.Y),
+            Z.WrappingSubUnsigned(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I21F11 SaturatingAdd(Vector3I21F11 other) => new Vector3I21F11(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y),
