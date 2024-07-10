@@ -354,6 +354,11 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U3F29 Twice() => FromBits(Mathi.Twice(Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U3F29 WrappingAdd(U3F29 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U3F29 WrappingSub(U3F29 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U3F29 WrappingMul(U3F29 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U3F29 WrappingAddSigned(I3F29 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool OverflowingAdd(U3F29 other, out U3F29 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);

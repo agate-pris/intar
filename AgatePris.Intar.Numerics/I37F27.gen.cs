@@ -365,6 +365,12 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 Twice() => FromBits(Mathi.Twice(Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 WrappingAdd(I37F27 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 WrappingSub(I37F27 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 WrappingMul(I37F27 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 WrappingAddUnsigned(U37F27 other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 WrappingSubUnsigned(U37F27 other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U37F27 UnsignedAbs() {
             return U37F27.FromBits(Overflowing.UnsignedAbs(Bits));
