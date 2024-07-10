@@ -114,18 +114,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I5F59 left, I5F59 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I5F59 left, I5F59 right) => left.Bits >= right.Bits;
 
-        // Methods
-        // -------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 Min(I5F59 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 Max(I5F59 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 Abs() => FromBits(Math.Abs(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 LosslessMul(long other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I4F60 LosslessMul(I63F1 other) => I4F60.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 LosslessMul(I62F2 other) => I3F61.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 LosslessMul(I61F3 other) => I2F62.FromBits(Bits * other.Bits);
-
         // Conversion operators
         // --------------------
 
@@ -364,18 +352,27 @@ namespace AgatePris.Intar.Numerics {
         // Methods
         // ---------------------------------------
 
-        public readonly I5F59 Half() => FromBits(Mathi.Half(Bits));
-
-        public readonly I5F59 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 Min(I5F59 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 Max(I5F59 other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 Abs() => FromBits(Math.Abs(Bits));
 
         public readonly I5F59 Clamp(
             I5F59 min, I5F59 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        public readonly I5F59 Half() => FromBits(Mathi.Half(Bits));
+
+        public readonly I5F59 Twice() => FromBits(Mathi.Twice(Bits));
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U5F59 UnsignedAbs() {
             return U5F59.FromBits(Overflowing.UnsignedAbs(Bits));
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F59 LosslessMul(long other) => FromBits(Bits * other);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I4F60 LosslessMul(I63F1 other) => I4F60.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 LosslessMul(I62F2 other) => I3F61.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 LosslessMul(I61F3 other) => I2F62.FromBits(Bits * other.Bits);
 
     }
 }

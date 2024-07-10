@@ -111,14 +111,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U2F62 left, U2F62 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U2F62 left, U2F62 right) => left.Bits >= right.Bits;
 
-        // Methods
-        // -------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U2F62 Min(U2F62 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U2F62 Max(U2F62 other) => FromBits(Math.Max(Bits, other.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U2F62 LosslessMul(ulong other) => FromBits(Bits * other);
-
         // Conversion operators
         // --------------------
 
@@ -357,13 +349,18 @@ namespace AgatePris.Intar.Numerics {
         // Methods
         // ---------------------------------------
 
-        public readonly U2F62 Half() => FromBits(Mathi.Half(Bits));
-
-        public readonly U2F62 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U2F62 Min(U2F62 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U2F62 Max(U2F62 other) => FromBits(Math.Max(Bits, other.Bits));
 
         public readonly U2F62 Clamp(
             U2F62 min, U2F62 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
+        public readonly U2F62 Half() => FromBits(Mathi.Half(Bits));
+
+        public readonly U2F62 Twice() => FromBits(Mathi.Twice(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U2F62 LosslessMul(ulong other) => FromBits(Bits * other);
 
     }
 }

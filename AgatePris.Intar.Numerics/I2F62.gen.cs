@@ -114,15 +114,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I2F62 left, I2F62 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I2F62 left, I2F62 right) => left.Bits >= right.Bits;
 
-        // Methods
-        // -------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 Min(I2F62 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 Max(I2F62 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 Abs() => FromBits(Math.Abs(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 LosslessMul(long other) => FromBits(Bits * other);
-
         // Conversion operators
         // --------------------
 
@@ -361,18 +352,24 @@ namespace AgatePris.Intar.Numerics {
         // Methods
         // ---------------------------------------
 
-        public readonly I2F62 Half() => FromBits(Mathi.Half(Bits));
-
-        public readonly I2F62 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 Min(I2F62 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 Max(I2F62 other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 Abs() => FromBits(Math.Abs(Bits));
 
         public readonly I2F62 Clamp(
             I2F62 min, I2F62 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
+        public readonly I2F62 Half() => FromBits(Mathi.Half(Bits));
+
+        public readonly I2F62 Twice() => FromBits(Mathi.Twice(Bits));
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U2F62 UnsignedAbs() {
             return U2F62.FromBits(Overflowing.UnsignedAbs(Bits));
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 LosslessMul(long other) => FromBits(Bits * other);
 
     }
 }

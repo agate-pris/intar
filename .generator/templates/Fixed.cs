@@ -204,35 +204,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self_type }} left, {{ self_type }} right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=({{ self_type }} left, {{ self_type }} right) => left.Bits >= right.Bits;
 
-        // Methods
-        // -------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
-{%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
-{%- endif %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} LosslessMul(
-            {{- self_bits_type }} other) => FromBits(Bits * other);
-{%- if int_nbits != 2 %}
-{%- for i in range(start = 1, end = int_nbits - 1) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(Bits * other.Bits);
-{%- endfor %}
-{%- endif %}
-
-{%- if int_nbits + frac_nbits == 32 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
-            {{- self_bits_type }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
-                {{- self_wide_bits_type -}}
-            )Bits * other);
-{%- for i in range(start = 1, end = 31) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})Bits * other.Bits);
-{%- endfor %}
-
-{%- endif %}
-
         // Conversion operators
         // --------------------
 
@@ -288,13 +259,19 @@ namespace AgatePris.Intar.Numerics {
         // Methods
         // ---------------------------------------
 
-        public readonly {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
-
-        public readonly {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
+{%- if signed %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
+{%- endif %}
 
         public readonly {{ self_type }} Clamp(
             {{ self_type }} min, {{ self_type }} max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
+        public readonly {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
+
+        public readonly {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
 
         {%- if signed %}
 
@@ -358,6 +335,26 @@ namespace AgatePris.Intar.Numerics {
         }
 
         {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} LosslessMul(
+            {{- self_bits_type }} other) => FromBits(Bits * other);
+{%- if int_nbits != 2 %}
+{%- for i in range(start = 1, end = int_nbits - 1) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(Bits * other.Bits);
+{%- endfor %}
+{%- endif %}
+
+{%- if int_nbits + frac_nbits == 32 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
+            {{- self_bits_type }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
+                {{- self_wide_bits_type -}}
+            )Bits * other);
+{%- for i in range(start = 1, end = 31) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})Bits * other.Bits);
+{%- endfor %}
+
+{%- endif %}
 
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
