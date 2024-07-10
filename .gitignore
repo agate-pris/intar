@@ -469,3 +469,6 @@ $RECYCLE.BIN/
 /LICENSE.meta
 /package.json.meta
 /README.md.meta
+
+# Others
+.conan
