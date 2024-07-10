@@ -280,21 +280,25 @@ namespace AgatePris.Intar.Numerics {
         // Methods
         // ---------------------------------------
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I10F22 Half() => new Vector3I10F22(
             X.Half(),
             Y.Half(),
             Z.Half());
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I10F22 Twice() => new Vector3I10F22(
             X.Twice(),
             Y.Twice(),
             Z.Twice());
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I10F22 Clamp(I10F22 min, I10F22 max) => new Vector3I10F22(
             X.Clamp(min, max),
             Y.Clamp(min, max),
             Z.Clamp(min, max));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3I10F22 Clamp(
             Vector3I10F22 min, Vector3I10F22 max
         ) => new Vector3I10F22(

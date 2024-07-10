@@ -232,24 +232,28 @@ namespace AgatePris.Intar.Numerics {
         // Methods
         // ---------------------------------------
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} Half() => new {{ self_type }}(
             X.Half(),
             Y.Half(){% if dim > 2 %},
             Z.Half(){% if dim > 3 %},
             W.Half(){% endif %}{% endif %});
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} Twice() => new {{ self_type }}(
             X.Twice(),
             Y.Twice(){% if dim > 2 %},
             Z.Twice(){% if dim > 3 %},
             W.Twice(){% endif %}{% endif %});
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) => new {{ self_type }}(
             X.Clamp(min, max),
             Y.Clamp(min, max){% if dim > 2 %},
             Z.Clamp(min, max){% if dim > 3 %},
             W.Clamp(min, max){% endif %}{% endif %});
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} Clamp(
             {{ self_type }} min, {{ self_type }} max
         ) => new {{ self_type }}(
