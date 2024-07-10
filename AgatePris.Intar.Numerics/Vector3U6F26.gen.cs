@@ -281,6 +281,18 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3U6F26 Min(Vector3U6F26 other) => new Vector3U6F26(
+            X.Min(other.X),
+            Y.Min(other.Y),
+            Z.Min(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3U6F26 Max(Vector3U6F26 other) => new Vector3U6F26(
+            X.Max(other.X),
+            Y.Max(other.Y),
+            Z.Max(other.Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3U6F26 Half() => new Vector3U6F26(
             X.Half(),
             Y.Half(),
