@@ -232,6 +232,11 @@ namespace AgatePris.Intar.Numerics {
             Y.WrappingSubUnsigned(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector2U29F3 UnsignedAbs() => new Vector2U29F3(
+            X.UnsignedAbs(),
+            Y.UnsignedAbs());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector2I29F3 SaturatingAdd(Vector2I29F3 other) => new Vector2I29F3(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y));

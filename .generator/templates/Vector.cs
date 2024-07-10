@@ -333,6 +333,17 @@ namespace AgatePris.Intar.Numerics {
             W.WrappingAddSigned(other.W){% endif %}{% endif %});
         {%- endif %}
 
+        {%- if signed %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} UnsignedAbs() => new {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }}(
+            X.UnsignedAbs(),
+            Y.UnsignedAbs(){% if dim > 2 %},
+            Z.UnsignedAbs(){% if dim > 3 %},
+            W.UnsignedAbs(){% endif %}{% endif %});
+
+        {%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
             X.SaturatingAdd(other.X),
