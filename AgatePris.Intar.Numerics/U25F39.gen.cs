@@ -352,13 +352,14 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U25F39 Min(U25F39 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U25F39 Max(U25F39 other) => FromBits(Math.Max(Bits, other.Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U25F39 Clamp(
             U25F39 min, U25F39 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        public readonly U25F39 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U25F39 Half() => FromBits(Mathi.Half(Bits));
 
-        public readonly U25F39 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U25F39 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U25F39 LosslessMul(ulong other) => FromBits(Bits * other);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U24F40 LosslessMul(U63F1 other) => U24F40.FromBits(Bits * other.Bits);

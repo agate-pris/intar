@@ -345,13 +345,14 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U15F17 Min(U15F17 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U15F17 Max(U15F17 other) => FromBits(Math.Max(Bits, other.Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U15F17 Clamp(
             U15F17 min, U15F17 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        public readonly U15F17 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U15F17 Half() => FromBits(Mathi.Half(Bits));
 
-        public readonly U15F17 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly U15F17 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool OverflowingAdd(U15F17 other, out U15F17 result) {

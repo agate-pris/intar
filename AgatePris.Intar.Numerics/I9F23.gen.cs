@@ -349,13 +349,14 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Max(I9F23 other) => FromBits(Math.Max(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Abs() => FromBits(Math.Abs(Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly I9F23 Clamp(
             I9F23 min, I9F23 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        public readonly I9F23 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Half() => FromBits(Mathi.Half(Bits));
 
-        public readonly I9F23 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly U9F23 UnsignedAbs() {
