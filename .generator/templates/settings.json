@@ -9,6 +9,13 @@
             ]
         },
         {
+            "dir_path": "AgatePris.Intar/Extensions",
+            "template_name": "OverflowingExtension.cs",
+            "files": [
+                { "file_name": "OverflowingExtension.gen.cs", "params": {} }
+            ]
+        },
+        {
             "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Clamp.cs",
             "files": [
