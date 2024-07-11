@@ -1,3 +1,18 @@
+{%- macro signed_type(t) %}
+    {%- if   type == "int"     %}int
+    {%- elif type == "uint"    %}int
+    {%- elif type == "long"    %}long
+    {%- elif type == "ulong"   %}long
+    {%- elif type == "short"   %}short
+    {%- elif type == "ushort"  %}short
+    {%- elif type == "byte"    %}sbyte
+    {%- elif type == "sbyte"   %}sbyte
+    {%- elif type == "Int128"  %}Int128
+    {%- elif type == "UInt128" %}Int128
+    {%- else                   %}{{ throw(message = "invalid arguments. t: " ~ t) }}
+    {%- endif                  %}
+{%- endmacro %}
+
 {%- macro unsigned_type(t) %}
     {%- if   type == "int"     %}uint
     {%- elif type == "uint"    %}uint
