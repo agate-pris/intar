@@ -320,131 +320,131 @@ namespace AgatePris.Intar.Numerics {
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is I9F23 o && Equals(o);
+        public override bool Equals(object obj) => obj is I9F23 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => Bits.GetHashCode();
+        public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => ((double)this).ToString((IFormatProvider)null);
+        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         // IEquatable<I9F23>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(I9F23 other) => Bits == other.Bits;
+        public bool Equals(I9F23 other) => Bits == other.Bits;
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly string ToString(string format, IFormatProvider formatProvider) {
+        public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
 
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Min(I9F23 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Max(I9F23 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Abs() => FromBits(Math.Abs(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 Min(I9F23 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 Max(I9F23 other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I9F23 Clamp(
+        public I9F23 Clamp(
             I9F23 min, I9F23 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 Half() => FromBits(Mathi.Half(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 Twice() => FromBits(Mathi.Twice(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 WrappingAdd(I9F23 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 WrappingSub(I9F23 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 WrappingMul(I9F23 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 WrappingAddUnsigned(U9F23 other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 WrappingSubUnsigned(U9F23 other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 WrappingAdd(I9F23 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 WrappingSub(I9F23 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 WrappingMul(I9F23 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 WrappingAddUnsigned(U9F23 other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 WrappingSubUnsigned(U9F23 other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U9F23 UnsignedAbs() {
+        public U9F23 UnsignedAbs() {
             return U9F23.FromBits(Overflowing.UnsignedAbs(Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool OverflowingAdd(I9F23 other, out I9F23 result) {
+        public bool OverflowingAdd(I9F23 other, out I9F23 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);
             return b;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I9F23? CheckedAdd(I9F23 other) {
+        public I9F23? CheckedAdd(I9F23 other) {
             I9F23? @null = null;
             return OverflowingAdd(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I9F23 SaturatingAdd(I9F23 other) {
+        public I9F23 SaturatingAdd(I9F23 other) {
             return CheckedAdd(other) ?? ((Bits < 0) && (other.Bits < 0)
                 ? MinValue
                 : MaxValue);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool OverflowingMul(I9F23 other, out I9F23 result) {
+        public bool OverflowingMul(I9F23 other, out I9F23 result) {
             var bits = ((long)Bits) * other.Bits / oneRepr;
             result = FromBits(unchecked((int)bits));
             return bits < int.MinValue || bits > int.MaxValue;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I9F23? CheckedMul(I9F23 other) {
+        public I9F23? CheckedMul(I9F23 other) {
             I9F23? @null = null;
             return OverflowingMul(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I9F23 SaturatingMul(I9F23 other) {
+        public I9F23 SaturatingMul(I9F23 other) {
             return CheckedMul(other) ?? (((Bits < 0) == (other.Bits < 0))
                 ? MaxValue
                 : MinValue);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I9F23 LosslessMul(int other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I8F24 LosslessMul(I31F1 other) => I8F24.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I7F25 LosslessMul(I30F2 other) => I7F25.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I6F26 LosslessMul(I29F3 other) => I6F26.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I5F27 LosslessMul(I28F4 other) => I5F27.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I4F28 LosslessMul(I27F5 other) => I4F28.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F29 LosslessMul(I26F6 other) => I3F29.FromBits(Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F30 LosslessMul(I25F7 other) => I2F30.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I9F23 LosslessMul(int other) => FromBits(Bits * other);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F24 LosslessMul(I31F1 other) => I8F24.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I7F25 LosslessMul(I30F2 other) => I7F25.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I6F26 LosslessMul(I29F3 other) => I6F26.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I5F27 LosslessMul(I28F4 other) => I5F27.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F28 LosslessMul(I27F5 other) => I4F28.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F29 LosslessMul(I26F6 other) => I3F29.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 LosslessMul(I25F7 other) => I2F30.FromBits(Bits * other.Bits);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I41F23 WideningMul(int other) => I41F23.FromBits((long)Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I40F24 WideningMul(I31F1 other) => I40F24.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I39F25 WideningMul(I30F2 other) => I39F25.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I38F26 WideningMul(I29F3 other) => I38F26.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I37F27 WideningMul(I28F4 other) => I37F27.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I36F28 WideningMul(I27F5 other) => I36F28.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I35F29 WideningMul(I26F6 other) => I35F29.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I34F30 WideningMul(I25F7 other) => I34F30.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I33F31 WideningMul(I24F8 other) => I33F31.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I32F32 WideningMul(I23F9 other) => I32F32.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I31F33 WideningMul(I22F10 other) => I31F33.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I30F34 WideningMul(I21F11 other) => I30F34.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I29F35 WideningMul(I20F12 other) => I29F35.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I28F36 WideningMul(I19F13 other) => I28F36.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I27F37 WideningMul(I18F14 other) => I27F37.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I26F38 WideningMul(I17F15 other) => I26F38.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I25F39 WideningMul(I16F16 other) => I25F39.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I24F40 WideningMul(I15F17 other) => I24F40.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I23F41 WideningMul(I14F18 other) => I23F41.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I22F42 WideningMul(I13F19 other) => I22F42.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I21F43 WideningMul(I12F20 other) => I21F43.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I20F44 WideningMul(I11F21 other) => I20F44.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I19F45 WideningMul(I10F22 other) => I19F45.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I18F46 WideningMul(I9F23 other) => I18F46.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I17F47 WideningMul(I8F24 other) => I17F47.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I16F48 WideningMul(I7F25 other) => I16F48.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I15F49 WideningMul(I6F26 other) => I15F49.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I14F50 WideningMul(I5F27 other) => I14F50.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I13F51 WideningMul(I4F28 other) => I13F51.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I12F52 WideningMul(I3F29 other) => I12F52.FromBits((long)Bits * other.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I11F53 WideningMul(I2F30 other) => I11F53.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I41F23 WideningMul(int other) => I41F23.FromBits((long)Bits * other);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I40F24 WideningMul(I31F1 other) => I40F24.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I39F25 WideningMul(I30F2 other) => I39F25.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I38F26 WideningMul(I29F3 other) => I38F26.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I37F27 WideningMul(I28F4 other) => I37F27.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I36F28 WideningMul(I27F5 other) => I36F28.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I35F29 WideningMul(I26F6 other) => I35F29.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 WideningMul(I25F7 other) => I34F30.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 WideningMul(I24F8 other) => I33F31.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I32F32 WideningMul(I23F9 other) => I32F32.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I31F33 WideningMul(I22F10 other) => I31F33.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I30F34 WideningMul(I21F11 other) => I30F34.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I29F35 WideningMul(I20F12 other) => I29F35.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I28F36 WideningMul(I19F13 other) => I28F36.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I27F37 WideningMul(I18F14 other) => I27F37.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I26F38 WideningMul(I17F15 other) => I26F38.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I25F39 WideningMul(I16F16 other) => I25F39.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I24F40 WideningMul(I15F17 other) => I24F40.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I23F41 WideningMul(I14F18 other) => I23F41.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I22F42 WideningMul(I13F19 other) => I22F42.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I21F43 WideningMul(I12F20 other) => I21F43.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I20F44 WideningMul(I11F21 other) => I20F44.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I19F45 WideningMul(I10F22 other) => I19F45.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I18F46 WideningMul(I9F23 other) => I18F46.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I17F47 WideningMul(I8F24 other) => I17F47.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I16F48 WideningMul(I7F25 other) => I16F48.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I15F49 WideningMul(I6F26 other) => I15F49.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I14F50 WideningMul(I5F27 other) => I14F50.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I13F51 WideningMul(I4F28 other) => I13F51.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I12F52 WideningMul(I3F29 other) => I12F52.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I11F53 WideningMul(I2F30 other) => I11F53.FromBits((long)Bits * other.Bits);
 
     }
 }

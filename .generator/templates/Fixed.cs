@@ -234,61 +234,61 @@ namespace AgatePris.Intar.Numerics {
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
+        public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => Bits.GetHashCode();
+        public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => ((double)this).ToString((IFormatProvider)null);
+        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         // IEquatable<{{ self_type }}>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals({{ self_type }} other) => Bits == other.Bits;
+        public bool Equals({{ self_type }} other) => Bits == other.Bits;
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly string ToString(string format, IFormatProvider formatProvider) {
+        public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
 
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
 {%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Clamp(
+        public {{ self_type }} Clamp(
             {{ self_type }} min, {{ self_type }} max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} WrappingAdd({{ self_type }} other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} WrappingSub({{ self_type }} other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} WrappingMul({{ self_type }} other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingAdd({{ self_type }} other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingSub({{ self_type }} other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingMul({{ self_type }} other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
 
         {%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} WrappingAddUnsigned({{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} WrappingSubUnsigned({{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingAddUnsigned({{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingSubUnsigned({{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
         {%- else %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} WrappingAddSigned({{ macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingAddSigned({{ macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
         {%- endif %}
 
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} UnsignedAbs() {
+        public {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} UnsignedAbs() {
             return {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }}.FromBits(Overflowing.UnsignedAbs(Bits));
         }
 
@@ -297,31 +297,31 @@ namespace AgatePris.Intar.Numerics {
         {%- if int_nbits + frac_nbits <= 32 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
+        public bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);
             return b;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }}? CheckedAdd({{ self_type }} other) {
+        public {{ self_type }}? CheckedAdd({{ self_type }} other) {
             {{ self_type }}? @null = null;
             return OverflowingAdd(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {%- if signed %}
-        public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) {
+        public {{ self_type }} SaturatingAdd({{ self_type }} other) {
             return CheckedAdd(other) ?? ((Bits < 0) && (other.Bits < 0)
                 ? MinValue
                 : MaxValue);
         }
         {%- else %}
-        public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) {
+        public {{ self_type }} SaturatingAdd({{ self_type }} other) {
             return CheckedAdd(other) ?? MaxValue;
         }
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
+        public bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
             var bits = (({{ self_wide_bits_type }})Bits) * other.Bits / oneRepr;
             result = FromBits(unchecked(({{ self_bits_type }})bits));
             {%- if signed %}
@@ -331,12 +331,12 @@ namespace AgatePris.Intar.Numerics {
             {%- endif %}
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }}? CheckedMul({{ self_type }} other) {
+        public {{ self_type }}? CheckedMul({{ self_type }} other) {
             {{ self_type }}? @null = null;
             return OverflowingMul(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} SaturatingMul({{ self_type }} other) {
+        public {{ self_type }} SaturatingMul({{ self_type }} other) {
             {%- if signed %}
             return CheckedMul(other) ?? (((Bits < 0) == (other.Bits < 0))
                 ? MaxValue
@@ -348,22 +348,22 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {{ self_type }} LosslessMul(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} LosslessMul(
             {{- self_bits_type }} other) => FromBits(Bits * other);
 {%- if int_nbits != 2 %}
 {%- for i in range(start = 1, end = int_nbits - 1) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(Bits * other.Bits);
 {%- endfor %}
 {%- endif %}
 
 {%- if int_nbits + frac_nbits == 32 %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
             {{- self_bits_type }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
                 {{- self_wide_bits_type -}}
             )Bits * other);
 {%- for i in range(start = 1, end = 31) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})Bits * other.Bits);
 {%- endfor %}
 
 {%- endif %}
@@ -392,7 +392,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>{% if sin %}正弦比{% else %}余弦比{% endif %}</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
+        public I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
 
         {%- endfor %}
         {%- endif %}
