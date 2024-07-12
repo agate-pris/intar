@@ -21,18 +21,13 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int MakeArgOdd(int x) {
                 var masked = x & RightMask;
-                var z = ToQuadrant(x) switch {
-                    Quadrant.Second => Right - masked,
-                    Quadrant.Fourth => masked - Right,
-                    Quadrant.Third => -masked,
-                    Quadrant.First => masked,
-#if NET7_0_OR_GREATER
-                    _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                    _ => throw new System.NotImplementedException(),
-#endif
-                };
-                return z;
+                switch (ToQuadrant(x)) {
+                    case Quadrant.Second: return Right - masked;
+                    case Quadrant.Fourth: return masked - Right;
+                    case Quadrant.Third: return -masked;
+                    case Quadrant.First: return masked;
+                    default: return 0;
+                }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -75,17 +70,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP2(int x) {
             var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => Sin.CosP2(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - Sin.CosP2(Sin.Right - masked),
-                Sin.Quadrant.Third => Sin.CosP2(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - Sin.CosP2(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
+            switch (Sin.ToQuadrant(x)) {
+                case Sin.Quadrant.Second: return Sin.CosP2(Sin.Right - masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP2(Sin.Right - masked);
+                case Sin.Quadrant.Third: return Sin.CosP2(masked) - Sin.One;
+                case Sin.Quadrant.First: return Sin.One - Sin.CosP2(masked);
+                default: return 0;
+            }
         }
 
         /// <summary>
@@ -166,17 +157,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP4A7032(int x) {
             var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => Sin.CosP4A7032(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - Sin.CosP4A7032(Sin.Right - masked),
-                Sin.Quadrant.Third => Sin.CosP4A7032(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - Sin.CosP4A7032(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
+            switch (Sin.ToQuadrant(x)) {
+                case Sin.Quadrant.Second: return Sin.CosP4A7032(Sin.Right - masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP4A7032(Sin.Right - masked);
+                case Sin.Quadrant.Third: return Sin.CosP4A7032(masked) - Sin.One;
+                case Sin.Quadrant.First: return Sin.One - Sin.CosP4A7032(masked);
+                default: return 0;
+            }
         }
 
         /// <summary>
@@ -215,17 +202,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP4A7384(int x) {
             var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => Sin.CosP4A7384(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - Sin.CosP4A7384(Sin.Right - masked),
-                Sin.Quadrant.Third => Sin.CosP4A7384(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - Sin.CosP4A7384(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
+            switch (Sin.ToQuadrant(x)) {
+                case Sin.Quadrant.Second: return Sin.CosP4A7384(Sin.Right - masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP4A7384(Sin.Right - masked);
+                case Sin.Quadrant.Third: return Sin.CosP4A7384(masked) - Sin.One;
+                case Sin.Quadrant.First: return Sin.One - Sin.CosP4A7384(masked);
+                default: return 0;
+            }
         }
 
         /// <summary>

@@ -11,17 +11,13 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int {{ name }}(int x) {
             var masked = x & Sin.RightMask;
-            return Sin.ToQuadrant(x) switch {
-                Sin.Quadrant.Second => {{ detail }}(Sin.Right - masked) - Sin.One,
-                Sin.Quadrant.Fourth => Sin.One - {{ detail }}(Sin.Right - masked),
-                Sin.Quadrant.Third => {{ detail }}(masked) - Sin.One,
-                Sin.Quadrant.First => Sin.One - {{ detail }}(masked),
-#if NET7_0_OR_GREATER
-                _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                _ => throw new System.NotImplementedException(),
-#endif
-            };
+            switch (Sin.ToQuadrant(x)) {
+                case Sin.Quadrant.Second: return {{ detail }}(Sin.Right - masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - {{ detail }}(Sin.Right - masked);
+                case Sin.Quadrant.Third: return {{ detail }}(masked) - Sin.One;
+                case Sin.Quadrant.First: return Sin.One - {{ detail }}(masked);
+                default: return 0;
+            }
         }
 {%- endmacro -%}
 
@@ -113,18 +109,13 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int MakeArgOdd(int x) {
                 var masked = x & RightMask;
-                var z = ToQuadrant(x) switch {
-                    Quadrant.Second => Right - masked,
-                    Quadrant.Fourth => masked - Right,
-                    Quadrant.Third => -masked,
-                    Quadrant.First => masked,
-#if NET7_0_OR_GREATER
-                    _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                    _ => throw new System.NotImplementedException(),
-#endif
-                };
-                return z;
+                switch (ToQuadrant(x)) {
+                    case Quadrant.Second: return Right - masked;
+                    case Quadrant.Fourth: return masked - Right;
+                    case Quadrant.Third: return -masked;
+                    case Quadrant.First: return masked;
+                    default: return 0;
+                }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
