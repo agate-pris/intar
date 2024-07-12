@@ -8,13 +8,13 @@
         {%- endif -%}
         {%- for x in cmp %}
         {%- for y in cmp %}
-        public readonly {{ macros::vector_type(dim=2, type=component_type) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=2, type=component_type) }}({{ x }}, {{ y }}); }
+        public {{ macros::vector_type(dim=2, type=component_type) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=2, type=component_type) }}({{ x }}, {{ y }}); }
         {%- endfor %}
         {%- endfor %}
         {%- for x in cmp %}
         {%- for y in cmp %}
         {%- for z in cmp %}
-        public readonly {{ macros::vector_type(dim=3, type=component_type) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=3, type=component_type) }}({{ x }}, {{ y }}, {{ z }}); }
+        public {{ macros::vector_type(dim=3, type=component_type) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=3, type=component_type) }}({{ x }}, {{ y }}, {{ z }}); }
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -22,7 +22,7 @@
         {%- for y in cmp %}
         {%- for z in cmp %}
         {%- for w in cmp %}
-        public readonly {{ macros::vector_type(dim=4, type=component_type) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=4, type=component_type) }}({{ x }}, {{ y }}, {{ z }}, {{ w }}); }
+        public {{ macros::vector_type(dim=4, type=component_type) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=4, type=component_type) }}({{ x }}, {{ y }}, {{ z }}, {{ w }}); }
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -199,19 +199,19 @@ namespace AgatePris.Intar.Numerics {
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
+        public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => HashCode.Combine(X, Y{% if dim > 2 %}, Z{% endif %}{% if dim > 3 %}, W{% endif %});
+        public override int GetHashCode() => HashCode.Combine(X, Y{% if dim > 2 %}, Z{% endif %}{% if dim > 3 %}, W{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"<{X}, {Y}{% if dim > 2 %}, {Z}{% if dim > 3 %}, {W}{% endif %}{% endif %}>";
+        public override string ToString() => $"<{X}, {Y}{% if dim > 2 %}, {Z}{% if dim > 3 %}, {W}{% endif %}{% endif %}>";
 
         // IEquatable<{{ self_type }}>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals({{ self_type }} other)
+        public bool Equals({{ self_type }} other)
             => other.X == X
             && other.Y == Y{% if dim > 2 %}
             && other.Z == Z{% if dim > 3 %}
@@ -221,7 +221,7 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly string ToString(string format, IFormatProvider formatProvider) {
+        public string ToString(string format, IFormatProvider formatProvider) {
             var x = X.ToString(format, formatProvider);
             var y = Y.ToString(format, formatProvider);{% if dim > 2 %}
             var z = Z.ToString(format, formatProvider);{% if dim > 3 %}
@@ -233,14 +233,14 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Min({{ self_type }} other) => new {{ self_type }}(
+        public {{ self_type }} Min({{ self_type }} other) => new {{ self_type }}(
             X.Min(other.X),
             Y.Min(other.Y){% if dim > 2 %},
             Z.Min(other.Z){% if dim > 3 %},
             W.Min(other.W){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Max({{ self_type }} other) => new {{ self_type }}(
+        public {{ self_type }} Max({{ self_type }} other) => new {{ self_type }}(
             X.Max(other.X),
             Y.Max(other.Y){% if dim > 2 %},
             Z.Max(other.Z){% if dim > 3 %},
@@ -249,7 +249,7 @@ namespace AgatePris.Intar.Numerics {
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Abs() => new {{ self_type }}(
+        public {{ self_type }} Abs() => new {{ self_type }}(
             X.Abs(),
             Y.Abs(){% if dim > 2 %},
             Z.Abs(){% if dim > 3 %},
@@ -258,28 +258,28 @@ namespace AgatePris.Intar.Numerics {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Half() => new {{ self_type }}(
+        public {{ self_type }} Half() => new {{ self_type }}(
             X.Half(),
             Y.Half(){% if dim > 2 %},
             Z.Half(){% if dim > 3 %},
             W.Half(){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Twice() => new {{ self_type }}(
+        public {{ self_type }} Twice() => new {{ self_type }}(
             X.Twice(),
             Y.Twice(){% if dim > 2 %},
             Z.Twice(){% if dim > 3 %},
             W.Twice(){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) => new {{ self_type }}(
+        public {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) => new {{ self_type }}(
             X.Clamp(min, max),
             Y.Clamp(min, max){% if dim > 2 %},
             Z.Clamp(min, max){% if dim > 3 %},
             W.Clamp(min, max){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Clamp(
+        public {{ self_type }} Clamp(
             {{ self_type }} min, {{ self_type }} max
         ) => new {{ self_type }}(
             X.Clamp(min.X, max.X),
@@ -288,21 +288,21 @@ namespace AgatePris.Intar.Numerics {
             W.Clamp(min.W, max.W){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} WrappingAdd({{ self_type }} other) => new {{ self_type }}(
+        public {{ self_type }} WrappingAdd({{ self_type }} other) => new {{ self_type }}(
             X.WrappingAdd(other.X),
             Y.WrappingAdd(other.Y){% if dim > 2 %},
             Z.WrappingAdd(other.Z){% if dim > 3 %},
             W.WrappingAdd(other.W){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} WrappingSub({{ self_type }} other) => new {{ self_type }}(
+        public {{ self_type }} WrappingSub({{ self_type }} other) => new {{ self_type }}(
             X.WrappingSub(other.X),
             Y.WrappingSub(other.Y){% if dim > 2 %},
             Z.WrappingSub(other.Z){% if dim > 3 %},
             W.WrappingSub(other.W){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} WrappingMul({{ self_type }} other) => new {{ self_type }}(
+        public {{ self_type }} WrappingMul({{ self_type }} other) => new {{ self_type }}(
             X.WrappingMul(other.X),
             Y.WrappingMul(other.Y){% if dim > 2 %},
             Z.WrappingMul(other.Z){% if dim > 3 %},
@@ -311,14 +311,14 @@ namespace AgatePris.Intar.Numerics {
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} WrappingAddUnsigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
+        public {{ self_type }} WrappingAddUnsigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
             X.WrappingAddUnsigned(other.X),
             Y.WrappingAddUnsigned(other.Y){% if dim > 2 %},
             Z.WrappingAddUnsigned(other.Z){% if dim > 3 %},
             W.WrappingAddUnsigned(other.W){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} WrappingSubUnsigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
+        public {{ self_type }} WrappingSubUnsigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
             X.WrappingSubUnsigned(other.X),
             Y.WrappingSubUnsigned(other.Y){% if dim > 2 %},
             Z.WrappingSubUnsigned(other.Z){% if dim > 3 %},
@@ -326,7 +326,7 @@ namespace AgatePris.Intar.Numerics {
         {%- else %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} WrappingAddSigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=true, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
+        public {{ self_type }} WrappingAddSigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=true, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
             X.WrappingAddSigned(other.X),
             Y.WrappingAddSigned(other.Y){% if dim > 2 %},
             Z.WrappingAddSigned(other.Z){% if dim > 3 %},
@@ -336,7 +336,7 @@ namespace AgatePris.Intar.Numerics {
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} UnsignedAbs() => new {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }}(
+        public {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} UnsignedAbs() => new {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }}(
             X.UnsignedAbs(),
             Y.UnsignedAbs(){% if dim > 2 %},
             Z.UnsignedAbs(){% if dim > 3 %},
@@ -345,14 +345,14 @@ namespace AgatePris.Intar.Numerics {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
+        public {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y){% if dim > 2 %},
             Z.SaturatingAdd(other.Z){% if dim > 3 %},
             W.SaturatingAdd(other.W){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} SaturatingMul({{ self_component_type }} other) => new {{ self_type }}(
+        public {{ self_type }} SaturatingMul({{ self_component_type }} other) => new {{ self_type }}(
             X.SaturatingMul(other),
             Y.SaturatingMul(other){% if dim > 2 %},
             Z.SaturatingMul(other){% if dim > 3 %},
@@ -361,7 +361,7 @@ namespace AgatePris.Intar.Numerics {
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly void CrossInternal({{ self_type }} other, out {{ self_wide_bits_type }} x, out {{ self_wide_bits_type }} y, out {{ self_wide_bits_type }} z) {
+        public void CrossInternal({{ self_type }} other, out {{ self_wide_bits_type }} x, out {{ self_wide_bits_type }} y, out {{ self_wide_bits_type }} z) {
             var ax = ({{ self_wide_bits_type }})X.Bits;
             var ay = ({{ self_wide_bits_type }})Y.Bits;
             var az = ({{ self_wide_bits_type }})Z.Bits;
@@ -375,7 +375,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} Cross({{ self_type }} other) {
+        public {{ self_type }} Cross({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
             {%- if self_wide_bits_type == "long" %} 1L
             {%- elif self_wide_bits_type == "ulong" %} 1UL
@@ -389,7 +389,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} SaturatingCross({{ self_type }} other) {
+        public {{ self_type }} SaturatingCross({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
             {%- if self_wide_bits_type == "long" %} 1L
             {%- elif self_wide_bits_type == "ulong" %} 1UL
@@ -413,7 +413,7 @@ namespace AgatePris.Intar.Numerics {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly {{ self_wide_bits_type }} DotInternal({{ self_type }} other) {
+        {{ self_wide_bits_type }} DotInternal({{ self_type }} other) {
             var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
             var y = (({{ self_wide_bits_type }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
             var z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
@@ -430,7 +430,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} Dot({{ self_type }} other) {
+        public {{ self_component_type }} Dot({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
             {%- if self_wide_bits_type == "long" %} 1L
             {%- elif self_wide_bits_type == "ulong" %} 1UL
@@ -440,7 +440,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} SaturatingDot({{ self_type }} other) {
+        public {{ self_component_type }} SaturatingDot({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
             {%- if self_wide_bits_type == "long" %} 1L
             {%- elif self_wide_bits_type == "ulong" %} 1UL
@@ -459,7 +459,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
+        {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
 
         /// <summary>
         /// ベクトルの長さの 2 乗を返します｡
@@ -470,12 +470,12 @@ namespace AgatePris.Intar.Numerics {
         /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} LengthSquared() {
+        public {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }} LengthSquared() {
             return {{ macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) }}.FromBits(LengthSquaredInternal());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly {{ self_bits_type }} LengthInternal() {
+        {{ self_bits_type }} LengthInternal() {
             {%- if signed %}
             var squared = LengthSquaredInternal();
             return ({{ self_bits_type }})Mathi.Sqrt(({{ macros::bits_type(s=false, i=2*int_nbits, f=2*frac_nbits) }})squared);
@@ -485,10 +485,10 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_component_type }} LengthHalf() => {{ self_component_type }}.FromBits(LengthInternal());
+        public {{ self_component_type }} LengthHalf() => {{ self_component_type }}.FromBits(LengthInternal());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }} Length() => {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }}.FromBits(LengthInternal());
+        public {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }} Length() => {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }}.FromBits(LengthInternal());
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
@@ -507,7 +507,7 @@ namespace AgatePris.Intar.Numerics {
         ] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ macros::vector_type(dim=dim, type="I2F30") }} {{ name }}() => new {{ macros::vector_type(dim=dim, type="I2F30") }}(
+        public {{ macros::vector_type(dim=dim, type="I2F30") }} {{ name }}() => new {{ macros::vector_type(dim=dim, type="I2F30") }}(
             X.{{ name }}(),
             Y.{{ name }}(){% if dim > 2 %},
             Z.{{ name }}(){% if dim > 3 %},
@@ -520,7 +520,7 @@ namespace AgatePris.Intar.Numerics {
 
     partial struct {{ self_component_type }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly {{ self_type }} SaturatingMul({{ self_type }} other) => other.SaturatingMul(this);
+        public {{ self_type }} SaturatingMul({{ self_type }} other) => other.SaturatingMul(this);
     }
 } {%- if unity %}
 
