@@ -20,7 +20,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 DataPath = dataPath;
                 AcceptableError = acceptableError;
             }
-            public override readonly string ToString() {
+            public override string ToString() {
                 return $"{DataPath}";
             }
         }
@@ -33,6 +33,15 @@ namespace AgatePris.Intar.Tests.Mathi {
             new SinCase(Intar.Mathi.SinP5A51472, Intar.Mathi.CosP5A51472, "sin_p5_51472.json", 0.000425),
             new SinCase(Intar.Mathi.SinP5A51437, Intar.Mathi.CosP5A51437, "sin_p5_51437.json", 0.000226),
         };
+
+        static double ToRad(int x) {
+            const double t = System.Math.PI / (1 << 16);
+            return x * t;
+        }
+        static double ToReal(int x) {
+            const double t = 1.0 / (1 << 30);
+            return x * t;
+        }
 
         [Test]
         public void TestSin(
@@ -61,29 +70,17 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             }
 
-            static double ToRad(int x) {
-                const double t = System.Math.PI / (1 << 16);
-                return x * t;
-            }
-            static double ToReal(int x) {
-                const double t = 1.0 / (1 << 30);
-                return x * t;
-            }
-
             void testSin(int x) {
                 var actual = sin(x);
                 {
                     var masked = x & rightMask;
-                    var expected = ((x >> rightExp) & 3) switch {
-                        0 => data[masked],
-                        1 => data[right - masked],
-                        2 => -data[masked],
-#if NET7_0_OR_GREATER
-                        3 => -data[right - masked],
-                        _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                        _ => -data[right - masked],
-#endif
+                    int expected;
+                    switch ((x >> rightExp) & 3) {
+                        case 0: expected = data[masked]; break;
+                        case 1: expected = data[right - masked]; break;
+                        case 2: expected = -data[masked]; break;
+                        case 3: expected = -data[right - masked]; break;
+                        default: Assert.Fail(); return;
                     };
                     if (expected != actual) {
                         Assert.Fail(
@@ -110,16 +107,13 @@ namespace AgatePris.Intar.Tests.Mathi {
                 var actual = cos(x);
                 {
                     var masked = x & rightMask;
-                    var expected = ((x >> rightExp) & 3) switch {
-                        0 => data[right - masked],
-                        1 => -data[masked],
-                        2 => -data[right - masked],
-#if NET7_0_OR_GREATER
-                        3 => data[masked],
-                        _ => throw new System.Diagnostics.UnreachableException(),
-#else
-                        _ => data[masked],
-#endif
+                    int expected;
+                    switch ((x >> rightExp) & 3) {
+                        case 0: expected = data[right - masked]; break;
+                        case 1: expected = -data[masked]; break;
+                        case 2: expected = -data[right - masked]; break;
+                        case 3: expected = data[masked]; break;
+                        default: Assert.Fail(); return;
                     };
                     if (expected != actual) {
                         Assert.Fail();

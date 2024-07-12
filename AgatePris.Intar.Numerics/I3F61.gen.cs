@@ -327,57 +327,57 @@ namespace AgatePris.Intar.Numerics {
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is I3F61 o && Equals(o);
+        public override bool Equals(object obj) => obj is I3F61 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => Bits.GetHashCode();
+        public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => ((double)this).ToString((IFormatProvider)null);
+        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         // IEquatable<I3F61>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(I3F61 other) => Bits == other.Bits;
+        public bool Equals(I3F61 other) => Bits == other.Bits;
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly string ToString(string format, IFormatProvider formatProvider) {
+        public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
 
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 Min(I3F61 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 Max(I3F61 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 Abs() => FromBits(Math.Abs(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 Min(I3F61 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 Max(I3F61 other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I3F61 Clamp(
+        public I3F61 Clamp(
             I3F61 min, I3F61 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 Half() => FromBits(Mathi.Half(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 Twice() => FromBits(Mathi.Twice(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 WrappingAdd(I3F61 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 WrappingSub(I3F61 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 WrappingMul(I3F61 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 WrappingAddUnsigned(U3F61 other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 WrappingSubUnsigned(U3F61 other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 WrappingAdd(I3F61 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 WrappingSub(I3F61 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 WrappingMul(I3F61 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 WrappingAddUnsigned(U3F61 other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 WrappingSubUnsigned(U3F61 other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U3F61 UnsignedAbs() {
+        public U3F61 UnsignedAbs() {
             return U3F61.FromBits(Overflowing.UnsignedAbs(Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I3F61 LosslessMul(long other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public readonly I2F62 LosslessMul(I63F1 other) => I2F62.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F61 LosslessMul(long other) => FromBits(Bits * other);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 LosslessMul(I63F1 other) => I2F62.FromBits(Bits * other.Bits);
 
     }
 }

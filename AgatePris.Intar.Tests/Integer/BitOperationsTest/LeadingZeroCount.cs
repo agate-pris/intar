@@ -24,16 +24,16 @@ namespace AgatePris.Intar.Tests.Integer {
             }
         }
 
+        static void TestLeadingZeroCount(uint x) {
+            var expected = LeadingZeroCount(x);
+            var actual = BitOperations.LeadingZeroCount(x);
+            if (expected != actual) {
+                Assert.Fail();
+            }
+        }
+
         [Test]
         public static void LeadingZeroCountTestUint() {
-            static void Test(uint x) {
-                var expected = LeadingZeroCount(x);
-                var actual = BitOperations.LeadingZeroCount(x);
-                if (expected != actual) {
-                    Assert.Fail();
-                }
-            }
-
             Assert.AreEqual(32, BitOperations.LeadingZeroCount(0U));
             Assert.AreEqual(0, BitOperations.LeadingZeroCount(uint.MaxValue));
 
@@ -42,21 +42,21 @@ namespace AgatePris.Intar.Tests.Integer {
                 var begin = uint.MaxValue * (ulong)n / (ulong)processorCount;
                 var end = uint.MaxValue * (ulong)(n + 1) / (ulong)processorCount;
                 for (var x = (uint)begin; x < (uint)end; ++x) {
-                    Test(x);
+                    TestLeadingZeroCount(x);
                 }
             });
         }
 
+        static void TestLeadingZeroCount(ulong x) {
+            var expected = LeadingZeroCount(x);
+            var actual = BitOperations.LeadingZeroCount(x);
+            if (expected != actual) {
+                Assert.Fail();
+            }
+        }
+
         [Test]
         public static void LeadingZeroCountTestUlong() {
-            static void Test(ulong x) {
-                var expected = LeadingZeroCount(x);
-                var actual = BitOperations.LeadingZeroCount(x);
-                if (expected != actual) {
-                    Assert.Fail();
-                }
-            }
-
             Assert.AreEqual(64, BitOperations.LeadingZeroCount(0UL));
             Assert.AreEqual(0, BitOperations.LeadingZeroCount(ulong.MaxValue));
 
@@ -67,7 +67,7 @@ namespace AgatePris.Intar.Tests.Integer {
                     rng.Jump();
                 }
                 for (var i = 0; i < 99999; ++i) {
-                    Test(rng.Next());
+                    TestLeadingZeroCount(rng.Next());
                 }
             });
         }

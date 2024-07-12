@@ -108,51 +108,51 @@ namespace AgatePris.Intar.Numerics {
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly Vector2U3F29 XX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(X, X); }
-        public readonly Vector2U3F29 XY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(X, Y); }
-        public readonly Vector2U3F29 YX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(Y, X); }
-        public readonly Vector2U3F29 YY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(Y, Y); }
-        public readonly Vector3U3F29 XXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, X, X); }
-        public readonly Vector3U3F29 XXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, X, Y); }
-        public readonly Vector3U3F29 XYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, Y, X); }
-        public readonly Vector3U3F29 XYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, Y, Y); }
-        public readonly Vector3U3F29 YXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, X, X); }
-        public readonly Vector3U3F29 YXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, X, Y); }
-        public readonly Vector3U3F29 YYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, Y, X); }
-        public readonly Vector3U3F29 YYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, Y, Y); }
-        public readonly Vector4U3F29 XXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, X, X); }
-        public readonly Vector4U3F29 XXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, X, Y); }
-        public readonly Vector4U3F29 XXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, Y, X); }
-        public readonly Vector4U3F29 XXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, Y, Y); }
-        public readonly Vector4U3F29 XYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, X, X); }
-        public readonly Vector4U3F29 XYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, X, Y); }
-        public readonly Vector4U3F29 XYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, Y, X); }
-        public readonly Vector4U3F29 XYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, Y, Y); }
-        public readonly Vector4U3F29 YXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, X, X); }
-        public readonly Vector4U3F29 YXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, X, Y); }
-        public readonly Vector4U3F29 YXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, Y, X); }
-        public readonly Vector4U3F29 YXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, Y, Y); }
-        public readonly Vector4U3F29 YYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, X, X); }
-        public readonly Vector4U3F29 YYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, X, Y); }
-        public readonly Vector4U3F29 YYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, Y, X); }
-        public readonly Vector4U3F29 YYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, Y, Y); }
+        public Vector2U3F29 XX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(X, X); }
+        public Vector2U3F29 XY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(X, Y); }
+        public Vector2U3F29 YX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(Y, X); }
+        public Vector2U3F29 YY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2U3F29(Y, Y); }
+        public Vector3U3F29 XXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, X, X); }
+        public Vector3U3F29 XXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, X, Y); }
+        public Vector3U3F29 XYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, Y, X); }
+        public Vector3U3F29 XYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(X, Y, Y); }
+        public Vector3U3F29 YXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, X, X); }
+        public Vector3U3F29 YXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, X, Y); }
+        public Vector3U3F29 YYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, Y, X); }
+        public Vector3U3F29 YYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3U3F29(Y, Y, Y); }
+        public Vector4U3F29 XXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, X, X); }
+        public Vector4U3F29 XXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, X, Y); }
+        public Vector4U3F29 XXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, Y, X); }
+        public Vector4U3F29 XXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, X, Y, Y); }
+        public Vector4U3F29 XYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, X, X); }
+        public Vector4U3F29 XYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, X, Y); }
+        public Vector4U3F29 XYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, Y, X); }
+        public Vector4U3F29 XYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(X, Y, Y, Y); }
+        public Vector4U3F29 YXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, X, X); }
+        public Vector4U3F29 YXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, X, Y); }
+        public Vector4U3F29 YXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, Y, X); }
+        public Vector4U3F29 YXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, X, Y, Y); }
+        public Vector4U3F29 YYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, X, X); }
+        public Vector4U3F29 YYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, X, Y); }
+        public Vector4U3F29 YYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, Y, X); }
+        public Vector4U3F29 YYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U3F29(Y, Y, Y, Y); }
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is Vector2U3F29 o && Equals(o);
+        public override bool Equals(object obj) => obj is Vector2U3F29 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => HashCode.Combine(X, Y);
+        public override int GetHashCode() => HashCode.Combine(X, Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"<{X}, {Y}>";
+        public override string ToString() => $"<{X}, {Y}>";
 
         // IEquatable<Vector2U3F29>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(Vector2U3F29 other)
+        public bool Equals(Vector2U3F29 other)
             => other.X == X
             && other.Y == Y;
 
@@ -160,7 +160,7 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly string ToString(string format, IFormatProvider formatProvider) {
+        public string ToString(string format, IFormatProvider formatProvider) {
             var x = X.ToString(format, formatProvider);
             var y = Y.ToString(format, formatProvider);
             return $"<{x}, {y}>";
@@ -170,69 +170,69 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 Min(Vector2U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 Min(Vector2U3F29 other) => new Vector2U3F29(
             X.Min(other.X),
             Y.Min(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 Max(Vector2U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 Max(Vector2U3F29 other) => new Vector2U3F29(
             X.Max(other.X),
             Y.Max(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 Half() => new Vector2U3F29(
+        public Vector2U3F29 Half() => new Vector2U3F29(
             X.Half(),
             Y.Half());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 Twice() => new Vector2U3F29(
+        public Vector2U3F29 Twice() => new Vector2U3F29(
             X.Twice(),
             Y.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 Clamp(U3F29 min, U3F29 max) => new Vector2U3F29(
+        public Vector2U3F29 Clamp(U3F29 min, U3F29 max) => new Vector2U3F29(
             X.Clamp(min, max),
             Y.Clamp(min, max));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 Clamp(
+        public Vector2U3F29 Clamp(
             Vector2U3F29 min, Vector2U3F29 max
         ) => new Vector2U3F29(
             X.Clamp(min.X, max.X),
             Y.Clamp(min.Y, max.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 WrappingAdd(Vector2U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 WrappingAdd(Vector2U3F29 other) => new Vector2U3F29(
             X.WrappingAdd(other.X),
             Y.WrappingAdd(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 WrappingSub(Vector2U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 WrappingSub(Vector2U3F29 other) => new Vector2U3F29(
             X.WrappingSub(other.X),
             Y.WrappingSub(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 WrappingMul(Vector2U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 WrappingMul(Vector2U3F29 other) => new Vector2U3F29(
             X.WrappingMul(other.X),
             Y.WrappingMul(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 WrappingAddSigned(Vector2I3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 WrappingAddSigned(Vector2I3F29 other) => new Vector2U3F29(
             X.WrappingAddSigned(other.X),
             Y.WrappingAddSigned(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 SaturatingAdd(Vector2U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 SaturatingAdd(Vector2U3F29 other) => new Vector2U3F29(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 SaturatingMul(U3F29 other) => new Vector2U3F29(
+        public Vector2U3F29 SaturatingMul(U3F29 other) => new Vector2U3F29(
             X.SaturatingMul(other),
             Y.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly ulong DotInternal(Vector2U3F29 other) {
+        ulong DotInternal(Vector2U3F29 other) {
             var x = ((ulong)X.Bits) * other.X.Bits;
             var y = ((ulong)Y.Bits) * other.Y.Bits;
 
@@ -245,13 +245,13 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U3F29 Dot(Vector2U3F29 other) {
+        public U3F29 Dot(Vector2U3F29 other) {
             const ulong k = 1UL << 27;
             return U3F29.FromBits((uint)(DotInternal(other) / k));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U3F29 SaturatingDot(Vector2U3F29 other) {
+        public U3F29 SaturatingDot(Vector2U3F29 other) {
             const ulong k = 1UL << 27;
             var bits = DotInternal(other) / k;
             if (bits > uint.MaxValue) {
@@ -262,7 +262,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly ulong LengthSquaredInternal() => DotInternal(this);
+        ulong LengthSquaredInternal() => DotInternal(this);
 
         /// <summary>
         /// ベクトルの長さの 2 乗を返します｡
@@ -273,25 +273,25 @@ namespace AgatePris.Intar.Numerics {
         /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U8F56 LengthSquared() {
+        public U8F56 LengthSquared() {
             return U8F56.FromBits(LengthSquaredInternal());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly uint LengthInternal() {
+        uint LengthInternal() {
             return (uint)Mathi.Sqrt(LengthSquaredInternal());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U3F29 LengthHalf() => U3F29.FromBits(LengthInternal());
+        public U3F29 LengthHalf() => U3F29.FromBits(LengthInternal());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly U4F28 Length() => U4F28.FromBits(LengthInternal());
+        public U4F28 Length() => U4F28.FromBits(LengthInternal());
 
     }
 
     partial struct U3F29 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U3F29 SaturatingMul(Vector2U3F29 other) => other.SaturatingMul(this);
+        public Vector2U3F29 SaturatingMul(Vector2U3F29 other) => other.SaturatingMul(this);
     }
 }

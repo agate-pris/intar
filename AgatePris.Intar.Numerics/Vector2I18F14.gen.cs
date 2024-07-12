@@ -108,51 +108,51 @@ namespace AgatePris.Intar.Numerics {
         // Swizzling Properties
         // ---------------------------------------
 
-        public readonly Vector2I18F14 XX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(X, X); }
-        public readonly Vector2I18F14 XY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(X, Y); }
-        public readonly Vector2I18F14 YX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(Y, X); }
-        public readonly Vector2I18F14 YY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(Y, Y); }
-        public readonly Vector3I18F14 XXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, X, X); }
-        public readonly Vector3I18F14 XXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, X, Y); }
-        public readonly Vector3I18F14 XYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, Y, X); }
-        public readonly Vector3I18F14 XYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, Y, Y); }
-        public readonly Vector3I18F14 YXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, X, X); }
-        public readonly Vector3I18F14 YXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, X, Y); }
-        public readonly Vector3I18F14 YYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, Y, X); }
-        public readonly Vector3I18F14 YYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, Y, Y); }
-        public readonly Vector4I18F14 XXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, X, X); }
-        public readonly Vector4I18F14 XXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, X, Y); }
-        public readonly Vector4I18F14 XXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, Y, X); }
-        public readonly Vector4I18F14 XXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, Y, Y); }
-        public readonly Vector4I18F14 XYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, X, X); }
-        public readonly Vector4I18F14 XYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, X, Y); }
-        public readonly Vector4I18F14 XYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, Y, X); }
-        public readonly Vector4I18F14 XYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, Y, Y); }
-        public readonly Vector4I18F14 YXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, X, X); }
-        public readonly Vector4I18F14 YXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, X, Y); }
-        public readonly Vector4I18F14 YXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, Y, X); }
-        public readonly Vector4I18F14 YXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, Y, Y); }
-        public readonly Vector4I18F14 YYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, X, X); }
-        public readonly Vector4I18F14 YYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, X, Y); }
-        public readonly Vector4I18F14 YYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, Y, X); }
-        public readonly Vector4I18F14 YYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, Y, Y); }
+        public Vector2I18F14 XX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(X, X); }
+        public Vector2I18F14 XY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(X, Y); }
+        public Vector2I18F14 YX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(Y, X); }
+        public Vector2I18F14 YY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I18F14(Y, Y); }
+        public Vector3I18F14 XXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, X, X); }
+        public Vector3I18F14 XXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, X, Y); }
+        public Vector3I18F14 XYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, Y, X); }
+        public Vector3I18F14 XYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(X, Y, Y); }
+        public Vector3I18F14 YXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, X, X); }
+        public Vector3I18F14 YXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, X, Y); }
+        public Vector3I18F14 YYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, Y, X); }
+        public Vector3I18F14 YYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I18F14(Y, Y, Y); }
+        public Vector4I18F14 XXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, X, X); }
+        public Vector4I18F14 XXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, X, Y); }
+        public Vector4I18F14 XXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, Y, X); }
+        public Vector4I18F14 XXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, X, Y, Y); }
+        public Vector4I18F14 XYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, X, X); }
+        public Vector4I18F14 XYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, X, Y); }
+        public Vector4I18F14 XYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, Y, X); }
+        public Vector4I18F14 XYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(X, Y, Y, Y); }
+        public Vector4I18F14 YXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, X, X); }
+        public Vector4I18F14 YXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, X, Y); }
+        public Vector4I18F14 YXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, Y, X); }
+        public Vector4I18F14 YXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, X, Y, Y); }
+        public Vector4I18F14 YYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, X, X); }
+        public Vector4I18F14 YYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, X, Y); }
+        public Vector4I18F14 YYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, Y, X); }
+        public Vector4I18F14 YYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I18F14(Y, Y, Y, Y); }
 
         // Object
         // ---------------------------------------
 
-        public override readonly bool Equals(object obj) => obj is Vector2I18F14 o && Equals(o);
+        public override bool Equals(object obj) => obj is Vector2I18F14 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => HashCode.Combine(X, Y);
+        public override int GetHashCode() => HashCode.Combine(X, Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString() => $"<{X}, {Y}>";
+        public override string ToString() => $"<{X}, {Y}>";
 
         // IEquatable<Vector2I18F14>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(Vector2I18F14 other)
+        public bool Equals(Vector2I18F14 other)
             => other.X == X
             && other.Y == Y;
 
@@ -160,7 +160,7 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly string ToString(string format, IFormatProvider formatProvider) {
+        public string ToString(string format, IFormatProvider formatProvider) {
             var x = X.ToString(format, formatProvider);
             var y = Y.ToString(format, formatProvider);
             return $"<{x}, {y}>";
@@ -170,84 +170,84 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Min(Vector2I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 Min(Vector2I18F14 other) => new Vector2I18F14(
             X.Min(other.X),
             Y.Min(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Max(Vector2I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 Max(Vector2I18F14 other) => new Vector2I18F14(
             X.Max(other.X),
             Y.Max(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Abs() => new Vector2I18F14(
+        public Vector2I18F14 Abs() => new Vector2I18F14(
             X.Abs(),
             Y.Abs());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Half() => new Vector2I18F14(
+        public Vector2I18F14 Half() => new Vector2I18F14(
             X.Half(),
             Y.Half());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Twice() => new Vector2I18F14(
+        public Vector2I18F14 Twice() => new Vector2I18F14(
             X.Twice(),
             Y.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Clamp(I18F14 min, I18F14 max) => new Vector2I18F14(
+        public Vector2I18F14 Clamp(I18F14 min, I18F14 max) => new Vector2I18F14(
             X.Clamp(min, max),
             Y.Clamp(min, max));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 Clamp(
+        public Vector2I18F14 Clamp(
             Vector2I18F14 min, Vector2I18F14 max
         ) => new Vector2I18F14(
             X.Clamp(min.X, max.X),
             Y.Clamp(min.Y, max.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 WrappingAdd(Vector2I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 WrappingAdd(Vector2I18F14 other) => new Vector2I18F14(
             X.WrappingAdd(other.X),
             Y.WrappingAdd(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 WrappingSub(Vector2I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 WrappingSub(Vector2I18F14 other) => new Vector2I18F14(
             X.WrappingSub(other.X),
             Y.WrappingSub(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 WrappingMul(Vector2I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 WrappingMul(Vector2I18F14 other) => new Vector2I18F14(
             X.WrappingMul(other.X),
             Y.WrappingMul(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 WrappingAddUnsigned(Vector2U18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 WrappingAddUnsigned(Vector2U18F14 other) => new Vector2I18F14(
             X.WrappingAddUnsigned(other.X),
             Y.WrappingAddUnsigned(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 WrappingSubUnsigned(Vector2U18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 WrappingSubUnsigned(Vector2U18F14 other) => new Vector2I18F14(
             X.WrappingSubUnsigned(other.X),
             Y.WrappingSubUnsigned(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2U18F14 UnsignedAbs() => new Vector2U18F14(
+        public Vector2U18F14 UnsignedAbs() => new Vector2U18F14(
             X.UnsignedAbs(),
             Y.UnsignedAbs());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 SaturatingAdd(Vector2I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 SaturatingAdd(Vector2I18F14 other) => new Vector2I18F14(
             X.SaturatingAdd(other.X),
             Y.SaturatingAdd(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 SaturatingMul(I18F14 other) => new Vector2I18F14(
+        public Vector2I18F14 SaturatingMul(I18F14 other) => new Vector2I18F14(
             X.SaturatingMul(other),
             Y.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly long DotInternal(Vector2I18F14 other) {
+        long DotInternal(Vector2I18F14 other) {
             var x = ((long)X.Bits) * other.X.Bits;
             var y = ((long)Y.Bits) * other.Y.Bits;
 
@@ -260,13 +260,13 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I18F14 Dot(Vector2I18F14 other) {
+        public I18F14 Dot(Vector2I18F14 other) {
             const long k = 1L << 12;
             return I18F14.FromBits((int)(DotInternal(other) / k));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I18F14 SaturatingDot(Vector2I18F14 other) {
+        public I18F14 SaturatingDot(Vector2I18F14 other) {
             const long k = 1L << 12;
             var bits = DotInternal(other) / k;
             if (bits > int.MaxValue) {
@@ -279,7 +279,7 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly long LengthSquaredInternal() => DotInternal(this);
+        long LengthSquaredInternal() => DotInternal(this);
 
         /// <summary>
         /// ベクトルの長さの 2 乗を返します｡
@@ -290,26 +290,26 @@ namespace AgatePris.Intar.Numerics {
         /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I38F26 LengthSquared() {
+        public I38F26 LengthSquared() {
             return I38F26.FromBits(LengthSquaredInternal());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        readonly int LengthInternal() {
+        int LengthInternal() {
             var squared = LengthSquaredInternal();
             return (int)Mathi.Sqrt((ulong)squared);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I18F14 LengthHalf() => I18F14.FromBits(LengthInternal());
+        public I18F14 LengthHalf() => I18F14.FromBits(LengthInternal());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly I19F13 Length() => I19F13.FromBits(LengthInternal());
+        public I19F13 Length() => I19F13.FromBits(LengthInternal());
 
     }
 
     partial struct I18F14 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly Vector2I18F14 SaturatingMul(Vector2I18F14 other) => other.SaturatingMul(this);
+        public Vector2I18F14 SaturatingMul(Vector2I18F14 other) => other.SaturatingMul(this);
     }
 }
