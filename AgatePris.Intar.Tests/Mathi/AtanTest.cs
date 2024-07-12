@@ -85,7 +85,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 AcceptableErrorAtan = acceptableErrorAtan;
                 AcceptableErrorAtan2 = acceptableErrorAtan2;
             }
-            public override readonly string ToString() {
+            public override string ToString() {
                 return DataPath;
             }
         }
