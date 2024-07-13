@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
 
-namespace AgatePris.Intar.Tests.Integer {
+namespace AgatePris.Intar.Tests {
     public partial class BitOperationsTest {
         [Test]
         public static void RotateLeftTest() {
