@@ -128,8 +128,8 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             }
 
-            for (var i = 0; i <= uint.MaxValue / right; ++i) {
-                var x = i * right;
+            for (var i = 0U; i <= uint.MaxValue / right; ++i) {
+                var x = unchecked((int)(i * right));
                 testSin(x);
                 testCos(x);
                 testSin(x + 1);
