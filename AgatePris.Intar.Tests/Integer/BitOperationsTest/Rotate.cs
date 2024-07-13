@@ -28,7 +28,7 @@ namespace AgatePris.Intar.Tests.Integer {
                     0x0000_FFFF_0000_0000UL, 0xFFFF_0000_0000_0000UL,
                 };
                 for (var i = 0; i < 4; ++i) {
-                    AreEqual(k[i], BitOperations.RotateLeft(k[i],64));
+                    AreEqual(k[i], BitOperations.RotateLeft(k[i], 64));
                     AreEqual(k[(i + 1) % 4], BitOperations.RotateLeft(k[i], 16));
                     AreEqual(k[(i + 2) % 4], BitOperations.RotateLeft(k[i], 32));
                     AreEqual(k[(i + 3) % 4], BitOperations.RotateLeft(k[i], 48));
