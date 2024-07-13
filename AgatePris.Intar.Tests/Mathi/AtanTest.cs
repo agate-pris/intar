@@ -63,8 +63,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                     max = p;
                     points.Clear();
                     points.Add(p);
-                }
-                else {
+                } else {
                     points.Add(p);
                 }
             }
@@ -117,10 +116,10 @@ namespace AgatePris.Intar.Tests.Mathi {
                         $"{nameof(actual)}: {actual}"
                     );
                 }
-                const double scale = System.Math.PI / Straight;
-                var expectedReal = System.Math.Atan(x / (double)One);
+                const double scale = Math.PI / Straight;
+                var expectedReal = Math.Atan(x / (double)One);
                 var actualReal = scale * actual;
-                if (System.Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(x)}: {x}, " +
                         $"{nameof(expected)}: {expected}, " +
@@ -181,9 +180,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                         $"{nameof(actual)}: {actual}"
                     );
                 }
-                var expectedReal = System.Math.Atan2(y, x);
-                var actualReal = System.Math.PI * actual / Straight;
-                if (System.Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                var expectedReal = Math.Atan2(y, x);
+                var actualReal = Math.PI * actual / Straight;
+                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(y)}: {y}, " +
                         $"{nameof(x)}: {x}, " +
@@ -285,46 +284,46 @@ namespace AgatePris.Intar.Tests.Mathi {
             {
                 var x = (1 << 15) * 2 / 3;
                 var actual = Intar.Mathi.AtanP2A2850(x);
-                var expected = System.Math.Atan2(2, 3);
-                var a = actual * System.Math.PI / (1 << 30);
+                var expected = Math.Atan2(2, 3);
+                var a = actual * Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.003778);
             }
             {
                 var y = 2;
                 var x = 3;
                 var actual = Intar.Mathi.Atan2P2A2850(y, x);
-                var expected = System.Math.Atan2(2, 3);
-                var a = actual * System.Math.PI / (1 << 30);
+                var expected = Math.Atan2(2, 3);
+                var a = actual * Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.003778);
             }
             {
                 var x = (1 << 15) * 2 / 3;
                 var actual = Intar.Mathi.AtanP3A2555B691(x);
-                var expected = System.Math.Atan2(2, 3);
-                var a = actual * System.Math.PI / (1 << 30);
+                var expected = Math.Atan2(2, 3);
+                var a = actual * Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.001543);
             }
             {
                 var y = 2;
                 var x = 3;
                 var actual = Intar.Mathi.Atan2P3A2555B691(y, x);
-                var expected = System.Math.Atan2(2, 3);
-                var a = actual * System.Math.PI / (1 << 30);
+                var expected = Math.Atan2(2, 3);
+                var a = actual * Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.001543);
             }
             {
                 var x = (1 << 15) * 2 / 3;
                 var actual = Intar.Mathi.AtanP5A787B2968(x);
-                var expected = System.Math.Atan2(2, 3);
-                var a = actual * System.Math.PI / (1 << 30);
+                var expected = Math.Atan2(2, 3);
+                var a = actual * Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.000767);
             }
             {
                 var y = 2;
                 var x = 3;
                 var actual = Intar.Mathi.Atan2P5A787B2968(y, x);
-                var expected = System.Math.Atan2(2, 3);
-                var a = actual * System.Math.PI / (1 << 30);
+                var expected = Math.Atan2(2, 3);
+                var a = actual * Math.PI / (1 << 30);
                 Assert.AreEqual(expected, a, 0.000767);
             }
         }
