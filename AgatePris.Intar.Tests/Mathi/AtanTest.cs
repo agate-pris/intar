@@ -75,7 +75,7 @@ namespace AgatePris.Intar.Tests.Mathi {
         public void CollectMostSteepPointsTest() {
             var list = CollectMostSteepPoints(32);
             Assert.AreEqual(list.Count, 1);
-            Assert.AreEqual((2147418113, 2129855), list[0]);
+            Assert.AreEqual((2147422145, 2129859), list[0]);
         }
 
         public readonly struct AtanCase {
