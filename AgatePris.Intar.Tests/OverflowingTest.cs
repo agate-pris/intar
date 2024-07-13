@@ -5,7 +5,7 @@ using i64 = System.Int64;
 using u32 = System.UInt32;
 using u64 = System.UInt64;
 
-namespace AgatePris.Intar.Tests.Integer {
+namespace AgatePris.Intar.Tests {
     public class OverflowingTest {
         [Test]
         public void Test() {

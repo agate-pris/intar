@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests.Integer {
+namespace AgatePris.Intar.Tests {
     public partial class BitOperationsTest {
         static int PopCount(uint x) {
             var mask = 1;

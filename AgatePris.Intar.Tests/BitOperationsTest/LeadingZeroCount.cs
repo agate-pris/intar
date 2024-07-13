@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests.Integer {
+namespace AgatePris.Intar.Tests {
     public partial class BitOperationsTest {
         static int LeadingZeroCount(uint x) {
             const int bitsOfInt = sizeof(int) * 8;
