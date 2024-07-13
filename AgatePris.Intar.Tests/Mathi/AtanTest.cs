@@ -23,13 +23,26 @@ namespace AgatePris.Intar.Tests.Mathi {
             return aybx < byax ? -1 : aybx > byax ? 1 : 0;
         }
 
+        /// <summary>
+        /// <c>int</c> で表現できる範囲で最も傾きの大きな点のリストを得る｡
+        /// 傾きの分母は 32768 とし､ 四捨五入されるものとして取り扱う｡
+        /// </summary>
+        /// <param name="n">分母を 32768 とした場合の傾きの分子</param>
+        /// <returns><c>int</c> で表現できる範囲で最も傾きの大きな点のリスト</returns>
         static List<(int, int)> CollectMostSteepPoints(int n) {
             const int resolutionTwice = 1 << 16;
             const int lastCrossPointX = int.MaxValue - resolutionTwice + 1;
             const int begin = lastCrossPointX + 1;
+
+            // 四捨五入することを考慮して､ 2 倍の分解能で計算する｡
+            // このため､ 分子も 2 倍になる｡
             var steep = (2 * n) + 1L;
             var max = (begin, (int)(begin * steep / resolutionTwice));
             var points = new List<(int, int)> { max };
+
+            // for_iterator でのオーバーフローを防ぐため､ for_initializer､ for_condition､
+            // for_iterator で直接 X 座標を取り扱わず､ lastCrossPointX との差分を計算する｡
+            // このため､ すでに計算済みの 1 を飛ばし 2 から始める｡
             for (var i = 2; i < resolutionTwice; ++i) {
                 var x = i + lastCrossPointX;
                 var mul = x * steep;
@@ -62,7 +75,7 @@ namespace AgatePris.Intar.Tests.Mathi {
         public void CollectMostSteepPointsTest() {
             var list = CollectMostSteepPoints(32);
             Assert.AreEqual(list.Count, 1);
-            Assert.AreEqual((2147418113, 2129855), list[0]);
+            Assert.AreEqual((2147422145, 2129859), list[0]);
         }
 
         public readonly struct AtanCase {
