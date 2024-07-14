@@ -2,6 +2,139 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public static class Overflowing {
+
+        /// <summary>
+        /// <para>Adds two values together to compute their sum.</para>
+        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictAdd(int x, int y) => checked(x + y);
+
+        /// <summary>
+        /// <para>Subtracts two values to compute their difference.</para>
+        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictSub(int x, int y) => checked(x - y);
+
+        /// <summary>
+        /// <para>Multiplies two values together to compute their product.</para>
+        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictMul(int x, int y) => checked(x * y);
+
+        /// <summary>
+        /// <para>Adds two values together to compute their sum.</para>
+        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictAdd(uint x, uint y) => checked(x + y);
+
+        /// <summary>
+        /// <para>Subtracts two values to compute their difference.</para>
+        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictSub(uint x, uint y) => checked(x - y);
+
+        /// <summary>
+        /// <para>Multiplies two values together to compute their product.</para>
+        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictMul(uint x, uint y) => checked(x * y);
+
+        /// <summary>
+        /// <para>Adds two values together to compute their sum.</para>
+        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictAdd(long x, long y) => checked(x + y);
+
+        /// <summary>
+        /// <para>Subtracts two values to compute their difference.</para>
+        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictSub(long x, long y) => checked(x - y);
+
+        /// <summary>
+        /// <para>Multiplies two values together to compute their product.</para>
+        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictMul(long x, long y) => checked(x * y);
+
+        /// <summary>
+        /// <para>Adds two values together to compute their sum.</para>
+        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictAdd(ulong x, ulong y) => checked(x + y);
+
+        /// <summary>
+        /// <para>Subtracts two values to compute their difference.</para>
+        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictSub(ulong x, ulong y) => checked(x - y);
+
+        /// <summary>
+        /// <para>Multiplies two values together to compute their product.</para>
+        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
+        /// <remarks><div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictMul(ulong x, ulong y) => checked(x * y);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAdd(int x, int y) => unchecked(x + y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
