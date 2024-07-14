@@ -696,7 +696,7 @@ namespace AgatePris.Intar.Numerics {
         /// <remarks><div class="WARNING alert alert-warning">
         /// <h5>Warning</h5>
         /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
         /// <para><see cref="LengthHalf">LengthHalf</see> differs from this method in that
         /// it does not throws an exception because the result always falls within a range.</para>
         /// <para><see cref="LengthHalf">LengthHalf</see> はこのメソッドと異なり､
