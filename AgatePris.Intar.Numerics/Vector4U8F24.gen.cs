@@ -675,8 +675,34 @@ namespace AgatePris.Intar.Numerics {
             return (uint)Mathi.Sqrt(LengthSquaredInternal());
         }
 
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <c>LengthHalfSigned</c> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <c>LengthHalfSigned</c> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U8F24 LengthHalf() => U8F24.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// <para><c>LengthHalf</c> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><c>LengthHalf</c> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I8F24 LengthHalfSigned() => I8F24.FromBits(checked((int)LengthInternal()));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U9F23 Length() => U9F23.FromBits(LengthInternal());

@@ -694,16 +694,42 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        int LengthInternal() {
+        uint LengthInternal() {
             var squared = LengthSquaredInternal();
-            return (int)Mathi.Sqrt((ulong)squared);
+            return (uint)Mathi.Sqrt((ulong)squared);
         }
 
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <c>LengthHalf</c> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <c>LengthHalf</c> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I18F14 LengthHalf() => I18F14.FromBits(LengthInternal());
+        public U18F14 LengthHalfUnsigned() => U18F14.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// <para><c>LengthHalfUnsigned</c> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><c>LengthHalfUnsigned</c> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I18F14 LengthHalf() => I18F14.FromBits(checked((int)LengthInternal()));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I19F13 Length() => I19F13.FromBits(LengthInternal());
+        public I19F13 Length() => I19F13.FromBits((int)LengthInternal());
 
     }
 
