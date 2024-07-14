@@ -419,11 +419,13 @@ namespace AgatePris.Intar.Numerics {
         /// <para>ベクトルの長さの半分を返します｡</para>
         /// </summary>
         /// <remarks>
-        /// <para>This method differs from <c>LengthHalfSigned</c> in that
+        /// <para>This method differs from <see cref="LengthHalfSigned">LengthHalfSigned</see> in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <c>LengthHalfSigned</c> とは異なり､
+        /// <para>このメソッドは <see cref="LengthHalfSigned">LengthHalfSigned</see> とは異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </remarks>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalfSigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U28F4 LengthHalf() => U28F4.FromBits(LengthInternal());
 
@@ -434,12 +436,14 @@ namespace AgatePris.Intar.Numerics {
         /// <h5>Warning</h5>
         /// <para>This method throws an exception if the result is outside the range of the data type.</para>
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// <para><c>LengthHalf</c> differs from this method in that
+        /// <para><see cref="LengthHalf">LengthHalf</see> differs from this method in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><c>LengthHalf</c> はこのメソッドと異なり､
+        /// <para><see cref="LengthHalf">LengthHalf</see> はこのメソッドと異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </div></remarks>
         /// </summary>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalf"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I28F4 LengthHalfSigned() => I28F4.FromBits(checked((int)LengthInternal()));
 
