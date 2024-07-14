@@ -53,10 +53,10 @@ namespace AgatePris.Intar {
         /// 2 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 << 15) * 2 / 3;
+        /// var x = (1 &lt;&lt; 15) * 2 / 3;
         /// var actual = Intar.Mathi.AtanP2A2850(x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 << 30);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.003778);
         /// </code>
         /// </example>
@@ -125,10 +125,10 @@ namespace AgatePris.Intar {
         /// 2 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 << 15) * 2 / 3;
+        /// var x = (1 &lt;&lt; 15) * 2 / 3;
         /// var actual = Intar.Mathi.AtanP3A2555B691(x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 << 30);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.001543);
         /// </code>
         /// </example>
@@ -197,10 +197,10 @@ namespace AgatePris.Intar {
         /// 2 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 << 15) * 2 / 3;
+        /// var x = (1 &lt;&lt; 15) * 2 / 3;
         /// var actual = Intar.Mathi.AtanP5A787B2968(x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 << 30);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.000767);
         /// </code>
         /// </example>
