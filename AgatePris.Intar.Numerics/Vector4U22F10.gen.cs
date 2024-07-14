@@ -713,11 +713,14 @@ namespace AgatePris.Intar.Numerics {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         /// <remarks>
-        /// <para>This method differs from <c>LengthSigned</c> in that
+        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <c>LengthSigned</c> とは異なり､
+        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </remarks>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalf"/>
+        /// <seealso cref="LengthSigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U23F9 Length() => U23F9.FromBits(LengthInternal());
 
@@ -728,12 +731,15 @@ namespace AgatePris.Intar.Numerics {
         /// <h5>Warning</h5>
         /// <para>This method throws an exception if the result is outside the range of the data type.</para>
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// <para><c>Length</c> differs from this method in that
+        /// <para><see cref="Length">Length</see> differs from this method in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><c>Length</c> はこのメソッドと異なり､
+        /// <para><see cref="Length">Length</see> はこのメソッドと異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </div></remarks>
         /// </summary>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalfSigned"/>
+        /// <seealso cref="Length"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I23F9 LengthSigned() => I23F9.FromBits(checked((int)LengthInternal()));
 

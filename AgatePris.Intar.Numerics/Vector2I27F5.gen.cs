@@ -345,11 +345,14 @@ namespace AgatePris.Intar.Numerics {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         /// <remarks>
-        /// <para>This method differs from <c>Length</c> in that
+        /// <para>This method differs from <see cref="Length">Length</see> in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <c>Length</c> とは異なり､
+        /// <para>このメソッドは <see cref="Length">Length</see> とは異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </remarks>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalfUnsigned"/>
+        /// <seealso cref="Length"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U28F4 LengthUnsigned() => U28F4.FromBits(LengthInternal());
 
@@ -360,12 +363,15 @@ namespace AgatePris.Intar.Numerics {
         /// <h5>Warning</h5>
         /// <para>This method throws an exception if the result is outside the range of the data type.</para>
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// <para><c>LengthUnsigned</c> differs from this method in that
+        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> differs from this method in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><c>LengthUnsigned</c> はこのメソッドと異なり､
+        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> はこのメソッドと異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </div></remarks>
         /// </summary>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalf"/>
+        /// <seealso cref="LengthUnsigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I28F4 Length() => I28F4.FromBits(checked((int)LengthInternal()));
 
