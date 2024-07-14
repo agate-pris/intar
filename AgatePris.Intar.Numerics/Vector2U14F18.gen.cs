@@ -322,8 +322,40 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I14F18 LengthHalfSigned() => I14F18.FromBits(checked((int)LengthInternal()));
 
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalf"/>
+        /// <seealso cref="LengthSigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U15F17 Length() => U15F17.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
+        /// <para><see cref="Length">Length</see> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><see cref="Length">Length</see> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalfSigned"/>
+        /// <seealso cref="Length"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I15F17 LengthSigned() => I15F17.FromBits(checked((int)LengthInternal()));
 
     }
 
