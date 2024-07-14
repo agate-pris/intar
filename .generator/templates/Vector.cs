@@ -30,8 +30,13 @@
 {%- endmacro -%}
 
 {%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
+{%- set self_bits_signed_type = macros::signed_type(t=self_bits_type) %}
+{%- set self_bits_unsigned_type = macros::unsigned_type(t=self_bits_type) %}
 {%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
+{%- set self_wide_bits_unsigned_type = macros::unsigned_type(t=self_wide_bits_type) %}
 {%- set self_component_type = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
+{%- set self_component_signed_type = macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) %}
+{%- set self_component_unsigned_type = macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) %}
 
 {%- if unity %}#if !UNITY_2018_3_OR_NEWER
@@ -482,20 +487,48 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_bits_type }} LengthInternal() {
+        {{ self_bits_unsigned_type }} LengthInternal() {
             {%- if signed %}
             var squared = LengthSquaredInternal();
-            return ({{ self_bits_type }})Mathi.Sqrt(({{ macros::bits_type(s=false, i=2*int_nbits, f=2*frac_nbits) }})squared);
+            return ({{ self_bits_unsigned_type }})Mathi.Sqrt(({{ self_wide_bits_unsigned_type }})squared);
             {%- else %}
-            return ({{ self_bits_type }})Mathi.Sqrt(LengthSquaredInternal());
+            return ({{ self_bits_unsigned_type }})Mathi.Sqrt(LengthSquaredInternal());
             {%- endif %}
         }
 
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <c>LengthHalf{% if not signed %}Signed{% endif %}</c> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <c>LengthHalf{% if not signed %}Signed{% endif %}</c> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_component_type }} LengthHalf() => {{ self_component_type }}.FromBits(LengthInternal());
+        public {{ self_component_unsigned_type }} LengthHalf{% if signed %}Unsigned
+        {%- endif %}() => {{ self_component_unsigned_type }}.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// <para><c>LengthHalf{% if signed %}Unsigned{% endif %}</c> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><c>LengthHalf{% if signed %}Unsigned{% endif %}</c> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_component_signed_type }} LengthHalf{% if not signed %}Signed
+        {%- endif %}() => {{ self_component_signed_type }}.FromBits(checked(({{ self_bits_signed_type }})LengthInternal()));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }} Length() => {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }}.FromBits(LengthInternal());
+        public {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }} Length() => {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }}.FromBits({%if signed %}({{ self_bits_signed_type }}){% endif %}LengthInternal());
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
