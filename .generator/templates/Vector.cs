@@ -531,8 +531,36 @@ namespace AgatePris.Intar.Numerics {
         public {{ self_component_signed_type }} LengthHalf{% if not signed %}Signed
         {%- endif %}() => {{ self_component_signed_type }}.FromBits(checked(({{ self_bits_signed_type }})LengthInternal()));
 
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <c>Length{% if not signed %}Signed{% endif %}</c> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <c>Length{% if not signed %}Signed{% endif %}</c> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }} Length() => {{ macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) }}.FromBits({%if signed %}({{ self_bits_signed_type }}){% endif %}LengthInternal());
+        public {{ macros::fixed_type(s=false, i=int_nbits+1, f=frac_nbits-1) }} Length{% if signed %}Unsigned
+        {%- endif %}() => {{ macros::fixed_type(s=false, i=int_nbits+1, f=frac_nbits-1) }}.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
+        /// <para><c>Length{% if signed %}Unsigned{% endif %}</c> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><c>Length{% if signed %}Unsigned{% endif %}</c> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ macros::fixed_type(s=true, i=int_nbits+1, f=frac_nbits-1) }} Length{% if not signed %}Signed
+        {%- endif %}() => {{ macros::fixed_type(s=true, i=int_nbits+1, f=frac_nbits-1) }}.FromBits(checked(({{ self_bits_signed_type }})LengthInternal()));
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
