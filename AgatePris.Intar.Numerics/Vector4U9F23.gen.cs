@@ -651,12 +651,19 @@ namespace AgatePris.Intar.Numerics {
         ulong LengthSquaredInternal() => DotInternal(this);
 
         /// <summary>
-        /// ベクトルの長さの 2 乗を返します｡
+        /// <para>Returns the length of the vector squared.</para>
+        /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
         /// <remarks>
-        /// オーバーフローを防ぐため､ 計算の過程で 4 で除算しています｡
+        /// <div class="TIP alert alert-info">
+        /// <h5>Tip</h5>
+        /// <para>This method divides the square of each element by 4
+        /// during the calculation to prevent overflow.</para>
+        /// <para>このメソッドはオーバーフローを防ぐため､
+        /// 計算の過程で各要素の 2 乗を 4 で除算します｡
         /// そのため､ 精度が犠牲になっています｡
-        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡
+        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡</para>
+        /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U20F44 LengthSquared() {
