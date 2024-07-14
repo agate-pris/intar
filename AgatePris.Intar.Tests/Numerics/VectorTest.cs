@@ -140,8 +140,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 {
                     var actual = v.LengthHalf();
                     var expected = I17F15.FromNum(5);
-                    if (expected != actual)
-                    {
+                    if (expected != actual) {
                         Assert.Fail($"expected: {expected} actual: {actual}");
                     }
                 }
