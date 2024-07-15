@@ -35,7 +35,7 @@ namespace AgatePris.Intar.Tests.Mathi {
         };
 
         static double ToRad(int x) {
-            const double t = System.Math.PI / (1 << 16);
+            const double t = Math.PI / (1 << 16);
             return x * t;
         }
         static double ToReal(int x) {
@@ -91,9 +91,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                     }
                 }
                 {
-                    var expected = System.Math.Sin(ToRad(x));
+                    var expected = Math.Sin(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (System.Math.Abs(actualReal - expected) >= acceptableError) {
+                    if (Math.Abs(actualReal - expected) >= acceptableError) {
                         Assert.Fail(
                             $"{nameof(x)}: {x}, " +
                             $"{nameof(actual)}: {actual}, " +
@@ -120,9 +120,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                     }
                 }
                 {
-                    var expected = System.Math.Cos(ToRad(x));
+                    var expected = Math.Cos(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (System.Math.Abs(actualReal - expected) > acceptableError) {
+                    if (Math.Abs(actualReal - expected) > acceptableError) {
                         Assert.Fail();
                     }
                 }
