@@ -27,6 +27,10 @@
     <PackageReference Include="SoapFormatter" Version="1.1.9" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'!='net5.0'">
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\AgatePris.Intar\AgatePris.Intar.csproj" />
     <ProjectReference Include="..\AgatePris.Intar.Numerics\AgatePris.Intar.Numerics.csproj" />
