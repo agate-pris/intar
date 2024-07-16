@@ -25,6 +25,7 @@ csharp_style_var_when_type_is_apparent = true
 
 # Expression-level preferences
 csharp_style_implicit_object_creation_when_type_is_apparent = false
+csharp_style_prefer_range_operator = false
 
 # Pattern matching preferences
 csharp_style_prefer_pattern_matching = false
@@ -42,6 +43,10 @@ csharp_new_line_before_catch = false
 csharp_new_line_before_else = false
 csharp_new_line_before_finally = false
 csharp_new_line_before_open_brace = none
+
+# Indentation preferences
+csharp_indent_case_contents = false
+csharp_indent_case_contents_when_block = false
 
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = warning
