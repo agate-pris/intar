@@ -345,14 +345,14 @@ namespace AgatePris.Intar.Numerics {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         /// <remarks>
-        /// <para>This method differs from <see cref="Length">Length</see> in that
+        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
         /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="Length">Length</see> とは異なり､
+        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
         /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
         /// </remarks>
         /// <seealso cref="LengthSquared"/>
         /// <seealso cref="LengthHalfUnsigned"/>
-        /// <seealso cref="Length"/>
+        /// <seealso cref="LengthSigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U9F23 LengthUnsigned() => U9F23.FromBits(LengthInternal());
 
@@ -373,7 +373,10 @@ namespace AgatePris.Intar.Numerics {
         /// <seealso cref="LengthHalf"/>
         /// <seealso cref="LengthUnsigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I9F23 Length() => I9F23.FromBits(checked((int)LengthInternal()));
+        public I9F23 LengthSigned() => I9F23.FromBits(checked((int)LengthInternal()));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I9F23 Length() => LengthSigned();
 
     }
 
