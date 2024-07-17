@@ -53,7 +53,10 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
+    public struct {{ self_type }}
+    : IEquatable<{{ self_type }}>
+    , IFormattable
+    , IVector<{{ self_length_squared_unsigned_type }}, {{ self_length_squared_signed_type }}, {{ self_length_unsigned_type }}, {{ self_length_signed_type }}> {
         // Fields
         // ---------------------------------------
 
