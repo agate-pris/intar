@@ -218,111 +218,109 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
 
                 var lengthSquared = ulong.Parse(this.lengthSquared, null);
-                ulong lengthSquaredActual;
-                U18F14 lengthUnsignedActual;
-                var lengthSignedActual = I18F14.Zero;
+                IVector<U36F28, I36F28, U18F14, I18F14> vector;
                 if (allBitsAreInt) {
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2I17F15(bits).Value;
-                            lengthSquaredActual = checked((ulong)v.LengthSquared().Bits);
-                            lengthUnsignedActual = v.LengthUnsigned();
-                            if (overflow) {
-                                _ = Assert.Throws<OverflowException>(() => v.Length());
-                            } else {
-                                lengthSignedActual = v.Length();
-                            }
+                            vector = CheckedToVector2I17F15(bits).Value;
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3I17F15(bits).Value;
-                            lengthSquaredActual = checked((ulong)v.LengthSquared().Bits);
-                            lengthUnsignedActual = v.LengthUnsigned();
-                            if (overflow) {
-                                _ = Assert.Throws<OverflowException>(() => v.Length());
-                            } else {
-                                lengthSignedActual = v.Length();
-                            }
+                            vector = CheckedToVector3I17F15(bits).Value;
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4I17F15(bits).Value;
-                            lengthSquaredActual = checked((ulong)v.LengthSquared().Bits);
-                            lengthUnsignedActual = v.LengthUnsigned();
-                            if (overflow) {
-                                _ = Assert.Throws<OverflowException>(() => v.Length());
-                            } else {
-                                lengthSignedActual = v.Length();
-                            }
+                            vector = CheckedToVector4I17F15(bits).Value;
                             break;
                         }
                         default: throw new NotImplementedException();
                     }
-                    Assert.AreEqual(lengthSquaredExpected, Math.Pow(2, -28) * lengthSquaredActual, Math.Max(minDelta, deltaRate * lengthSquaredExpected));
-                    Assert.AreEqual(lengthExpected, (double)lengthUnsignedActual, Math.Max(minDelta, deltaRate * lengthExpected), $"{bits}");
-                    if (lengthSquared != lengthSquaredActual) {
-                        Assert.Fail();
-                    }
-                    if (lengthUnsigned != lengthUnsignedActual.Bits) {
-                        Assert.Fail();
-                    }
-                    if (!overflow) {
-                        Assert.AreEqual(lengthExpected, (double)lengthSignedActual, Math.Max(minDelta, deltaRate * lengthExpected));
-                        if (lengthSigned != lengthSignedActual.Bits) {
+
+                    {
+                        var actual = vector.LengthSquaredUnsigned();
+                        if (lengthSquared != actual.Bits) {
                             Assert.Fail();
                         }
+                        Assert.AreEqual(
+                            lengthSquaredExpected,
+                            (double)vector.LengthSquaredUnsigned(),
+                            Math.Max(minDelta, deltaRate * lengthSquaredExpected));
+                    }
+
+                    {
+                        var actual = vector.LengthUnsigned();
+                        if (lengthUnsigned != actual.Bits) {
+                            Assert.Fail();
+                        }
+                        Assert.AreEqual(
+                            lengthExpected,
+                            (double)actual,
+                            Math.Max(minDelta, deltaRate * lengthExpected));
+                    }
+
+                    if (overflow) {
+                        _ = Assert.Throws<OverflowException>(() => vector.LengthSigned());
+                    } else {
+                        var actual = vector.LengthSigned();
+                        if (lengthSigned != actual.Bits) {
+                            Assert.Fail();
+                        }
+                        Assert.AreEqual(
+                            lengthExpected,
+                            (double)actual,
+                            Math.Max(minDelta, deltaRate * lengthExpected));
                     }
                 }
                 if (allBitsAreUInt) {
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2U17F15(bits).Value;
-                            lengthSquaredActual = v.LengthSquared().Bits;
-                            lengthUnsignedActual = v.Length();
-                            if (overflow) {
-                                _ = Assert.Throws<OverflowException>(() => v.LengthSigned());
-                            } else {
-                                lengthSignedActual = v.LengthSigned();
-                            }
+                            vector = CheckedToVector2U17F15(bits).Value;
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3U17F15(bits).Value;
-                            lengthSquaredActual = v.LengthSquared().Bits;
-                            lengthUnsignedActual = v.Length();
-                            if (overflow) {
-                                _ = Assert.Throws<OverflowException>(() => v.LengthSigned());
-                            } else {
-                                lengthSignedActual = v.LengthSigned();
-                            }
+                            vector = CheckedToVector3U17F15(bits).Value;
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4U17F15(bits).Value;
-                            lengthSquaredActual = v.LengthSquared().Bits;
-                            lengthUnsignedActual = v.Length();
-                            if (overflow) {
-                                _ = Assert.Throws<OverflowException>(() => v.LengthSigned());
-                            } else {
-                                lengthSignedActual = v.LengthSigned();
-                            }
+                            vector = CheckedToVector4U17F15(bits).Value;
                             break;
                         }
                         default: throw new NotImplementedException();
                     }
-                    Assert.AreEqual(lengthSquaredExpected, Math.Pow(2, -28) * lengthSquaredActual, Math.Max(minDelta, deltaRate * lengthSquaredExpected));
-                    Assert.AreEqual(lengthExpected, (double)lengthUnsignedActual, Math.Max(minDelta, deltaRate * lengthExpected));
-                    if (lengthSquared != lengthSquaredActual) {
-                        Assert.Fail();
-                    }
-                    if (lengthUnsigned != lengthUnsignedActual.Bits) {
-                        Assert.Fail();
-                    }
-                    if (!overflow) {
-                        Assert.AreEqual(lengthExpected, (double)lengthSignedActual, Math.Max(minDelta, deltaRate * lengthExpected));
-                        if (lengthSigned != lengthSignedActual.Bits) {
+
+                    {
+                        var actual = vector.LengthSquaredUnsigned();
+                        if (lengthSquared != actual.Bits) {
                             Assert.Fail();
                         }
+                        Assert.AreEqual(
+                            lengthSquaredExpected,
+                            (double)vector.LengthSquaredUnsigned(),
+                            Math.Max(minDelta, deltaRate * lengthSquaredExpected));
+                    }
+
+                    {
+                        var actual = vector.LengthUnsigned();
+                        if (lengthUnsigned != actual.Bits) {
+                            Assert.Fail();
+                        }
+                        Assert.AreEqual(
+                            lengthExpected,
+                            (double)actual,
+                            Math.Max(minDelta, deltaRate * lengthExpected));
+                    }
+
+                    if (overflow) {
+                        _ = Assert.Throws<OverflowException>(() => vector.LengthSigned());
+                    } else {
+                        var actual = vector.LengthSigned();
+                        if (lengthSigned != actual.Bits) {
+                            Assert.Fail();
+                        }
+                        Assert.AreEqual(
+                            lengthExpected,
+                            (double)actual,
+                            Math.Max(minDelta, deltaRate * lengthExpected));
                     }
                 }
             }
