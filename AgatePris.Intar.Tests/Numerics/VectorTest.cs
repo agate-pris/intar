@@ -129,48 +129,21 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
                 var signed = bits.All(IsInt);
                 var unsigned = bits.All(IsUInt);
+
+                IVector<U36F28, I36F28, U18F14, I18F14> v;
+
                 if (signed) {
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2I17F15(bits).Value;
-                            lengthSquared = $"{checked((ulong)v.LengthSquared().Bits)}";
-                            lengthUnsigned = v.LengthUnsigned().Bits;
-                            try {
-                                var length = v.Length();
-                                overflow = false;
-                                lengthSigned = length.Bits;
-                            } catch (OverflowException) {
-                                overflow = true;
-                                lengthSigned = 0;
-                            }
+                            v = CheckedToVector2I17F15(bits).Value;
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3I17F15(bits).Value;
-                            lengthSquared = $"{checked((ulong)v.LengthSquared().Bits)}";
-                            lengthUnsigned = v.LengthUnsigned().Bits;
-                            try {
-                                var length = v.Length();
-                                overflow = false;
-                                lengthSigned = length.Bits;
-                            } catch (OverflowException) {
-                                overflow = true;
-                                lengthSigned = 0;
-                            }
+                            v = CheckedToVector3I17F15(bits).Value;
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4I17F15(bits).Value;
-                            lengthSquared = $"{checked((ulong)v.LengthSquared().Bits)}";
-                            lengthUnsigned = v.LengthUnsigned().Bits;
-                            try {
-                                var length = v.Length();
-                                overflow = false;
-                                lengthSigned = length.Bits;
-                            } catch (OverflowException) {
-                                overflow = true;
-                                lengthSigned = 0;
-                            }
+                            v = CheckedToVector4I17F15(bits).Value;
                             break;
                         }
                         default: {
@@ -180,45 +153,15 @@ namespace AgatePris.Intar.Tests.Numerics {
                 } else if (unsigned) {
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2U17F15(bits).Value;
-                            lengthSquared = $"{v.LengthSquared().Bits}";
-                            lengthUnsigned = v.Length().Bits;
-                            try {
-                                var length = v.LengthSigned();
-                                overflow = false;
-                                lengthSigned = length.Bits;
-                            } catch (OverflowException) {
-                                overflow = true;
-                                lengthSigned = 0;
-                            }
+                            v = CheckedToVector2U17F15(bits).Value;
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3U17F15(bits).Value;
-                            lengthSquared = $"{v.LengthSquared().Bits}";
-                            lengthUnsigned = v.Length().Bits;
-                            try {
-                                var length = v.LengthSigned();
-                                overflow = false;
-                                lengthSigned = length.Bits;
-                            } catch (OverflowException) {
-                                overflow = true;
-                                lengthSigned = 0;
-                            }
+                            v = CheckedToVector3U17F15(bits).Value;
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4U17F15(bits).Value;
-                            lengthSquared = $"{v.LengthSquared().Bits}";
-                            lengthUnsigned = v.Length().Bits;
-                            try {
-                                var length = v.LengthSigned();
-                                overflow = false;
-                                lengthSigned = length.Bits;
-                            } catch (OverflowException) {
-                                overflow = true;
-                                lengthSigned = 0;
-                            }
+                            v = CheckedToVector4U17F15(bits).Value;
                             break;
                         }
                         default: {
@@ -227,6 +170,16 @@ namespace AgatePris.Intar.Tests.Numerics {
                     }
                 } else {
                     throw new NotImplementedException();
+                }
+
+                lengthSquared = $"{v.LengthSquaredUnsigned().Bits}";
+                lengthUnsigned = v.LengthUnsigned().Bits;
+                try {
+                    lengthSigned = v.LengthSigned().Bits;
+                    overflow = false;
+                } catch (OverflowException) {
+                    overflow = true;
+                    lengthSigned = 0;
                 }
             }
 
