@@ -650,6 +650,16 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         ulong LengthSquaredInternal() => DotInternal(this);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U26F38 LengthSquaredUnsigned() => U26F38.FromBits(
+            LengthSquaredInternal()
+        );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I26F38 LengthSquaredSigned() => I26F38.FromBits(
+            (long)LengthSquaredInternal()
+        );
+
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
@@ -666,9 +676,7 @@ namespace AgatePris.Intar.Numerics {
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U26F38 LengthSquared() {
-            return U26F38.FromBits(LengthSquaredInternal());
-        }
+        public U26F38 LengthSquared() => LengthSquaredUnsigned();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         uint LengthInternal() {
