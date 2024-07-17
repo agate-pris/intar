@@ -33,10 +33,13 @@
 {%- set self_bits_signed_type = macros::signed_type(t=self_bits_type) %}
 {%- set self_bits_unsigned_type = macros::unsigned_type(t=self_bits_type) %}
 {%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
+{%- set self_wide_bits_signed_type = macros::signed_type(t=self_wide_bits_type) %}
 {%- set self_wide_bits_unsigned_type = macros::unsigned_type(t=self_wide_bits_type) %}
 {%- set self_component_type = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
 {%- set self_component_signed_type = macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) %}
 {%- set self_component_unsigned_type = macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) %}
+{%- set self_length_squared_unsigned_type = macros::fixed_type(s=false, i=2*int_nbits+2, f=2*frac_nbits-2) %}
+{%- set self_length_squared_signed_type = macros::fixed_type(s=true, i=2*int_nbits+2, f=2*frac_nbits-2) %}
 {%- set self_length_squared_type = macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) %}
 {%- set self_length_unsigned_type = macros::fixed_type(s=false, i=int_nbits+1, f=frac_nbits-1) %}
 {%- set self_length_signed_type = macros::fixed_type(s=true, i=int_nbits+1, f=frac_nbits-1) %}
@@ -470,6 +473,16 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_length_squared_unsigned_type }} LengthSquaredUnsigned() => {{ self_length_squared_unsigned_type }}.FromBits(
+            {% if signed %}({{ self_wide_bits_unsigned_type }}){% endif %}LengthSquaredInternal()
+        );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_length_squared_signed_type }} LengthSquaredSigned() => {{ self_length_squared_signed_type }}.FromBits(
+            {% if not signed %}({{ self_wide_bits_signed_type }}){% endif %}LengthSquaredInternal()
+        );
+
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
@@ -486,9 +499,7 @@ namespace AgatePris.Intar.Numerics {
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_squared_type }} LengthSquared() {
-            return {{ self_length_squared_type }}.FromBits(LengthSquaredInternal());
-        }
+        public {{ self_length_squared_type }} LengthSquared() => LengthSquared{% if signed %}Signed{% else %}Unsigned{% endif %}();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_bits_unsigned_type }} LengthInternal() {
