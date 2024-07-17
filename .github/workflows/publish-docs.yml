@@ -1,9 +1,7 @@
-# Trigger the action on push to develop, github-pages, and main
+# Trigger the action on push to main
 on:
   push:
     branches:
-      - develop
-      - github-pages
       - main
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
