@@ -6,10 +6,7 @@ namespace AgatePris.Intar.Numerics {
     public struct Vector3U17F15
     : IEquatable<Vector3U17F15>
     , IFormattable
-    , IVector<
-        U36F28, I36F28,
-        U18F14, I18F14
-    > {
+    , IVector<U36F28, I36F28, U18F14, I18F14> {
         // Fields
         // ---------------------------------------
 
