@@ -183,9 +183,50 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
             }
 
-            public void Test() {
+            void Test<T>(
+                T v, double lengthSquaredExpected, double lengthExpected
+            ) where T : IVector<U36F28, I36F28, U18F14, I18F14> {
                 const double deltaRate = 1e-6;
                 const double minDelta = 7e-5;
+
+                {
+                    var lengthSquared = ulong.Parse(this.lengthSquared, null);
+                    var actual = v.LengthSquaredUnsigned();
+                    if (lengthSquared != actual.Bits) {
+                        Assert.Fail();
+                    }
+                    Assert.AreEqual(
+                        lengthSquaredExpected,
+                        (double)v.LengthSquaredUnsigned(),
+                        Math.Max(minDelta, deltaRate * lengthSquaredExpected));
+                }
+
+                {
+                    var actual = v.LengthUnsigned();
+                    if (lengthUnsigned != actual.Bits) {
+                        Assert.Fail();
+                    }
+                    Assert.AreEqual(
+                        lengthExpected,
+                        (double)actual,
+                        Math.Max(minDelta, deltaRate * lengthExpected));
+                }
+
+                if (overflow) {
+                    _ = Assert.Throws<OverflowException>(() => v.LengthSigned());
+                } else {
+                    var actual = v.LengthSigned();
+                    if (lengthSigned != actual.Bits) {
+                        Assert.Fail();
+                    }
+                    Assert.AreEqual(
+                        lengthExpected,
+                        (double)actual,
+                        Math.Max(minDelta, deltaRate * lengthExpected));
+                }
+            }
+
+            public void Test() {
                 var allBitsAreInt = AllBitsAreInt();
                 var allBitsAreUInt = AllBitsAreUInt();
                 if (!allBitsAreInt && !allBitsAreUInt) {
@@ -217,110 +258,44 @@ namespace AgatePris.Intar.Tests.Numerics {
                     default: throw new NotImplementedException();
                 }
 
-                var lengthSquared = ulong.Parse(this.lengthSquared, null);
-                IVector<U36F28, I36F28, U18F14, I18F14> vector;
                 if (allBitsAreInt) {
                     switch (bits.Count) {
                         case 2: {
-                            vector = CheckedToVector2I17F15(bits).Value;
+                            var v = CheckedToVector2I17F15(bits).Value;
+                            Test(v, lengthSquaredExpected, lengthExpected);
                             break;
                         }
                         case 3: {
-                            vector = CheckedToVector3I17F15(bits).Value;
+                            var v = CheckedToVector3I17F15(bits).Value;
+                            Test(v, lengthSquaredExpected, lengthExpected);
                             break;
                         }
                         case 4: {
-                            vector = CheckedToVector4I17F15(bits).Value;
+                            var v = CheckedToVector4I17F15(bits).Value;
+                            Test(v, lengthSquaredExpected, lengthExpected);
                             break;
                         }
                         default: throw new NotImplementedException();
-                    }
-
-                    {
-                        var actual = vector.LengthSquaredUnsigned();
-                        if (lengthSquared != actual.Bits) {
-                            Assert.Fail();
-                        }
-                        Assert.AreEqual(
-                            lengthSquaredExpected,
-                            (double)vector.LengthSquaredUnsigned(),
-                            Math.Max(minDelta, deltaRate * lengthSquaredExpected));
-                    }
-
-                    {
-                        var actual = vector.LengthUnsigned();
-                        if (lengthUnsigned != actual.Bits) {
-                            Assert.Fail();
-                        }
-                        Assert.AreEqual(
-                            lengthExpected,
-                            (double)actual,
-                            Math.Max(minDelta, deltaRate * lengthExpected));
-                    }
-
-                    if (overflow) {
-                        _ = Assert.Throws<OverflowException>(() => vector.LengthSigned());
-                    } else {
-                        var actual = vector.LengthSigned();
-                        if (lengthSigned != actual.Bits) {
-                            Assert.Fail();
-                        }
-                        Assert.AreEqual(
-                            lengthExpected,
-                            (double)actual,
-                            Math.Max(minDelta, deltaRate * lengthExpected));
                     }
                 }
                 if (allBitsAreUInt) {
                     switch (bits.Count) {
                         case 2: {
-                            vector = CheckedToVector2U17F15(bits).Value;
+                            var v = CheckedToVector2U17F15(bits).Value;
+                            Test(v, lengthSquaredExpected, lengthExpected);
                             break;
                         }
                         case 3: {
-                            vector = CheckedToVector3U17F15(bits).Value;
+                            var v = CheckedToVector3U17F15(bits).Value;
+                            Test(v, lengthSquaredExpected, lengthExpected);
                             break;
                         }
                         case 4: {
-                            vector = CheckedToVector4U17F15(bits).Value;
+                            var v = CheckedToVector4U17F15(bits).Value;
+                            Test(v, lengthSquaredExpected, lengthExpected);
                             break;
                         }
                         default: throw new NotImplementedException();
-                    }
-
-                    {
-                        var actual = vector.LengthSquaredUnsigned();
-                        if (lengthSquared != actual.Bits) {
-                            Assert.Fail();
-                        }
-                        Assert.AreEqual(
-                            lengthSquaredExpected,
-                            (double)vector.LengthSquaredUnsigned(),
-                            Math.Max(minDelta, deltaRate * lengthSquaredExpected));
-                    }
-
-                    {
-                        var actual = vector.LengthUnsigned();
-                        if (lengthUnsigned != actual.Bits) {
-                            Assert.Fail();
-                        }
-                        Assert.AreEqual(
-                            lengthExpected,
-                            (double)actual,
-                            Math.Max(minDelta, deltaRate * lengthExpected));
-                    }
-
-                    if (overflow) {
-                        _ = Assert.Throws<OverflowException>(() => vector.LengthSigned());
-                    } else {
-                        var actual = vector.LengthSigned();
-                        if (lengthSigned != actual.Bits) {
-                            Assert.Fail();
-                        }
-                        Assert.AreEqual(
-                            lengthExpected,
-                            (double)actual,
-                            Math.Max(minDelta, deltaRate * lengthExpected));
                     }
                 }
             }
