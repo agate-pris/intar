@@ -1,3 +1,4 @@
+using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -467,6 +468,51 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I25F7 Length() => LengthSigned();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I24F8? Normalize() {
+            var x0 = X.Bits;
+            var x1 = Y.Bits;
+            var x2 = Z.Bits;
+            var x3 = W.Bits;
+            var b0 = x0 < 0;
+            var b1 = x1 < 0;
+            var b2 = x2 < 0;
+            var b3 = x3 < 0;
+            var a0 = unchecked((uint)(b0 ? Overflowing.WrappingNeg(x0) : x0));
+            var a1 = unchecked((uint)(b1 ? Overflowing.WrappingNeg(x1) : x1));
+            var a2 = unchecked((uint)(b2 ? Overflowing.WrappingNeg(x2) : x2));
+            var a3 = unchecked((uint)(b3 ? Overflowing.WrappingNeg(x3) : x3));
+
+            var max = a0.Max(a1).Max(a2).Max(a3);
+            if (max == 0) {
+                return null;
+            }
+
+            ulong m = uint.MaxValue / max;
+            var l0 = m * a0;
+            var l1 = m * a1;
+            var l2 = m * a2;
+            var l3 = m * a3;
+            var sum =
+                (l0 * l0 / 4) +
+                (l1 * l1 / 4) +
+                (l2 * l2 / 4) +
+                (l3 * l3 / 4);
+            var ll = Mathi.Sqrt(sum);
+
+            const ulong k = 1UL << 7;
+            var y0 = (int)(l0 * k / ll);
+            var y1 = (int)(l1 * k / ll);
+            var y2 = (int)(l2 * k / ll);
+            var y3 = (int)(l3 * k / ll);
+
+            return new Vector4I24F8(
+                I24F8.FromBits(b0 ? -y0 : y0),
+                I24F8.FromBits(b1 ? -y1 : y1),
+                I24F8.FromBits(b2 ? -y2 : y2),
+                I24F8.FromBits(b3 ? -y3 : y3));
+        }
 
         // Swizzling Properties
         // ---------------------------------------

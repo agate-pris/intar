@@ -1,3 +1,4 @@
+using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -399,6 +400,38 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U9F23 Length() => LengthUnsigned();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3U8F24? Normalize() {
+            var a0 = X.Bits;
+            var a1 = Y.Bits;
+            var a2 = Z.Bits;
+
+            var max = a0.Max(a1).Max(a2);
+            if (max == 0) {
+                return null;
+            }
+
+            ulong m = uint.MaxValue / max;
+            var l0 = m * a0;
+            var l1 = m * a1;
+            var l2 = m * a2;
+            var sum =
+                (l0 * l0 / 4) +
+                (l1 * l1 / 4) +
+                (l2 * l2 / 4);
+            var ll = Mathi.Sqrt(sum);
+
+            const ulong k = 1UL << 23;
+            var y0 = (uint)(l0 * k / ll);
+            var y1 = (uint)(l1 * k / ll);
+            var y2 = (uint)(l2 * k / ll);
+
+            return new Vector3U8F24(
+                U8F24.FromBits(y0),
+                U8F24.FromBits(y1),
+                U8F24.FromBits(y2));
+        }
 
         // Swizzling Properties
         // ---------------------------------------
