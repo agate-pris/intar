@@ -48,7 +48,10 @@
 
 {%- if unity %}#if !UNITY_2018_3_OR_NEWER
 
-{% endif %}using System;
+{% endif -%}
+
+using AgatePris.Intar.Extensions;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
@@ -616,6 +619,65 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_length_type }} Length() => LengthUnsigned();
         {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_type }}? Normalize() {
+            {% if signed -%}
+
+            var x0 = X.Bits;
+            var x1 = Y.Bits;{% if dim > 2 %}
+            var x2 = Z.Bits;{% if dim > 3 %}
+            var x3 = W.Bits;{% endif %}{% endif %}
+
+            {%- for i in range(end=dim) %}
+            var b{{ i }} = x{{ i }} < 0;
+            {%- endfor %}
+
+            {%- for i in range(end=dim) %}
+            var a{{ i }} = unchecked(({{ self_bits_unsigned_type }})(b{{ i }} ? Overflowing.WrappingNeg(x{{ i }}) : x{{ i }}));
+            {%- endfor %}
+
+            {%- else -%}
+
+            var a0 = X.Bits;
+            var a1 = Y.Bits;{% if dim > 2 %}
+            var a2 = Z.Bits;{% if dim > 3 %}
+            var a3 = W.Bits;{% endif %}{% endif %}
+
+            {%- endif %}
+
+            var max = a0.Max(a1){% if dim > 2 %}.Max(a2){% if dim > 3 %}.Max(a3){% endif %}{% endif %};
+            if (max == 0) {
+                return null;
+            }
+
+            {{ self_wide_bits_unsigned_type }} m = {{ self_bits_unsigned_type }}.MaxValue / max;
+
+            {%- for i in range(end=dim) %}
+            var l{{ i }} = m * a{{ i }};
+            {%- endfor %}
+            var sum =
+                (l0 * l0 / 4) +
+                (l1 * l1 / 4){% if dim > 2 %} +
+                (l2 * l2 / 4){% if dim > 3 %} +
+                (l3 * l3 / 4){% endif %}{% endif %};
+            var ll = Mathi.Sqrt(sum);
+
+            const {{ self_wide_bits_unsigned_type }} k =
+            {%- if self_wide_bits_unsigned_type == "ulong" %} 1UL
+            {%- else %}{{ throw(message="self_wide_bits_unsigned_type: " ~ self_wide_bits_unsigned_type) }}
+            {%- endif %} << {{ frac_nbits - 1 }};
+
+            {%- for i in range(end=dim) %}
+            var y{{ i }} = ({{ self_bits_type }})(l{{ i }} * k / ll);
+            {%- endfor %}
+
+            return new {{ self_type }}(
+                {{ self_component_type }}.FromBits({% if signed %}b0 ? -y0 : {% endif %}y0),
+                {{ self_component_type }}.FromBits({% if signed %}b1 ? -y1 : {% endif %}y1){% if dim > 2 %},
+                {{ self_component_type }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
+                {{ self_component_type }}.FromBits({% if signed %}b3 ? -y3 : {% endif %}y3){% endif %}{% endif %});
+        }
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
