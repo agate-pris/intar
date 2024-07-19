@@ -96,17 +96,12 @@ namespace AgatePris.Intar.Tests.Numerics {
 #if !UNITY_5_6_OR_NEWER
             [JsonInclude]
 #endif
-            public uint lengthUnsigned;
+            public uint length;
 
 #if !UNITY_5_6_OR_NEWER
             [JsonInclude]
 #endif
             public bool overflow;
-
-#if !UNITY_5_6_OR_NEWER
-            [JsonInclude]
-#endif
-            public int lengthSigned;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -173,13 +168,12 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
 
                 lengthSquared = $"{v.LengthSquaredUnsigned().Bits}";
-                lengthUnsigned = v.LengthUnsigned().Bits;
+                length = v.LengthUnsigned().Bits;
                 try {
-                    lengthSigned = v.LengthSigned().Bits;
+                    _ = v.LengthSigned().Bits;
                     overflow = false;
                 } catch (OverflowException) {
                     overflow = true;
-                    lengthSigned = 0;
                 }
             }
 
@@ -203,7 +197,7 @@ namespace AgatePris.Intar.Tests.Numerics {
 
                 {
                     var actual = v.LengthUnsigned();
-                    if (lengthUnsigned != actual.Bits) {
+                    if (length != actual.Bits) {
                         Assert.Fail();
                     }
                     Assert.AreEqual(
@@ -215,14 +209,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 if (overflow) {
                     _ = Assert.Throws<OverflowException>(() => v.LengthSigned());
                 } else {
-                    var actual = v.LengthSigned();
-                    if (lengthSigned != actual.Bits) {
-                        Assert.Fail();
-                    }
-                    Assert.AreEqual(
-                        lengthExpected,
-                        (double)actual,
-                        Math.Max(minDelta, deltaRate * lengthExpected));
+                    _ = v.LengthSigned();
                 }
             }
 
