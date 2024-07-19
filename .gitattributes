@@ -1,7 +1,12 @@
-*.cs            text
+*.cs            text eol=lf
 *.csproj        text
 *.editorconfig  text
 *.gitattributes text eol=lf
 *.gitignore     text eol=lf
 *.json          text eol=lf
+*.md            text eol=lf
+*.rs            text eol=lf
 *.sln           text
+*.yml           text eol=lf
+Cargo.toml      text eol=lf
+Cargo.lock      text eol=lf

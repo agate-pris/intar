@@ -1,0 +1,16 @@
+{
+    "name": "AgatePris.Intar.Numerics",
+    "rootNamespace": "AgatePris.Intar.Numerics",
+    "references": [
+        "GUID:fc6b850f7ef686149b93de80ca2b03bc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

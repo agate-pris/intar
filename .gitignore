@@ -469,3 +469,10 @@ $RECYCLE.BIN/
 /LICENSE.meta
 /package.json.meta
 /README.md.meta
+
+# Document Artifacts
+/.docfx/_site/
+/.docfx/api/
+
+# Others
+.conan
