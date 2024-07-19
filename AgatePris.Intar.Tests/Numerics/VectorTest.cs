@@ -103,6 +103,11 @@ namespace AgatePris.Intar.Tests.Numerics {
 #endif
             public bool overflow;
 
+#if !UNITY_5_6_OR_NEWER
+            [JsonInclude]
+#endif
+            public List<long> normalized;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -125,20 +130,47 @@ namespace AgatePris.Intar.Tests.Numerics {
                 var signed = bits.All(IsInt);
                 var unsigned = bits.All(IsUInt);
 
-                IVector<U36F28, I36F28, U18F14, I18F14> v;
+                IVector<U36F28, I36F28, U18F14, I18F14> vector;
 
                 if (signed) {
                     switch (bits.Count) {
                         case 2: {
-                            v = CheckedToVector2I17F15(bits).Value;
+                            var v = CheckedToVector2I17F15(bits).Value;
+                            var normalized = v.Normalize();
+                            this.normalized = normalized.HasValue
+                                ? new List<long> {
+                                    normalized.Value.X.Bits,
+                                    normalized.Value.Y.Bits
+                                }
+                                : new List<long>();
+                            vector = v;
                             break;
                         }
                         case 3: {
-                            v = CheckedToVector3I17F15(bits).Value;
+                            var v = CheckedToVector3I17F15(bits).Value;
+                            var normalized = v.Normalize();
+                            this.normalized = normalized.HasValue
+                                ? new List<long> {
+                                    normalized.Value.X.Bits,
+                                    normalized.Value.Y.Bits,
+                                    normalized.Value.Z.Bits
+                                }
+                                : new List<long>();
+                            vector = v;
                             break;
                         }
                         case 4: {
-                            v = CheckedToVector4I17F15(bits).Value;
+                            var v = CheckedToVector4I17F15(bits).Value;
+                            var normalized = v.Normalize();
+                            this.normalized = normalized.HasValue
+                                ? new List<long> {
+                                    normalized.Value.X.Bits,
+                                    normalized.Value.Y.Bits,
+                                    normalized.Value.Z.Bits,
+                                    normalized.Value.W.Bits
+                                }
+                                : new List<long>();
+                            vector = v;
                             break;
                         }
                         default: {
@@ -148,15 +180,42 @@ namespace AgatePris.Intar.Tests.Numerics {
                 } else if (unsigned) {
                     switch (bits.Count) {
                         case 2: {
-                            v = CheckedToVector2U17F15(bits).Value;
+                            var v = CheckedToVector2U17F15(bits).Value;
+                            var normalized = v.Normalize();
+                            this.normalized = normalized.HasValue
+                                ? new List<long> {
+                                    normalized.Value.X.Bits,
+                                    normalized.Value.Y.Bits
+                                }
+                                : new List<long>();
+                            vector = v;
                             break;
                         }
                         case 3: {
-                            v = CheckedToVector3U17F15(bits).Value;
+                            var v = CheckedToVector3U17F15(bits).Value;
+                            var normalized = v.Normalize();
+                            this.normalized = normalized.HasValue
+                                ? new List<long> {
+                                    normalized.Value.X.Bits,
+                                    normalized.Value.Y.Bits,
+                                    normalized.Value.Z.Bits
+                                }
+                                : new List<long>();
+                            vector = v;
                             break;
                         }
                         case 4: {
-                            v = CheckedToVector4U17F15(bits).Value;
+                            var v = CheckedToVector4U17F15(bits).Value;
+                            var normalized = v.Normalize();
+                            this.normalized = normalized.HasValue
+                                ? new List<long> {
+                                    normalized.Value.X.Bits,
+                                    normalized.Value.Y.Bits,
+                                    normalized.Value.Z.Bits,
+                                    normalized.Value.W.Bits
+                                }
+                                : new List<long>();
+                            vector = v;
                             break;
                         }
                         default: {
@@ -167,20 +226,44 @@ namespace AgatePris.Intar.Tests.Numerics {
                     throw new NotImplementedException();
                 }
 
-                lengthSquared = $"{v.LengthSquaredUnsigned().Bits}";
-                length = v.LengthUnsigned().Bits;
+                lengthSquared = $"{vector.LengthSquaredUnsigned().Bits}";
+                length = vector.LengthUnsigned().Bits;
                 try {
-                    _ = v.LengthSigned().Bits;
+                    _ = vector.LengthSigned();
                     overflow = false;
                 } catch (OverflowException) {
                     overflow = true;
                 }
             }
 
+            static void Test(List<long> expected, List<long> actual) {
+                if (expected.Count != actual.Count) {
+                    Assert.Fail();
+                }
+                for (var i = 0; i < actual.Count; ++i) {
+                    if (expected[i] != actual[i]) {
+                        Assert.Fail($"expected[i]: {expected[i]}, actual[i]: {actual[i]}");
+                    }
+                }
+            }
+            static void Test(List<float> expected, List<long> actual, double delta) {
+                if (expected.Count != actual.Count) {
+                    if (actual.Count != 0) {
+                        Assert.Fail();
+                    }
+                    Assert.IsTrue(expected.All(float.IsNaN));
+                } else {
+                    for (var i = 0; i < actual.Count; ++i) {
+                        const double k = 1.0 / (1 << 15);
+                        Assert.AreEqual(expected[i], k * actual[i], delta);
+                    }
+                }
+            }
+
             void Test<T>(
                 T v, double lengthSquaredExpected, double lengthExpected
             ) where T : IVector<U36F28, I36F28, U18F14, I18F14> {
-                const double deltaRate = 1e-6;
+                const double deltaRate = 2e-7;
                 const double minDelta = 7e-5;
 
                 {
@@ -223,67 +306,142 @@ namespace AgatePris.Intar.Tests.Numerics {
                 const float k = 1.0F / (1 << 15);
                 double lengthSquaredExpected;
                 double lengthExpected;
+                List<float> normalizedExpected;
                 switch (bits.Count) {
                     case 2: {
-                        var v = new System.Numerics.Vector2(k * bits[0], k * bits[1]);
+                        var v = new System.Numerics.Vector2(
+                            k * bits[0],
+                            k * bits[1]);
                         lengthSquaredExpected = v.LengthSquared();
                         lengthExpected = v.Length();
+                        var n = System.Numerics.Vector2.Normalize(v);
+                        normalizedExpected = new List<float> {
+                            n.X,
+                            n.Y };
                         break;
                     }
                     case 3: {
-                        var v = new System.Numerics.Vector3(k * bits[0], k * bits[1], k * bits[2]);
+                        var v = new System.Numerics.Vector3(
+                            k * bits[0],
+                            k * bits[1],
+                            k * bits[2]);
                         lengthSquaredExpected = v.LengthSquared();
                         lengthExpected = v.Length();
+                        var n = System.Numerics.Vector3.Normalize(v);
+                        normalizedExpected = new List<float> {
+                            n.X,
+                            n.Y,
+                            n.Z };
                         break;
                     }
                     case 4: {
-                        var v = new System.Numerics.Vector4(k * bits[0], k * bits[1], k * bits[2], k * bits[3]);
+                        var v = new System.Numerics.Vector4(
+                            k * bits[0],
+                            k * bits[1],
+                            k * bits[2],
+                            k * bits[3]);
                         lengthSquaredExpected = v.LengthSquared();
                         lengthExpected = v.Length();
+                        var n = System.Numerics.Vector4.Normalize(v);
+                        normalizedExpected = new List<float> {
+                            n.X,
+                            n.Y,
+                            n.Z,
+                            n.W };
                         break;
                     }
                     default: throw new NotImplementedException();
                 }
 
                 if (allBitsAreInt) {
+                    List<long> normalizedActual;
                     switch (bits.Count) {
                         case 2: {
                             var v = CheckedToVector2I17F15(bits).Value;
                             Test(v, lengthSquaredExpected, lengthExpected);
+                            var n = v.Normalize();
+                            normalizedActual = n.HasValue
+                                ? new List<long> {
+                                    n.Value.X.Bits,
+                                    n.Value.Y.Bits }
+                                : new List<long>();
                             break;
                         }
                         case 3: {
                             var v = CheckedToVector3I17F15(bits).Value;
                             Test(v, lengthSquaredExpected, lengthExpected);
+                            var n = v.Normalize();
+                            normalizedActual = n.HasValue
+                                ? new List<long> {
+                                    n.Value.X.Bits,
+                                    n.Value.Y.Bits,
+                                    n.Value.Z.Bits }
+                                : new List<long>();
                             break;
                         }
                         case 4: {
                             var v = CheckedToVector4I17F15(bits).Value;
                             Test(v, lengthSquaredExpected, lengthExpected);
+                            var n = v.Normalize();
+                            normalizedActual = n.HasValue
+                                ? new List<long> {
+                                    n.Value.X.Bits,
+                                    n.Value.Y.Bits,
+                                    n.Value.Z.Bits,
+                                    n.Value.W.Bits }
+                                : new List<long>();
                             break;
                         }
                         default: throw new NotImplementedException();
                     }
+
+                    Test(normalized, normalizedActual);
+                    Test(normalizedExpected, normalizedActual, 4e-5);
                 }
                 if (allBitsAreUInt) {
+                    List<long> normalizedActual;
                     switch (bits.Count) {
                         case 2: {
                             var v = CheckedToVector2U17F15(bits).Value;
                             Test(v, lengthSquaredExpected, lengthExpected);
+                            var n = v.Normalize();
+                            normalizedActual = n.HasValue
+                                ? new List<long> {
+                                    n.Value.X.Bits,
+                                    n.Value.Y.Bits }
+                                : new List<long>();
                             break;
                         }
                         case 3: {
                             var v = CheckedToVector3U17F15(bits).Value;
                             Test(v, lengthSquaredExpected, lengthExpected);
+                            var n = v.Normalize();
+                            normalizedActual = n.HasValue
+                                ? new List<long> {
+                                    n.Value.X.Bits,
+                                    n.Value.Y.Bits,
+                                    n.Value.Z.Bits }
+                                : new List<long>();
                             break;
                         }
                         case 4: {
                             var v = CheckedToVector4U17F15(bits).Value;
                             Test(v, lengthSquaredExpected, lengthExpected);
+                            var n = v.Normalize();
+                            normalizedActual = n.HasValue
+                                ? new List<long> {
+                                    n.Value.X.Bits,
+                                    n.Value.Y.Bits,
+                                    n.Value.Z.Bits,
+                                    n.Value.W.Bits }
+                                : new List<long>();
                             break;
                         }
                         default: throw new NotImplementedException();
                     }
+
+                    Test(normalized, normalizedActual);
+                    Test(normalizedExpected, normalizedActual, 4e-5);
                 }
             }
         }
@@ -319,7 +477,116 @@ namespace AgatePris.Intar.Tests.Numerics {
 #else
                         var testCase = System.Text.Json.JsonSerializer.Deserialize<UnaryCase>(line);
 #endif
-                        testCase.Test();
+                        long nx = 0, ny = 0, nz = 0, nw = 0;
+                        switch (testCase.bits.Count) {
+                            case 2: {
+                                var indices = new List<List<int>> {
+                                    new List<int> { 0, 1 },
+                                    new List<int> { 1, 0 },
+                                };
+                                var x = testCase.bits[0];
+                                var y = testCase.bits[1];
+                                if (testCase.normalized.Count != 0) {
+                                    nx = testCase.normalized[0];
+                                    ny = testCase.normalized[1];
+                                }
+                                foreach (var index in indices) {
+                                    testCase.bits[index[0]] = x;
+                                    testCase.bits[index[1]] = y;
+                                    if (testCase.normalized.Count != 0) {
+                                        testCase.normalized[index[0]] = nx;
+                                        testCase.normalized[index[1]] = ny;
+                                    }
+                                    testCase.Test();
+                                }
+                                break;
+                            }
+                            case 3: {
+                                var indices = new List<List<int>> {
+                                    new List<int> { 0, 1, 2 },
+                                    new List<int> { 0, 2, 1 },
+                                    new List<int> { 1, 2, 0 },
+                                    new List<int> { 1, 0, 2 },
+                                    new List<int> { 2, 0, 1 },
+                                    new List<int> { 2, 1, 0 },
+                                };
+                                var x = testCase.bits[0];
+                                var y = testCase.bits[1];
+                                var z = testCase.bits[2];
+                                if (testCase.normalized.Count != 0) {
+                                    nx = testCase.normalized[0];
+                                    ny = testCase.normalized[1];
+                                    nz = testCase.normalized[2];
+                                }
+                                foreach (var index in indices) {
+                                    testCase.bits[index[0]] = x;
+                                    testCase.bits[index[1]] = y;
+                                    testCase.bits[index[2]] = z;
+                                    if (testCase.normalized.Count != 0) {
+                                        testCase.normalized[index[0]] = nx;
+                                        testCase.normalized[index[1]] = ny;
+                                        testCase.normalized[index[2]] = nz;
+                                    }
+                                    testCase.Test();
+                                }
+                                break;
+                            }
+                            case 4: {
+                                var indices = new List<List<int>> {
+                                    new List<int> { 0, 1, 2, 3 },
+                                    new List<int> { 0, 1, 3, 2 },
+                                    new List<int> { 0, 2, 3, 1 },
+                                    new List<int> { 0, 2, 1, 3 },
+                                    new List<int> { 0, 3, 1, 2 },
+                                    new List<int> { 0, 3, 2, 1 },
+                                    new List<int> { 1, 2, 3, 0 },
+                                    new List<int> { 1, 2, 0, 3 },
+                                    new List<int> { 1, 3, 0, 2 },
+                                    new List<int> { 1, 3, 2, 0 },
+                                    new List<int> { 1, 0, 2, 3 },
+                                    new List<int> { 1, 0, 3, 2 },
+                                    new List<int> { 2, 3, 0, 1 },
+                                    new List<int> { 2, 3, 1, 0 },
+                                    new List<int> { 2, 0, 1, 3 },
+                                    new List<int> { 2, 0, 3, 1 },
+                                    new List<int> { 2, 1, 3, 0 },
+                                    new List<int> { 2, 1, 0, 3 },
+                                    new List<int> { 3, 0, 1, 2 },
+                                    new List<int> { 3, 0, 2, 1 },
+                                    new List<int> { 3, 1, 2, 0 },
+                                    new List<int> { 3, 1, 0, 2 },
+                                    new List<int> { 3, 2, 0, 1 },
+                                    new List<int> { 3, 2, 1, 0 },
+                                };
+                                var x = testCase.bits[0];
+                                var y = testCase.bits[1];
+                                var z = testCase.bits[2];
+                                var w = testCase.bits[3];
+                                if (testCase.normalized.Count != 0) {
+                                    nx = testCase.normalized[0];
+                                    ny = testCase.normalized[1];
+                                    nz = testCase.normalized[2];
+                                    nw = testCase.normalized[3];
+                                }
+                                foreach (var index in indices) {
+                                    testCase.bits[index[0]] = x;
+                                    testCase.bits[index[1]] = y;
+                                    testCase.bits[index[2]] = z;
+                                    testCase.bits[index[3]] = w;
+                                    if (testCase.normalized.Count != 0) {
+                                        testCase.normalized[index[0]] = nx;
+                                        testCase.normalized[index[1]] = ny;
+                                        testCase.normalized[index[2]] = nz;
+                                        testCase.normalized[index[3]] = nw;
+                                    }
+                                    testCase.Test();
+                                }
+                                break;
+                            }
+                            default: {
+                                throw new NotImplementedException();
+                            }
+                        }
                     } else {
                         throw new NotImplementedException();
                     }
@@ -342,6 +609,9 @@ namespace AgatePris.Intar.Tests.Numerics {
 
                 foreach (var x in l) {
                     foreach (var y in l) {
+                        if (x < y) {
+                            continue;
+                        }
                         var signed = AllAreInt(x, y);
                         var unsigned = AllAreUInt(x, y);
                         if (signed || unsigned) {
@@ -354,7 +624,13 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
                 foreach (var x in l) {
                     foreach (var y in l) {
+                        if (x < y) {
+                            continue;
+                        }
                         foreach (var z in l) {
+                            if (y < z) {
+                                continue;
+                            }
                             var signed = AllAreInt(x, y, z);
                             var unsigned = AllAreUInt(x, y, z);
                             if (signed || unsigned) {
@@ -368,8 +644,17 @@ namespace AgatePris.Intar.Tests.Numerics {
                 }
                 foreach (var x in l) {
                     foreach (var y in l) {
+                        if (x < y) {
+                            continue;
+                        }
                         foreach (var z in l) {
+                            if (y < z) {
+                                continue;
+                            }
                             foreach (var w in l) {
+                                if (z < w) {
+                                    continue;
+                                }
                                 var signed = AllAreInt(x, y, z, w);
                                 var unsigned = AllAreUInt(x, y, z, w);
                                 if (signed || unsigned) {
