@@ -181,6 +181,269 @@ namespace AgatePris.Intar.Numerics {
             }
         }
 
+        // Object
+        // ---------------------------------------
+
+        public override bool Equals(object obj) => obj is Vector4U30F2 o && Equals(o);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString() => $"<{X}, {Y}, {Z}, {W}>";
+
+        // IEquatable<Vector4U30F2>
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Vector4U30F2 other)
+            => other.X == X
+            && other.Y == Y
+            && other.Z == Z
+            && other.W == W;
+
+        // IFormattable
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ToString(string format, IFormatProvider formatProvider) {
+            var x = X.ToString(format, formatProvider);
+            var y = Y.ToString(format, formatProvider);
+            var z = Z.ToString(format, formatProvider);
+            var w = W.ToString(format, formatProvider);
+            return $"<{x}, {y}, {z}, {w}>";
+        }
+
+        // Methods
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 Min(Vector4U30F2 other) => new Vector4U30F2(
+            X.Min(other.X),
+            Y.Min(other.Y),
+            Z.Min(other.Z),
+            W.Min(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 Max(Vector4U30F2 other) => new Vector4U30F2(
+            X.Max(other.X),
+            Y.Max(other.Y),
+            Z.Max(other.Z),
+            W.Max(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 Half() => new Vector4U30F2(
+            X.Half(),
+            Y.Half(),
+            Z.Half(),
+            W.Half());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 Twice() => new Vector4U30F2(
+            X.Twice(),
+            Y.Twice(),
+            Z.Twice(),
+            W.Twice());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 Clamp(U30F2 min, U30F2 max) => new Vector4U30F2(
+            X.Clamp(min, max),
+            Y.Clamp(min, max),
+            Z.Clamp(min, max),
+            W.Clamp(min, max));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 Clamp(
+            Vector4U30F2 min, Vector4U30F2 max
+        ) => new Vector4U30F2(
+            X.Clamp(min.X, max.X),
+            Y.Clamp(min.Y, max.Y),
+            Z.Clamp(min.Z, max.Z),
+            W.Clamp(min.W, max.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 WrappingAdd(Vector4U30F2 other) => new Vector4U30F2(
+            X.WrappingAdd(other.X),
+            Y.WrappingAdd(other.Y),
+            Z.WrappingAdd(other.Z),
+            W.WrappingAdd(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 WrappingSub(Vector4U30F2 other) => new Vector4U30F2(
+            X.WrappingSub(other.X),
+            Y.WrappingSub(other.Y),
+            Z.WrappingSub(other.Z),
+            W.WrappingSub(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 WrappingMul(Vector4U30F2 other) => new Vector4U30F2(
+            X.WrappingMul(other.X),
+            Y.WrappingMul(other.Y),
+            Z.WrappingMul(other.Z),
+            W.WrappingMul(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 WrappingAddSigned(Vector4I30F2 other) => new Vector4U30F2(
+            X.WrappingAddSigned(other.X),
+            Y.WrappingAddSigned(other.Y),
+            Z.WrappingAddSigned(other.Z),
+            W.WrappingAddSigned(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 SaturatingAdd(Vector4U30F2 other) => new Vector4U30F2(
+            X.SaturatingAdd(other.X),
+            Y.SaturatingAdd(other.Y),
+            Z.SaturatingAdd(other.Z),
+            W.SaturatingAdd(other.W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4U30F2 SaturatingMul(U30F2 other) => new Vector4U30F2(
+            X.SaturatingMul(other),
+            Y.SaturatingMul(other),
+            Z.SaturatingMul(other),
+            W.SaturatingMul(other));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        ulong DotInternal(Vector4U30F2 other) {
+            var x = ((ulong)X.Bits) * other.X.Bits;
+            var y = ((ulong)Y.Bits) * other.Y.Bits;
+            var z = ((ulong)Z.Bits) * other.Z.Bits;
+            var w = ((ulong)W.Bits) * other.W.Bits;
+
+            // オーバーフローを避けるため､ 事前に除算する｡
+            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
+            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
+            return
+                (x / 4) +
+                (y / 4) +
+                (z / 4) +
+                (w / 4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U30F2 Dot(Vector4U30F2 other) {
+            const ulong k = 1UL << 0;
+            return U30F2.FromBits((uint)(DotInternal(other) / k));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U30F2 SaturatingDot(Vector4U30F2 other) {
+            const ulong k = 1UL << 0;
+            var bits = DotInternal(other) / k;
+            if (bits > uint.MaxValue) {
+                return U30F2.MaxValue;
+            } else {
+                return U30F2.FromBits((uint)bits);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        ulong LengthSquaredInternal() => DotInternal(this);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U62F2 LengthSquaredUnsigned() => U62F2.FromBits(
+            LengthSquaredInternal()
+        );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I62F2 LengthSquaredSigned() => I62F2.FromBits(
+            (long)LengthSquaredInternal()
+        );
+
+        /// <summary>
+        /// <para>Returns the length of the vector squared.</para>
+        /// <para>ベクトルの長さの 2 乗を返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <div class="TIP alert alert-info">
+        /// <h5>Tip</h5>
+        /// <para>This method divides the square of each element by 4
+        /// during the calculation to prevent overflow.</para>
+        /// <para>このメソッドはオーバーフローを防ぐため､
+        /// 計算の過程で各要素の 2 乗を 4 で除算します｡
+        /// そのため､ 精度が犠牲になっています｡
+        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U62F2 LengthSquared() => LengthSquaredUnsigned();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        uint LengthInternal() {
+            return (uint)Mathi.Sqrt(LengthSquaredInternal());
+        }
+
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <see cref="LengthHalfSigned">LengthHalfSigned</see> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <see cref="LengthHalfSigned">LengthHalfSigned</see> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalfSigned"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U30F2 LengthHalf() => U30F2.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the half of the length of the vector.</para>
+        /// <para>ベクトルの長さの半分を返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
+        /// <para><see cref="LengthHalf">LengthHalf</see> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><see cref="LengthHalf">LengthHalf</see> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalf"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I30F2 LengthHalfSigned() => I30F2.FromBits(checked((int)LengthInternal()));
+
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </remarks>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalf"/>
+        /// <seealso cref="LengthSigned"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U31F1 LengthUnsigned() => U31F1.FromBits(LengthInternal());
+
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// <remarks><div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
+        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> differs from this method in that
+        /// it does not throws an exception because the result always falls within a range.</para>
+        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> はこのメソッドと異なり､
+        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
+        /// </div></remarks>
+        /// </summary>
+        /// <seealso cref="LengthSquared"/>
+        /// <seealso cref="LengthHalfSigned"/>
+        /// <seealso cref="LengthUnsigned"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I31F1 LengthSigned() => I31F1.FromBits(checked((int)LengthInternal()));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U31F1 Length() => LengthUnsigned();
+
         // Swizzling Properties
         // ---------------------------------------
 
@@ -520,269 +783,6 @@ namespace AgatePris.Intar.Numerics {
         public Vector4U30F2 WWWY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U30F2(W, W, W, Y); }
         public Vector4U30F2 WWWZ { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U30F2(W, W, W, Z); }
         public Vector4U30F2 WWWW { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U30F2(W, W, W, W); }
-
-        // Object
-        // ---------------------------------------
-
-        public override bool Equals(object obj) => obj is Vector4U30F2 o && Equals(o);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => $"<{X}, {Y}, {Z}, {W}>";
-
-        // IEquatable<Vector4U30F2>
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector4U30F2 other)
-            => other.X == X
-            && other.Y == Y
-            && other.Z == Z
-            && other.W == W;
-
-        // IFormattable
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ToString(string format, IFormatProvider formatProvider) {
-            var x = X.ToString(format, formatProvider);
-            var y = Y.ToString(format, formatProvider);
-            var z = Z.ToString(format, formatProvider);
-            var w = W.ToString(format, formatProvider);
-            return $"<{x}, {y}, {z}, {w}>";
-        }
-
-        // Methods
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 Min(Vector4U30F2 other) => new Vector4U30F2(
-            X.Min(other.X),
-            Y.Min(other.Y),
-            Z.Min(other.Z),
-            W.Min(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 Max(Vector4U30F2 other) => new Vector4U30F2(
-            X.Max(other.X),
-            Y.Max(other.Y),
-            Z.Max(other.Z),
-            W.Max(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 Half() => new Vector4U30F2(
-            X.Half(),
-            Y.Half(),
-            Z.Half(),
-            W.Half());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 Twice() => new Vector4U30F2(
-            X.Twice(),
-            Y.Twice(),
-            Z.Twice(),
-            W.Twice());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 Clamp(U30F2 min, U30F2 max) => new Vector4U30F2(
-            X.Clamp(min, max),
-            Y.Clamp(min, max),
-            Z.Clamp(min, max),
-            W.Clamp(min, max));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 Clamp(
-            Vector4U30F2 min, Vector4U30F2 max
-        ) => new Vector4U30F2(
-            X.Clamp(min.X, max.X),
-            Y.Clamp(min.Y, max.Y),
-            Z.Clamp(min.Z, max.Z),
-            W.Clamp(min.W, max.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 WrappingAdd(Vector4U30F2 other) => new Vector4U30F2(
-            X.WrappingAdd(other.X),
-            Y.WrappingAdd(other.Y),
-            Z.WrappingAdd(other.Z),
-            W.WrappingAdd(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 WrappingSub(Vector4U30F2 other) => new Vector4U30F2(
-            X.WrappingSub(other.X),
-            Y.WrappingSub(other.Y),
-            Z.WrappingSub(other.Z),
-            W.WrappingSub(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 WrappingMul(Vector4U30F2 other) => new Vector4U30F2(
-            X.WrappingMul(other.X),
-            Y.WrappingMul(other.Y),
-            Z.WrappingMul(other.Z),
-            W.WrappingMul(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 WrappingAddSigned(Vector4I30F2 other) => new Vector4U30F2(
-            X.WrappingAddSigned(other.X),
-            Y.WrappingAddSigned(other.Y),
-            Z.WrappingAddSigned(other.Z),
-            W.WrappingAddSigned(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 SaturatingAdd(Vector4U30F2 other) => new Vector4U30F2(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y),
-            Z.SaturatingAdd(other.Z),
-            W.SaturatingAdd(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U30F2 SaturatingMul(U30F2 other) => new Vector4U30F2(
-            X.SaturatingMul(other),
-            Y.SaturatingMul(other),
-            Z.SaturatingMul(other),
-            W.SaturatingMul(other));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        ulong DotInternal(Vector4U30F2 other) {
-            var x = ((ulong)X.Bits) * other.X.Bits;
-            var y = ((ulong)Y.Bits) * other.Y.Bits;
-            var z = ((ulong)Z.Bits) * other.Z.Bits;
-            var w = ((ulong)W.Bits) * other.W.Bits;
-
-            // オーバーフローを避けるため､ 事前に除算する｡
-            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            return
-                (x / 4) +
-                (y / 4) +
-                (z / 4) +
-                (w / 4);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U30F2 Dot(Vector4U30F2 other) {
-            const ulong k = 1UL << 0;
-            return U30F2.FromBits((uint)(DotInternal(other) / k));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U30F2 SaturatingDot(Vector4U30F2 other) {
-            const ulong k = 1UL << 0;
-            var bits = DotInternal(other) / k;
-            if (bits > uint.MaxValue) {
-                return U30F2.MaxValue;
-            } else {
-                return U30F2.FromBits((uint)bits);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        ulong LengthSquaredInternal() => DotInternal(this);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U62F2 LengthSquaredUnsigned() => U62F2.FromBits(
-            LengthSquaredInternal()
-        );
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I62F2 LengthSquaredSigned() => I62F2.FromBits(
-            (long)LengthSquaredInternal()
-        );
-
-        /// <summary>
-        /// <para>Returns the length of the vector squared.</para>
-        /// <para>ベクトルの長さの 2 乗を返します｡</para>
-        /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>This method divides the square of each element by 4
-        /// during the calculation to prevent overflow.</para>
-        /// <para>このメソッドはオーバーフローを防ぐため､
-        /// 計算の過程で各要素の 2 乗を 4 で除算します｡
-        /// そのため､ 精度が犠牲になっています｡
-        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡</para>
-        /// </div>
-        /// </remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U62F2 LengthSquared() => LengthSquaredUnsigned();
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        uint LengthInternal() {
-            return (uint)Mathi.Sqrt(LengthSquaredInternal());
-        }
-
-        /// <summary>
-        /// <para>Returns the half of the length of the vector.</para>
-        /// <para>ベクトルの長さの半分を返します｡</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>This method differs from <see cref="LengthHalfSigned">LengthHalfSigned</see> in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="LengthHalfSigned">LengthHalfSigned</see> とは異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </remarks>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalfSigned"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U30F2 LengthHalf() => U30F2.FromBits(LengthInternal());
-
-        /// <summary>
-        /// <para>Returns the half of the length of the vector.</para>
-        /// <para>ベクトルの長さの半分を返します｡</para>
-        /// <remarks><div class="WARNING alert alert-warning">
-        /// <h5>Warning</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
-        /// <para><see cref="LengthHalf">LengthHalf</see> differs from this method in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><see cref="LengthHalf">LengthHalf</see> はこのメソッドと異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </div></remarks>
-        /// </summary>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I30F2 LengthHalfSigned() => I30F2.FromBits(checked((int)LengthInternal()));
-
-        /// <summary>
-        /// <para>Returns the length of the vector.</para>
-        /// <para>ベクトルの長さを返します｡</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </remarks>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf"/>
-        /// <seealso cref="LengthSigned"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1 LengthUnsigned() => U31F1.FromBits(LengthInternal());
-
-        /// <summary>
-        /// <para>Returns the length of the vector.</para>
-        /// <para>ベクトルの長さを返します｡</para>
-        /// <remarks><div class="WARNING alert alert-warning">
-        /// <h5>Warning</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
-        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> differs from this method in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> はこのメソッドと異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </div></remarks>
-        /// </summary>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalfSigned"/>
-        /// <seealso cref="LengthUnsigned"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I31F1 LengthSigned() => I31F1.FromBits(checked((int)LengthInternal()));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U31F1 Length() => LengthUnsigned();
 
     }
 

@@ -234,10 +234,6 @@ namespace AgatePris.Intar.Numerics {
             }
         }
 
-        // Swizzling Properties
-        // ---------------------------------------
-{{ self::swizzling(component_type=self_component_type) }}
-
         // Object
         // ---------------------------------------
 
@@ -646,6 +642,10 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endfor %}
         {%- endif %}
+
+        // Swizzling Properties
+        // ---------------------------------------
+{{ self::swizzling(component_type=self_component_type) }}
 
     }
 
