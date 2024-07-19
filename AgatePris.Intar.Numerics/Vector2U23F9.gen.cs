@@ -6,7 +6,8 @@ namespace AgatePris.Intar.Numerics {
     public struct Vector2U23F9
     : IEquatable<Vector2U23F9>
     , IFormattable
-    , IVector<U48F16, I48F16, U24F8, I24F8> {
+    , IVector<U48F16, I48F16, U24F8, I24F8>
+    , IVectorComponentRespective<U23F9> {
         // Fields
         // ---------------------------------------
 
@@ -107,6 +108,28 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector2U23F9 lhs, Vector2U23F9 rhs) => !(lhs == rhs);
+
+        // Indexer
+        // ---------------------------------------
+
+        public U23F9 this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+                    case 0: return X;
+                    case 1: return Y;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
 
         // Swizzling Properties
         // ---------------------------------------

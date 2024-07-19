@@ -6,7 +6,8 @@ namespace AgatePris.Intar.Numerics {
     public struct Vector4I20F12
     : IEquatable<Vector4I20F12>
     , IFormattable
-    , IVector<U42F22, I42F22, U21F11, I21F11> {
+    , IVector<U42F22, I42F22, U21F11, I21F11>
+    , IVectorComponentRespective<I20F12> {
         // Fields
         // ---------------------------------------
 
@@ -153,6 +154,32 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector4I20F12 lhs, Vector4I20F12 rhs) => !(lhs == rhs);
+
+        // Indexer
+        // ---------------------------------------
+
+        public I20F12 this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+                    case 0: return X;
+                    case 1: return Y;
+                    case 2: return Z;
+                    case 3: return W;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    case 2: Z = value; break;
+                    case 3: W = value; break;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
 
         // Swizzling Properties
         // ---------------------------------------

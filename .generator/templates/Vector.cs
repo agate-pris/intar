@@ -56,7 +56,8 @@ namespace AgatePris.Intar.Numerics {
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
     , IFormattable
-    , IVector<{{ self_length_squared_unsigned_type }}, {{ self_length_squared_signed_type }}, {{ self_length_unsigned_type }}, {{ self_length_signed_type }}> {
+    , IVector<{{ self_length_squared_unsigned_type }}, {{ self_length_squared_signed_type }}, {{ self_length_unsigned_type }}, {{ self_length_signed_type }}>
+    , IVectorComponentRespective<{{ self_component_type }}> {
         // Fields
         // ---------------------------------------
 
@@ -206,6 +207,32 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => !(lhs == rhs);
+
+        // Indexer
+        // ---------------------------------------
+
+        public {{ self_component_type }} this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+                    case 0: return X;
+                    case 1: return Y;{% if dim > 2 %}
+                    case 2: return Z;{% if dim > 3 %}
+                    case 3: return W;{% endif %}{% endif %}
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;{% if dim > 2 %}
+                    case 2: Z = value; break;{% if dim > 3 %}
+                    case 3: W = value; break;{% endif %}{% endif %}
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
 
         // Swizzling Properties
         // ---------------------------------------
