@@ -12,11 +12,11 @@
         public static int {{ name }}(int x) {
             var masked = x & Sin.RightMask;
             switch (Sin.ToQuadrant(x)) {
-                case Sin.Quadrant.Second: return {{ detail }}(Sin.Right - masked) - Sin.One;
-                case Sin.Quadrant.Fourth: return Sin.One - {{ detail }}(Sin.Right - masked);
-                case Sin.Quadrant.Third: return {{ detail }}(masked) - Sin.One;
+                default:
                 case Sin.Quadrant.First: return Sin.One - {{ detail }}(masked);
-                default: return 0;
+                case Sin.Quadrant.Third: return {{ detail }}(masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - {{ detail }}(Sin.Right - masked);
+                case Sin.Quadrant.Second: return {{ detail }}(Sin.Right - masked) - Sin.One;
             }
         }
 {%- endmacro -%}
@@ -110,11 +110,11 @@ namespace AgatePris.Intar {
             internal static int MakeArgOdd(int x) {
                 var masked = x & RightMask;
                 switch (ToQuadrant(x)) {
-                    case Quadrant.Second: return Right - masked;
-                    case Quadrant.Fourth: return masked - Right;
-                    case Quadrant.Third: return -masked;
+                    default:
                     case Quadrant.First: return masked;
-                    default: return 0;
+                    case Quadrant.Third: return -masked;
+                    case Quadrant.Fourth: return masked - Right;
+                    case Quadrant.Second: return Right - masked;
                 }
             }
 

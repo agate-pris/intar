@@ -22,11 +22,11 @@ namespace AgatePris.Intar {
             internal static int MakeArgOdd(int x) {
                 var masked = x & RightMask;
                 switch (ToQuadrant(x)) {
-                    case Quadrant.Second: return Right - masked;
-                    case Quadrant.Fourth: return masked - Right;
-                    case Quadrant.Third: return -masked;
+                    default:
                     case Quadrant.First: return masked;
-                    default: return 0;
+                    case Quadrant.Third: return -masked;
+                    case Quadrant.Fourth: return masked - Right;
+                    case Quadrant.Second: return Right - masked;
                 }
             }
 
@@ -71,11 +71,11 @@ namespace AgatePris.Intar {
         public static int CosP2(int x) {
             var masked = x & Sin.RightMask;
             switch (Sin.ToQuadrant(x)) {
-                case Sin.Quadrant.Second: return Sin.CosP2(Sin.Right - masked) - Sin.One;
-                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP2(Sin.Right - masked);
-                case Sin.Quadrant.Third: return Sin.CosP2(masked) - Sin.One;
+                default:
                 case Sin.Quadrant.First: return Sin.One - Sin.CosP2(masked);
-                default: return 0;
+                case Sin.Quadrant.Third: return Sin.CosP2(masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP2(Sin.Right - masked);
+                case Sin.Quadrant.Second: return Sin.CosP2(Sin.Right - masked) - Sin.One;
             }
         }
 
@@ -158,11 +158,11 @@ namespace AgatePris.Intar {
         public static int CosP4A7032(int x) {
             var masked = x & Sin.RightMask;
             switch (Sin.ToQuadrant(x)) {
-                case Sin.Quadrant.Second: return Sin.CosP4A7032(Sin.Right - masked) - Sin.One;
-                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP4A7032(Sin.Right - masked);
-                case Sin.Quadrant.Third: return Sin.CosP4A7032(masked) - Sin.One;
+                default:
                 case Sin.Quadrant.First: return Sin.One - Sin.CosP4A7032(masked);
-                default: return 0;
+                case Sin.Quadrant.Third: return Sin.CosP4A7032(masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP4A7032(Sin.Right - masked);
+                case Sin.Quadrant.Second: return Sin.CosP4A7032(Sin.Right - masked) - Sin.One;
             }
         }
 
@@ -203,11 +203,11 @@ namespace AgatePris.Intar {
         public static int CosP4A7384(int x) {
             var masked = x & Sin.RightMask;
             switch (Sin.ToQuadrant(x)) {
-                case Sin.Quadrant.Second: return Sin.CosP4A7384(Sin.Right - masked) - Sin.One;
-                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP4A7384(Sin.Right - masked);
-                case Sin.Quadrant.Third: return Sin.CosP4A7384(masked) - Sin.One;
+                default:
                 case Sin.Quadrant.First: return Sin.One - Sin.CosP4A7384(masked);
-                default: return 0;
+                case Sin.Quadrant.Third: return Sin.CosP4A7384(masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.CosP4A7384(Sin.Right - masked);
+                case Sin.Quadrant.Second: return Sin.CosP4A7384(Sin.Right - masked) - Sin.One;
             }
         }
 
