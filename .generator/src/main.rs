@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs::File, io::BufReader, path::Path};
+use std::{collections::HashMap, path::Path};
 
 use anyhow::{Context, Result};
 use clap::{arg, Parser};
@@ -43,9 +43,10 @@ struct Settings {
 }
 
 fn load_settings<P: AsRef<Path>>(path: P) -> Result<Settings> {
-    let file = File::open(path)?;
-    let reader = BufReader::new(file);
-    Ok(serde_json::from_reader(reader)?)
+    let file = std::fs::read_to_string(path)?;
+    let mut tera = Tera::default();
+    let settings = tera.render_str(&file, &Default::default())?;
+    Ok(serde_json::from_str(&settings)?)
 }
 
 fn make_context(params: &HashMap<String, serde_json::Value>) -> tera::Context {
