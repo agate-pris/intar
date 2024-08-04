@@ -6,15 +6,13 @@ namespace AgatePris.Intar {
     public static partial class BitOperations {
 
 #if NET7_0_OR_GREATER
-{% for type in ['uint', 'ulong'] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int LeadingZeroCount({{ type }} x) => System.Numerics.BitOperations.LeadingZeroCount(x);
-{%- endfor %}
+{% for method in ['LeadingZeroCount', 'PopCount', 'RotateLeft', 'RotateRight'] %}
 {%- for type in ['uint', 'ulong'] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int PopCount({{ type }} x) => System.Numerics.BitOperations.PopCount(x);
-{%- endfor %}
-{%- for method in ['RotateLeft', 'RotateRight'] %}
-{%- for type in ['uint', 'ulong'] %}
+{%- if method == 'RotateLeft' or method == 'RotateRight' %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} {{ method }}({{ type }} x, int k) => System.Numerics.BitOperations.{{ method }}(x, k);
+{%- else %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int {{ method }}({{ type }} x) => System.Numerics.BitOperations.{{ method }}(x);
+{%- endif %}
 {%- endfor %}
 {%- endfor %}
 
