@@ -412,37 +412,37 @@ namespace AgatePris.Intar.Numerics {
                 I20F12.FromBits(b1 ? -y1 : y1));
         }
 
-        // Swizzling Properties
-        // ---------------------------------------
+        // Swizzling
+        // ---------
 
-        public Vector2I20F12 XX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I20F12(X, X); }
-        public Vector2I20F12 XY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I20F12(X, Y); }
-        public Vector2I20F12 YX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I20F12(Y, X); }
-        public Vector2I20F12 YY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector2I20F12(Y, Y); }
-        public Vector3I20F12 XXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(X, X, X); }
-        public Vector3I20F12 XXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(X, X, Y); }
-        public Vector3I20F12 XYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(X, Y, X); }
-        public Vector3I20F12 XYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(X, Y, Y); }
-        public Vector3I20F12 YXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(Y, X, X); }
-        public Vector3I20F12 YXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(Y, X, Y); }
-        public Vector3I20F12 YYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(Y, Y, X); }
-        public Vector3I20F12 YYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector3I20F12(Y, Y, Y); }
-        public Vector4I20F12 XXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, X, X, X); }
-        public Vector4I20F12 XXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, X, X, Y); }
-        public Vector4I20F12 XXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, X, Y, X); }
-        public Vector4I20F12 XXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, X, Y, Y); }
-        public Vector4I20F12 XYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, Y, X, X); }
-        public Vector4I20F12 XYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, Y, X, Y); }
-        public Vector4I20F12 XYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, Y, Y, X); }
-        public Vector4I20F12 XYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(X, Y, Y, Y); }
-        public Vector4I20F12 YXXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, X, X, X); }
-        public Vector4I20F12 YXXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, X, X, Y); }
-        public Vector4I20F12 YXYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, X, Y, X); }
-        public Vector4I20F12 YXYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, X, Y, Y); }
-        public Vector4I20F12 YYXX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, Y, X, X); }
-        public Vector4I20F12 YYXY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, Y, X, Y); }
-        public Vector4I20F12 YYYX { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, Y, Y, X); }
-        public Vector4I20F12 YYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I20F12(Y, Y, Y, Y); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I20F12 XX() => new Vector2I20F12(X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I20F12 XY() => new Vector2I20F12(X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I20F12 YX() => new Vector2I20F12(Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I20F12 YY() => new Vector2I20F12(Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 XXX() => new Vector3I20F12(X, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 XXY() => new Vector3I20F12(X, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 XYX() => new Vector3I20F12(X, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 XYY() => new Vector3I20F12(X, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 YXX() => new Vector3I20F12(Y, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 YXY() => new Vector3I20F12(Y, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 YYX() => new Vector3I20F12(Y, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 YYY() => new Vector3I20F12(Y, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XXXX() => new Vector4I20F12(X, X, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XXXY() => new Vector4I20F12(X, X, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XXYX() => new Vector4I20F12(X, X, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XXYY() => new Vector4I20F12(X, X, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XYXX() => new Vector4I20F12(X, Y, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XYXY() => new Vector4I20F12(X, Y, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XYYX() => new Vector4I20F12(X, Y, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 XYYY() => new Vector4I20F12(X, Y, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YXXX() => new Vector4I20F12(Y, X, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YXXY() => new Vector4I20F12(Y, X, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YXYX() => new Vector4I20F12(Y, X, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YXYY() => new Vector4I20F12(Y, X, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YYXX() => new Vector4I20F12(Y, Y, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YYXY() => new Vector4I20F12(Y, Y, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YYYX() => new Vector4I20F12(Y, Y, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 YYYY() => new Vector4I20F12(Y, Y, Y, Y);
 
     }
 }
