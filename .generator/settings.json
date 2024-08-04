@@ -3,6 +3,13 @@
     "output_dest": [
         {
             "dir_path": "AgatePris.Intar",
+            "template_name": "BitOperations.cs",
+            "files": [
+                { "file_name": "BitOperations.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "AgatePris.Intar",
             "template_name": "Mathi.cs",
             "files": [
                 { "file_name": "Mathi.gen.cs", "params": {} }
