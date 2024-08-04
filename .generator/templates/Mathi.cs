@@ -27,6 +27,9 @@ namespace AgatePris.Intar {
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}
 {%- endfor %}
+{% for type in ["int", "uint", "long", "ulong"] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
+{%- endfor %}
 
     }
 }
