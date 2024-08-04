@@ -24,13 +24,6 @@
         },
         {
             "dir_path": "AgatePris.Intar/Mathi",
-            "template_name": "Half.cs",
-            "files": [
-                { "file_name": "Half.gen.cs", "params": {} }
-            ]
-        },
-        {
-            "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Sin.cs",
             "files": [
                 { "file_name": "Sin.gen.cs", "params": {} }
