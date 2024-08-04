@@ -6,7 +6,7 @@ using System;
 #endif
 
 namespace AgatePris.Intar.Tests {
-    public partial class Utility {
+    public class Utility {
         internal static string MakeUpPath(string path) {
 #if UNITY_5_6_OR_NEWER
             return Path.GetFullPath(
