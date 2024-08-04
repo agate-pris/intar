@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace AgatePris.Intar.Tests {
     public partial class BitOperationsTest {
         static int PopCount(uint x) {
-            var mask = 1;
+            var mask = 1U;
             var count = 0;
             while (mask != 0) {
                 if ((mask & x) != 0) {
