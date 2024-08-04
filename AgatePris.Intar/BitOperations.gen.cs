@@ -5,6 +5,8 @@ namespace AgatePris.Intar {
 
 #if NET7_0_OR_GREATER
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int LeadingZeroCount(uint x) => System.Numerics.BitOperations.LeadingZeroCount(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int LeadingZeroCount(ulong x) => System.Numerics.BitOperations.LeadingZeroCount(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int PopCount(uint x) => System.Numerics.BitOperations.PopCount(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int PopCount(ulong x) => System.Numerics.BitOperations.PopCount(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint RotateLeft(uint x, int k) => System.Numerics.BitOperations.RotateLeft(x, k);
@@ -33,6 +35,18 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LeadingZeroCount(uint x) {
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
+            unchecked {
+                return bitsOfInt - PopCount(x);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int PopCount(ulong x) {
             const ulong k55 = 0x5555_5555_5555_5555;
             const ulong k33 = 0x3333_3333_3333_3333;
@@ -45,6 +59,19 @@ namespace AgatePris.Intar {
                 x += x >> 16;
                 x += x >> 32;
                 return (int)x & ((bitsOfLong * 2) - 1);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LeadingZeroCount(ulong x) {
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
+            x |= x >> 32;
+            unchecked {
+                return bitsOfLong - PopCount(x);
             }
         }
 

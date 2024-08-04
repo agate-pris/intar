@@ -7,6 +7,9 @@ namespace AgatePris.Intar {
 
 #if NET7_0_OR_GREATER
 {% for type in ['uint', 'ulong'] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int LeadingZeroCount({{ type }} x) => System.Numerics.BitOperations.LeadingZeroCount(x);
+{%- endfor %}
+{%- for type in ['uint', 'ulong'] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int PopCount({{ type }} x) => System.Numerics.BitOperations.PopCount(x);
 {%- endfor %}
 {%- for method in ['RotateLeft', 'RotateRight'] %}
@@ -37,6 +40,20 @@ namespace AgatePris.Intar {
                 return (int)x & ((bitsOf{{ macros::signed_type(t=type) | capitalize }} * 2) - 1);
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LeadingZeroCount({{ type }} x) {
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;{% if type == 'ulong' %}
+            x |= x >> 32;{% endif %}
+            unchecked {
+                return bitsOf{{ macros::signed_type(t=type) | capitalize }} - PopCount(x);
+            }
+        }
+
 {%- endfor %}
 {% for type in ['uint', 'ulong'] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} RotateLeft({{ type }} x, int k) => (x << k) | (x >> (bitsOf{{ macros::signed_type(t=type) | capitalize }} - k));
