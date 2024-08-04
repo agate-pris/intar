@@ -30,6 +30,9 @@ namespace AgatePris.Intar {
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
+{% for type in ["int", "uint", "long", "ulong"] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Twice({{ type }} x) => x * 2;
+{%- endfor %}
 
     }
 }
