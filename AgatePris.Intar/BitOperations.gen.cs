@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public static partial class BitOperations {
+    public static class BitOperations {
 
 #if NET7_0_OR_GREATER
 
