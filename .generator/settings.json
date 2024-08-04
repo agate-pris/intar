@@ -24,13 +24,6 @@
         },
         {
             "dir_path": "AgatePris.Intar/Mathi",
-            "template_name": "Clamp.cs",
-            "files": [
-                { "file_name": "Clamp.gen.cs", "params": {} }
-            ]
-        },
-        {
-            "dir_path": "AgatePris.Intar/Mathi",
             "template_name": "Half.cs",
             "files": [
                 { "file_name": "Half.gen.cs", "params": {} }
