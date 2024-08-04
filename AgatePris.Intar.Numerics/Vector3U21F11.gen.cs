@@ -555,9 +555,4 @@ namespace AgatePris.Intar.Numerics {
         public Vector4U21F11 ZZZZ { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4U21F11(Z, Z, Z, Z); }
 
     }
-
-    partial struct U21F11 {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3U21F11 SaturatingMul(Vector3U21F11 other) => other.SaturatingMul(this);
-    }
 }

@@ -855,9 +855,4 @@ namespace AgatePris.Intar.Numerics {
         public Vector4I28F4 WWWW { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I28F4(W, W, W, W); }
 
     }
-
-    partial struct I28F4 {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I28F4 SaturatingMul(Vector4I28F4 other) => other.SaturatingMul(this);
-    }
 }
