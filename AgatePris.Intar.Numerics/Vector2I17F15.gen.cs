@@ -505,9 +505,4 @@ namespace AgatePris.Intar.Numerics {
         public Vector4I17F15 YYYY { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new Vector4I17F15(Y, Y, Y, Y); }
 
     }
-
-    partial struct I17F15 {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I17F15 SaturatingMul(Vector2I17F15 other) => other.SaturatingMul(this);
-    }
 }

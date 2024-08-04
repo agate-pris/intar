@@ -710,11 +710,6 @@ namespace AgatePris.Intar.Numerics {
 {{ self::swizzling(component_type=self_component_type) }}
 
     }
-
-    partial struct {{ self_component_type }} {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingMul({{ self_type }} other) => other.SaturatingMul(this);
-    }
 } {%- if unity %}
 
 #endif{% endif %}

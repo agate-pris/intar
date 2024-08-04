@@ -77,7 +77,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public partial struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
+    public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
         // Consts
         // ------
 
@@ -395,6 +395,17 @@ namespace AgatePris.Intar.Numerics {
         public I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
 
         {%- endfor %}
+        {%- endif %}
+
+        {%- if int_nbits + frac_nbits == 32 and int_nbits > 1 and frac_nbits > 1 %}
+
+        // ベクトル型との演算
+        // ------------------
+{% for dim in [2, 3, 4] %}
+{%- set vec_type = macros::vector_type(dim=dim, type=self_type) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
+{%- endfor %}
+
         {%- endif %}
 
     }
