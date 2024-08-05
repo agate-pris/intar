@@ -30,6 +30,25 @@ namespace AgatePris.Intar {
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
+{%- for type in ['uint', 'ulong'] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Sqrt({{ type }} x) {
+            if (x <= 1) {
+                return x;
+            }
+
+            const int halfBits = sizeof({{ type }}) * 4;
+            var k = halfBits - (BitOperations.LeadingZeroCount(x - 1) >> 1);
+            var s = {{ macros::one_literal(t=type) }} << k;
+            var t = (s + (x >> k)) >> 1;
+            while (t < s) {
+                s = t;
+                t = (s + (x / s)) >> 1;
+            }
+            return s;
+        }
+{%- endfor %}
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Twice({{ type }} x) => x * 2;
 {%- endfor %}
