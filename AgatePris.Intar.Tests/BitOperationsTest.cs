@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace AgatePris.Intar.Tests {
-    public partial class BitOperationsTest {
+    public class BitOperationsTest {
         static int PopCount(uint x) {
             var mask = 1U;
             var count = 0;
