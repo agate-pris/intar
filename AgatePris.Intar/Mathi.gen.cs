@@ -137,6 +137,40 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Half(long x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Half(ulong x) => x / 2;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Sqrt(uint x) {
+            if (x <= 1) {
+                return x;
+            }
+
+            const int halfBits = sizeof(uint) * 4;
+            var k = halfBits - (BitOperations.LeadingZeroCount(x - 1) >> 1);
+            var s = 1U << k;
+            var t = (s + (x >> k)) >> 1;
+            while (t < s) {
+                s = t;
+                t = (s + (x / s)) >> 1;
+            }
+            return s;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Sqrt(ulong x) {
+            if (x <= 1) {
+                return x;
+            }
+
+            const int halfBits = sizeof(ulong) * 4;
+            var k = halfBits - (BitOperations.LeadingZeroCount(x - 1) >> 1);
+            var s = 1UL << k;
+            var t = (s + (x >> k)) >> 1;
+            while (t < s) {
+                s = t;
+                t = (s + (x / s)) >> 1;
+            }
+            return s;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Twice(int x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Twice(uint x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Twice(long x) => x * 2;
