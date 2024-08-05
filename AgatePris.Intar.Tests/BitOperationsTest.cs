@@ -30,29 +30,15 @@ namespace AgatePris.Intar.Tests {
 
         [Test]
         public static void TestPopCountUint() {
-            Assert.AreEqual(0, BitOperations.PopCount(0U));
             Assert.AreEqual(32, BitOperations.PopCount(uint.MaxValue));
-            for (var i = 0; i < 32; ++i) {
-                var x = 1U << i;
-                Assert.AreEqual(1, BitOperations.PopCount(x));
-                Assert.AreEqual(31, BitOperations.PopCount(~x));
-
-                for (var j = i + 1; j < 32; ++j) {
-                    var y = 1U << j;
-                    Assert.AreEqual(2, BitOperations.PopCount(x | y));
-                    Assert.AreEqual(30, BitOperations.PopCount(~(x | y)));
-                }
-            }
 
             var processorCount = Environment.ProcessorCount;
             var denominator = (ulong)processorCount;
             _ = Parallel.For(0, processorCount, n => {
-                const uint offset = 2U;
-                const uint k = uint.MaxValue - offset;
                 var curr = (ulong)n;
                 var next = curr + 1;
-                var begin = offset + (uint)(k * curr / denominator);
-                var end = offset + (uint)(k * next / denominator);
+                var begin = (uint)(uint.MaxValue * curr / denominator);
+                var end = (uint)(uint.MaxValue * next / denominator);
                 for (var x = begin; x < end; ++x) {
                     var expected = PopCount(x);
                     var actual = BitOperations.PopCount(x);
