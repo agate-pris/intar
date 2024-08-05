@@ -45,18 +45,21 @@ namespace AgatePris.Intar.Tests {
             });
         }
 
-        static void TestLeadingZeroCount(ulong x) {
-            var expected = LeadingZeroCount(x);
-            var actual = BitOperations.LeadingZeroCount(x);
-            if (expected != actual) {
-                Assert.Fail();
-            }
-        }
-
         [Test]
-        public static void LeadingZeroCountTestUlong() {
+        public static void TestLeadingZeroCountUlong() {
             Assert.AreEqual(64, BitOperations.LeadingZeroCount(0UL));
             Assert.AreEqual(0, BitOperations.LeadingZeroCount(ulong.MaxValue));
+            for (var i = 0; i < 64; ++i) {
+                var x = 1UL << i;
+                Assert.AreEqual(63 - i, BitOperations.LeadingZeroCount(x));
+                Assert.AreEqual(i == 63 ? 1 : 0, BitOperations.LeadingZeroCount(~x));
+
+                for (var j = i + 1; j < 64; ++j) {
+                    var y = 1UL << j;
+                    Assert.AreEqual(63 - j, BitOperations.LeadingZeroCount(x | y));
+                    Assert.AreEqual(j == 63 ? (i == 62 ? 2 : 1) : 0, BitOperations.LeadingZeroCount(~(x | y)));
+                }
+            }
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
@@ -65,7 +68,12 @@ namespace AgatePris.Intar.Tests {
                     rng.Jump();
                 }
                 for (var i = 0; i < 99999; ++i) {
-                    TestLeadingZeroCount(rng.Next());
+                    var x = rng.Next();
+                    var expected = LeadingZeroCount(x);
+                    var actual = BitOperations.LeadingZeroCount(x);
+                    if (expected != actual) {
+                        Assert.Fail();
+                    }
                 }
             });
         }
