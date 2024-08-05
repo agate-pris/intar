@@ -24,25 +24,23 @@ namespace AgatePris.Intar.Tests {
             }
         }
 
-        static void TestLeadingZeroCount(uint x) {
-            var expected = LeadingZeroCount(x);
-            var actual = BitOperations.LeadingZeroCount(x);
-            if (expected != actual) {
-                Assert.Fail();
-            }
-        }
-
         [Test]
-        public static void LeadingZeroCountTestUint() {
-            Assert.AreEqual(32, BitOperations.LeadingZeroCount(0U));
+        public static void TestLeadingZeroCountUint() {
             Assert.AreEqual(0, BitOperations.LeadingZeroCount(uint.MaxValue));
 
             var processorCount = Environment.ProcessorCount;
+            var denominator = (ulong)processorCount;
             _ = Parallel.For(0, processorCount, n => {
-                var begin = uint.MaxValue * (ulong)n / (ulong)processorCount;
-                var end = uint.MaxValue * (ulong)(n + 1) / (ulong)processorCount;
-                for (var x = (uint)begin; x < (uint)end; ++x) {
-                    TestLeadingZeroCount(x);
+                var curr = (ulong)n;
+                var next = curr + 1;
+                var begin = (uint)(uint.MaxValue * curr / denominator);
+                var end = (uint)(uint.MaxValue * next / denominator);
+                for (var x = begin; x < end; ++x) {
+                    var expected = LeadingZeroCount(x);
+                    var actual = BitOperations.LeadingZeroCount(x);
+                    if (expected != actual) {
+                        Assert.Fail();
+                    }
                 }
             });
         }
