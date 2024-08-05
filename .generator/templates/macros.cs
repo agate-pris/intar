@@ -80,3 +80,13 @@ public static {{ type }} SaturatingAdd({% if ext %}this {% endif %}{{ type }} x,
     return CheckedAdd(x, y) ?? {{ type }}.MaxValue;
 }
 {%- endmacro -%}
+
+{%- macro one_literal(t) %}
+    {%- if   t == "int"   -%}1
+    {%- elif t == "uint"  -%}1U
+    {%- elif t == "long"  -%}1L
+    {%- elif t == "ulong" -%}1UL
+    {%- else %}
+        {{ throw(message=t) }}
+    {%- endif %}
+{%- endmacro %}
