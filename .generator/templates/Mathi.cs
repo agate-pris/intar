@@ -100,7 +100,7 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public static partial class Mathi {
+    public static class Mathi {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int AsinInternal(int x) {
             var ret = 391 * x;
