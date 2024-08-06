@@ -24,6 +24,141 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public static partial class Mathi {
+        internal static class Atan {
+            internal const int One = 1 << 15;
+            internal const int OneNeg = -One;
+            internal const int Straight = 1 << 30;
+            internal const int Right = Straight / 2;
+            internal const int RightNeg = -Right;
+            internal const int FracK4 = One / 4;
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int Inv(int x) {
+                const long k = 1L << 31;
+                var xl = (long)x;
+                return (int)((k + Math.Abs(xl)) / (xl << 1));
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int Div(int a, int b) {
+                var al = ((long)a) << 16;
+                var bl = (long)b;
+                return (int)((al + (Math.Sign(a) * Math.Abs(bl))) / (bl << 1));
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P2A2850(int x) {
+                const int a = 2850;
+                var xAbs = Math.Abs(x);
+                var tmp = (One - xAbs) * a;
+                tmp = FracK4 + (tmp >> 15);
+                return x * tmp;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P3A2555B691(int x) {
+                const int a = 2555;
+                const int b = 691;
+                var xAbs = Math.Abs(x);
+                var tmp = (xAbs * b) >> 15;
+                tmp = (One - xAbs) * (a + tmp);
+                tmp = FracK4 + (tmp >> 15);
+                return x * tmp;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P5A787B2968(int x) {
+                const int a = 787;
+                const int b = 2968;
+                const int c = (1 << 13) + b - a;
+                var x2 = (x * x) >> 15;
+                var tmp = (a * x2) >> 15;
+                tmp = (b - tmp) * x2;
+                tmp = c - (tmp >> 15);
+                return tmp * x;
+            }
+        }
+
+{%- for method in ['P2A2850', 'P3A2555B691', 'P5A787B2968'] %}
+{%- if   method == 'P2A2850'     %}{% set d = 2 %}{% set error = 0.003778 %}
+{%- elif method == 'P3A2555B691' %}{% set d = 3 %}{% set error = 0.001543 %}
+{%- elif method == 'P5A787B2968' %}{% set d = 5 %}{% set error = 0.000767 %}
+{%- else %}{{ throw(message=method) }}{% endif %}
+
+        /// <summary>
+        /// {{ d }} 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var x = (1 &lt;&lt; 15) * 2 / 3;
+        /// var actual = Intar.Mathi.Atan{{ method }}(x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, {{ error }});
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Atan{{ method }}(int x) {
+            if (x < Atan.OneNeg) {
+                return Atan.RightNeg - Atan.{{ method }}(Atan.Inv(x));
+            } else if (x > Atan.One) {
+                return Atan.Right - Atan.{{ method }}(Atan.Inv(x));
+            } else {
+                return Atan.{{ method }}(x);
+            }
+        }
+
+        /// <summary>
+        /// {{ d }} 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var y = 2;
+        /// var x = 3;
+        /// var actual = Intar.Mathi.Atan2{{ method }}(y, x);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, {{ error }});
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Atan2{{ method }}(int y, int x) {
+            if (y < 0) {
+                if (x < 0) {
+                    return y < x
+                        ? Atan.RightNeg - Atan.{{ method }}(Atan.Div(x, y))
+                        : Atan.{{ method }}(Atan.Div(y, x)) - Atan.Straight;
+                } else if (x > 0) {
+                    return y < -x
+                        ? Atan.RightNeg - Atan.{{ method }}(Atan.Div(x, y))
+                        : Atan.{{ method }}(Atan.Div(y, x));
+                } else {
+                    return Atan.RightNeg;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    return -y < x
+                        ? Atan.Right - Atan.{{ method }}(Atan.Div(x, y))
+                        : Atan.Straight + Atan.{{ method }}(Atan.Div(y, x));
+                } else if (x > 0) {
+                    return y > x
+                        ? Atan.Right - Atan.{{ method }}(Atan.Div(x, y))
+                        : Atan.{{ method }}(Atan.Div(y, x));
+                } else {
+                    return Atan.Right;
+                }
+            } else {
+                return x < 0 ? Atan.Straight : 0;
+            }
+        }
+
+{%- endfor %}
+
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}
 {%- endfor %}
