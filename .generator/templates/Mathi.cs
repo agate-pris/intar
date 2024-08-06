@@ -19,6 +19,83 @@
         }
 {%- endmacro -%}
 
+{%- macro sin_cos_comment(sin, a, d, error) %}
+{%- if sin %}{% set prefix='Sin' %}{% set jp='正弦比' %}
+{%- else   %}{% set prefix='Cos' %}{% set jp='余弦比' %}
+{%- endif %}
+
+        /// <summary>
+        /// {{ d }} 次の多項式で{{ jp }}を近似する。
+        /// <example>
+        /// <code>
+        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// var actual = Intar.Mathi.{{ prefix }}{{ a }}(x);
+        /// var rad = System.Math.PI / 6;
+        /// var expected = System.Math.{{ prefix }}(rad);
+        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, {{ error }});
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする{{ jp }}</returns>
+{%- endmacro -%}
+
+{%- macro sin_even(a, d, error) %}
+
+        {{- self::sin_cos_comment(sin=true, a=a, d=d, error=error) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Sin{{ a }}(int x) => Cos{{ a }}(Overflowing.WrappingSub(x, Sin.Right));
+{%- endmacro -%}
+
+{%- macro cos_even(a, d, error) %}
+
+        {{- self::sin_cos_comment(sin=false, a=a, d=d, error=error) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Cos{{ a }}(int x) {
+            var masked = x & Sin.RightMask;
+            switch (Sin.ToQuadrant(x)) {
+                default:
+                case Sin.Quadrant.First: return Sin.One - Sin.Cos{{ a }}(masked);
+                case Sin.Quadrant.Third: return Sin.Cos{{ a }}(masked) - Sin.One;
+                case Sin.Quadrant.Fourth: return Sin.One - Sin.Cos{{ a }}(Sin.Right - masked);
+                case Sin.Quadrant.Second: return Sin.Cos{{ a }}(Sin.Right - masked) - Sin.One;
+            }
+        }
+{%- endmacro -%}
+
+{%- macro cos_odd(a, d, error) %}
+
+        {{- self::sin_cos_comment(sin=false, a=a, d=d, error=error) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Cos{{ a }}(int x) => Sin{{ a }}(Overflowing.WrappingAdd(x, Sin.Right));
+{%- endmacro -%}
+
+{%- macro cos_p4_detail(k) %}
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP4A{{ k }}(int z) {
+                const int a = {{ k }};
+                const int b = a + Right;
+                var z_2 = (z * z) >> RightExp;
+                return (b - ((z_2 * a) >> RightExp)) * z_2;
+            }
+{%- endmacro -%}
+
+{%- macro sin_p5(k, d, error) %}
+
+        {{- self::sin_cos_comment(sin=true, a='P5A'~k, d=d, error=error) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP5A{{ k }}(int x) {
+            const int k = {{ k }};
+            const int a = (k * 2) - (Sin.Right * 5 / 2);
+            const int b = k - (Sin.Right * 3 / 2);
+            var z = Sin.MakeArgOdd(x);
+            var z_2 = (z * z) >> Sin.RightExp;
+            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
+        }
+{%- endmacro -%}
+
 using System;
 using System.Runtime.CompilerServices;
 
@@ -204,6 +281,67 @@ namespace AgatePris.Intar {
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
+
+        internal static class Sin {
+            internal const int RightExp = (8 * sizeof(int) / 2) - 1;
+            internal const int Right = 1 << RightExp;
+            internal const int RightMask = Right - 1;
+            internal const int One = Right * Right;
+
+            internal enum Quadrant : byte {
+                First,
+                Second,
+                Third,
+                Fourth,
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Quadrant ToQuadrant(int x) => (Quadrant)((x >> RightExp) & 3);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int MakeArgOdd(int x) {
+                var masked = x & RightMask;
+                switch (ToQuadrant(x)) {
+                    default:
+                    case Quadrant.First: return masked;
+                    case Quadrant.Third: return -masked;
+                    case Quadrant.Fourth: return masked - Right;
+                    case Quadrant.Second: return Right - masked;
+                }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int CosP2(int z) {
+                return z * z;
+            }
+
+            {{- self::cos_p4_detail(k=7032) }}
+            {{- self::cos_p4_detail(k=7384) }}
+        }
+
+        {{- self::cos_even(a='P2', d=2, error=0.056010) }}
+        {{- self::sin_even(a='P2', d=2, error=0.056010) }}
+
+        {{- self::sin_cos_comment(sin=true, a='P3A16384', d=3, error=0.020017) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP3A16384(int x) {
+            const int b = Sin.Right / 2;
+            const int a = Sin.Right + b;
+            var z = Sin.MakeArgOdd(x);
+            var z_2 = (z * z) >> Sin.RightExp;
+            return (a - ((z_2 * b) >> Sin.RightExp)) * z;
+        }
+
+        {{- self::cos_odd(a="P3A16384", d=3, error=0.020017) }}
+        {{- self::cos_even(a="P4A7032", d=4, error=0.002819) }}
+        {{- self::sin_even(a="P4A7032", d=4, error=0.002819) }}
+        {{- self::cos_even(a="P4A7384", d=4, error=0.001174) }}
+        {{- self::sin_even(a="P4A7384", d=4, error=0.001174) }}
+        {{- self::sin_p5(k=51472, d=5, error=0.000425) }}
+        {{- self::cos_odd(a="P5A51472", d=5, error=0.000425) }}
+        {{- self::sin_p5(k=51437, d=5, error=0.000226) }}
+        {{- self::cos_odd(a="P5A51437", d=5, error=0.000226) }}
+
 {%- for type in ['uint', 'ulong'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
