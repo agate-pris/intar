@@ -70,20 +70,6 @@
                 {%- if not loop.last or i != 30 %},{% endif %}
                 {%- endfor %}
                 {%- endfor %}
-                {#-
-                {%- for i in range(end = 3) %}
-                { "file_name": "int{{ i + 2 }}.gen.cs", "params": { "type": "int", "dim": {{ i + 2 }}, "unity": true } },
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "uint{{ i + 2 }}.gen.cs", "params": { "type": "uint", "dim": {{ i + 2 }}, "unity": true } },
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "long{{ i + 2 }}.gen.cs", "params": { "type": "long", "dim": {{ i + 2 }} } },
-                {%- endfor %}
-                {%- for i in range(end = 3) %}
-                { "file_name": "ulong{{ i + 2 }}.gen.cs", "params": { "type": "ulong", "dim": {{ i + 2 }} } }{% if not loop.last %},{% endif %}
-                {%- endfor %}
-                #}
             ]
         }
     ]
