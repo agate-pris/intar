@@ -18,63 +18,43 @@ using System.Text.Json.Serialization;
 
 namespace AgatePris.Intar.Tests.Numerics {
     public class VectorTest {
-        public static bool IsInt(long x) => int.MinValue <= x && x <= int.MaxValue;
-        public static bool IsUInt(long x) => uint.MinValue <= x && x <= uint.MaxValue;
-        public static bool AllAreInt(long x, long y) => IsInt(x) && IsInt(y);
-        public static bool AllAreInt(long x, long y, long z) => AllAreInt(x, y) && IsInt(z);
-        public static bool AllAreInt(long x, long y, long z, long w) => AllAreInt(x, y, z) && IsInt(w);
-        public static bool AllAreUInt(long x, long y) => IsUInt(x) && IsUInt(y);
-        public static bool AllAreUInt(long x, long y, long z) => AllAreUInt(x, y) && IsUInt(z);
-        public static bool AllAreUInt(long x, long y, long z, long w) => AllAreUInt(x, y, z) && IsUInt(w);
+        static bool IsInt(long x) => int.MinValue <= x && x <= int.MaxValue;
+        static bool IsUInt(long x) => uint.MinValue <= x && x <= uint.MaxValue;
+        static bool AllAreInt(long x, long y) => IsInt(x) && IsInt(y);
+        static bool AllAreInt(long x, long y, long z) => AllAreInt(x, y) && IsInt(z);
+        static bool AllAreInt(long x, long y, long z, long w) => AllAreInt(x, y, z) && IsInt(w);
+        static bool AllAreUInt(long x, long y) => IsUInt(x) && IsUInt(y);
+        static bool AllAreUInt(long x, long y, long z) => AllAreUInt(x, y) && IsUInt(z);
+        static bool AllAreUInt(long x, long y, long z, long w) => AllAreUInt(x, y, z) && IsUInt(w);
 
-#if NET5_0_OR_GREATER || UNITY_2021_2_OR_NEWER
-#pragma warning disable IDE0004 // 不要なキャストの削除
-#endif
-
-        public static int? CheckedToInt(long x) => IsInt(x) ? (int)x : (int?)null;
-        public static uint? CheckedToUInt(long x) => IsUInt(x) ? (uint)x : (uint?)null;
-        public static I17F15? CheckedToI17F15(long x) => IsInt(x) ? I17F15.FromBits((int)x) : (I17F15?)null;
-        public static U17F15? CheckedToU17F15(long x) => IsUInt(x) ? U17F15.FromBits((uint)x) : (U17F15?)null;
-        public static Vector2I17F15? CheckedToVector2I17F15(List<long> l) => l.Count == 2 && l.All(IsInt)
-            ? Generator.Vector(
-                CheckedToI17F15(l[0]).Value,
-                CheckedToI17F15(l[1]).Value)
-            : (Vector2I17F15?)null;
-        public static Vector3I17F15? CheckedToVector3I17F15(List<long> l) => l.Count == 3 && l.All(IsInt)
-            ? Generator.Vector(
-                CheckedToI17F15(l[0]).Value,
-                CheckedToI17F15(l[1]).Value,
-                CheckedToI17F15(l[2]).Value)
-            : (Vector3I17F15?)null;
-        public static Vector4I17F15? CheckedToVector4I17F15(List<long> l) => l.Count == 4 && l.All(IsInt)
-            ? Generator.Vector(
-                CheckedToI17F15(l[0]).Value,
-                CheckedToI17F15(l[1]).Value,
-                CheckedToI17F15(l[2]).Value,
-                CheckedToI17F15(l[3]).Value)
-            : (Vector4I17F15?)null;
-        public static Vector2U17F15? CheckedToVector2U17F15(List<long> l) => l.Count == 2 && l.All(IsUInt)
-            ? Generator.Vector(
-                CheckedToU17F15(l[0]).Value,
-                CheckedToU17F15(l[1]).Value)
-            : (Vector2U17F15?)null;
-        public static Vector3U17F15? CheckedToVector3U17F15(List<long> l) => l.Count == 3 && l.All(IsUInt)
-            ? Generator.Vector(
-                CheckedToU17F15(l[0]).Value,
-                CheckedToU17F15(l[1]).Value,
-                CheckedToU17F15(l[2]).Value)
-            : (Vector3U17F15?)null;
-        public static Vector4U17F15? CheckedToVector4U17F15(List<long> l) => l.Count == 4 && l.All(IsUInt)
-            ? Generator.Vector(
-                CheckedToU17F15(l[0]).Value,
-                CheckedToU17F15(l[1]).Value,
-                CheckedToU17F15(l[2]).Value,
-                CheckedToU17F15(l[3]).Value)
-            : (Vector4U17F15?)null;
-
-#if NET5_0_OR_GREATER || UNITY_2021_2_OR_NEWER
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#endif
+        static int StrictToInt(long x) => checked((int)x);
+        static uint StrictToUInt(long x) => checked((uint)x);
+        static I17F15 StrictToI17F15(long x) => I17F15.FromBits(StrictToInt(x));
+        static U17F15 StrictToU17F15(long x) => U17F15.FromBits(StrictToUInt(x));
+        static Vector2I17F15 StrictToVector2I17F15(List<long> l) => new Vector2I17F15(
+            StrictToI17F15(l[0]),
+            StrictToI17F15(l[1]));
+        static Vector3I17F15 StrictToVector3I17F15(List<long> l) => new Vector3I17F15(
+            StrictToI17F15(l[0]),
+            StrictToI17F15(l[1]),
+            StrictToI17F15(l[2]));
+        static Vector4I17F15 StrictToVector4I17F15(List<long> l) => new Vector4I17F15(
+            StrictToI17F15(l[0]),
+            StrictToI17F15(l[1]),
+            StrictToI17F15(l[2]),
+            StrictToI17F15(l[3]));
+        static Vector2U17F15 StrictToVector2U17F15(List<long> l) => new Vector2U17F15(
+            StrictToU17F15(l[0]),
+            StrictToU17F15(l[1]));
+        static Vector3U17F15 StrictToVector3U17F15(List<long> l) => new Vector3U17F15(
+            StrictToU17F15(l[0]),
+            StrictToU17F15(l[1]),
+            StrictToU17F15(l[2]));
+        static Vector4U17F15 StrictToVector4U17F15(List<long> l) => new Vector4U17F15(
+            StrictToU17F15(l[0]),
+            StrictToU17F15(l[1]),
+            StrictToU17F15(l[2]),
+            StrictToU17F15(l[3]));
 
         [Serializable]
         public struct UnaryCase {
@@ -115,13 +95,6 @@ namespace AgatePris.Intar.Tests.Numerics {
             public bool AllBitsAreInt() => bits.All(IsInt);
             public bool AllBitsAreUInt() => bits.All(IsUInt);
 
-            public Vector2I17F15? Vector2Signed() => CheckedToVector2I17F15(bits);
-            public Vector3I17F15? Vector3Signed() => CheckedToVector3I17F15(bits);
-            public Vector4I17F15? Vector4Signed() => CheckedToVector4I17F15(bits);
-            public Vector2U17F15? Vector2Unsigned() => CheckedToVector2U17F15(bits);
-            public Vector3U17F15? Vector3Unsigned() => CheckedToVector3U17F15(bits);
-            public Vector4U17F15? Vector4Unsigned() => CheckedToVector4U17F15(bits);
-
             public UnaryCase(List<long> bits) {
                 this.bits = new List<long>();
                 foreach (var item in bits) {
@@ -135,7 +108,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 if (signed) {
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2I17F15(bits).Value;
+                            var v = StrictToVector2I17F15(bits);
                             var normalized = v.Normalize();
                             this.normalized = normalized.HasValue
                                 ? new List<long> {
@@ -147,7 +120,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3I17F15(bits).Value;
+                            var v = StrictToVector3I17F15(bits);
                             var normalized = v.Normalize();
                             this.normalized = normalized.HasValue
                                 ? new List<long> {
@@ -160,7 +133,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4I17F15(bits).Value;
+                            var v = StrictToVector4I17F15(bits);
                             var normalized = v.Normalize();
                             this.normalized = normalized.HasValue
                                 ? new List<long> {
@@ -180,7 +153,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 } else if (unsigned) {
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2U17F15(bits).Value;
+                            var v = StrictToVector2U17F15(bits);
                             var normalized = v.Normalize();
                             this.normalized = normalized.HasValue
                                 ? new List<long> {
@@ -192,7 +165,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3U17F15(bits).Value;
+                            var v = StrictToVector3U17F15(bits);
                             var normalized = v.Normalize();
                             this.normalized = normalized.HasValue
                                 ? new List<long> {
@@ -205,7 +178,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4U17F15(bits).Value;
+                            var v = StrictToVector4U17F15(bits);
                             var normalized = v.Normalize();
                             this.normalized = normalized.HasValue
                                 ? new List<long> {
@@ -357,7 +330,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                     List<long> normalizedActual;
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2I17F15(bits).Value;
+                            var v = StrictToVector2I17F15(bits);
                             Test(v, lengthSquaredExpected, lengthExpected);
                             var n = v.Normalize();
                             normalizedActual = n.HasValue
@@ -368,7 +341,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3I17F15(bits).Value;
+                            var v = StrictToVector3I17F15(bits);
                             Test(v, lengthSquaredExpected, lengthExpected);
                             var n = v.Normalize();
                             normalizedActual = n.HasValue
@@ -380,7 +353,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4I17F15(bits).Value;
+                            var v = StrictToVector4I17F15(bits);
                             Test(v, lengthSquaredExpected, lengthExpected);
                             var n = v.Normalize();
                             normalizedActual = n.HasValue
@@ -402,7 +375,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                     List<long> normalizedActual;
                     switch (bits.Count) {
                         case 2: {
-                            var v = CheckedToVector2U17F15(bits).Value;
+                            var v = StrictToVector2U17F15(bits);
                             Test(v, lengthSquaredExpected, lengthExpected);
                             var n = v.Normalize();
                             normalizedActual = n.HasValue
@@ -413,7 +386,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 3: {
-                            var v = CheckedToVector3U17F15(bits).Value;
+                            var v = StrictToVector3U17F15(bits);
                             Test(v, lengthSquaredExpected, lengthExpected);
                             var n = v.Normalize();
                             normalizedActual = n.HasValue
@@ -425,7 +398,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                             break;
                         }
                         case 4: {
-                            var v = CheckedToVector4U17F15(bits).Value;
+                            var v = StrictToVector4U17F15(bits);
                             Test(v, lengthSquaredExpected, lengthExpected);
                             var n = v.Normalize();
                             normalizedActual = n.HasValue
