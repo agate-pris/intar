@@ -44,11 +44,7 @@
 {%- set self_length_unsigned_type = macros::fixed_type(s=false, i=int_nbits+1, f=frac_nbits-1) %}
 {%- set self_length_signed_type = macros::fixed_type(s=true, i=int_nbits+1, f=frac_nbits-1) %}
 {%- set self_length_type = macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) %}
-{%- set self_type = macros::vector_type(dim=dim, type=self_component_type) %}
-
-{%- if unity %}#if !UNITY_2018_3_OR_NEWER
-
-{% endif -%}
+{%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
 using AgatePris.Intar.Extensions;
 using System;
@@ -710,6 +706,4 @@ namespace AgatePris.Intar.Numerics {
 {{ self::swizzling(component_type=self_component_type) }}
 
     }
-} {%- if unity %}
-
-#endif{% endif %}
+}
