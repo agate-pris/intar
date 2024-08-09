@@ -71,11 +71,21 @@ namespace AgatePris.Intar.Numerics {
             {%- if loop.last %};{% else %} &&{% endif %}
 {%- endfor -%}
 
-        {%- if row == 4 and column == 4 and self_fixed_type == "I17F15" %}
-        {#- 現時点ではメソッドは TRS のみなので､ コメントは条件の内側に入れる #}
+        {%- if self_fixed_type == "I17F15" %}
 
-        // Methods
+        // Static methods
         // ---------------------------------------
+
+        {% if row == 3 and column == 3 %}
+
+        public static Matrix3x3I17F15 TRS(
+            Vector2I17F15 translation, I17F15 rotation, Vector2I17F15 scale
+        ) {
+        }
+
+        {% endif %}
+
+        {% if row == 4 and column == 4 %}
 
         /// Prerequisite: q is normalized (to prevent overflow)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -97,6 +107,8 @@ namespace AgatePris.Intar.Numerics {
                 new Vector4I17F15(c2.SaturatingMul(scale.Z), I17F15.Zero),
                 new Vector4I17F15(translation, I17F15.One));
         }
+
+        {%- endif %}
 
         {%- endif %}
 
