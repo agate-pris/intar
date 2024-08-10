@@ -141,7 +141,7 @@ namespace AgatePris.Intar {
             return sign * ((1 << 30) - x);
         }
 
-        internal static class Atan {
+        internal static class AtanInternal {
             internal const int One = 1 << 15;
             internal const int OneNeg = -One;
             internal const int Straight = 1 << 30;
@@ -223,12 +223,12 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan{{ method }}(int x) {
-            if (x < Atan.OneNeg) {
-                return Atan.RightNeg - Atan.{{ method }}(Atan.Inv(x));
-            } else if (x > Atan.One) {
-                return Atan.Right - Atan.{{ method }}(Atan.Inv(x));
+            if (x < AtanInternal.OneNeg) {
+                return AtanInternal.RightNeg - AtanInternal.{{ method }}(AtanInternal.Inv(x));
+            } else if (x > AtanInternal.One) {
+                return AtanInternal.Right - AtanInternal.{{ method }}(AtanInternal.Inv(x));
             } else {
-                return Atan.{{ method }}(x);
+                return AtanInternal.{{ method }}(x);
             }
         }
 
@@ -253,29 +253,29 @@ namespace AgatePris.Intar {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? Atan.RightNeg - Atan.{{ method }}(Atan.Div(x, y))
-                        : Atan.{{ method }}(Atan.Div(y, x)) - Atan.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
+                        : AtanInternal.{{ method }}(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? Atan.RightNeg - Atan.{{ method }}(Atan.Div(x, y))
-                        : Atan.{{ method }}(Atan.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
+                        : AtanInternal.{{ method }}(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.RightNeg;
+                    return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? Atan.Right - Atan.{{ method }}(Atan.Div(x, y))
-                        : Atan.Straight + Atan.{{ method }}(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.{{ method }}(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? Atan.Right - Atan.{{ method }}(Atan.Div(x, y))
-                        : Atan.{{ method }}(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
+                        : AtanInternal.{{ method }}(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.Right;
+                    return AtanInternal.Right;
                 }
             } else {
-                return x < 0 ? Atan.Straight : 0;
+                return x < 0 ? AtanInternal.Straight : 0;
             }
         }
 
