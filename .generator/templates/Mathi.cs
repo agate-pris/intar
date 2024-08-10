@@ -28,11 +28,12 @@
         /// {{ d }} 次の多項式で{{ jp }}を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.{{ prefix }}{{ a }}(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.{{ prefix }}(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, {{ error }});
         /// </code>
         /// </example>
@@ -205,10 +206,11 @@ namespace AgatePris.Intar {
         /// {{ d }} 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 2 / 3;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 2 / 3;
         /// var actual = Intar.Mathi.Atan{{ method }}(x);
-        /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var expected = System.Math.Atan((double)x / k);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, {{ error }});
         /// </code>
         /// </example>
@@ -234,7 +236,7 @@ namespace AgatePris.Intar {
         /// var x = 3;
         /// var actual = Intar.Mathi.Atan2{{ method }}(y, x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, {{ error }});
         /// </code>
         /// </example>
