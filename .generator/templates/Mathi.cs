@@ -196,11 +196,15 @@ namespace AgatePris.Intar {
             }
         }
 
-{%- for method in ['P2A2850', 'P3A2555B691', 'P5A787B2968'] %}
-{%- if   method == 'P2A2850'     %}{% set d = 2 %}{% set error = 0.003778 %}
-{%- elif method == 'P3A2555B691' %}{% set d = 3 %}{% set error = 0.001543 %}
-{%- elif method == 'P5A787B2968' %}{% set d = 5 %}{% set error = 0.000767 %}
-{%- else %}{{ throw(message=method) }}{% endif %}
+{%- set atan_params = [
+    'P2A2850',     2, 0.003778,
+    'P3A2555B691', 3, 0.001543,
+    'P5A787B2968', 5, 0.000767
+] %}
+{%- for i in range(end=atan_params | length / 3) %}
+{%- set method = atan_params | nth(n=loop.index0 * 3    ) %}
+{%- set d      = atan_params | nth(n=loop.index0 * 3 + 1) %}
+{%- set error  = atan_params | nth(n=loop.index0 * 3 + 2) %}
 
         /// <summary>
         /// {{ d }} 次の多項式で逆正接を近似する。
