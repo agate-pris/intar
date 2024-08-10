@@ -388,12 +388,21 @@ namespace AgatePris.Intar {
             {{- self::cos_p4_detail(k=7384) }}
         }
 
-        {{- self::cos_even(a='P2', d=2, error=0.056010) }}
-        {{- self::sin_even(a='P2', d=2, error=0.056010) }}
+        {%- set sin_params = [
+            'P2',       2, 0.056010,
+            'P3A16384', 3, 0.020017,
+            'P4A7032',  4, 0.002819,
+            'P4A7384',  4, 0.001174,
+            'P5A51472', 5, 0.000425,
+            'P5A51437', 5, 0.000226
+        ] %}
 
-        {{- self::sin_cos_comment(sin=true, a='P3A16384', d=3, error=0.020017) }}
+        {{- self::cos_even(a=sin_params[0], d=sin_params[1], error=sin_params[2]) }}
+        {{- self::sin_even(a=sin_params[0], d=sin_params[1], error=sin_params[2]) }}
+
+        {{- self::sin_cos_comment(sin=true, a=sin_params[3], d=sin_params[4], error=sin_params[5]) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP3A16384(int x) {
+        public static int Sin{{ sin_params[3] }}(int x) {
             const int b = SinInternal.Right / 2;
             const int a = SinInternal.Right + b;
             var z = SinInternal.MakeArgOdd(x);
@@ -401,15 +410,15 @@ namespace AgatePris.Intar {
             return (a - ((z_2 * b) >> SinInternal.RightExp)) * z;
         }
 
-        {{- self::cos_odd(a="P3A16384", d=3, error=0.020017) }}
-        {{- self::cos_even(a="P4A7032", d=4, error=0.002819) }}
-        {{- self::sin_even(a="P4A7032", d=4, error=0.002819) }}
-        {{- self::cos_even(a="P4A7384", d=4, error=0.001174) }}
-        {{- self::sin_even(a="P4A7384", d=4, error=0.001174) }}
-        {{- self::sin_p5(k=51472, d=5, error=0.000425) }}
-        {{- self::cos_odd(a="P5A51472", d=5, error=0.000425) }}
-        {{- self::sin_p5(k=51437, d=5, error=0.000226) }}
-        {{- self::cos_odd(a="P5A51437", d=5, error=0.000226) }}
+        {{- self::cos_odd(a=sin_params[3], d=sin_params[4], error=sin_params[5]) }}
+        {{- self::cos_even(a=sin_params[6], d=sin_params[7], error=sin_params[8]) }}
+        {{- self::sin_even(a=sin_params[6], d=sin_params[7], error=sin_params[8]) }}
+        {{- self::cos_even(a=sin_params[9], d=sin_params[10], error=sin_params[11]) }}
+        {{- self::sin_even(a=sin_params[9], d=sin_params[10], error=sin_params[11]) }}
+        {{- self::sin_p5(k=sin_params[12] | trim_start_matches(pat='P5A'), d=sin_params[13], error=sin_params[14]) }}
+        {{- self::cos_odd(a=sin_params[12], d=sin_params[13], error=sin_params[14]) }}
+        {{- self::sin_p5(k=sin_params[15] | trim_start_matches(pat='P5A'), d=sin_params[16], error=sin_params[17]) }}
+        {{- self::cos_odd(a=sin_params[15], d=sin_params[16], error=sin_params[17]) }}
 
 {%- for type in ['uint', 'ulong'] %}
 
