@@ -835,6 +835,76 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP5A51437(int x) => SinP5A51437(Overflowing.WrappingAdd(x, SinInternal.Right));
 
+        public enum SinMethod : byte {
+            P2,
+            P3A16384,
+            P4A7032,
+            P4A7384,
+            P5A51472,
+            P5A51437,
+            Default = P5A51437,
+        }
+
+        /// <summary>
+        /// 指定された方法で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
+        /// var method = Intar.Mathi.SinMethod.P5A51437;
+        /// var actual = Intar.Mathi.Sin(x, method);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.000226);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Sin(int x, SinMethod method = SinMethod.Default) {
+            switch (method) {
+                case SinMethod.P2: return SinP2(x);
+                case SinMethod.P3A16384: return SinP3A16384(x);
+                case SinMethod.P4A7032: return SinP4A7032(x);
+                case SinMethod.P4A7384: return SinP4A7384(x);
+                case SinMethod.P5A51472: return SinP5A51472(x);
+                default:
+                case SinMethod.P5A51437: return SinP5A51437(x);
+            }
+        }
+
+        /// <summary>
+        /// 指定された方法で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
+        /// var method = Intar.Mathi.SinMethod.P5A51437;
+        /// var actual = Intar.Mathi.Cos(x, method);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.000226);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Cos(int x, SinMethod method = SinMethod.Default) {
+            switch (method) {
+                case SinMethod.P2: return CosP2(x);
+                case SinMethod.P3A16384: return CosP3A16384(x);
+                case SinMethod.P4A7032: return CosP4A7032(x);
+                case SinMethod.P4A7384: return CosP4A7384(x);
+                case SinMethod.P5A51472: return CosP5A51472(x);
+                default:
+                case SinMethod.P5A51437: return CosP5A51437(x);
+            }
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {
             if (x <= 1) {
