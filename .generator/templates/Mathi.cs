@@ -281,6 +281,69 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
+        public enum AtanMethod : byte {
+            {%- for i in range(end=atan_params |length / 3) %}
+            {{ atan_params | nth(n=3 * i) }},
+            {%- endfor %}
+            Default = {{ atan_params | nth(n=atan_params | length - 3) }},
+        }
+
+        /// <summary>
+        /// 指定された方法で逆正接を近似する｡
+        /// <example>
+        /// <code>
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 2 / 3;
+        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[3] }};
+        /// var actual = Intar.Mathi.Atan(x, method);
+        /// var expected = System.Math.Atan((double)x / k);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
+        /// Assert.AreEqual(expected, a, {{ atan_params[5] }});
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
+        /// <param name="method">逆正接の近似方法</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Atan(int x, AtanMethod method = AtanMethod.Default) {
+            switch (method) {
+                {%- for i in range(end=atan_params | length / 3) %}
+                {%- if loop.last %}
+                default:{% endif %}
+                case AtanMethod.{{ atan_params | nth(n=3 * i) }}: return Atan{{ atan_params | nth(n=3 * i) }}(x);
+                {%- endfor %}
+            }
+        }
+
+        /// <summary>
+        /// 指定された方法で逆正接を近似する｡
+        /// <example>
+        /// <code>
+        /// var y = 2;
+        /// var x = 3;
+        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[3] }};
+        /// var actual = Intar.Mathi.Atan2(y, x, method);
+        /// var expected = System.Math.Atan2(y, x);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
+        /// Assert.AreEqual(expected, a, {{ atan_params[5] }});
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
+        /// <param name="method">逆正接の近似方法</param>
+        /// <returns>2 の 30 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Atan2(int y, int x, AtanMethod method = AtanMethod.Default) {
+            switch (method) {
+                {%- for i in range(end=atan_params | length / 3) %}
+                {%- if loop.last %}
+                default:{% endif %}
+                case AtanMethod.{{ atan_params | nth(n=3 * i) }}: return Atan2{{ atan_params | nth(n=3 * i) }}(y, x);
+                {%- endfor %}
+            }
+        }
+
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}
 {%- endfor %}
