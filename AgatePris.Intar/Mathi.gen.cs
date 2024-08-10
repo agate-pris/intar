@@ -101,10 +101,11 @@ namespace AgatePris.Intar {
         /// 2 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 2 / 3;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 2 / 3;
         /// var actual = Intar.Mathi.AtanP2A2850(x);
-        /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var expected = System.Math.Atan((double)x / k);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, 0.003778);
         /// </code>
         /// </example>
@@ -130,7 +131,7 @@ namespace AgatePris.Intar {
         /// var x = 3;
         /// var actual = Intar.Mathi.Atan2P2A2850(y, x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, 0.003778);
         /// </code>
         /// </example>
@@ -173,10 +174,11 @@ namespace AgatePris.Intar {
         /// 3 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 2 / 3;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 2 / 3;
         /// var actual = Intar.Mathi.AtanP3A2555B691(x);
-        /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var expected = System.Math.Atan((double)x / k);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, 0.001543);
         /// </code>
         /// </example>
@@ -202,7 +204,7 @@ namespace AgatePris.Intar {
         /// var x = 3;
         /// var actual = Intar.Mathi.Atan2P3A2555B691(y, x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, 0.001543);
         /// </code>
         /// </example>
@@ -245,10 +247,11 @@ namespace AgatePris.Intar {
         /// 5 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 2 / 3;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 2 / 3;
         /// var actual = Intar.Mathi.AtanP5A787B2968(x);
-        /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var expected = System.Math.Atan((double)x / k);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, 0.000767);
         /// </code>
         /// </example>
@@ -274,7 +277,7 @@ namespace AgatePris.Intar {
         /// var x = 3;
         /// var actual = Intar.Mathi.Atan2P5A787B2968(y, x);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = actual * System.Math.PI / (1 &lt;&lt; 30);
+        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
         /// Assert.AreEqual(expected, a, 0.000767);
         /// </code>
         /// </example>
@@ -500,11 +503,12 @@ namespace AgatePris.Intar {
         /// 2 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.CosP2(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.05601);
         /// </code>
         /// </example>
@@ -527,11 +531,12 @@ namespace AgatePris.Intar {
         /// 2 次の多項式で正弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP2(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.05601);
         /// </code>
         /// </example>
@@ -545,11 +550,12 @@ namespace AgatePris.Intar {
         /// 3 次の多項式で正弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP3A16384(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.020017);
         /// </code>
         /// </example>
@@ -569,11 +575,12 @@ namespace AgatePris.Intar {
         /// 3 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.CosP3A16384(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.020017);
         /// </code>
         /// </example>
@@ -587,11 +594,12 @@ namespace AgatePris.Intar {
         /// 4 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.CosP4A7032(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.002819);
         /// </code>
         /// </example>
@@ -614,11 +622,12 @@ namespace AgatePris.Intar {
         /// 4 次の多項式で正弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP4A7032(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.002819);
         /// </code>
         /// </example>
@@ -632,11 +641,12 @@ namespace AgatePris.Intar {
         /// 4 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.CosP4A7384(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.001174);
         /// </code>
         /// </example>
@@ -659,11 +669,12 @@ namespace AgatePris.Intar {
         /// 4 次の多項式で正弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP4A7384(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.001174);
         /// </code>
         /// </example>
@@ -677,11 +688,12 @@ namespace AgatePris.Intar {
         /// 5 次の多項式で正弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP5A51472(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.000425);
         /// </code>
         /// </example>
@@ -702,11 +714,12 @@ namespace AgatePris.Intar {
         /// 5 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.CosP5A51472(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.000425);
         /// </code>
         /// </example>
@@ -720,11 +733,12 @@ namespace AgatePris.Intar {
         /// 5 次の多項式で正弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP5A51437(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.000226);
         /// </code>
         /// </example>
@@ -745,11 +759,12 @@ namespace AgatePris.Intar {
         /// 5 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
-        /// var x = (1 &lt;&lt; 15) * 30 / 90;
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.CosP5A51437(x);
-        /// var rad = System.Math.PI / 6;
+        /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
-        /// var a = actual / (float)(1 &lt;&lt; 30);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
         /// Assert.AreEqual(expected, a, 0.000226);
         /// </code>
         /// </example>
