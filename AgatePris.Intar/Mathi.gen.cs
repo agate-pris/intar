@@ -42,7 +42,7 @@ namespace AgatePris.Intar {
             return sign * ((1 << 30) - x);
         }
 
-        internal static class Atan {
+        internal static class AtanInternal {
             internal const int One = 1 << 15;
             internal const int OneNeg = -One;
             internal const int Straight = 1 << 30;
@@ -114,12 +114,12 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int AtanP2A2850(int x) {
-            if (x < Atan.OneNeg) {
-                return Atan.RightNeg - Atan.P2A2850(Atan.Inv(x));
-            } else if (x > Atan.One) {
-                return Atan.Right - Atan.P2A2850(Atan.Inv(x));
+            if (x < AtanInternal.OneNeg) {
+                return AtanInternal.RightNeg - AtanInternal.P2A2850(AtanInternal.Inv(x));
+            } else if (x > AtanInternal.One) {
+                return AtanInternal.Right - AtanInternal.P2A2850(AtanInternal.Inv(x));
             } else {
-                return Atan.P2A2850(x);
+                return AtanInternal.P2A2850(x);
             }
         }
 
@@ -144,29 +144,29 @@ namespace AgatePris.Intar {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? Atan.RightNeg - Atan.P2A2850(Atan.Div(x, y))
-                        : Atan.P2A2850(Atan.Div(y, x)) - Atan.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P2A2850(AtanInternal.Div(x, y))
+                        : AtanInternal.P2A2850(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? Atan.RightNeg - Atan.P2A2850(Atan.Div(x, y))
-                        : Atan.P2A2850(Atan.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P2A2850(AtanInternal.Div(x, y))
+                        : AtanInternal.P2A2850(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.RightNeg;
+                    return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? Atan.Right - Atan.P2A2850(Atan.Div(x, y))
-                        : Atan.Straight + Atan.P2A2850(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P2A2850(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P2A2850(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? Atan.Right - Atan.P2A2850(Atan.Div(x, y))
-                        : Atan.P2A2850(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P2A2850(AtanInternal.Div(x, y))
+                        : AtanInternal.P2A2850(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.Right;
+                    return AtanInternal.Right;
                 }
             } else {
-                return x < 0 ? Atan.Straight : 0;
+                return x < 0 ? AtanInternal.Straight : 0;
             }
         }
 
@@ -187,12 +187,12 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int AtanP3A2555B691(int x) {
-            if (x < Atan.OneNeg) {
-                return Atan.RightNeg - Atan.P3A2555B691(Atan.Inv(x));
-            } else if (x > Atan.One) {
-                return Atan.Right - Atan.P3A2555B691(Atan.Inv(x));
+            if (x < AtanInternal.OneNeg) {
+                return AtanInternal.RightNeg - AtanInternal.P3A2555B691(AtanInternal.Inv(x));
+            } else if (x > AtanInternal.One) {
+                return AtanInternal.Right - AtanInternal.P3A2555B691(AtanInternal.Inv(x));
             } else {
-                return Atan.P3A2555B691(x);
+                return AtanInternal.P3A2555B691(x);
             }
         }
 
@@ -217,29 +217,29 @@ namespace AgatePris.Intar {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? Atan.RightNeg - Atan.P3A2555B691(Atan.Div(x, y))
-                        : Atan.P3A2555B691(Atan.Div(y, x)) - Atan.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
+                        : AtanInternal.P3A2555B691(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? Atan.RightNeg - Atan.P3A2555B691(Atan.Div(x, y))
-                        : Atan.P3A2555B691(Atan.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
+                        : AtanInternal.P3A2555B691(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.RightNeg;
+                    return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? Atan.Right - Atan.P3A2555B691(Atan.Div(x, y))
-                        : Atan.Straight + Atan.P3A2555B691(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P3A2555B691(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? Atan.Right - Atan.P3A2555B691(Atan.Div(x, y))
-                        : Atan.P3A2555B691(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
+                        : AtanInternal.P3A2555B691(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.Right;
+                    return AtanInternal.Right;
                 }
             } else {
-                return x < 0 ? Atan.Straight : 0;
+                return x < 0 ? AtanInternal.Straight : 0;
             }
         }
 
@@ -260,12 +260,12 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int AtanP5A787B2968(int x) {
-            if (x < Atan.OneNeg) {
-                return Atan.RightNeg - Atan.P5A787B2968(Atan.Inv(x));
-            } else if (x > Atan.One) {
-                return Atan.Right - Atan.P5A787B2968(Atan.Inv(x));
+            if (x < AtanInternal.OneNeg) {
+                return AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Inv(x));
+            } else if (x > AtanInternal.One) {
+                return AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Inv(x));
             } else {
-                return Atan.P5A787B2968(x);
+                return AtanInternal.P5A787B2968(x);
             }
         }
 
@@ -290,29 +290,29 @@ namespace AgatePris.Intar {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? Atan.RightNeg - Atan.P5A787B2968(Atan.Div(x, y))
-                        : Atan.P5A787B2968(Atan.Div(y, x)) - Atan.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? Atan.RightNeg - Atan.P5A787B2968(Atan.Div(x, y))
-                        : Atan.P5A787B2968(Atan.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.RightNeg;
+                    return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? Atan.Right - Atan.P5A787B2968(Atan.Div(x, y))
-                        : Atan.Straight + Atan.P5A787B2968(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? Atan.Right - Atan.P5A787B2968(Atan.Div(x, y))
-                        : Atan.P5A787B2968(Atan.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
                 } else {
-                    return Atan.Right;
+                    return AtanInternal.Right;
                 }
             } else {
-                return x < 0 ? Atan.Straight : 0;
+                return x < 0 ? AtanInternal.Straight : 0;
             }
         }
 
