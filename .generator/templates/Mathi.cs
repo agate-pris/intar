@@ -46,7 +46,7 @@
 
         {{- self::sin_cos_comment(sin=true, a=a, d=d, error=error) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sin{{ a }}(int x) => Cos{{ a }}(Overflowing.WrappingSub(x, Sin.Right));
+        public static int Sin{{ a }}(int x) => Cos{{ a }}(Overflowing.WrappingSub(x, SinInternal.Right));
 {%- endmacro -%}
 
 {%- macro cos_even(a, d, error) %}
@@ -54,13 +54,13 @@
         {{- self::sin_cos_comment(sin=false, a=a, d=d, error=error) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Cos{{ a }}(int x) {
-            var masked = x & Sin.RightMask;
-            switch (Sin.ToQuadrant(x)) {
+            var masked = x & SinInternal.RightMask;
+            switch (SinInternal.ToQuadrant(x)) {
                 default:
-                case Sin.Quadrant.First: return Sin.One - Sin.Cos{{ a }}(masked);
-                case Sin.Quadrant.Third: return Sin.Cos{{ a }}(masked) - Sin.One;
-                case Sin.Quadrant.Fourth: return Sin.One - Sin.Cos{{ a }}(Sin.Right - masked);
-                case Sin.Quadrant.Second: return Sin.Cos{{ a }}(Sin.Right - masked) - Sin.One;
+                case SinInternal.Quadrant.First: return SinInternal.One - SinInternal.Cos{{ a }}(masked);
+                case SinInternal.Quadrant.Third: return SinInternal.Cos{{ a }}(masked) - SinInternal.One;
+                case SinInternal.Quadrant.Fourth: return SinInternal.One - SinInternal.Cos{{ a }}(SinInternal.Right - masked);
+                case SinInternal.Quadrant.Second: return SinInternal.Cos{{ a }}(SinInternal.Right - masked) - SinInternal.One;
             }
         }
 {%- endmacro -%}
@@ -69,7 +69,7 @@
 
         {{- self::sin_cos_comment(sin=false, a=a, d=d, error=error) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Cos{{ a }}(int x) => Sin{{ a }}(Overflowing.WrappingAdd(x, Sin.Right));
+        public static int Cos{{ a }}(int x) => Sin{{ a }}(Overflowing.WrappingAdd(x, SinInternal.Right));
 {%- endmacro -%}
 
 {%- macro cos_p4_detail(k) %}
@@ -89,11 +89,11 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP5A{{ k }}(int x) {
             const int k = {{ k }};
-            const int a = (k * 2) - (Sin.Right * 5 / 2);
-            const int b = k - (Sin.Right * 3 / 2);
-            var z = Sin.MakeArgOdd(x);
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (k - (((a - ((z_2 * b) >> Sin.RightExp)) * z_2) >> Sin.RightExp)) * z;
+            const int a = (k * 2) - (SinInternal.Right * 5 / 2);
+            const int b = k - (SinInternal.Right * 3 / 2);
+            var z = SinInternal.MakeArgOdd(x);
+            var z_2 = (z * z) >> SinInternal.RightExp;
+            return (k - (((a - ((z_2 * b) >> SinInternal.RightExp)) * z_2) >> SinInternal.RightExp)) * z;
         }
 {%- endmacro -%}
 
@@ -351,7 +351,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
 
-        internal static class Sin {
+        internal static class SinInternal {
             internal const int RightExp = (8 * sizeof(int) / 2) - 1;
             internal const int Right = 1 << RightExp;
             internal const int RightMask = Right - 1;
@@ -394,11 +394,11 @@ namespace AgatePris.Intar {
         {{- self::sin_cos_comment(sin=true, a='P3A16384', d=3, error=0.020017) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP3A16384(int x) {
-            const int b = Sin.Right / 2;
-            const int a = Sin.Right + b;
-            var z = Sin.MakeArgOdd(x);
-            var z_2 = (z * z) >> Sin.RightExp;
-            return (a - ((z_2 * b) >> Sin.RightExp)) * z;
+            const int b = SinInternal.Right / 2;
+            const int a = SinInternal.Right + b;
+            var z = SinInternal.MakeArgOdd(x);
+            var z_2 = (z * z) >> SinInternal.RightExp;
+            return (a - ((z_2 * b) >> SinInternal.RightExp)) * z;
         }
 
         {{- self::cos_odd(a="P3A16384", d=3, error=0.020017) }}
