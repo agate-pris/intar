@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public partial struct I17F15 : IEquatable<I17F15>, IFormattable {
+    public struct I17F15 : IEquatable<I17F15>, IFormattable {
         // Consts
         // ------
 
@@ -549,6 +549,13 @@ namespace AgatePris.Intar.Numerics {
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 CosP5A51437() => I2F30.FromBits(Mathi.CosP5A51437(Bits));
+
+        // ベクトル型との演算
+        // ------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 SaturatingMul(Vector2I17F15 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 SaturatingMul(Vector3I17F15 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 SaturatingMul(Vector4I17F15 other) => other.SaturatingMul(this);
 
     }
 }

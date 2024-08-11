@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 
 namespace AgatePris.Intar.Tests.Mathi {
-    public partial class SqrtTest {
+    public class SqrtTest {
         [Test]
         public static void TestSqrtUint() {
             const uint max = 0xffff;

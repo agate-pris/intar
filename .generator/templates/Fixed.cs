@@ -3,22 +3,12 @@
 {%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
 {%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
 
-{%- macro one_literal(t) %}
-    {%- if t == "int"     -%}1
-    {%- elif t == "uint"  -%}1U
-    {%- elif t == "long"  -%}1L
-    {%- elif t == "ulong" -%}1UL
-    {%- else %}
-        {{ throw(message=t) }}
-    {%- endif %}
-{%- endmacro %}
-
 {%- macro def_conv(self_type, self_bits_type, s, i, f) %}
     {#- 自身と異なる型の場合のみ定義する #}
     {%- if s != signed or i != int_nbits or f != frac_nbits %}
-        {%- set self_bits_type_one = self::one_literal(t = self_bits_type) %}
+        {%- set self_bits_type_one = macros::one_literal(t = self_bits_type) %}
         {%- set target_bits_type = macros::bits_type(s=s, i=i, f=f) -%}
-        {%- set target_bits_type_one = self::one_literal(t = target_bits_type) %}
+        {%- set target_bits_type_one = macros::one_literal(t = target_bits_type) %}
         {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
         {%- set explicit = signed and s == false or frac_nbits > f or
             signed and s and int_nbits > i or
@@ -77,7 +67,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public partial struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
+    public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
         // Consts
         // ------
 
@@ -395,6 +385,17 @@ namespace AgatePris.Intar.Numerics {
         public I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
 
         {%- endfor %}
+        {%- endif %}
+
+        {%- if int_nbits + frac_nbits == 32 and int_nbits > 1 and frac_nbits > 1 %}
+
+        // ベクトル型との演算
+        // ------------------
+{% for dim in [2, 3, 4] %}
+{%- set vec_type = macros::vector_type(dim=dim, type=self_type) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
+{%- endfor %}
+
         {%- endif %}
 
     }

@@ -1,20 +1,20 @@
 {% import "macros.cs" as macros %}
 
 {% macro swizzling(component_type) %}
-        {%- if dim == 2 %}   {%- set cmp = ['X', 'Y'] %}
-        {%- elif dim == 3 %} {%- set cmp = ['X', 'Y', 'Z'] %}
+        {%- if   dim == 2 %} {%- set cmp = ['X', 'Y'          ] %}
+        {%- elif dim == 3 %} {%- set cmp = ['X', 'Y', 'Z'     ] %}
         {%- elif dim == 4 %} {%- set cmp = ['X', 'Y', 'Z', 'W'] %}
-        {%- else %}          {{- "Unexpected dim. dim: " ~ dim }}
+        {%- else %} {{- "Unexpected dim. dim: " ~ dim }}
         {%- endif -%}
         {%- for x in cmp %}
         {%- for y in cmp %}
-        public {{ macros::vector_type(dim=2, type=component_type) }} {{ x }}{{ y }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=2, type=component_type) }}({{ x }}, {{ y }}); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ macros::vector_type(dim=2, type=component_type) }} {{ x }}{{ y }}() => new {{ macros::vector_type(dim=2, type=component_type) }}({{ x }}, {{ y }});
         {%- endfor %}
         {%- endfor %}
         {%- for x in cmp %}
         {%- for y in cmp %}
         {%- for z in cmp %}
-        public {{ macros::vector_type(dim=3, type=component_type) }} {{ x }}{{ y }}{{ z }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=3, type=component_type) }}({{ x }}, {{ y }}, {{ z }}); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ macros::vector_type(dim=3, type=component_type) }} {{ x }}{{ y }}{{ z }}() => new {{ macros::vector_type(dim=3, type=component_type) }}({{ x }}, {{ y }}, {{ z }});
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -22,7 +22,7 @@
         {%- for y in cmp %}
         {%- for z in cmp %}
         {%- for w in cmp %}
-        public {{ macros::vector_type(dim=4, type=component_type) }} {{ x }}{{ y }}{{ z }}{{ w }} { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => new {{ macros::vector_type(dim=4, type=component_type) }}({{ x }}, {{ y }}, {{ z }}, {{ w }}); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ macros::vector_type(dim=4, type=component_type) }} {{ x }}{{ y }}{{ z }}{{ w }}() => new {{ macros::vector_type(dim=4, type=component_type) }}({{ x }}, {{ y }}, {{ z }}, {{ w }});
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -44,11 +44,7 @@
 {%- set self_length_unsigned_type = macros::fixed_type(s=false, i=int_nbits+1, f=frac_nbits-1) %}
 {%- set self_length_signed_type = macros::fixed_type(s=true, i=int_nbits+1, f=frac_nbits-1) %}
 {%- set self_length_type = macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) %}
-{%- set self_type = macros::vector_type(dim=dim, type=self_component_type) %}
-
-{%- if unity %}#if !UNITY_2018_3_OR_NEWER
-
-{% endif -%}
+{%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
 using AgatePris.Intar.Extensions;
 using System;
@@ -705,16 +701,9 @@ namespace AgatePris.Intar.Numerics {
         {%- endfor %}
         {%- endif %}
 
-        // Swizzling Properties
-        // ---------------------------------------
+        // Swizzling
+        // ---------
 {{ self::swizzling(component_type=self_component_type) }}
 
     }
-
-    partial struct {{ self_component_type }} {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingMul({{ self_type }} other) => other.SaturatingMul(this);
-    }
-} {%- if unity %}
-
-#endif{% endif %}
+}

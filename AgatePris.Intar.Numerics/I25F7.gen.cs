@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar.Numerics {
     [Serializable]
-    public partial struct I25F7 : IEquatable<I25F7>, IFormattable {
+    public struct I25F7 : IEquatable<I25F7>, IFormattable {
         // Consts
         // ------
 
@@ -461,6 +461,13 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I29F35 WideningMul(I4F28 other) => I29F35.FromBits((long)Bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I28F36 WideningMul(I3F29 other) => I28F36.FromBits((long)Bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I27F37 WideningMul(I2F30 other) => I27F37.FromBits((long)Bits * other.Bits);
+
+        // ベクトル型との演算
+        // ------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I25F7 SaturatingMul(Vector2I25F7 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I25F7 SaturatingMul(Vector3I25F7 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I25F7 SaturatingMul(Vector4I25F7 other) => other.SaturatingMul(this);
 
     }
 }

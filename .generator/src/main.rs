@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs::File, io::BufReader, path::Path};
+use std::{collections::HashMap, path::Path};
 
 use anyhow::{Context, Result};
 use clap::{arg, Parser};
@@ -42,37 +42,22 @@ struct Settings {
     output_dest: Vec<OutputDest>,
 }
 
-fn load_settings<P: AsRef<Path>>(path: P) -> Result<Settings> {
-    let file = File::open(path)?;
-    let reader = BufReader::new(file);
-    Ok(serde_json::from_reader(reader)?)
-}
-
-fn make_context(params: &HashMap<String, serde_json::Value>) -> tera::Context {
-    let mut context = tera::Context::new();
-    for (name, value) in params {
-        context.insert(name, &value);
-    }
-    context
-}
-
-fn write_file<P: AsRef<Path>, C: AsRef<[u8]>>(path: P, contents: C) -> Result<()> {
-    if let Some(parent) = path.as_ref().parent() {
-        std::fs::create_dir_all(parent)?;
-    }
-    std::fs::write(path, contents)?;
-    Ok(())
-}
-
 fn main() -> Result<()> {
     let args = Args::parse();
-    let settings = load_settings(&args.settings)
-        .with_context(|| format!("args.settings: {}", args.settings))?;
+    let settings = {
+        let settings = std::fs::read_to_string(&args.settings)
+            .with_context(|| format!("path: {}", args.settings))?;
+        let mut tera = Tera::default();
+        let settings = tera.render_str(&settings, &Default::default())?;
+        let settings: Settings =
+            serde_json::from_str(&settings).with_context(|| format!("settings: {}", settings))?;
+        settings
+    };
     let tera = {
         let path = &settings.glob;
         let dir = Path::new(&args.templates).join(path);
         let dir = dir.to_str().with_context(|| format!("dir: {:?}", dir))?;
-        Tera::new(dir)?
+        Tera::new(dir).with_context(|| format!("dir: {}", dir))?
     };
     let path = Path::new(&args.output);
     let targets_is_empty = args.targets.is_empty();
@@ -83,11 +68,21 @@ fn main() -> Result<()> {
         let path = path.join(&output_dest.dir_path);
         for file in output_dest.files {
             let path = path.join(&file.file_name);
-            let context = make_context(&file.params);
+            let context = {
+                let mut context = tera::Context::new();
+                for (name, value) in &file.params {
+                    context.insert(name, &value);
+                }
+                context
+            };
             let contents = tera
                 .render(&output_dest.template_name, &context)
                 .with_context(|| format!("file: {:?}", file))?;
-            write_file(path, contents)?;
+            if let Some(parent) = path.parent() {
+                std::fs::create_dir_all(parent).with_context(|| format!("parent: {:?}", parent))?;
+            }
+            std::fs::write(&path, &contents)
+                .with_context(|| format!("path: {:?}, contents: {}", path, contents))?;
         }
     }
     Ok(())
