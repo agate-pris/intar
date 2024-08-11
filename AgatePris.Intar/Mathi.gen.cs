@@ -5,14 +5,22 @@ namespace AgatePris.Intar {
     public static class Mathi {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int AsinInternal(int x) {
+            // (2^15) / (0.5 * PI) * 0.0187293
+            // = 390.707370478933
             var ret = 391 * x;
 
+            // (2^30) / (0.5 * PI) * 0.074261
+            // = 50762240.9295814
             const int k1 = 50762241;
             ret = ((k1 - ret) >> 15) * x;
 
+            // (2^30) / (0.5 * PI) * 0.2121144
+            // = 144994038.289729
             const int k2 = 144994038;
             ret = ((k2 - ret) >> 15) * x;
 
+            // (2^30) / (0.5 * PI) * 1.5707288
+            // = 1073695665.02784
             const int k3 = 1073695665;
             ret = (k3 - ret) >> 15;
 
@@ -21,6 +29,46 @@ namespace AgatePris.Intar {
             return (int)Sqrt(k0 * (k0 - (uint)x)) * ret;
         }
 
+        /// <summary>
+        /// 逆余弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 30 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <para>以下の式に基づいて近似する｡</para>
+        /// <para>
+        ///
+        /// $$arcsin\ x =
+        ///     \frac{\pi}{2} -
+        ///     \left(1 - x\right)^{\frac{1}{2}}
+        ///     \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
+        ///     e\left(x\right)$$
+        ///
+        /// </para>
+        /// <para>
+        /// <div style="text-align:center">
+        ///
+        /// $$\left|e\left(x\right)\right|\leq 5 \times 10^{-5}$$
+        ///
+        /// </div>
+        /// </para>
+        /// <para>
+        ///
+        /// $$\begin{matrix}
+        /// a_0=\hspace{0.277em} 1.57072\ 88 &amp; a_2=\phantom{-}.07426\ 10 \newline
+        /// a_1=-.21211\ 44 &amp; a_3=-.01872\ 93
+        /// \end{matrix}$$
+        ///
+        /// </para>
+        /// <para>
+        /// 出典：Milton Abramowitz and Irene Stegun .
+        /// Handbook of Mathematical Function
+        /// With Formulas, Graphs, and Mathematical Tables
+        /// (Abramowitz and Stegun) .
+        /// United States Department of Commerce,
+        /// National Bureau of Standards (NBS) , 1964
+        /// </para>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Acos(int x) {
             var negate = x < 0;
@@ -34,6 +82,46 @@ namespace AgatePris.Intar {
             }
         }
 
+        /// <summary>
+        /// 逆正弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とする正弦</param>
+        /// <returns>-π/2 以上 π/2 以下の､ π を 2 の 30 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <para>以下の式に基づいて近似する｡</para>
+        /// <para>
+        ///
+        /// $$arcsin\ x =
+        ///     \frac{\pi}{2} -
+        ///     \left(1 - x\right)^{\frac{1}{2}}
+        ///     \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
+        ///     e\left(x\right)$$
+        ///
+        /// </para>
+        /// <para>
+        /// <div style="text-align:center">
+        ///
+        /// $$\left|e\left(x\right)\right|\leq 5 \times 10^{-5}$$
+        ///
+        /// </div>
+        /// </para>
+        /// <para>
+        ///
+        /// $$\begin{matrix}
+        /// a_0=\hspace{0.277em} 1.57072\ 88 &amp; a_2=\phantom{-}.07426\ 10 \newline
+        /// a_1=-.21211\ 44 &amp; a_3=-.01872\ 93
+        /// \end{matrix}$$
+        ///
+        /// </para>
+        /// <para>
+        /// 出典：Milton Abramowitz and Irene Stegun .
+        /// Handbook of Mathematical Function
+        /// With Formulas, Graphs, and Mathematical Tables
+        /// (Abramowitz and Stegun) .
+        /// United States Department of Commerce,
+        /// National Bureau of Standards (NBS) , 1964
+        /// </para>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Asin(int x) {
             var negate = x < 0;
