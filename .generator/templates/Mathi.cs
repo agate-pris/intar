@@ -110,10 +110,10 @@
         /// </para>
         /// <para>\[\left|e\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
         /// <para>
-        /// \begin{matrix}
-        /// a_0=\hspace{0.277em} 1.57072\ 88 &amp; a_2=\phantom{-}.07426\ 10 \newline
-        /// a_1=-.21211\ 44 &amp; a_3=-.01872\ 93
-        /// \end{matrix}
+        /// \begin{align*}
+        /// a_0&amp;=\hspace{0.277em} 1.57072\ 88 &amp; a_2&amp;=\phantom{-}.07426\ 10 \newline
+        /// a_1&amp;=-.21211\ 44 &amp; a_3&amp;=-.01872\ 93
+        /// \end{align*}
         /// </para>
         /// <para>
         /// 出典：Milton Abramowitz and Irene Stegun .
