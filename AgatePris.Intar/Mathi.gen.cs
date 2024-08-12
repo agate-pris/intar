@@ -36,29 +36,21 @@ namespace AgatePris.Intar {
         /// <returns>0 以上 π 以下の､ π を 2 の 30 乗で表した角度｡</returns>
         /// <remarks>
         /// <para>以下の式に基づいて近似する｡</para>
+        /// <div class="math"></div>
+        /// <para>\[0\le x\le1\]</para>
         /// <para>
-        ///
-        /// $$arcsin\ x =
-        ///     \frac{\pi}{2} -
-        ///     \left(1 - x\right)^{\frac{1}{2}}
-        ///     \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        ///     e\left(x\right)$$
-        ///
+        /// \[arcsin\ x =
+        /// \frac{\pi}{2} -
+        /// \left(1 - x\right)^{\frac{1}{2}}
+        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
+        /// \epsilon\left(x\right)\]
         /// </para>
+        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
         /// <para>
-        /// <div style="text-align:center">
-        ///
-        /// $$\left|e\left(x\right)\right|\leq 5 \times 10^{-5}$$
-        ///
-        /// </div>
-        /// </para>
-        /// <para>
-        ///
-        /// $$\begin{matrix}
-        /// a_0=\hspace{0.277em} 1.57072\ 88 &amp; a_2=\phantom{-}.07426\ 10 \newline
-        /// a_1=-.21211\ 44 &amp; a_3=-.01872\ 93
-        /// \end{matrix}$$
-        ///
+        /// \begin{align*}
+        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
+        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
+        /// \end{align*}
         /// </para>
         /// <para>
         /// 出典：Milton Abramowitz and Irene Stegun .
@@ -68,6 +60,14 @@ namespace AgatePris.Intar {
         /// United States Department of Commerce,
         /// National Bureau of Standards (NBS) , 1964
         /// </para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Acos(int x) {
@@ -89,29 +89,21 @@ namespace AgatePris.Intar {
         /// <returns>-π/2 以上 π/2 以下の､ π を 2 の 30 乗で表した角度｡</returns>
         /// <remarks>
         /// <para>以下の式に基づいて近似する｡</para>
+        /// <div class="math"></div>
+        /// <para>\[0\le x\le1\]</para>
         /// <para>
-        ///
-        /// $$arcsin\ x =
-        ///     \frac{\pi}{2} -
-        ///     \left(1 - x\right)^{\frac{1}{2}}
-        ///     \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        ///     e\left(x\right)$$
-        ///
+        /// \[arcsin\ x =
+        /// \frac{\pi}{2} -
+        /// \left(1 - x\right)^{\frac{1}{2}}
+        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
+        /// \epsilon\left(x\right)\]
         /// </para>
+        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
         /// <para>
-        /// <div style="text-align:center">
-        ///
-        /// $$\left|e\left(x\right)\right|\leq 5 \times 10^{-5}$$
-        ///
-        /// </div>
-        /// </para>
-        /// <para>
-        ///
-        /// $$\begin{matrix}
-        /// a_0=\hspace{0.277em} 1.57072\ 88 &amp; a_2=\phantom{-}.07426\ 10 \newline
-        /// a_1=-.21211\ 44 &amp; a_3=-.01872\ 93
-        /// \end{matrix}$$
-        ///
+        /// \begin{align*}
+        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
+        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
+        /// \end{align*}
         /// </para>
         /// <para>
         /// 出典：Milton Abramowitz and Irene Stegun .
@@ -121,6 +113,14 @@ namespace AgatePris.Intar {
         /// United States Department of Commerce,
         /// National Bureau of Standards (NBS) , 1964
         /// </para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Asin(int x) {
