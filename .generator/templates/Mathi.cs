@@ -124,6 +124,14 @@
         /// United States Department of Commerce,
         /// National Bureau of Standards (NBS) , 1964
         /// </para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
         /// </remarks>
 {%- endmacro -%}
 
