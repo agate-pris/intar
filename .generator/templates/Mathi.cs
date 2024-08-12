@@ -106,9 +106,9 @@
         /// \frac{\pi}{2} -
         /// \left(1 - x\right)^{\frac{1}{2}}
         /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        /// e\left(x\right)\]
+        /// \epsilon\left(x\right)\]
         /// </para>
-        /// <para>\[\left|e\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
+        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
         /// <para>
         /// \begin{align*}
         /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
