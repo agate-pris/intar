@@ -100,29 +100,20 @@
 {%- macro asin_equation() %}
         /// <remarks>
         /// <para>以下の式に基づいて近似する｡</para>
+        /// <div class="math"></div>
         /// <para>
-        ///
-        /// $$arcsin\ x =
-        ///     \frac{\pi}{2} -
-        ///     \left(1 - x\right)^{\frac{1}{2}}
-        ///     \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        ///     e\left(x\right)$$
-        ///
+        /// \[arcsin\ x =
+        /// \frac{\pi}{2} -
+        /// \left(1 - x\right)^{\frac{1}{2}}
+        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
+        /// e\left(x\right)\]
         /// </para>
+        /// <para>\[\left|e\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
         /// <para>
-        /// <div style="text-align:center">
-        ///
-        /// $$\left|e\left(x\right)\right|\leq 5 \times 10^{-5}$$
-        ///
-        /// </div>
-        /// </para>
-        /// <para>
-        ///
-        /// $$\begin{matrix}
+        /// \begin{matrix}
         /// a_0=\hspace{0.277em} 1.57072\ 88 &amp; a_2=\phantom{-}.07426\ 10 \newline
         /// a_1=-.21211\ 44 &amp; a_3=-.01872\ 93
-        /// \end{matrix}$$
-        ///
+        /// \end{matrix}
         /// </para>
         /// <para>
         /// 出典：Milton Abramowitz and Irene Stegun .
