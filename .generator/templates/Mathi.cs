@@ -101,6 +101,7 @@
         /// <remarks>
         /// <para>以下の式に基づいて近似する｡</para>
         /// <div class="math"></div>
+        /// <para>\[0\le x\le1\]</para>
         /// <para>
         /// \[arcsin\ x =
         /// \frac{\pi}{2} -
