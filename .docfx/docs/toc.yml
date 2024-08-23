@@ -2,3 +2,5 @@
   href: introduction.md
 - name: Getting Started
   href: getting-started.md
+- name: Internal implementation of special function approximation 特殊関数の近似の内部実装
+  href: internal-implementation-of-special-function-approximation.md
