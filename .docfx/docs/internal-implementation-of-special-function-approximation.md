@@ -26,13 +26,13 @@
 
 ### sin と cos のテイラー展開
 
-$sin$ と $cos$ はテイラー級数
+点 $a$ のまわりのテイラー級数は以下の通り｡
 
 $$
 \sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!}(x-a)^n
 $$
 
-により､ 以下の式で近似できる｡
+上記より､ $sin$ と $cos$ は以下の式で近似できる｡
 
 $$
 \begin{align*}
@@ -83,14 +83,14 @@ $sin\frac{\pi}{2}=1$ ､ $cos\frac{\pi}{2}=0$ を満たさず都合が悪い｡
 
 $$
 \begin{align*}
-sin_{3} \ x&=k_{3\ 1}\times x- k_{3\ 3}\times x^3\\
-sin_{3}'\ x&=k_{3\ 1}        -3k_{3\ 3}\times x^2
+sin_{3} \ x&=a_{3\ 1}\times x- a_{3\ 3}\times x^3\\
+sin_{3}'\ x&=a_{3\ 1}        -3a_{3\ 3}\times x^2
 \end{align*}
 $$
 
 この時 $sin_3\ 0=0$ は定義より自明かつ常に成り立つ｡
 
-$sin_3\frac{\pi}{2}=1$ とすると､ $k_{3\ 1}$ と $k_{3\ 2}$ の関係が分かる｡
+$sin_3\frac{\pi}{2}=1$ とすると､ $a_{3\ 1}$ と $a_{3\ 2}$ の関係が分かる｡
 
 その上で各々の値を求めるため､ 条件をもう 1 つ追加する｡
 
@@ -98,16 +98,16 @@ $sin_{3}\ x$ が $x=\frac{\pi}{2}$ 付近で滑らかに変化してほしいの
 
 $$
 \begin{align*}
-sin_{3} \frac{\pi}{2}&=1=k_{3\ 1}\times\frac{\pi}{2}- k_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
-sin_{3}'\frac{\pi}{2}&=0=k_{3\ 1}                   -3k_{3\ 3}\times\left(\frac{\pi}{2}\right)^2\\
-k_{3\ 1}&=3k_{3\ 3}\times\left(\frac{\pi}{2}\right)^2\\
-1       &=3k_{3\ 3}\times\left(\frac{\pi}{2}\right)^3-k_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
-        &=2k_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
-\left(\frac{\pi}{2}\right)^{-3}&=2k_{3\ 3}\\
-k_{3\ 3}&=\frac{1}{2}\left(\frac{\pi}{2}\right)^{-3}\\
-k_{3\ 1}&=\frac{3}{2}\left(\frac{\pi}{2}\right)^{-1}\\
-k_{3\ 2}&\approx 0.954929658551372\\
-k_{3\ 3}&\approx 0.129006137732798
+sin_{3} \frac{\pi}{2}&=1=a_{3\ 1}\times\frac{\pi}{2}- a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
+sin_{3}'\frac{\pi}{2}&=0=a_{3\ 1}                   -3a_{3\ 3}\times\left(\frac{\pi}{2}\right)^2\\
+a_{3\ 1}&=3a_{3\ 3}\times\left(\frac{\pi}{2}\right)^2\\
+1       &=3a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3-a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
+        &=2a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
+\left(\frac{\pi}{2}\right)^{-3}&=2a_{3\ 3}\\
+a_{3\ 3}&=\frac{1}{2}\left(\frac{\pi}{2}\right)^{-3}\\
+a_{3\ 1}&=\frac{3}{2}\left(\frac{\pi}{2}\right)^{-1}\\
+a_{3\ 2}&\approx 0.954929658551372\\
+a_{3\ 3}&\approx 0.129006137732798
 \end{align*}
 $$
 
@@ -117,8 +117,8 @@ Intar では
 
 $$
 \begin{align*}
-ik_{3\ 3}&=32768\times k_{3\ 3}\left(\frac{\pi}{2}\right)^{3}&&=16384\\
-ik_{3\ 1}&=32768\times k_{3\ 1}\left(\frac{\pi}{2}\right)    &&=49152\\
+b_{3\ 3}&=32768\times a_{3\ 3}\left(\frac{\pi}{2}\right)^{3}&&=16384\\
+b_{3\ 1}&=32768\times a_{3\ 1}\left(\frac{\pi}{2}\right)    &&=49152
 \end{align*}
 $$
 
@@ -128,38 +128,38 @@ $$
 4 次の多項式では定数項が 1 つ増えるため､
 その値を確定させるために条件を追加する必要がある｡
 
-条件 $c$ に対応する 4 次の多項式を以下のように定義する｡
+条件 $p$ に対応する 4 次の多項式を以下のように定義する｡
 
 $$
 \begin{align*}
-cos_{4\ c} x&=k_{4\ c\ 0}- k_{4\ c\ 2}x^2+ k_{4\ c\ 4}x^4\\
-cos_{4\ c}'x&=           -2k_{4\ c\ 2}x  +4k_{4\ c\ 4}x^3
+cos_{4\ p} x&=a_{4\ p\ 0}- a_{4\ p\ 2}x^2+ a_{4\ p\ 4}x^4\\
+cos_{4\ p}'x&=           -2a_{4\ p\ 2}x  +4a_{4\ p\ 4}x^3
 \end{align*}
 $$
 
-$cos\ 0=1$ であるから､
-同様に $cos_{4\ c}\ 0=1$ でなければならない｡
-よって $k_{4\ c\ 0}=1$ は自明｡
+$cos\ 0=1$ であるから､ 同様に
+$cos_{4\ p}0=1$ でなければならない｡ よって
+$a_{4\ p\ 0}=1$ は自明｡
 
-次に $cos\frac{\pi}{2}=0$ であるから $cos_{4\ c}\frac{\pi}{2}=0$ とする｡
+次に $cos\frac{\pi}{2}=0$ であるから $cos_{4\ p}\frac{\pi}{2}=0$ とする｡
 
 $$
 \begin{align*}
-cos_{4\ c}\frac{\pi}{2}&=1
--k_{4\ c\ 2}\left(\frac{\pi}{2}\right)^2
-+k_{4\ c\ 4}\left(\frac{\pi}{2}\right)^4=0
+cos_{4\ p}\frac{\pi}{2}&=1
+-a_{4\ p\ 2}\left(\frac{\pi}{2}\right)^2
++a_{4\ p\ 4}\left(\frac{\pi}{2}\right)^4=0
 \end{align*}
 $$
 
-更に $k_{4\ c\ 2}$ ､ $k_{4\ c\ 4}$ を求めるため､ 以下のように定義する｡
+更に $a_{4\ p\ 2}$ ､ $a_{4\ p\ 4}$ を求めるため､ 以下のように定義する｡
 
 $$
 \begin{align*}
-cos_{4\ 1}'\frac{\pi}{2}&=-1                 = -2k_{4\ 1\ 2}      \frac{\pi}{2}         +4k_{4\ 1\ 4}\left(\frac{\pi}{2}\right)^3\\
-cos_{4\ 2}'\frac{\pi}{3}&=-\frac{\sqrt{3}}{2}= -2k_{4\ 2\ 2}      \frac{\pi}{3}         +4k_{4\ 2\ 4}\left(\frac{\pi}{3}\right)^3\\
-cos_{4\ 3}'\frac{\pi}{6}&=-\frac{1       }{2}= -2k_{4\ 3\ 2}      \frac{\pi}{6}         +4k_{4\ 3\ 4}\left(\frac{\pi}{6}\right)^3\\
-cos_{4\ 4} \frac{\pi}{3}&= \frac{1       }{2}=1- k_{4\ 4\ 2}\left(\frac{\pi}{3}\right)^2+ k_{4\ 4\ 4}\left(\frac{\pi}{3}\right)^4\\
-cos_{4\ 5} \frac{\pi}{6}&= \frac{\sqrt{3}}{2}=1- k_{4\ 5\ 2}\left(\frac{\pi}{6}\right)^2+ k_{4\ 5\ 4}\left(\frac{\pi}{6}\right)^4\\
+cos_{4\ 1}'\frac{\pi}{2}&=-1                 = -2a_{4\ 1\ 2}      \frac{\pi}{2}         +4a_{4\ 1\ 4}\left(\frac{\pi}{2}\right)^3\\
+cos_{4\ 2}'\frac{\pi}{3}&=-\frac{\sqrt{3}}{2}= -2a_{4\ 2\ 2}      \frac{\pi}{3}         +4a_{4\ 2\ 4}\left(\frac{\pi}{3}\right)^3\\
+cos_{4\ 3}'\frac{\pi}{6}&=-\frac{1       }{2}= -2a_{4\ 3\ 2}      \frac{\pi}{6}         +4a_{4\ 3\ 4}\left(\frac{\pi}{6}\right)^3\\
+cos_{4\ 4} \frac{\pi}{3}&= \frac{1       }{2}=1- a_{4\ 4\ 2}\left(\frac{\pi}{3}\right)^2+ a_{4\ 4\ 4}\left(\frac{\pi}{3}\right)^4\\
+cos_{4\ 5} \frac{\pi}{6}&= \frac{\sqrt{3}}{2}=1- a_{4\ 5\ 2}\left(\frac{\pi}{6}\right)^2+ a_{4\ 5\ 4}\left(\frac{\pi}{6}\right)^4\\
                        0&= \int_0^{\frac{\pi}{2}}cos_{4\ 6}x-cos\ x\ dx
 \end{align*}
 $$
@@ -177,28 +177,28 @@ $$
 
 $$
 \begin{align*}
-k_{4\ 1\ 2}&= \frac{8-\pi              }{\pi^2}&
-k_{4\ 1\ 4}&=-\frac{4\left(\pi-4\right)}{\pi^4}\\
+a_{4\ 1\ 2}&= \frac{8-\pi              }{\pi^2}&
+a_{4\ 1\ 4}&=-\frac{4\left(\pi-4\right)}{\pi^4}\\
 &\approx 0.492259582954912 &
 &\approx 0.0352495783421514 \\
-k_{4\ 2\ 2}&=\frac{27\sqrt{3}\pi-128            }{4\pi^2}&
-k_{4\ 2\ 4}&=\frac{9\left(3\sqrt{3}\pi-16\right)}{ \pi^4}\\
+a_{4\ 2\ 2}&=\frac{27\sqrt{3}\pi-128            }{4\pi^2}&
+a_{4\ 2\ 4}&=\frac{9\left(3\sqrt{3}\pi-16\right)}{ \pi^4}\\
 &\approx 0.479192167542288 &
 &\approx 0.0299535543551387 \\
-k_{4\ 3\ 2}&=\frac{27\pi-16  }{14\pi^2}&
-k_{4\ 3\ 4}&=\frac{18(3\pi-8)}{ 7\pi^4}\\
+a_{4\ 3\ 2}&=\frac{27\pi-16  }{14\pi^2}&
+a_{4\ 3\ 4}&=\frac{18(3\pi-8)}{ 7\pi^4}\\
 &\approx 0.498087713477496 &
 &\approx 0.0376116306740326 \\
-k_{4\ 4\ 2}&=\frac{49}{10\pi^2}&
-k_{4\ 4\ 4}&=\frac{18}{ 5\pi^4}\\
+a_{4\ 4\ 2}&=\frac{49}{10\pi^2}&
+a_{4\ 4\ 4}&=\frac{18}{ 5\pi^4}\\
 &\approx 0.496473799847455 &
 &\approx 0.0369575361168636 \\
-k_{4\ 5\ 2}&=\frac{40-\frac{81\sqrt{3}}{4}}{\pi^2}&
-k_{4\ 5\ 4}&=\frac{144-81\sqrt{3}         }{\pi^4}\\
+a_{4\ 5\ 2}&=\frac{40-\frac{81\sqrt{3}}{4}}{\pi^2}&
+a_{4\ 5\ 4}&=\frac{144-81\sqrt{3}         }{\pi^4}\\
 &\approx 0.499105227174711 &
 &\approx 0.0380240134427292 \\
-k_{4\ 6\ 2}&=\frac{12\left(2\pi-5\right)}{\pi^3}&
-k_{4\ 6\ 4}&=\frac{80\left(\pi-3\right) }{\pi^5}\\
+a_{4\ 6\ 2}&=\frac{12\left(2\pi-5\right)}{\pi^3}&
+a_{4\ 6\ 4}&=\frac{80\left(\pi-3\right) }{\pi^5}\\
 &\approx 0.496616341424137 &
 &\approx 0.0370153060419343
 \end{align*}
@@ -207,59 +207,35 @@ $$
 Intar の実装においては以下のように式変形を行う｡
 
 $$
+b_{4\ p\ m}=\lfloor 32768\left(\frac{\pi}{2}\right)^m a_{4\ p\ m}+0.5\rfloor
+$$
+
+$$
 \begin{align*}
-ik_{4\ 1\ 2}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 1\ 2}+0.5\rfloor&
-ik_{4\ 1\ 4}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 1\ 4}+0.5\rfloor\\
-&=\lfloor 8192(8-\pi)+0.5\rfloor&
-&=\lfloor 8192(4-\pi)+0.5\rfloor\\
-&=39800&
-&= 7032\\
-ik_{4\ 2\ 2}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 2\ 2}+0.5\rfloor&
-ik_{4\ 2\ 4}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 2\ 4}+0.5\rfloor\\
-&=\lfloor 2048\left(-128+27\sqrt{3}\pi\right)+0.5\rfloor&
-&=\lfloor 1832\left(- 16+ 3\sqrt{3}\pi\right)+0.5\rfloor\\
-&=38744&
-&= 5976\\
-ik_{4\ 3\ 2}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 3\ 2}+0.5\rfloor&
-ik_{4\ 3\ 4}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 3\ 4}+0.5\rfloor\\
-&=\lfloor\frac{ 4096}{7}(-16-27\pi)+0.5\rfloor&
-&=\lfloor\frac{36864}{7}(- 8+ 3\pi)+0.5\rfloor\\
-&=40271&
-&= 7503\\
-ik_{4\ 4\ 2}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 4\ 2}+0.5\rfloor&
-ik_{4\ 4\ 4}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 4\ 4}+0.5\rfloor\\
-&=40141&
-&= 7273\\
-ik_{4\ 5\ 2}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 5\ 2}+0.5\rfloor&
-ik_{4\ 5\ 4}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 5\ 4}+0.5\rfloor\\
-&=\lfloor 8192\left(40-\frac{81\sqrt{3}}{4}\right)&
-&=\lfloor 2048\left(144-81\sqrt{3}\right)\\
-&=40354&
-&= 7586\\
-ik_{4\ 6\ 2}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 6\ 2}+0.5\rfloor&
-ik_{4\ 6\ 4}&=\lfloor 32768\left(\frac{\pi}{2}\right)^2k_{4\ 6\ 4}+0.5\rfloor\\
-&=\lfloor\frac{ 98304(-5+2\pi)}{\pi}+0.5\rfloor&
-&=\lfloor\frac{163840(-3+ \pi)}{\pi}+0.5\rfloor\\
-&=40152&
-&= 7384
+b_{4\ 1\ 2}&=39800&b_{4\ 1\ 4}&=7032\\
+b_{4\ 2\ 2}&=38744&b_{4\ 2\ 4}&=5976\\
+b_{4\ 3\ 2}&=40271&b_{4\ 3\ 4}&=7503\\
+b_{4\ 4\ 2}&=40141&b_{4\ 4\ 4}&=7273\\
+b_{4\ 5\ 2}&=40354&b_{4\ 5\ 4}&=7586\\
+b_{4\ 6\ 2}&=40152&b_{4\ 6\ 4}&=7384
 \end{align*}
 $$
 
 ### 5 次の多項式による近似
 
-条件 $c$ に対し以下のように定義する｡
+条件 $p$ に対し以下のように定義する｡
 
 $$
 \begin{align*}
-sin_{5\ c} x&=k_{5\ c\ 1}x- k_{5\ c\ 3}x^3+ k_{5\ c\ 5}x^5\\
-sin_{5\ c}'x&=k_{5\ c\ 1} -3k_{5\ c\ 3}x^2+5k_{5\ c\ 5}x^4
+sin_{5\ p} x&=a_{5\ p\ 1}x- a_{5\ p\ 3}x^3+ a_{5\ p\ 5}x^5\\
+sin_{5\ p}'x&=a_{5\ p\ 1} -3a_{5\ p\ 3}x^2+5a_{5\ p\ 5}x^4
 \end{align*}
 $$
 
 $$
 \begin{align*}
-sin_{5\ c} \frac{\pi}{2}&=1&
-sin_{5\ c}'\frac{\pi}{2}&=0&
+sin_{5\ p} \frac{\pi}{2}&=1&
+sin_{5\ p}'\frac{\pi}{2}&=0&
 sin_{5\ 1}'0            &=1
 \end{align*}
 $$
@@ -272,29 +248,36 @@ $$
 
 $$
 \begin{align*}
-k_{5\ 1\ 1}&=1&
-k_{5\ 1\ 3}&=\frac{ 4(2\pi-5)}{ \pi^3}&
-k_{5\ 1\ 5}&=\frac{16( \pi-3)}{ \pi^5}\\
-k_{5\ 2\ 1}&=\frac{ 48-  9\pi}{2\pi^2}&
-k_{5\ 2\ 3}&=\frac{192- 56\pi}{ \pi^4}&
-k_{5\ 2\ 5}&=\frac{384-120\pi}{ \pi^6}
+a_{5\ 1\ 1}&=1&
+a_{5\ 1\ 3}&=\frac{ 4(2\pi-5)}{ \pi^3}&
+a_{5\ 1\ 5}&=\frac{16( \pi-3)}{ \pi^5}\\
+a_{5\ 2\ 1}&=\frac{ 48-  9\pi}{2\pi^2}&
+a_{5\ 2\ 3}&=\frac{192- 56\pi}{ \pi^4}&
+a_{5\ 2\ 5}&=\frac{384-120\pi}{ \pi^6}
 \end{align*}
 $$
 
 $$
 \begin{align*}
-ik_{5\ 1\ 1}&=\lceil  32768\ k_{5\ 1\ 1}      \frac{\pi}{2}          \rceil &&=51472\\
-ik_{5\ 1\ 3}&=\lceil  32768\ k_{5\ 1\ 3}\left(\frac{\pi}{2}\right)^3 \rceil &&=21024\\
-ik_{5\ 1\ 5}&=\lceil  32768\ k_{5\ 1\ 5}\left(\frac{\pi}{2}\right)^5 \rceil &&= 2320\\
-ik_{5\ 2\ 1}&=\lfloor 32768\ k_{5\ 2\ 1}      \frac{\pi}{2}          \rfloor&&=51436\\
-ik_{5\ 2\ 3}&=\lfloor 32768\ k_{5\ 2\ 3}\left(\frac{\pi}{2}\right)^3 \rfloor&&=20953\\
-ik_{5\ 2\ 5}&=\lfloor 32768\ k_{5\ 2\ 5}\left(\frac{\pi}{2}\right)^5 \rfloor&&= 2284
+b_{5\ 1\ m}&=\lceil  32768\ a_{5\ 1\ m}\left(\frac{\pi}{2}\right)^m \rceil\\
+b_{5\ 2\ m}&=\lfloor 32768\ a_{5\ 2\ m}\left(\frac{\pi}{2}\right)^m \rfloor
+\end{align*}
+$$
+
+$$
+\begin{align*}
+b_{5\ 1\ 1}&=51472&
+b_{5\ 1\ 3}&=21024&
+b_{5\ 1\ 5}&= 2320\\
+b_{5\ 2\ 1}&=51436&
+b_{5\ 2\ 3}&=20953&
+b_{5\ 2\ 5}&= 2284
 \end{align*}
 $$
 
 $c=1$ か $c=2$ かで丸め方向が異なるが､ これは丸めた時の差を小さくするため｡
 $x=0$ ､ $x=\frac{\pi}{2}$ の時に精確に $1$ または $0$ にするため､
-$ik_{5\ c\ 1}-(ik_{5\ c\ 3}-ik_{5\ c\ 5})=32768$ にしなければならない｡
+$b_{5\ c\ 1}-(b_{5\ c\ 3}-b_{5\ c\ 5})=32768$ にしなければならない｡
 
 ## atan
 
