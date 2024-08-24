@@ -49,9 +49,6 @@ namespace AgatePris.Intar.Tests.Mathi {
             [Random(1)] ulong s0,
             [Random(1)] ulong s1
         ) {
-            var sin = sinCase.Sin;
-            var cos = sinCase.Cos;
-            var acceptableError = sinCase.AcceptableError;
             const int rightExp = 15;
             const int right = 1 << rightExp;
             const int rightMask = right - 1;
@@ -71,7 +68,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             }
 
             void testSin(int x) {
-                var actual = sin(x);
+                var actual = sinCase.Sin(x);
                 {
                     var masked = x & rightMask;
                     int expected;
@@ -93,7 +90,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 {
                     var expected = Math.Sin(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (Math.Abs(actualReal - expected) >= acceptableError) {
+                    if (Math.Abs(actualReal - expected) >= sinCase.AcceptableError) {
                         Assert.Fail(
                             $"{nameof(x)}: {x}, " +
                             $"{nameof(actual)}: {actual}, " +
@@ -104,7 +101,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             }
             void testCos(int x) {
-                var actual = cos(x);
+                var actual = sinCase.Cos(x);
                 {
                     var masked = x & rightMask;
                     int expected;
@@ -122,7 +119,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 {
                     var expected = Math.Cos(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (Math.Abs(actualReal - expected) > acceptableError) {
+                    if (Math.Abs(actualReal - expected) > sinCase.AcceptableError) {
                         Assert.Fail();
                     }
                 }
