@@ -48,14 +48,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
                 Console.WriteLine($"max error: {max}");
             } else {
-                var file = File.CreateText(path);
-                file.WriteLine("[");
-                for (var i = 0; i < end; ++i) {
-                    file.WriteLine($"{Intar.Mathi.Asin(i)},");
-                }
-                file.WriteLine($"{Intar.Mathi.Asin(end)}");
-                file.WriteLine("]");
-                file.Close();
+                Utility.WriteInts(path, Intar.Mathi.Asin, end);
             }
         }
 
