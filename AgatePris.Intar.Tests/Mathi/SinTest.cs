@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace AgatePris.Intar.Tests.Mathi {
     public class SinTest {
@@ -56,7 +58,22 @@ namespace AgatePris.Intar.Tests.Mathi {
             const int full = 2 * straight;
             const int negFull = -full;
             const int one = 1 << 30;
-            var data = Utility.ReadInts(Utility.MakeUpPath(sinCase.DataPath));
+
+            List<int> data;
+            {
+                var path = Utility.MakeUpPath(sinCase.DataPath);
+                if (File.Exists(path)) {
+                    data = Utility.ReadInts(path);
+                } else {
+                    data = new List<int>();
+                    Utility.WriteInts(path, x => {
+                        var v = sinCase.Sin(x);
+                        data.Add(v);
+                        return v;
+                    }, right);
+                }
+            }
+
             Assert.AreNotEqual(null, data);
             Assert.AreEqual(right + 1, data.Count);
             Assert.AreEqual(0, data[0]);
