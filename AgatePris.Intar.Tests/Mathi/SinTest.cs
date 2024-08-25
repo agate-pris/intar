@@ -33,7 +33,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             new SinCase(Intar.Mathi.SinP4A7032, Intar.Mathi.CosP4A7032, "sin_p4_7032.json", 0.002819),
             new SinCase(Intar.Mathi.SinP4A7384, Intar.Mathi.CosP4A7384, "sin_p4_7384.json", 0.001174),
             new SinCase(Intar.Mathi.SinP5A51472, Intar.Mathi.CosP5A51472, "sin_p5_51472.json", 0.000425),
-            new SinCase(Intar.Mathi.SinP5A51437, Intar.Mathi.CosP5A51437, "sin_p5_51437.json", 0.000226),
+            new SinCase(Intar.Mathi.SinP5A51436, Intar.Mathi.CosP5A51436, "sin_p5_51436.json", 0.000223),
         };
 
         static double ToRad(int x) {
