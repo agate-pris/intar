@@ -84,38 +84,66 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             }
 
+            void testSinInt(int x, int actual) {
+                var masked = x & rightMask;
+                int expected;
+                switch ((x >> rightExp) & 3) {
+                    case 0: expected = data[masked]; break;
+                    case 1: expected = data[right - masked]; break;
+                    case 2: expected = -data[masked]; break;
+                    case 3: expected = -data[right - masked]; break;
+                    default: Assert.Fail(); return;
+                };
+                if (expected != actual) {
+                    Assert.Fail(
+                        $"{nameof(x)}: {x}, " +
+                        $"{nameof(expected)}: {expected}, " +
+                        $"{nameof(actual)}: {actual}"
+                    );
+                }
+            }
+            void testSinReal(int x, int actual, double expected, double actualReal, double error, double absError) {
+                if (absError >= sinCase.AcceptableError) {
+                    Assert.Fail(
+                        $"{nameof(x)}: {x}, " +
+                        $"{nameof(actual)}: {actual}, " +
+                        $"{nameof(expected)}: {expected}, " +
+                        $"{nameof(actualReal)}: {actualReal}"
+                    );
+                }
+            }
+
+            var maxError = 0.0;
+            var errorSum = 0.0;
+            var absoluteErrorSum = 0.0;
+            var squaredErrorSum = 0.0;
+            void acc(double error, double absError) {
+                maxError = Math.Max(maxError, absError);
+                errorSum += error;
+                absoluteErrorSum += absError;
+                squaredErrorSum += absError * absError;
+            }
+
+            void testSinWithoutStatistics(int x, int actual, double expected, double actualReal, double error, double absError) {
+                testSinInt(x, actual);
+                testSinReal(x, actual, expected, actualReal, error, absError);
+            }
+            void testSinWithStatistics(int x) {
+                var actual = sinCase.Sin(x);
+                var expected = Math.Sin(ToRad(x));
+                var actualReal = ToReal(actual);
+                var error = actualReal - expected;
+                var absError = Math.Abs(error);
+                testSinWithoutStatistics(x, actual, expected, actualReal, error, absError);
+                acc(error, absError);
+            }
             void testSin(int x) {
                 var actual = sinCase.Sin(x);
-                {
-                    var masked = x & rightMask;
-                    int expected;
-                    switch ((x >> rightExp) & 3) {
-                        case 0: expected = data[masked]; break;
-                        case 1: expected = data[right - masked]; break;
-                        case 2: expected = -data[masked]; break;
-                        case 3: expected = -data[right - masked]; break;
-                        default: Assert.Fail(); return;
-                    };
-                    if (expected != actual) {
-                        Assert.Fail(
-                            $"{nameof(x)}: {x}, " +
-                            $"{nameof(expected)}: {expected}, " +
-                            $"{nameof(actual)}: {actual}"
-                        );
-                    }
-                }
-                {
-                    var expected = Math.Sin(ToRad(x));
-                    var actualReal = ToReal(actual);
-                    if (Math.Abs(actualReal - expected) >= sinCase.AcceptableError) {
-                        Assert.Fail(
-                            $"{nameof(x)}: {x}, " +
-                            $"{nameof(actual)}: {actual}, " +
-                            $"{nameof(expected)}: {expected}, " +
-                            $"{nameof(actualReal)}: {actualReal}"
-                        );
-                    }
-                }
+                var expected = Math.Sin(ToRad(x));
+                var actualReal = ToReal(actual);
+                var error = actualReal - expected;
+                var absError = Math.Abs(error);
+                testSinWithoutStatistics(x, actual, expected, actualReal, error, absError);
             }
             void testCos(int x) {
                 var actual = sinCase.Cos(x);
@@ -142,7 +170,21 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             }
 
-            for (var i = 0U; i <= uint.MaxValue / right; ++i) {
+            for (var i = 0U; i < 2; ++i) {
+                var x = unchecked((int)(i * right));
+                testSinWithStatistics(x);
+                if (i == 0) {
+                    testSinWithStatistics(x + 1);
+                    testSinWithStatistics(x + rightMask);
+                } else {
+                    testSin(x + 1);
+                    testSin(x + rightMask);
+                }
+                testCos(x);
+                testCos(x + 1);
+                testCos(x + rightMask);
+            }
+            for (var i = 2U; i <= uint.MaxValue / right; ++i) {
                 var x = unchecked((int)(i * right));
                 testSin(x);
                 testCos(x);
@@ -162,11 +204,29 @@ namespace AgatePris.Intar.Tests.Mathi {
             for (var q = 0; q < 4; ++q) {
                 var qr = q * right;
                 foreach (var start in starts) {
-                    for (var x = 2; x < right - 1; ++x) {
-                        testSin(start + qr + x);
-                        testCos(start + qr + x);
+                    if (q == 0 && start == 0) {
+                        for (var x = 2; x < right - 1; ++x) {
+                            testSinWithStatistics(start + qr + x);
+                            testCos(start + qr + x);
+                        }
+                    } else {
+                        for (var x = 2; x < right - 1; ++x) {
+                            testSin(start + qr + x);
+                            testCos(start + qr + x);
+                        }
                     }
                 }
+            }
+
+            {
+                const int count = right + 1;
+                Console.WriteLine(
+                    $"Count: {count}\n" +
+                    $"Max Error: {maxError}\n" +
+                    $"Mean Error: {errorSum / count}\n" +
+                    $"MAE: {absoluteErrorSum / count}\n" +
+                    $"MSE: {squaredErrorSum / count}\n" +
+                    $"RMSE: {Math.Sqrt(squaredErrorSum / count)}");
             }
 
             var rng = new Intar.Rand.Xoroshiro128StarStar(s0, s1);
