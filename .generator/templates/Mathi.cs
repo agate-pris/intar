@@ -452,7 +452,7 @@ namespace AgatePris.Intar {
             'P4A7032',  4, 0.002819,
             'P4A7384',  4, 0.001174,
             'P5A51472', 5, 0.000425,
-            'P5A51437', 5, 0.000226
+            'P5A51436', 5, 0.000226
         ] %}
 
         {{- self::cos_even(a=sin_params[0], d=sin_params[1], error=sin_params[2]) }}

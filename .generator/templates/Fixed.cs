@@ -365,13 +365,13 @@ namespace AgatePris.Intar.Numerics {
             "SinP4A7032",
             "SinP4A7384",
             "SinP5A51472",
-            "SinP5A51437",
+            "SinP5A51436",
             "CosP2",
             "CosP3A16384",
             "CosP4A7032",
             "CosP4A7384",
             "CosP5A51472",
-            "CosP5A51437",
+            "CosP5A51436",
         ] %}
         {%- set sin = name is starting_with("Sin") %}
         {%- set dim = name | trim_start_matches(pat="SinP") | trim_start_matches(pat="CosP") | truncate(length=1, end="") %}
