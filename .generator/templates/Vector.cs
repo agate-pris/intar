@@ -682,13 +682,13 @@ namespace AgatePris.Intar.Numerics {
             "SinP4A7032",
             "SinP4A7384",
             "SinP5A51472",
-            "SinP5A51437",
+            "SinP5A51436",
             "CosP2",
             "CosP3A16384",
             "CosP4A7032",
             "CosP4A7384",
             "CosP5A51472",
-            "CosP5A51437",
+            "CosP5A51436",
         ] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
