@@ -884,7 +884,7 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP5A51437(x);
+        /// var actual = Intar.Mathi.SinP5A51436(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -895,8 +895,8 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5A51437(int x) {
-            const int k = 51437;
+        public static int SinP5A51436(int x) {
+            const int k = 51436;
             const int a = (k * 2) - (SinInternal.Right * 5 / 2);
             const int b = k - (SinInternal.Right * 3 / 2);
             var z = SinInternal.MakeArgOdd(x);
@@ -910,7 +910,7 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP5A51437(x);
+        /// var actual = Intar.Mathi.CosP5A51436(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -921,7 +921,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5A51437(int x) => SinP5A51437(Overflowing.WrappingAdd(x, SinInternal.Right));
+        public static int CosP5A51436(int x) => SinP5A51436(Overflowing.WrappingAdd(x, SinInternal.Right));
 
         public enum SinMethod : byte {
             P2,
@@ -929,8 +929,8 @@ namespace AgatePris.Intar {
             P4A7032,
             P4A7384,
             P5A51472,
-            P5A51437,
-            Default = P5A51437,
+            P5A51436,
+            Default = P5A51436,
         }
 
         /// <summary>
@@ -939,7 +939,7 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.P5A51437;
+        /// var method = Intar.Mathi.SinMethod.P5A51436;
         /// var actual = Intar.Mathi.Sin(x, method);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
@@ -959,7 +959,7 @@ namespace AgatePris.Intar {
                 case SinMethod.P4A7384: return SinP4A7384(x);
                 case SinMethod.P5A51472: return SinP5A51472(x);
                 default:
-                case SinMethod.P5A51437: return SinP5A51437(x);
+                case SinMethod.P5A51436: return SinP5A51436(x);
             }
         }
 
@@ -969,7 +969,7 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.P5A51437;
+        /// var method = Intar.Mathi.SinMethod.P5A51436;
         /// var actual = Intar.Mathi.Cos(x, method);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
@@ -989,7 +989,7 @@ namespace AgatePris.Intar {
                 case SinMethod.P4A7384: return CosP4A7384(x);
                 case SinMethod.P5A51472: return CosP5A51472(x);
                 default:
-                case SinMethod.P5A51437: return CosP5A51437(x);
+                case SinMethod.P5A51436: return CosP5A51436(x);
             }
         }
 
