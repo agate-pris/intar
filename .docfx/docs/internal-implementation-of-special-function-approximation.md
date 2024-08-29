@@ -322,12 +322,11 @@ $$
 \frac{ 3x^5}{  40} +
 \frac{ 5x^7}{ 112} +
 \frac{35x^9}{1152} + ... \\
-
 \sum_{n=0}^\infty \frac{acos^{(n)}(0)}{n!}x^n &= \frac{\pi}{2} - x -
 \frac{  x^3}{   6} -
 \frac{ 3x^5}{  40} -
 \frac{ 5x^7}{ 112} -
-\frac{35x^9}{1152} - ... \\
+\frac{35x^9}{1152} - ...
 \end{align*}
 $$
 
