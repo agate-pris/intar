@@ -27,6 +27,7 @@
     "resource": [
       {
         "files": [
+          "gists/**",
           "images/**"
         ]
       }

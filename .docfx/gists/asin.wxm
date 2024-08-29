@@ -1,0 +1,39 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+plot2d([x], [x, 0, 1])$
+plot2d(
+    [asin(x), acos(x)], [x, -1, 1],
+    [ylabel, "Arcsine and arccosine"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+das: diff(asin(x), x);
+dac: diff(acos(x), x);
+plot2d(
+    [das, dac], [x, -0.99, 0.99],
+    [ylabel, "Diff of asin and acos"],
+    [legend, "asin'(x)", "acos'(x)"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ias: integrate(asin(x), x);
+iac: integrate(acos(x), x);
+plot2d(
+    [ias, iac], [x, -1, 1],
+    [ylabel, "Integral of asin and acos"],
+    [legend, "Integral of asin(x)", "Integral of acos(x)"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(asin(x), x, 0, 10);
+taylor(acos(x), x, 0, 10);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$
