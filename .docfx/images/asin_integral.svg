@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="227.189mm" height="168.275mm"
+ viewBox="0 0 644 477"
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
+<title>Qt SVG Document</title>
+<desc>Generated with Qt</desc>
+<defs>
+</defs>
+<g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-dasharray="1,2" stroke-dashoffset="0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,153.5 585.5,153.5 " />
+<polyline fill="none" vector-effect="none" points="340.5,392.5 340.5,25.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,25.5 94.5,392.5 585.5,392.5 585.5,25.5 94.5,25.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >Integral of asin and acos</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0,-1.00625,1.00625,0,28.6781,311.938)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >x</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,334.075,441.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >Integral of asin(x)</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,363.256,31.6969)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#0000ff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M515.5,47.5 L565.5,47.5"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#0000ff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.7,41.7 94.7,41.7 95.2,42 95.8,42.2 96.3,42.4 96.8,42.6 97.3,42.8 97.9,43.1 98.4,43.3 98.9,43.5 100,43.9 101,44.3 102.1,44.7 103.2,45.1 104.2,45.5 105.3,45.9 106.3,46.3 107.4,46.7 108.4,47.1 109.5,47.5 110.6,47.8 111.6,48.2 113.7,48.9 115.8,49.6 118,50.3 120.1,51 122.2,51.7 124.3,52.4 126.4,53 128.5,53.6 130.6,54.3 132.8,54.9 134.9,55.5 137,56.1 139.1,56.7 141.2,57.3 143.3,57.9 145.4,58.4 147.6,59 149.7,59.5 151.8,60.1 153.9,60.6 156,61.1 158.1,61.6 160.2,62.1 162.4,62.6 164.5,63.1 166.6,63.6 168.7,64.1 170.8,64.6 172.9,65 175,65.5 177.2,65.9 179.3,66.4 181.4,66.8 183.5,67.2 185.6,67.6 187.7,68.1 189.8,68.5 192,68.9 194.1,69.3 196.2,69.6 198.3,70 200.4,70.4 202.5,70.8 204.6,71.1 206.8,71.5 208.9,71.8 211,72.2 213.1,72.5 215.2,72.8 217.3,73.2 219.4,73.5 221.6,73.8 223.7,74.1 225.8,74.4 227.9,74.7 230,75 232.1,75.3 234.2,75.5 236.4,75.8 238.5,76.1 240.6,76.3 242.7,76.6 244.8,76.8 246.9,77.1 251.2,77.5 255.4,78 259.6,78.4 263.8,78.8 268.1,79.2 272.3,79.5 276.5,79.8 280.8,80.2 285,80.4 289.2,80.7 293.4,81 297.7,81.2 301.9,81.4 306.1,81.6 310.4,81.7 314.6,81.9 318.8,82 323,82.1 327.3,82.1 331.5,82.2 333.6,82.2 335.7,82.2 337.8,82.2 340,82.2 342.1,82.2 344.2,82.2 346.3,82.2 348.4,82.2 352.6,82.1 356.9,82.1 361.1,82 365.3,81.9 369.5,81.7 373.8,81.6 378,81.4 382.2,81.2 386.5,81 390.7,80.7 394.9,80.4 399.1,80.2 403.4,79.8 407.6,79.5 411.8,79.2 416.1,78.8 420.3,78.4 424.5,78 428.7,77.5 433,77.1 437.2,76.6 441.4,76.1 445.7,75.5 449.9,75 454.1,74.4 458.3,73.8 462.6,73.2 466.8,72.5 471,71.8 475.3,71.1 479.5,70.4 483.7,69.6 485.8,69.3 487.9,68.9 490.1,68.5 492.2,68.1 494.3,67.6 496.4,67.2 498.5,66.8 500.6,66.4 502.7,65.9 504.9,65.5 507,65 509.1,64.6 511.2,64.1 513.3,63.6 515.4,63.1 517.5,62.6 519.7,62.1 521.8,61.6 523.9,61.1 526,60.6 528.1,60.1 530.2,59.5 532.3,59 534.5,58.4 536.6,57.9 538.7,57.3 540.8,56.7 542.9,56.1 545,55.5 547.1,54.9 549.3,54.3 551.4,53.6 553.5,53 555.6,52.4 557.7,51.7 559.8,51 561.9,50.3 564.1,49.6 566.2,48.9 568.3,48.2 569.3,47.8 570.4,47.5 571.5,47.1 572.5,46.7 573.6,46.3 574.6,45.9 575.7,45.5 576.7,45.1 577.8,44.7 578.9,44.3 579.9,43.9 581,43.5 581.5,43.3 582,43.1 582.6,42.8 583.1,42.6 583.4,42.5 583.6,42.4 583.9,42.3 584.1,42.2 584.3,42.1 584.4,42.1 584.5,42 584.7,42 584.8,41.9 584.9,41.8 585.1,41.8 585.2,41.7 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >Integral of acos(x)</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,358.225,56.8531)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#ff0000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M515.5,72.5 L565.5,72.5"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#ff0000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.7,376.2 94.7,376.2 95.8,375.2 96.8,374.3 97.9,373.4 98.9,372.5 100,371.6 101,370.7 102.1,369.8 103.2,368.9 105.3,367.2 107.4,365.4 109.5,363.7 111.6,362 113.7,360.3 115.8,358.7 118,357 120.1,355.3 122.2,353.7 124.3,352.1 126.4,350.5 128.5,348.9 132.8,345.7 137,342.6 141.2,339.5 145.4,336.4 149.7,333.4 153.9,330.4 158.1,327.4 162.4,324.5 166.6,321.6 170.8,318.7 175,315.9 179.3,313.1 183.5,310.3 187.7,307.6 192,304.8 196.2,302.1 200.4,299.4 204.6,296.8 208.9,294.2 213.1,291.6 217.3,289 221.6,286.4 225.8,283.9 230,281.4 234.2,278.9 238.5,276.5 242.7,274 246.9,271.6 251.2,269.3 255.4,266.9 259.6,264.5 263.8,262.2 268.1,259.9 272.3,257.7 276.5,255.4 280.8,253.2 285,251 289.2,248.8 293.4,246.6 297.7,244.5 301.9,242.3 306.1,240.2 310.4,238.2 314.6,236.1 318.8,234.1 323,232 327.3,230 331.5,228.1 335.7,226.1 340,224.2 344.2,222.3 348.4,220.4 352.6,218.5 356.9,216.7 361.1,214.8 365.3,213 369.5,211.2 373.8,209.5 378,207.7 382.2,206 386.5,204.3 390.7,202.6 394.9,201 399.1,199.3 403.4,197.7 407.6,196.1 411.8,194.6 416.1,193 420.3,191.5 424.5,190 428.7,188.5 433,187.1 437.2,185.6 441.4,184.2 445.7,182.8 449.9,181.5 454.1,180.1 458.3,178.8 462.6,177.5 466.8,176.2 471,175 475.3,173.8 479.5,172.6 483.7,171.4 487.9,170.3 492.2,169.2 496.4,168.1 500.6,167 502.7,166.5 504.9,166 507,165.5 509.1,165 511.2,164.5 513.3,164 515.4,163.5 517.5,163 519.7,162.6 521.8,162.1 523.9,161.7 526,161.2 528.1,160.8 530.2,160.4 532.3,160 534.5,159.6 536.6,159.2 538.7,158.8 540.8,158.4 542.9,158 545,157.7 547.1,157.3 549.3,157 551.4,156.7 552.4,156.5 553.5,156.3 554.5,156.2 555.6,156 556.7,155.9 557.7,155.7 558.8,155.6 559.8,155.4 560.9,155.3 561.9,155.2 563,155 564.1,154.9 565.1,154.8 566.2,154.7 567.2,154.5 568.3,154.4 569.3,154.3 570.4,154.2 571.5,154.1 572.5,154 573,153.9 573.6,153.9 574.1,153.9 574.6,153.8 575.2,153.8 575.7,153.7 576.2,153.7 576.7,153.6 577.3,153.6 577.8,153.6 578.3,153.5 578.9,153.5 579.4,153.5 579.9,153.4 580.4,153.4 581,153.4 581.2,153.3 581.5,153.3 581.8,153.3 582,153.3 582.3,153.3 582.6,153.3 582.8,153.3 583.1,153.3 583.4,153.3 583.6,153.2 583.9,153.2 584.1,153.2 584.3,153.2 584.4,153.2 584.5,153.2 584.7,153.2 584.8,153.2 584.9,153.2 585.1,153.2 585.2,153.2 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,366.5 104.5,366.5 " />
+<polyline fill="none" vector-effect="none" points="585.5,366.5 575.5,366.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >-3</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,351.684)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,295.5 104.5,295.5 " />
+<polyline fill="none" vector-effect="none" points="585.5,295.5 575.5,295.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >-2</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,280.241)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,224.5 104.5,224.5 " />
+<polyline fill="none" vector-effect="none" points="585.5,224.5 575.5,224.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >-1</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,60.375,208.797)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,153.5 104.5,153.5 " />
+<polyline fill="none" vector-effect="none" points="585.5,153.5 575.5,153.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ > 0</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,137.353)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,82.5 104.5,82.5 " />
+<polyline fill="none" vector-effect="none" points="585.5,82.5 575.5,82.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ > 1</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,62.3875,65.9094)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,392.5 94.5,382.5 " />
+<polyline fill="none" vector-effect="none" points="94.5,25.5 94.5,35.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >-1</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,83.0156,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="217.5,392.5 217.5,382.5 " />
+<polyline fill="none" vector-effect="none" points="217.5,25.5 217.5,35.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ >-0.5</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,198.734,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="340.5,392.5 340.5,382.5 " />
+<polyline fill="none" vector-effect="none" points="340.5,25.5 340.5,35.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ > 0</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,330.553,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="462.5,392.5 462.5,382.5 " />
+<polyline fill="none" vector-effect="none" points="462.5,25.5 462.5,35.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ > 0.5</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,447.278,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="585.5,392.5 585.5,382.5 " />
+<polyline fill="none" vector-effect="none" points="585.5,25.5 585.5,35.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="4" y="24" font-family="Sans" font-size="9" font-weight="400" font-style="normal" 
+ > 1</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,577.084,404.009)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-dasharray="1,2" stroke-dashoffset="0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,153.5 585.5,153.5 " />
+<polyline fill="none" vector-effect="none" points="340.5,392.5 340.5,25.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+<polyline fill="none" vector-effect="none" points="94.5,25.5 94.5,392.5 585.5,392.5 585.5,25.5 94.5,25.5 " />
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.00625,0,0,1.00625,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="MS UI Gothic" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+</g>
+</svg>
