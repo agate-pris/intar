@@ -313,8 +313,6 @@ $$
 \frac{x^9}{9} - ...
 $$
 
-ここに TeX
-
 スクリプト : [atan.wmx](/gists/atan.wmx)
 
 wip
