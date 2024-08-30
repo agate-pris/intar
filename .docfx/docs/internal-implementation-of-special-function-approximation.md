@@ -2,6 +2,38 @@
 
 ## 正弦 sine と余弦 cosine
 
+以下は sin と cos のグラフ｡
+
+![sin.svg](/images/sin.svg)
+
+微分と積分は以下の通り｡
+
+$$
+\begin{align*}
+     sin'(x)     &=  cos(x) \\
+     cos'(x)     &= -sin(x) \\
+\int sin (x)\ dx &= -cos(x) + C \\
+\int cos (x)\ dx &=  sin(x) + C
+\end{align*}
+$$
+
+sin と cos のテイラー展開は以下の通り｡
+
+$$
+\begin{align*}
+\sum_{n=0}^\infty \frac{sin^{(n)}(0)}{n!}x^n &= x -
+\frac{x^3}{     6} +
+\frac{x^5}{   120} -
+\frac{x^7}{  5040} +
+\frac{x^9}{362880} - ... \\
+\sum_{n=0}^\infty \frac{cos^{(n)}(0)}{n!}x^n &= 1 -
+\frac{x^2}{    2} +
+\frac{x^4}{   24} -
+\frac{x^6}{  720} +
+\frac{x^8}{40320} - ...
+\end{align*}
+$$
+
 ### 4 次の多項式による近似 (Abramowitz and Stegun からの引用)
 
 > $$
