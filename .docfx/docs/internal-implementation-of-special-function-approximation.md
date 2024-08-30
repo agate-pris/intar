@@ -64,57 +64,6 @@ $$
 >
 > <cite id="abramowitz-and-stegun-a">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
 
-### sin と cos のテイラー展開
-
-点 $a$ のまわりのテイラー級数は以下の通り｡
-
-$$
-\sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!}(x-a)^n
-$$
-
-上記より､ $sin$ と $cos$ は以下の式で近似できる｡
-
-$$
-\begin{align*}
-\sum_{n=0}^\infty\frac{sin^{(n)}(a)}{n!}(x-a)^n
-&=\frac{sin(a)}{0!}(x-a)^0&&+\frac{cos(a)}{1!}(x-a)^1\\
-&-\frac{sin(a)}{2!}(x-a)^2&&-\frac{cos(a)}{3!}(x-a)^3\\
-&+\frac{sin(a)}{4!}(x-a)^4&&+\frac{cos(a)}{5!}(x-a)^5...
-\end{align*}
-$$
-
-$$
-\begin{align*}
-\sum_{n=0}^\infty\frac{cos^{(n)}(a)}{n!}(x-a)^n
-&=\frac{cos(a)}{0!}(x-a)^0&&-\frac{sin(a)}{2!}(x-a)^1\\
-&-\frac{cos(a)}{2!}(x-a)^2&&+\frac{sin(a)}{3!}(x-a)^3\\
-&+\frac{cos(a)}{4!}(x-a)^4&&-\frac{sin(a)}{5!}(x-a)^5...
-\end{align*}
-$$
-
-この時 $sin\ 0=0$ ､ $cos\ 0=1$ であるから､ $a=0$ の時
-
-$$
-\begin{align*}
-\sum_{n=0}^\infty\frac{sin^{(n)}(0)}{n!}(x-0)^n
-&=x-\frac{x^3}{3!}+\frac{x^5}{5!}...\\
-\sum_{n=0}^\infty\frac{cos^{(n)}(0)}{n!}(x-0)^n
-&=1-\frac{x^2}{2!}+\frac{x^4}{4!}...
-\end{align*}
-$$
-
-上記より
-$sin$ の近似には偶数項が､
-$cos$ の近似には奇数項が､ それぞれ不要であることが分かる｡
-
-$sin\ x=cos(x+\frac{\pi}{2})$ であるから､
-オフセットを足すことを前提に各々のテイラー展開の結果を奇数次の多項式による近似と偶数次の多項式による近似とみなすことができる｡
-
-しかし､ 単純にテイラー展開の結果の一部を切り出して $n$ 次の多項式による近似として用いる場合､
-$sin\frac{\pi}{2}=1$ ､ $cos\frac{\pi}{2}=0$ を満たさず都合が悪い｡
-
-よって､ 多項式近似では係数を調整することでこれらを満たすように調整する｡
-
 ### 3 次の多項式による近似
 
 まず 3 次の多項式 $sin_{3}$ について考える｡
