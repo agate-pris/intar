@@ -283,9 +283,9 @@ $b_{5\ c\ 1}-(b_{5\ c\ 3}-b_{5\ c\ 5})=32768$ にしなければならない｡
 
 wip
 
-## Arcsine と Arccosine
+## 逆正弦 arcsine と逆余弦 arccosine
 
-以下は asin と acos のグラフ
+以下は arcsin と arccos のグラフ
 
 ![asin.svg](/images/asin.svg)
 
@@ -293,36 +293,36 @@ wip
 
 $$
 \begin{align*}
-asin'(x)&= \frac{1}{\sqrt{1-x^2}} \\
-acos'(x)&=-\frac{1}{\sqrt{1-x^2}}
+arcsin'(x)&= \frac{1}{\sqrt{1-x^2}} \\
+arccos'(x)&=-\frac{1}{\sqrt{1-x^2}}
 \end{align*}
 $$
 
 $$
 \begin{align*}
-\int asin(x)\ dx&=x\ asin(x) + \sqrt{1-x^2} + C \\
-\int acos(x)\ dx&=x\ acos(x) - \sqrt{1-x^2} + C
+\int arcsin(x)\ dx&=x\ arcsin(x) + \sqrt{1-x^2} + C \\
+\int arccos(x)\ dx&=x\ arccos(x) - \sqrt{1-x^2} + C
 \end{align*}
 $$
 
-以下は $asin'(x)$ と $acos'(x)$ のグラフ｡
+以下は $arcsin'(x)$ と $arccos'(x)$ のグラフ｡
 
 ![asin_diff.svg](/images/asin_diff.svg)
 
-以下は $\int asin(x)\ dx$ と $\int acos(x)\ dx$ のグラフ｡
+以下は $\int arcsin(x)\ dx$ と $\int arccos(x)\ dx$ のグラフ｡
 
 ![asin_integral.svg](/images/asin_integral.svg)
 
-asin と acos のテイラー展開は以下の通り｡
+arcsin と arccos のテイラー展開は以下の通り｡
 
 $$
 \begin{align*}
-\sum_{n=0}^\infty \frac{asin^{(n)}(0)}{n!}x^n &= x +
+\sum_{n=0}^\infty \frac{arcsin^{(n)}(0)}{n!}x^n &= x +
 \frac{  x^3}{   6} +
 \frac{ 3x^5}{  40} +
 \frac{ 5x^7}{ 112} +
 \frac{35x^9}{1152} + ... \\
-\sum_{n=0}^\infty \frac{acos^{(n)}(0)}{n!}x^n &= \frac{\pi}{2} - x -
+\sum_{n=0}^\infty \frac{arccos^{(n)}(0)}{n!}x^n &= \frac{\pi}{2} - x -
 \frac{  x^3}{   6} -
 \frac{ 3x^5}{  40} -
 \frac{ 5x^7}{ 112} -
