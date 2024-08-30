@@ -42,7 +42,7 @@ $$
 \end{align*}
 $$
 
-### 4 次の多項式による近似 (Abramowitz and Stegun からの引用)
+以下は 4 次の多項式による近似｡
 
 > $$
 > 0\le x\le\frac{\pi}{2}
