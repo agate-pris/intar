@@ -279,7 +279,43 @@ $c=1$ か $c=2$ かで丸め方向が異なるが､ これは丸めた時の差
 $x=0$ ､ $x=\frac{\pi}{2}$ の時に精確に $1$ または $0$ にするため､
 $b_{5\ c\ 1}-(b_{5\ c\ 3}-b_{5\ c\ 5})=32768$ にしなければならない｡
 
-## atan
+## 逆正接 arctangent
+
+以下は arctan のグラフ
+
+![atan.svg](/images/atan.svg)
+
+微分と積分は以下の通り｡
+
+$$
+arctan'(x)=\frac{1}{x^2+1}
+$$
+
+$$
+\int arctan(x)\ dx=x\ arctan(x)-\frac{log\left(x^2+1\right)}{2}
+$$
+
+以下は $arctan'(x)$ のグラフ｡
+
+![atan_diff.svg](/images/atan_diff.svg)
+
+以下は $\int arctan(x)\ dx$ のグラフ｡
+
+![atan_integral.svg](/images/atan_integral.svg)
+
+arctan のテイラー展開は以下の通り｡
+
+$$
+\sum_{n=0}^\infty \frac{arctan^{(n)}(0)}{n!}x^n = x -
+\frac{x^3}{3} +
+\frac{x^5}{5} -
+\frac{x^7}{7} +
+\frac{x^9}{9} - ...
+$$
+
+ここに TeX
+
+スクリプト : [atan.wmx](/gists/atan.wmx)
 
 wip
 
