@@ -1,0 +1,27 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+f: [sin(x), cos(x)];
+plot2d([x], [x, 0, 1])$
+plot2d(f, [x, -%pi, %pi])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+d: map(lambda([f], diff(f, x)), f);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+i: map(lambda([f], integrate(f, x)), f);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+map(lambda([f], taylor(f, x, 0, 11)), f);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$
