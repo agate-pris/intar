@@ -66,50 +66,53 @@ $$
 
 ### 3 次の多項式による近似
 
-まず 3 次の多項式 $sin_{3}$ について考える｡
+3 次の多項式 $sin_{3}$ について考える｡
 
-テイラー展開の結果に基づき､ 以下のように定義する｡ $k$ は定数項である｡
+テイラー展開の結果に基づき､ 以下のように定義する｡
 
 $$
 \begin{align*}
-sin_{3} \ x&=a_{3\ 1}\times x- a_{3\ 3}\times x^3\\
-sin_{3}'\ x&=a_{3\ 1}        -3a_{3\ 3}\times x^2
+sin_{3} \ x&=a_{3\ 1}\ x- a_{3\ 3}\ x^3 \\
+sin_{3}'\ x&=a_{3\ 1}   -3a_{3\ 3}\ x^2
 \end{align*}
 $$
 
-この時 $sin_3\ 0=0$ は定義より自明かつ常に成り立つ｡
-
-$sin_3\frac{\pi}{2}=1$ とすると､ $a_{3\ 1}$ と $a_{3\ 2}$ の関係が分かる｡
-
-その上で各々の値を求めるため､ 条件をもう 1 つ追加する｡
+$$
+\begin{align*}
+sin_{3} \frac{\pi}{2} &= 1 &
+sin_{3}'\frac{\pi}{2} &= 0
+\end{align*}
+$$
 
 $sin_{3}\ x$ が $x=\frac{\pi}{2}$ 付近で滑らかに変化してほしいので $sin_{3}'\frac{\pi}{2}=0$ とする｡
 
 $$
 \begin{align*}
-sin_{3} \frac{\pi}{2}&=1=a_{3\ 1}\times\frac{\pi}{2}- a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
-sin_{3}'\frac{\pi}{2}&=0=a_{3\ 1}                   -3a_{3\ 3}\times\left(\frac{\pi}{2}\right)^2\\
-a_{3\ 1}&=3a_{3\ 3}\times\left(\frac{\pi}{2}\right)^2\\
-1       &=3a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3-a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
-        &=2a_{3\ 3}\times\left(\frac{\pi}{2}\right)^3\\
-\left(\frac{\pi}{2}\right)^{-3}&=2a_{3\ 3}\\
-a_{3\ 3}&=\frac{1}{2}\left(\frac{\pi}{2}\right)^{-3}\\
-a_{3\ 1}&=\frac{3}{2}\left(\frac{\pi}{2}\right)^{-1}\\
-a_{3\ 2}&\approx 0.954929658551372\\
-a_{3\ 3}&\approx 0.129006137732798
+a_{3\ 1} &= \frac{3}{\pi  } \approx 0.954929658551372 \\
+a_{3\ 3} &= \frac{4}{\pi^3} \approx 0.12900613773279798
 \end{align*}
 $$
+
+![sin_p3.svg](/images/sin_p3.svg)
 
 Intar では
 1.0 が 2 の 15 乗に､ 直角が
 1.0 ($=2^{15}$) に対応するので､ 定数項を以下のように変形する｡
 
 $$
+b_{3\ m} = \left(32768 \times \left(\frac{\pi}{2} \right)^m \right) a_{3\ m}
+$$
+
+$$
 \begin{align*}
-b_{3\ 3}&=32768\times a_{3\ 3}\left(\frac{\pi}{2}\right)^{3}&&=16384\\
-b_{3\ 1}&=32768\times a_{3\ 1}\left(\frac{\pi}{2}\right)    &&=49152
+b_{3\ 1} &= 49152 & b_{3\ 3} &= 16384
 \end{align*}
 $$
+
+誤差の臨界点は x = 0.6956210441413747 ､ y = -0.02001701341731299 ｡
+
+- 誤差のグラフ : [sin_p3_error.svg](/images/sin_p3_error.svg)
+- スクリプト : [sin_p3.wxm](/gists/sin_p3.wxm)
 
 ### 4 次の多項式による近似
 
