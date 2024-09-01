@@ -8,9 +8,10 @@ sol: solve(
     [f(%pi/2)=1, d(%pi/2)=0],
     [a, b]);
 float(sol);
+func: subst(sol, f(x))$
 plot2d(0, [x, 0, 1])$
 plot2d(
-    [sin(x), subst(sol, f(x))],
+    [sin(x), func],
     [x, -%pi, %pi])$
 subst(sol, [
     a*32768*%pi/2,
@@ -19,7 +20,7 @@ subst(sol, [
 
 
 /* [wxMaxima: input   start ] */
-error_func: subst(sol, f(x))-sin(x)$
+error_func: func-sin(x)$
 rmsd: float(sqrt(integrate(error_func^2, x, 0, %pi/2)));
 plot2d(error_func, [x, 0, %pi/2])$
 first_derivative: diff(error_func, x)$
