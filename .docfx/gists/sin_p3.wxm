@@ -20,6 +20,7 @@ subst(sol, [
 
 /* [wxMaxima: input   start ] */
 error_func: subst(sol, f(x))-sin(x)$
+rmsd: float(sqrt(integrate(error_func^2, x, 0, %pi/2)));
 plot2d(error_func, [x, 0, %pi/2])$
 first_derivative: diff(error_func, x)$
 root: find_root(first_derivative=0, x, 0.6, 0.8)$
