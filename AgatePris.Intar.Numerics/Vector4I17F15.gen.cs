@@ -529,18 +529,18 @@ namespace AgatePris.Intar.Numerics {
             W.SinP3A16384());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 SinP4A7032() => new Vector4I2F30(
-            X.SinP4A7032(),
-            Y.SinP4A7032(),
-            Z.SinP4A7032(),
-            W.SinP4A7032());
+        public Vector4I2F30 SinP4A7373() => new Vector4I2F30(
+            X.SinP4A7373(),
+            Y.SinP4A7373(),
+            Z.SinP4A7373(),
+            W.SinP4A7373());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 SinP4A7384() => new Vector4I2F30(
-            X.SinP4A7384(),
-            Y.SinP4A7384(),
-            Z.SinP4A7384(),
-            W.SinP4A7384());
+        public Vector4I2F30 SinP4A7385() => new Vector4I2F30(
+            X.SinP4A7385(),
+            Y.SinP4A7385(),
+            Z.SinP4A7385(),
+            W.SinP4A7385());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 SinP5A51472() => new Vector4I2F30(
@@ -571,18 +571,18 @@ namespace AgatePris.Intar.Numerics {
             W.CosP3A16384());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 CosP4A7032() => new Vector4I2F30(
-            X.CosP4A7032(),
-            Y.CosP4A7032(),
-            Z.CosP4A7032(),
-            W.CosP4A7032());
+        public Vector4I2F30 CosP4A7373() => new Vector4I2F30(
+            X.CosP4A7373(),
+            Y.CosP4A7373(),
+            Z.CosP4A7373(),
+            W.CosP4A7373());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 CosP4A7384() => new Vector4I2F30(
-            X.CosP4A7384(),
-            Y.CosP4A7384(),
-            Z.CosP4A7384(),
-            W.CosP4A7384());
+        public Vector4I2F30 CosP4A7385() => new Vector4I2F30(
+            X.CosP4A7385(),
+            Y.CosP4A7385(),
+            Z.CosP4A7385(),
+            W.CosP4A7385());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 CosP5A51472() => new Vector4I2F30(
