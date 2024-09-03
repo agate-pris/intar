@@ -9,8 +9,8 @@ macro_rules! sin_p5 {
             let y = B - (C * z >> EXP);
             let y = A - (y * z >> EXP);
             y * x
-        } 
-    }
+        }
+    };
 }
 
 macro_rules! sin_p5f {
