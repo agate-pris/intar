@@ -1,4 +1,4 @@
-workspace = { members = ["sin"] }
+workspace = { members = ["sin", "utility"] }
 [package]
 name = "generator"
 version = "0.1.0"
