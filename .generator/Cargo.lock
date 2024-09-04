@@ -693,6 +693,9 @@ dependencies = [
 [[package]]
 name = "sin"
 version = "0.1.0"
+dependencies = [
+ "utility",
+]
 
 [[package]]
 name = "siphasher"
