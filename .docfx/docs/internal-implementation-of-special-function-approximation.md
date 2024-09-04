@@ -12,7 +12,7 @@ Intar は [ローラン級数](https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%
 
 以下は sin と cos のグラフ｡
 
-![sin.svg](/images/sin.svg)
+![sin.svg](../images/sin.svg)
 
 微分と積分は以下の通り｡
 
