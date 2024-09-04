@@ -97,7 +97,7 @@ $$
 | :--------- | :---------
 | 0.954929658551372 | 0.12900613773279798
 
-![sin_p3.svg](/images/sin_p3.svg)
+![sin_p3.svg](../images/sin_p3.svg)
 
 | RMSD | 誤差の絶対値の最大値
 | :--- | :-------------------
@@ -117,8 +117,8 @@ b_{3\ 1} &= 49152 & b_{3\ 3} &= 16384
 \end{align*}
 $$
 
-- 誤差のグラフ : [sin_p3_error.svg](/images/sin_p3_error.svg)
-- スクリプト : [sin_p3.wxm](/gists/sin_p3.wxm)
+- 誤差のグラフ : [sin_p3_error.svg](../images/sin_p3_error.svg)
+- スクリプト : [sin_p3.wxm](../gists/sin_p3.wxm)
 
 ### 4 次の多項式による近似
 
@@ -166,11 +166,11 @@ $a_{4\ p\ 0} = 1$ は自明｡
 | 5 | 0.4991052271747134  | 0.03802401344273002
 | 6 | 0.4966163414241372  | 0.03701530604193427
 
-![cos_p4.svg](/images/cos_p4.svg)
+![cos_p4.svg](../images/cos_p4.svg)
 
 以下は誤差のグラフ｡
 
-![cos_p4_error_all.svg](/images/cos_p4_error_all.svg)
+![cos_p4_error_all.svg](../images/cos_p4_error_all.svg)
 
 | p   | RMSD | 誤差の絶対値の最大値
 | :-: | :--- | :-------------------
@@ -215,8 +215,8 @@ $$
 天井関数を使うのは､ (この例では) その方が浮動小数点数演算との RMSD が小さくなるため｡
 (おそらく $cos_{4\ p}$ が $0$ から $\frac{2}{\pi}$ に向かって単調減少な偶関数であることと相関がある)
 
-- スクリプト : [cos_p4.wxm](/gists/cos_p4.wxm)
-- 誤差の大きな関数を除いた誤差のグラフ : [cos_p4_error.svg](/images/cos_p4_error.svg)
+- スクリプト : [cos_p4.wxm](../gists/cos_p4.wxm)
+- 誤差の大きな関数を除いた誤差のグラフ : [cos_p4_error.svg](../images/cos_p4_error.svg)
 
 ### 5 次の多項式による近似
 
@@ -261,13 +261,13 @@ $$
 | 5 | 0.998782232699493  | 0.16455169548040588 | 0.007203035968429407
 | 6 | 0.9993139195890486 | 0.16498266464022104 | 0.007290368579201072
 
-![sin_p5.svg](/images/sin_p5.svg)
+![sin_p5.svg](../images/sin_p5.svg)
 
 以下は誤差のグラフ｡
 
-![sin_p5_error_1.svg](/images/sin_p5_error_1.svg)
+![sin_p5_error_1.svg](,,/images/sin_p5_error_1.svg)
 
-![sin_p5_error_2.svg](/images/sin_p5_error_2.svg)
+![sin_p5_error_2.svg](../images/sin_p5_error_2.svg)
 
 | p   | RMSD | 誤差の絶対値の最大値
 | :-: | :--- | :-------------------
@@ -316,13 +316,13 @@ b_{5\ 6\ 5} = 2284
 \end{gather*}
 $$
 
-- スクリプト : [sin_p5.wxm](/gists/sin_p5.wxm)
+- スクリプト : [sin_p5.wxm](../gists/sin_p5.wxm)
 
 ## 逆正接 arctangent
 
 以下は arctan のグラフ
 
-![atan.svg](/images/atan.svg)
+![atan.svg](../images/atan.svg)
 
 微分と積分は以下の通り｡
 
@@ -336,11 +336,11 @@ $$
 
 以下は $arctan'(x)$ のグラフ｡
 
-![atan_diff.svg](/images/atan_diff.svg)
+![atan_diff.svg](../images/atan_diff.svg)
 
 以下は $\int arctan(x)\ dx$ のグラフ｡
 
-![atan_integral.svg](/images/atan_integral.svg)
+![atan_integral.svg](../images/atan_integral.svg)
 
 arctan のテイラー展開は以下の通り｡
 
@@ -352,7 +352,7 @@ $$
 \frac{x^9}{9} - ...
 $$
 
-スクリプト : [atan.wmx](/gists/atan.wmx)
+スクリプト : [atan.wmx](../gists/atan.wmx)
 
 wip
 
@@ -360,7 +360,7 @@ wip
 
 以下は arcsin と arccos のグラフ
 
-![asin.svg](/images/asin.svg)
+![asin.svg](../images/asin.svg)
 
 微分と積分は以下の通り｡
 
@@ -380,11 +380,11 @@ $$
 
 以下は $arcsin'(x)$ と $arccos'(x)$ のグラフ｡
 
-![asin_diff.svg](/images/asin_diff.svg)
+![asin_diff.svg](../images/asin_diff.svg)
 
 以下は $\int arcsin(x)\ dx$ と $\int arccos(x)\ dx$ のグラフ｡
 
-![asin_integral.svg](/images/asin_integral.svg)
+![asin_integral.svg](../images/asin_integral.svg)
 
 arcsin と arccos のテイラー展開は以下の通り｡
 
@@ -403,7 +403,7 @@ $$
 \end{align*}
 $$
 
-スクリプト : [asin.wmx](/gists/asin.wxm)
+スクリプト : [asin.wmx](../gists/asin.wxm)
 
 wip
 
