@@ -63,7 +63,7 @@ macro_rules! sin_p5f {
 
 sin_p5!(51436, sin_p5_51436);
 sin_p5!(51437, sin_p5_51437);
-sin_p5f!(51436.540205645438220618274829932, sin_p5f_51436);
+sin_p5f!(51436.54020564544, sin_p5f_51436);
 
 fn main() {
     let mut statistics: [Statistics; 3] = Default::default();
