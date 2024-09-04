@@ -839,56 +839,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP5A51472(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Sin(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000425);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5A51472(int x) {
-            const int k = 51472;
-            const int a = (k * 2) - (SinInternal.Right * 5 / 2);
-            const int b = k - (SinInternal.Right * 3 / 2);
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (k - (((a - ((z_2 * b) >> SinInternal.RightExp)) * z_2) >> SinInternal.RightExp)) * z;
-        }
-
-        /// <summary>
-        /// 5 次の多項式で余弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP5A51472(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Cos(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000425);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5A51472(int x) => SinP5A51472(Overflowing.WrappingAdd(x, SinInternal.Right));
-
-        /// <summary>
-        /// 5 次の多項式で正弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
         /// var actual = Intar.Mathi.SinP5A51436(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000226);
+        /// Assert.AreEqual(expected, a, 0.000223);
         /// </code>
         /// </example>
         /// </summary>
@@ -914,7 +869,7 @@ namespace AgatePris.Intar {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000226);
+        /// Assert.AreEqual(expected, a, 0.000223);
         /// </code>
         /// </example>
         /// </summary>
@@ -928,7 +883,6 @@ namespace AgatePris.Intar {
             P3A16384,
             P4A7373,
             P4A7385,
-            P5A51472,
             P5A51436,
             Default = P5A51436,
         }
@@ -944,7 +898,7 @@ namespace AgatePris.Intar {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000226);
+        /// Assert.AreEqual(expected, a, 0.000223);
         /// </code>
         /// </example>
         /// </summary>
@@ -957,7 +911,6 @@ namespace AgatePris.Intar {
                 case SinMethod.P3A16384: return SinP3A16384(x);
                 case SinMethod.P4A7373: return SinP4A7373(x);
                 case SinMethod.P4A7385: return SinP4A7385(x);
-                case SinMethod.P5A51472: return SinP5A51472(x);
                 default:
                 case SinMethod.P5A51436: return SinP5A51436(x);
             }
@@ -974,7 +927,7 @@ namespace AgatePris.Intar {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000226);
+        /// Assert.AreEqual(expected, a, 0.000223);
         /// </code>
         /// </example>
         /// </summary>
@@ -987,7 +940,6 @@ namespace AgatePris.Intar {
                 case SinMethod.P3A16384: return CosP3A16384(x);
                 case SinMethod.P4A7373: return CosP4A7373(x);
                 case SinMethod.P4A7385: return CosP4A7385(x);
-                case SinMethod.P5A51472: return CosP5A51472(x);
                 default:
                 case SinMethod.P5A51436: return CosP5A51436(x);
             }
