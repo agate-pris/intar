@@ -1,0 +1,98 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+taylor(sin(x), x, 0, 6);
+sin_p5(x):=a*x-b*x^3+c*x^5;
+define(fd(x), diff(sin_p5(x), x));
+eqn: [sin_p5(%pi/2)=1, fd(%pi/2)=0];
+sol: solve(eqn, [b, c]);
+sols: [
+    solve(append(eqn, [fd(%pi/3)=cos(%pi/3)]), [a, b, c]),
+    solve(append(eqn, [fd(%pi/6)=cos(%pi/6)]), [a, b, c]),
+    solve(append(eqn, [fd(0    )=1         ]), [a, b, c]),
+    solve(append(eqn, [sin_p5(%pi/6)=sin(%pi/6)]), [a, b, c]),
+    solve(append(eqn, [sin_p5(%pi/3)=sin(%pi/3)]), [a, b, c]),
+    solve(append(eqn, [integrate(sin_p5(x)-sin(x), x, 0, %pi/2)=0]), [a, b, c])
+];
+float(sols);
+funcs: map(lambda([s], subst(s, sin_p5(x))), sols);
+error_funcs: map(lambda([f], f-sin(x)), funcs)$
+rmsd: map(lambda([f], float(sqrt(integrate(f^2, x, 0, %pi/2)))), error_funcs);
+map(lambda([sol], float(subst(sol, [
+    32768*%pi^1/2^1*a,
+    32768*%pi^3/2^3*b,
+    32768*%pi^5/2^5*c]))), sols);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plot2d(0, [x, 0, 1])$
+plot2d(
+    funcs,
+    [x, -%pi, %pi],
+    [ylabel, "5th Order Polynomial Sine Approximation"],
+    [
+        legend,
+        "sin_p5'(PI/3)=1/2",
+        "sin_p5'(PI/6)=sqrt(3)/2",
+        "sin_p5'(0)=1",
+        "sin_p5(PI/6)=1/2",
+        "sin_p5(PI/3)=sqrt(3)/2",
+        "sum(error)=0"
+    ]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plot2d(
+    [error_funcs[3]],
+    [x, 0, %pi/2],
+    [ylabel, "5th Order Polynomial Sine Approximation's Error (sin_p5'(0)=1)"]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plot2d(
+    [
+        error_funcs[1],
+        error_funcs[2],
+        error_funcs[4],
+        error_funcs[5],
+        error_funcs[6]
+    ],
+    [x, 0, %pi/2],
+    [ylabel, "5th Order Polynomial Sine Approximation's Error"],
+    [
+        legend,
+        "sin_p5'(PI/3)=1/2",
+        "sin_p5'(PI/6)=sqrt(3)/2",
+        "sin_p5(PI/6)=1/2",
+        "sin_p5(PI/3)=sqrt(3)/2",
+        "sum(error)=0"
+    ]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+critical_points_a: map(
+    lambda([f], block(
+        root: find_root(diff(f, x), x, 0.1, 0.6),
+        [root, float(ev(f, x=root))]
+    )), [
+        error_funcs[1],
+        error_funcs[2],
+        error_funcs[4],
+        error_funcs[5],
+        error_funcs[6]
+    ]);
+critical_points_b: map(
+    lambda([f], block(
+        root: find_root(diff(f, x), x, 0.6, 1.5),
+        [root, float(ev(f, x=root))]
+    )), error_funcs);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$

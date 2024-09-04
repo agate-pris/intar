@@ -442,17 +442,16 @@ namespace AgatePris.Intar {
                 return z * z;
             }
 
-            {{- self::cos_p4_detail(k=7032) }}
-            {{- self::cos_p4_detail(k=7384) }}
+            {{- self::cos_p4_detail(k=7373) }}
+            {{- self::cos_p4_detail(k=7385) }}
         }
 
         {%- set sin_params = [
             'P2',       2, 0.056010,
             'P3A16384', 3, 0.020017,
-            'P4A7032',  4, 0.002819,
-            'P4A7384',  4, 0.001174,
-            'P5A51472', 5, 0.000425,
-            'P5A51437', 5, 0.000226
+            'P4A7373',  4, 0.001114,
+            'P4A7385',  4, 0.001180,
+            'P5A51436', 5, 0.000223
         ] %}
 
         {{- self::cos_even(a=sin_params[0], d=sin_params[1], error=sin_params[2]) }}
@@ -475,8 +474,6 @@ namespace AgatePris.Intar {
         {{- self::sin_even(a=sin_params[9], d=sin_params[10], error=sin_params[11]) }}
         {{- self::sin_p5(k=sin_params[12] | trim_start_matches(pat='P5A'), d=sin_params[13], error=sin_params[14]) }}
         {{- self::cos_odd(a=sin_params[12], d=sin_params[13], error=sin_params[14]) }}
-        {{- self::sin_p5(k=sin_params[15] | trim_start_matches(pat='P5A'), d=sin_params[16], error=sin_params[17]) }}
-        {{- self::cos_odd(a=sin_params[15], d=sin_params[16], error=sin_params[17]) }}
 
         public enum SinMethod : byte {
             {%- for i in range(end=sin_params | length / 3) %}
@@ -496,12 +493,12 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.{{ sin_params[15] }};
+        /// var method = Intar.Mathi.SinMethod.{{ sin_params[12] }};
         /// var actual = Intar.Mathi.{{ method }}(x, method);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.{{ method }}(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, {{ sin_params[17] }});
+        /// Assert.AreEqual(expected, a, {{ sin_params[14] }});
         /// </code>
         /// </example>
         /// </summary>

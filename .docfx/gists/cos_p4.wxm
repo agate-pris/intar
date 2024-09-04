@@ -1,0 +1,82 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+taylor(cos(x), x, 0, 5);
+cos_p4(x):=1-a*x^2+b*x^4;
+define(fd(x), diff(cos_p4(x), x));
+sols: [
+    solve([cos_p4(%pi/2)=0, fd(%pi/6)=-1/2], [a, b]),
+    solve([cos_p4(%pi/2)=0, fd(%pi/3)=-sin(%pi/3)], [a, b]),
+    solve([cos_p4(%pi/2)=0, fd(%pi/2)=-1], [a, b]),
+    solve([cos_p4(%pi/2)=0, cos_p4(%pi/3)=1/2], [a, b]),
+    solve([cos_p4(%pi/2)=0, cos_p4(%pi/6)=cos(%pi/6)], [a, b]),
+    solve([cos_p4(%pi/2)=0, integrate(cos_p4(x)-cos(x), x, 0, %pi/2)=0], [a, b])
+];
+float(sols);
+funcs: map(lambda([sol], subst(sol, cos_p4(x))), sols);
+plot2d(0, [x, 0, 1])$
+plot2d(
+    funcs,
+    [x, -%pi, %pi],
+    [ylabel, "4th Order Polynomial Cosine Approximation"],
+    [
+        legend,
+        "cos_p4'(PI/6)=-1/2",
+        "cos_p4'(PI/3)=-3^0.5/2",
+        "cos_p4'(PI/2)=-1",
+        "cos_p4(PI/3)=1/2",
+        "cos_p4(PI/6)=3^0.5/2",
+        "sum(error)=0"
+    ]);
+map(lambda([sol], float(subst(sol, [
+    32768*%pi^2/2^2*a,
+    32768*%pi^4/2^4*b]))), sols);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+error_funcs: map(lambda([f], f-cos(x)), funcs);
+rmsd: map(lambda([f], float(sqrt(integrate(f^2, x, 0, %pi/2)))), error_funcs);
+plot2d(
+    error_funcs,
+    [x, 0, %pi/2],
+    [ylabel, "4th Order Polynomial Cosine Approximation's Error (All)"],
+    [
+        legend,
+        "cos_p4'(PI/6)=-1/2",
+        "cos_p4'(PI/3)=-3^0.5/2",
+        "cos_p4'(PI/2)=-1",
+        "cos_p4(PI/3)=1/2",
+        "cos_p4(PI/6)=3^0.5/2",
+        "sum(error)=0"
+    ]);
+first_critical_points: map(
+    lambda([f], block(
+        root: find_root(diff(f, x), x, 0.1, 1.1),
+        [root, float(ev(f, x=root))]
+    )), error_funcs);
+second_critical_points: map(
+    lambda([f], block(
+        root: find_root(diff(f, x), x, 1.1, 1.5),
+        [root, float(ev(f, x=root))]
+    )),
+    [error_funcs[1], error_funcs[4], error_funcs[5], error_funcs[6]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plot2d(
+    [error_funcs[4], error_funcs[6]],
+    [x, 0, %pi/2],
+    [ylabel, "4th Order Polynomial Cosine Approximation's Error"],
+    [
+        legend,
+        "cos_p4(PI/3)=1/2",
+        "sum(error)=0"
+    ]);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$

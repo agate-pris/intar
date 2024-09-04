@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace AgatePris.Intar.Tests.Mathi {
     public class SinTest {
@@ -28,10 +30,9 @@ namespace AgatePris.Intar.Tests.Mathi {
         public static readonly SinCase[] SinCases = {
             new SinCase(Intar.Mathi.SinP2, Intar.Mathi.CosP2, "sin_p2.json", 0.056010),
             new SinCase(Intar.Mathi.SinP3A16384, Intar.Mathi.CosP3A16384, "sin_p3.json", 0.020017),
-            new SinCase(Intar.Mathi.SinP4A7032, Intar.Mathi.CosP4A7032, "sin_p4_7032.json", 0.002819),
-            new SinCase(Intar.Mathi.SinP4A7384, Intar.Mathi.CosP4A7384, "sin_p4_7384.json", 0.001174),
-            new SinCase(Intar.Mathi.SinP5A51472, Intar.Mathi.CosP5A51472, "sin_p5_51472.json", 0.000425),
-            new SinCase(Intar.Mathi.SinP5A51437, Intar.Mathi.CosP5A51437, "sin_p5_51437.json", 0.000226),
+            new SinCase(Intar.Mathi.SinP4A7373, Intar.Mathi.CosP4A7373, "sin_p4_7373.json", 0.001114),
+            new SinCase(Intar.Mathi.SinP4A7385, Intar.Mathi.CosP4A7385, "sin_p4_7385.json", 0.001180),
+            new SinCase(Intar.Mathi.SinP5A51436, Intar.Mathi.CosP5A51436, "sin_p5_51436.json", 0.000223),
         };
 
         static double ToRad(int x) {
@@ -49,9 +50,6 @@ namespace AgatePris.Intar.Tests.Mathi {
             [Random(1)] ulong s0,
             [Random(1)] ulong s1
         ) {
-            var sin = sinCase.Sin;
-            var cos = sinCase.Cos;
-            var acceptableError = sinCase.AcceptableError;
             const int rightExp = 15;
             const int right = 1 << rightExp;
             const int rightMask = right - 1;
@@ -59,7 +57,22 @@ namespace AgatePris.Intar.Tests.Mathi {
             const int full = 2 * straight;
             const int negFull = -full;
             const int one = 1 << 30;
-            var data = Utility.ReadInts(Utility.MakeUpPath(sinCase.DataPath));
+
+            List<int> data;
+            {
+                var path = Utility.MakeUpPath(sinCase.DataPath);
+                if (File.Exists(path)) {
+                    data = Utility.ReadInts(path);
+                } else {
+                    data = new List<int>();
+                    Utility.WriteInts(path, x => {
+                        var v = sinCase.Sin(x);
+                        data.Add(v);
+                        return v;
+                    }, right);
+                }
+            }
+
             Assert.AreNotEqual(null, data);
             Assert.AreEqual(right + 1, data.Count);
             Assert.AreEqual(0, data[0]);
@@ -70,41 +83,69 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             }
 
-            void testSin(int x) {
-                var actual = sin(x);
-                {
-                    var masked = x & rightMask;
-                    int expected;
-                    switch ((x >> rightExp) & 3) {
-                        case 0: expected = data[masked]; break;
-                        case 1: expected = data[right - masked]; break;
-                        case 2: expected = -data[masked]; break;
-                        case 3: expected = -data[right - masked]; break;
-                        default: Assert.Fail(); return;
-                    };
-                    if (expected != actual) {
-                        Assert.Fail(
-                            $"{nameof(x)}: {x}, " +
-                            $"{nameof(expected)}: {expected}, " +
-                            $"{nameof(actual)}: {actual}"
-                        );
-                    }
-                }
-                {
-                    var expected = Math.Sin(ToRad(x));
-                    var actualReal = ToReal(actual);
-                    if (Math.Abs(actualReal - expected) >= acceptableError) {
-                        Assert.Fail(
-                            $"{nameof(x)}: {x}, " +
-                            $"{nameof(actual)}: {actual}, " +
-                            $"{nameof(expected)}: {expected}, " +
-                            $"{nameof(actualReal)}: {actualReal}"
-                        );
-                    }
+            void testSinInt(int x, int actual) {
+                var masked = x & rightMask;
+                int expected;
+                switch ((x >> rightExp) & 3) {
+                    case 0: expected = data[masked]; break;
+                    case 1: expected = data[right - masked]; break;
+                    case 2: expected = -data[masked]; break;
+                    case 3: expected = -data[right - masked]; break;
+                    default: Assert.Fail(); return;
+                };
+                if (expected != actual) {
+                    Assert.Fail(
+                        $"{nameof(x)}: {x}, " +
+                        $"{nameof(expected)}: {expected}, " +
+                        $"{nameof(actual)}: {actual}"
+                    );
                 }
             }
+            void testSinReal(int x, int actual, double expected, double actualReal, double error, double absError) {
+                if (absError >= sinCase.AcceptableError) {
+                    Assert.Fail(
+                        $"{nameof(x)}: {x}, " +
+                        $"{nameof(actual)}: {actual}, " +
+                        $"{nameof(expected)}: {expected}, " +
+                        $"{nameof(actualReal)}: {actualReal}"
+                    );
+                }
+            }
+
+            var maxError = 0.0;
+            var errorSum = 0.0;
+            var absoluteErrorSum = 0.0;
+            var squaredErrorSum = 0.0;
+            void acc(double error, double absError) {
+                maxError = Math.Max(maxError, absError);
+                errorSum += error;
+                absoluteErrorSum += absError;
+                squaredErrorSum += absError * absError;
+            }
+
+            void testSinWithoutStatistics(int x, int actual, double expected, double actualReal, double error, double absError) {
+                testSinInt(x, actual);
+                testSinReal(x, actual, expected, actualReal, error, absError);
+            }
+            void testSinWithStatistics(int x) {
+                var actual = sinCase.Sin(x);
+                var expected = Math.Sin(ToRad(x));
+                var actualReal = ToReal(actual);
+                var error = actualReal - expected;
+                var absError = Math.Abs(error);
+                testSinWithoutStatistics(x, actual, expected, actualReal, error, absError);
+                acc(error, absError);
+            }
+            void testSin(int x) {
+                var actual = sinCase.Sin(x);
+                var expected = Math.Sin(ToRad(x));
+                var actualReal = ToReal(actual);
+                var error = actualReal - expected;
+                var absError = Math.Abs(error);
+                testSinWithoutStatistics(x, actual, expected, actualReal, error, absError);
+            }
             void testCos(int x) {
-                var actual = cos(x);
+                var actual = sinCase.Cos(x);
                 {
                     var masked = x & rightMask;
                     int expected;
@@ -122,13 +163,27 @@ namespace AgatePris.Intar.Tests.Mathi {
                 {
                     var expected = Math.Cos(ToRad(x));
                     var actualReal = ToReal(actual);
-                    if (Math.Abs(actualReal - expected) > acceptableError) {
+                    if (Math.Abs(actualReal - expected) > sinCase.AcceptableError) {
                         Assert.Fail();
                     }
                 }
             }
 
-            for (var i = 0U; i <= uint.MaxValue / right; ++i) {
+            for (var i = 0U; i < 2; ++i) {
+                var x = unchecked((int)(i * right));
+                testSinWithStatistics(x);
+                if (i == 0) {
+                    testSinWithStatistics(x + 1);
+                    testSinWithStatistics(x + rightMask);
+                } else {
+                    testSin(x + 1);
+                    testSin(x + rightMask);
+                }
+                testCos(x);
+                testCos(x + 1);
+                testCos(x + rightMask);
+            }
+            for (var i = 2U; i <= uint.MaxValue / right; ++i) {
                 var x = unchecked((int)(i * right));
                 testSin(x);
                 testCos(x);
@@ -148,11 +203,29 @@ namespace AgatePris.Intar.Tests.Mathi {
             for (var q = 0; q < 4; ++q) {
                 var qr = q * right;
                 foreach (var start in starts) {
-                    for (var x = 2; x < right - 1; ++x) {
-                        testSin(start + qr + x);
-                        testCos(start + qr + x);
+                    if (q == 0 && start == 0) {
+                        for (var x = 2; x < right - 1; ++x) {
+                            testSinWithStatistics(start + qr + x);
+                            testCos(start + qr + x);
+                        }
+                    } else {
+                        for (var x = 2; x < right - 1; ++x) {
+                            testSin(start + qr + x);
+                            testCos(start + qr + x);
+                        }
                     }
                 }
+            }
+
+            {
+                const int count = right + 1;
+                Console.WriteLine(
+                    $"Count: {count}\n" +
+                    $"Max Error: {maxError}\n" +
+                    $"Mean Error: {errorSum / count}\n" +
+                    $"MAE: {absoluteErrorSum / count}\n" +
+                    $"MSE: {squaredErrorSum / count}\n" +
+                    $"RMSE: {Math.Sqrt(squaredErrorSum / count)}");
             }
 
             var rng = new Intar.Rand.Xoroshiro128StarStar(s0, s1);

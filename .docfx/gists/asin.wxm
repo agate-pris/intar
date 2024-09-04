@@ -1,0 +1,35 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+f: [asin(x), acos(x)];
+plot2d([x], [x, 0, 1])$
+plot2d(f, [x, -1, 1], [ylabel, "Arcsine and arccosine"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+d: map(lambda([f], diff(f, x)), f);
+plot2d(
+    d, [x, -0.99, 0.99],
+    [ylabel, "Diff of asin and acos"],
+    [legend, "asin'(x)", "acos'(x)"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+i: map(lambda([f], integrate(f, x)), f);
+plot2d(
+    i, [x, -1, 1],
+    [ylabel, "Integral of asin and acos"],
+    [legend, "Integral of asin(x)", "Integral of acos(x)"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+map(lambda([f], taylor(f, x, 0, 10)), f);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$

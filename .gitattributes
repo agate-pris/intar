@@ -7,6 +7,8 @@
 *.md            text eol=lf
 *.rs            text eol=lf
 *.sln           text
+*.svg           text
+*.wxm           text
 *.yml           text eol=lf
 Cargo.toml      text eol=lf
 Cargo.lock      text eol=lf
