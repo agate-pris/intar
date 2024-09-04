@@ -362,14 +362,14 @@ namespace AgatePris.Intar.Numerics {
         {%- for name in [
             "SinP2",
             "SinP3A16384",
-            "SinP4A7032",
-            "SinP4A7384",
+            "SinP4A7373",
+            "SinP4A7385",
             "SinP5A51472",
             "SinP5A51436",
             "CosP2",
             "CosP3A16384",
-            "CosP4A7032",
-            "CosP4A7384",
+            "CosP4A7373",
+            "CosP4A7385",
             "CosP5A51472",
             "CosP5A51436",
         ] %}
