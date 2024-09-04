@@ -316,6 +316,8 @@ b_{5\ 6\ 5} = 2284
 \end{gather*}
 $$
 
+- スクリプト : [sin_p5.wxm](/gists/sin_p5.wxm)
+
 ## 逆正接 arctangent
 
 以下は arctan のグラフ
