@@ -232,26 +232,24 @@ sin_{5\ p}'\ x &= a_{5\ p\ 1}   - 3\ a_{5\ p\ 3}\ x^2 + 5\ a_{5\ p\ 5}\ x^4
 $$
 
 $$
-\begin{align*}
-sin_{5\ p} \ \frac{\pi}{2} &= 1 &
-sin_{5\ p}'\ \frac{\pi}{2} &= 0
-\end{align*}
+\begin{gather*}
+sin_{5\ p} \ \frac{\pi}{2} = 1 &
+sin_{5\ p}'\ \frac{\pi}{2} = 0
+\end{gather*}
 $$
 
 $$
-\begin{align*}
-sin_{5\ 1}'\ \frac{\pi}{3} &= \frac{1}{2} &
-sin_{5\ 2}'\ \frac{\pi}{6} &= \frac{\sqrt{3}}{2} &
-sin_{5\ 3}'\ 0             &= 1 \\
-sin_{5\ 4} \ \frac{\pi}{6} &= \frac{1}{2} &
-sin_{5\ 5} \ \frac{\pi}{3} &= \frac{\sqrt{3}}{2} &
-\end{align*}
+\begin{gather*}
+sin_{5\ 1}'\ \frac{\pi}{3} = \frac{1}{2} &
+sin_{5\ 2}'\ \frac{\pi}{6} = \frac{\sqrt{3}}{2} &
+sin_{5\ 3}'\ 0             = 1 \\
+sin_{5\ 4} \ \frac{\pi}{6} = \frac{1}{2} &
+sin_{5\ 5} \ \frac{\pi}{3} = \frac{\sqrt{3}}{2} &
+\end{gather*}
 $$
 
 $$
-\begin{align*}
-\int_0^{\frac{\pi}{2}}sin_{5\ 6}\ x-sin\ x\ dx &= 0
-\end{align*}
+\int_0^{\frac{\pi}{2}}sin_{5\ 6}\ x-sin\ x\ dx = 0
 $$
 
 | p   | $a_{5\ p\ 1}$ | $a_{5\ p\ 3}$ | $a_{5\ p\ 5}$
@@ -283,11 +281,11 @@ $$
 RMSD が最小の関数と誤差の絶対値が最小の関数は共に $sin_{5\ 6}$ ｡
 
 $$
-\begin{align*}
-a_{5\ 6\ 1} &= \frac{48  - 9  \ \pi}{2\ \pi^2} &
-a_{5\ 6\ 3} &= \frac{192 - 56 \ \pi}{   \pi^4} &
-a_{5\ 6\ 5} &= \frac{384 - 120\ \pi}{   \pi^6}
-\end{align*}
+\begin{gather*}
+a_{5\ 6\ 1} = \frac{48  - 9  \ \pi}{2\ \pi^2} &
+a_{5\ 6\ 3} = \frac{192 - 56 \ \pi}{   \pi^4} &
+a_{5\ 6\ 5} = \frac{384 - 120\ \pi}{   \pi^6}
+\end{gather*}
 $$
 
 Intar では定数項を以下のように変形する｡
@@ -308,13 +306,14 @@ b_{5\ p\ 5} &=    b_{5\ p\ 1} - 32768 \times \frac{3}{2}
 $$
 
 床関数を使うのは､ (この例では) その方が浮動小数点数演算との RMSD が小さくなるため｡
+(おそらく $sin_{5\ p}$ が $0$ から $\frac{2}{\pi}$ に向かって単調上昇な奇関数であることと相関がある)
 
 $$
-\begin{align*}
-b_{5\ 6\ 1} &= 51436 &
-b_{5\ 6\ 3} &= 20952 &
-b_{5\ 6\ 5} &= 2284
-\end{align*}
+\begin{gather*}
+b_{5\ 6\ 1} = 51436 &
+b_{5\ 6\ 3} = 20952 &
+b_{5\ 6\ 5} = 2284
+\end{gather*}
 $$
 
 ## 逆正接 arctangent
