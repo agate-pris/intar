@@ -265,7 +265,7 @@ $$
 
 以下は誤差のグラフ｡
 
-![sin_p5_error_1.svg](,,/images/sin_p5_error_1.svg)
+![sin_p5_error_1.svg](../images/sin_p5_error_1.svg)
 
 ![sin_p5_error_2.svg](../images/sin_p5_error_2.svg)
 
