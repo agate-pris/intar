@@ -2,12 +2,7 @@ use std::{cmp::Ordering, ops::RangeInclusive, sync::LazyLock};
 
 use anyhow::Result;
 use clap::Parser;
-use utility::Measures;
-
-const TWO_POW_15: i32 = 1 << 15;
-const TWO_POW_30: i32 = 1 << 30;
-const TWO_POW_15_AS_F64: f64 = TWO_POW_15 as f64;
-const TWO_POW_30_AS_F64: f64 = TWO_POW_30 as f64;
+use utility::{consts::*, Measures};
 
 #[derive(Debug, Parser)]
 struct Args {
