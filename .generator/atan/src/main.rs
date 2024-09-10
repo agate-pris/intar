@@ -112,26 +112,22 @@ where
     }
 }
 
-fn find_root_d2<C>(
-    expected: &[f64],
+fn find_root_d2<Eval, C>(
     a_range: &RangeInclusive<i32>,
     b_min: i32,
     b_max: i32,
+    eval: Eval,
     cmp: C,
 ) -> Result<(i32, i32, Measures)>
 where
+    Eval: Fn(&(i32, i32)) -> Measures,
     C: Copy + Fn(&Measures, &Measures) -> Ordering,
 {
     let verbose = ARGS.verbose;
     let opt_b_for_each_a = a_range
         .clone()
         .map(|a| {
-            let root = find_root_ab(
-                |b| take_atan_p5_statistics(&(a, b), expected),
-                b_min,
-                b_max,
-                cmp,
-            );
+            let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp);
             if verbose {
                 if let Ok(b) = &root {
                     println!("a: {}, b: {}, measures: {:#?}", a, b.0, b.1);
@@ -160,17 +156,16 @@ fn main() -> Result<()> {
     let b_max = 3500;
     println!("# atan_p5\n");
     println!("## RMSE\n");
-    let rmse = find_root_d2(&expected, &a_range, b_min, b_max, |a, b| {
+    let eval = |k: &(i32, i32)| take_atan_p5_statistics(k, &expected);
+    let rmse = find_root_d2(&a_range, b_min, b_max, eval, |a, b| {
         a.rmse.total_cmp(&b.rmse)
     })?;
     println!("{:#?}", rmse);
     println!("\n## MAE\n");
-    let mae = find_root_d2(&expected, &a_range, b_min, b_max, |a, b| {
-        a.mae.total_cmp(&b.mae)
-    })?;
+    let mae = find_root_d2(&a_range, b_min, b_max, eval, |a, b| a.mae.total_cmp(&b.mae))?;
     println!("{:#?}", mae);
     println!("\n## Max Error\n");
-    let max_error = find_root_d2(&expected, &a_range, b_min, b_max, |a, b| {
+    let max_error = find_root_d2(&a_range, b_min, b_max, eval, |a, b| {
         a.max_error.abs().total_cmp(&b.max_error.abs())
     })?;
     println!("{:#?}", max_error);
