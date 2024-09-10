@@ -1,5 +1,12 @@
 use std::f64::consts::FRAC_PI_2;
 
+pub mod consts {
+    pub const TWO_POW_15: i32 = 1 << 15;
+    pub const TWO_POW_30: i32 = 1 << 30;
+    pub const TWO_POW_15_AS_F64: f64 = TWO_POW_15 as f64;
+    pub const TWO_POW_30_AS_F64: f64 = TWO_POW_30 as f64;
+}
+
 #[derive(Clone, Debug)]
 pub struct Measures {
     pub rmse: f64,
