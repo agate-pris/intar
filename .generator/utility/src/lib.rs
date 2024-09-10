@@ -1,5 +1,13 @@
 use std::f64::consts::FRAC_PI_2;
 
+#[derive(Clone, Debug)]
+pub struct Measures {
+    pub rmse: f64,
+    pub mae: f64,
+    pub me: f64,
+    pub max_error: f64,
+}
+
 #[derive(Debug, Default)]
 pub struct Statistics {
     pub max_flor_diff: f64,
