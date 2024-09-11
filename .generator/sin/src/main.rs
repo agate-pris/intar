@@ -1,6 +1,6 @@
-use std::ops::RangeInclusive;
+use std::{f64::consts::FRAC_PI_2, ops::RangeInclusive};
 
-use utility::{consts::*, to_rad};
+use utility::consts::*;
 
 const EXP: i32 = 15;
 
@@ -20,6 +20,10 @@ fn sin_p5(x: i32, k: i32) -> i32 {
     let y = b - ((z * c) >> EXP);
     let y = a - ((z * y) >> EXP);
     y * x
+}
+
+fn to_rad(x: i32) -> f64 {
+    x as f64 * (FRAC_PI_2 / TWO_POW_15_AS_F64)
 }
 
 fn make_sin_expected() -> Vec<f64> {
