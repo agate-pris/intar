@@ -1,31 +1,33 @@
 use std::ops::RangeInclusive;
 
-use utility::{to_rad, RIGHT, RIGHT_AS_F64, RIGHT_EXP};
+use utility::{consts::*, to_rad};
+
+const EXP: i32 = 15;
 
 fn sin_p4(x: i32, k: i32) -> i32 {
-    let a = k + RIGHT;
+    let a = k + TWO_POW_15;
     let b = k;
-    let z = (x * x) >> RIGHT_EXP;
-    let y = a - ((z * b) >> RIGHT_EXP);
+    let z = (x * x) >> EXP;
+    let y = a - ((z * b) >> EXP);
     y * z
 }
 
 fn sin_p5(x: i32, k: i32) -> i32 {
     let a = k;
-    let b = k * 2 - RIGHT * 5 / 2;
-    let c = k - RIGHT * 3 / 2;
-    let z = (x * x) >> RIGHT_EXP;
-    let y = b - ((z * c) >> RIGHT_EXP);
-    let y = a - ((z * y) >> RIGHT_EXP);
+    let b = k * 2 - TWO_POW_15 * 5 / 2;
+    let c = k - TWO_POW_15 * 3 / 2;
+    let z = (x * x) >> EXP;
+    let y = b - ((z * c) >> EXP);
+    let y = a - ((z * y) >> EXP);
     y * x
 }
 
 fn make_sin_expected() -> Vec<f64> {
-    (0..=RIGHT).map(|x| to_rad(x).sin()).collect()
+    (0..=TWO_POW_15).map(|x| to_rad(x).sin()).collect()
 }
 
 fn make_cos_expected() -> Vec<f64> {
-    (0..=RIGHT).map(|x| 1.0 - to_rad(x).cos()).collect()
+    (0..=TWO_POW_15).map(|x| 1.0 - to_rad(x).cos()).collect()
 }
 
 #[derive(Clone, Debug, Default)]
@@ -187,7 +189,7 @@ where
     F: Copy + Fn(i32, i32) -> f64,
 {
     let all_measures = range
-        .map(|k| Measures::new(k, f, 0..=RIGHT, expected_table))
+        .map(|k| Measures::new(k, f, 0..=TWO_POW_15, expected_table))
         .collect::<Vec<_>>();
     let s = Statistics::try_from(&all_measures[..]);
     println!("{:#?}", s);
@@ -196,10 +198,10 @@ where
 fn main() {
     let expected_table = make_cos_expected();
     find_zero_mean_error(6884..=7884, &expected_table, |x, k| {
-        sin_p4(x, k) as f64 / RIGHT_AS_F64 / RIGHT_AS_F64
+        sin_p4(x, k) as f64 / TWO_POW_30_AS_F64
     });
     let expected_table = make_sin_expected();
     find_zero_mean_error(50936..=51936, &expected_table, |x, k| {
-        sin_p5(x, k) as f64 / RIGHT_AS_F64 / RIGHT_AS_F64
+        sin_p5(x, k) as f64 / TWO_POW_30_AS_F64
     });
 }
