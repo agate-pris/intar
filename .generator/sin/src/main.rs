@@ -49,7 +49,7 @@ impl Measures {
         for x in range.clone() {
             let expected = expected_table[x as usize];
             let actual = f(x, k);
-            let error = actual as f64 - expected;
+            let error = actual - expected;
             sum_error += error;
             sum_abs_error += error.abs();
             sum_sqr_error += error * error;
