@@ -21,6 +21,40 @@ pub struct Measures {
     pub max_error: f64,
 }
 
+impl Measures {
+    pub fn try_from<T>(iter: T) -> Result<Self, Error>
+    where
+        T: ExactSizeIterator<Item = f64>,
+    {
+        let len = iter.len();
+        if len == 0 {
+            return Err(Error::EmptyIterator);
+        }
+        let len = len as f64;
+        let (sqr_sum, abs_sum, sum, max_error) = iter.fold(
+            (0.0, 0.0, 0.0, 0.0_f64),
+            |(sqr_sum, abs_sum, sum, max_error), error| {
+                (
+                    sqr_sum + error.powi(2),
+                    abs_sum + error.abs(),
+                    sum + error,
+                    if max_error.abs() < error.abs() {
+                        error
+                    } else {
+                        max_error
+                    },
+                )
+            },
+        );
+        Ok(Measures {
+            rmse: (sqr_sum / len).sqrt(),
+            mae: abs_sum / len,
+            me: sum / len,
+            max_error,
+        })
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct Statistics {
     pub max_flor_diff: f64,
