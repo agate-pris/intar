@@ -74,7 +74,3 @@ impl Statistics {
         (self.sum_ceil_diff_sqr / self.count as f64).sqrt()
     }
 }
-
-pub const RIGHT_EXP: i32 = 15;
-pub const RIGHT: i32 = 1 << RIGHT_EXP;
-pub const RIGHT_AS_F64: f64 = RIGHT as f64;
