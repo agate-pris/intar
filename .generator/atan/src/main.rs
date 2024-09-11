@@ -2,7 +2,7 @@ use std::{cmp::Ordering, ops::RangeInclusive, sync::LazyLock};
 
 use anyhow::Result;
 use clap::Parser;
-use utility::{consts::*, Measures};
+use utility::{consts::*, find_root_ab, Measures};
 
 #[derive(Debug, Parser)]
 struct Args {
@@ -28,54 +28,6 @@ fn to_rad(x: i32) -> f64 {
     x as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64
 }
 
-fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
-where
-    F: Fn(i32) -> Result<Measures>,
-    C: Fn(&Measures, &Measures) -> Ordering,
-{
-    fn make_bc(a: i32, d: i32) -> (i32, i32) {
-        let tmp = a + d;
-        if tmp < 0 {
-            let c = tmp / 2;
-            (c - 1, c)
-        } else {
-            let b = tmp / 2;
-            (b, b + 1)
-        }
-    }
-    anyhow::ensure!(a < b);
-    anyhow::ensure!(cmp(&f(a)?, &f(a + 1)?) == Ordering::Greater);
-    anyhow::ensure!(cmp(&f(b - 1)?, &f(b)?) == Ordering::Less);
-
-    let mut a = a;
-    let mut d = b;
-    let (mut b, mut c) = make_bc(a, d);
-    let mut p = f(b)?;
-    let mut q = f(c)?;
-    loop {
-        let ord = cmp(&p, &q);
-        match ord {
-            Ordering::Equal => anyhow::bail!("p: {:#?}, q: {:#?}", p, q),
-            Ordering::Less => {
-                if a == b {
-                    return Ok((a, p));
-                }
-                d = b;
-                (b, c) = make_bc(a, d);
-            }
-            Ordering::Greater => {
-                if c == d {
-                    return Ok((d, q));
-                }
-                a = c;
-                (b, c) = make_bc(a, d);
-            }
-        }
-        p = f(b)?;
-        q = f(c)?;
-    }
-}
-
 fn find_root_d2<Eval, C>(
     a_range: &RangeInclusive<i32>,
     b_min: i32,
@@ -84,7 +36,7 @@ fn find_root_d2<Eval, C>(
     cmp: C,
 ) -> Result<(i32, i32, Measures)>
 where
-    Eval: Fn(&(i32, i32)) -> Result<Measures>,
+    Eval: Fn(&(i32, i32)) -> utility::Result<Measures>,
     C: Copy + Fn(&Measures, &Measures) -> Ordering,
 {
     let verbose = ARGS.verbose;
@@ -97,7 +49,7 @@ where
                     println!("a: {}, b: {}, measures: {:#?}", a, b.0, b.1);
                 }
             }
-            root.map(|root| (a, root.0, root.1))
+            Ok(root.map(|root| (a, root.0, root.1))?)
         })
         .collect::<Result<Vec<_>>>()?;
     if let Some(first) = opt_b_for_each_a.first() {
@@ -121,12 +73,10 @@ fn main() -> Result<()> {
     println!("# atan_p5\n");
     println!("## RMSE\n");
     let eval = |k: &(i32, i32)| {
-        Ok(Measures::try_from(expected.iter().enumerate().map(
-            |(x, &expected)| {
-                let actual = atan_p5(x as i32, k);
-                to_rad(actual) - expected
-            },
-        ))?)
+        Measures::try_from(expected.iter().enumerate().map(|(x, &expected)| {
+            let actual = atan_p5(x as i32, k);
+            to_rad(actual) - expected
+        }))
     };
     let rmse = find_root_d2(&a_range, b_min, b_max, eval, |a, b| {
         a.rmse.total_cmp(&b.rmse)

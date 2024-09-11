@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 use thiserror::Error;
 
 pub mod consts {
@@ -8,9 +10,27 @@ pub mod consts {
 }
 
 #[derive(Debug, Error)]
+pub enum MeasuresError {
+    #[error("{0} (expected: {1:?}, got: {2:?}, lhs: {3:?}, rhs: {4:?})")]
+    UnexpectedComparison(&'static str, Ordering, Ordering, Measures, Measures),
+    #[error("{0} (lhs: {1:?}, rhs: {2:?})")]
+    ComparisonEquals(&'static str, Measures, Measures),
+}
+
+#[derive(Debug, Error)]
+pub enum FindRootAbError {
+    #[error("{0} is not less than {1}")]
+    NotLess(i32, i32),
+}
+
+#[derive(Debug, Error)]
 pub enum Error {
     #[error("empty iterator")]
     EmptyIterator,
+    #[error(transparent)]
+    Measures(#[from] MeasuresError),
+    #[error(transparent)]
+    FindRootAb(#[from] FindRootAbError),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -54,6 +74,86 @@ impl Measures {
             me: sum / len,
             max_error,
         })
+    }
+}
+
+pub fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
+where
+    F: Fn(i32) -> Result<Measures>,
+    C: Fn(&Measures, &Measures) -> Ordering,
+{
+    fn make_bc(a: i32, d: i32) -> (i32, i32) {
+        let tmp = a + d;
+        if tmp < 0 {
+            let c = tmp / 2;
+            (c - 1, c)
+        } else {
+            let b = tmp / 2;
+            (b, b + 1)
+        }
+    }
+    if a >= b {
+        return Err(FindRootAbError::NotLess(a, b).into());
+    }
+    {
+        let p = f(a)?;
+        let q = f(a + 1)?;
+        let ord = cmp(&p, &q);
+        if ord != Ordering::Greater {
+            return Err(MeasuresError::UnexpectedComparison(
+                "f(a) > f(a + 1)",
+                Ordering::Greater,
+                ord,
+                p,
+                q,
+            )
+            .into());
+        }
+    }
+    {
+        let p = f(b - 1)?;
+        let q = f(b)?;
+        let ord = cmp(&p, &q);
+        if ord != Ordering::Less {
+            return Err(MeasuresError::UnexpectedComparison(
+                "f(b - 1) < f(b)",
+                Ordering::Less,
+                ord,
+                p,
+                q,
+            )
+            .into());
+        }
+    }
+
+    let mut a = a;
+    let mut d = b;
+    let (mut b, mut c) = make_bc(a, d);
+    let mut p = f(b)?;
+    let mut q = f(c)?;
+    loop {
+        let ord = cmp(&p, &q);
+        match ord {
+            Ordering::Equal => {
+                return Err(MeasuresError::ComparisonEquals("p != q", p, q).into());
+            }
+            Ordering::Less => {
+                if a == b {
+                    return Ok((a, p));
+                }
+                d = b;
+                (b, c) = make_bc(a, d);
+            }
+            Ordering::Greater => {
+                if c == d {
+                    return Ok((d, q));
+                }
+                a = c;
+                (b, c) = make_bc(a, d);
+            }
+        }
+        p = f(b)?;
+        q = f(c)?;
     }
 }
 
