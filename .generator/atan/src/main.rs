@@ -2,6 +2,7 @@ use std::{cmp::Ordering, ops::RangeInclusive, sync::LazyLock};
 
 use anyhow::Result;
 use clap::Parser;
+use utility::Measures;
 
 const TWO_POW_15: i32 = 1 << 15;
 const TWO_POW_30: i32 = 1 << 30;
@@ -26,14 +27,6 @@ fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     let y = b - ((a * z) >> 15);
     let y = c - ((y * z) >> 15);
     y * x
-}
-
-#[derive(Clone, Debug)]
-pub struct Measures {
-    pub rmse: f64,
-    pub mae: f64,
-    pub me: f64,
-    pub max_error: f64,
 }
 
 fn take_atan_p5_statistics(k: &(i32, i32), expected: &[f64]) -> Measures {
