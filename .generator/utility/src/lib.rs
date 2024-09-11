@@ -13,6 +13,8 @@ pub enum Error {
     EmptyIterator,
 }
 
+pub type Result<T> = std::result::Result<T, Error>;
+
 #[derive(Clone, Debug)]
 pub struct Measures {
     pub rmse: f64,
@@ -22,7 +24,7 @@ pub struct Measures {
 }
 
 impl Measures {
-    pub fn try_from<T>(iter: T) -> Result<Self, Error>
+    pub fn try_from<T>(iter: T) -> Result<Self>
     where
         T: ExactSizeIterator<Item = f64>,
     {
