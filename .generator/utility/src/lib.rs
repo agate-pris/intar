@@ -27,6 +27,8 @@ pub enum FindRootAbError {
 pub enum Error {
     #[error("empty iterator")]
     EmptyIterator,
+    #[error("{0}")]
+    EmptyOption(&'static str),
     #[error(transparent)]
     Measures(#[from] MeasuresError),
     #[error(transparent)]
