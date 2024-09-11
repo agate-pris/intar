@@ -18,11 +18,19 @@ pub enum MeasuresError {
 }
 
 #[derive(Debug, Error)]
+pub enum FindRootAbError {
+    #[error("{0} is not less than {1}")]
+    NotLess(i32, i32),
+}
+
+#[derive(Debug, Error)]
 pub enum Error {
     #[error("empty iterator")]
     EmptyIterator,
     #[error(transparent)]
     Measures(#[from] MeasuresError),
+    #[error(transparent)]
+    FindRootAb(#[from] FindRootAbError),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
