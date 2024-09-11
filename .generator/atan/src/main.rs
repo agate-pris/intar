@@ -24,13 +24,17 @@ fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     y * x
 }
 
+fn to_rad(x: i32) -> f64 {
+    x as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64
+}
+
 fn take_atan_p5_statistics(k: &(i32, i32), expected: &[f64]) -> Measures {
     let range = 0..=32768;
     let count = range.clone().count() as f64;
     let (sqr_sum, abs_sum, sum, max_error) = range.into_iter().fold(
         (0.0, 0.0, 0.0, 0.0_f64),
         |(sqr_sum, abs_sum, sum, max_error), x| {
-            let actual = atan_p5(x, k) as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64;
+            let actual = to_rad(atan_p5(x, k));
             let error = actual - expected[x as usize];
             (
                 sqr_sum + error.powi(2),
