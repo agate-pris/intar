@@ -1,5 +1,6 @@
-use std::cmp::Ordering;
+use std::{cmp::Ordering, ops::RangeInclusive};
 
+use log::info;
 use thiserror::Error;
 
 pub mod consts {
@@ -27,6 +28,8 @@ pub enum FindRootAbError {
 pub enum Error {
     #[error("empty iterator")]
     EmptyIterator,
+    #[error("{0}")]
+    EmptyOption(&'static str),
     #[error(transparent)]
     Measures(#[from] MeasuresError),
     #[error(transparent)]
@@ -155,6 +158,35 @@ where
         p = f(b)?;
         q = f(c)?;
     }
+}
+
+pub fn find_root_d2<Eval, C>(
+    a_range: &RangeInclusive<i32>,
+    b_min: i32,
+    b_max: i32,
+    eval: Eval,
+    cmp: C,
+) -> Result<(i32, i32, Measures)>
+where
+    Eval: Fn(&(i32, i32)) -> Result<Measures>,
+    C: Copy + Fn(&Measures, &Measures) -> Ordering,
+{
+    let opt_b_for_each_a = a_range
+        .clone()
+        .map(|a| {
+            let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp)?;
+            info!("a: {}, b: {}, measures: {:#?}", a, root.0, root.1);
+            Ok((a, root.0, root.1))
+        })
+        .collect::<Result<Vec<_>>>()?;
+    if let Some(first) = opt_b_for_each_a.first() {
+        println!("first: {:#?}", first);
+    }
+    if let Some(last) = opt_b_for_each_a.last() {
+        println!("last: {:#?}", last);
+    }
+    let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.2, &b.2));
+    answer.cloned().ok_or(Error::EmptyOption("answer"))
 }
 
 #[derive(Debug, Default)]
