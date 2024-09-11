@@ -1,11 +1,5 @@
 use anyhow::Result;
-use clap::Parser;
 use utility::{consts::*, find_root_d2, Measures};
-
-#[derive(Debug, Parser)]
-struct Args {
-    verbose: bool,
-}
 
 fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     //const int a = 787;
