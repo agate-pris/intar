@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 use thiserror::Error;
 
 pub mod consts {
@@ -8,9 +10,19 @@ pub mod consts {
 }
 
 #[derive(Debug, Error)]
+pub enum MeasuresError {
+    #[error("{0} (expected: {1:?}, got: {2:?}, lhs: {3:?}, rhs: {4:?})")]
+    UnexpectedComparison(&'static str, Ordering, Ordering, Measures, Measures),
+    #[error("{0} (lhs: {1:?}, rhs: {2:?})")]
+    ComparisonEquals(&'static str, Measures, Measures),
+}
+
+#[derive(Debug, Error)]
 pub enum Error {
     #[error("empty iterator")]
     EmptyIterator,
+    #[error(transparent)]
+    Measures(#[from] MeasuresError),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
