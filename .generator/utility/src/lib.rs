@@ -1,8 +1,16 @@
+use thiserror::Error;
+
 pub mod consts {
     pub const TWO_POW_15: i32 = 1 << 15;
     pub const TWO_POW_30: i32 = 1 << 30;
     pub const TWO_POW_15_AS_F64: f64 = TWO_POW_15 as f64;
     pub const TWO_POW_30_AS_F64: f64 = TWO_POW_30 as f64;
+}
+
+#[derive(Debug, Error)]
+pub enum Error {
+    #[error("empty iterator")]
+    EmptyIterator,
 }
 
 #[derive(Clone, Debug)]
@@ -11,6 +19,40 @@ pub struct Measures {
     pub mae: f64,
     pub me: f64,
     pub max_error: f64,
+}
+
+impl Measures {
+    pub fn try_from<T>(iter: T) -> Result<Self, Error>
+    where
+        T: ExactSizeIterator<Item = f64>,
+    {
+        let len = iter.len();
+        if len == 0 {
+            return Err(Error::EmptyIterator);
+        }
+        let len = len as f64;
+        let (sqr_sum, abs_sum, sum, max_error) = iter.fold(
+            (0.0, 0.0, 0.0, 0.0_f64),
+            |(sqr_sum, abs_sum, sum, max_error), error| {
+                (
+                    sqr_sum + error.powi(2),
+                    abs_sum + error.abs(),
+                    sum + error,
+                    if max_error.abs() < error.abs() {
+                        error
+                    } else {
+                        max_error
+                    },
+                )
+            },
+        );
+        Ok(Measures {
+            rmse: (sqr_sum / len).sqrt(),
+            mae: abs_sum / len,
+            me: sum / len,
+            max_error,
+        })
+    }
 }
 
 #[derive(Debug, Default)]

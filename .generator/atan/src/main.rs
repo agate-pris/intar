@@ -24,37 +24,13 @@ fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     y * x
 }
 
-fn take_atan_p5_statistics(k: &(i32, i32), expected: &[f64]) -> Measures {
-    let range = 0..=32768;
-    let count = range.clone().count() as f64;
-    let (sqr_sum, abs_sum, sum, max_error) = range.into_iter().fold(
-        (0.0, 0.0, 0.0, 0.0_f64),
-        |(sqr_sum, abs_sum, sum, max_error), x| {
-            let actual = atan_p5(x, k) as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64;
-            let error = actual - expected[x as usize];
-            (
-                sqr_sum + error.powi(2),
-                abs_sum + error.abs(),
-                sum + error,
-                if max_error.abs() < error.abs() {
-                    error
-                } else {
-                    max_error
-                },
-            )
-        },
-    );
-    Measures {
-        rmse: (sqr_sum / count).sqrt(),
-        mae: abs_sum / count,
-        me: sum / count,
-        max_error,
-    }
+fn to_rad(x: i32) -> f64 {
+    x as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64
 }
 
 fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
 where
-    F: Fn(i32) -> Measures,
+    F: Fn(i32) -> Result<Measures>,
     C: Fn(&Measures, &Measures) -> Ordering,
 {
     fn make_bc(a: i32, d: i32) -> (i32, i32) {
@@ -68,14 +44,14 @@ where
         }
     }
     anyhow::ensure!(a < b);
-    anyhow::ensure!(cmp(&f(a), &f(a + 1)) == Ordering::Greater);
-    anyhow::ensure!(cmp(&f(b - 1), &f(b)) == Ordering::Less);
+    anyhow::ensure!(cmp(&f(a)?, &f(a + 1)?) == Ordering::Greater);
+    anyhow::ensure!(cmp(&f(b - 1)?, &f(b)?) == Ordering::Less);
 
     let mut a = a;
     let mut d = b;
     let (mut b, mut c) = make_bc(a, d);
-    let mut p = f(b);
-    let mut q = f(c);
+    let mut p = f(b)?;
+    let mut q = f(c)?;
     loop {
         let ord = cmp(&p, &q);
         match ord {
@@ -95,8 +71,8 @@ where
                 (b, c) = make_bc(a, d);
             }
         }
-        p = f(b);
-        q = f(c);
+        p = f(b)?;
+        q = f(c)?;
     }
 }
 
@@ -108,7 +84,7 @@ fn find_root_d2<Eval, C>(
     cmp: C,
 ) -> Result<(i32, i32, Measures)>
 where
-    Eval: Fn(&(i32, i32)) -> Measures,
+    Eval: Fn(&(i32, i32)) -> Result<Measures>,
     C: Copy + Fn(&Measures, &Measures) -> Ordering,
 {
     let verbose = ARGS.verbose;
@@ -144,7 +120,14 @@ fn main() -> Result<()> {
     let b_max = 3500;
     println!("# atan_p5\n");
     println!("## RMSE\n");
-    let eval = |k: &(i32, i32)| take_atan_p5_statistics(k, &expected);
+    let eval = |k: &(i32, i32)| {
+        Ok(Measures::try_from(expected.iter().enumerate().map(
+            |(x, &expected)| {
+                let actual = atan_p5(x as i32, k);
+                to_rad(actual) - expected
+            },
+        ))?)
+    };
     let rmse = find_root_d2(&a_range, b_min, b_max, eval, |a, b| {
         a.rmse.total_cmp(&b.rmse)
     })?;
