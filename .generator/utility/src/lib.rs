@@ -1,8 +1,14 @@
+use thiserror::Error;
+
 pub mod consts {
     pub const TWO_POW_15: i32 = 1 << 15;
     pub const TWO_POW_30: i32 = 1 << 30;
     pub const TWO_POW_15_AS_F64: f64 = TWO_POW_15 as f64;
     pub const TWO_POW_30_AS_F64: f64 = TWO_POW_30 as f64;
+}
+
+#[derive(Debug, Error)]
+pub enum Error {
 }
 
 #[derive(Clone, Debug)]
