@@ -1,5 +1,3 @@
-use std::f64::consts::FRAC_PI_2;
-
 pub mod consts {
     pub const TWO_POW_15: i32 = 1 << 15;
     pub const TWO_POW_30: i32 = 1 << 30;
@@ -80,7 +78,3 @@ impl Statistics {
 pub const RIGHT_EXP: i32 = 15;
 pub const RIGHT: i32 = 1 << RIGHT_EXP;
 pub const RIGHT_AS_F64: f64 = RIGHT as f64;
-
-pub fn to_rad(x: i32) -> f64 {
-    (x as f64) / RIGHT_AS_F64 * FRAC_PI_2
-}
