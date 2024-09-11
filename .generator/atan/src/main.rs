@@ -1,15 +1,11 @@
-use std::{cmp::Ordering, ops::RangeInclusive, sync::LazyLock};
-
 use anyhow::Result;
 use clap::Parser;
-use utility::{consts::*, find_root_ab, Measures};
+use utility::{consts::*, find_root_d2, Measures};
 
 #[derive(Debug, Parser)]
 struct Args {
     verbose: bool,
 }
-
-static ARGS: LazyLock<Args> = std::sync::LazyLock::new(Args::parse);
 
 fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     //const int a = 787;
@@ -26,41 +22,6 @@ fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
 
 fn to_rad(x: i32) -> f64 {
     x as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64
-}
-
-fn find_root_d2<Eval, C>(
-    a_range: &RangeInclusive<i32>,
-    b_min: i32,
-    b_max: i32,
-    eval: Eval,
-    cmp: C,
-) -> Result<(i32, i32, Measures)>
-where
-    Eval: Fn(&(i32, i32)) -> utility::Result<Measures>,
-    C: Copy + Fn(&Measures, &Measures) -> Ordering,
-{
-    let verbose = ARGS.verbose;
-    let opt_b_for_each_a = a_range
-        .clone()
-        .map(|a| {
-            let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp);
-            if verbose {
-                if let Ok(b) = &root {
-                    println!("a: {}, b: {}, measures: {:#?}", a, b.0, b.1);
-                }
-            }
-            Ok(root.map(|root| (a, root.0, root.1))?)
-        })
-        .collect::<Result<Vec<_>>>()?;
-    if let Some(first) = opt_b_for_each_a.first() {
-        println!("first: {:#?}", first);
-    }
-    if let Some(last) = opt_b_for_each_a.last() {
-        println!("last: {:#?}", last);
-    }
-    let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.2, &b.2));
-    anyhow::ensure!(answer.is_some());
-    Ok(answer.unwrap().clone())
 }
 
 fn main() -> Result<()> {
