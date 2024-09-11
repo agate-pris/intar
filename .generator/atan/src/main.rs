@@ -57,17 +57,17 @@ where
         match ord {
             Ordering::Equal => anyhow::bail!("p: {:#?}, q: {:#?}", p, q),
             Ordering::Less => {
-                if a + 1 == b {
+                if a == b {
                     return Ok((a, p));
                 }
-                d = c;
+                d = b;
                 (b, c) = make_bc(a, d);
             }
             Ordering::Greater => {
-                if a + 1 == b {
-                    return Ok((b, q));
+                if c == d {
+                    return Ok((d, q));
                 }
-                a = b;
+                a = c;
                 (b, c) = make_bc(a, d);
             }
         }
