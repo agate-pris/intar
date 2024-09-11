@@ -54,7 +54,7 @@ fn take_atan_p5_statistics(k: &(i32, i32), expected: &[f64]) -> Measures {
 
 fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
 where
-    F: Fn(i32) -> Measures,
+    F: Fn(i32) -> Result<Measures>,
     C: Fn(&Measures, &Measures) -> Ordering,
 {
     fn make_bc(a: i32, d: i32) -> (i32, i32) {
@@ -68,14 +68,14 @@ where
         }
     }
     anyhow::ensure!(a < b);
-    anyhow::ensure!(cmp(&f(a), &f(a + 1)) == Ordering::Greater);
-    anyhow::ensure!(cmp(&f(b - 1), &f(b)) == Ordering::Less);
+    anyhow::ensure!(cmp(&f(a)?, &f(a + 1)?) == Ordering::Greater);
+    anyhow::ensure!(cmp(&f(b - 1)?, &f(b)?) == Ordering::Less);
 
     let mut a = a;
     let mut d = b;
     let (mut b, mut c) = make_bc(a, d);
-    let mut p = f(b);
-    let mut q = f(c);
+    let mut p = f(b)?;
+    let mut q = f(c)?;
     loop {
         let ord = cmp(&p, &q);
         match ord {
@@ -95,8 +95,8 @@ where
                 (b, c) = make_bc(a, d);
             }
         }
-        p = f(b);
-        q = f(c);
+        p = f(b)?;
+        q = f(c)?;
     }
 }
 
@@ -115,7 +115,7 @@ where
     let opt_b_for_each_a = a_range
         .clone()
         .map(|a| {
-            let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp);
+            let root = find_root_ab(|b| Ok(eval(&(a, b))), b_min, b_max, cmp);
             if verbose {
                 if let Ok(b) = &root {
                     println!("a: {}, b: {}, measures: {:#?}", a, b.0, b.1);
