@@ -77,6 +77,86 @@ impl Measures {
     }
 }
 
+pub fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
+where
+    F: Fn(i32) -> Result<Measures>,
+    C: Fn(&Measures, &Measures) -> Ordering,
+{
+    fn make_bc(a: i32, d: i32) -> (i32, i32) {
+        let tmp = a + d;
+        if tmp < 0 {
+            let c = tmp / 2;
+            (c - 1, c)
+        } else {
+            let b = tmp / 2;
+            (b, b + 1)
+        }
+    }
+    if a >= b {
+        return Err(FindRootAbError::NotLess(a, b).into());
+    }
+    {
+        let p = f(a)?;
+        let q = f(a + 1)?;
+        let ord = cmp(&p, &q);
+        if ord != Ordering::Greater {
+            return Err(MeasuresError::UnexpectedComparison(
+                "f(a) > f(a + 1)",
+                Ordering::Greater,
+                ord,
+                p,
+                q,
+            )
+            .into());
+        }
+    }
+    {
+        let p = f(b - 1)?;
+        let q = f(b)?;
+        let ord = cmp(&p, &q);
+        if ord != Ordering::Less {
+            return Err(MeasuresError::UnexpectedComparison(
+                "f(b - 1) < f(b)",
+                Ordering::Less,
+                ord,
+                p,
+                q,
+            )
+            .into());
+        }
+    }
+
+    let mut a = a;
+    let mut d = b;
+    let (mut b, mut c) = make_bc(a, d);
+    let mut p = f(b)?;
+    let mut q = f(c)?;
+    loop {
+        let ord = cmp(&p, &q);
+        match ord {
+            Ordering::Equal => {
+                return Err(MeasuresError::ComparisonEquals("p != q", p, q).into());
+            }
+            Ordering::Less => {
+                if a == b {
+                    return Ok((a, p));
+                }
+                d = b;
+                (b, c) = make_bc(a, d);
+            }
+            Ordering::Greater => {
+                if c == d {
+                    return Ok((d, q));
+                }
+                a = c;
+                (b, c) = make_bc(a, d);
+            }
+        }
+        p = f(b)?;
+        q = f(c)?;
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct Statistics {
     pub max_flor_diff: f64,
