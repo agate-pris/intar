@@ -9,6 +9,8 @@ pub mod consts {
 
 #[derive(Debug, Error)]
 pub enum Error {
+    #[error("empty iterator")]
+    EmptyIterator,
 }
 
 #[derive(Clone, Debug)]
