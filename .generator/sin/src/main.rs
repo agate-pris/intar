@@ -1,6 +1,7 @@
 use std::{f64::consts::FRAC_PI_2, ops::RangeInclusive};
 
-use utility::consts::*;
+use anyhow::Result;
+use utility::{consts::*, find_root_ab};
 
 const EXP: i32 = 15;
 
@@ -203,9 +204,42 @@ where
     println!("{:#?}", s);
 }
 
-fn main() {
-    let expected_table = make_cos_expected();
-    find_zero_mean_error(6884..=7884, &expected_table, |x, k| to_f64(sin_p4(x, k)));
-    let expected_table = make_sin_expected();
-    find_zero_mean_error(50936..=51936, &expected_table, |x, k| to_f64(sin_p5(x, k)));
+fn main() -> Result<()> {
+    let expected_1 = make_cos_expected();
+    let expected_2 = make_sin_expected();
+    let f1 = |k| {
+        utility::Measures::try_from(
+            expected_1
+                .iter()
+                .enumerate()
+                .map(|(i, expected)| to_f64(sin_p4(i as i32, k)) - expected),
+        )
+    };
+    let f2 = |k| {
+        utility::Measures::try_from(
+            expected_2
+                .iter()
+                .enumerate()
+                .map(|(i, expected)| to_f64(sin_p5(i as i32, k)) - expected),
+        )
+    };
+    let a1 = 6884;
+    let b1 = 7884;
+    let a2 = 50936;
+    let b2 = 51936;
+    println!("sin p4");
+    let result = find_root_ab(f1, a1, b1, utility::Measures::rmse_total_cmp)?;
+    println!("{:>9}: {:?}", "rmse", result);
+    let result = find_root_ab(f1, a1, b1, utility::Measures::mae_total_cmp)?;
+    println!("{:>9}: {:?}", "mae", result);
+    let result = find_root_ab(f1, a1, b1, utility::Measures::max_error_abs_total_cmp)?;
+    println!("{:>9}: {:?}", "max error", result);
+    println!("sin p5");
+    let result = find_root_ab(f2, a2, b2, utility::Measures::rmse_total_cmp)?;
+    println!("{:>9}: {:?}", "rmse", result);
+    let result = find_root_ab(f2, a2, b2, utility::Measures::mae_total_cmp)?;
+    println!("{:>9}: {:?}", "mae", result);
+    let result = find_root_ab(f2, a2, b2, utility::Measures::max_error_abs_total_cmp)?;
+    println!("{:>9}: {:?}", "max error", result);
+    Ok(())
 }
