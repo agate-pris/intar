@@ -193,17 +193,6 @@ impl TryFrom<&[Measures]> for Statistics {
     }
 }
 
-fn find_zero_mean_error<F>(range: RangeInclusive<i32>, expected_table: &[f64], f: F)
-where
-    F: Copy + Fn(i32, i32) -> f64,
-{
-    let all_measures = range
-        .map(|k| Measures::new(k, f, 0..=TWO_POW_15, expected_table))
-        .collect::<Vec<_>>();
-    let s = Statistics::try_from(&all_measures[..]);
-    println!("{:#?}", s);
-}
-
 fn main() -> Result<()> {
     let expected_1 = make_cos_expected();
     let expected_2 = make_sin_expected();
