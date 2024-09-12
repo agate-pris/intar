@@ -1,16 +1,18 @@
 use anyhow::Result;
 use utility::{consts::*, find_root_d2, Measures};
 
+const EXP: i32 = 15;
+
 fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     //const int a = 787;
     //const int b = 2968;
     //const int c = (1 << 13) + b - a;
     let a = k.0;
     let b = k.1;
-    let c = (1 << 13) + k.1 - k.0;
-    let z = (x * x) >> 15;
-    let y = b - ((a * z) >> 15);
-    let y = c - ((y * z) >> 15);
+    let c = (1 << (EXP - 2)) + k.1 - k.0;
+    let z = (x * x) >> EXP;
+    let y = b - ((a * z) >> EXP);
+    let y = c - ((y * z) >> EXP);
     y * x
 }
 
