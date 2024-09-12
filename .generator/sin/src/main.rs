@@ -74,6 +74,10 @@ impl Measures {
     }
 }
 
+fn to_f64(x: i32) -> f64 {
+    x as f64 / TWO_POW_30_AS_F64
+}
+
 #[derive(Debug, Default)]
 pub struct Statistics {
     pub min_me: Vec<Measures>,
@@ -201,11 +205,7 @@ where
 
 fn main() {
     let expected_table = make_cos_expected();
-    find_zero_mean_error(6884..=7884, &expected_table, |x, k| {
-        sin_p4(x, k) as f64 / TWO_POW_30_AS_F64
-    });
+    find_zero_mean_error(6884..=7884, &expected_table, |x, k| to_f64(sin_p4(x, k)));
     let expected_table = make_sin_expected();
-    find_zero_mean_error(50936..=51936, &expected_table, |x, k| {
-        sin_p5(x, k) as f64 / TWO_POW_30_AS_F64
-    });
+    find_zero_mean_error(50936..=51936, &expected_table, |x, k| to_f64(sin_p5(x, k)));
 }
