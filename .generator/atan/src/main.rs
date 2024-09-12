@@ -31,25 +31,27 @@ fn main() -> Result<()> {
     let expected = (0..=TWO_POW_15)
         .map(|x| (x as f64 / TWO_POW_15_AS_F64).atan())
         .collect::<Vec<_>>();
+    let a = ((2800, 3000), (700..=900, 2500, 3500));
+    let cmp = (
+        Measures::rmse_total_cmp,
+        Measures::mae_total_cmp,
+        Measures::max_error_abs_total_cmp,
+    );
+
     println!("atan p2");
-    let a = 2750;
-    let b = 3050;
     let eval = |k| {
         Measures::try_from(expected.iter().enumerate().map(|(x, &expected)| {
             let actual = atan_p2(x as i32, k);
             to_rad(actual) - expected
         }))
     };
-    let result = find_root_ab(eval, a, b, Measures::rmse_total_cmp)?;
+    let result = find_root_ab(eval, a.0 .0, a.0 .1, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_ab(eval, a, b, Measures::mae_total_cmp)?;
+    let result = find_root_ab(eval, a.0 .0, a.0 .1, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
-    let cmp = Measures::max_error_abs_total_cmp;
-    let result = find_root_ab(eval, a, b, cmp)?;
+    let result = find_root_ab(eval, a.0 .0, a.0 .1, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
-    let a_range = 700..=900;
-    let b_min = 2500;
-    let b_max = 3500;
+
     let eval = |k: &(i32, i32)| {
         Measures::try_from(expected.iter().enumerate().map(|(x, &expected)| {
             let actual = atan_p5(x as i32, k);
@@ -57,11 +59,12 @@ fn main() -> Result<()> {
         }))
     };
     println!("atan p5");
-    let result = find_root_d2(&a_range, b_min, b_max, eval, Measures::rmse_total_cmp)?;
+    let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, eval, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_d2(&a_range, b_min, b_max, eval, Measures::mae_total_cmp)?;
+    let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, eval, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_d2(&a_range, b_min, b_max, eval, cmp)?;
+    let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, eval, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
+
     Ok(())
 }
