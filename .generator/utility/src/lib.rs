@@ -78,6 +78,10 @@ impl Measures {
             max_error,
         })
     }
+
+    pub fn rmse_total_cmp(&self, other: &Self) -> Ordering {
+        self.rmse.total_cmp(&other.rmse)
+    }
 }
 
 pub fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
