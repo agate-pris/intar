@@ -39,26 +39,25 @@ fn to_f64(x: i32) -> f64 {
     x as f64 / TWO_POW_30_AS_F64
 }
 
+fn eval<F, K>(expected: &[f64], f: F, k: K) -> utility::Result<Measures>
+where
+    F: Fn(i32, K) -> i32,
+    K: Copy,
+{
+    Measures::try_from(
+        expected
+            .iter()
+            .enumerate()
+            .map(|(i, expected)| to_f64(f(i as i32, k)) - expected),
+    )
+}
+
 fn main() -> Result<()> {
     env_logger::init();
     let expected_1 = make_cos_expected();
     let expected_2 = make_sin_expected();
-    let f1 = |k| {
-        Measures::try_from(
-            expected_1
-                .iter()
-                .enumerate()
-                .map(|(i, expected)| to_f64(sin_p4(i as i32, k)) - expected),
-        )
-    };
-    let f2 = |k| {
-        Measures::try_from(
-            expected_2
-                .iter()
-                .enumerate()
-                .map(|(i, expected)| to_f64(sin_p5(i as i32, k)) - expected),
-        )
-    };
+    let f1 = |k| eval(&expected_1, sin_p4, k);
+    let f2 = |k| eval(&expected_2, sin_p5, k);
     let a1 = 6884;
     let b1 = 7884;
     let a2 = 50936;
