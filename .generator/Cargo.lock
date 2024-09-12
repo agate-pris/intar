@@ -752,6 +752,7 @@ name = "sin"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "env_logger",
  "utility",
 ]
 
