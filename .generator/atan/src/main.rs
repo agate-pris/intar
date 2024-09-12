@@ -9,6 +9,13 @@ fn atan_p2(x: i32, k: i32) -> i32 {
     y * x
 }
 
+fn atan_p3(x: i32, k: &(i32, i32)) -> i32 {
+    let y = (x * k.1) >> 15;
+    let y = (TWO_POW_15 - x) * (k.0 + y);
+    let y = (TWO_POW_15 >> 2) + (y >> 15);
+    x * y
+}
+
 fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
     //const int a = 787;
     //const int b = 2968;
@@ -46,9 +53,14 @@ fn main() -> Result<()> {
         .collect::<Vec<_>>();
     let f = (
         |k| eval(&expected, atan_p2, k),
+        |k: &(i32, i32)| eval(&expected, atan_p3, k),
         |k: &(i32, i32)| eval(&expected, atan_p5, k),
     );
-    let a = ((2800, 3000), (700..=900, 2500, 3500));
+    let a = (
+        (2800, 3000),
+        (2400..=2700, 400, 1000),
+        (700..=900, 2500, 3500),
+    );
     let cmp = (
         Measures::rmse_total_cmp,
         Measures::mae_total_cmp,
@@ -63,12 +75,18 @@ fn main() -> Result<()> {
     let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
 
-    println!("atan p5");
+    println!("atan p3");
     let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, f.1, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
     let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, f.1, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, f.1, cmp.2)?;
+
+    println!("atan p5");
+    let result = find_root_d2(&a.2 .0, a.2 .1, a.2 .2, f.2, cmp.0)?;
+    println!("{:>9}: {:?}", "rmse", result);
+    let result = find_root_d2(&a.2 .0, a.2 .1, a.2 .2, f.2, cmp.1)?;
+    println!("{:>9}: {:?}", "mae", result);
+    let result = find_root_d2(&a.2 .0, a.2 .1, a.2 .2, f.2, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
 
     Ok(())
