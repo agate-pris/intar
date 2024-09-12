@@ -25,25 +25,19 @@ fn main() -> Result<()> {
     let a_range = 700..=900;
     let b_min = 2500;
     let b_max = 3500;
-    println!("# atan_p5\n");
-    println!("## RMSE\n");
     let eval = |k: &(i32, i32)| {
         Measures::try_from(expected.iter().enumerate().map(|(x, &expected)| {
             let actual = atan_p5(x as i32, k);
             to_rad(actual) - expected
         }))
     };
-    let rmse = find_root_d2(&a_range, b_min, b_max, eval, |a, b| {
-        a.rmse.total_cmp(&b.rmse)
-    })?;
-    println!("{:#?}", rmse);
-    println!("\n## MAE\n");
-    let mae = find_root_d2(&a_range, b_min, b_max, eval, |a, b| a.mae.total_cmp(&b.mae))?;
-    println!("{:#?}", mae);
-    println!("\n## Max Error\n");
-    let max_error = find_root_d2(&a_range, b_min, b_max, eval, |a, b| {
-        a.max_error.abs().total_cmp(&b.max_error.abs())
-    })?;
-    println!("{:#?}", max_error);
+    println!("atan_p5");
+    let result = find_root_d2(&a_range, b_min, b_max, eval, Measures::rmse_total_cmp)?;
+    println!("{:>9}: {:?}", "rmse", result);
+    let result = find_root_d2(&a_range, b_min, b_max, eval, Measures::mae_total_cmp)?;
+    println!("{:>9}: {:?}", "mae", result);
+    let cmp = Measures::max_error_abs_total_cmp;
+    let result = find_root_d2(&a_range, b_min, b_max, eval, cmp)?;
+    println!("{:>9}: {:?}", "max error", result);
     Ok(())
 }
