@@ -54,27 +54,33 @@ where
 
 fn main() -> Result<()> {
     env_logger::init();
-    let expected_1 = make_cos_expected();
-    let expected_2 = make_sin_expected();
-    let f1 = |k| eval(&expected_1, sin_p4, k);
-    let f2 = |k| eval(&expected_2, sin_p5, k);
-    let a1 = 6884;
-    let b1 = 7884;
-    let a2 = 50936;
-    let b2 = 51936;
+    let expected = [make_cos_expected(), make_sin_expected()];
+    let f = (
+        |k| eval(&expected[0], sin_p4, k),
+        |k| eval(&expected[1], sin_p5, k),
+    );
+    let a = ((6884, 7884), (50936, 51936));
+    let cmp = (
+        Measures::rmse_total_cmp,
+        Measures::mae_total_cmp,
+        Measures::max_error_abs_total_cmp,
+    );
+
     println!("sin p4");
-    let result = find_root_ab(f1, a1, b1, Measures::rmse_total_cmp)?;
+    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_ab(f1, a1, b1, Measures::mae_total_cmp)?;
+    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_ab(f1, a1, b1, Measures::max_error_abs_total_cmp)?;
+    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
+
     println!("sin p5");
-    let result = find_root_ab(f2, a2, b2, Measures::rmse_total_cmp)?;
+    let result = find_root_ab(f.1, a.1 .0, a.1 .1, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_ab(f2, a2, b2, Measures::mae_total_cmp)?;
+    let result = find_root_ab(f.1, a.1 .0, a.1 .1, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_ab(f2, a2, b2, Measures::max_error_abs_total_cmp)?;
+    let result = find_root_ab(f.1, a.1 .0, a.1 .1, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
+
     Ok(())
 }
