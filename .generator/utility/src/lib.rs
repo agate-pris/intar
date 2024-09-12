@@ -1,6 +1,6 @@
 use std::{cmp::Ordering, ops::RangeInclusive};
 
-use log::info;
+use log::{debug, error, info};
 use thiserror::Error;
 
 pub mod consts {
@@ -113,6 +113,7 @@ where
         let q = f(a + 1)?;
         let ord = cmp(&p, &q);
         if ord != Ordering::Greater {
+            error!("a: {}", a);
             return Err(MeasuresError::UnexpectedComparison(
                 "f(a) > f(a + 1)",
                 Ordering::Greater,
@@ -128,6 +129,7 @@ where
         let q = f(b)?;
         let ord = cmp(&p, &q);
         if ord != Ordering::Less {
+            error!("b: {}", b);
             return Err(MeasuresError::UnexpectedComparison(
                 "f(b - 1) < f(b)",
                 Ordering::Less,
@@ -185,15 +187,15 @@ where
         .clone()
         .map(|a| {
             let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp)?;
-            info!("a: {}, b: {}, measures: {:#?}", a, root.0, root.1);
+            debug!("a: {}, b: {}, measures: {:#?}", a, root.0, root.1);
             Ok((a, root.0, root.1))
         })
         .collect::<Result<Vec<_>>>()?;
     if let Some(first) = opt_b_for_each_a.first() {
-        info!("first: {:#?}", first);
+        info!("first: {:?}", first);
     }
     if let Some(last) = opt_b_for_each_a.last() {
-        info!("last: {:#?}", last);
+        info!("last: {:?}", last);
     }
     let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.2, &b.2));
     answer.cloned().ok_or(Error::EmptyOption("answer"))
