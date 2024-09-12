@@ -27,6 +27,7 @@ fn to_rad(x: i32) -> f64 {
 }
 
 fn main() -> Result<()> {
+    env_logger::init();
     let expected = (0..=TWO_POW_15)
         .map(|x| (x as f64 / TWO_POW_15_AS_F64).atan())
         .collect::<Vec<_>>();
