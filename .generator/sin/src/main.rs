@@ -40,6 +40,7 @@ fn to_f64(x: i32) -> f64 {
 }
 
 fn main() -> Result<()> {
+    env_logger::init();
     let expected_1 = make_cos_expected();
     let expected_2 = make_sin_expected();
     let f1 = |k| {
