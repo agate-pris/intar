@@ -1,4 +1,4 @@
-use std::{f64::consts::FRAC_PI_2, ops::RangeInclusive};
+use std::f64::consts::FRAC_PI_2;
 
 use anyhow::Result;
 use utility::{consts::*, find_root_ab};
@@ -33,46 +33,6 @@ fn make_sin_expected() -> Vec<f64> {
 
 fn make_cos_expected() -> Vec<f64> {
     (0..=TWO_POW_15).map(|x| 1.0 - to_rad(x).cos()).collect()
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct Measures {
-    pub k: i32,
-    me: f64,
-    mae: f64,
-    rmse: f64,
-    max_error: f64,
-}
-
-impl Measures {
-    fn new<F>(k: i32, f: F, range: RangeInclusive<i32>, expected_table: &[f64]) -> Measures
-    where
-        F: Fn(i32, i32) -> f64,
-    {
-        let mut sum_error = 0.0;
-        let mut sum_abs_error = 0.0;
-        let mut sum_sqr_error = 0.0;
-        let mut max_error = 0.0_f64;
-        for x in range.clone() {
-            let expected = expected_table[x as usize];
-            let actual = f(x, k);
-            let error = actual - expected;
-            sum_error += error;
-            sum_abs_error += error.abs();
-            sum_sqr_error += error * error;
-            if max_error.abs() < error.abs() {
-                max_error = error;
-            }
-        }
-        let count = range.count() as f64;
-        Measures {
-            k,
-            me: sum_error / count,
-            mae: sum_abs_error / count,
-            rmse: (sum_sqr_error / count).sqrt(),
-            max_error,
-        }
-    }
 }
 
 fn to_f64(x: i32) -> f64 {
