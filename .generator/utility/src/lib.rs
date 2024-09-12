@@ -190,10 +190,10 @@ where
         })
         .collect::<Result<Vec<_>>>()?;
     if let Some(first) = opt_b_for_each_a.first() {
-        println!("first: {:#?}", first);
+        info!("first: {:#?}", first);
     }
     if let Some(last) = opt_b_for_each_a.last() {
-        println!("last: {:#?}", last);
+        info!("last: {:#?}", last);
     }
     let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.2, &b.2));
     answer.cloned().ok_or(Error::EmptyOption("answer"))
