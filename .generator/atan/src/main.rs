@@ -30,7 +30,7 @@ fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
 }
 
 fn to_rad(x: i32) -> f64 {
-    x as f64 * std::f64::consts::PI / TWO_POW_30_AS_F64
+    x as f64 * (std::f64::consts::PI / TWO_POW_30_AS_F64)
 }
 
 fn eval<F, K>(expected: &[f64], f: F, k: K) -> utility::Result<Measures>
