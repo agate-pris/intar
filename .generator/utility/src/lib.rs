@@ -90,9 +90,9 @@ impl Measures {
     }
 }
 
-pub fn find_root_ab<F, C>(f: F, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
+pub fn find_root_ab<Eval, C>(eval: Eval, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
 where
-    F: Fn(i32) -> Result<Measures>,
+    Eval: Fn(i32) -> Result<Measures>,
     C: Fn(&Measures, &Measures) -> Ordering,
 {
     fn make_bc(a: i32, d: i32) -> (i32, i32) {
@@ -109,8 +109,8 @@ where
         return Err(FindRootAbError::NotLess(a, b).into());
     }
     {
-        let p = f(a)?;
-        let q = f(a + 1)?;
+        let p = eval(a)?;
+        let q = eval(a + 1)?;
         let ord = cmp(&p, &q);
         if ord != Ordering::Greater {
             error!("a: {}", a);
@@ -125,8 +125,8 @@ where
         }
     }
     {
-        let p = f(b - 1)?;
-        let q = f(b)?;
+        let p = eval(b - 1)?;
+        let q = eval(b)?;
         let ord = cmp(&p, &q);
         if ord != Ordering::Less {
             error!("b: {}", b);
@@ -144,8 +144,8 @@ where
     let mut a = a;
     let mut d = b;
     let (mut b, mut c) = make_bc(a, d);
-    let mut p = f(b)?;
-    let mut q = f(c)?;
+    let mut p = eval(b)?;
+    let mut q = eval(c)?;
     loop {
         let ord = cmp(&p, &q);
         match ord {
@@ -167,8 +167,8 @@ where
                 (b, c) = make_bc(a, d);
             }
         }
-        p = f(b)?;
-        q = f(c)?;
+        p = eval(b)?;
+        q = eval(c)?;
     }
 }
 
