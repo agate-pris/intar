@@ -64,21 +64,43 @@ fn main() -> Result<()> {
         Measures::max_error_abs_total_cmp,
     );
 
-    println!("sin p4");
-    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.0)?;
-    println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.1)?;
-    println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2)?;
-    println!("{:>9}: {:?}", "max error", result);
+    let results = (
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.0),
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.1),
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2),
+        || find_root_ab(f.1, a.1 .0, a.1 .1, cmp.0),
+        || find_root_ab(f.1, a.1 .0, a.1 .1, cmp.1),
+        || find_root_ab(f.1, a.1 .0, a.1 .1, cmp.2),
+    );
+    let names = ["rmse", "mae", "max error"];
 
+    fn print(name: &str, result: (i32, Measures), i: usize) -> Result<()> {
+        let expected = [7369, 7394, 7341, 51438, 51441, 51432];
+        let acceptables = [
+            [0.000603, 0.000516, 0.0000735, 0.00110],
+            [0.000615, 0.000511, 0.0000283, 0.00123],
+            [0.000618, 0.000536, 0.0001874, 0.00095],
+            [0.000131, 0.000115, 0.0000156, 0.00024],
+            [0.000132, 0.000114, 0.0000308, 0.00025],
+            [0.000135, 0.000120, 0.0000151, 0.00021],
+        ];
+        println!("{:>9}: {:?}", name, result);
+        anyhow::ensure!(result.0 == expected[i]);
+        anyhow::ensure!(result.1.rmse < acceptables[i][0]);
+        anyhow::ensure!(result.1.mae < acceptables[i][1]);
+        anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
+        anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        Ok(())
+    }
+
+    println!("sin p4");
+    print(names[0], results.0()?, 0)?;
+    print(names[1], results.1()?, 1)?;
+    print(names[2], results.2()?, 2)?;
     println!("sin p5");
-    let result = find_root_ab(f.1, a.1 .0, a.1 .1, cmp.0)?;
-    println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_ab(f.1, a.1 .0, a.1 .1, cmp.1)?;
-    println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_ab(f.1, a.1 .0, a.1 .1, cmp.2)?;
-    println!("{:>9}: {:?}", "max error", result);
+    print(names[0], results.3()?, 3)?;
+    print(names[1], results.4()?, 4)?;
+    print(names[2], results.5()?, 5)?;
 
     Ok(())
 }
