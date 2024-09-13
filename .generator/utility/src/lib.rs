@@ -179,7 +179,7 @@ pub fn find_root_d2<Eval, C>(
     b_min: i32,
     b_max: i32,
     cmp: C,
-) -> Result<(i32, i32, Measures)>
+) -> Result<((i32, i32), Measures)>
 where
     Eval: Fn(&(i32, i32)) -> Result<Measures>,
     C: Copy + Fn(&Measures, &Measures) -> Ordering,
@@ -189,7 +189,7 @@ where
         .map(|a| {
             let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp)?;
             debug!("a: {}, b: {}, measures: {:#?}", a, root.0, root.1);
-            Ok((a, root.0, root.1))
+            Ok(((a, root.0), root.1))
         })
         .collect::<Result<Vec<_>>>()?;
     if let Some(first) = opt_b_for_each_a.first() {
@@ -198,6 +198,6 @@ where
     if let Some(last) = opt_b_for_each_a.last() {
         info!("last: {:?}", last);
     }
-    let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.2, &b.2));
+    let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.1, &b.1));
     answer.cloned().ok_or(Error::EmptyOption("answer"))
 }
