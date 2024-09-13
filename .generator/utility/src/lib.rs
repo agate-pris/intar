@@ -150,6 +150,7 @@ where
         let ord = cmp(&p, &q);
         match ord {
             Ordering::Equal => {
+                error!("a: {a}, b: {b}");
                 return Err(MeasuresError::ComparisonEquals("p != q", p, q).into());
             }
             Ordering::Less => {
