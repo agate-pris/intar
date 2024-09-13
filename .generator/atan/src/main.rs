@@ -17,9 +17,6 @@ fn atan_p3(x: i32, k: &(i32, i32)) -> i32 {
 }
 
 fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
-    //const int a = 787;
-    //const int b = 2968;
-    //const int c = (1 << 13) + b - a;
     let a = k.0;
     let b = k.1;
     let c = (1 << (EXP - 2)) + k.1 - k.0;
