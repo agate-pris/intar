@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use anyhow::Result;
 use utility::{consts::*, find_root_ab, find_root_d2, Measures};
 
@@ -63,28 +65,52 @@ fn main() -> Result<()> {
         Measures::mae_total_cmp,
         Measures::max_error_abs_total_cmp,
     );
+    let results = (
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.0),
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.1),
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2),
+        || find_root_d2(f.1, &a.1 .0, a.1 .1, a.1 .2, cmp.0),
+        || find_root_d2(f.1, &a.1 .0, a.1 .1, a.1 .2, cmp.1),
+        || find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.0),
+        || find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.1),
+        || find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.2),
+    );
+    let names = ["rmse", "mae", "max error"];
+
+    fn print<T>(name: &str, result: (T, Measures), expected: &T, i: usize) -> Result<()>
+    where
+        T: Debug + PartialEq,
+    {
+        let acceptables = [
+            [0.002428, 0.002078, 0.00034, 0.00450],
+            [0.002596, 0.001983, 0.00117, 0.00519],
+            [0.002636, 0.002369, 0.00061, 0.00377],
+            [0.001050, 0.000940, 0.00033, 0.00172],
+            [0.001063, 0.000933, 0.00045, 0.00193],
+            [0.000492, 0.000440, 0.00016, 0.00091],
+            [0.000498, 0.000437, 0.00018, 0.00104],
+            [0.000506, 0.000456, 0.00013, 0.00076],
+        ];
+        println!("{:>9}: {:?}", name, result);
+        anyhow::ensure!(result.0 == *expected);
+        anyhow::ensure!(result.1.rmse < acceptables[i][0]);
+        anyhow::ensure!(result.1.mae < acceptables[i][1]);
+        anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
+        anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        Ok(())
+    }
 
     println!("atan p2");
-    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.0)?;
-    println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.1)?;
-    println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2)?;
-    println!("{:>9}: {:?}", "max error", result);
-
+    print(names[0], results.0()?, &2909, 0)?;
+    print(names[1], results.1()?, &2961, 1)?;
+    print(names[2], results.2()?, &2850, 2)?;
     println!("atan p3");
-    let result = find_root_d2(f.1, &a.1 .0, a.1 .1, a.1 .2, cmp.0)?;
-    println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_d2(f.1, &a.1 .0, a.1 .1, a.1 .2, cmp.1)?;
-    println!("{:>9}: {:?}", "mae", result);
-
+    print(names[0], results.3()?, &(2577, 664), 3)?;
+    print(names[1], results.4()?, &(2601, 631), 4)?;
     println!("atan p5");
-    let result = find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.0)?;
-    println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.1)?;
-    println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.2)?;
-    println!("{:>9}: {:?}", "max error", result);
+    print(names[0], results.5()?, &(809, 2996), 5)?;
+    print(names[1], results.6()?, &(823, 3014), 6)?;
+    print(names[2], results.7()?, &(787, 2968), 7)?;
 
     Ok(())
 }
