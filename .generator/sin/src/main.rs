@@ -1,5 +1,3 @@
-use std::f64::consts::FRAC_PI_2;
-
 use anyhow::Result;
 use utility::{consts::*, find_root_ab, Measures};
 
@@ -24,7 +22,7 @@ fn sin_p5(x: i32, k: i32) -> i32 {
 }
 
 fn to_rad(x: i32) -> f64 {
-    x as f64 * (FRAC_PI_2 / TWO_POW_15_AS_F64)
+    x as f64 * (std::f64::consts::FRAC_PI_2 / TWO_POW_15_AS_F64)
 }
 
 fn make_sin_expected() -> Vec<f64> {
