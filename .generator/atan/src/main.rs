@@ -76,17 +76,17 @@ fn main() -> Result<()> {
     println!("{:>9}: {:?}", "max error", result);
 
     println!("atan p3");
-    let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, f.1, cmp.0)?;
+    let result = find_root_d2(f.1, &a.1 .0, a.1 .1, a.1 .2, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_d2(&a.1 .0, a.1 .1, a.1 .2, f.1, cmp.1)?;
+    let result = find_root_d2(f.1, &a.1 .0, a.1 .1, a.1 .2, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
 
     println!("atan p5");
-    let result = find_root_d2(&a.2 .0, a.2 .1, a.2 .2, f.2, cmp.0)?;
+    let result = find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.0)?;
     println!("{:>9}: {:?}", "rmse", result);
-    let result = find_root_d2(&a.2 .0, a.2 .1, a.2 .2, f.2, cmp.1)?;
+    let result = find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.1)?;
     println!("{:>9}: {:?}", "mae", result);
-    let result = find_root_d2(&a.2 .0, a.2 .1, a.2 .2, f.2, cmp.2)?;
+    let result = find_root_d2(f.2, &a.2 .0, a.2 .1, a.2 .2, cmp.2)?;
     println!("{:>9}: {:?}", "max error", result);
 
     Ok(())

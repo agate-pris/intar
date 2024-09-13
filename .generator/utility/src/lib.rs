@@ -173,10 +173,10 @@ where
 }
 
 pub fn find_root_d2<Eval, C>(
+    eval: Eval,
     a_range: &RangeInclusive<i32>,
     b_min: i32,
     b_max: i32,
-    eval: Eval,
     cmp: C,
 ) -> Result<(i32, i32, Measures)>
 where
