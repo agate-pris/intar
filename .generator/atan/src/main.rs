@@ -77,7 +77,7 @@ fn main() -> Result<()> {
     );
     let names = ["rmse", "mae", "max error"];
 
-    fn print<T>(name: &str, result: (T, Measures), expected: &T, i: usize) -> Result<()>
+    fn print<T>(name: &str, results: Vec<(T, Measures)>, expected: &T, i: usize) -> Result<()>
     where
         T: Debug + PartialEq,
     {
@@ -91,12 +91,14 @@ fn main() -> Result<()> {
             [0.000498, 0.000437, 0.00018, 0.00104],
             [0.000506, 0.000456, 0.00013, 0.00076],
         ];
-        println!("{:>9}: {:?}", name, result);
-        anyhow::ensure!(result.0 == *expected);
-        anyhow::ensure!(result.1.rmse < acceptables[i][0]);
-        anyhow::ensure!(result.1.mae < acceptables[i][1]);
-        anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
-        anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        println!("{:>9}: {:?}", name, results);
+        for result in results {
+            anyhow::ensure!(result.0 == *expected);
+            anyhow::ensure!(result.1.rmse < acceptables[i][0]);
+            anyhow::ensure!(result.1.mae < acceptables[i][1]);
+            anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
+            anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        }
         Ok(())
     }
 
