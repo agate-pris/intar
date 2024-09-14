@@ -42,8 +42,6 @@ $$
 \end{align*}
 $$
 
-以下は 4 次の多項式による近似｡
-
 > $$
 > 0\le x\le\frac{\pi}{2}
 > $$
@@ -57,12 +55,40 @@ $$
 > $$
 >
 > $$
-> \begin{align*}
-> a_2&=-.49670&a_4&=.03705
-> \end{align*}
+> \begin{gather*}
+> a_2 = -.49670 &
+> a_4 =  .03705
+> \end{gather*}
 > $$
 >
 > <cite id="abramowitz-and-stegun-a">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
+
+> $$
+> 0 \le x \le \frac{\pi}{2}
+> $$
+>
+> $$
+> cos\ x = 1 +
+> a_2   \ x^2    +
+> a_4   \ x^4    +
+> a_6   \ x^6    +
+> a_8   \ x^8    +
+> a_{10}\ x^{10} + \epsilon(x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 2 \times 10^{-9}
+> $$
+>
+> $$
+> \begin{align*}
+> a_2    &= -.49999\ 99963 & a_4 &= .04166\ 66418 \\
+> a_6    &= -.00138\ 88397 & a_8 &= .00002\ 47609 \\
+> a_{10} &= -.00000\ 02605
+> \end{align*}
+> $$
+>
+> <cite id="abramowitz-and-stegun-b">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
 
 ### 3 次の多項式による近似
 
@@ -364,7 +390,7 @@ $$
 > \end{align*}
 > $$
 >
-> <cite id="abramowitz-and-stegun-b">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
+> <cite id="abramowitz-and-stegun-c">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
 
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
@@ -423,7 +449,7 @@ wip
 
 ## Reference
 
-1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> <sup>[b](#abramowitz-and-stegun-b)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
+1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> <sup>[b](#abramowitz-and-stegun-b)</sup> <sup>[c](#abramowitz-and-stegun-c)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
 - Another fast fixed-point sine approximation | Coranac
   - http://www.coranac.com/2009/07/sines/
