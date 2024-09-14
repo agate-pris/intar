@@ -536,11 +536,11 @@ namespace AgatePris.Intar.Numerics {
             W.SinP4A7369());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 SinP5A51436() => new Vector4I2F30(
-            X.SinP5A51436(),
-            Y.SinP5A51436(),
-            Z.SinP5A51436(),
-            W.SinP5A51436());
+        public Vector4I2F30 SinP5A51438() => new Vector4I2F30(
+            X.SinP5A51438(),
+            Y.SinP5A51438(),
+            Z.SinP5A51438(),
+            W.SinP5A51438());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 CosP2() => new Vector4I2F30(
@@ -564,11 +564,11 @@ namespace AgatePris.Intar.Numerics {
             W.CosP4A7369());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 CosP5A51436() => new Vector4I2F30(
-            X.CosP5A51436(),
-            Y.CosP5A51436(),
-            Z.CosP5A51436(),
-            W.CosP5A51436());
+        public Vector4I2F30 CosP5A51438() => new Vector4I2F30(
+            X.CosP5A51438(),
+            Y.CosP5A51438(),
+            Z.CosP5A51438(),
+            W.CosP5A51438());
 
         // Swizzling
         // ---------
