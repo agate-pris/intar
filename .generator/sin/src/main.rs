@@ -74,7 +74,7 @@ fn main() -> Result<()> {
     );
     let names = ["rmse", "mae", "max error"];
 
-    fn print(name: &str, result: (i32, Measures), i: usize) -> Result<()> {
+    fn print(name: &str, results: Vec<(i32, Measures)>, i: usize) -> Result<()> {
         let expected = [7369, 7394, 7341, 51438, 51441, 51432];
         let acceptables = [
             [0.000603, 0.000516, 0.0000735, 0.00110],
@@ -84,12 +84,14 @@ fn main() -> Result<()> {
             [0.000132, 0.000114, 0.0000308, 0.00025],
             [0.000135, 0.000120, 0.0000151, 0.00021],
         ];
-        println!("{:>9}: {:?}", name, result);
-        anyhow::ensure!(result.0 == expected[i]);
-        anyhow::ensure!(result.1.rmse < acceptables[i][0]);
-        anyhow::ensure!(result.1.mae < acceptables[i][1]);
-        anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
-        anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        println!("{:>9}: {:?}", name, results);
+        for result in results {
+            anyhow::ensure!(result.0 == expected[i]);
+            anyhow::ensure!(result.1.rmse < acceptables[i][0]);
+            anyhow::ensure!(result.1.mae < acceptables[i][1]);
+            anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
+            anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        }
         Ok(())
     }
 
