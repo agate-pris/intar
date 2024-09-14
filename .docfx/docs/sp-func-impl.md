@@ -392,6 +392,10 @@ $$
 >
 > <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
 
+スクリプト : [atan.wxm](../gists/atan.wxm)
+
+### 2 次の多項式による近似
+
 > Using an extensive computer search,
 > the optimum $\alpha \approx 0.273$
 > and the following approximation for the $arctan(x)$
@@ -409,6 +413,24 @@ $$
 >
 > <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
 
+Intar では以下のように定義する｡
+
+$$
+\begin{align*}
+f(x)
+&= \frac{2^{15}}{4} x + \frac{a\ x}{2^{15}} (2^{15} - |x|) \\
+&= x \left(2^{13} + \frac{a \left( 2^{15} - |x| \right)}{2^{15}}  \right)
+\end{align*}
+$$
+
+|    a | RMSE | MAE | ME | 誤差の最大値
+| ---: | ---: | --: | -: | -----------:
+| 2909 | 0.002427818462466078 | 0.002077174282802348 |  0.0003333473619596143 |  0.004491925797573765
+| 2961 | 0.002595716870537866 | 0.001982912099303992 |  0.0011642323880778544 |  0.005184662774273458
+| 2850 | 0.002635112958998417 | 0.002368024597272721 | -0.0006093592020941363 | -0.003767039323419708
+
+### 3 次の多項式による近似
+
 > ... Using the minimax criteria,
 > the following polynomial with a maximum absolute error
 > of $0.0015$ rad ($0.086 \textdegree$) is identified as the optimal approximation to $arctan(x)$
@@ -424,9 +446,42 @@ $$
 >
 > <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
 
-スクリプト : [atan.wxm](../gists/atan.wxm)
+Intar では以下のように定義する｡
 
-wip
+$$
+\begin{align*}
+f(x)
+&= \frac{2^{15}}{4} \ x - \frac{x}{2^{15}} \left( |x| - 2^{15} \right) \times \left(a + \frac{b}{2^{15}} |x| \right) \\
+&= x \left( 2^{13} - \frac{|x| - 2^{15}}{2^{15}} \times \left( a + \frac{b |x|}{2^{15}} \right) \right)
+\end{align*}
+$$
+
+|    a |   b | RMSE | MAE | ME | 誤差の最大値
+| ---: | --: | ---: | --: | -: | -----------:
+| 2577 | 664 | 0.0010491346147630696 | 0.0009396760171463379 | 0.0003253353062951027 | 0.0017147167150517173
+| 2601 | 631 | 0.0010621832121978914 | 0.0009328792959087625 | 0.0004452376085175237 | 0.0019206565838164047
+| 2555 | 691 | 0.0010641139431349976 | 0.0009603371569695284 | 0.0001895039396058616 | 0.0015278438200241468
+
+### 5 次の多項式による近似
+
+テイラー展開の結果に従って以下のように定義する｡
+
+$$
+f(x) = a\ x - \frac{b\ x^3}{2^{30}} + \frac{c\ x^5}{2^{60}}
+$$
+
+$$
+a = 2^{15} \div 4 + b - c
+$$
+
+2 次､ 3 次の多項式と異なり偶数次の項の係数を 0 として定義するため､
+式中で絶対値を用いたり $1-|x|$ などの式変形を用いる必要がない｡
+
+|     a |    b |   c | RMSE | MAE | ME | 誤差の最大値
+| ----: | ---: | --: | ---: | --: | -: | -----------:
+| 10379 | 2996 | 809 | 0.0004913727885719261 | 0.0004392120592626543 | -0.00015646348153503596 | -0.00090980676328112
+| 10383 | 3014 | 823 | 0.0004974320989651835 | 0.0004362865669397836 | -0.00017241418374285537 | -0.00103013036251709
+| 10373 | 2968 | 787 | 0.0005058157854788201 | 0.0004553722561956364 | -0.00012450515639614833 | -0.00075234042727762
 
 ## 逆正弦 arcsine と逆余弦 arccosine
 
