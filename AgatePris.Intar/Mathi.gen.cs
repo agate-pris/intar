@@ -632,8 +632,8 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int CosP4A7373(int z) {
-                const int a = 7373;
+            internal static int CosP4A7369(int z) {
+                const int a = 7369;
                 const int b = a + Right;
                 var z_2 = (z * z) >> RightExp;
                 return (b - ((z_2 * a) >> RightExp)) * z_2;
@@ -737,25 +737,25 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP4A7373(x);
+        /// var actual = Intar.Mathi.CosP4A7369(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.001114);
+        /// Assert.AreEqual(expected, a, 0.001091);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP4A7373(int x) {
+        public static int CosP4A7369(int x) {
             var masked = x & SinInternal.RightMask;
             switch (SinInternal.ToQuadrant(x)) {
                 default:
-                case SinInternal.Quadrant.First: return SinInternal.One - SinInternal.CosP4A7373(masked);
-                case SinInternal.Quadrant.Third: return SinInternal.CosP4A7373(masked) - SinInternal.One;
-                case SinInternal.Quadrant.Fourth: return SinInternal.One - SinInternal.CosP4A7373(SinInternal.Right - masked);
-                case SinInternal.Quadrant.Second: return SinInternal.CosP4A7373(SinInternal.Right - masked) - SinInternal.One;
+                case SinInternal.Quadrant.First: return SinInternal.One - SinInternal.CosP4A7369(masked);
+                case SinInternal.Quadrant.Third: return SinInternal.CosP4A7369(masked) - SinInternal.One;
+                case SinInternal.Quadrant.Fourth: return SinInternal.One - SinInternal.CosP4A7369(SinInternal.Right - masked);
+                case SinInternal.Quadrant.Second: return SinInternal.CosP4A7369(SinInternal.Right - masked) - SinInternal.One;
             }
         }
 
@@ -765,18 +765,18 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP4A7373(x);
+        /// var actual = Intar.Mathi.SinP4A7369(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.001114);
+        /// Assert.AreEqual(expected, a, 0.001091);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP4A7373(int x) => CosP4A7373(Overflowing.WrappingSub(x, SinInternal.Right));
+        public static int SinP4A7369(int x) => CosP4A7369(Overflowing.WrappingSub(x, SinInternal.Right));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -826,7 +826,7 @@ namespace AgatePris.Intar {
         public enum SinMethod : byte {
             P2,
             P3A16384,
-            P4A7373,
+            P4A7369,
             P5A51436,
             Default = P5A51436,
         }
@@ -853,7 +853,7 @@ namespace AgatePris.Intar {
             switch (method) {
                 case SinMethod.P2: return SinP2(x);
                 case SinMethod.P3A16384: return SinP3A16384(x);
-                case SinMethod.P4A7373: return SinP4A7373(x);
+                case SinMethod.P4A7369: return SinP4A7369(x);
                 default:
                 case SinMethod.P5A51436: return SinP5A51436(x);
             }
@@ -881,7 +881,7 @@ namespace AgatePris.Intar {
             switch (method) {
                 case SinMethod.P2: return CosP2(x);
                 case SinMethod.P3A16384: return CosP3A16384(x);
-                case SinMethod.P4A7373: return CosP4A7373(x);
+                case SinMethod.P4A7369: return CosP4A7369(x);
                 default:
                 case SinMethod.P5A51436: return CosP5A51436(x);
             }
