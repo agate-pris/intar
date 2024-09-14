@@ -61,7 +61,7 @@ $$
 > \end{gather*}
 > $$
 >
-> <cite id="abramowitz-and-stegun-a">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
 
 > $$
 > 0 \le x \le \frac{\pi}{2}
@@ -88,7 +88,7 @@ $$
 > \end{align*}
 > $$
 >
-> <cite id="abramowitz-and-stegun-b">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
 
 ### 3 次の多項式による近似
 
@@ -390,7 +390,7 @@ $$
 > \end{align*}
 > $$
 >
-> <cite id="abramowitz-and-stegun-c">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
 
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
@@ -449,8 +449,8 @@ wip
 
 ## 参考文献
 
-1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> <sup>[b](#abramowitz-and-stegun-b)</sup> <sup>[c](#abramowitz-and-stegun-c)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
-
 - Another fast fixed-point sine approximation | Coranac
   - http://www.coranac.com/2009/07/sines/
   - http://web.archive.org/web/20240629132053/http://www.coranac.com/2009/07/sines/
+
+[^abramowitz-and-stegun]: Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
