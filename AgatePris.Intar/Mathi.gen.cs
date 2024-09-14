@@ -784,19 +784,19 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP5A51436(x);
+        /// var actual = Intar.Mathi.SinP5A51438(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000223);
+        /// Assert.AreEqual(expected, a, 0.000232);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5A51436(int x) {
-            const int k = 51436;
+        public static int SinP5A51438(int x) {
+            const int k = 51438;
             const int a = (k * 2) - (SinInternal.Right * 5 / 2);
             const int b = k - (SinInternal.Right * 3 / 2);
             var z = SinInternal.MakeArgOdd(x);
@@ -810,25 +810,25 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP5A51436(x);
+        /// var actual = Intar.Mathi.CosP5A51438(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000223);
+        /// Assert.AreEqual(expected, a, 0.000232);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5A51436(int x) => SinP5A51436(Overflowing.WrappingAdd(x, SinInternal.Right));
+        public static int CosP5A51438(int x) => SinP5A51438(Overflowing.WrappingAdd(x, SinInternal.Right));
 
         public enum SinMethod : byte {
             P2,
             P3A16384,
             P4A7369,
-            P5A51436,
-            Default = P5A51436,
+            P5A51438,
+            Default = P5A51438,
         }
 
         /// <summary>
@@ -837,12 +837,12 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.P5A51436;
+        /// var method = Intar.Mathi.SinMethod.P5A51438;
         /// var actual = Intar.Mathi.Sin(x, method);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000223);
+        /// Assert.AreEqual(expected, a, 0.000232);
         /// </code>
         /// </example>
         /// </summary>
@@ -855,7 +855,7 @@ namespace AgatePris.Intar {
                 case SinMethod.P3A16384: return SinP3A16384(x);
                 case SinMethod.P4A7369: return SinP4A7369(x);
                 default:
-                case SinMethod.P5A51436: return SinP5A51436(x);
+                case SinMethod.P5A51438: return SinP5A51438(x);
             }
         }
 
@@ -865,12 +865,12 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.P5A51436;
+        /// var method = Intar.Mathi.SinMethod.P5A51438;
         /// var actual = Intar.Mathi.Cos(x, method);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000223);
+        /// Assert.AreEqual(expected, a, 0.000232);
         /// </code>
         /// </example>
         /// </summary>
@@ -883,7 +883,7 @@ namespace AgatePris.Intar {
                 case SinMethod.P3A16384: return CosP3A16384(x);
                 case SinMethod.P4A7369: return CosP4A7369(x);
                 default:
-                case SinMethod.P5A51436: return CosP5A51436(x);
+                case SinMethod.P5A51438: return CosP5A51438(x);
             }
         }
 
