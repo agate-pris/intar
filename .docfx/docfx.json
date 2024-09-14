@@ -43,6 +43,11 @@
       "_appTitle": "Intar",
       "_enableSearch": true,
       "pdf": false
+    },
+    "markdownEngineProperties": {
+      "markdigExtensions": [
+        "Footnotes"
+      ]
     }
   }
 }
