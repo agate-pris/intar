@@ -428,11 +428,6 @@ namespace AgatePris.Intar.Numerics {
             Y.SinP4A7373());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 SinP4A7385() => new Vector2I2F30(
-            X.SinP4A7385(),
-            Y.SinP4A7385());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I2F30 SinP5A51436() => new Vector2I2F30(
             X.SinP5A51436(),
             Y.SinP5A51436());
@@ -451,11 +446,6 @@ namespace AgatePris.Intar.Numerics {
         public Vector2I2F30 CosP4A7373() => new Vector2I2F30(
             X.CosP4A7373(),
             Y.CosP4A7373());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 CosP4A7385() => new Vector2I2F30(
-            X.CosP4A7385(),
-            Y.CosP4A7385());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I2F30 CosP5A51436() => new Vector2I2F30(
