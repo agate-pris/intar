@@ -342,7 +342,7 @@ $$
 \frac{x^9}{9} - ...
 $$
 
-スクリプト : [atan.wmx](../gists/atan.wmx)
+スクリプト : [atan.wxm](../gists/atan.wxm)
 
 wip
 
