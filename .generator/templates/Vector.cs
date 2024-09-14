@@ -679,11 +679,11 @@ namespace AgatePris.Intar.Numerics {
         {%- for name in [
             "SinP2",
             "SinP3A16384",
-            "SinP4A7373",
+            "SinP4A7369",
             "SinP5A51436",
             "CosP2",
             "CosP3A16384",
-            "CosP4A7373",
+            "CosP4A7369",
             "CosP5A51436",
         ] %}
 
