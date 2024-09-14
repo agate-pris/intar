@@ -342,6 +342,30 @@ $$
 \frac{x^9}{9} - ...
 $$
 
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan\ x = a_1 x + a_3 x^5 + a_7 x^7 + a_9 x^9 + \epsilon (x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 10^{-5}
+> $$
+>
+> $$
+> \begin{align*}
+> a_1 =  &.99986\ 60 &
+> a_3 = -&.33029\ 95 \\
+> a_5 =  &.18014\ 10 &
+> a_7 = -&.08513\ 30 \\
+> a_9 =  &.02083\ 51
+> \end{align*}
+> $$
+>
+> <cite id="abramowitz-and-stegun-b">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
+
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
 wip
@@ -399,7 +423,7 @@ wip
 
 ## Reference
 
-1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
+1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> <sup>[b](#abramowitz-and-stegun-b)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
 - Another fast fixed-point sine approximation | Coranac
   - http://www.coranac.com/2009/07/sines/
