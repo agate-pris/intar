@@ -392,6 +392,38 @@ $$
 >
 > <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
 
+> Using an extensive computer search,
+> the optimum $\alpha \approx 0.273$
+> and the following approximation for the $arctan(x)$
+> with a maximum absolute error
+> of $0.0038$ rad ($0.22 \textdegree$) are obtained:
+>
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan(x) \approx
+> \frac{\pi}{4} \ x + 0.273x (1 - |x|) \tag{7}
+> $$
+>
+> <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
+
+> ... Using the minimax criteria,
+> the following polynomial with a maximum absolute error
+> of $0.0015$ rad ($0.086 \textdegree$) is identified as the optimal approximation to $arctan(x)$
+>
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan(x) \approx
+> \frac{\pi}{4} \ x - x (|x| - 1) \times (0.2447 + 0.0663 |x|) \tag{9}
+> $$
+>
+> <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
+
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
 wip
@@ -454,3 +486,8 @@ wip
   - http://web.archive.org/web/20240629132053/http://www.coranac.com/2009/07/sines/
 
 [^abramowitz-and-stegun]: Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
+
+[^efficient-atan-approx-func]: Efficient approximations for the arctangent function, Rajan, S. Sichun Wang Inkol, R. Joyal, A., May 2006
+
+    - https://ieeexplore.ieee.org/document/1628884/
+    - https://www-labs.iro.umontreal.ca/~mignotte/IFT2425/Documents/EfficientApproximationArctgFunction.pdf
