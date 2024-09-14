@@ -447,7 +447,7 @@ $$
 
 wip
 
-## Reference
+## 参考文献
 
 1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> <sup>[b](#abramowitz-and-stegun-b)</sup> <sup>[c](#abramowitz-and-stegun-c)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
