@@ -680,12 +680,10 @@ namespace AgatePris.Intar.Numerics {
             "SinP2",
             "SinP3A16384",
             "SinP4A7373",
-            "SinP4A7385",
             "SinP5A51436",
             "CosP2",
             "CosP3A16384",
             "CosP4A7373",
-            "CosP4A7385",
             "CosP5A51436",
         ] %}
 
