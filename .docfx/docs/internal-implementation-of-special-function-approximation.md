@@ -78,19 +78,19 @@ sin_{3}'\ x &= a_{3\ 1}   -3a_{3\ 3}\ x^2
 $$
 
 $$
-\begin{align*}
-sin_{3} \frac{\pi}{2} &= 1 &
-sin_{3}'\frac{\pi}{2} &= 0
-\end{align*}
+\begin{gather*}
+sin_{3} \frac{\pi}{2} = 1 &
+sin_{3}'\frac{\pi}{2} = 0
+\end{gather*}
 $$
 
 $sin_{3}\ x$ が $x=\frac{\pi}{2}$ 付近で滑らかに変化してほしいので $sin_{3}'\frac{\pi}{2}=0$ とする｡
 
 $$
-\begin{align*}
-a_{3\ 1} &= \frac{3}{\pi  } &
-a_{3\ 3} &= \frac{4}{\pi^3}
-\end{align*}
+\begin{gather*}
+a_{3\ 1} = \frac{3}{\pi  } &
+a_{3\ 3} = \frac{4}{\pi^3}
+\end{gather*}
 $$
 
 | $a_{3\ 1}$ | $a_{3\ 3}$
@@ -99,7 +99,7 @@ $$
 
 ![sin_p3.svg](../images/sin_p3.svg)
 
-| RMSD | 誤差の絶対値の最大値
+| 誤差の符号なし面積 | 誤差の絶対値の最大値
 | :--- | :-------------------
 | 0.016814472209363194 | 0.02001701341731299
 
