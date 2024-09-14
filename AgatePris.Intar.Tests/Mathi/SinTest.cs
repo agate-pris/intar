@@ -30,9 +30,8 @@ namespace AgatePris.Intar.Tests.Mathi {
         public static readonly SinCase[] SinCases = {
             new SinCase(Intar.Mathi.SinP2, Intar.Mathi.CosP2, "sin_p2.json", 0.056010),
             new SinCase(Intar.Mathi.SinP3A16384, Intar.Mathi.CosP3A16384, "sin_p3.json", 0.020017),
-            new SinCase(Intar.Mathi.SinP4A7373, Intar.Mathi.CosP4A7373, "sin_p4_7373.json", 0.001114),
-            new SinCase(Intar.Mathi.SinP4A7385, Intar.Mathi.CosP4A7385, "sin_p4_7385.json", 0.001180),
-            new SinCase(Intar.Mathi.SinP5A51436, Intar.Mathi.CosP5A51436, "sin_p5_51436.json", 0.000223),
+            new SinCase(Intar.Mathi.SinP4A7369, Intar.Mathi.CosP4A7369, "sin_p4_7369.json", 0.001091),
+            new SinCase(Intar.Mathi.SinP5A51438, Intar.Mathi.CosP5A51438, "sin_p5_51438.json", 0.000232),
         };
 
         static double ToRad(int x) {

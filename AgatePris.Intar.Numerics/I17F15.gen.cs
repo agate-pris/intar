@@ -476,15 +476,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP4A7373() => I2F30.FromBits(Mathi.SinP4A7373(Bits));
-
-        /// <summary>
-        /// 4 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP4A7385() => I2F30.FromBits(Mathi.SinP4A7385(Bits));
+        public I2F30 SinP4A7369() => I2F30.FromBits(Mathi.SinP4A7369(Bits));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -492,7 +484,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP5A51436() => I2F30.FromBits(Mathi.SinP5A51436(Bits));
+        public I2F30 SinP5A51438() => I2F30.FromBits(Mathi.SinP5A51438(Bits));
 
         /// <summary>
         /// 2 次の多項式で余弦比を近似する。
@@ -516,15 +508,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP4A7373() => I2F30.FromBits(Mathi.CosP4A7373(Bits));
-
-        /// <summary>
-        /// 4 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP4A7385() => I2F30.FromBits(Mathi.CosP4A7385(Bits));
+        public I2F30 CosP4A7369() => I2F30.FromBits(Mathi.CosP4A7369(Bits));
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -532,7 +516,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP5A51436() => I2F30.FromBits(Mathi.CosP5A51436(Bits));
+        public I2F30 CosP5A51438() => I2F30.FromBits(Mathi.CosP5A51438(Bits));
 
         // ベクトル型との演算
         // ------------------

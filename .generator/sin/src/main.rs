@@ -1,88 +1,106 @@
-use utility::{to_rad, Statistics, RIGHT, RIGHT_AS_F64, RIGHT_EXP};
+use anyhow::Result;
+use utility::{consts::*, find_root_ab, Measures};
 
-macro_rules! sin_p4 {
-    ($k: expr, $name: ident) => {
-        fn $name(x: i32) -> i32 {
-            const A: i32 = $k + RIGHT;
-            const B: i32 = $k;
-            let z = x * x >> RIGHT_EXP;
-            let y = A - (z * B >> RIGHT_EXP);
-            y * z
-        }
-    };
+const EXP: i32 = 15;
+
+fn sin_p4(x: i32, k: i32) -> i32 {
+    let a = k + TWO_POW_15;
+    let b = k;
+    let z = (x * x) >> EXP;
+    let y = a - ((z * b) >> EXP);
+    y * z
 }
 
-macro_rules! sin_p4f {
-    ($k: expr, $name: ident) => {
-        fn $name(x: f64) -> f64 {
-            const A: f64 = $k + RIGHT_AS_F64;
-            const B: f64 = $k;
-            let z = x * x / RIGHT_AS_F64;
-            let y = A - z * B / RIGHT_AS_F64;
-            y * z
-        }
-    };
+fn sin_p5(x: i32, k: i32) -> i32 {
+    let a = k;
+    let b = k * 2 - TWO_POW_15 * 5 / 2;
+    let c = k - TWO_POW_15 * 3 / 2;
+    let z = (x * x) >> EXP;
+    let y = b - ((z * c) >> EXP);
+    let y = a - ((z * y) >> EXP);
+    y * x
 }
 
-sin_p4!(7372, sin_p4_7372);
-sin_p4!(7373, sin_p4_7373);
-sin_p4!(7384, sin_p4_7384);
-sin_p4!(7385, sin_p4_7385);
-sin_p4f!(7372.8, sin_p4f_7372);
-sin_p4f!(7384.324742943203, sin_p4f_7384);
-
-macro_rules! sin_p5 {
-    ($k: expr, $name: ident) => {
-        fn $name(x: i32) -> i32 {
-            const EXP: i32 = 15;
-            const A: i32 = $k;
-            const B: i32 = $k * 2 - RIGHT * 5 / 2;
-            const C: i32 = $k - RIGHT * 3 / 2;
-            let z = x * x >> EXP;
-            let y = B - (C * z >> EXP);
-            let y = A - (y * z >> EXP);
-            y * x
-        }
-    };
+fn to_rad(x: i32) -> f64 {
+    x as f64 * (std::f64::consts::FRAC_PI_2 / TWO_POW_15_AS_F64)
 }
 
-macro_rules! sin_p5f {
-    ($k: expr, $name: ident) => {
-        fn $name(x: f64) -> f64 {
-            const ONE: f64 = RIGHT_AS_F64;
-            const A: f64 = $k;
-            const B: f64 = $k * 2.0 - ONE * 2.5;
-            const C: f64 = $k - ONE * 1.5;
-            let z = x * x / ONE;
-            let y = B - C * z / ONE;
-            let y = A - y * z / ONE;
-            y * x
-        }
-    };
+fn make_sin_expected() -> Vec<f64> {
+    (0..=TWO_POW_15).map(|x| to_rad(x).sin()).collect()
 }
 
-sin_p5!(51436, sin_p5_51436);
-sin_p5!(51437, sin_p5_51437);
-sin_p5f!(51436.54020564544, sin_p5f_51436);
+fn make_cos_expected() -> Vec<f64> {
+    (0..=TWO_POW_15).map(|x| 1.0 - to_rad(x).cos()).collect()
+}
 
-fn main() {
-    let mut statistics: [Statistics; 3] = Default::default();
-    for x in 0..=RIGHT {
-        let rad = to_rad(x);
-        let sin_expected = rad.sin();
-        let cos_expected = 1.0 - rad.cos();
-        let s = [
-            Statistics::new(sin_p4_7372, sin_p4_7373, sin_p4f_7372, x, cos_expected),
-            Statistics::new(sin_p4_7384, sin_p4_7385, sin_p4f_7384, x, cos_expected),
-            Statistics::new(sin_p5_51436, sin_p5_51437, sin_p5f_51436, x, sin_expected),
+fn to_f64(x: i32) -> f64 {
+    x as f64 / TWO_POW_30_AS_F64
+}
+
+fn eval<F, K>(expected: &[f64], f: F, k: K) -> utility::Result<Measures>
+where
+    F: Fn(i32, K) -> i32,
+    K: Copy,
+{
+    Measures::try_from(
+        expected
+            .iter()
+            .enumerate()
+            .map(|(i, expected)| to_f64(f(i as i32, k)) - expected),
+    )
+}
+
+fn main() -> Result<()> {
+    env_logger::init();
+    let expected = [make_cos_expected(), make_sin_expected()];
+    let f = (
+        |k| eval(&expected[0], sin_p4, k),
+        |k| eval(&expected[1], sin_p5, k),
+    );
+    let a = ((6884, 7884), (50936, 51936));
+    let cmp = (
+        Measures::rmse_total_cmp,
+        Measures::mae_total_cmp,
+        Measures::max_error_abs_total_cmp,
+    );
+
+    let results = (
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.0),
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.1),
+        || find_root_ab(f.0, a.0 .0, a.0 .1, cmp.2),
+        || find_root_ab(f.1, a.1 .0, a.1 .1, cmp.0),
+        || find_root_ab(f.1, a.1 .0, a.1 .1, cmp.1),
+        || find_root_ab(f.1, a.1 .0, a.1 .1, cmp.2),
+    );
+    let names = ["rmse", "mae", "max error"];
+
+    fn print(name: &str, result: (i32, Measures), i: usize) -> Result<()> {
+        let expected = [7369, 7394, 7341, 51438, 51441, 51432];
+        let acceptables = [
+            [0.000603, 0.000516, 0.0000735, 0.00110],
+            [0.000615, 0.000511, 0.0000283, 0.00123],
+            [0.000618, 0.000536, 0.0001874, 0.00095],
+            [0.000131, 0.000115, 0.0000156, 0.00024],
+            [0.000132, 0.000114, 0.0000308, 0.00025],
+            [0.000135, 0.000120, 0.0000151, 0.00021],
         ];
-        for (a, b) in statistics.iter_mut().zip(s.iter()) {
-            *a = a.fold(b);
-        }
+        println!("{:>9}: {:?}", name, result);
+        anyhow::ensure!(result.0 == expected[i]);
+        anyhow::ensure!(result.1.rmse < acceptables[i][0]);
+        anyhow::ensure!(result.1.mae < acceptables[i][1]);
+        anyhow::ensure!(result.1.me.abs() < acceptables[i][2]);
+        anyhow::ensure!(result.1.max_error.abs() < acceptables[i][3]);
+        Ok(())
     }
-    for s in statistics {
-        println!("s: {:#?}", s);
-        println!("flor_rmse: {}", s.flor_rmse());
-        println!("ceil_rmse: {}", s.ceil_rmse());
-    }
+
+    println!("sin p4");
+    print(names[0], results.0()?, 0)?;
+    print(names[1], results.1()?, 1)?;
+    print(names[2], results.2()?, 2)?;
+    println!("sin p5");
+    print(names[0], results.3()?, 3)?;
+    print(names[1], results.4()?, 4)?;
+    print(names[2], results.5()?, 5)?;
+
+    Ok(())
 }
