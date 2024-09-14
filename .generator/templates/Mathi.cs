@@ -442,13 +442,13 @@ namespace AgatePris.Intar {
                 return z * z;
             }
 
-            {{- self::cos_p4_detail(k=7373) }}
+            {{- self::cos_p4_detail(k=7369) }}
         }
 
         {%- set sin_params = [
             'P2',       2, 0.056010,
             'P3A16384', 3, 0.020017,
-            'P4A7373',  4, 0.001114,
+            'P4A7369',  4, 0.001091,
             'P5A51436', 5, 0.000223
         ] %}
 
