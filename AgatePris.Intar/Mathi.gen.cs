@@ -797,12 +797,15 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP5A51438(int x) {
-            const int k = 51438;
-            const int a = (k * 2) - (SinInternal.Right * 5 / 2);
-            const int b = k - (SinInternal.Right * 3 / 2);
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (k - (((a - ((z_2 * b) >> SinInternal.RightExp)) * z_2) >> SinInternal.RightExp)) * z;
+            const int a = 51438;
+            const int b = (a * 2) - (SinInternal.Right * 5 / 2);
+            const int c = a - (SinInternal.Right * 3 / 2);
+            x = SinInternal.MakeArgOdd(x);
+            var z = (x * x) >> SinInternal.RightExp;
+            int y;
+            y = b - ((z * c) >> SinInternal.RightExp);
+            y = a - ((y * z) >> SinInternal.RightExp);
+            return y * x;
         }
 
         /// <summary>

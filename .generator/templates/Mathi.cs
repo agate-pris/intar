@@ -89,12 +89,15 @@
         {{- self::sin_cos_comment(sin=true, a='P5A'~k, d=d, error=error) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP5A{{ k }}(int x) {
-            const int k = {{ k }};
-            const int a = (k * 2) - (SinInternal.Right * 5 / 2);
-            const int b = k - (SinInternal.Right * 3 / 2);
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (k - (((a - ((z_2 * b) >> SinInternal.RightExp)) * z_2) >> SinInternal.RightExp)) * z;
+            const int a = {{ k }};
+            const int b = (a * 2) - (SinInternal.Right * 5 / 2);
+            const int c = a - (SinInternal.Right * 3 / 2);
+            x = SinInternal.MakeArgOdd(x);
+            var z = (x * x) >> SinInternal.RightExp;
+            int y;
+            y = b - ((z * c) >> SinInternal.RightExp);
+            y = a - ((y * z) >> SinInternal.RightExp);
+            return y * x;
         }
 {%- endmacro -%}
 
