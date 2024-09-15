@@ -242,22 +242,22 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P5A787B2968(int x) {
-                const int a = 787;
-                const int b = 2968;
-                const int c = (1 << 13) + b - a;
-                var x2 = (x * x) >> 15;
-                var tmp = (a * x2) >> 15;
-                tmp = (b - tmp) * x2;
-                tmp = c - (tmp >> 15);
-                return tmp * x;
+            internal static int P5A2996B809(int x) {
+                const int b = 809;
+                const int a = 2996;
+                const int k = (1 << 13) + a - b;
+                var z = (x * x) >> 15;
+                int y;
+                y = a - ((b * z) >> 15);
+                y = k - ((y * z) >> 15);
+                return y * x;
             }
         }
 
 {%- set atan_params = [
     'P2A2909',     2, 0.004507, 0.004507,
     'P3A2577B664', 3, 0.001730, 0.001730,
-    'P5A787B2968', 5, 0.000767, 0.000767
+    'P5A2996B809', 5, 0.000914, 0.000919
 ] %}
 {%- for i in range(end=atan_params | length / 4) %}
 {%- set method = atan_params | nth(n=loop.index0 * 4    ) %}
