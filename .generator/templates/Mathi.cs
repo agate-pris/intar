@@ -231,9 +231,9 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P3A2555B691(int x) {
-                const int a = 2555;
-                const int b = 691;
+            internal static int P3A2577B664(int x) {
+                const int a = 2577;
+                const int b = 664;
                 var xAbs = Math.Abs(x);
                 var tmp = (xAbs * b) >> 15;
                 tmp = (One - xAbs) * (a + tmp);
@@ -256,7 +256,7 @@ namespace AgatePris.Intar {
 
 {%- set atan_params = [
     'P2A2909',     2, 0.004507,
-    'P3A2555B691', 3, 0.001543,
+    'P3A2577B664', 3, 0.001730,
     'P5A787B2968', 5, 0.000767
 ] %}
 {%- for i in range(end=atan_params | length / 3) %}
