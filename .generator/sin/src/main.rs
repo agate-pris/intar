@@ -57,7 +57,7 @@ fn main() -> Result<()> {
         |k| eval(&expected[0], sin_p4, k),
         |k| eval(&expected[1], sin_p5, k),
     );
-    let a = ((6884, 7884), (50936, 51936));
+    let a = ((7300, 7400), (51400, 51500));
     let cmp = (
         Measures::rmse_total_cmp,
         Measures::mae_total_cmp,
