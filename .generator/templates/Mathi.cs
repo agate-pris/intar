@@ -227,11 +227,12 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int P2A2909(int x) {
+                const int k = FracK4;
                 const int a = 2909;
-                var xAbs = Math.Abs(x);
-                var tmp = (One - xAbs) * a;
-                tmp = FracK4 + (tmp >> 15);
-                return x * tmp;
+                var w = Math.Abs(x);
+                var z = One - w;
+                var y = k + ((z * a) >> 15);
+                return x * y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
