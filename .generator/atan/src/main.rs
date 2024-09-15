@@ -6,26 +6,30 @@ use utility::{consts::*, find_root_ab, find_root_d2, Measures};
 const EXP: i32 = 15;
 
 fn atan_p2(x: i32, k: i32) -> i32 {
+    const A: i32 = TWO_POW_15 >> 2;
     let y = TWO_POW_15 - x;
-    let y = (1 << (EXP - 2)) + ((y * k) >> EXP);
-    y * x
+    let y = A + ((k * y) >> EXP);
+    x * y
 }
 
 fn atan_p3(x: i32, k: &(i32, i32)) -> i32 {
-    let y = (x * k.1) >> 15;
-    let y = (TWO_POW_15 - x) * (k.0 + y);
-    let y = (TWO_POW_15 >> 2) + (y >> 15);
+    const A: i32 = TWO_POW_15 >> 2;
+    let c = k.0;
+    let b = k.1;
+    let z = TWO_POW_15 - x;
+    let y = b + ((c * x) >> EXP);
+    let y = A + ((z * y) >> EXP);
     x * y
 }
 
 fn atan_p5(x: i32, k: &(i32, i32)) -> i32 {
-    let a = k.0;
+    let c = k.0;
     let b = k.1;
-    let c = (1 << (EXP - 2)) + k.1 - k.0;
+    let a = (TWO_POW_15 >> 2) + k.1 - k.0;
     let z = (x * x) >> EXP;
-    let y = b - ((a * z) >> EXP);
-    let y = c - ((y * z) >> EXP);
-    y * x
+    let y = b - ((c * z) >> EXP);
+    let y = a - ((y * z) >> EXP);
+    x * y
 }
 
 fn to_rad(x: i32) -> f64 {
@@ -57,7 +61,7 @@ fn main() -> Result<()> {
     );
     let a = (
         (2800, 3000),
-        (2500..=2700, 300, 900),
+        (600..=700, 2500, 2700),
         (700..=900, 2800, 3200),
     );
     let cmp = (
@@ -109,9 +113,9 @@ fn main() -> Result<()> {
     print(names[1], results.1()?, &2961, 1)?;
     print(names[2], results.2()?, &2850, 2)?;
     println!("atan p3");
-    print(names[0], results.3()?, &(2577, 664), 3)?;
-    print(names[1], results.4()?, &(2601, 631), 4)?;
-    print(names[2], results.5()?, &(2555, 691), 5)?;
+    print(names[0], results.3()?, &(664, 2577), 3)?;
+    print(names[1], results.4()?, &(631, 2601), 4)?;
+    print(names[2], results.5()?, &(691, 2555), 5)?;
     println!("atan p5");
     print(names[0], results.6()?, &(809, 2996), 6)?;
     print(names[1], results.7()?, &(823, 3014), 7)?;
