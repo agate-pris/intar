@@ -62,5 +62,36 @@ namespace AgatePris.Intar.Tests {
         internal static void WriteInts(string path, Func<int, int> a, int last) {
             WriteInts(path, a, 0, last);
         }
+
+        public class ErrorAccumulation {
+            int count;
+            double sqrSum;
+            double absSum;
+            double sum;
+            double maxError;
+
+            public void Add(double error) {
+                ++count;
+                sqrSum += error * error;
+                absSum += Math.Abs(error);
+                sum += error;
+                maxError = Math.Max(maxError, error);
+            }
+            public void Concat(ErrorAccumulation acc) {
+                count += acc.count;
+                sqrSum += acc.sqrSum;
+                absSum += acc.absSum;
+                sum += acc.sum;
+                maxError = Math.Max(maxError, acc.maxError);
+            }
+            public void Print() {
+                Console.WriteLine(
+                    $"count: {count}, " +
+                    $"RMSE: {Math.Sqrt(sqrSum / count)}, " +
+                    $"MAE: {absSum / count}, " +
+                    $"Max Error: {maxError}"
+                );
+            }
+        }
     }
 }

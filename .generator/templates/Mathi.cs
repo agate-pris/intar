@@ -77,9 +77,10 @@
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int CosP4A{{ k }}(int z) {
                 const int a = {{ k }};
-                const int b = a + Right;
-                var z_2 = (z * z) >> RightExp;
-                return (b - ((z_2 * a) >> RightExp)) * z_2;
+                const int k = a + Right;
+                z = (z * z) >> RightExp;
+                var y = k - ((z * a) >> RightExp);
+                return y * z;
             }
 {%- endmacro -%}
 
@@ -88,12 +89,15 @@
         {{- self::sin_cos_comment(sin=true, a='P5A'~k, d=d, error=error) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP5A{{ k }}(int x) {
-            const int k = {{ k }};
-            const int a = (k * 2) - (SinInternal.Right * 5 / 2);
-            const int b = k - (SinInternal.Right * 3 / 2);
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (k - (((a - ((z_2 * b) >> SinInternal.RightExp)) * z_2) >> SinInternal.RightExp)) * z;
+            const int a = {{ k }};
+            const int b = (a * 2) - (SinInternal.Right * 5 / 2);
+            const int c = a - (SinInternal.Right * 3 / 2);
+            x = SinInternal.MakeArgOdd(x);
+            var z = (x * x) >> SinInternal.RightExp;
+            int y;
+            y = b - ((z * c) >> SinInternal.RightExp);
+            y = a - ((y * z) >> SinInternal.RightExp);
+            return y * x;
         }
 {%- endmacro -%}
 
@@ -222,47 +226,51 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P2A2850(int x) {
-                const int a = 2850;
-                var xAbs = Math.Abs(x);
-                var tmp = (One - xAbs) * a;
-                tmp = FracK4 + (tmp >> 15);
-                return x * tmp;
+            internal static int P2A2909(int x) {
+                const int k = FracK4;
+                const int a = 2909;
+                var w = Math.Abs(x);
+                var z = One - w;
+                var y = k + ((z * a) >> 15);
+                return x * y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P3A2555B691(int x) {
-                const int a = 2555;
-                const int b = 691;
-                var xAbs = Math.Abs(x);
-                var tmp = (xAbs * b) >> 15;
-                tmp = (One - xAbs) * (a + tmp);
-                tmp = FracK4 + (tmp >> 15);
-                return x * tmp;
+            internal static int P3A2577B664(int x) {
+                const int k = FracK4;
+                const int a = 2577;
+                const int b = 664;
+                var w = Math.Abs(x);
+                var z = One - w;
+                int y;
+                y = a + ((w * b) >> 15);
+                y = k + ((z * y) >> 15);
+                return x * y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P5A787B2968(int x) {
-                const int a = 787;
-                const int b = 2968;
-                const int c = (1 << 13) + b - a;
-                var x2 = (x * x) >> 15;
-                var tmp = (a * x2) >> 15;
-                tmp = (b - tmp) * x2;
-                tmp = c - (tmp >> 15);
-                return tmp * x;
+            internal static int P5A2996B809(int x) {
+                const int b = 809;
+                const int a = 2996;
+                const int k = (1 << 13) + a - b;
+                var z = (x * x) >> 15;
+                int y;
+                y = a - ((b * z) >> 15);
+                y = k - ((y * z) >> 15);
+                return y * x;
             }
         }
 
 {%- set atan_params = [
-    'P2A2850',     2, 0.003778,
-    'P3A2555B691', 3, 0.001543,
-    'P5A787B2968', 5, 0.000767
+    'P2A2909',     2, 0.004507, 0.004507,
+    'P3A2577B664', 3, 0.001730, 0.001730,
+    'P5A2996B809', 5, 0.000914, 0.000919
 ] %}
-{%- for i in range(end=atan_params | length / 3) %}
-{%- set method = atan_params | nth(n=loop.index0 * 3    ) %}
-{%- set d      = atan_params | nth(n=loop.index0 * 3 + 1) %}
-{%- set error  = atan_params | nth(n=loop.index0 * 3 + 2) %}
+{%- for i in range(end=atan_params | length / 4) %}
+{%- set method = atan_params | nth(n=loop.index0 * 4    ) %}
+{%- set d      = atan_params | nth(n=loop.index0 * 4 + 1) %}
+{%- set error  = atan_params | nth(n=loop.index0 * 4 + 2) %}
+{%- set error2 = atan_params | nth(n=loop.index0 * 4 + 3) %}
 
         /// <summary>
         /// {{ d }} 次の多項式で逆正接を近似する。
@@ -299,7 +307,7 @@ namespace AgatePris.Intar {
         /// var actual = Intar.Mathi.Atan2{{ method }}(y, x);
         /// var expected = System.Math.Atan2(2, 3);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ error }});
+        /// Assert.AreEqual(expected, a, {{ error2 }});
         /// </code>
         /// </example>
         /// </summary>
@@ -340,10 +348,10 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         public enum AtanMethod : byte {
-            {%- for i in range(end=atan_params |length / 3) %}
-            {{ atan_params | nth(n=3 * i) }},
+            {%- for i in range(end=atan_params | length / 4) %}
+            {{ atan_params | nth(n=4 * i) }},
             {%- endfor %}
-            Default = {{ atan_params | nth(n=atan_params | length - 3) }},
+            Default = {{ atan_params | nth(n=atan_params | length - 4) }},
         }
 
         /// <summary>
@@ -352,11 +360,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[3] }};
+        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
         /// var actual = Intar.Mathi.Atan(x, method);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[5] }});
+        /// Assert.AreEqual(expected, a, {{ atan_params[6] }});
         /// </code>
         /// </example>
         /// </summary>
@@ -366,10 +374,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan(int x, AtanMethod method = AtanMethod.Default) {
             switch (method) {
-                {%- for i in range(end=atan_params | length / 3) %}
+                {%- for i in range(end=atan_params | length / 4) %}
                 {%- if loop.last %}
                 default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=3 * i) }}: return Atan{{ atan_params | nth(n=3 * i) }}(x);
+                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan{{ atan_params | nth(n=4 * i) }}(x);
                 {%- endfor %}
             }
         }
@@ -380,11 +388,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[3] }};
+        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
         /// var actual = Intar.Mathi.Atan2(y, x, method);
         /// var expected = System.Math.Atan2(y, x);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[5] }});
+        /// Assert.AreEqual(expected, a, {{ atan_params[7] }});
         /// </code>
         /// </example>
         /// </summary>
@@ -394,10 +402,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan2(int y, int x, AtanMethod method = AtanMethod.Default) {
             switch (method) {
-                {%- for i in range(end=atan_params | length / 3) %}
+                {%- for i in range(end=atan_params | length / 4) %}
                 {%- if loop.last %}
                 default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=3 * i) }}: return Atan2{{ atan_params | nth(n=3 * i) }}(y, x);
+                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan2{{ atan_params | nth(n=4 * i) }}(y, x);
                 {%- endfor %}
             }
         }

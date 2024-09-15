@@ -1,5 +1,6 @@
 use std::{cmp::Ordering, ops::RangeInclusive};
 
+use itertools::Itertools;
 use log::{debug, error, info};
 use thiserror::Error;
 
@@ -90,7 +91,7 @@ impl Measures {
     }
 }
 
-pub fn find_root_ab<Eval, C>(eval: Eval, a: i32, b: i32, cmp: C) -> Result<(i32, Measures)>
+pub fn find_root_ab<Eval, C>(eval: Eval, a: i32, b: i32, cmp: C) -> Result<Vec<(i32, Measures)>>
 where
     Eval: Fn(i32) -> Result<Measures>,
     C: Fn(&Measures, &Measures) -> Ordering,
@@ -150,19 +151,21 @@ where
         let ord = cmp(&p, &q);
         match ord {
             Ordering::Equal => {
-                error!("a: {a}, b: {b}");
-                return Err(MeasuresError::ComparisonEquals("p != q", p, q).into());
+                let evaluated = (a..=d)
+                    .map(|x| eval(x).map(|val| (x, val)))
+                    .collect::<Result<Vec<_>>>()?;
+                return Ok(evaluated.into_iter().min_set_by(|a, b| cmp(&a.1, &b.1)));
             }
             Ordering::Less => {
                 if a == b {
-                    return Ok((a, p));
+                    return Ok(vec![(a, p)]);
                 }
                 d = b;
                 (b, c) = make_bc(a, d);
             }
             Ordering::Greater => {
                 if c == d {
-                    return Ok((d, q));
+                    return Ok(vec![(d, q)]);
                 }
                 a = c;
                 (b, c) = make_bc(a, d);
@@ -179,7 +182,7 @@ pub fn find_root_d2<Eval, C>(
     b_min: i32,
     b_max: i32,
     cmp: C,
-) -> Result<((i32, i32), Measures)>
+) -> Result<Vec<((i32, i32), Measures)>>
 where
     Eval: Fn(&(i32, i32)) -> Result<Measures>,
     C: Copy + Fn(&Measures, &Measures) -> Ordering,
@@ -188,8 +191,8 @@ where
         .clone()
         .map(|a| {
             let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp)?;
-            debug!("a: {}, b: {}, measures: {:#?}", a, root.0, root.1);
-            Ok(((a, root.0), root.1))
+            debug!("a: {}, root: {:#?}", a, root);
+            Ok((a, root))
         })
         .collect::<Result<Vec<_>>>()?;
     if let Some(first) = opt_b_for_each_a.first() {
@@ -198,6 +201,8 @@ where
     if let Some(last) = opt_b_for_each_a.last() {
         info!("last: {:?}", last);
     }
-    let answer = opt_b_for_each_a.iter().min_by(|a, b| cmp(&a.1, &b.1));
-    answer.cloned().ok_or(Error::EmptyOption("answer"))
+    Ok(opt_b_for_each_a
+        .into_iter()
+        .flat_map(|(a, b)| b.into_iter().map(move |(b, measures)| ((a, b), measures)))
+        .min_set_by(|a, b| cmp(&a.1, &b.1)))
 }

@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -96,9 +97,23 @@ namespace AgatePris.Intar.Tests.Mathi {
                 DataPath = dataPath;
                 AcceptableErrorAtan = acceptableErrorAtan;
                 AcceptableErrorAtan2 = acceptableErrorAtan2;
+                Write();
             }
             public override string ToString() {
                 return DataPath;
+            }
+            public void Write() {
+                var path = Utility.MakeUpPath(DataPath);
+                if (System.IO.File.Exists(path)) {
+                    return;
+                }
+                var data = new List<int>();
+                var atan = Atan;
+                Utility.WriteInts(path, x => {
+                    var v = atan(x);
+                    data.Add(v);
+                    return v;
+                }, One);
             }
         }
 
@@ -107,7 +122,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             List<int> data,
             double acceptableError
         ) {
-            void test(int x, int expected) {
+            void test(int x, int expected, Utility.ErrorAccumulation acc) {
                 var actual = atan(x);
                 if (actual != expected) {
                     Assert.Fail(
@@ -119,7 +134,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                 const double scale = Math.PI / Straight;
                 var expectedReal = Math.Atan(x / (double)One);
                 var actualReal = scale * actual;
-                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                var error = actualReal - expectedReal;
+                acc.Add(error);
+                if (Math.Abs(error) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(x)}: {x}, " +
                         $"{nameof(expected)}: {expected}, " +
@@ -132,45 +149,54 @@ namespace AgatePris.Intar.Tests.Mathi {
 
             const long k = 1L << 31;
             const long kNeg = -k;
-            test(0, data[0]);
+            var errorAccumulation = new Utility.ErrorAccumulation();
+            test(0, data[0], errorAccumulation);
             {
                 var expected = data[1];
-                test(1, expected);
-                test(-1, -expected);
+                test(1, expected, errorAccumulation);
+                test(-1, -expected, errorAccumulation);
                 expected -= Right;
-                test((int)(kNeg / 3) - 1, expected);
-                test(int.MinValue, expected);
+                test((int)(kNeg / 3) - 1, expected, errorAccumulation);
+                test(int.MinValue, expected, errorAccumulation);
                 expected = -expected;
-                test((int)(k / 3) + 1, expected);
-                test(int.MaxValue, expected);
+                test((int)(k / 3) + 1, expected, errorAccumulation);
+                test(int.MaxValue, expected, errorAccumulation);
             }
+            var bag = new ConcurrentBag<Utility.ErrorAccumulation>();
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
+                var acc = new Utility.ErrorAccumulation();
                 var begin = 2 + ((One - 1) * n / processorCount);
                 var end = 2 + ((One - 1) * (n + 1) / processorCount);
                 for (var i = begin; i < end; ++i) {
                     var expected = data[i];
-                    test(i, expected);
-                    test(-i, -expected);
+                    test(i, expected, acc);
+                    test(-i, -expected, acc);
                     var i2 = 2 * i;
                     var i2Add = i2 + 1;
                     var i2Sub = i2 - 1;
                     expected -= Right;
-                    test((int)(kNeg / i2Add) - 1, expected);
-                    test((int)(kNeg / i2Sub), expected);
+                    test((int)(kNeg / i2Add) - 1, expected, acc);
+                    test((int)(kNeg / i2Sub), expected, acc);
                     expected = -expected;
-                    test((int)(k / i2Add) + 1, expected);
-                    test((int)(k / i2Sub), expected);
+                    test((int)(k / i2Add) + 1, expected, acc);
+                    test((int)(k / i2Sub), expected, acc);
                 }
+                bag.Add(acc);
             });
+            foreach (var acc in bag) {
+                errorAccumulation.Concat(acc);
+            }
+            Console.WriteLine("\nAtan");
+            errorAccumulation.Print();
         }
 
-        static void Atan2Test(
+        static void TestAtan2(
             Func<int, int, int> atan2,
             List<int> data,
             double acceptableError
         ) {
-            void test(int y, int x, int expected) {
+            void test(int y, int x, int expected, Utility.ErrorAccumulation acc) {
                 var actual = atan2(y, x);
                 if (actual != expected) {
                     Assert.Fail(
@@ -182,7 +208,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
                 var expectedReal = Math.Atan2(y, x);
                 var actualReal = Math.PI * actual / Straight;
-                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                var error = actualReal - expectedReal;
+                acc.Add(error);
+                if (Math.Abs(error) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(y)}: {y}, " +
                         $"{nameof(x)}: {x}, " +
@@ -193,61 +221,66 @@ namespace AgatePris.Intar.Tests.Mathi {
                     );
                 }
             }
-            test(0, 0, 0);
-            test(0, 1, 0);
-            test(1, 1, RightHalf);
-            test(1, 0, Right);
-            test(1, -1, RightHalfOppositeNeg);
-            test(0, -1, Straight);
-            test(-1, 1, RightHalfNeg);
-            test(-1, 0, RightNeg);
-            test(-1, -1, RightHalfOpposite);
-            test(0, int.MaxValue, 0);
-            test(0, int.MinValue, Straight);
-            test(int.MaxValue, 0, Right);
-            test(int.MinValue, 0, RightNeg);
-            test(int.MaxValue, int.MaxValue, RightHalf);
-            test(int.MinValue, int.MinValue, RightHalfOpposite);
-            test(int.MinValue, int.MaxValue, RightHalfNeg);
-            test(int.MaxValue, int.MinValue, RightHalfOppositeNeg);
-            test(0, -int.MaxValue, Straight);
-            test(int.MinValue, -int.MaxValue, RightHalfOpposite);
-            test(int.MaxValue, -int.MaxValue, RightHalfOppositeNeg);
-            test(-int.MaxValue, 0, RightNeg);
-            test(-int.MaxValue, int.MinValue, RightHalfOpposite);
-            test(-int.MaxValue, int.MaxValue, RightHalfNeg);
-            test(-int.MaxValue, -int.MaxValue, RightHalfOpposite);
-            test(1, int.MaxValue, 0);
-            test(1, int.MinValue, Straight);
-            test(1, -int.MaxValue, Straight);
-            test(-1, int.MaxValue, 0);
-            test(-1, int.MinValue, StraightNeg);
-            test(-1, -int.MaxValue, StraightNeg);
-            test(int.MinValue, 1, RightNeg);
-            test(int.MaxValue, 1, Right);
-            test(int.MinValue, -1, RightNeg);
-            test(int.MaxValue, -1, Right);
-            test(-int.MaxValue, 1, RightNeg);
-            test(-int.MaxValue, -1, RightNeg);
+            var errorAccumulation = new Utility.ErrorAccumulation();
+            test(0, 0, 0, errorAccumulation);
+            test(0, 1, 0, errorAccumulation);
+            test(1, 1, RightHalf, errorAccumulation);
+            test(1, 0, Right, errorAccumulation);
+            test(1, -1, RightHalfOppositeNeg, errorAccumulation);
+            test(0, -1, Straight, errorAccumulation);
+            test(-1, 1, RightHalfNeg, errorAccumulation);
+            test(-1, 0, RightNeg, errorAccumulation);
+            test(-1, -1, RightHalfOpposite, errorAccumulation);
+            test(0, int.MaxValue, 0, errorAccumulation);
+            test(0, int.MinValue, Straight, errorAccumulation);
+            test(int.MaxValue, 0, Right, errorAccumulation);
+            test(int.MinValue, 0, RightNeg, errorAccumulation);
+            test(int.MaxValue, int.MaxValue, RightHalf, errorAccumulation);
+            test(int.MinValue, int.MinValue, RightHalfOpposite, errorAccumulation);
+            test(int.MinValue, int.MaxValue, RightHalfNeg, errorAccumulation);
+            test(int.MaxValue, int.MinValue, RightHalfOppositeNeg, errorAccumulation);
+            test(0, -int.MaxValue, Straight, errorAccumulation);
+            test(int.MinValue, -int.MaxValue, RightHalfOpposite, errorAccumulation);
+            test(int.MaxValue, -int.MaxValue, RightHalfOppositeNeg, errorAccumulation);
+            test(-int.MaxValue, 0, RightNeg, errorAccumulation);
+            test(-int.MaxValue, int.MinValue, RightHalfOpposite, errorAccumulation);
+            test(-int.MaxValue, int.MaxValue, RightHalfNeg, errorAccumulation);
+            test(-int.MaxValue, -int.MaxValue, RightHalfOpposite, errorAccumulation);
+            test(1, int.MaxValue, 0, errorAccumulation);
+            test(1, int.MinValue, Straight, errorAccumulation);
+            test(1, -int.MaxValue, Straight, errorAccumulation);
+            test(-1, int.MaxValue, 0, errorAccumulation);
+            test(-1, int.MinValue, StraightNeg, errorAccumulation);
+            test(-1, -int.MaxValue, StraightNeg, errorAccumulation);
+            test(int.MinValue, 1, RightNeg, errorAccumulation);
+            test(int.MaxValue, 1, Right, errorAccumulation);
+            test(int.MinValue, -1, RightNeg, errorAccumulation);
+            test(int.MaxValue, -1, Right, errorAccumulation);
+            test(-int.MaxValue, 1, RightNeg, errorAccumulation);
+            test(-int.MaxValue, -1, RightNeg, errorAccumulation);
 
             // Test each of the 8 regions partitioned by the following 4 lines.
             // * x-axis
             // * y-axis
             // * y = x
             // * y = -x
-            void testDefault(int y, int x, int expected) {
-                test(y, x, expected);
-                test(-y, x, -expected);
-                test(y, -x, Straight - expected);
-                test(-y, -x, expected - Straight);
-                test(x, y, Right - expected);
-                test(-x, y, RightNeg + expected);
-                test(x, -y, Right + expected);
-                test(-x, -y, RightNeg - expected);
+            void testDefault(int y, int x, int expected, Utility.ErrorAccumulation acc) {
+                test(y, x, expected, acc);
+                test(-y, x, -expected, acc);
+                test(y, -x, Straight - expected, acc);
+                test(-y, -x, expected - Straight, acc);
+                test(x, y, Right - expected, acc);
+                test(-x, y, RightNeg + expected, acc);
+                test(x, -y, Right + expected, acc);
+                test(-x, -y, RightNeg - expected, acc);
             }
+
+            var bag = new ConcurrentBag<Utility.ErrorAccumulation>();
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
+                var acc = new Utility.ErrorAccumulation();
+
                 // Test far from x-axis
                 {
                     var begin = One * n / processorCount;
@@ -255,7 +288,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                     for (var i = begin; i < end; ++i) {
                         var list = CollectMostSteepPoints(i);
                         foreach (var (x, y) in list) {
-                            testDefault(y, x, data[i]);
+                            testDefault(y, x, data[i], acc);
                         }
                     }
                 }
@@ -267,64 +300,72 @@ namespace AgatePris.Intar.Tests.Mathi {
                     for (var i = begin; i < end; ++i) {
                         var x = 1 << 16;
                         var y = (2 * i) - 1;
-                        testDefault(y, x, data[i]);
+                        testDefault(y, x, data[i], acc);
                     }
                 }
+
+                bag.Add(acc);
             });
+
+            foreach (var acc in bag) {
+                errorAccumulation.Concat(acc);
+            }
+            Console.WriteLine("\nAtan2");
+            errorAccumulation.Print();
         }
 
         public static readonly AtanCase[] AtanCases = {
-            new AtanCase(Intar.Mathi.AtanP2A2850, Intar.Mathi.Atan2P2A2850, "atan_p2_i17f15.json", 0.003778, 0.003778),
-            new AtanCase(Intar.Mathi.AtanP3A2555B691, Intar.Mathi.Atan2P3A2555B691, "atan_p3_i17f15.json", 0.001543, 0.001543),
-            new AtanCase(Intar.Mathi.AtanP5A787B2968, Intar.Mathi.Atan2P5A787B2968, "atan_p5_i17f15.json", 0.000767, 0.000767),
+            new AtanCase(Intar.Mathi.AtanP2A2909, Intar.Mathi.Atan2P2A2909, "atan_p2_a2909.json", 0.004507, 0.004507),
+            new AtanCase(Intar.Mathi.AtanP3A2577B664, Intar.Mathi.Atan2P3A2577B664, "atan_p3_a2577_b664.json", 0.001730, 0.001730),
+            new AtanCase(Intar.Mathi.AtanP5A2996B809, Intar.Mathi.Atan2P5A2996B809, "atan_p5_a2996_b809.json", 0.000914, 0.000919),
         };
 
         [Test]
         public static void DocTest() {
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP2A2850(x);
+                var actual = Intar.Mathi.AtanP2A2909(x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.003778);
+                Assert.AreEqual(expected, a, 0.004507);
             }
             {
                 var y = 2;
                 var x = 3;
-                var actual = Intar.Mathi.Atan2P2A2850(y, x);
+                var actual = Intar.Mathi.Atan2P2A2909(y, x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.003778);
+                Assert.AreEqual(expected, a, 0.004507);
             }
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP3A2555B691(x);
+                var actual = Intar.Mathi.AtanP3A2577B664(x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.001543);
+                Assert.AreEqual(expected, a, 0.001730);
             }
             {
                 var y = 2;
                 var x = 3;
-                var actual = Intar.Mathi.Atan2P3A2555B691(y, x);
+                var actual = Intar.Mathi.Atan2P3A2577B664(y, x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.001543);
+                Assert.AreEqual(expected, a, 0.001730);
             }
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP5A787B2968(x);
+                var actual = Intar.Mathi.AtanP5A2996B809(x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.000767);
+                Assert.AreEqual(expected, a, 0.000914);
             }
             {
                 var y = 2;
                 var x = 3;
-                var actual = Intar.Mathi.Atan2P5A787B2968(y, x);
+                var actual = Intar.Mathi.Atan2P5A2996B809(y, x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.000767);
+                Assert.AreEqual(expected, a, 0.000919);
             }
         }
 
@@ -336,7 +377,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             Assert.AreEqual(data.Count, One + 1);
             Assert.AreEqual(data[0], 0);
             Assert.AreEqual(data[One], RightHalf);
-            Atan2Test(atanCase.Atan2, data, atanCase.AcceptableErrorAtan2);
+            TestAtan2(atanCase.Atan2, data, atanCase.AcceptableErrorAtan2);
             TestAtan(atanCase.Atan, data, atanCase.AcceptableErrorAtan);
         }
     }

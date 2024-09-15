@@ -42,8 +42,6 @@ $$
 \end{align*}
 $$
 
-以下は 4 次の多項式による近似｡
-
 > $$
 > 0\le x\le\frac{\pi}{2}
 > $$
@@ -57,12 +55,40 @@ $$
 > $$
 >
 > $$
+> \begin{gather*}
+> a_2 = -.49670 &
+> a_4 =  .03705
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
+
+> $$
+> 0 \le x \le \frac{\pi}{2}
+> $$
+>
+> $$
+> cos\ x = 1 +
+> a_2   \ x^2    +
+> a_4   \ x^4    +
+> a_6   \ x^6    +
+> a_8   \ x^8    +
+> a_{10}\ x^{10} + \epsilon(x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 2 \times 10^{-9}
+> $$
+>
+> $$
 > \begin{align*}
-> a_2&=-.49670&a_4&=.03705
+> a_2    &= -.49999\ 99963 & a_4 &= .04166\ 66418 \\
+> a_6    &= -.00138\ 88397 & a_8 &= .00002\ 47609 \\
+> a_{10} &= -.00000\ 02605
 > \end{align*}
 > $$
 >
-> <cite id="abramowitz-and-stegun-a">Abramowitz and Stegun <sup>[\[1\]](#abramowitz-and-stegun)</sup> 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
 
 ### 3 次の多項式による近似
 
@@ -207,10 +233,10 @@ b_{4\ p\ 2} = b_{4\ p\ 4} + 32768
 $$
 
 | $b_{4\ p\ 2}$ | $b_{4\ p\ 4}$ | RMSE | MAE | ME | 誤差の最大値
-| :------------ | :------------ | :--- | :-- | :- | :-------------------
-| 40137 | 7369 | 0.0006023564386931793 | 0.0005158339043712425 | -7.343948279770241e-5   | 0.001090161041422455
-| 40162 | 7394 | 0.0006144695912038322 | 0.0005104531440557723 |  2.8285513617763166e-5  | 0.0012286495032944877
-| 40109 | 7341 | 0.0006176454570808705 | 0.0005350726783359779 | -0.00018735682010504267 | -0.0009480076555086203
+| ------------: | ------------: | ---: | --: | -: | -----------:
+| 40137 | 7369 | 0.0006023564386931793 | 0.0005158339043712425 | -0.00007343948279770241 |  0.001090161041422455
+| 40162 | 7394 | 0.0006144695912038322 | 0.0005104531440557723 |  0.00002828551361776317 |  0.001228649503294488
+| 40109 | 7341 | 0.0006176454570808705 | 0.0005350726783359779 | -0.00018735682010504267 | -0.000948007655508620
 
 - スクリプト : [cos_p4.wxm](../gists/cos_p4.wxm)
 - 誤差の大きな関数を除いた誤差のグラフ : [cos_p4_error.svg](../images/cos_p4_error.svg)
@@ -301,9 +327,9 @@ $$
 4 次の多項式と同様に最適化された値は以下の通り｡
 
 | $b_{5\ p\ 1}$ | $b_{5\ p\ 3}$ | $b_{5\ p\ 5}$ | RMSE | MAE | ME | 誤差の最大値
-| :------------ | :------------ | :------------ | :--- | :-- | :- | :-----------
-| 51438 | 20956 | 2286 | 0.0001300827165588578 | 0.00011470022837171247 |  0.000015563006660391348 | 0.00023140279033517785
-| 51441 | 20962 | 2289 | 0.0001313057048395113 | 0.00011389845600952941 |  0.000030766450879191726 | 0.00024736511684420037
+| ------------: | ------------: | ------------: | ---: | --: | -: | -----------:
+| 51438 | 20956 | 2286 | 0.0001300827165588578 | 0.00011470022837171247 |  0.000015563006660391348 |  0.0002314027903351779
+| 51441 | 20962 | 2289 | 0.0001313057048395113 | 0.00011389845600952941 |  0.000030766450879191726 |  0.0002473651168442004
 | 51432 | 20944 | 2280 | 0.0001345544988004854 | 0.00011958392710737854 | -0.000015024950479042937 | -0.0002085328271134168
 
 - スクリプト : [sin_p5.wxm](../gists/sin_p5.wxm)
@@ -342,9 +368,120 @@ $$
 \frac{x^9}{9} - ...
 $$
 
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan\ x = a_1 x + a_3 x^5 + a_7 x^7 + a_9 x^9 + \epsilon (x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 10^{-5}
+> $$
+>
+> $$
+> \begin{align*}
+> a_1 =  &.99986\ 60 &
+> a_3 = -&.33029\ 95 \\
+> a_5 =  &.18014\ 10 &
+> a_7 = -&.08513\ 30 \\
+> a_9 =  &.02083\ 51
+> \end{align*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
+
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
-wip
+### 2 次の多項式による近似
+
+> Using an extensive computer search,
+> the optimum $\alpha \approx 0.273$
+> and the following approximation for the $arctan(x)$
+> with a maximum absolute error
+> of $0.0038$ rad ($0.22 \textdegree$) are obtained:
+>
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan(x) \approx
+> \frac{\pi}{4} \ x + 0.273x (1 - |x|) \tag{7}
+> $$
+>
+> <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
+
+Intar では以下のように定義する｡
+
+$$
+\begin{align*}
+f(x)
+&= \frac{2^{15}}{4} x + \frac{a\ x}{2^{15}} (2^{15} - |x|) \\
+&= x \left(2^{13} + \frac{a \left( 2^{15} - |x| \right)}{2^{15}}  \right)
+\end{align*}
+$$
+
+|    a | RMSE | MAE | ME | 誤差の最大値
+| ---: | ---: | --: | -: | -----------:
+| 2909 | 0.002427818462466078 | 0.002077174282802348 |  0.0003333473619596143 |  0.004491925797573765
+| 2961 | 0.002595716870537866 | 0.001982912099303992 |  0.0011642323880778544 |  0.005184662774273458
+| 2850 | 0.002635112958998417 | 0.002368024597272721 | -0.0006093592020941363 | -0.003767039323419708
+
+### 3 次の多項式による近似
+
+> ... Using the minimax criteria,
+> the following polynomial with a maximum absolute error
+> of $0.0015$ rad ($0.086 \textdegree$) is identified as the optimal approximation to $arctan(x)$
+>
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan(x) \approx
+> \frac{\pi}{4} \ x - x (|x| - 1) \times (0.2447 + 0.0663 |x|) \tag{9}
+> $$
+>
+> <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
+
+Intar では以下のように定義する｡
+
+$$
+\begin{align*}
+f(x)
+&= \frac{2^{15}}{4} \ x - \frac{x}{2^{15}} \left( |x| - 2^{15} \right) \times \left(a + \frac{b}{2^{15}} |x| \right) \\
+&= x \left( 2^{13} - \frac{|x| - 2^{15}}{2^{15}} \times \left( a + \frac{b |x|}{2^{15}} \right) \right)
+\end{align*}
+$$
+
+|    a |   b | RMSE | MAE | ME | 誤差の最大値
+| ---: | --: | ---: | --: | -: | -----------:
+| 2577 | 664 | 0.0010491346147630696 | 0.0009396760171463379 | 0.0003253353062951027 | 0.0017147167150517173
+| 2601 | 631 | 0.0010621832121978914 | 0.0009328792959087625 | 0.0004452376085175237 | 0.0019206565838164047
+| 2555 | 691 | 0.0010641139431349976 | 0.0009603371569695284 | 0.0001895039396058616 | 0.0015278438200241468
+
+### 5 次の多項式による近似
+
+テイラー展開の結果に従って以下のように定義する｡
+
+$$
+f(x) = a\ x - \frac{b\ x^3}{2^{30}} + \frac{c\ x^5}{2^{60}}
+$$
+
+$$
+a = 2^{15} \div 4 + b - c
+$$
+
+2 次､ 3 次の多項式と異なり偶数次の項の係数を 0 として定義するため､
+式中で絶対値を用いたり $1-|x|$ などの式変形を用いる必要がない｡
+
+|     a |    b |   c | RMSE | MAE | ME | 誤差の最大値
+| ----: | ---: | --: | ---: | --: | -: | -----------:
+| 10379 | 2996 | 809 | 0.0004913727885719261 | 0.0004392120592626543 | -0.00015646348153503596 | -0.00090980676328112
+| 10383 | 3014 | 823 | 0.0004974320989651835 | 0.0004362865669397836 | -0.00017241418374285537 | -0.00103013036251709
+| 10373 | 2968 | 787 | 0.0005058157854788201 | 0.0004553722561956364 | -0.00012450515639614833 | -0.00075234042727762
 
 ## 逆正弦 arcsine と逆余弦 arccosine
 
@@ -397,10 +534,15 @@ $$
 
 wip
 
-## Reference
-
-1. <span id="abramowitz-and-stegun">^</span> <sup>[a](#abramowitz-and-stegun-a)</sup> Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
+## 参考文献
 
 - Another fast fixed-point sine approximation | Coranac
   - http://www.coranac.com/2009/07/sines/
   - http://web.archive.org/web/20240629132053/http://www.coranac.com/2009/07/sines/
+
+[^abramowitz-and-stegun]: Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
+
+[^efficient-atan-approx-func]: Efficient approximations for the arctangent function, Rajan, S. Sichun Wang Inkol, R. Joyal, A., May 2006
+
+    - https://ieeexplore.ieee.org/document/1628884/
+    - https://www-labs.iro.umontreal.ca/~mignotte/IFT2425/Documents/EfficientApproximationArctgFunction.pdf

@@ -153,35 +153,38 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P2A2850(int x) {
-                const int a = 2850;
-                var xAbs = Math.Abs(x);
-                var tmp = (One - xAbs) * a;
-                tmp = FracK4 + (tmp >> 15);
-                return x * tmp;
+            internal static int P2A2909(int x) {
+                const int k = FracK4;
+                const int a = 2909;
+                var w = Math.Abs(x);
+                var z = One - w;
+                var y = k + ((z * a) >> 15);
+                return x * y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P3A2555B691(int x) {
-                const int a = 2555;
-                const int b = 691;
-                var xAbs = Math.Abs(x);
-                var tmp = (xAbs * b) >> 15;
-                tmp = (One - xAbs) * (a + tmp);
-                tmp = FracK4 + (tmp >> 15);
-                return x * tmp;
+            internal static int P3A2577B664(int x) {
+                const int k = FracK4;
+                const int a = 2577;
+                const int b = 664;
+                var w = Math.Abs(x);
+                var z = One - w;
+                int y;
+                y = a + ((w * b) >> 15);
+                y = k + ((z * y) >> 15);
+                return x * y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P5A787B2968(int x) {
-                const int a = 787;
-                const int b = 2968;
-                const int c = (1 << 13) + b - a;
-                var x2 = (x * x) >> 15;
-                var tmp = (a * x2) >> 15;
-                tmp = (b - tmp) * x2;
-                tmp = c - (tmp >> 15);
-                return tmp * x;
+            internal static int P5A2996B809(int x) {
+                const int b = 809;
+                const int a = 2996;
+                const int k = (1 << 13) + a - b;
+                var z = (x * x) >> 15;
+                int y;
+                y = a - ((b * z) >> 15);
+                y = k - ((y * z) >> 15);
+                return y * x;
             }
         }
 
@@ -191,23 +194,23 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP2A2850(x);
+        /// var actual = Intar.Mathi.AtanP2A2909(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.003778);
+        /// Assert.AreEqual(expected, a, 0.004507);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int AtanP2A2850(int x) {
+        public static int AtanP2A2909(int x) {
             if (x < AtanInternal.OneNeg) {
-                return AtanInternal.RightNeg - AtanInternal.P2A2850(AtanInternal.Inv(x));
+                return AtanInternal.RightNeg - AtanInternal.P2A2909(AtanInternal.Inv(x));
             } else if (x > AtanInternal.One) {
-                return AtanInternal.Right - AtanInternal.P2A2850(AtanInternal.Inv(x));
+                return AtanInternal.Right - AtanInternal.P2A2909(AtanInternal.Inv(x));
             } else {
-                return AtanInternal.P2A2850(x);
+                return AtanInternal.P2A2909(x);
             }
         }
 
@@ -217,10 +220,10 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var actual = Intar.Mathi.Atan2P2A2850(y, x);
+        /// var actual = Intar.Mathi.Atan2P2A2909(y, x);
         /// var expected = System.Math.Atan2(2, 3);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.003778);
+        /// Assert.AreEqual(expected, a, 0.004507);
         /// </code>
         /// </example>
         /// </summary>
@@ -228,28 +231,28 @@ namespace AgatePris.Intar {
         /// <param name="x">X 座標</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2P2A2850(int y, int x) {
+        public static int Atan2P2A2909(int y, int x) {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? AtanInternal.RightNeg - AtanInternal.P2A2850(AtanInternal.Div(x, y))
-                        : AtanInternal.P2A2850(AtanInternal.Div(y, x)) - AtanInternal.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P2A2909(AtanInternal.Div(x, y))
+                        : AtanInternal.P2A2909(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? AtanInternal.RightNeg - AtanInternal.P2A2850(AtanInternal.Div(x, y))
-                        : AtanInternal.P2A2850(AtanInternal.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P2A2909(AtanInternal.Div(x, y))
+                        : AtanInternal.P2A2909(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? AtanInternal.Right - AtanInternal.P2A2850(AtanInternal.Div(x, y))
-                        : AtanInternal.Straight + AtanInternal.P2A2850(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P2A2909(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P2A2909(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? AtanInternal.Right - AtanInternal.P2A2850(AtanInternal.Div(x, y))
-                        : AtanInternal.P2A2850(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P2A2909(AtanInternal.Div(x, y))
+                        : AtanInternal.P2A2909(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.Right;
                 }
@@ -264,23 +267,23 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP3A2555B691(x);
+        /// var actual = Intar.Mathi.AtanP3A2577B664(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.001543);
+        /// Assert.AreEqual(expected, a, 0.00173);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int AtanP3A2555B691(int x) {
+        public static int AtanP3A2577B664(int x) {
             if (x < AtanInternal.OneNeg) {
-                return AtanInternal.RightNeg - AtanInternal.P3A2555B691(AtanInternal.Inv(x));
+                return AtanInternal.RightNeg - AtanInternal.P3A2577B664(AtanInternal.Inv(x));
             } else if (x > AtanInternal.One) {
-                return AtanInternal.Right - AtanInternal.P3A2555B691(AtanInternal.Inv(x));
+                return AtanInternal.Right - AtanInternal.P3A2577B664(AtanInternal.Inv(x));
             } else {
-                return AtanInternal.P3A2555B691(x);
+                return AtanInternal.P3A2577B664(x);
             }
         }
 
@@ -290,10 +293,10 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var actual = Intar.Mathi.Atan2P3A2555B691(y, x);
+        /// var actual = Intar.Mathi.Atan2P3A2577B664(y, x);
         /// var expected = System.Math.Atan2(2, 3);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.001543);
+        /// Assert.AreEqual(expected, a, 0.00173);
         /// </code>
         /// </example>
         /// </summary>
@@ -301,28 +304,28 @@ namespace AgatePris.Intar {
         /// <param name="x">X 座標</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2P3A2555B691(int y, int x) {
+        public static int Atan2P3A2577B664(int y, int x) {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? AtanInternal.RightNeg - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
-                        : AtanInternal.P3A2555B691(AtanInternal.Div(y, x)) - AtanInternal.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P3A2577B664(AtanInternal.Div(x, y))
+                        : AtanInternal.P3A2577B664(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? AtanInternal.RightNeg - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
-                        : AtanInternal.P3A2555B691(AtanInternal.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P3A2577B664(AtanInternal.Div(x, y))
+                        : AtanInternal.P3A2577B664(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? AtanInternal.Right - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
-                        : AtanInternal.Straight + AtanInternal.P3A2555B691(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P3A2577B664(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P3A2577B664(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? AtanInternal.Right - AtanInternal.P3A2555B691(AtanInternal.Div(x, y))
-                        : AtanInternal.P3A2555B691(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P3A2577B664(AtanInternal.Div(x, y))
+                        : AtanInternal.P3A2577B664(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.Right;
                 }
@@ -337,23 +340,23 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP5A787B2968(x);
+        /// var actual = Intar.Mathi.AtanP5A2996B809(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.000767);
+        /// Assert.AreEqual(expected, a, 0.000914);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int AtanP5A787B2968(int x) {
+        public static int AtanP5A2996B809(int x) {
             if (x < AtanInternal.OneNeg) {
-                return AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Inv(x));
+                return AtanInternal.RightNeg - AtanInternal.P5A2996B809(AtanInternal.Inv(x));
             } else if (x > AtanInternal.One) {
-                return AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Inv(x));
+                return AtanInternal.Right - AtanInternal.P5A2996B809(AtanInternal.Inv(x));
             } else {
-                return AtanInternal.P5A787B2968(x);
+                return AtanInternal.P5A2996B809(x);
             }
         }
 
@@ -363,10 +366,10 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var actual = Intar.Mathi.Atan2P5A787B2968(y, x);
+        /// var actual = Intar.Mathi.Atan2P5A2996B809(y, x);
         /// var expected = System.Math.Atan2(2, 3);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.000767);
+        /// Assert.AreEqual(expected, a, 0.000919);
         /// </code>
         /// </example>
         /// </summary>
@@ -374,28 +377,28 @@ namespace AgatePris.Intar {
         /// <param name="x">X 座標</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2P5A787B2968(int y, int x) {
+        public static int Atan2P5A2996B809(int y, int x) {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x)) - AtanInternal.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A2996B809(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A2996B809(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.Straight + AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P5A2996B809(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A2996B809(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.Right;
                 }
@@ -405,10 +408,10 @@ namespace AgatePris.Intar {
         }
 
         public enum AtanMethod : byte {
-            P2A2850,
-            P3A2555B691,
-            P5A787B2968,
-            Default = P5A787B2968,
+            P2A2909,
+            P3A2577B664,
+            P5A2996B809,
+            Default = P5A2996B809,
         }
 
         /// <summary>
@@ -417,11 +420,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var method = Intar.Mathi.AtanMethod.P3A2555B691;
+        /// var method = Intar.Mathi.AtanMethod.P3A2577B664;
         /// var actual = Intar.Mathi.Atan(x, method);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.001543);
+        /// Assert.AreEqual(expected, a, 0.00173);
         /// </code>
         /// </example>
         /// </summary>
@@ -431,10 +434,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan(int x, AtanMethod method = AtanMethod.Default) {
             switch (method) {
-                case AtanMethod.P2A2850: return AtanP2A2850(x);
-                case AtanMethod.P3A2555B691: return AtanP3A2555B691(x);
+                case AtanMethod.P2A2909: return AtanP2A2909(x);
+                case AtanMethod.P3A2577B664: return AtanP3A2577B664(x);
                 default:
-                case AtanMethod.P5A787B2968: return AtanP5A787B2968(x);
+                case AtanMethod.P5A2996B809: return AtanP5A2996B809(x);
             }
         }
 
@@ -444,11 +447,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var method = Intar.Mathi.AtanMethod.P3A2555B691;
+        /// var method = Intar.Mathi.AtanMethod.P3A2577B664;
         /// var actual = Intar.Mathi.Atan2(y, x, method);
         /// var expected = System.Math.Atan2(y, x);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.001543);
+        /// Assert.AreEqual(expected, a, 0.00173);
         /// </code>
         /// </example>
         /// </summary>
@@ -458,10 +461,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan2(int y, int x, AtanMethod method = AtanMethod.Default) {
             switch (method) {
-                case AtanMethod.P2A2850: return Atan2P2A2850(y, x);
-                case AtanMethod.P3A2555B691: return Atan2P3A2555B691(y, x);
+                case AtanMethod.P2A2909: return Atan2P2A2909(y, x);
+                case AtanMethod.P3A2577B664: return Atan2P3A2577B664(y, x);
                 default:
-                case AtanMethod.P5A787B2968: return Atan2P5A787B2968(y, x);
+                case AtanMethod.P5A2996B809: return Atan2P5A2996B809(y, x);
             }
         }
 
@@ -634,9 +637,10 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int CosP4A7369(int z) {
                 const int a = 7369;
-                const int b = a + Right;
-                var z_2 = (z * z) >> RightExp;
-                return (b - ((z_2 * a) >> RightExp)) * z_2;
+                const int k = a + Right;
+                z = (z * z) >> RightExp;
+                var y = k - ((z * a) >> RightExp);
+                return y * z;
             }
         }
 
@@ -796,12 +800,15 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP5A51438(int x) {
-            const int k = 51438;
-            const int a = (k * 2) - (SinInternal.Right * 5 / 2);
-            const int b = k - (SinInternal.Right * 3 / 2);
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (k - (((a - ((z_2 * b) >> SinInternal.RightExp)) * z_2) >> SinInternal.RightExp)) * z;
+            const int a = 51438;
+            const int b = (a * 2) - (SinInternal.Right * 5 / 2);
+            const int c = a - (SinInternal.Right * 3 / 2);
+            x = SinInternal.MakeArgOdd(x);
+            var z = (x * x) >> SinInternal.RightExp;
+            int y;
+            y = b - ((z * c) >> SinInternal.RightExp);
+            y = a - ((y * z) >> SinInternal.RightExp);
+            return y * x;
         }
 
         /// <summary>
