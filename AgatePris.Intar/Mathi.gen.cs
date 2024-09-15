@@ -173,15 +173,15 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P5A787B2968(int x) {
-                const int a = 787;
-                const int b = 2968;
-                const int c = (1 << 13) + b - a;
-                var x2 = (x * x) >> 15;
-                var tmp = (a * x2) >> 15;
-                tmp = (b - tmp) * x2;
-                tmp = c - (tmp >> 15);
-                return tmp * x;
+            internal static int P5A2996B809(int x) {
+                const int b = 809;
+                const int a = 2996;
+                const int k = (1 << 13) + a - b;
+                var z = (x * x) >> 15;
+                int y;
+                y = a - ((b * z) >> 15);
+                y = k - ((y * z) >> 15);
+                return y * x;
             }
         }
 
@@ -337,23 +337,23 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP5A787B2968(x);
+        /// var actual = Intar.Mathi.AtanP5A2996B809(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.000767);
+        /// Assert.AreEqual(expected, a, 0.000914);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int AtanP5A787B2968(int x) {
+        public static int AtanP5A2996B809(int x) {
             if (x < AtanInternal.OneNeg) {
-                return AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Inv(x));
+                return AtanInternal.RightNeg - AtanInternal.P5A2996B809(AtanInternal.Inv(x));
             } else if (x > AtanInternal.One) {
-                return AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Inv(x));
+                return AtanInternal.Right - AtanInternal.P5A2996B809(AtanInternal.Inv(x));
             } else {
-                return AtanInternal.P5A787B2968(x);
+                return AtanInternal.P5A2996B809(x);
             }
         }
 
@@ -363,10 +363,10 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var actual = Intar.Mathi.Atan2P5A787B2968(y, x);
+        /// var actual = Intar.Mathi.Atan2P5A2996B809(y, x);
         /// var expected = System.Math.Atan2(2, 3);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.000767);
+        /// Assert.AreEqual(expected, a, 0.000919);
         /// </code>
         /// </example>
         /// </summary>
@@ -374,28 +374,28 @@ namespace AgatePris.Intar {
         /// <param name="x">X 座標</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2P5A787B2968(int y, int x) {
+        public static int Atan2P5A2996B809(int y, int x) {
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x)) - AtanInternal.Straight;
+                        ? AtanInternal.RightNeg - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A2996B809(AtanInternal.Div(y, x)) - AtanInternal.Straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? AtanInternal.RightNeg - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
+                        ? AtanInternal.RightNeg - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A2996B809(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.RightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.Straight + AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.Straight + AtanInternal.P5A2996B809(AtanInternal.Div(y, x));
                 } else if (x > 0) {
                     return y > x
-                        ? AtanInternal.Right - AtanInternal.P5A787B2968(AtanInternal.Div(x, y))
-                        : AtanInternal.P5A787B2968(AtanInternal.Div(y, x));
+                        ? AtanInternal.Right - AtanInternal.P5A2996B809(AtanInternal.Div(x, y))
+                        : AtanInternal.P5A2996B809(AtanInternal.Div(y, x));
                 } else {
                     return AtanInternal.Right;
                 }
@@ -407,8 +407,8 @@ namespace AgatePris.Intar {
         public enum AtanMethod : byte {
             P2A2909,
             P3A2577B664,
-            P5A787B2968,
-            Default = P5A787B2968,
+            P5A2996B809,
+            Default = P5A2996B809,
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace AgatePris.Intar {
                 case AtanMethod.P2A2909: return AtanP2A2909(x);
                 case AtanMethod.P3A2577B664: return AtanP3A2577B664(x);
                 default:
-                case AtanMethod.P5A787B2968: return AtanP5A787B2968(x);
+                case AtanMethod.P5A2996B809: return AtanP5A2996B809(x);
             }
         }
 
@@ -461,7 +461,7 @@ namespace AgatePris.Intar {
                 case AtanMethod.P2A2909: return Atan2P2A2909(y, x);
                 case AtanMethod.P3A2577B664: return Atan2P3A2577B664(y, x);
                 default:
-                case AtanMethod.P5A787B2968: return Atan2P5A787B2968(y, x);
+                case AtanMethod.P5A2996B809: return Atan2P5A2996B809(y, x);
             }
         }
 
