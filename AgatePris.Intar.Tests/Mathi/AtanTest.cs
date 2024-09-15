@@ -196,7 +196,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             List<int> data,
             double acceptableError
         ) {
-            void test(int y, int x, int expected) {
+            void test(int y, int x, int expected, Utility.ErrorAccumulation acc) {
                 var actual = atan2(y, x);
                 if (actual != expected) {
                     Assert.Fail(
@@ -208,7 +208,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
                 var expectedReal = Math.Atan2(y, x);
                 var actualReal = Math.PI * actual / Straight;
-                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                var error = actualReal - expectedReal;
+                acc.Add(error);
+                if (Math.Abs(error) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(y)}: {y}, " +
                         $"{nameof(x)}: {x}, " +
@@ -219,61 +221,66 @@ namespace AgatePris.Intar.Tests.Mathi {
                     );
                 }
             }
-            test(0, 0, 0);
-            test(0, 1, 0);
-            test(1, 1, RightHalf);
-            test(1, 0, Right);
-            test(1, -1, RightHalfOppositeNeg);
-            test(0, -1, Straight);
-            test(-1, 1, RightHalfNeg);
-            test(-1, 0, RightNeg);
-            test(-1, -1, RightHalfOpposite);
-            test(0, int.MaxValue, 0);
-            test(0, int.MinValue, Straight);
-            test(int.MaxValue, 0, Right);
-            test(int.MinValue, 0, RightNeg);
-            test(int.MaxValue, int.MaxValue, RightHalf);
-            test(int.MinValue, int.MinValue, RightHalfOpposite);
-            test(int.MinValue, int.MaxValue, RightHalfNeg);
-            test(int.MaxValue, int.MinValue, RightHalfOppositeNeg);
-            test(0, -int.MaxValue, Straight);
-            test(int.MinValue, -int.MaxValue, RightHalfOpposite);
-            test(int.MaxValue, -int.MaxValue, RightHalfOppositeNeg);
-            test(-int.MaxValue, 0, RightNeg);
-            test(-int.MaxValue, int.MinValue, RightHalfOpposite);
-            test(-int.MaxValue, int.MaxValue, RightHalfNeg);
-            test(-int.MaxValue, -int.MaxValue, RightHalfOpposite);
-            test(1, int.MaxValue, 0);
-            test(1, int.MinValue, Straight);
-            test(1, -int.MaxValue, Straight);
-            test(-1, int.MaxValue, 0);
-            test(-1, int.MinValue, StraightNeg);
-            test(-1, -int.MaxValue, StraightNeg);
-            test(int.MinValue, 1, RightNeg);
-            test(int.MaxValue, 1, Right);
-            test(int.MinValue, -1, RightNeg);
-            test(int.MaxValue, -1, Right);
-            test(-int.MaxValue, 1, RightNeg);
-            test(-int.MaxValue, -1, RightNeg);
+            var errorAccumulation = new Utility.ErrorAccumulation();
+            test(0, 0, 0, errorAccumulation);
+            test(0, 1, 0, errorAccumulation);
+            test(1, 1, RightHalf, errorAccumulation);
+            test(1, 0, Right, errorAccumulation);
+            test(1, -1, RightHalfOppositeNeg, errorAccumulation);
+            test(0, -1, Straight, errorAccumulation);
+            test(-1, 1, RightHalfNeg, errorAccumulation);
+            test(-1, 0, RightNeg, errorAccumulation);
+            test(-1, -1, RightHalfOpposite, errorAccumulation);
+            test(0, int.MaxValue, 0, errorAccumulation);
+            test(0, int.MinValue, Straight, errorAccumulation);
+            test(int.MaxValue, 0, Right, errorAccumulation);
+            test(int.MinValue, 0, RightNeg, errorAccumulation);
+            test(int.MaxValue, int.MaxValue, RightHalf, errorAccumulation);
+            test(int.MinValue, int.MinValue, RightHalfOpposite, errorAccumulation);
+            test(int.MinValue, int.MaxValue, RightHalfNeg, errorAccumulation);
+            test(int.MaxValue, int.MinValue, RightHalfOppositeNeg, errorAccumulation);
+            test(0, -int.MaxValue, Straight, errorAccumulation);
+            test(int.MinValue, -int.MaxValue, RightHalfOpposite, errorAccumulation);
+            test(int.MaxValue, -int.MaxValue, RightHalfOppositeNeg, errorAccumulation);
+            test(-int.MaxValue, 0, RightNeg, errorAccumulation);
+            test(-int.MaxValue, int.MinValue, RightHalfOpposite, errorAccumulation);
+            test(-int.MaxValue, int.MaxValue, RightHalfNeg, errorAccumulation);
+            test(-int.MaxValue, -int.MaxValue, RightHalfOpposite, errorAccumulation);
+            test(1, int.MaxValue, 0, errorAccumulation);
+            test(1, int.MinValue, Straight, errorAccumulation);
+            test(1, -int.MaxValue, Straight, errorAccumulation);
+            test(-1, int.MaxValue, 0, errorAccumulation);
+            test(-1, int.MinValue, StraightNeg, errorAccumulation);
+            test(-1, -int.MaxValue, StraightNeg, errorAccumulation);
+            test(int.MinValue, 1, RightNeg, errorAccumulation);
+            test(int.MaxValue, 1, Right, errorAccumulation);
+            test(int.MinValue, -1, RightNeg, errorAccumulation);
+            test(int.MaxValue, -1, Right, errorAccumulation);
+            test(-int.MaxValue, 1, RightNeg, errorAccumulation);
+            test(-int.MaxValue, -1, RightNeg, errorAccumulation);
 
             // Test each of the 8 regions partitioned by the following 4 lines.
             // * x-axis
             // * y-axis
             // * y = x
             // * y = -x
-            void testDefault(int y, int x, int expected) {
-                test(y, x, expected);
-                test(-y, x, -expected);
-                test(y, -x, Straight - expected);
-                test(-y, -x, expected - Straight);
-                test(x, y, Right - expected);
-                test(-x, y, RightNeg + expected);
-                test(x, -y, Right + expected);
-                test(-x, -y, RightNeg - expected);
+            void testDefault(int y, int x, int expected, Utility.ErrorAccumulation acc) {
+                test(y, x, expected, acc);
+                test(-y, x, -expected, acc);
+                test(y, -x, Straight - expected, acc);
+                test(-y, -x, expected - Straight, acc);
+                test(x, y, Right - expected, acc);
+                test(-x, y, RightNeg + expected, acc);
+                test(x, -y, Right + expected, acc);
+                test(-x, -y, RightNeg - expected, acc);
             }
+
+            var bag = new ConcurrentBag<Utility.ErrorAccumulation>();
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
+                var acc = new Utility.ErrorAccumulation();
+
                 // Test far from x-axis
                 {
                     var begin = One * n / processorCount;
@@ -281,7 +288,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                     for (var i = begin; i < end; ++i) {
                         var list = CollectMostSteepPoints(i);
                         foreach (var (x, y) in list) {
-                            testDefault(y, x, data[i]);
+                            testDefault(y, x, data[i], acc);
                         }
                     }
                 }
@@ -293,10 +300,18 @@ namespace AgatePris.Intar.Tests.Mathi {
                     for (var i = begin; i < end; ++i) {
                         var x = 1 << 16;
                         var y = (2 * i) - 1;
-                        testDefault(y, x, data[i]);
+                        testDefault(y, x, data[i], acc);
                     }
                 }
+
+                bag.Add(acc);
             });
+
+            foreach (var acc in bag) {
+                errorAccumulation.Concat(acc);
+            }
+            Console.WriteLine("\nAtan2");
+            errorAccumulation.Print();
         }
 
         public static readonly AtanCase[] AtanCases = {
