@@ -634,9 +634,10 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int CosP4A7369(int z) {
                 const int a = 7369;
-                const int b = a + Right;
-                var z_2 = (z * z) >> RightExp;
-                return (b - ((z_2 * a) >> RightExp)) * z_2;
+                const int k = a + Right;
+                z = (z * z) >> RightExp;
+                var y = k - ((z * a) >> RightExp);
+                return y * z;
             }
         }
 

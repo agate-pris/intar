@@ -77,9 +77,10 @@
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int CosP4A{{ k }}(int z) {
                 const int a = {{ k }};
-                const int b = a + Right;
-                var z_2 = (z * z) >> RightExp;
-                return (b - ((z_2 * a) >> RightExp)) * z_2;
+                const int k = a + Right;
+                z = (z * z) >> RightExp;
+                var y = k - ((z * a) >> RightExp);
+                return y * z;
             }
 {%- endmacro -%}
 
