@@ -96,9 +96,23 @@ namespace AgatePris.Intar.Tests.Mathi {
                 DataPath = dataPath;
                 AcceptableErrorAtan = acceptableErrorAtan;
                 AcceptableErrorAtan2 = acceptableErrorAtan2;
+                Write();
             }
             public override string ToString() {
                 return DataPath;
+            }
+            public void Write() {
+                var path = Utility.MakeUpPath(DataPath);
+                if (System.IO.File.Exists(path)) {
+                    return;
+                }
+                var data = new List<int>();
+                var atan = Atan;
+                Utility.WriteInts(path, x => {
+                    var v = atan(x);
+                    data.Add(v);
+                    return v;
+                }, One);
             }
         }
 
