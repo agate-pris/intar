@@ -289,7 +289,7 @@ namespace AgatePris.Intar.Tests.Mathi {
 
         public static readonly AtanCase[] AtanCases = {
             new AtanCase(Intar.Mathi.AtanP2A2909, Intar.Mathi.Atan2P2A2909, "atan_p2_a2909.json", 0.004507, 0.004507),
-            new AtanCase(Intar.Mathi.AtanP3A2555B691, Intar.Mathi.Atan2P3A2555B691, "atan_p3_i17f15.json", 0.001543, 0.001543),
+            new AtanCase(Intar.Mathi.AtanP3A2577B664, Intar.Mathi.Atan2P3A2577B664, "atan_p3_a2577_b664.json", 0.001730, 0.001730),
             new AtanCase(Intar.Mathi.AtanP5A787B2968, Intar.Mathi.Atan2P5A787B2968, "atan_p5_i17f15.json", 0.000767, 0.000767),
         };
 
@@ -312,18 +312,18 @@ namespace AgatePris.Intar.Tests.Mathi {
             }
             {
                 var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP3A2555B691(x);
+                var actual = Intar.Mathi.AtanP3A2577B664(x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.001543);
+                Assert.AreEqual(expected, a, 0.001730);
             }
             {
                 var y = 2;
                 var x = 3;
-                var actual = Intar.Mathi.Atan2P3A2555B691(y, x);
+                var actual = Intar.Mathi.Atan2P3A2577B664(y, x);
                 var expected = Math.Atan2(2, 3);
                 var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.001543);
+                Assert.AreEqual(expected, a, 0.001730);
             }
             {
                 var x = (1 << 15) * 2 / 3;
