@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -121,7 +122,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             List<int> data,
             double acceptableError
         ) {
-            void test(int x, int expected) {
+            void test(int x, int expected, Utility.ErrorAccumulation acc) {
                 var actual = atan(x);
                 if (actual != expected) {
                     Assert.Fail(
@@ -133,7 +134,9 @@ namespace AgatePris.Intar.Tests.Mathi {
                 const double scale = Math.PI / Straight;
                 var expectedReal = Math.Atan(x / (double)One);
                 var actualReal = scale * actual;
-                if (Math.Abs(actualReal - expectedReal) >= acceptableError) {
+                var error = actualReal - expectedReal;
+                acc.Add(error);
+                if (Math.Abs(error) >= acceptableError) {
                     Assert.Fail(
                         $"{nameof(x)}: {x}, " +
                         $"{nameof(expected)}: {expected}, " +
@@ -146,37 +149,46 @@ namespace AgatePris.Intar.Tests.Mathi {
 
             const long k = 1L << 31;
             const long kNeg = -k;
-            test(0, data[0]);
+            var errorAccumulation = new Utility.ErrorAccumulation();
+            test(0, data[0], errorAccumulation);
             {
                 var expected = data[1];
-                test(1, expected);
-                test(-1, -expected);
+                test(1, expected, errorAccumulation);
+                test(-1, -expected, errorAccumulation);
                 expected -= Right;
-                test((int)(kNeg / 3) - 1, expected);
-                test(int.MinValue, expected);
+                test((int)(kNeg / 3) - 1, expected, errorAccumulation);
+                test(int.MinValue, expected, errorAccumulation);
                 expected = -expected;
-                test((int)(k / 3) + 1, expected);
-                test(int.MaxValue, expected);
+                test((int)(k / 3) + 1, expected, errorAccumulation);
+                test(int.MaxValue, expected, errorAccumulation);
             }
+            var bag = new ConcurrentBag<Utility.ErrorAccumulation>();
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
+                var acc = new Utility.ErrorAccumulation();
                 var begin = 2 + ((One - 1) * n / processorCount);
                 var end = 2 + ((One - 1) * (n + 1) / processorCount);
                 for (var i = begin; i < end; ++i) {
                     var expected = data[i];
-                    test(i, expected);
-                    test(-i, -expected);
+                    test(i, expected, acc);
+                    test(-i, -expected, acc);
                     var i2 = 2 * i;
                     var i2Add = i2 + 1;
                     var i2Sub = i2 - 1;
                     expected -= Right;
-                    test((int)(kNeg / i2Add) - 1, expected);
-                    test((int)(kNeg / i2Sub), expected);
+                    test((int)(kNeg / i2Add) - 1, expected, acc);
+                    test((int)(kNeg / i2Sub), expected, acc);
                     expected = -expected;
-                    test((int)(k / i2Add) + 1, expected);
-                    test((int)(k / i2Sub), expected);
+                    test((int)(k / i2Add) + 1, expected, acc);
+                    test((int)(k / i2Sub), expected, acc);
                 }
+                bag.Add(acc);
             });
+            foreach (var acc in bag) {
+                errorAccumulation.Concat(acc);
+            }
+            Console.WriteLine("\nAtan");
+            errorAccumulation.Print();
         }
 
         static void Atan2Test(
