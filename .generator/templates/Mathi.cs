@@ -255,14 +255,15 @@ namespace AgatePris.Intar {
         }
 
 {%- set atan_params = [
-    'P2A2909',     2, 0.004507,
-    'P3A2577B664', 3, 0.001730,
-    'P5A787B2968', 5, 0.000767
+    'P2A2909',     2, 0.004507, 0.004507,
+    'P3A2577B664', 3, 0.001730, 0.001730,
+    'P5A787B2968', 5, 0.000767, 0.000767
 ] %}
-{%- for i in range(end=atan_params | length / 3) %}
-{%- set method = atan_params | nth(n=loop.index0 * 3    ) %}
-{%- set d      = atan_params | nth(n=loop.index0 * 3 + 1) %}
-{%- set error  = atan_params | nth(n=loop.index0 * 3 + 2) %}
+{%- for i in range(end=atan_params | length / 4) %}
+{%- set method = atan_params | nth(n=loop.index0 * 4    ) %}
+{%- set d      = atan_params | nth(n=loop.index0 * 4 + 1) %}
+{%- set error  = atan_params | nth(n=loop.index0 * 4 + 2) %}
+{%- set error2 = atan_params | nth(n=loop.index0 * 4 + 3) %}
 
         /// <summary>
         /// {{ d }} 次の多項式で逆正接を近似する。
@@ -299,7 +300,7 @@ namespace AgatePris.Intar {
         /// var actual = Intar.Mathi.Atan2{{ method }}(y, x);
         /// var expected = System.Math.Atan2(2, 3);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ error }});
+        /// Assert.AreEqual(expected, a, {{ error2 }});
         /// </code>
         /// </example>
         /// </summary>
@@ -340,10 +341,10 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         public enum AtanMethod : byte {
-            {%- for i in range(end=atan_params |length / 3) %}
-            {{ atan_params | nth(n=3 * i) }},
+            {%- for i in range(end=atan_params | length / 4) %}
+            {{ atan_params | nth(n=4 * i) }},
             {%- endfor %}
-            Default = {{ atan_params | nth(n=atan_params | length - 3) }},
+            Default = {{ atan_params | nth(n=atan_params | length - 4) }},
         }
 
         /// <summary>
@@ -352,11 +353,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 2 / 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[3] }};
+        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
         /// var actual = Intar.Mathi.Atan(x, method);
         /// var expected = System.Math.Atan((double)x / k);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[5] }});
+        /// Assert.AreEqual(expected, a, {{ atan_params[6] }});
         /// </code>
         /// </example>
         /// </summary>
@@ -366,10 +367,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan(int x, AtanMethod method = AtanMethod.Default) {
             switch (method) {
-                {%- for i in range(end=atan_params | length / 3) %}
+                {%- for i in range(end=atan_params | length / 4) %}
                 {%- if loop.last %}
                 default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=3 * i) }}: return Atan{{ atan_params | nth(n=3 * i) }}(x);
+                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan{{ atan_params | nth(n=4 * i) }}(x);
                 {%- endfor %}
             }
         }
@@ -380,11 +381,11 @@ namespace AgatePris.Intar {
         /// <code>
         /// var y = 2;
         /// var x = 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[3] }};
+        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
         /// var actual = Intar.Mathi.Atan2(y, x, method);
         /// var expected = System.Math.Atan2(y, x);
         /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[5] }});
+        /// Assert.AreEqual(expected, a, {{ atan_params[7] }});
         /// </code>
         /// </example>
         /// </summary>
@@ -394,10 +395,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Atan2(int y, int x, AtanMethod method = AtanMethod.Default) {
             switch (method) {
-                {%- for i in range(end=atan_params | length / 3) %}
+                {%- for i in range(end=atan_params | length / 4) %}
                 {%- if loop.last %}
                 default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=3 * i) }}: return Atan2{{ atan_params | nth(n=3 * i) }}(y, x);
+                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan2{{ atan_params | nth(n=4 * i) }}(y, x);
                 {%- endfor %}
             }
         }
