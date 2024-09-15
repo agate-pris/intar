@@ -191,7 +191,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             errorAccumulation.Print();
         }
 
-        static void Atan2Test(
+        static void TestAtan2(
             Func<int, int, int> atan2,
             List<int> data,
             double acceptableError
@@ -377,7 +377,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             Assert.AreEqual(data.Count, One + 1);
             Assert.AreEqual(data[0], 0);
             Assert.AreEqual(data[One], RightHalf);
-            Atan2Test(atanCase.Atan2, data, atanCase.AcceptableErrorAtan2);
+            TestAtan2(atanCase.Atan2, data, atanCase.AcceptableErrorAtan2);
             TestAtan(atanCase.Atan, data, atanCase.AcceptableErrorAtan);
         }
     }
