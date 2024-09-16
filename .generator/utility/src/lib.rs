@@ -89,6 +89,9 @@ impl Measures {
     pub fn max_error_abs_total_cmp(&self, other: &Self) -> Ordering {
         self.max_error.abs().total_cmp(&other.max_error.abs())
     }
+    pub fn me_abs_total_cmp(&self, other: &Self) -> Ordering {
+        self.me.abs().total_cmp(&other.me.abs())
+    }
 }
 
 pub fn find_root_ab<Eval, C>(eval: Eval, a: i32, b: i32, cmp: C) -> Result<Vec<(i32, Measures)>>
