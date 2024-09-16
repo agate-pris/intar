@@ -43,8 +43,8 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub struct Measures {
     pub rmse: f64,
     pub mae: f64,
-    pub me: f64,
     pub max_error: f64,
+    pub me: f64,
 }
 
 impl Measures {
@@ -57,26 +57,26 @@ impl Measures {
             return Err(Error::EmptyIterator);
         }
         let len = len as f64;
-        let (sqr_sum, abs_sum, sum, max_error) = iter.fold(
-            (0.0, 0.0, 0.0, 0.0_f64),
-            |(sqr_sum, abs_sum, sum, max_error), error| {
+        let (sqr_sum, abs_sum, max_error, sum) = iter.fold(
+            (0.0, 0.0, 0.0_f64, 0.0),
+            |(sqr_sum, abs_sum, max_error, sum), error| {
                 (
                     sqr_sum + error.powi(2),
                     abs_sum + error.abs(),
-                    sum + error,
                     if max_error.abs() < error.abs() {
                         error
                     } else {
                         max_error
                     },
+                    sum + error,
                 )
             },
         );
         Ok(Measures {
             rmse: (sqr_sum / len).sqrt(),
             mae: abs_sum / len,
-            me: sum / len,
             max_error,
+            me: sum / len,
         })
     }
 
