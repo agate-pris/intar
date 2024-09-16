@@ -2,6 +2,8 @@ use std::{cmp::Ordering, ops::RangeInclusive};
 
 use itertools::Itertools;
 use log::{debug, error, info};
+use rayon::prelude::*;
+use smallvec::SmallVec;
 use thiserror::Error;
 
 pub mod consts {
@@ -208,4 +210,110 @@ where
         .into_iter()
         .flat_map(|(a, b)| b.into_iter().map(move |(b, measures)| ((a, b), measures)))
         .min_set_by(|a, b| cmp(&a.1, &b.1)))
+}
+
+pub fn find_root_multi_dim<Eval, C, A>(
+    eval: Eval,
+    ranges: &[RangeInclusive<i32>],
+    b_min: i32,
+    b_max: i32,
+    cmp: C,
+) -> Result<Vec<(SmallVec<A>, Measures)>>
+where
+    Eval: Copy + Fn(&SmallVec<A>) -> Result<Measures> + Sync,
+    C: Copy + Fn(&Measures, &Measures) -> Ordering + Sync,
+    A: smallvec::Array<Item = i32>,
+{
+    fn rec<Eval, C, A>(
+        eval: Eval,
+        ranges: &[RangeInclusive<i32>],
+        b_min: i32,
+        b_max: i32,
+        cmp: C,
+        arg: &SmallVec<A>,
+    ) -> Result<Vec<(SmallVec<A>, Measures)>>
+    where
+        Eval: Copy + Fn(&SmallVec<A>) -> Result<Measures> + Sync,
+        C: Copy + Fn(&Measures, &Measures) -> Ordering + Sync,
+        A: smallvec::Array<Item = i32>,
+    {
+        if let Some((first, rest)) = ranges.split_first() {
+            let result = first
+                .clone()
+                .map(|x| {
+                    let mut arg = arg.clone();
+                    arg.push(x);
+                    rec(eval, rest, b_min, b_max, cmp, &arg)
+                })
+                .collect::<Result<Vec<_>>>()?;
+            let result = result
+                .into_iter()
+                .flatten()
+                .min_set_by(|a, b| cmp(&a.1, &b.1));
+            Ok(result)
+        } else {
+            let eval = |b| {
+                let mut arg = arg.clone();
+                arg.push(b);
+                eval(&arg)
+            };
+            let root = find_root_ab(eval, b_min, b_max, cmp)?;
+            let root = root
+                .into_iter()
+                .min_set_by(|a, b| cmp(&a.1, &b.1))
+                .into_iter()
+                .map(|(b, measures)| {
+                    let mut arg = arg.clone();
+                    arg.push(b);
+                    (arg, measures)
+                })
+                .collect::<Vec<_>>();
+            Ok(root)
+        }
+    }
+
+    //一番最初の場合は Rayon で並列化する｡
+    if let Some((first, rest)) = ranges.split_first() {
+        let num_cpus = num_cpus::get();
+        let result = (0..num_cpus)
+            .into_par_iter()
+            .map(|i| -> Result<_> {
+                let range = {
+                    let i = i as i32;
+                    let num_cpus = num_cpus as i32;
+                    let (p, q) = first.clone().into_inner();
+                    let diff = q - p + 1;
+                    let (p, q) = (p + diff * i / num_cpus, p + diff * (i + 1) / num_cpus);
+                    p..q
+                };
+                let result = range
+                    .map(|x| {
+                        let arg = SmallVec::from_slice(&[x]);
+                        rec(eval, rest, b_min, b_max, cmp, &arg)
+                    })
+                    .collect::<Result<Vec<_>>>()?;
+                let result = result
+                    .into_iter()
+                    .flatten()
+                    .min_set_by(|a, b| cmp(&a.1, &b.1));
+                Ok(result)
+            })
+            .collect::<Result<Vec<_>>>()?;
+        let result = result
+            .into_iter()
+            .flatten()
+            .min_set_by(|a, b| cmp(&a.1, &b.1));
+        Ok(result)
+    } else {
+        // 要素が空だった場合､ b_min と b_max の間で探索する｡
+        let eval = |b| {
+            let arg = SmallVec::from_slice(&[b]);
+            eval(&arg)
+        };
+        find_root_ab(eval, b_min, b_max, cmp).map(|root| {
+            root.into_iter()
+                .map(|(b, measures)| (SmallVec::<A>::from_slice(&[b]), measures))
+                .collect::<Vec<_>>()
+        })
+    }
 }
