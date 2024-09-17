@@ -2,7 +2,7 @@ use anyhow::Result;
 use itertools::{izip, Itertools};
 use log::error;
 use smallvec::{smallvec, SmallVec};
-use utility::{consts::*, find_root_multi_dim, Measures};
+use utility::{consts::*, find_root, Measures};
 
 type K = SmallVec<[i32; 3]>;
 
@@ -91,7 +91,7 @@ fn main() {
             ],
             expected
         ) {
-            let results = find_root_multi_dim(|k| eval(&criterion, f, k), &a, b[0], b[1], cmp);
+            let results = find_root(|k| eval(&criterion, f, k), &a, b[0], b[1], cmp);
             match results {
                 Err(e) => error!("{e}"),
                 Ok(results) => match results.len() {

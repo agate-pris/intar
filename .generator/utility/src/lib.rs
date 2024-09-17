@@ -210,7 +210,7 @@ where
     }
 }
 
-pub fn find_root_multi_dim<Eval, C, A>(
+pub fn find_root<Eval, C, A>(
     eval: Eval,
     ranges: &[RangeInclusive<i32>],
     b_min: i32,
