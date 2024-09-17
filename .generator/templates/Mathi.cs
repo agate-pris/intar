@@ -483,7 +483,6 @@ namespace AgatePris.Intar {
             {%- for i in range(end=sin_params | length / 3) %}
             {{ sin_params | nth(n=3 * i) }},
             {%- endfor %}
-            Default = {{ sin_params | nth(n=sin_params | length - 3) }},
         }
 
         {%- for sin in [true, false] %}
@@ -509,7 +508,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする{{ jp }}</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ method }}(int x, SinMethod method = SinMethod.Default) {
+        public static int {{ method }}(int x, SinMethod method) {
             switch (method) {
                 {%- for i in range(end=sin_params | length / 3) %}
                 {%- if loop.last %}

@@ -835,7 +835,6 @@ namespace AgatePris.Intar {
             P3A16384,
             P4A7369,
             P5A51438,
-            Default = P5A51438,
         }
 
         /// <summary>
@@ -856,7 +855,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sin(int x, SinMethod method = SinMethod.Default) {
+        public static int Sin(int x, SinMethod method) {
             switch (method) {
                 case SinMethod.P2: return SinP2(x);
                 case SinMethod.P3A16384: return SinP3A16384(x);
@@ -884,7 +883,7 @@ namespace AgatePris.Intar {
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Cos(int x, SinMethod method = SinMethod.Default) {
+        public static int Cos(int x, SinMethod method) {
             switch (method) {
                 case SinMethod.P2: return CosP2(x);
                 case SinMethod.P3A16384: return CosP3A16384(x);
