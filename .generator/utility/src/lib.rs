@@ -1,4 +1,4 @@
-use std::{cmp::Ordering, ops::RangeInclusive};
+use std::{cmp::Ordering, cmp::PartialOrd, ops::RangeInclusive};
 
 use itertools::Itertools;
 use log::{debug, error, info};
@@ -93,6 +93,35 @@ impl Measures {
     }
     pub fn me_abs_total_cmp(&self, other: &Self) -> Ordering {
         self.me.abs().total_cmp(&other.me.abs())
+    }
+}
+
+impl PartialEq for Measures {
+    fn eq(&self, other: &Self) -> bool {
+        self.rmse == other.rmse
+            && self.mae == other.mae
+            && self.max_error == other.max_error
+            && self.me == other.me
+    }
+}
+
+impl PartialOrd for Measures {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        match self.rmse.partial_cmp(&other.rmse) {
+            Some(head) => {
+                let tail = [
+                    self.mae.partial_cmp(&other.mae),
+                    self.max_error.abs().partial_cmp(&other.max_error.abs()),
+                    self.me.abs().partial_cmp(&other.me.abs()),
+                ];
+                if tail.iter().all(|&x| x == Some(head)) {
+                    Some(head)
+                } else {
+                    None
+                }
+            }
+            None => None,
+        }
     }
 }
 
