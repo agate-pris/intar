@@ -210,37 +210,6 @@ where
     }
 }
 
-pub fn find_root_d2<Eval, C>(
-    eval: Eval,
-    a_range: &RangeInclusive<i32>,
-    b_min: i32,
-    b_max: i32,
-    cmp: C,
-) -> Result<Vec<((i32, i32), Measures)>>
-where
-    Eval: Fn(&(i32, i32)) -> Result<Measures>,
-    C: Copy + Fn(&Measures, &Measures) -> Ordering,
-{
-    let opt_b_for_each_a = a_range
-        .clone()
-        .map(|a| {
-            let root = find_root_ab(|b| eval(&(a, b)), b_min, b_max, cmp)?;
-            debug!("a: {}, root: {:#?}", a, root);
-            Ok((a, root))
-        })
-        .collect::<Result<Vec<_>>>()?;
-    if let Some(first) = opt_b_for_each_a.first() {
-        info!("first: {:?}", first);
-    }
-    if let Some(last) = opt_b_for_each_a.last() {
-        info!("last: {:?}", last);
-    }
-    Ok(opt_b_for_each_a
-        .into_iter()
-        .flat_map(|(a, b)| b.into_iter().map(move |(b, measures)| ((a, b), measures)))
-        .min_set_by(|a, b| cmp(&a.1, &b.1)))
-}
-
 pub fn find_root_multi_dim<Eval, C, A>(
     eval: Eval,
     ranges: &[RangeInclusive<i32>],
