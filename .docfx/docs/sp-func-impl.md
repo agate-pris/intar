@@ -43,27 +43,6 @@ $$
 $$
 
 > $$
-> 0\le x\le\frac{\pi}{2}
-> $$
->
-> $$
-> cos\ x=1+a_2\ x^2+a_4\ x^4+\epsilon(x)
-> $$
->
-> $$
-> |\epsilon(x)|\le9\times10^{-4}
-> $$
->
-> $$
-> \begin{gather*}
-> a_2 = -.49670 &
-> a_4 =  .03705
-> \end{gather*}
-> $$
->
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
-
-> $$
 > 0 \le x \le \frac{\pi}{2}
 > $$
 >
@@ -147,6 +126,27 @@ $$
 - スクリプト : [sin_p3.wxm](../gists/sin_p3.wxm)
 
 ### 4 次の多項式による近似
+
+> $$
+> 0\le x\le\frac{\pi}{2}
+> $$
+>
+> $$
+> cos\ x=1+a_2\ x^2+a_4\ x^4+\epsilon(x)
+> $$
+>
+> $$
+> |\epsilon(x)|\le9\times10^{-4}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_2 = -.49670 &
+> a_4 =  .03705
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.98</cite>
 
 4 次の多項式 $cos_{4\ p}$ について考える｡
 
