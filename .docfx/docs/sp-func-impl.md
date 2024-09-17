@@ -388,7 +388,7 @@ $$
 > \end{align*}
 > $$
 >
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Iverse Circular Functions 4.4.47</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.47</cite>
 
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
