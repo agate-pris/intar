@@ -125,7 +125,7 @@ impl PartialOrd for Measures {
     }
 }
 
-pub fn find_root_ab<Eval, C>(eval: Eval, a: i32, b: i32, cmp: C) -> Result<Vec<(i32, Measures)>>
+fn find_root_ab<Eval, C>(eval: Eval, a: i32, b: i32, cmp: C) -> Result<Vec<(i32, Measures)>>
 where
     Eval: Fn(i32) -> Result<Measures>,
     C: Fn(&Measures, &Measures) -> Ordering,
