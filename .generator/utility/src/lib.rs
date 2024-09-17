@@ -272,7 +272,19 @@ where
                 .map(|x| {
                     let mut arg = arg.clone();
                     arg.push(x);
-                    rec(eval, rest, b_min, b_max, cmp, &arg)
+                    let result = rec(eval, rest, b_min, b_max, cmp, &arg);
+                    if let Ok(result) = result.as_ref() {
+                        if let Some(first) = result.first() {
+                            info!("arg: {arg:?}, measures: {first:?}");
+                        }
+                        for item in result.iter().take(result.len() - 1).skip(1) {
+                            debug!("arg: {arg:?}, measures: {item:?}");
+                        }
+                        if let Some(last) = result.last() {
+                            info!("arg: {arg:?}, measures: {last:?}");
+                        }
+                    }
+                    result
                 })
                 .collect::<Result<Vec<_>>>()?;
             let result = result
