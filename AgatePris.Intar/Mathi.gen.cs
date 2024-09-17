@@ -411,7 +411,6 @@ namespace AgatePris.Intar {
             P2A2909,
             P3A2577B664,
             P5A2996B809,
-            Default = P5A2996B809,
         }
 
         /// <summary>
@@ -432,7 +431,7 @@ namespace AgatePris.Intar {
         /// <param name="method">逆正接の近似方法</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan(int x, AtanMethod method = AtanMethod.Default) {
+        public static int Atan(int x, AtanMethod method) {
             switch (method) {
                 case AtanMethod.P2A2909: return AtanP2A2909(x);
                 case AtanMethod.P3A2577B664: return AtanP3A2577B664(x);
@@ -459,7 +458,7 @@ namespace AgatePris.Intar {
         /// <param name="method">逆正接の近似方法</param>
         /// <returns>2 の 30 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2(int y, int x, AtanMethod method = AtanMethod.Default) {
+        public static int Atan2(int y, int x, AtanMethod method) {
             switch (method) {
                 case AtanMethod.P2A2909: return Atan2P2A2909(y, x);
                 case AtanMethod.P3A2577B664: return Atan2P3A2577B664(y, x);
