@@ -1,13 +1,10 @@
-use std::cmp::Ordering;
-
 use anyhow::Result;
-use itertools::Itertools;
+use itertools::{izip, Itertools};
 use log::error;
-use smallvec::SmallVec;
-use utility::{
-    consts::{TWO_POW_15, TWO_POW_15_AS_F64, TWO_POW_30, TWO_POW_30_AS_F64},
-    find_root_multi_dim, Measures,
-};
+use smallvec::{smallvec, SmallVec};
+use utility::{consts::*, find_root_multi_dim, Measures};
+
+type K = SmallVec<[i32; 3]>;
 
 // 探索を容易にするためビットシフトを加減算より先に行う｡
 // 探索を容易にするため定数項の内 1 つを固定する｡
@@ -15,7 +12,7 @@ use utility::{
 // (そのため､ 最後に x の符号を見て 0 なら 0 を乗算する必要が無くなる)
 // -----------------------------------------------------
 
-fn asin_2(x: i32, k: &[i32; 2]) -> i32 {
+fn asin_2(x: i32, k: &K) -> i32 {
     let y = k[0] * x;
     let y = (k[1] - (y >> 15)) * x;
     let y = (TWO_POW_30 - y) >> 15;
@@ -23,7 +20,7 @@ fn asin_2(x: i32, k: &[i32; 2]) -> i32 {
     TWO_POW_30 - y
 }
 
-fn asin_3(x: i32, k: &[i32; 3]) -> i32 {
+fn asin_3(x: i32, k: &K) -> i32 {
     let y = k[0] * x;
     let y = (k[1] - (y >> 15)) * x;
     let y = (k[2] - (y >> 15)) * x;
@@ -49,117 +46,88 @@ where
     )
 }
 
-fn main() -> Result<()> {
+fn test(expected: &(K, [f64; 4]), actual: &(K, Measures)) -> Result<()> {
+    anyhow::ensure!(expected.0 == actual.0);
+    anyhow::ensure!(
+        Measures {
+            rmse: expected.1[0],
+            mae: expected.1[1],
+            max_error: expected.1[2],
+            me: expected.1[3],
+        } > actual.1
+    );
+    Ok(())
+}
+
+fn main() {
     env_logger::init();
-    let expected = (0..=TWO_POW_15)
+    const NAMES: [&str; 2] = ["Asin P2", "Asin P3"];
+    const F: [fn(i32, &K) -> i32; 2] = [asin_2, asin_3];
+    const B: [[i32; 2]; 2] = [[4200, 4400], [4000, 5000]];
+    let criterion = (0..=TWO_POW_15)
         .map(|i| (i as f64 / TWO_POW_15_AS_F64).asin())
         .collect::<Vec<_>>();
-    let cmp = (
-        Measures::rmse_total_cmp,
-        Measures::mae_total_cmp,
-        Measures::max_error_abs_total_cmp,
-        Measures::me_abs_total_cmp,
-    );
-    let e = (
-        |k: &SmallVec<[i32; 3]>| eval(&expected, asin_2, &[k[0], k[1]]),
-        |k: &SmallVec<[i32; 3]>| eval(&expected, asin_3, &[k[0], k[1], k[2]]),
-    );
-    let a = (
-        ([1000..=1200], 4200, 4400),
-        ([400..=500, 1500..=1700], 4000, 5000),
-    );
-    let results = (
-        || find_root_multi_dim(e.0, &a.0 .0, a.0 .1, a.0 .2, cmp.0),
-        || find_root_multi_dim(e.0, &a.0 .0, a.0 .1, a.0 .2, cmp.1),
-        || find_root_multi_dim(e.0, &a.0 .0, a.0 .1, a.0 .2, cmp.2),
-        || find_root_multi_dim(e.1, &a.1 .0, a.1 .1, a.1 .2, cmp.0),
-        || find_root_multi_dim(e.1, &a.1 .0, a.1 .1, a.1 .2, cmp.1),
-        || find_root_multi_dim(e.1, &a.1 .0, a.1 .1, a.1 .2, cmp.2),
-    );
-    let names = ["rmse", "mae", "max error"];
+    let a: [SmallVec<[_; 2]>; 2] = [smallvec![1000..=1200], smallvec![400..=500, 1500..=1700]];
 
-    type K = SmallVec<[i32; 3]>;
-    type Expected = (Option<fn(&Measures, &Measures) -> Ordering>, K, [f64; 4]);
+    #[rustfmt::skip]
+    let expected: [Vec<Vec<(K, _)>>; 2] = [
+        vec![vec![(smallvec![     1103, 4313], [2.700_381_0e-4, 2.407_591_1e-4, 4.766_100_60e-4, 0.756_195_97e-4])],
+             vec![(smallvec![     1100, 4308], [2.739_588_1e-4, 2.389_275_9e-4, 5.049_200_86e-4, 1.176_046_82e-4])],
+             vec![(smallvec![     1112, 4322], [2.753_828_3e-4, 2.481_575_6e-4, 4.280_716_76e-4, 0.263_690_43e-4])]],
+        vec![vec![(smallvec![425, 1589, 4435], [0.317_820_7e-4, 0.264_041_6e-4, 0.919_193_98e-4, 0.001_146_39e-4])],
+             vec![(smallvec![428, 1591, 4435], [0.320_178_0e-4, 0.263_290_8e-4, 0.919_193_98e-4, 0.001_188_95e-4])],
+             vec![(smallvec![432, 1597, 4437], [0.318_079_0e-4, 0.264_604_3e-4, 0.914_030_41e-4, 0.010_291_97e-4]),
+                  (smallvec![430, 1594, 4436], [0.318_518_9e-4, 0.263_442_4e-4, 0.914_030_41e-4, 0.004_693_60e-4]),
+                  (smallvec![440, 1606, 4439], [0.325_018_7e-4, 0.269_232_6e-4, 0.914_030_41e-4, 0.000_918_73e-4])]],
+    ];
 
-    fn print(
-        name: &str,
-        result: &Vec<(SmallVec<[i32; 3]>, Measures)>,
-        expected: &[Expected],
-    ) -> Result<()> {
-        println!("{name}:");
-
-        for (cmp, expected, acceptable) in expected {
-            if let Some(cmp) = cmp {
-                let actual = result.iter().min_set_by(|(_, a), (_, b)| cmp(a, b));
-                for (actual, measures) in actual {
-                    println!("{actual:?}: {measures:?}");
-                    anyhow::ensure!(expected == actual);
-                    anyhow::ensure!(measures.rmse < acceptable[0]);
-                    anyhow::ensure!(measures.mae < acceptable[1]);
-                    anyhow::ensure!(measures.me.abs() < acceptable[2]);
-                    anyhow::ensure!(measures.max_error.abs() < acceptable[3]);
-                }
-            } else {
-                for (actual, measures) in result {
-                    println!("{actual:?}: {measures:?}");
-                    anyhow::ensure!(expected == actual);
-                    anyhow::ensure!(measures.rmse < acceptable[0]);
-                    anyhow::ensure!(measures.mae < acceptable[1]);
-                    anyhow::ensure!(measures.me.abs() < acceptable[2]);
-                    anyhow::ensure!(measures.max_error.abs() < acceptable[3]);
-                }
+    for (n, f, a, b, expected) in izip!(NAMES, F, a, B, expected) {
+        println!("{n}");
+        for (cmp, expected) in izip!(
+            [
+                Measures::rmse_total_cmp,
+                Measures::mae_total_cmp,
+                Measures::max_error_abs_total_cmp,
+            ],
+            expected
+        ) {
+            let results = find_root_multi_dim(|k| eval(&criterion, f, k), &a, b[0], b[1], cmp);
+            match results {
+                Err(e) => error!("{e}"),
+                Ok(results) => match results.len() {
+                    0 => error!("empty reulsts"),
+                    1 => {
+                        println!("{:?}", results[0]);
+                        if let Err(e) = || -> Result<()> {
+                            anyhow::ensure!(expected.len() == 1);
+                            test(&expected[0], &results[0])?;
+                            Ok(())
+                        }() {
+                            error!("{e}");
+                        };
+                    }
+                    _ => {
+                        for (cmp, expected) in izip!(
+                            [
+                                Measures::rmse_total_cmp,
+                                Measures::mae_total_cmp,
+                                Measures::me_abs_total_cmp,
+                            ],
+                            expected
+                        ) {
+                            let results = results.iter().min_set_by(|a, b| cmp(&a.1, &b.1));
+                            println!("{results:?}");
+                            if let Err(e) = || -> Result<()> {
+                                anyhow::ensure!(results.len() == 1);
+                                test(&expected, results[0])?;
+                                Ok(())
+                            }() {
+                                error!("{e}");
+                            };
+                        }
+                    }
+                },
             }
         }
-
-        Ok(())
     }
-
-    let expected = [
-        K::from_slice(&[1103, 4313]),
-        K::from_slice(&[1100, 4308]),
-        K::from_slice(&[1112, 4322]),
-        K::from_slice(&[425, 1589, 4435]),
-        K::from_slice(&[428, 1591, 4435]),
-        K::from_slice(&[432, 1597, 4437]),
-        K::from_slice(&[430, 1594, 4436]),
-        K::from_slice(&[440, 1606, 4439]),
-    ];
-    let expected_measures = [
-        [0.0002700381, 0.0002407592, 0.0000756196, 0.0004766101],
-        [0.0002739589, 0.0002389276, 0.0001176047, 0.0005049201],
-        [0.0002753829, 0.0002481576, 0.0000263691, 0.0004280717],
-        [0.0000317827, 0.0000264042, 0.0000001147, 0.0000919194],
-        [0.0000320178, 0.0000263291, 0.0000001189, 0.0000919194],
-        [0.0000318079, 0.0000264605, 0.0000010292, 0.0000914031],
-        [0.0000318519, 0.0000263443, 0.0000004694, 0.0000914031],
-        [0.0000325019, 0.0000269233, 0.0000000919, 0.0000914031],
-    ];
-    let expected: Vec<Vec<Expected>> = vec![
-        vec![(None, expected[0].clone(), expected_measures[0])],
-        vec![(None, expected[1].clone(), expected_measures[1])],
-        vec![(None, expected[2].clone(), expected_measures[2])],
-        vec![(None, expected[3].clone(), expected_measures[3])],
-        vec![(None, expected[4].clone(), expected_measures[4])],
-        vec![
-            (Some(cmp.0), expected[5].clone(), expected_measures[5]),
-            (Some(cmp.1), expected[6].clone(), expected_measures[6]),
-            (Some(cmp.3), expected[7].clone(), expected_measures[7]),
-        ],
-    ];
-
-    let results = [
-        print(names[0], &results.0()?, &expected[0]),
-        print(names[1], &results.1()?, &expected[1]),
-        print(names[2], &results.2()?, &expected[2]),
-        print(names[0], &results.3()?, &expected[3]),
-        print(names[1], &results.4()?, &expected[4]),
-        print(names[2], &results.5()?, &expected[5]),
-    ];
-    for result in results {
-        if let Err(e) = result {
-            error!("{:?}", e);
-        }
-    }
-
-    Ok(())
 }
