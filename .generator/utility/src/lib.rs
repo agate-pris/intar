@@ -1,3 +1,6 @@
+#![feature(const_fn_floating_point_arithmetic)]
+#![feature(f128)]
+
 use std::{cmp::Ordering, cmp::PartialOrd, ops::RangeInclusive};
 
 use itertools::Itertools;
@@ -7,10 +10,25 @@ use smallvec::SmallVec;
 use thiserror::Error;
 
 pub mod consts {
+    pub const TWO_POW_7: i16 = 1 << 7;
+    pub const TWO_POW_14: i16 = 1 << 14;
     pub const TWO_POW_15: i32 = 1 << 15;
     pub const TWO_POW_30: i32 = 1 << 30;
+    pub const TWO_POW_62: i64 = 1 << 62;
+    pub const TWO_POW_14_AS_F64: f64 = TWO_POW_14 as f64;
     pub const TWO_POW_15_AS_F64: f64 = TWO_POW_15 as f64;
     pub const TWO_POW_30_AS_F64: f64 = TWO_POW_30 as f64;
+    pub const TWO_POW_62_AS_F64: f64 = TWO_POW_62 as f64;
+}
+
+pub const fn powi(x: f128, n: i32) -> f128 {
+    if n == 0 {
+        1.0
+    } else if n % 2 == 0 {
+        powi(x * x, n / 2)
+    } else {
+        x * powi(x, n - 1)
+    }
 }
 
 #[derive(Debug, Error)]
