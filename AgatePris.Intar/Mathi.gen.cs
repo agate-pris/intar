@@ -829,13 +829,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP5A51438(int x) => SinP5A51438(Overflowing.WrappingAdd(x, SinInternal.Right));
 
-        public enum SinMethod : byte {
-            P2,
-            P3A16384,
-            P4A7369,
-            P5A51438,
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {
             if (x <= 1) {

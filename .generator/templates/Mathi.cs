@@ -478,12 +478,6 @@ namespace AgatePris.Intar {
         {{- self::sin_p5(k=sin_params[9] | trim_start_matches(pat='P5A'), d=sin_params[10], error=sin_params[11]) }}
         {{- self::cos_odd(a=sin_params[9], d=sin_params[10], error=sin_params[11]) }}
 
-        public enum SinMethod : byte {
-            {%- for i in range(end=sin_params | length / 3) %}
-            {{ sin_params | nth(n=3 * i) }},
-            {%- endfor %}
-        }
-
 {%- for type in ['uint', 'ulong'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
