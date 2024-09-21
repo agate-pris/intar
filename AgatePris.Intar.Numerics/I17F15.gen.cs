@@ -455,28 +455,12 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I19F45 WideningMul(I2F30 other) => I19F45.FromBits((long)Bits * other.Bits);
 
         /// <summary>
-        /// 2 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP2() => I2F30.FromBits(Mathi.SinP2(Bits));
-
-        /// <summary>
-        /// 3 次の多項式で正弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP3A16384() => I2F30.FromBits(Mathi.SinP3A16384(Bits));
-
-        /// <summary>
         /// 4 次の多項式で正弦比を近似する。
         /// </summary>
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP4A7369() => I2F30.FromBits(Mathi.SinP4A7369(Bits));
+        public I2F30 SinP4() => I2F30.FromBits(Mathi.SinP4(Bits));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -484,23 +468,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP5A51438() => I2F30.FromBits(Mathi.SinP5A51438(Bits));
-
-        /// <summary>
-        /// 2 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP2() => I2F30.FromBits(Mathi.CosP2(Bits));
-
-        /// <summary>
-        /// 3 次の多項式で余弦比を近似する。
-        /// </summary>
-        /// <param name="x">直角に対する角度の比</param>
-        /// <returns>余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP3A16384() => I2F30.FromBits(Mathi.CosP3A16384(Bits));
+        public I2F30 SinP5() => I2F30.FromBits(Mathi.SinP5(Bits));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -508,7 +476,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP4A7369() => I2F30.FromBits(Mathi.CosP4A7369(Bits));
+        public I2F30 CosP4() => I2F30.FromBits(Mathi.CosP4(Bits));
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -516,7 +484,7 @@ namespace AgatePris.Intar.Numerics {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP5A51438() => I2F30.FromBits(Mathi.CosP5A51438(Bits));
+        public I2F30 CosP5() => I2F30.FromBits(Mathi.CosP5(Bits));
 
         // ベクトル型との演算
         // ------------------
