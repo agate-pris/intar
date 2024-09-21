@@ -19,86 +19,30 @@
         }
 {%- endmacro -%}
 
-{%- macro sin_cos_comment(sin, a, d, error) %}
+{%- macro sin_comment(sin, type, order, error) %}
 {%- if sin %}{% set prefix='Sin' %}{% set jp='正弦比' %}
 {%- else   %}{% set prefix='Cos' %}{% set jp='余弦比' %}
 {%- endif %}
+{%- if   type == 'int'  %}{% set shift = 15 %}{% set one = '1'  %}
+{%- elif type == 'long' %}{% set shift = 31 %}{% set one = '1L' %}
+{%- endif %}
 
         /// <summary>
-        /// {{ d }} 次の多項式で{{ jp }}を近似する。
+        /// {{ order }} 次の多項式で{{ jp }}を近似する。
         /// <example>
         /// <code>
-        /// const int k = 1 &lt;&lt; 15;
+        /// const {{ type }} k = {{ one }} &lt;&lt; {{ shift }};
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.{{ prefix }}{{ a }}(x);
+        /// var actual = Intar.Mathi.{{ prefix }}P{{ order }}(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.{{ prefix }}(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
+        /// var a = (double)actual / ({{ one }} &lt;&lt; {{ 2 * shift }});
         /// Assert.AreEqual(expected, a, {{ error }});
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする{{ jp }}</returns>
-{%- endmacro -%}
-
-{%- macro sin_even(a, d, error) %}
-
-        {{- self::sin_cos_comment(sin=true, a=a, d=d, error=error) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sin{{ a }}(int x) => Cos{{ a }}(Overflowing.WrappingSub(x, SinInternal.Right));
-{%- endmacro -%}
-
-{%- macro cos_even(a, d, error) %}
-
-        {{- self::sin_cos_comment(sin=false, a=a, d=d, error=error) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Cos{{ a }}(int x) {
-            var masked = x & SinInternal.RightMask;
-            switch (SinInternal.ToQuadrant(x)) {
-                default:
-                case SinInternal.Quadrant.First: return SinInternal.One - SinInternal.Cos{{ a }}(masked);
-                case SinInternal.Quadrant.Third: return SinInternal.Cos{{ a }}(masked) - SinInternal.One;
-                case SinInternal.Quadrant.Fourth: return SinInternal.One - SinInternal.Cos{{ a }}(SinInternal.Right - masked);
-                case SinInternal.Quadrant.Second: return SinInternal.Cos{{ a }}(SinInternal.Right - masked) - SinInternal.One;
-            }
-        }
-{%- endmacro -%}
-
-{%- macro cos_odd(a, d, error) %}
-
-        {{- self::sin_cos_comment(sin=false, a=a, d=d, error=error) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Cos{{ a }}(int x) => Sin{{ a }}(Overflowing.WrappingAdd(x, SinInternal.Right));
-{%- endmacro -%}
-
-{%- macro cos_p4_detail(k) %}
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int CosP4A{{ k }}(int z) {
-                const int a = {{ k }};
-                const int k = a + Right;
-                z = (z * z) >> RightExp;
-                var y = k - ((z * a) >> RightExp);
-                return y * z;
-            }
-{%- endmacro -%}
-
-{%- macro sin_p5(k, d, error) %}
-
-        {{- self::sin_cos_comment(sin=true, a='P5A'~k, d=d, error=error) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5A{{ k }}(int x) {
-            const int a = {{ k }};
-            const int b = (a * 2) - (SinInternal.Right * 5 / 2);
-            const int c = a - (SinInternal.Right * 3 / 2);
-            x = SinInternal.MakeArgOdd(x);
-            var z = (x * x) >> SinInternal.RightExp;
-            int y;
-            y = b - ((z * c) >> SinInternal.RightExp);
-            y = a - ((y * z) >> SinInternal.RightExp);
-            return y * x;
-        }
+        /// <param name="x">2 の {{ shift }} 乗を直角とする角度</param>
+        /// <returns>2 の {{ 2 * shift }} 乗を 1 とする{{ jp }}</returns>
 {%- endmacro -%}
 
 {%- macro asin_equation() %}
@@ -417,11 +361,6 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         internal static class SinInternal {
-            internal const int RightExp = (8 * sizeof(int) / 2) - 1;
-            internal const int Right = 1 << RightExp;
-            internal const int RightMask = Right - 1;
-            internal const int One = Right * Right;
-
             internal enum Quadrant : byte {
                 First,
                 Second,
@@ -429,54 +368,146 @@ namespace AgatePris.Intar {
                 Fourth,
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static Quadrant ToQuadrant(int x) => (Quadrant)((x >> RightExp) & 3);
+            {%- for type in ['int', 'long'] %}
+            {%- if   type == 'int'  %}{% set exp = 15 %}{% set one = '1'  %}
+            {%- elif type == 'long' %}{% set exp = 31 %}{% set one = '1L' %}
+            {%- endif %}
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int MakeArgOdd(int x) {
-                var masked = x & RightMask;
+            internal static Quadrant ToQuadrant({{ type }} x) => (Quadrant)((x >> {{ exp }}) & 3);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static {{ type }} MakeArgOdd({{ type }} x) {
+                var masked = x & (({{ one }} << {{ exp }}) - 1);
                 switch (ToQuadrant(x)) {
                     default:
                     case Quadrant.First: return masked;
                     case Quadrant.Third: return -masked;
-                    case Quadrant.Fourth: return masked - Right;
-                    case Quadrant.Second: return Right - masked;
+                    case Quadrant.Fourth: return masked - ({{ one }} << {{ exp }});
+                    case Quadrant.Second: return ({{ one }} << {{ exp }}) - masked;
                 }
+            }
+            {%- endfor %}
+
+            const decimal K01 = 3.1415926535897932384626433833m / 2;
+            const decimal K02 = K01 * K01;
+            const decimal K03 = K02 * K01;
+            const decimal K04 = K03 * K01;
+            const decimal K05 = K04 * K01;
+            const decimal K06 = K05 * K01;
+            const decimal K07 = K06 * K01;
+            const decimal K08 = K07 * K01;
+            const decimal K09 = K08 * K01;
+            const decimal K10 = K09 * K01;
+            const decimal K11 = K10 * K01;
+
+            // See SinTest.cs
+
+            internal const long P11I64A = (long)(0.5m + (1.000_000_000_0m * K01 * (1L << 62)));
+            internal const long P11I64B = (long)(0.5m + (0.166_666_666_4m * K03 * (1L << 62) * (1 << 1)));
+            internal const long P11I64C = (long)(0.5m + (0.008_333_331_5m * K05 * (1L << 62) * (1 << 4)));
+            internal const long P11I64D = (long)(0.5m + (0.000_198_409_0m * K07 * (1L << 62) * (1 << 8)));
+            internal const long P11I64E = (long)(0.5m + (0.000_002_752_6m * K09 * (1L << 62) * (1 << 13)));
+            internal const long P11I64F = (long)(0.0m + (0.000_000_023_9m * K11 * (1L << 62) * (1 << 19)));
+            internal const long P10I64A = (long)(0.5m + (0.499_999_996_3m * K02 * (1L << 62)));
+            internal const long P10I64B = (long)(0.5m + (0.041_666_641_8m * K04 * (1L << 62) * (1 << 2)));
+            internal const long P10I64C = (long)(0.5m + (0.001_388_839_7m * K06 * (1L << 62) * (1 << 6)));
+            internal const long P10I64D = (long)(0.5m + (0.000_024_760_9m * K08 * (1L << 62) * (1 << 11)));
+            internal const long P10I64E = (long)(0.0m + (0.000_000_260_5m * K10 * (1L << 62) * (1 << 16)));
+            internal const int P5I32A = (int)(0.5m + (1.00000m * K01 * (1 << 30)));
+            internal const int P5I32B = (int)(0.5m + (0.16605m * K03 * (1 << 30) * (1 << 1)));
+            internal const int P5I32C = (int)(0.0m + (0.00761m * K05 * (1 << 30) * (1 << 4)));
+            internal const int P4I32A = (int)(0.5m + (0.49670m * K02 * (1 << 30)));
+            internal const int P4I32B = (int)(0.0m + (0.03705m * K04 * (1 << 30) * (1 << 3)));
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static long P11(long z) {
+                long y;
+                y = P11I64F + ((1L << 31) / 2);
+                y = P11I64E - (((y >> 31) * z) >> 6);
+                y = P11I64D - (((y >> 31) * z) >> 5);
+                y = P11I64C - (((y >> 31) * z) >> 4);
+                y = P11I64B - (((y >> 31) * z) >> 3);
+                y = P11I64A - (((y >> 31) * z) >> 1);
+                return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int CosP2(int z) {
-                return z * z;
+            internal static long P10(long z) {
+                long y;
+                y = P10I64E + ((1 << 31) / 2);
+                y = P10I64D - (((y >> 31) * z) >> 5);
+                y = P10I64C - (((y >> 31) * z) >> 5);
+                y = P10I64B - (((y >> 31) * z) >> 4);
+                y = P10I64A - (((y >> 31) * z) >> 2);
+                return (y >> 31) * z;
             }
 
-            {{- self::cos_p4_detail(k=7369) }}
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P5(int z) {
+                int y;
+                y = P5I32C + ((1 << 15) / 2);
+                y = P5I32B - (((y >> 15) * z) >> 3);
+                y = P5I32A - (((y >> 15) * z) >> 1);
+                return y;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P4(int z) {
+                int y;
+                y = P4I32B + ((1 << 15) / 2);
+                y = P4I32A - (((y >> 15) * z) >> 3);
+                return (y >> 15) * z;
+            }
         }
 
-        {%- set sin_params = [
-            'P2',       2, 0.056010,
-            'P3A16384', 3, 0.020017,
-            'P4A7369',  4, 0.001091,
-            'P5A51438', 5, 0.000232
-        ] %}
+        {%- set p4  = ['int',   4, 0.0018     ] %}
+        {%- set p5  = ['int',   5, 0.0004     ] %}
+        {%- set p10 = ['long', 10, 0.000000004] %}
+        {%- set p11 = ['long', 11, 0.000000004] %}
 
-        {{- self::cos_even(a=sin_params[0], d=sin_params[1], error=sin_params[2]) }}
-        {{- self::sin_even(a=sin_params[0], d=sin_params[1], error=sin_params[2]) }}
+        {%- for params in [p4, p10] %}
+        {%- if   params[0] == 'int'  %}{% set shift = 15 %}{% set one = '1'  %}
+        {%- elif params[0] == 'long' %}{% set shift = 31 %}{% set one = '1L' %}
+        {%- endif %}
 
-        {{- self::sin_cos_comment(sin=true, a=sin_params[3], d=sin_params[4], error=sin_params[5]) }}
+        {{- self::sin_comment(sin=false, type=params[0], order=params[1], error=params[2]) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sin{{ sin_params[3] }}(int x) {
-            const int b = SinInternal.Right / 2;
-            const int a = SinInternal.Right + b;
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (a - ((z_2 * b) >> SinInternal.RightExp)) * z;
+        public static {{ params[0] }} CosP{{ params[1] }}({{ params[0] }} x) {
+            const {{ params[0] }} pi = {{ one }} << {{ shift }};
+            const {{ params[0] }} one = {{ one }} << {{ 2 * shift }};
+            var q = SinInternal.ToQuadrant(x);
+            x &= pi - 1;
+            switch (q) {
+                default:
+                case SinInternal.Quadrant.First: return one - SinInternal.P{{ params[1] }}((x * x) >> {{ shift }});
+                case SinInternal.Quadrant.Third: return SinInternal.P{{ params[1] }}((x * x) >> {{ shift }}) - one;
+                case SinInternal.Quadrant.Fourth: return one - SinInternal.P{{ params[1] }}(((pi - x) * (pi - x)) >> {{ shift }});
+                case SinInternal.Quadrant.Second: return SinInternal.P{{ params[1] }}(((pi - x) * (pi - x)) >> {{ shift }}) - one;
+            }
         }
 
-        {{- self::cos_odd(a=sin_params[3], d=sin_params[4], error=sin_params[5]) }}
-        {{- self::cos_even(a=sin_params[6], d=sin_params[7], error=sin_params[8]) }}
-        {{- self::sin_even(a=sin_params[6], d=sin_params[7], error=sin_params[8]) }}
-        {{- self::sin_p5(k=sin_params[9] | trim_start_matches(pat='P5A'), d=sin_params[10], error=sin_params[11]) }}
-        {{- self::cos_odd(a=sin_params[9], d=sin_params[10], error=sin_params[11]) }}
+        {{- self::sin_comment(sin=true, type=params[0], order=params[1], error=params[2]) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ params[0] }} SinP{{ params[1] }}({{ params[0] }} x) => CosP{{ params[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        {%- endfor %}
+
+        {%- for params in [p5, p11] %}
+        {%- if   params[0] == 'int'  %}{% set shift = 15 %}{% set one = '1'  %}
+        {%- elif params[0] == 'long' %}{% set shift = 31 %}{% set one = '1L' %}
+        {%- endif %}
+
+        {{- self::sin_comment(sin=true, type=params[0], order=params[1], error=params[2]) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ params[0] }} SinP{{ params[1] }}({{ params[0] }} x) {
+            x = SinInternal.MakeArgOdd(x);
+            return x * (SinInternal.P{{ params[1] }}((x * x) >> {{ shift }}) >> {{ shift }});
+        }
+
+        {{- self::sin_comment(sin=false, type=params[0], order=params[1], error=params[2]) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ params[0] }} CosP{{ params[1] }}({{ params[0] }} x) => SinP{{ params[1] }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
+        {%- endfor %}
 
 {%- for type in ['uint', 'ulong'] %}
 
