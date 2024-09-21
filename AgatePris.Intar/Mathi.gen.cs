@@ -836,62 +836,6 @@ namespace AgatePris.Intar {
             P5A51438,
         }
 
-        /// <summary>
-        /// 指定された方法で正弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.P5A51438;
-        /// var actual = Intar.Mathi.Sin(x, method);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Sin(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000232);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sin(int x, SinMethod method) {
-            switch (method) {
-                case SinMethod.P2: return SinP2(x);
-                case SinMethod.P3A16384: return SinP3A16384(x);
-                case SinMethod.P4A7369: return SinP4A7369(x);
-                default:
-                case SinMethod.P5A51438: return SinP5A51438(x);
-            }
-        }
-
-        /// <summary>
-        /// 指定された方法で余弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.P5A51438;
-        /// var actual = Intar.Mathi.Cos(x, method);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Cos(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000232);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Cos(int x, SinMethod method) {
-            switch (method) {
-                case SinMethod.P2: return CosP2(x);
-                case SinMethod.P3A16384: return CosP3A16384(x);
-                case SinMethod.P4A7369: return CosP4A7369(x);
-                default:
-                case SinMethod.P5A51438: return CosP5A51438(x);
-            }
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {
             if (x <= 1) {

@@ -484,41 +484,6 @@ namespace AgatePris.Intar {
             {%- endfor %}
         }
 
-        {%- for sin in [true, false] %}
-        {%- if sin %}{% set method='Sin' %}{% set jp='正弦比' %}
-        {%- else   %}{% set method='Cos' %}{% set jp='余弦比' %}
-        {%- endif  %}
-
-        /// <summary>
-        /// 指定された方法で{{ jp }}を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var method = Intar.Mathi.SinMethod.{{ sin_params[9] }};
-        /// var actual = Intar.Mathi.{{ method }}(x, method);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.{{ method }}(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, {{ sin_params[11] }});
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする{{ jp }}</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int {{ method }}(int x, SinMethod method) {
-            switch (method) {
-                {%- for i in range(end=sin_params | length / 3) %}
-                {%- if loop.last %}
-                default:{% endif %}
-                case SinMethod.{{ sin_params | nth(n=3 * i) }}: return {{ method }}{{ sin_params | nth(n=3 * i) }}(x);
-                {%- endfor %}
-            }
-        }
-
-        {%- endfor %}
-
 {%- for type in ['uint', 'ulong'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
