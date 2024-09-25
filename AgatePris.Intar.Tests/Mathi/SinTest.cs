@@ -5,235 +5,252 @@ using System.IO;
 
 namespace AgatePris.Intar.Tests.Mathi {
     public class SinTest {
-        public readonly struct SinCase {
-            public Func<int, int> Sin { get; }
-            public Func<int, int> Cos { get; }
-            public string DataPath { get; }
-            public double AcceptableError { get; }
+        [Test]
+        public static void TestConsts() {
+            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64A, 7244019458077122842);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64B, 5957967184218496005);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64C, 5880276630038185627);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64D, 5527136674668279497);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64E, 6054407851785858183);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64F, 8301301681792740747);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64A, 5689439535887298204);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64B, 4679373698902585566);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64C, 6157594556960820448);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64D, 8667924621372700220);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64E, 7200226522060996872);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32A, 1686629713);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32B, 1382064706);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32C, 1250270241);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P4I32A, 1315933018);
+            Assert.AreEqual(Intar.Mathi.SinInternal.P4I32B, 1937570784);
+        }
 
-            public SinCase(
-                Func<int, int> sin,
-                Func<int, int> cos,
-                string dataPath,
-                double acceptableError
-            ) {
-                Sin = sin;
-                Cos = cos;
-                DataPath = dataPath;
-                AcceptableError = acceptableError;
-            }
-            public override string ToString() {
-                return $"{DataPath}";
+        static void TestErrorInt(double expected, int actual, double delta) {
+            const double k = 1.0 / (1 << 30);
+            var error = (actual * k) - expected;
+            if (Math.Abs(error) > delta) {
+                Assert.AreEqual(expected, actual * k, delta);
             }
         }
 
-        public static readonly SinCase[] SinCases = {
-            new SinCase(Intar.Mathi.SinP2, Intar.Mathi.CosP2, "sin_p2.json", 0.056010),
-            new SinCase(Intar.Mathi.SinP3A16384, Intar.Mathi.CosP3A16384, "sin_p3.json", 0.020017),
-            new SinCase(Intar.Mathi.SinP4A7369, Intar.Mathi.CosP4A7369, "sin_p4_7369.json", 0.001091),
-            new SinCase(Intar.Mathi.SinP5A51438, Intar.Mathi.CosP5A51438, "sin_p5_51438.json", 0.000232),
-        };
-
-        static double ToRad(int x) {
-            const double t = Math.PI / (1 << 16);
-            return x * t;
+        static void TestErrorLong(double expected, long actual, double delta) {
+            const double k = 1.0 / (1L << 62);
+            var error = (actual * k) - expected;
+            if (Math.Abs(error) > delta) {
+                Assert.AreEqual(expected, actual * k, delta);
+            }
         }
-        static double ToReal(int x) {
-            const double t = 1.0 / (1 << 30);
-            return x * t;
+
+        static void Test(int expected, int actual, int x) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, $"x: {x}");
+            }
+        }
+        static void Test(long expected, long actual, long x) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, $"x: {x}");
+            }
+        }
+        static void TestSinP4(int expected, int x) => Test(expected, Intar.Mathi.SinP4(x), x);
+        static void TestSinP5(int expected, int x) => Test(expected, Intar.Mathi.SinP5(x), x);
+        static void TestCosP4(int expected, int x) => Test(expected, Intar.Mathi.CosP4(x), x);
+        static void TestCosP5(int expected, int x) => Test(expected, Intar.Mathi.CosP5(x), x);
+        static void TestSinP10(long expected, long x) => Test(expected, Intar.Mathi.SinP10(x), x);
+        static void TestSinP11(long expected, long x) => Test(expected, Intar.Mathi.SinP11(x), x);
+        static void TestCosP10(long expected, long x) => Test(expected, Intar.Mathi.CosP10(x), x);
+        static void TestCosP11(long expected, long x) => Test(expected, Intar.Mathi.CosP11(x), x);
+
+        [Test]
+        public static void TestSymmetryInt() {
+            const int pi = 1 << 16;
+            TestSinP4(-Intar.Mathi.SinP4(pi / 2), -pi / 2);
+            TestSinP5(-Intar.Mathi.SinP5(pi / 2), -pi / 2);
+            TestCosP4(-Intar.Mathi.CosP4(pi / 2), -pi / 2);
+            TestCosP5(-Intar.Mathi.CosP5(pi / 2), -pi / 2);
+            for (var x = 0; x < pi / 2; ++x) {
+                var cos = Math.Cos(x * Math.PI / pi);
+                int fx;
+                fx = Intar.Mathi.CosP4(x);
+                TestErrorInt(cos, fx, 0.0018);
+                TestSinP4(fx, (pi / 2) - x);
+                TestSinP4(fx, (pi / 2) + x);
+                TestCosP4(fx, -x);
+                TestSinP4(-fx, -(pi / 2) - x);
+                TestSinP4(-fx, -(pi / 2) + x);
+                TestCosP4(-fx, pi - x);
+                TestCosP4(-fx, x - pi);
+                fx = Intar.Mathi.CosP5(x);
+                TestErrorInt(cos, fx, 0.0004);
+                TestSinP5(fx, (pi / 2) - x);
+                TestSinP5(fx, (pi / 2) + x);
+                TestCosP5(fx, -x);
+                TestSinP5(-fx, -(pi / 2) - x);
+                TestSinP5(-fx, -(pi / 2) + x);
+                TestCosP5(-fx, pi - x);
+                TestCosP5(-fx, x - pi);
+            }
         }
 
         [Test]
-        public void TestSin(
-            [ValueSource(nameof(SinCases))] SinCase sinCase,
-            [Random(1)] ulong s0,
-            [Random(1)] ulong s1
-        ) {
-            const int rightExp = 15;
-            const int right = 1 << rightExp;
-            const int rightMask = right - 1;
-            const int straight = 2 * right;
-            const int full = 2 * straight;
-            const int negFull = -full;
-            const int one = 1 << 30;
+        public static void TestSymmetryLong() {
+            const long pi = 1L << 32;
+            const long step = pi / 2 / (1 << 16);
+            TestSinP10(-Intar.Mathi.SinP10(pi / 2), -pi / 2);
+            TestSinP11(-Intar.Mathi.SinP11(pi / 2), -pi / 2);
+            TestCosP10(-Intar.Mathi.CosP10(pi / 2), -pi / 2);
+            TestCosP11(-Intar.Mathi.CosP11(pi / 2), -pi / 2);
+            var ofss = new long[] { 0, 1, step - 1 };
+            foreach (var ofs in ofss) {
+                for (var xBase = 0L; xBase < pi / 2; xBase += step) {
+                    var x = xBase + ofs;
+                    var cos = Math.Cos(x * Math.PI / pi);
+                    long fx;
+                    fx = Intar.Mathi.CosP10(x);
+                    TestErrorLong(cos, fx, 0.000000004);
+                    TestSinP10(fx, (pi / 2) - x);
+                    TestSinP10(fx, (pi / 2) + x);
+                    TestCosP10(fx, -x);
+                    TestSinP10(-fx, -(pi / 2) - x);
+                    TestSinP10(-fx, -(pi / 2) + x);
+                    TestCosP10(-fx, pi - x);
+                    TestCosP10(-fx, x - pi);
+                    fx = Intar.Mathi.CosP11(x);
+                    TestErrorLong(cos, fx, 0.000000004);
+                    TestSinP11(fx, (pi / 2) - x);
+                    TestSinP11(fx, (pi / 2) + x);
+                    TestCosP11(fx, -x);
+                    TestSinP11(-fx, -(pi / 2) - x);
+                    TestSinP11(-fx, -(pi / 2) + x);
+                    TestCosP11(-fx, pi - x);
+                    TestCosP11(-fx, x - pi);
+                }
+            }
+        }
 
+        [Test]
+        public static void TestPeriodicityInt() {
+            const int pi = 1 << 16;
+            var ofss = new List<int>();
+            {
+                var tmp = new int[] { 0, 1, (pi / 2) - 1 };
+                for (var i = 0; i < 4; ++i) {
+                    foreach (var v in tmp) {
+                        ofss.Add((i * pi / 2) + v);
+                    }
+                }
+            }
+            foreach (var ofs in ofss) {
+                var sinP4 = Intar.Mathi.SinP4(ofs);
+                var sinP5 = Intar.Mathi.SinP5(ofs);
+                var cosP4 = Intar.Mathi.CosP4(ofs);
+                var cosP5 = Intar.Mathi.CosP5(ofs);
+                for (var x = int.MinValue; x <= int.MaxValue - (2 * pi); x += 2 * pi) {
+                    TestSinP4(sinP4, x + ofs);
+                    TestSinP5(sinP5, x + ofs);
+                    TestCosP4(cosP4, x + ofs);
+                    TestCosP5(cosP5, x + ofs);
+                }
+            }
+        }
+
+        [Test]
+        public static void TestPeriodicityLong() {
+            const long pi = 1L << 32;
+            var ofss = new List<long>();
+            {
+                var tmp = new long[] { 0, 1, (pi / 2) - 1 };
+                for (var i = 0; i < 4; ++i) {
+                    foreach (var v in tmp) {
+                        ofss.Add((i * pi / 2) + v);
+                    }
+                }
+            }
+            foreach (var ofs in ofss) {
+                var sinP10 = Intar.Mathi.SinP10(ofs);
+                var sinP11 = Intar.Mathi.SinP11(ofs);
+                var cosP10 = Intar.Mathi.CosP10(ofs);
+                var cosP11 = Intar.Mathi.CosP11(ofs);
+
+                const long step = 2 * pi * (1L << 16);
+                for (var x = long.MinValue; x <= long.MaxValue - step; x += step) {
+                    TestSinP10(sinP10, x + ofs);
+                    TestSinP11(sinP11, x + ofs);
+                    TestCosP10(cosP10, x + ofs);
+                    TestCosP11(cosP11, x + ofs);
+                }
+            }
+        }
+
+        [Test]
+        public static void TestP4() {
             List<int> data;
-            {
-                var path = Utility.MakeUpPath(sinCase.DataPath);
-                if (File.Exists(path)) {
-                    data = Utility.ReadInts(path);
-                } else {
-                    data = new List<int>();
-                    Utility.WriteInts(path, x => {
-                        var v = sinCase.Sin(x);
-                        data.Add(v);
-                        return v;
-                    }, right);
+            var path = Utility.MakeUpPath("sin_p4.json");
+            if (File.Exists(path)) {
+                data = Utility.ReadInts(path);
+                for (var i = 0; i < data.Count; ++i) {
+                    TestSinP4(data[i], i);
                 }
+            } else {
+                data = new List<int>();
+                Utility.WriteInts(path, x => {
+                    var v = Intar.Mathi.SinP4(x);
+                    data.Add(v);
+                    return v;
+                }, 1 << 15);
             }
-
-            Assert.AreNotEqual(null, data);
-            Assert.AreEqual(right + 1, data.Count);
-            Assert.AreEqual(0, data[0]);
-            Assert.AreEqual(one, data[right]);
-            for (var i = 1; i < data.Count; i++) {
-                if (data[i] <= 0) {
-                    Assert.Fail($"data[{i}]: {data[i]}");
+        }
+        [Test]
+        public static void TestP5() {
+            List<int> data;
+            var path = Utility.MakeUpPath("sin_p5.json");
+            if (File.Exists(path)) {
+                data = Utility.ReadInts(path);
+                for (var i = 0; i < data.Count; ++i) {
+                    TestSinP5(data[i], i);
                 }
+            } else {
+                data = new List<int>();
+                Utility.WriteInts(path, x => {
+                    var v = Intar.Mathi.SinP5(x);
+                    data.Add(v);
+                    return v;
+                }, 1 << 15);
             }
-
-            void testSinInt(int x, int actual) {
-                var masked = x & rightMask;
-                int expected;
-                switch ((x >> rightExp) & 3) {
-                    case 0: expected = data[masked]; break;
-                    case 1: expected = data[right - masked]; break;
-                    case 2: expected = -data[masked]; break;
-                    case 3: expected = -data[right - masked]; break;
-                    default: Assert.Fail(); return;
-                };
-                if (expected != actual) {
-                    Assert.Fail(
-                        $"{nameof(x)}: {x}, " +
-                        $"{nameof(expected)}: {expected}, " +
-                        $"{nameof(actual)}: {actual}"
-                    );
-                }
-            }
-            void testSinReal(int x, int actual, double expected, double actualReal, double error, double absError) {
-                if (absError >= sinCase.AcceptableError) {
-                    Assert.Fail(
-                        $"{nameof(x)}: {x}, " +
-                        $"{nameof(actual)}: {actual}, " +
-                        $"{nameof(expected)}: {expected}, " +
-                        $"{nameof(actualReal)}: {actualReal}"
-                    );
-                }
-            }
-
-            var maxError = 0.0;
-            var errorSum = 0.0;
-            var absoluteErrorSum = 0.0;
-            var squaredErrorSum = 0.0;
-            void acc(double error, double absError) {
-                maxError = Math.Max(maxError, absError);
-                errorSum += error;
-                absoluteErrorSum += absError;
-                squaredErrorSum += absError * absError;
-            }
-
-            void testSinWithoutStatistics(int x, int actual, double expected, double actualReal, double error, double absError) {
-                testSinInt(x, actual);
-                testSinReal(x, actual, expected, actualReal, error, absError);
-            }
-            void testSinWithStatistics(int x) {
-                var actual = sinCase.Sin(x);
-                var expected = Math.Sin(ToRad(x));
-                var actualReal = ToReal(actual);
-                var error = actualReal - expected;
-                var absError = Math.Abs(error);
-                testSinWithoutStatistics(x, actual, expected, actualReal, error, absError);
-                acc(error, absError);
-            }
-            void testSin(int x) {
-                var actual = sinCase.Sin(x);
-                var expected = Math.Sin(ToRad(x));
-                var actualReal = ToReal(actual);
-                var error = actualReal - expected;
-                var absError = Math.Abs(error);
-                testSinWithoutStatistics(x, actual, expected, actualReal, error, absError);
-            }
-            void testCos(int x) {
-                var actual = sinCase.Cos(x);
-                {
-                    var masked = x & rightMask;
-                    int expected;
-                    switch ((x >> rightExp) & 3) {
-                        case 0: expected = data[right - masked]; break;
-                        case 1: expected = -data[masked]; break;
-                        case 2: expected = -data[right - masked]; break;
-                        case 3: expected = data[masked]; break;
-                        default: Assert.Fail(); return;
-                    };
-                    if (expected != actual) {
-                        Assert.Fail();
-                    }
-                }
-                {
-                    var expected = Math.Cos(ToRad(x));
-                    var actualReal = ToReal(actual);
-                    if (Math.Abs(actualReal - expected) > sinCase.AcceptableError) {
-                        Assert.Fail();
-                    }
-                }
-            }
-
-            for (var i = 0U; i < 2; ++i) {
-                var x = unchecked((int)(i * right));
-                testSinWithStatistics(x);
-                if (i == 0) {
-                    testSinWithStatistics(x + 1);
-                    testSinWithStatistics(x + rightMask);
-                } else {
-                    testSin(x + 1);
-                    testSin(x + rightMask);
-                }
-                testCos(x);
-                testCos(x + 1);
-                testCos(x + rightMask);
-            }
-            for (var i = 2U; i <= uint.MaxValue / right; ++i) {
-                var x = unchecked((int)(i * right));
-                testSin(x);
-                testCos(x);
-                testSin(x + 1);
-                testCos(x + 1);
-                testSin(x + rightMask);
-                testCos(x + rightMask);
-            }
-
-            int[] starts = {
-                Overflowing.WrappingSub(int.MinValue, full),
-                int.MinValue,
-                negFull,
-                0
+        }
+        [Test]
+        public static void TestLong() {
+            const long one = 1L << 62;
+            var sinP10 = new long[] {
+                10737418240, 15032385526,
+                17179869168, 21474836456,
+                25769803744, 27917287394,
+                32212254684, 34359738340,
+                38654705632, 40802189294,
             };
-
-            for (var q = 0; q < 4; ++q) {
-                var qr = q * right;
-                foreach (var start in starts) {
-                    if (q == 0 && start == 0) {
-                        for (var x = 2; x < right - 1; ++x) {
-                            testSinWithStatistics(start + qr + x);
-                            testCos(start + qr + x);
-                        }
-                    } else {
-                        for (var x = 2; x < right - 1; ++x) {
-                            testSin(start + qr + x);
-                            testCos(start + qr + x);
-                        }
-                    }
-                }
-            }
-
-            {
-                const int count = right + 1;
-                Console.WriteLine(
-                    $"Count: {count}\n" +
-                    $"Max Error: {maxError}\n" +
-                    $"Mean Error: {errorSum / count}\n" +
-                    $"MAE: {absoluteErrorSum / count}\n" +
-                    $"MSE: {squaredErrorSum / count}\n" +
-                    $"RMSE: {Math.Sqrt(squaredErrorSum / count)}");
-            }
-
-            var rng = new Intar.Rand.Xoroshiro128StarStar(s0, s1);
-            for (var i = 0; i < 999; ++i) {
-                var x = unchecked(
-                    (int)(uint)Intar.Mathi.Clamp(rng.Next(), 0, uint.MaxValue)
-                );
-                testSin(x);
-                testCos(x);
+            var sinP11 = new long[] {
+                0,
+                3373259426,
+                6746518852,
+                10119778278,
+                13493037704,
+                16866297130,
+                20239556556,
+                23612815982,
+                26986075408,
+                30359334834,
+            };
+            var cosP11 = new long[] {
+                4611686007689969664, 4611686007689969668,
+                4611686007689969670, 4611686007689969670,
+                4611686007689969668, 4611686007689969664,
+                4611686005542486016, 4611686007689969650,
+                4611686007689969640, 4611686007689969628,
+            };
+            for (var x = 0; x < 10; ++x) {
+                TestSinP10(sinP10[x], x);
+                TestSinP11(sinP11[x], x);
+                TestCosP10(one, x);
+                TestCosP11(cosP11[x], x);
             }
         }
     }
