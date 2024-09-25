@@ -4,3 +4,5 @@
   href: getting-started.md
 - name: Internal implementation of special function approximation 特殊関数の近似の内部実装
   href: sp-func-impl.md
+- name: 参考文献
+  href: cites.md
