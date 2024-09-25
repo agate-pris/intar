@@ -601,11 +601,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Half(ulong x) => x / 2;
 
         internal static class SinInternal {
-            internal const int RightExp = (8 * sizeof(int) / 2) - 1;
-            internal const int Right = 1 << RightExp;
-            internal const int RightMask = Right - 1;
-            internal const int One = Right * Right;
-
             internal enum Quadrant : byte {
                 First,
                 Second,
@@ -614,125 +609,106 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static Quadrant ToQuadrant(int x) => (Quadrant)((x >> RightExp) & 3);
+            internal static Quadrant ToQuadrant(int x) => (Quadrant)((x >> 15) & 3);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int MakeArgOdd(int x) {
-                var masked = x & RightMask;
+                var masked = x & ((1 << 15) - 1);
                 switch (ToQuadrant(x)) {
                     default:
                     case Quadrant.First: return masked;
                     case Quadrant.Third: return -masked;
-                    case Quadrant.Fourth: return masked - Right;
-                    case Quadrant.Second: return Right - masked;
+                    case Quadrant.Fourth: return masked - (1 << 15);
+                    case Quadrant.Second: return (1 << 15) - masked;
                 }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int CosP2(int z) {
-                return z * z;
+            internal static Quadrant ToQuadrant(long x) => (Quadrant)((x >> 31) & 3);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static long MakeArgOdd(long x) {
+                var masked = x & ((1L << 31) - 1);
+                switch (ToQuadrant(x)) {
+                    default:
+                    case Quadrant.First: return masked;
+                    case Quadrant.Third: return -masked;
+                    case Quadrant.Fourth: return masked - (1L << 31);
+                    case Quadrant.Second: return (1L << 31) - masked;
+                }
+            }
+
+            const decimal K01 = 3.1415926535897932384626433833m / 2;
+            const decimal K02 = K01 * K01;
+            const decimal K03 = K02 * K01;
+            const decimal K04 = K03 * K01;
+            const decimal K05 = K04 * K01;
+            const decimal K06 = K05 * K01;
+            const decimal K07 = K06 * K01;
+            const decimal K08 = K07 * K01;
+            const decimal K09 = K08 * K01;
+            const decimal K10 = K09 * K01;
+            const decimal K11 = K10 * K01;
+
+            // See SinTest.cs
+
+            internal const long P11I64A = (long)(0.5m + (1.000_000_000_0m * K01 * (1L << 62)));
+            internal const long P11I64B = (long)(0.5m + (0.166_666_666_4m * K03 * (1L << 62) * (1 << 1)));
+            internal const long P11I64C = (long)(0.5m + (0.008_333_331_5m * K05 * (1L << 62) * (1 << 4)));
+            internal const long P11I64D = (long)(0.5m + (0.000_198_409_0m * K07 * (1L << 62) * (1 << 8)));
+            internal const long P11I64E = (long)(0.5m + (0.000_002_752_6m * K09 * (1L << 62) * (1 << 13)));
+            internal const long P11I64F = (long)(0.0m + (0.000_000_023_9m * K11 * (1L << 62) * (1 << 19)));
+            internal const long P10I64A = (long)(0.5m + (0.499_999_996_3m * K02 * (1L << 62)));
+            internal const long P10I64B = (long)(0.5m + (0.041_666_641_8m * K04 * (1L << 62) * (1 << 2)));
+            internal const long P10I64C = (long)(0.5m + (0.001_388_839_7m * K06 * (1L << 62) * (1 << 6)));
+            internal const long P10I64D = (long)(0.5m + (0.000_024_760_9m * K08 * (1L << 62) * (1 << 11)));
+            internal const long P10I64E = (long)(0.0m + (0.000_000_260_5m * K10 * (1L << 62) * (1 << 16)));
+            internal const int P5I32A = (int)(0.5m + (1.00000m * K01 * (1 << 30)));
+            internal const int P5I32B = (int)(0.5m + (0.16605m * K03 * (1 << 30) * (1 << 1)));
+            internal const int P5I32C = (int)(0.0m + (0.00761m * K05 * (1 << 30) * (1 << 4)));
+            internal const int P4I32A = (int)(0.5m + (0.49670m * K02 * (1 << 30)));
+            internal const int P4I32B = (int)(0.0m + (0.03705m * K04 * (1 << 30) * (1 << 3)));
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static long P11(long z) {
+                long y;
+                y = P11I64F + ((1L << 31) / 2);
+                y = P11I64E - (((y >> 31) * z) >> 6);
+                y = P11I64D - (((y >> 31) * z) >> 5);
+                y = P11I64C - (((y >> 31) * z) >> 4);
+                y = P11I64B - (((y >> 31) * z) >> 3);
+                y = P11I64A - (((y >> 31) * z) >> 1);
+                return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int CosP4A7369(int z) {
-                const int a = 7369;
-                const int k = a + Right;
-                z = (z * z) >> RightExp;
-                var y = k - ((z * a) >> RightExp);
-                return y * z;
+            internal static long P10(long z) {
+                long y;
+                y = P10I64E + ((1 << 31) / 2);
+                y = P10I64D - (((y >> 31) * z) >> 5);
+                y = P10I64C - (((y >> 31) * z) >> 5);
+                y = P10I64B - (((y >> 31) * z) >> 4);
+                y = P10I64A - (((y >> 31) * z) >> 2);
+                return (y >> 31) * z;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P5(int z) {
+                int y;
+                y = P5I32C + ((1 << 15) / 2);
+                y = P5I32B - (((y >> 15) * z) >> 3);
+                y = P5I32A - (((y >> 15) * z) >> 1);
+                return y;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static int P4(int z) {
+                int y;
+                y = P4I32B + ((1 << 15) / 2);
+                y = P4I32A - (((y >> 15) * z) >> 3);
+                return (y >> 15) * z;
             }
         }
-
-        /// <summary>
-        /// 2 次の多項式で余弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP2(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Cos(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.05601);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP2(int x) {
-            var masked = x & SinInternal.RightMask;
-            switch (SinInternal.ToQuadrant(x)) {
-                default:
-                case SinInternal.Quadrant.First: return SinInternal.One - SinInternal.CosP2(masked);
-                case SinInternal.Quadrant.Third: return SinInternal.CosP2(masked) - SinInternal.One;
-                case SinInternal.Quadrant.Fourth: return SinInternal.One - SinInternal.CosP2(SinInternal.Right - masked);
-                case SinInternal.Quadrant.Second: return SinInternal.CosP2(SinInternal.Right - masked) - SinInternal.One;
-            }
-        }
-
-        /// <summary>
-        /// 2 次の多項式で正弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP2(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Sin(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.05601);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP2(int x) => CosP2(Overflowing.WrappingSub(x, SinInternal.Right));
-
-        /// <summary>
-        /// 3 次の多項式で正弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP3A16384(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Sin(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.020017);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP3A16384(int x) {
-            const int b = SinInternal.Right / 2;
-            const int a = SinInternal.Right + b;
-            var z = SinInternal.MakeArgOdd(x);
-            var z_2 = (z * z) >> SinInternal.RightExp;
-            return (a - ((z_2 * b) >> SinInternal.RightExp)) * z;
-        }
-
-        /// <summary>
-        /// 3 次の多項式で余弦比を近似する。
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP3A16384(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.Cos(rad);
-        /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.020017);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を直角とする角度</param>
-        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP3A16384(int x) => SinP3A16384(Overflowing.WrappingAdd(x, SinInternal.Right));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -740,25 +716,28 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP4A7369(x);
+        /// var actual = Intar.Mathi.CosP4(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.001091);
+        /// Assert.AreEqual(expected, a, 0.0018);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP4A7369(int x) {
-            var masked = x & SinInternal.RightMask;
-            switch (SinInternal.ToQuadrant(x)) {
+        public static int CosP4(int x) {
+            const int pi = 1 << 15;
+            const int one = 1 << 30;
+            var q = SinInternal.ToQuadrant(x);
+            x &= pi - 1;
+            switch (q) {
                 default:
-                case SinInternal.Quadrant.First: return SinInternal.One - SinInternal.CosP4A7369(masked);
-                case SinInternal.Quadrant.Third: return SinInternal.CosP4A7369(masked) - SinInternal.One;
-                case SinInternal.Quadrant.Fourth: return SinInternal.One - SinInternal.CosP4A7369(SinInternal.Right - masked);
-                case SinInternal.Quadrant.Second: return SinInternal.CosP4A7369(SinInternal.Right - masked) - SinInternal.One;
+                case SinInternal.Quadrant.First: return one - SinInternal.P4((x * x) >> 15);
+                case SinInternal.Quadrant.Third: return SinInternal.P4((x * x) >> 15) - one;
+                case SinInternal.Quadrant.Fourth: return one - SinInternal.P4(((pi - x) * (pi - x)) >> 15);
+                case SinInternal.Quadrant.Second: return SinInternal.P4(((pi - x) * (pi - x)) >> 15) - one;
             }
         }
 
@@ -768,18 +747,68 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP4A7369(x);
+        /// var actual = Intar.Mathi.SinP4(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.001091);
+        /// Assert.AreEqual(expected, a, 0.0018);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP4A7369(int x) => CosP4A7369(Overflowing.WrappingSub(x, SinInternal.Right));
+        public static int SinP4(int x) => CosP4(Overflowing.WrappingSub(x, 1 << 15));
+
+        /// <summary>
+        /// 10 次の多項式で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.CosP10(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.000000004);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long CosP10(long x) {
+            const long pi = 1L << 31;
+            const long one = 1L << 62;
+            var q = SinInternal.ToQuadrant(x);
+            x &= pi - 1;
+            switch (q) {
+                default:
+                case SinInternal.Quadrant.First: return one - SinInternal.P10((x * x) >> 31);
+                case SinInternal.Quadrant.Third: return SinInternal.P10((x * x) >> 31) - one;
+                case SinInternal.Quadrant.Fourth: return one - SinInternal.P10(((pi - x) * (pi - x)) >> 31);
+                case SinInternal.Quadrant.Second: return SinInternal.P10(((pi - x) * (pi - x)) >> 31) - one;
+            }
+        }
+
+        /// <summary>
+        /// 10 次の多項式で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.SinP10(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.000000004);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long SinP10(long x) => CosP10(Overflowing.WrappingSub(x, 1L << 31));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -787,27 +816,20 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP5A51438(x);
+        /// var actual = Intar.Mathi.SinP5(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000232);
+        /// Assert.AreEqual(expected, a, 0.0004);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SinP5A51438(int x) {
-            const int a = 51438;
-            const int b = (a * 2) - (SinInternal.Right * 5 / 2);
-            const int c = a - (SinInternal.Right * 3 / 2);
+        public static int SinP5(int x) {
             x = SinInternal.MakeArgOdd(x);
-            var z = (x * x) >> SinInternal.RightExp;
-            int y;
-            y = b - ((z * c) >> SinInternal.RightExp);
-            y = a - ((y * z) >> SinInternal.RightExp);
-            return y * x;
+            return x * (SinInternal.P5((x * x) >> 15) >> 15);
         }
 
         /// <summary>
@@ -816,18 +838,59 @@ namespace AgatePris.Intar {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP5A51438(x);
+        /// var actual = Intar.Mathi.CosP5(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.000232);
+        /// Assert.AreEqual(expected, a, 0.0004);
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="x">2 の 15 乗を直角とする角度</param>
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CosP5A51438(int x) => SinP5A51438(Overflowing.WrappingAdd(x, SinInternal.Right));
+        public static int CosP5(int x) => SinP5(Overflowing.WrappingAdd(x, 1 << 15));
+
+        /// <summary>
+        /// 11 次の多項式で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.SinP11(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.000000004);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long SinP11(long x) {
+            x = SinInternal.MakeArgOdd(x);
+            return x * (SinInternal.P11((x * x) >> 31) >> 31);
+        }
+
+        /// <summary>
+        /// 11 次の多項式で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.CosP11(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.000000004);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long CosP11(long x) => SinP11(Overflowing.WrappingAdd(x, 1L << 31));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {

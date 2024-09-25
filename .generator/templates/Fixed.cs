@@ -360,14 +360,10 @@ namespace AgatePris.Intar.Numerics {
 
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
-            "SinP2",
-            "SinP3A16384",
-            "SinP4A7369",
-            "SinP5A51438",
-            "CosP2",
-            "CosP3A16384",
-            "CosP4A7369",
-            "CosP5A51438",
+            "SinP4",
+            "SinP5",
+            "CosP4",
+            "CosP5",
         ] %}
         {%- set sin = name is starting_with("Sin") %}
         {%- set dim = name | trim_start_matches(pat="SinP") | trim_start_matches(pat="CosP") | truncate(length=1, end="") %}
