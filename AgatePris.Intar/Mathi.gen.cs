@@ -650,7 +650,31 @@ namespace AgatePris.Intar {
             const decimal K10 = K09 * K01;
             const decimal K11 = K10 * K01;
 
-            // See SinTest.cs
+            // Milton Abramowitz and Irene Stegun .
+            // Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) .
+            // United States Department of Commerce, National Bureau of Standards (NBS) , 1964
+
+            // 符号なし整数を用いることで 1 ビット定数の精度上げることができるが､
+            // 最終的な精度に対して与える影響が安定せず､
+            // また､ 乗算対象と同じ精度にすることができなくなるので､
+            // ここではそのビットは捨てる｡
+
+            // 7244019458077122842
+            // 5957967184218496005
+            // 5880276630038185627
+            // 5527136674668279497
+            // 6054407851785858183
+            // 8301301681792740747
+            // 5689439535887298204
+            // 4679373698902585566
+            // 6157594556960820448
+            // 8667924621372700220
+            // 7200226522060996872
+            // 1686629713
+            // 1382064706
+            // 1250270241
+            // 1315933018
+            // 1937570784
 
             internal const long P11I64A = (long)(0.5m + (1.000_000_000_0m * K01 * (1L << 62)));
             internal const long P11I64B = (long)(0.5m + (0.166_666_666_4m * K03 * (1L << 62) * (1 << 1)));
@@ -669,43 +693,46 @@ namespace AgatePris.Intar {
             internal const int P4I32A = (int)(0.5m + (0.49670m * K02 * (1 << 30)));
             internal const int P4I32B = (int)(0.0m + (0.03705m * K04 * (1 << 30) * (1 << 3)));
 
+            // 精度に対して与える影響が軽微であるため､
+            // 乗算前に一度にまとめてビットシフトを行う｡
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P11(long z) {
                 long y;
-                y = P11I64F + ((1L << 31) / 2);
-                y = P11I64E - (((y >> 31) * z) >> 6);
-                y = P11I64D - (((y >> 31) * z) >> 5);
-                y = P11I64C - (((y >> 31) * z) >> 4);
-                y = P11I64B - (((y >> 31) * z) >> 3);
-                y = P11I64A - (((y >> 31) * z) >> 1);
+                y = P11I64F + (1 << (31 + 6 - 1));
+                y = P11I64E - ((y >> (31 + 6)) * z);
+                y = P11I64D - ((y >> (31 + 5)) * z);
+                y = P11I64C - ((y >> (31 + 4)) * z);
+                y = P11I64B - ((y >> (31 + 3)) * z);
+                y = P11I64A - ((y >> (31 + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P10(long z) {
                 long y;
-                y = P10I64E + ((1 << 31) / 2);
-                y = P10I64D - (((y >> 31) * z) >> 5);
-                y = P10I64C - (((y >> 31) * z) >> 5);
-                y = P10I64B - (((y >> 31) * z) >> 4);
-                y = P10I64A - (((y >> 31) * z) >> 2);
+                y = P10I64E + (1 << (31 + 5 - 1));
+                y = P10I64D - ((y >> (31 + 5)) * z);
+                y = P10I64C - ((y >> (31 + 5)) * z);
+                y = P10I64B - ((y >> (31 + 4)) * z);
+                y = P10I64A - ((y >> (31 + 2)) * z);
                 return (y >> 31) * z;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int P5(int z) {
                 int y;
-                y = P5I32C + ((1 << 15) / 2);
-                y = P5I32B - (((y >> 15) * z) >> 3);
-                y = P5I32A - (((y >> 15) * z) >> 1);
+                y = P5I32C + (1 << (15 + 3 - 1));
+                y = P5I32B - ((y >> (15 + 3)) * z);
+                y = P5I32A - ((y >> (15 + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int P4(int z) {
                 int y;
-                y = P4I32B + ((1 << 15) / 2);
-                y = P4I32A - (((y >> 15) * z) >> 3);
+                y = P4I32B + (1 << (15 + 3 - 1));
+                y = P4I32A - ((y >> (15 + 3)) * z);
                 return (y >> 15) * z;
             }
         }

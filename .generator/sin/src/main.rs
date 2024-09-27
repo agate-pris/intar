@@ -31,8 +31,8 @@ pub mod cos_p4 {
             pub fn $f_name(x: $type) -> $type {
                 const EXP: i32 = $shift / 2;
                 let z = (x * x) >> EXP;
-                let y = $k_name[1] + (1 << EXP) / 2;
-                let y = $k_name[0] - (((y >> EXP) * z) >> (LOGS[1] - LOGS[0]));
+                let y = $k_name[1] + (1 << (EXP + LOGS[1] - LOGS[0] - 1));
+                let y = $k_name[0] - ((y >> (EXP + LOGS[1] - LOGS[0])) * z);
                 (y >> EXP) * z
             }
         };
@@ -66,9 +66,9 @@ pub mod sin_p5 {
             pub fn $f_name(x: $type) -> $type {
                 const EXP: i32 = $shift / 2;
                 let z = (x * x) >> EXP;
-                let y = $k_name[2] + (1 << EXP) / 2;
-                let y = $k_name[1] - (((y >> EXP) * z) >> (LOGS[2] - LOGS[1]));
-                let y = $k_name[0] - (((y >> EXP) * z) >> (LOGS[1] - LOGS[0]));
+                let y = $k_name[2] + (1 << (EXP + LOGS[2] - LOGS[1] - 1));
+                let y = $k_name[1] - ((y >> (EXP + LOGS[2] - LOGS[1])) * z);
+                let y = $k_name[0] - ((y >> (EXP + LOGS[1] - LOGS[0])) * z);
                 (y >> EXP) * x
             }
         };
@@ -106,11 +106,11 @@ pub mod cos_p10 {
             pub fn $f_name(x: $type) -> $type {
                 const EXP: i32 = $shift / 2;
                 let z = (x * x) >> EXP;
-                let y = $k_name[4] + (1 << EXP) / 2;
-                let y = $k_name[3] - (((y >> EXP) * z) >> (LOGS[4] - LOGS[3]));
-                let y = $k_name[2] - (((y >> EXP) * z) >> (LOGS[3] - LOGS[2]));
-                let y = $k_name[1] - (((y >> EXP) * z) >> (LOGS[2] - LOGS[1]));
-                let y = $k_name[0] - (((y >> EXP) * z) >> (LOGS[1] - LOGS[0]));
+                let y = $k_name[4] + (1 << (EXP + LOGS[4] - LOGS[3] - 1));
+                let y = $k_name[3] - ((y >> (EXP + LOGS[4] - LOGS[3])) * z);
+                let y = $k_name[2] - ((y >> (EXP + LOGS[3] - LOGS[2])) * z);
+                let y = $k_name[1] - ((y >> (EXP + LOGS[2] - LOGS[1])) * z);
+                let y = $k_name[0] - ((y >> (EXP + LOGS[1] - LOGS[0])) * z);
                 (y >> EXP) * z
             }
         };
@@ -150,12 +150,12 @@ pub mod sin_p11 {
             pub fn $f_name(x: $type) -> $type {
                 const EXP: i32 = $shift / 2;
                 let z = (x * x) >> EXP;
-                let y = $k_name[5] + (1 << EXP) / 2;
-                let y = $k_name[4] - (((y >> EXP) * z) >> (LOGS[5] - LOGS[4]));
-                let y = $k_name[3] - (((y >> EXP) * z) >> (LOGS[4] - LOGS[3]));
-                let y = $k_name[2] - (((y >> EXP) * z) >> (LOGS[3] - LOGS[2]));
-                let y = $k_name[1] - (((y >> EXP) * z) >> (LOGS[2] - LOGS[1]));
-                let y = $k_name[0] - (((y >> EXP) * z) >> (LOGS[1] - LOGS[0]));
+                let y = $k_name[5] + (1 << (EXP + LOGS[5] - LOGS[4] - 1));
+                let y = $k_name[4] - ((y >> (EXP + LOGS[5] - LOGS[4])) * z);
+                let y = $k_name[3] - ((y >> (EXP + LOGS[4] - LOGS[3])) * z);
+                let y = $k_name[2] - ((y >> (EXP + LOGS[3] - LOGS[2])) * z);
+                let y = $k_name[1] - ((y >> (EXP + LOGS[2] - LOGS[1])) * z);
+                let y = $k_name[0] - ((y >> (EXP + LOGS[1] - LOGS[0])) * z);
                 (y >> EXP) * x
             }
         };
