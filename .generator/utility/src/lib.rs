@@ -1,4 +1,3 @@
-#![feature(const_fn_floating_point_arithmetic)]
 #![feature(f128)]
 
 use std::{cmp::Ordering, cmp::PartialOrd, ops::RangeInclusive};
