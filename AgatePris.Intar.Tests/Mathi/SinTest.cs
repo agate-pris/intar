@@ -223,9 +223,9 @@ namespace AgatePris.Intar.Tests.Mathi {
             var sinP10 = new long[] {
                 10737418240, 15032385526,
                 17179869168, 21474836456,
-                25769803744, 27917287394,
-                32212254684, 34359738340,
-                38654705632, 40802189294,
+                23622320104, 27917287394,
+                30064771048, 34359738340,
+                36507222000, 40802189294,
             };
             var sinP11 = new long[] {
                 0,
@@ -242,10 +242,19 @@ namespace AgatePris.Intar.Tests.Mathi {
             var cosP11 = new long[] {
                 4611686007689969664, 4611686007689969668,
                 4611686007689969670, 4611686007689969670,
-                4611686007689969668, 4611686007689969664,
+                4611686007689969668, 4611686005542486021,
                 4611686005542486016, 4611686007689969650,
                 4611686007689969640, 4611686007689969628,
             };
+            for (var x = 0; x < 10; ++x) {
+                Console.WriteLine(Intar.Mathi.SinP10(x));
+            }
+            for (var x = 0; x < 10; ++x) {
+                Console.WriteLine(Intar.Mathi.SinP11(x));
+            }
+            for (var x = 0; x < 10; ++x) {
+                Console.WriteLine(Intar.Mathi.CosP11(x));
+            }
             for (var x = 0; x < 10; ++x) {
                 TestSinP10(sinP10[x], x);
                 TestSinP11(sinP11[x], x);
