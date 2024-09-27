@@ -1,6 +1,8 @@
 #![feature(f128)]
 
-use utility::consts::*;
+use std::ops::Range;
+
+use utility::{consts::*, Measures};
 
 fn to_rad(x: i32) -> f64 {
     x as f64 * (std::f64::consts::FRAC_PI_2 / TWO_POW_15_AS_F64)
@@ -165,6 +167,48 @@ pub mod sin_p11 {
     def!(A_I16, f_i16, 14, i16);
 }
 
+fn cos_p4_f64(x: i32) -> f64 {
+    let x = to_rad(x);
+    let z = x * x;
+    let y = 0.0;
+    let y = (0.03705 - y) * z;
+    let y = (0.49670 - y) * z;
+    1.0 - y - x.cos()
+}
+
+fn sin_p5_f64(x: i32) -> f64 {
+    let x = to_rad(x);
+    let z = x * x;
+    let y = 0.0;
+    let y = (0.00761 - y) * z;
+    let y = (0.16605 - y) * z;
+    (1.0 - y) * x - x.sin()
+}
+
+fn cos_p10_f64(x: i32) -> f64 {
+    let x = to_rad(x);
+    let z = x * x;
+    let y = 0.0;
+    let y = (0.000_000_260_5 - y) * z;
+    let y = (0.000_024_760_9 - y) * z;
+    let y = (0.001_388_839_7 - y) * z;
+    let y = (0.041_666_641_8 - y) * z;
+    let y = (0.499_999_996_3 - y) * z;
+    1.0 - y - x.cos()
+}
+
+fn sin_p11_f64(x: i32) -> f64 {
+    let x = to_rad(x);
+    let z = x * x;
+    let y = 0.0;
+    let y = (0.000_000_023_9 - y) * z;
+    let y = (0.000_002_752_6 - y) * z;
+    let y = (0.000_198_409_0 - y) * z;
+    let y = (0.008_333_331_5 - y) * z;
+    let y = (0.166_666_666_4 - y) * z;
+    (1.0 - y) * x - x.sin()
+}
+
 fn acc_errors<Errors>(errors: Errors) -> (f64, f64, f64, usize, f64)
 where
     Errors: Iterator<Item = f64>,
@@ -200,6 +244,13 @@ fn print_measures(len: usize, errors: &(f64, f64, f64, usize, f64)) {
 
 fn main() {
     env_logger::init();
+    {
+        const RANGE: Range<i32> = 0..32769;
+        println!("{:?}", Measures::try_from(RANGE.map(cos_p4_f64)));
+        println!("{:?}", Measures::try_from(RANGE.map(sin_p5_f64)));
+        println!("{:?}", Measures::try_from(RANGE.map(cos_p10_f64)));
+        println!("{:?}", Measures::try_from(RANGE.map(sin_p11_f64)));
+    }
     {
         assert_eq!(sin_p11::A_I64[0], 7244019458077122842);
         assert_eq!(sin_p11::A_I64[1], 5957967184218496005);
