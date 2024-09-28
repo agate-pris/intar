@@ -1,6 +1,6 @@
 #![feature(f128)]
 
-use std::{cmp::Ordering, cmp::PartialOrd, ops::RangeInclusive};
+use std::{cmp::Ordering, cmp::PartialOrd, fmt::Display, ops::RangeInclusive};
 
 use itertools::Itertools;
 use log::{debug, error, info};
@@ -110,6 +110,16 @@ impl Measures {
     }
     pub fn me_abs_total_cmp(&self, other: &Self) -> Ordering {
         self.me.abs().total_cmp(&other.me.abs())
+    }
+}
+
+impl Display for Measures {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(
+            f,
+            "RMSE: {:13.10}, MAE: {:13.10}, Max Error: {:13.10}, ME: {:12.5e}",
+            self.rmse, self.mae, self.max_error, self.me
+        )
     }
 }
 
