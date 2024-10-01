@@ -7,14 +7,14 @@ namespace AgatePris.Intar.Rand {
             this.s1 = s1;
         }
 
-        public ulong NextInt64() {
+        public long NextInt64() {
             var s0 = this.s0;
             var s1 = this.s1;
             var result = unchecked(BitOperations.RotateLeft(s0 * 5, 7) * 9);
             s1 ^= s0;
             this.s0 = BitOperations.RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);
             this.s1 = BitOperations.RotateLeft(s1, 37);
-            return result;
+            return unchecked((long)result);
         }
 
         public void Jump() {

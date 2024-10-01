@@ -92,7 +92,7 @@ namespace AgatePris.Intar.Tests {
                     rng.Jump();
                 }
                 for (var i = 0; i < 99999; ++i) {
-                    var x = rng.NextInt64();
+                    var x = unchecked((ulong)rng.NextInt64());
                     var expected = LeadingZeroCount(x);
                     var actual = BitOperations.LeadingZeroCount(x);
                     if (expected != actual) {
@@ -146,7 +146,7 @@ namespace AgatePris.Intar.Tests {
                     rng.Jump();
                 }
                 for (var i = 0; i < 99999; ++i) {
-                    var x = rng.NextInt64();
+                    var x = unchecked((ulong)rng.NextInt64());
                     var expected = PopCount(x);
                     var actual = BitOperations.PopCount(x);
                     if (expected != actual) {
