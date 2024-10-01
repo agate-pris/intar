@@ -647,8 +647,8 @@ namespace AgatePris.Intar.Tests.Numerics {
                     for (var i = 0; i < 99; ++i) {
                         var x = rng.Next();
                         var y = rng.Next();
-                        list.Add(unchecked((int)x));
-                        list.Add(unchecked((int)y));
+                        list.Add(x);
+                        list.Add(y);
                         var c = new UnaryCase(list);
                         var s = SerializeUnaryCase(c);
                         file.Write(s);
@@ -668,9 +668,9 @@ namespace AgatePris.Intar.Tests.Numerics {
                         x = rng.Next();
                         y = rng.Next();
                         var z = rng.Next();
-                        list.Add(unchecked((int)x));
-                        list.Add(unchecked((int)y));
-                        list.Add(unchecked((int)z));
+                        list.Add(x);
+                        list.Add(y);
+                        list.Add(z);
                         c = new UnaryCase(list);
                         s = SerializeUnaryCase(c);
                         file.Write(s);
@@ -693,10 +693,10 @@ namespace AgatePris.Intar.Tests.Numerics {
                         y = rng.Next();
                         z = rng.Next();
                         var w = rng.Next();
-                        list.Add(unchecked((int)x));
-                        list.Add(unchecked((int)y));
-                        list.Add(unchecked((int)z));
-                        list.Add(unchecked((int)w));
+                        list.Add(x);
+                        list.Add(y);
+                        list.Add(z);
+                        list.Add(w);
                         c = new UnaryCase(list);
                         s = SerializeUnaryCase(c);
                         file.Write(s);

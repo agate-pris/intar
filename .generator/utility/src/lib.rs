@@ -1,6 +1,6 @@
 #![feature(f128)]
 
-use std::{cmp::Ordering, cmp::PartialOrd, ops::RangeInclusive};
+use std::{cmp::Ordering, cmp::PartialOrd, fmt::Display, ops::RangeInclusive};
 
 use itertools::Itertools;
 use log::{debug, error, info};
@@ -63,6 +63,7 @@ pub struct Measures {
     pub rmse: f64,
     pub mae: f64,
     pub max_error: f64,
+    pub max_error_idx: usize,
     pub me: f64,
 }
 
@@ -76,17 +77,18 @@ impl Measures {
             return Err(Error::EmptyIterator);
         }
         let len = len as f64;
-        let (sqr_sum, abs_sum, max_error, sum) = iter.fold(
-            (0.0, 0.0, 0.0_f64, 0.0),
-            |(sqr_sum, abs_sum, max_error, sum), error| {
+        let (sqr_sum, abs_sum, max, idx, sum) = iter.enumerate().fold(
+            (0.0, 0.0, 0.0_f64, 0_usize, 0.0),
+            |(sqr_sum, abs_sum, max, idx, sum), (i, error)| {
+                let (idx, max) = if max.abs() < error.abs() {
+                    (i, error)
+                } else {
+                    (idx, max)
+                };
                 (
                     sqr_sum + error.powi(2),
                     abs_sum + error.abs(),
-                    if max_error.abs() < error.abs() {
-                        error
-                    } else {
-                        max_error
-                    },
+                    max, idx,
                     sum + error,
                 )
             },
@@ -94,7 +96,8 @@ impl Measures {
         Ok(Measures {
             rmse: (sqr_sum / len).sqrt(),
             mae: abs_sum / len,
-            max_error,
+            max_error: max,
+            max_error_idx: idx,
             me: sum / len,
         })
     }
@@ -110,6 +113,16 @@ impl Measures {
     }
     pub fn me_abs_total_cmp(&self, other: &Self) -> Ordering {
         self.me.abs().total_cmp(&other.me.abs())
+    }
+}
+
+impl Display for Measures {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(
+            f,
+            "RMSE: {:13.10}, MAE: {:13.10}, Max Error: {:13.10} ({:5}), ME: {:12.5e}",
+            self.rmse, self.mae, self.max_error, self.max_error_idx, self.me
+        )
     }
 }
 
