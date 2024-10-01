@@ -645,18 +645,18 @@ namespace AgatePris.Intar.Tests.Numerics {
                     var rng = new Xoroshiro128StarStar(1, 2);
                     var list = new List<long>();
                     for (var i = 0; i < 99; ++i) {
-                        var x = rng.NextInt64();
-                        var y = rng.NextInt64();
-                        list.Add(unchecked((int)x));
-                        list.Add(unchecked((int)y));
+                        var x = rng.Next();
+                        var y = rng.Next();
+                        list.Add(x);
+                        list.Add(y);
                         var c = new UnaryCase(list);
                         var s = SerializeUnaryCase(c);
                         file.Write(s);
                         file.WriteLine(",");
                         list.Clear();
 
-                        x = rng.NextInt64();
-                        y = rng.NextInt64();
+                        x = rng.Next();
+                        y = rng.Next();
                         list.Add(unchecked((uint)x));
                         list.Add(unchecked((uint)y));
                         c = new UnaryCase(list);
@@ -665,21 +665,21 @@ namespace AgatePris.Intar.Tests.Numerics {
                         file.WriteLine(",");
                         list.Clear();
 
-                        x = rng.NextInt64();
-                        y = rng.NextInt64();
-                        var z = rng.NextInt64();
-                        list.Add(unchecked((int)x));
-                        list.Add(unchecked((int)y));
-                        list.Add(unchecked((int)z));
+                        x = rng.Next();
+                        y = rng.Next();
+                        var z = rng.Next();
+                        list.Add(x);
+                        list.Add(y);
+                        list.Add(z);
                         c = new UnaryCase(list);
                         s = SerializeUnaryCase(c);
                         file.Write(s);
                         file.WriteLine(",");
                         list.Clear();
 
-                        x = rng.NextInt64();
-                        y = rng.NextInt64();
-                        z = rng.NextInt64();
+                        x = rng.Next();
+                        y = rng.Next();
+                        z = rng.Next();
                         list.Add(unchecked((uint)x));
                         list.Add(unchecked((uint)y));
                         list.Add(unchecked((uint)z));
@@ -689,24 +689,24 @@ namespace AgatePris.Intar.Tests.Numerics {
                         file.WriteLine(",");
                         list.Clear();
 
-                        x = rng.NextInt64();
-                        y = rng.NextInt64();
-                        z = rng.NextInt64();
-                        var w = rng.NextInt64();
-                        list.Add(unchecked((int)x));
-                        list.Add(unchecked((int)y));
-                        list.Add(unchecked((int)z));
-                        list.Add(unchecked((int)w));
+                        x = rng.Next();
+                        y = rng.Next();
+                        z = rng.Next();
+                        var w = rng.Next();
+                        list.Add(x);
+                        list.Add(y);
+                        list.Add(z);
+                        list.Add(w);
                         c = new UnaryCase(list);
                         s = SerializeUnaryCase(c);
                         file.Write(s);
                         file.WriteLine(",");
                         list.Clear();
 
-                        x = rng.NextInt64();
-                        y = rng.NextInt64();
-                        z = rng.NextInt64();
-                        w = rng.NextInt64();
+                        x = rng.Next();
+                        y = rng.Next();
+                        z = rng.Next();
+                        w = rng.Next();
                         list.Add(unchecked((uint)x));
                         list.Add(unchecked((uint)y));
                         list.Add(unchecked((uint)z));
