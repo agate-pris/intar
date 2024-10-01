@@ -11,7 +11,7 @@ namespace AgatePris.Intar.Tests.Rand {
                 6959129367028440372, 16822147227405758281,
             };
             foreach (var e in expected) {
-                Assert.AreEqual(e, rng.Next());
+                Assert.AreEqual(e, rng.NextInt64());
             }
         }
 
@@ -25,7 +25,7 @@ namespace AgatePris.Intar.Tests.Rand {
                 5488700251982350304, 9830647176479810634, 6282991482565129712,
             };
             foreach (var e in expected) {
-                Assert.AreEqual(e, rng.Next());
+                Assert.AreEqual(e, rng.NextInt64());
             }
         }
 
@@ -39,7 +39,7 @@ namespace AgatePris.Intar.Tests.Rand {
                 14008746486977289672, 12513606066216797820, 17066077850955568493,
             };
             foreach (var e in expected) {
-                Assert.AreEqual(e, rng.Next());
+                Assert.AreEqual(e, rng.NextInt64());
             }
         }
     }

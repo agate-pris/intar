@@ -7,7 +7,7 @@ namespace AgatePris.Intar.Rand {
             this.s1 = s1;
         }
 
-        public ulong Next() {
+        public ulong NextInt64() {
             var s0 = this.s0;
             var s1 = this.s1;
             var result = unchecked(BitOperations.RotateLeft(s0 * 5, 7) * 9);
@@ -27,14 +27,14 @@ namespace AgatePris.Intar.Rand {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                _ = Next();
+                _ = NextInt64();
             }
             for (var i = 0; i < 64; ++i) {
                 if ((k2 & (1UL << i)) != 0) {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                _ = Next();
+                _ = NextInt64();
             }
             this.s0 = s0;
             this.s1 = s1;
@@ -50,14 +50,14 @@ namespace AgatePris.Intar.Rand {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                _ = Next();
+                _ = NextInt64();
             }
             for (var i = 0; i < 64; ++i) {
                 if ((k2 & (1UL << i)) != 0) {
                     s0 ^= this.s0;
                     s1 ^= this.s1;
                 }
-                _ = Next();
+                _ = NextInt64();
             }
             this.s0 = s0;
             this.s1 = s1;
