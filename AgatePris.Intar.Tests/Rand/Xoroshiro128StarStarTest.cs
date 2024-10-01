@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 using NUnit.Framework;
 
 namespace AgatePris.Intar.Tests.Rand {
@@ -40,6 +43,36 @@ namespace AgatePris.Intar.Tests.Rand {
             };
             foreach (var e in expected) {
                 Assert.AreEqual(e, rng.NextInt64());
+            }
+        }
+
+        [Test]
+        public static void TestMinMax() {
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var Dictionary = new Dictionary<int, int>();
+            for (var i = 0; i < 9999; ++i) {
+                var x = rng.Next(9);
+                if (Dictionary.ContainsKey(x)) {
+                    Dictionary[x] += 1;
+                } else {
+                    Dictionary[x] = 1;
+                }
+            }
+            foreach (var kv in Dictionary) {
+                Console.WriteLine($"{kv.Key}: {kv.Value}");
+            }
+            Dictionary.Clear();
+            Console.WriteLine("");
+            for (var i = 0; i < 9999; ++i) {
+                var x = rng.Next(5, 9);
+                if (Dictionary.ContainsKey(x)) {
+                    Dictionary[x] += 1;
+                } else {
+                    Dictionary[x] = 1;
+                }
+            }
+            foreach (var kv in Dictionary) {
+                Console.WriteLine($"{kv.Key}: {kv.Value}");
             }
         }
     }
