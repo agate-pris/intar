@@ -25,6 +25,9 @@ namespace AgatePris.Intar.Rand {
             return Overflowing.WrappingAddUnsigned(minValue, x % d);
         }
         public long NextInt64(long maxValue) => NextInt64(0, maxValue);
+        public int Next() => unchecked((int)NextInt64());
+        public int Next(int minValue, int maxValue) => unchecked((int)NextInt64(minValue, maxValue));
+        public int Next(int maxValue) => Next(0, maxValue);
 
         public void Jump() {
             const ulong k1 = 0xdf900294d8f554a5UL;
