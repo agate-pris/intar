@@ -734,52 +734,47 @@ namespace AgatePris.Intar {
             // Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) .
             // United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
-            // 符号なし整数を用いることで 1 ビット定数の精度上げることができるが､
-            // 最終的な精度に対して与える影響が安定せず､
-            // また､ 乗算対象と同じ精度にすることができなくなるので､
-            // ここではそのビットは捨てる｡
+            // 14488038916154245685
+            // 11915934368436992009
+            // 11760553260076371255
+            // 11054273349336558994
+            // 12108815703571716367
+            // 16602603363585481494
+            // 11378879071774596408
+            // 9358747397805171131
+            // 12315189113921640896
+            // 17335849242745400440
+            // 14400453044121993745
+            // 3373259426
+            // 2764129413
+            // 2500540483
+            // 2631866036
+            // 3875141568
 
-            // 7244019458077122842
-            // 5957967184218496005
-            // 5880276630038185627
-            // 5527136674668279497
-            // 6054407851785858183
-            // 8301301681792740747
-            // 5689439535887298204
-            // 4679373698902585566
-            // 6157594556960820448
-            // 8667924621372700220
-            // 7200226522060996872
-            // 1686629713
-            // 1382064706
-            // 1250270241
-            // 1315933018
-            // 1937570784
-
-            internal const long P11I64A = (long)(0.5m + (1.000_000_000_0m * K01 * (1L << 62)));
-            internal const long P11I64B = (long)(0.5m + (0.166_666_666_4m * K03 * (1L << 62) * (1 << 1)));
-            internal const long P11I64C = (long)(0.5m + (0.008_333_331_5m * K05 * (1L << 62) * (1 << 4)));
-            internal const long P11I64D = (long)(0.5m + (0.000_198_409_0m * K07 * (1L << 62) * (1 << 8)));
-            internal const long P11I64E = (long)(0.5m + (0.000_002_752_6m * K09 * (1L << 62) * (1 << 13)));
-            internal const long P11I64F = (long)(0.0m + (0.000_000_023_9m * K11 * (1L << 62) * (1 << 19)));
-            internal const long P10I64A = (long)(0.5m + (0.499_999_996_3m * K02 * (1L << 62)));
-            internal const long P10I64B = (long)(0.5m + (0.041_666_641_8m * K04 * (1L << 62) * (1 << 2)));
-            internal const long P10I64C = (long)(0.5m + (0.001_388_839_7m * K06 * (1L << 62) * (1 << 6)));
-            internal const long P10I64D = (long)(0.5m + (0.000_024_760_9m * K08 * (1L << 62) * (1 << 11)));
-            internal const long P10I64E = (long)(0.0m + (0.000_000_260_5m * K10 * (1L << 62) * (1 << 16)));
-            internal const int P5I32A = (int)(0.5m + (1.00000m * K01 * (1 << 30)));
-            internal const int P5I32B = (int)(0.5m + (0.16605m * K03 * (1 << 30) * (1 << 1)));
-            internal const int P5I32C = (int)(0.0m + (0.00761m * K05 * (1 << 30) * (1 << 4)));
-            internal const int P4I32A = (int)(0.5m + (0.49670m * K02 * (1 << 30)));
-            internal const int P4I32B = (int)(0.0m + (0.03705m * K04 * (1 << 30) * (1 << 3)));
+            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * (1UL << 63)));
+            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * (1UL << 63) * (1 << 1)));
+            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * (1UL << 63) * (1 << 4)));
+            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * (1UL << 63) * (1 << 8)));
+            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * (1UL << 63) * (1 << 13)));
+            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * (1UL << 63) * (1 << 19)));
+            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * (1UL << 63)));
+            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * (1UL << 63) * (1 << 2)));
+            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * (1UL << 63) * (1 << 6)));
+            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * (1UL << 63) * (1 << 11)));
+            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * (1UL << 63) * (1 << 16)));
+            internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * (1U << 31)));
+            internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * (1U << 31) * (1 << 1)));
+            internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * (1U << 31) * (1 << 4)));
+            internal const uint P4I32A = (uint)(0.5m + (0.49670m * K02 * (1U << 31)));
+            internal const uint P4I32B = (uint)(0.0m + (0.03705m * K04 * (1U << 31) * (1 << 3)));
 
             // 精度に対して与える影響が軽微であるため､
             // 乗算前に一度にまとめてビットシフトを行う｡
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static long P11(long z) {
-                long y;
-                y = P11I64F + (1L << (31 + 6 - 1));
+            internal static ulong P11(ulong z) {
+                ulong y;
+                y = P11I64F + (1UL << (31 + 6 - 1));
                 y = P11I64E - ((y >> (31 + 6)) * z);
                 y = P11I64D - ((y >> (31 + 5)) * z);
                 y = P11I64C - ((y >> (31 + 4)) * z);
@@ -789,31 +784,31 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static long P10(long z) {
-                long y;
-                y = P10I64E + (1L << (31 + 5 - 1));
+            internal static ulong P10(ulong z) {
+                ulong y;
+                y = P10I64E + (1UL << (31 + 5 - 1));
                 y = P10I64D - ((y >> (31 + 5)) * z);
                 y = P10I64C - ((y >> (31 + 5)) * z);
                 y = P10I64B - ((y >> (31 + 4)) * z);
                 y = P10I64A - ((y >> (31 + 2)) * z);
-                return (y >> 31) * z;
+                return (y >> 32) * z;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P5(int z) {
-                int y;
-                y = P5I32C + (1 << (15 + 3 - 1));
+            internal static uint P5(uint z) {
+                uint y;
+                y = P5I32C + (1U << (15 + 3 - 1));
                 y = P5I32B - ((y >> (15 + 3)) * z);
                 y = P5I32A - ((y >> (15 + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P4(int z) {
-                int y;
-                y = P4I32B + (1 << (15 + 3 - 1));
+            internal static uint P4(uint z) {
+                uint y;
+                y = P4I32B + (1U << (15 + 3 - 1));
                 y = P4I32A - ((y >> (15 + 3)) * z);
-                return (y >> 15) * z;
+                return (y >> 16) * z;
             }
         }
 
@@ -835,16 +830,16 @@ namespace AgatePris.Intar {
         /// <returns>2 の 30 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CosP4(int x) {
-            const int pi = 1 << 15;
+            const int fracPi2 = 1 << 15;
             const int one = 1 << 30;
             var q = SinInternal.ToQuadrant(x);
-            x &= pi - 1;
+            x &= fracPi2 - 1;
             switch (q) {
                 default:
-                case SinInternal.Quadrant.First: return one - SinInternal.P4((x * x) >> 15);
-                case SinInternal.Quadrant.Third: return SinInternal.P4((x * x) >> 15) - one;
-                case SinInternal.Quadrant.Fourth: return one - SinInternal.P4(((pi - x) * (pi - x)) >> 15);
-                case SinInternal.Quadrant.Second: return SinInternal.P4(((pi - x) * (pi - x)) >> 15) - one;
+                case SinInternal.Quadrant.First: return one - (int)SinInternal.P4((uint)(x * x) >> 15);
+                case SinInternal.Quadrant.Third: return (int)SinInternal.P4((uint)(x * x) >> 15) - one;
+                case SinInternal.Quadrant.Fourth: return one - (int)SinInternal.P4((uint)((fracPi2 - x) * (fracPi2 - x)) >> 15);
+                case SinInternal.Quadrant.Second: return (int)SinInternal.P4((uint)((fracPi2 - x) * (fracPi2 - x)) >> 15) - one;
             }
         }
 
@@ -885,16 +880,16 @@ namespace AgatePris.Intar {
         /// <returns>2 の 62 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long CosP10(long x) {
-            const long pi = 1L << 31;
+            const long fracPi2 = 1L << 31;
             const long one = 1L << 62;
             var q = SinInternal.ToQuadrant(x);
-            x &= pi - 1;
+            x &= fracPi2 - 1;
             switch (q) {
                 default:
-                case SinInternal.Quadrant.First: return one - SinInternal.P10((x * x) >> 31);
-                case SinInternal.Quadrant.Third: return SinInternal.P10((x * x) >> 31) - one;
-                case SinInternal.Quadrant.Fourth: return one - SinInternal.P10(((pi - x) * (pi - x)) >> 31);
-                case SinInternal.Quadrant.Second: return SinInternal.P10(((pi - x) * (pi - x)) >> 31) - one;
+                case SinInternal.Quadrant.First: return one - (long)SinInternal.P10((ulong)(x * x) >> 31);
+                case SinInternal.Quadrant.Third: return (long)SinInternal.P10((ulong)(x * x) >> 31) - one;
+                case SinInternal.Quadrant.Fourth: return one - (long)SinInternal.P10((ulong)((fracPi2 - x) * (fracPi2 - x)) >> 31);
+                case SinInternal.Quadrant.Second: return (long)SinInternal.P10((ulong)((fracPi2 - x) * (fracPi2 - x)) >> 31) - one;
             }
         }
 
@@ -936,7 +931,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP5(int x) {
             x = SinInternal.MakeArgOdd(x);
-            return x * (SinInternal.P5((x * x) >> 15) >> 15);
+            return x * (int)(SinInternal.P5((uint)(x * x) >> 15) >> 16);
         }
 
         /// <summary>
@@ -977,7 +972,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long SinP11(long x) {
             x = SinInternal.MakeArgOdd(x);
-            return x * (SinInternal.P11((x * x) >> 31) >> 31);
+            return x * (long)(SinInternal.P11((ulong)(x * x) >> 31) >> 32);
         }
 
         /// <summary>
