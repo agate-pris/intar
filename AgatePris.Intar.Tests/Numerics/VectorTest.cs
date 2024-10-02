@@ -228,7 +228,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 } else {
                     for (var i = 0; i < actual.Count; ++i) {
                         const double k = 1.0 / (1 << 15);
-                        Assert.AreEqual(expected[i], k * actual[i], delta);
+                        Utility.AssertAreEqual(expected[i], k * actual[i], delta);
                     }
                 }
             }
@@ -245,7 +245,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                     if (lengthSquared != actual.Bits) {
                         Assert.Fail();
                     }
-                    Assert.AreEqual(
+                    Utility.AssertAreEqual(
                         lengthSquaredExpected,
                         (double)v.LengthSquaredUnsigned(),
                         Math.Max(minDelta, deltaRate * lengthSquaredExpected));
@@ -256,7 +256,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                     if (length != actual.Bits) {
                         Assert.Fail();
                     }
-                    Assert.AreEqual(
+                    Utility.AssertAreEqual(
                         lengthExpected,
                         (double)actual,
                         Math.Max(minDelta, deltaRate * lengthExpected));
