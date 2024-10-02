@@ -291,12 +291,6 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
-        public enum AtanMethod : byte {
-            {%- for i in range(end=atan_params | length / 4) %}
-            {{ atan_params | nth(n=4 * i) }},
-            {%- endfor %}
-        }
-
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}
 {%- endfor %}

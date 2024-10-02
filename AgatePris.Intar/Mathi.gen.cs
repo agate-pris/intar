@@ -407,12 +407,6 @@ namespace AgatePris.Intar {
             }
         }
 
-        public enum AtanMethod : byte {
-            P2A2909,
-            P3A2577B664,
-            P5A2996B809,
-        }
-
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
