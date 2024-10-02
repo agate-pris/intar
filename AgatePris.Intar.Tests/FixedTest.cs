@@ -8,7 +8,7 @@ namespace AgatePris.Intar.Tests {
             var a = I17F15.FromNum(1);
             var b = I17F15.FromNum(2);
             a += b;
-            Assert.AreEqual(3, (int)a);
+            Utility.AssertAreEqual(3, (int)a);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace AgatePris.Intar.Tests.Mathi {
         [Test]
         public static void TestSqrtUint() {
             const uint max = 0xffff;
-            Assert.AreEqual(max, Intar.Mathi.Sqrt(uint.MaxValue));
+            Utility.AssertAreEqual(max, Intar.Mathi.Sqrt(uint.MaxValue));
 
             var processorCount = System.Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
@@ -30,8 +30,8 @@ namespace AgatePris.Intar.Tests.Mathi {
         [Test]
         public static void IsqrtTestUlong() {
             const ulong max = 0xffff_ffff;
-            Assert.AreEqual(0, Intar.Mathi.Sqrt(0UL));
-            Assert.AreEqual(max, Intar.Mathi.Sqrt(ulong.MaxValue));
+            Utility.AssertAreEqual(0, Intar.Mathi.Sqrt(0UL));
+            Utility.AssertAreEqual(max, Intar.Mathi.Sqrt(ulong.MaxValue));
 
             var processorCount = System.Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
