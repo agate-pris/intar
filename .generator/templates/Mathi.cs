@@ -297,34 +297,6 @@ namespace AgatePris.Intar {
             {%- endfor %}
         }
 
-        /// <summary>
-        /// 指定された方法で逆正接を近似する｡
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 2 / 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
-        /// var actual = Intar.Mathi.Atan(x, method);
-        /// var expected = System.Math.Atan((double)x / k);
-        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[6] }});
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
-        /// <param name="method">逆正接の近似方法</param>
-        /// <returns>2 の 30 乗を PI とする逆正接</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan(int x, AtanMethod method) {
-            switch (method) {
-                {%- for i in range(end=atan_params | length / 4) %}
-                {%- if loop.last %}
-                default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan{{ atan_params | nth(n=4 * i) }}(x);
-                {%- endfor %}
-            }
-        }
-
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}
 {%- endfor %}

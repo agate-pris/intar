@@ -414,33 +414,6 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// 指定された方法で逆正接を近似する｡
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 2 / 3;
-        /// var method = Intar.Mathi.AtanMethod.P3A2577B664;
-        /// var actual = Intar.Mathi.Atan(x, method);
-        /// var expected = System.Math.Atan((double)x / k);
-        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, 0.00173);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
-        /// <param name="method">逆正接の近似方法</param>
-        /// <returns>2 の 30 乗を PI とする逆正接</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan(int x, AtanMethod method) {
-            switch (method) {
-                case AtanMethod.P2A2909: return AtanP2A2909(x);
-                case AtanMethod.P3A2577B664: return AtanP3A2577B664(x);
-                default:
-                case AtanMethod.P5A2996B809: return AtanP5A2996B809(x);
-            }
-        }
-
-        /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
