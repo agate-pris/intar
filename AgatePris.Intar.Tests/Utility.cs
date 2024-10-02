@@ -1,12 +1,70 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 #if !UNITY_5_6_OR_NEWER
 using System;
 #endif
 
+using NUnit.Framework;
+
 namespace AgatePris.Intar.Tests {
     public class Utility {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(int expected, int actual) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(int expected, int actual, int x) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, $"x: {x}");
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(long expected, long actual) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(long expected, long actual, long x) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, $"x: {x}");
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(uint expected, uint actual) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(ulong expected, ulong actual) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(double expected, double actual, double delta) {
+            if (Math.Abs(expected - actual) > delta) {
+                Assert.AreEqual(expected, actual, delta);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(double expected, double actual, double delta, int x) {
+            if (Math.Abs(expected - actual) > delta) {
+                Assert.AreEqual(expected, actual, delta, $"x: {x}");
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(double expected, double actual, double delta, long x) {
+            if (Math.Abs(expected - actual) > delta) {
+                Assert.AreEqual(expected, actual, delta, $"x: {x}");
+            }
+        }
+
         internal static string MakeUpPath(string path) {
 #if UNITY_5_6_OR_NEWER
             return Path.GetFullPath(

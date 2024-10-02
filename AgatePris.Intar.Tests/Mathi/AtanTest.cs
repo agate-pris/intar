@@ -1,384 +1,357 @@
-using NUnit.Framework;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+
+using NUnit.Framework;
 
 namespace AgatePris.Intar.Tests.Mathi {
     public class AtanTest {
-        public const int One = 1 << 15;
-        public const int Straight = 1 << 30;
-        public const int StraightNeg = -Straight;
-        public const int Right = Straight / 2;
-        public const int RightHalf = Right / 2;
-        public const int RightHalfNeg = -RightHalf;
-        public const int RightHalfOpposite = RightHalf - Straight;
-        public const int RightHalfOppositeNeg = -RightHalfOpposite;
-        public const int RightNeg = -Right;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static int CompareSteep((int, int) a, (int, int) b) {
-            var aybx = (long)a.Item2 * b.Item1;
-            var byax = (long)b.Item2 * a.Item1;
-            return aybx < byax ? -1 : aybx > byax ? 1 : 0;
-        }
-
-        /// <summary>
-        /// <c>int</c> で表現できる範囲で最も傾きの大きな点のリストを得る｡
-        /// 傾きの分母は 32768 とし､ 四捨五入されるものとして取り扱う｡
-        /// </summary>
-        /// <param name="n">分母を 32768 とした場合の傾きの分子</param>
-        /// <returns><c>int</c> で表現できる範囲で最も傾きの大きな点のリスト</returns>
-        static List<(int, int)> CollectMostSteepPoints(int n) {
-            const int resolutionTwice = 1 << 16;
-            const int lastCrossPointX = int.MaxValue - resolutionTwice + 1;
-            const int begin = lastCrossPointX + 1;
-
-            // 四捨五入することを考慮して､ 2 倍の分解能で計算する｡
-            // このため､ 分子も 2 倍になる｡
-            var steep = (2 * n) + 1L;
-            var max = (begin, (int)(begin * steep / resolutionTwice));
-            var points = new List<(int, int)> { max };
-
-            // for_iterator でのオーバーフローを防ぐため､ for_initializer､ for_condition､
-            // for_iterator で直接 X 座標を取り扱わず､ lastCrossPointX との差分を計算する｡
-            // このため､ すでに計算済みの 1 を飛ばし 2 から始める｡
-            for (var i = 2; i < resolutionTwice; ++i) {
-                var x = i + lastCrossPointX;
-                var mul = x * steep;
-#if DEBUG
-                var rem = mul % resolutionTwice;
-                if (rem == 0) {
-                    Assert.Fail();
-                }
-#endif
-                //var y = (int)(mul / resolutionTwice - (rem == 0 ? 1 : 0));
-                var y = (int)(mul / resolutionTwice);
-                var p = (x, y);
-                var cmp = CompareSteep(max, p);
-                if (cmp > 0) {
-                    continue;
-                }
-                if (cmp < 0) {
-                    max = p;
-                    points.Clear();
-                    points.Add(p);
-                } else {
-                    points.Add(p);
-                }
-            }
-            return points;
+        [Test]
+        public static void TestConsts() {
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64A, 11741988375818245753);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64B, 15515570644620693826);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64C, 16923976036855135454);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64D, 15996234637818023067);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64E, 15659410489582290881);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64A, 9223372036854775808);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64B, 11494598498449691202);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64C, 12457570583526187604);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U64A, 9223372036854775808);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U64B, 12823969718335781357);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32A, 2147483648);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32B, 2676294767);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32C, 2900504177);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U32A, 2147483648);
+            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U32B, 2985813123);
         }
 
         [Test]
-        public void CollectMostSteepPointsTest() {
-            var list = CollectMostSteepPoints(32);
-            Assert.AreEqual(list.Count, 1);
-            Assert.AreEqual((2147422145, 2129859), list[0]);
+        public static void TestInvInt() {
+            // K = 2^15
+            //   = 32768
+            // y = (2 * 2 ^ K + x) / (2x)
+            //   = 2 ^ K / x + 0.5
+            // x = 2 ^ K / (y - 0.5)
+            // x = 2 * 2 ^ K / (2y - 1)
+            Utility.AssertAreEqual(1, Intar.Mathi.AtanInternal.Inv(int.MaxValue));
+            Utility.AssertAreEqual(-1, Intar.Mathi.AtanInternal.Inv(int.MinValue));
+            Utility.AssertAreEqual(102, Intar.Mathi.AtanInternal.Inv(10_578_737));
+            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(10_578_738));
+            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(10_683_998));
+            Utility.AssertAreEqual(100, Intar.Mathi.AtanInternal.Inv(10_683_999));
+            Utility.AssertAreEqual(-102, Intar.Mathi.AtanInternal.Inv(-10_578_737));
+            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-10_578_738));
+            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-10_683_998));
+            Utility.AssertAreEqual(-100, Intar.Mathi.AtanInternal.Inv(-10_683_999));
+            for (var i = 2; i <= (1 << 15); i++) {
+                var p = (int)((1U << 31) / ((2 * (uint)i) - 1));
+                Utility.AssertAreEqual(i, Intar.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(i - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-i, Intar.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-i + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
+            }
         }
-
-        public readonly struct AtanCase {
-            public Func<int, int> Atan { get; }
-            public Func<int, int, int> Atan2 { get; }
-            public string DataPath { get; }
-            public double AcceptableErrorAtan { get; }
-            public double AcceptableErrorAtan2 { get; }
-
-            public AtanCase(
-                Func<int, int> atan,
-                Func<int, int, int> atan2,
-                string dataPath,
-                double acceptableErrorAtan,
-                double acceptableErrorAtan2
-            ) {
-                Atan = atan;
-                Atan2 = atan2;
-                DataPath = dataPath;
-                AcceptableErrorAtan = acceptableErrorAtan;
-                AcceptableErrorAtan2 = acceptableErrorAtan2;
-                Write();
+        [Test]
+        public static void TestInvLong() {
+            Utility.AssertAreEqual(1, Intar.Mathi.AtanInternal.Inv(long.MaxValue));
+            Utility.AssertAreEqual(-1, Intar.Mathi.AtanInternal.Inv(long.MinValue));
+            Console.WriteLine((1L << 62) / 101.5m);
+            Console.WriteLine((1L << 62) / 100.5m);
+            Utility.AssertAreEqual(102, Intar.Mathi.AtanInternal.Inv(45_435_330_230_811_703));
+            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(45_435_330_230_811_704));
+            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(45_887_423_068_929_232));
+            Utility.AssertAreEqual(100, Intar.Mathi.AtanInternal.Inv(45_887_423_068_929_233));
+            Utility.AssertAreEqual(-102, Intar.Mathi.AtanInternal.Inv(-45_435_330_230_811_703));
+            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-45_435_330_230_811_704));
+            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-45_887_423_068_929_232));
+            Utility.AssertAreEqual(-100, Intar.Mathi.AtanInternal.Inv(-45_887_423_068_929_233));
+            for (var x = 2; x < 10; x++) {
+                var p = (long)((1UL << 63) / ((2 * (ulong)x) - 1));
+                Utility.AssertAreEqual(x, Intar.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(x - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-x, Intar.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-x + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
             }
-            public override string ToString() {
-                return DataPath;
+            const long one = 1L << 31;
+            for (var x = one - 9; x <= one; ++x) {
+                var p = (long)((1UL << 63) / ((2 * (ulong)x) - 1));
+                Utility.AssertAreEqual(x, Intar.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(x - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-x, Intar.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-x + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
             }
-            public void Write() {
-                var path = Utility.MakeUpPath(DataPath);
-                if (System.IO.File.Exists(path)) {
-                    return;
-                }
-                var data = new List<int>();
-                var atan = Atan;
-                Utility.WriteInts(path, x => {
-                    var v = atan(x);
-                    data.Add(v);
-                    return v;
-                }, One);
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i < 32768; ++i) {
+                var x = rng.NextInt64(10, one - 9);
+                var p = (long)((1UL << 63) / ((2 * (ulong)x) - 1));
+                Utility.AssertAreEqual(x, Intar.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(x - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-x, Intar.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-x + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
             }
         }
 
         static void TestAtan(
-            Func<int, int> atan,
-            List<int> data,
-            double acceptableError
-        ) {
-            void test(int x, int expected, Utility.ErrorAccumulation acc) {
-                var actual = atan(x);
-                if (actual != expected) {
-                    Assert.Fail(
-                        $"{nameof(x)}: {x}, " +
-                        $"{nameof(expected)}: {expected}, " +
-                        $"{nameof(actual)}: {actual}"
-                    );
-                }
-                const double scale = Math.PI / Straight;
-                var expectedReal = Math.Atan(x / (double)One);
-                var actualReal = scale * actual;
-                var error = actualReal - expectedReal;
-                acc.Add(error);
-                if (Math.Abs(error) >= acceptableError) {
-                    Assert.Fail(
-                        $"{nameof(x)}: {x}, " +
-                        $"{nameof(expected)}: {expected}, " +
-                        $"{nameof(actual)}: {actual}, " +
-                        $"{nameof(expectedReal)}: {expectedReal}, " +
-                        $"{nameof(actualReal)}: {actualReal}"
-                    );
-                }
-            }
-
-            const long k = 1L << 31;
-            const long kNeg = -k;
-            var errorAccumulation = new Utility.ErrorAccumulation();
-            test(0, data[0], errorAccumulation);
+            int[] expectedHead,
+            int[] expectedTail,
+            double error, Func<int, int> atan) {
+            const int one = 1 << 15;
+            const int pi = 1 << 30;
+            const double toReal = 1.0 / one;
+            const double toRad = Math.PI / pi;
+            Utility.AssertAreEqual((pi / 2) - expectedHead[1], atan(int.MaxValue));
+            Utility.AssertAreEqual(expectedHead[1] - (pi / 2), atan(int.MinValue));
+            Utility.AssertAreEqual(Math.Atan(int.MaxValue * toReal), atan(int.MaxValue) * toRad, error);
+            Utility.AssertAreEqual(Math.Atan(int.MinValue * toReal), atan(int.MinValue) * toRad, error);
             {
-                var expected = data[1];
-                test(1, expected, errorAccumulation);
-                test(-1, -expected, errorAccumulation);
-                expected -= Right;
-                test((int)(kNeg / 3) - 1, expected, errorAccumulation);
-                test(int.MinValue, expected, errorAccumulation);
-                expected = -expected;
-                test((int)(k / 3) + 1, expected, errorAccumulation);
-                test(int.MaxValue, expected, errorAccumulation);
-            }
-            var bag = new ConcurrentBag<Utility.ErrorAccumulation>();
-            var processorCount = Environment.ProcessorCount;
-            _ = Parallel.For(0, processorCount, n => {
-                var acc = new Utility.ErrorAccumulation();
-                var begin = 2 + ((One - 1) * n / processorCount);
-                var end = 2 + ((One - 1) * (n + 1) / processorCount);
-                for (var i = begin; i < end; ++i) {
-                    var expected = data[i];
-                    test(i, expected, acc);
-                    test(-i, -expected, acc);
-                    var i2 = 2 * i;
-                    var i2Add = i2 + 1;
-                    var i2Sub = i2 - 1;
-                    expected -= Right;
-                    test((int)(kNeg / i2Add) - 1, expected, acc);
-                    test((int)(kNeg / i2Sub), expected, acc);
-                    expected = -expected;
-                    test((int)(k / i2Add) + 1, expected, acc);
-                    test((int)(k / i2Sub), expected, acc);
+                for (var i = 0; i < expectedHead.Length; ++i) {
+                    Console.WriteLine($"atan({i})={atan(i)}");
                 }
-                bag.Add(acc);
-            });
-            foreach (var acc in bag) {
-                errorAccumulation.Concat(acc);
+                for (var i = 0; i < expectedHead.Length; ++i) {
+                    var actual = atan(i);
+                    Utility.AssertAreEqual(expectedHead[i], actual);
+                    Utility.AssertAreEqual(-actual, atan(-i));
+                }
+                for (var i = 0; i < expectedTail.Length; ++i) {
+                    var x = one - i;
+                    Console.WriteLine($"atan({x})={atan(x)}");
+                }
+                for (var i = 0; i < expectedTail.Length; ++i) {
+                    var x = one - i;
+                    var actual = atan(x);
+                    Utility.AssertAreEqual(expectedTail[i], actual);
+                    Utility.AssertAreEqual(-actual, atan(-x));
+                }
             }
-            Console.WriteLine("\nAtan");
-            errorAccumulation.Print();
+            for (var x = 0; x <= 32768; ++x) {
+                var expectedReal = Math.Atan(x * toReal);
+                var actual = atan(x);
+                Utility.AssertAreEqual(expectedReal, actual * toRad, error);
+            }
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i < 32768; ++i) {
+                var x = rng.Next(int.MinValue, -one);
+                Utility.AssertAreEqual(Math.Atan(x * toReal), atan(x) * toRad, error);
+                Utility.AssertAreEqual(Math.Atan(-x * toReal), atan(-x) * toRad, error);
+            }
+        }
+
+        static void TestAtan(
+            long[] expectedHead,
+            long[] expectedTail,
+            double error, Func<long, long> atan) {
+            const long one = 1L << 31;
+            const long pi = 1L << 62;
+            const double toReal = 1.0 / one;
+            const double toRad = Math.PI / pi;
+            Utility.AssertAreEqual((pi / 2) - expectedHead[1], atan(long.MaxValue));
+            Utility.AssertAreEqual(expectedHead[1] - (pi / 2), atan(long.MinValue));
+            Utility.AssertAreEqual(Math.Atan(long.MaxValue * toReal), atan(long.MaxValue) * toRad, error);
+            Utility.AssertAreEqual(Math.Atan(long.MinValue * toReal), atan(long.MinValue) * toRad, error);
+            {
+                for (var i = 0; i < expectedHead.Length; ++i) {
+                    Console.WriteLine($"atan({i})={atan(i)}");
+                }
+                for (var i = 0; i < expectedHead.Length; ++i) {
+                    var actual = atan(i);
+                    var actualNeg = atan(-i);
+                    Utility.AssertAreEqual(expectedHead[i], actual);
+                    Utility.AssertAreEqual(-actual, actualNeg);
+                    Utility.AssertAreEqual(Math.Atan(i * toReal), actual * toRad, error);
+                    Utility.AssertAreEqual(Math.Atan(-i * toReal), actualNeg * toRad, error);
+                }
+                for (var i = 0; i < expectedTail.Length; ++i) {
+                    var x = one - i;
+                    Console.WriteLine($"atan({x})={atan(x)}");
+                }
+                for (var i = 0; i < expectedTail.Length; ++i) {
+                    var x = one - i;
+                    var actual = atan(x);
+                    var actualNeg = atan(-x);
+                    Utility.AssertAreEqual(expectedTail[i], actual);
+                    Utility.AssertAreEqual(-actual, actualNeg);
+                    Utility.AssertAreEqual(Math.Atan(x * toReal), actual * toRad, error);
+                    Utility.AssertAreEqual(Math.Atan(-x * toReal), actualNeg * toRad, error);
+                }
+            }
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i < 32768; ++i) {
+                var x = rng.NextInt64(one + 1);
+                Utility.AssertAreEqual(Math.Atan(x * toReal), atan(x) * toRad, error);
+                Utility.AssertAreEqual(Math.Atan(-x * toReal), atan(-x) * toRad, error);
+            }
+            for (var i = 0; i < 32768; ++i) {
+                var x = rng.NextInt64(long.MinValue, -one);
+                Utility.AssertAreEqual(Math.Atan(x * toReal), atan(x) * toRad, error);
+                Utility.AssertAreEqual(Math.Atan(-x * toReal), atan(-x) * toRad, error);
+            }
+        }
+
+        [Test]
+        public static void TestAtanP2() {
+            var head = new int[] {
+                0,
+                11039, 22078, 33117,
+                44156, 55195, 66228,
+                77266, 88304, 99342,
+            };
+            var tail = new int[] {
+                268435456, 268427264, 268419072, 268410880, 268402688,
+                268394496, 268386304, 268378112, 268369920, 268361728,
+            };
+            TestAtan(head, tail, 0.0039, Intar.Mathi.AtanP2);
+        }
+
+        [Test]
+        public static void TestAtanP3() {
+            var head = new int[] {
+                0,
+                10744, 21488, 32232,
+                42976, 53715, 64458,
+                75201, 85944, 96687,
+            };
+            var tail = new int[] {
+                268435456, 268427264, 268419072, 268410880, 268402688,
+                268394496, 268386304, 268378112, 268369920, 268361728,
+            };
+            TestAtan(head, tail, 0.0016, Intar.Mathi.AtanP3);
+        }
+
+        [Test]
+        public static void TestAtanP9() {
+            var head = new long[] {
+                0, 683473677,
+                1366947354, 2050421031, 2733894708, 3417368385,
+                4100842062, 4784315739, 5467789416, 6151263093,
+            };
+            var tail = new long[] {
+                1152938291486523392, 1152938290949644663,
+                1152938290412765934, 1152938289875887205,
+                1152938291486492120, 1152938290949613390,
+                1152938290412734660, 1152938289875855930,
+                1152938289338977200, 1152938288802098470,
+            };
+            TestAtan(head, tail, 0.00002, Intar.Mathi.AtanP9);
+        }
+
+        [Test]
+        public static void TestDiv() {
+            const int k1 = 1 << 15;
+            const int k2 = -k1;
+            Utility.AssertAreEqual(k1, Intar.Mathi.AtanInternal.Div(int.MinValue, int.MinValue));
+            Utility.AssertAreEqual(k2, Intar.Mathi.AtanInternal.Div(int.MinValue, int.MaxValue));
+            Utility.AssertAreEqual(k2, Intar.Mathi.AtanInternal.Div(int.MaxValue, int.MinValue));
+            Utility.AssertAreEqual(k1, Intar.Mathi.AtanInternal.Div(int.MaxValue, int.MaxValue));
+            for (var i = 0; i < k1; ++i) {
+                var e1 = i;
+                var e2 = e1 + 1;
+                var e3 = -e1;
+                var e4 = -e2;
+                var y2 = ((2 * i) + 1) << 15;
+                var y1 = y2 - 1;
+                Utility.AssertAreEqual(e1, Intar.Mathi.AtanInternal.Div(y1, int.MaxValue));
+                Utility.AssertAreEqual(e2, Intar.Mathi.AtanInternal.Div(y2, int.MaxValue));
+                Utility.AssertAreEqual(e3, Intar.Mathi.AtanInternal.Div(y1, int.MinValue));
+                Utility.AssertAreEqual(e4, Intar.Mathi.AtanInternal.Div(y2, int.MinValue));
+            }
         }
 
         static void TestAtan2(
             Func<int, int, int> atan2,
-            List<int> data,
-            double acceptableError
-        ) {
-            void test(int y, int x, int expected, Utility.ErrorAccumulation acc) {
+            Func<int, int> atan, double error) {
+            for (var i = 1; i < 32768; ++i) {
+                const int k1 = 1 << 16;
+                const int k2 = -k1;
+                const int k3 = 1 << 30;
+                const int k4 = k3 / 2;
+                var expected1 = atan(i);
+                var expected4 = -expected1;
+                var expected3 = expected1 - k3;
+                var expected2 = k3 - expected1;
+                var expected5 = k4 - expected1;
+                var expected8 = -expected5;
+                var expected7 = expected5 - k3;
+                var expected6 = k3 - expected5;
+                var p12 = 2 * i;
+                var p11 = p12 - 1;
+                var p41 = -p11;
+                var p42 = -p12;
+                Utility.AssertAreEqual(expected1, atan2(p11, k1), i);
+                Utility.AssertAreEqual(expected1, atan2(p12, k1), i);
+                Utility.AssertAreEqual(expected2, atan2(p11, k2), i);
+                Utility.AssertAreEqual(expected2, atan2(p12, k2), i);
+                Utility.AssertAreEqual(expected4, atan2(p41, k1), i);
+                Utility.AssertAreEqual(expected4, atan2(p42, k1), i);
+                Utility.AssertAreEqual(expected3, atan2(p41, k2), i);
+                Utility.AssertAreEqual(expected3, atan2(p42, k2), i);
+                Utility.AssertAreEqual(expected5, atan2(k1, p11), i);
+                Utility.AssertAreEqual(expected5, atan2(k1, p12), i);
+                Utility.AssertAreEqual(expected8, atan2(k2, p11), i);
+                Utility.AssertAreEqual(expected8, atan2(k2, p12), i);
+                Utility.AssertAreEqual(expected6, atan2(k1, p41), i);
+                Utility.AssertAreEqual(expected6, atan2(k1, p42), i);
+                Utility.AssertAreEqual(expected7, atan2(k2, p41), i);
+                Utility.AssertAreEqual(expected7, atan2(k2, p42), i);
+            }
+            const int pi = 1 << 30;
+            const double toRad = Math.PI / pi;
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i < 32768; ++i) {
+                var x = rng.Next();
+                var y = rng.Next();
+                var expected = Math.Atan2(y, x);
                 var actual = atan2(y, x);
-                if (actual != expected) {
-                    Assert.Fail(
-                        $"{nameof(y)}: {y}, " +
-                        $"{nameof(x)}: {x}, " +
-                        $"{nameof(expected)}: {expected}, " +
-                        $"{nameof(actual)}: {actual}"
-                    );
-                }
-                var expectedReal = Math.Atan2(y, x);
-                var actualReal = Math.PI * actual / Straight;
-                var error = actualReal - expectedReal;
-                acc.Add(error);
-                if (Math.Abs(error) >= acceptableError) {
-                    Assert.Fail(
-                        $"{nameof(y)}: {y}, " +
-                        $"{nameof(x)}: {x}, " +
-                        $"{nameof(expected)}: {expected}, " +
-                        $"{nameof(actual)}: {actual}, " +
-                        $"{nameof(expectedReal)}: {expectedReal}, " +
-                        $"{nameof(actualReal)}: {actualReal}"
-                    );
-                }
+                Utility.AssertAreEqual(expected, actual * toRad, error);
             }
-            var errorAccumulation = new Utility.ErrorAccumulation();
-            test(0, 0, 0, errorAccumulation);
-            test(0, 1, 0, errorAccumulation);
-            test(1, 1, RightHalf, errorAccumulation);
-            test(1, 0, Right, errorAccumulation);
-            test(1, -1, RightHalfOppositeNeg, errorAccumulation);
-            test(0, -1, Straight, errorAccumulation);
-            test(-1, 1, RightHalfNeg, errorAccumulation);
-            test(-1, 0, RightNeg, errorAccumulation);
-            test(-1, -1, RightHalfOpposite, errorAccumulation);
-            test(0, int.MaxValue, 0, errorAccumulation);
-            test(0, int.MinValue, Straight, errorAccumulation);
-            test(int.MaxValue, 0, Right, errorAccumulation);
-            test(int.MinValue, 0, RightNeg, errorAccumulation);
-            test(int.MaxValue, int.MaxValue, RightHalf, errorAccumulation);
-            test(int.MinValue, int.MinValue, RightHalfOpposite, errorAccumulation);
-            test(int.MinValue, int.MaxValue, RightHalfNeg, errorAccumulation);
-            test(int.MaxValue, int.MinValue, RightHalfOppositeNeg, errorAccumulation);
-            test(0, -int.MaxValue, Straight, errorAccumulation);
-            test(int.MinValue, -int.MaxValue, RightHalfOpposite, errorAccumulation);
-            test(int.MaxValue, -int.MaxValue, RightHalfOppositeNeg, errorAccumulation);
-            test(-int.MaxValue, 0, RightNeg, errorAccumulation);
-            test(-int.MaxValue, int.MinValue, RightHalfOpposite, errorAccumulation);
-            test(-int.MaxValue, int.MaxValue, RightHalfNeg, errorAccumulation);
-            test(-int.MaxValue, -int.MaxValue, RightHalfOpposite, errorAccumulation);
-            test(1, int.MaxValue, 0, errorAccumulation);
-            test(1, int.MinValue, Straight, errorAccumulation);
-            test(1, -int.MaxValue, Straight, errorAccumulation);
-            test(-1, int.MaxValue, 0, errorAccumulation);
-            test(-1, int.MinValue, StraightNeg, errorAccumulation);
-            test(-1, -int.MaxValue, StraightNeg, errorAccumulation);
-            test(int.MinValue, 1, RightNeg, errorAccumulation);
-            test(int.MaxValue, 1, Right, errorAccumulation);
-            test(int.MinValue, -1, RightNeg, errorAccumulation);
-            test(int.MaxValue, -1, Right, errorAccumulation);
-            test(-int.MaxValue, 1, RightNeg, errorAccumulation);
-            test(-int.MaxValue, -1, RightNeg, errorAccumulation);
-
-            // Test each of the 8 regions partitioned by the following 4 lines.
-            // * x-axis
-            // * y-axis
-            // * y = x
-            // * y = -x
-            void testDefault(int y, int x, int expected, Utility.ErrorAccumulation acc) {
-                test(y, x, expected, acc);
-                test(-y, x, -expected, acc);
-                test(y, -x, Straight - expected, acc);
-                test(-y, -x, expected - Straight, acc);
-                test(x, y, Right - expected, acc);
-                test(-x, y, RightNeg + expected, acc);
-                test(x, -y, Right + expected, acc);
-                test(-x, -y, RightNeg - expected, acc);
-            }
-
-            var bag = new ConcurrentBag<Utility.ErrorAccumulation>();
-
-            var processorCount = Environment.ProcessorCount;
-            _ = Parallel.For(0, processorCount, n => {
-                var acc = new Utility.ErrorAccumulation();
-
-                // Test far from x-axis
-                {
-                    var begin = One * n / processorCount;
-                    var end = One * (n + 1) / processorCount;
-                    for (var i = begin; i < end; ++i) {
-                        var list = CollectMostSteepPoints(i);
-                        foreach (var (x, y) in list) {
-                            testDefault(y, x, data[i], acc);
-                        }
-                    }
-                }
-
-                // Test near to x-axis
-                {
-                    var begin = 1 + (One * n / processorCount);
-                    var end = 1 + (One * (n + 1) / processorCount);
-                    for (var i = begin; i < end; ++i) {
-                        var x = 1 << 16;
-                        var y = (2 * i) - 1;
-                        testDefault(y, x, data[i], acc);
-                    }
-                }
-
-                bag.Add(acc);
-            });
-
-            foreach (var acc in bag) {
-                errorAccumulation.Concat(acc);
-            }
-            Console.WriteLine("\nAtan2");
-            errorAccumulation.Print();
         }
-
-        public static readonly AtanCase[] AtanCases = {
-            new AtanCase(Intar.Mathi.AtanP2A2909, Intar.Mathi.Atan2P2A2909, "atan_p2_a2909.json", 0.004507, 0.004507),
-            new AtanCase(Intar.Mathi.AtanP3A2577B664, Intar.Mathi.Atan2P3A2577B664, "atan_p3_a2577_b664.json", 0.001730, 0.001730),
-            new AtanCase(Intar.Mathi.AtanP5A2996B809, Intar.Mathi.Atan2P5A2996B809, "atan_p5_a2996_b809.json", 0.000914, 0.000919),
-        };
-
-        [Test]
-        public static void DocTest() {
-            {
-                var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP2A2909(x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.004507);
+        static void TestAtan2(
+            Func<int, int, long> atan2,
+            Func<int, long> atan, double error) {
+            const long pi = 1L << 62;
+            for (var i = 1; i < 32768; ++i) {
+                const int k1 = 1 << 16;
+                const int k2 = -k1;
+                const long k3 = pi / 2;
+                var expected1 = atan(i);
+                var expected4 = -expected1;
+                var expected3 = expected1 - pi;
+                var expected2 = pi - expected1;
+                var expected5 = k3 - expected1;
+                var expected8 = -expected5;
+                var expected7 = expected5 - pi;
+                var expected6 = pi - expected5;
+                var p12 = 2 * i;
+                var p11 = p12 - 1;
+                var p41 = -p11;
+                var p42 = -p12;
+                Utility.AssertAreEqual(expected1, atan2(p11, k1), i);
+                Utility.AssertAreEqual(expected1, atan2(p12, k1), i);
+                Utility.AssertAreEqual(expected2, atan2(p11, k2), i);
+                Utility.AssertAreEqual(expected2, atan2(p12, k2), i);
+                Utility.AssertAreEqual(expected4, atan2(p41, k1), i);
+                Utility.AssertAreEqual(expected4, atan2(p42, k1), i);
+                Utility.AssertAreEqual(expected3, atan2(p41, k2), i);
+                Utility.AssertAreEqual(expected3, atan2(p42, k2), i);
+                Utility.AssertAreEqual(expected5, atan2(k1, p11), i);
+                Utility.AssertAreEqual(expected5, atan2(k1, p12), i);
+                Utility.AssertAreEqual(expected8, atan2(k2, p11), i);
+                Utility.AssertAreEqual(expected8, atan2(k2, p12), i);
+                Utility.AssertAreEqual(expected6, atan2(k1, p41), i);
+                Utility.AssertAreEqual(expected6, atan2(k1, p42), i);
+                Utility.AssertAreEqual(expected7, atan2(k2, p41), i);
+                Utility.AssertAreEqual(expected7, atan2(k2, p42), i);
             }
-            {
-                var y = 2;
-                var x = 3;
-                var actual = Intar.Mathi.Atan2P2A2909(y, x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.004507);
-            }
-            {
-                var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP3A2577B664(x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.001730);
-            }
-            {
-                var y = 2;
-                var x = 3;
-                var actual = Intar.Mathi.Atan2P3A2577B664(y, x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.001730);
-            }
-            {
-                var x = (1 << 15) * 2 / 3;
-                var actual = Intar.Mathi.AtanP5A2996B809(x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.000914);
-            }
-            {
-                var y = 2;
-                var x = 3;
-                var actual = Intar.Mathi.Atan2P5A2996B809(y, x);
-                var expected = Math.Atan2(2, 3);
-                var a = actual * Math.PI / (1 << 30);
-                Assert.AreEqual(expected, a, 0.000919);
+            const double toRad = Math.PI / pi;
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i < 32768; ++i) {
+                var x = rng.Next();
+                var y = rng.Next();
+                var expected = Math.Atan2(y, x);
+                var actual = atan2(y, x);
+                Utility.AssertAreEqual(expected, actual * toRad, error);
             }
         }
 
-        [Test]
-        public static void TestAtan(
-            [ValueSource(nameof(AtanCases))] AtanCase atanCase
-        ) {
-            var data = Utility.ReadInts(Utility.MakeUpPath(atanCase.DataPath));
-            Assert.AreEqual(data.Count, One + 1);
-            Assert.AreEqual(data[0], 0);
-            Assert.AreEqual(data[One], RightHalf);
-            TestAtan2(atanCase.Atan2, data, atanCase.AcceptableErrorAtan2);
-            TestAtan(atanCase.Atan, data, atanCase.AcceptableErrorAtan);
-        }
+        [Test] public static void TestAtan2P2() => TestAtan2(Intar.Mathi.Atan2P2, Intar.Mathi.AtanP2, 0.0039);
+        [Test] public static void TestAtan2P3() => TestAtan2(Intar.Mathi.Atan2P3, Intar.Mathi.AtanP3, 0.0016);
+        [Test] public static void TestAtan2P9() => TestAtan2(Intar.Mathi.Atan2P9, a => Intar.Mathi.AtanP9((long)a << 16), 0.00003);
     }
 }

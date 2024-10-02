@@ -148,12 +148,13 @@ namespace AgatePris.Intar {
         }
 
         internal static class AtanInternal {
-            internal const int One = 1 << 15;
-            internal const int OneNeg = -One;
-            internal const int Straight = 1 << 30;
-            internal const int Right = Straight / 2;
-            internal const int RightNeg = -Right;
-            internal const int FracK4 = One / 4;
+            // Round(K * Inv(a / K))
+            // = Round(K * (K / a))
+            // = Round(K^2 / a)
+            // = Trunc(K^2 / a + 0.5 * Signum(a))
+            // = Trunc(((K^2 * 2) / a + Signum(a)) / 2)
+            // = Trunc(((K^2 * 2 + Abs(a)) / (a * 2)))
+            // = Trunc(((K^2 * 2 + Abs(a)) / (Abs(a) * 2))) * Signum(a)
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int Inv(int x) {
@@ -163,195 +164,184 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static long Inv(long x) {
+                if (x == long.MinValue) {
+                    return -1;
+                }
+                var abs = (ulong)Math.Abs(x);
+                const ulong k = 1UL << (1 + (2 * 31));
+                return (long)((k + abs) / (2 * abs)) * Math.Sign(x);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int Div(int a, int b) {
                 var al = ((long)a) << 16;
                 var bl = (long)b;
                 return (int)((al + (Math.Sign(a) * Math.Abs(bl))) / (bl << 1));
             }
 
+            const decimal PI = 3.1415926535897932384626433833m;
+
+            internal const uint P2U32A = 1U << 31;
+            internal const uint P3U32A = 1U << 31;
+            internal const ulong P2U64A = 1UL << 63;
+            internal const ulong P3U64A = 1UL << 63;
+            internal const uint P2U32B = (uint)(0.0m + ((1U << 31) / PI * (1U << 4) * 0.273m));
+            internal const uint P3U32B = (uint)(0.5m + ((1U << 31) / PI * (1U << 4) * 0.2447m));
+            internal const uint P3U32C = (uint)(0.0m + ((1U << 31) / PI * (1U << 6) * 0.0663m));
+            internal const ulong P2U64B = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 4) * 0.273m));
+            internal const ulong P3U64B = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 4) * 0.2447m));
+            internal const ulong P3U64C = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 6) * 0.0663m));
+            internal const ulong P9U64A = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 2) * 0.999_866_0m));
+            internal const ulong P9U64B = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 4) * 0.330_299_5m));
+            internal const ulong P9U64C = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 5) * 0.180_141_0m));
+            internal const ulong P9U64D = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 6) * 0.085_133_0m));
+            internal const ulong P9U64E = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 8) * 0.020_835_1m));
+
+            {%- for type in ['int', 'long'] %}
+            {%- if   type == 'int'  %}{% set utype='uint'  %}{% set exp=15 %}{% set uone='1U'  %}{% set bits=32 %}
+            {%- elif type == 'long' %}{% set utype='ulong' %}{% set exp=31 %}{% set uone='1UL' %}{% set bits=64 %}
+            {%- endif %}
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P2A2909(int x) {
-                const int k = FracK4;
-                const int a = 2909;
-                var w = Math.Abs(x);
-                var z = One - w;
-                var y = k + ((z * a) >> 15);
-                return x * y;
+            internal static {{ type }} P2({{ type }} x) {
+                const {{ utype }} one = {{ uone }} << {{ exp }};
+                var w = ({{ utype }})Math.Abs(x);
+                var z = one - w;
+                {{ utype }} y;
+                y = (P2U{{ bits }}B + ({{ uone }} << ({{ exp }} + 2 - 1))) >> ({{ exp }} + 2);
+                y = (P2U{{ bits }}A + (z * y)) >> ({{ exp }} + 3);
+                return ({{ type }})y * x;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P3A2577B664(int x) {
-                const int k = FracK4;
-                const int a = 2577;
-                const int b = 664;
-                var w = Math.Abs(x);
-                var z = One - w;
-                int y;
-                y = a + ((w * b) >> 15);
-                y = k + ((z * y) >> 15);
-                return x * y;
+            internal static {{ type }} P3({{ type }} x) {
+                const {{ utype }} one = {{ uone }} << {{ exp }};
+                var w = ({{ utype }})Math.Abs(x);
+                var z = one - w;
+                {{ utype }} y;
+                y = (P3U{{ bits }}C + ({{ uone }} << ({{ exp }} + 6 - 4 - 1))) >> ({{ exp }} + 6 - 4);
+                y = (P3U{{ bits }}B + (y * w)) >> ({{ exp }} + 4 - 2);
+                y = (P3U{{ bits }}A + (z * y)) >> ({{ exp }} + 3);
+                return ({{ type }})y * x;
             }
+            {%- endfor %}
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static int P5A2996B809(int x) {
-                const int b = 809;
-                const int a = 2996;
-                const int k = (1 << 13) + a - b;
-                var z = (x * x) >> 15;
-                int y;
-                y = a - ((b * z) >> 15);
-                y = k - ((y * z) >> 15);
-                return y * x;
+            internal static long P9(long x) {
+                var z = (ulong)(x * x) >> 31;
+                ulong y;
+                y = (P9U64E + (1UL << (31 + 8 - 6 - 1))) >> (31 + 8 - 6);
+                y = (P9U64D - (y * z)) >> (31 + 6 - 5);
+                y = (P9U64C - (y * z)) >> (31 + 5 - 4);
+                y = (P9U64B - (y * z)) >> (31 + 4 - 2);
+                y = (P9U64A - (y * z)) >> (31 + 3);
+                return (long)y * x;
             }
         }
 
-{%- set atan_params = [
-    'P2A2909',     2, 0.004507, 0.004507,
-    'P3A2577B664', 3, 0.001730, 0.001730,
-    'P5A2996B809', 5, 0.000914, 0.000919
-] %}
-{%- for i in range(end=atan_params | length / 4) %}
-{%- set method = atan_params | nth(n=loop.index0 * 4    ) %}
-{%- set d      = atan_params | nth(n=loop.index0 * 4 + 1) %}
-{%- set error  = atan_params | nth(n=loop.index0 * 4 + 2) %}
-{%- set error2 = atan_params | nth(n=loop.index0 * 4 + 3) %}
+        {%- set p2i = ['int',  2, 0.0039  ] %}
+        {%- set p3i = ['int',  3, 0.0016  ] %}
+        {%- set p2l = ['long', 2, 0.0039  ] %}
+        {%- set p3l = ['long', 3, 0.0016  ] %}
+        {%- set p9l = ['long', 9, 0.00002 ] %}
+
+        {%- for params in [p2i, p3i, p2l, p3l, p9l] %}
+        {%- if   params[0] == 'int'  %}{% set one = '1'  %}{% set shift = 15 %}
+        {%- elif params[0] == 'long' %}{% set one = '1L' %}{% set shift = 31 %}
+        {%- endif %}
 
         /// <summary>
-        /// {{ d }} 次の多項式で逆正接を近似する。
+        /// {{ params[1] }} 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// const int k = 1 &lt;&lt; 15;
+        /// const {{ params[0] }} k = {{ one }} &lt;&lt; {{ shift }};
+        /// const {{ params[0] }} toRad = System.Math.PI / ({{ one }} &lt;&lt; {{ shift * 2 }});
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.Atan{{ method }}(x);
+        /// var actual = Intar.Mathi.AtanP{{ params[1] }}(x);
         /// var expected = System.Math.Atan((double)x / k);
-        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ error }});
+        /// Assert.AreEqual(expected, actual * toRad, {{ params[2] }});
         /// </code>
         /// </example>
         /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
-        /// <returns>2 の 30 乗を PI とする逆正接</returns>
+        /// <param name="x">2 の {{ shift }} 乗を 1 とするタンジェント</param>
+        /// <returns>2 の {{ shift * 2 }} 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan{{ method }}(int x) {
-            if (x < AtanInternal.OneNeg) {
-                return AtanInternal.RightNeg - AtanInternal.{{ method }}(AtanInternal.Inv(x));
-            } else if (x > AtanInternal.One) {
-                return AtanInternal.Right - AtanInternal.{{ method }}(AtanInternal.Inv(x));
+        public static {{ params[0] }} AtanP{{ params[1] }}({{ params[0] }} x) {
+            const {{ params[0] }} one = {{ one }} << {{ shift }};
+            const {{ params[0] }} oneNeg = -one;
+            const {{ params[0] }} right = {{ one }} << {{ 2 * shift - 1}};
+            const {{ params[0] }} rightNeg = -right;
+            if (x < oneNeg) {
+                return rightNeg - AtanInternal.P{{ params[1] }}(AtanInternal.Inv(x));
+            } else if (x > one) {
+                return right - AtanInternal.P{{ params[1] }}(AtanInternal.Inv(x));
             } else {
-                return AtanInternal.{{ method }}(x);
+                return AtanInternal.P{{ params[1] }}(x);
             }
         }
+        {%- endfor %}
+
+        {%- set p2 = ['int', 2, 'int',  0.0040 ] %}
+        {%- set p3 = ['int', 3, 'int',  0.0017 ] %}
+        {%- set p9 = ['int', 9, 'long', 0.00003] %}
+        {%- for params in [p2, p3, p9] %}
+        {%- set method = "AtanInternal.P" ~ params[1] %}
+        {%- if   params[0] == 'int'  %}{% set one_unit='1'  %}{% set one_shift=15 %}
+        {%- elif params[0] == 'long' %}{% set one_unit='1L' %}{% set one_shift=31 %}{% endif %}
+        {%- if   params[2] == 'int'  %}{% set pi_unit ='1'  %}{% set pi_shift =30 %}
+        {%- elif params[2] == 'long' %}{% set pi_unit ='1L' %}{% set pi_shift =62 %}{% endif %}
+        {%- if   params[0] == 'int' and params[2] == 'int'  %}{% set xy=      "AtanInternal.Div(x, y)"       %}{% set yx=      "AtanInternal.Div(y, x)"       %}
+        {%- elif params[0] == 'int' and params[2] == 'long' %}{% set xy="(long)AtanInternal.Div(x, y) << 16" %}{% set yx="(long)AtanInternal.Div(y, x) << 16" %}{% endif %}
 
         /// <summary>
-        /// {{ d }} 次の多項式で逆正接を近似する。
+        /// {{ params[1] }} 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var y = 2;
-        /// var x = 3;
-        /// var actual = Intar.Mathi.Atan2{{ method }}(y, x);
+        /// var actual = Intar.Mathi.Atan2P{{ params[1] }}(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
-        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ error2 }});
+        /// Assert.AreEqual(expected, actual * toRad, {{ params[3] }});
         /// </code>
         /// </example>
         /// </summary>
         /// <param name="y">Y 座標</param>
         /// <param name="x">X 座標</param>
-        /// <returns>2 の 30 乗を PI とする逆正接</returns>
+        /// <returns>2 の {{ pi_shift }} 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2{{ method }}(int y, int x) {
+        public static {{ params[2] }} Atan2P{{ params[1] }}({{ params[0] }} y, {{ params[0] }} x) {
+            const {{ params[2] }} straight = {{ pi_unit }} << {{ pi_shift }};
+            const {{ params[2] }} right = straight / 2;
+            const {{ params[2] }} rightNeg = -right;
             if (y < 0) {
                 if (x < 0) {
                     return y < x
-                        ? AtanInternal.RightNeg - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
-                        : AtanInternal.{{ method }}(AtanInternal.Div(y, x)) - AtanInternal.Straight;
+                        ? rightNeg - {{ method }}({{ xy }})
+                        : {{ method }}({{ yx }}) - straight;
                 } else if (x > 0) {
                     return y < -x
-                        ? AtanInternal.RightNeg - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
-                        : AtanInternal.{{ method }}(AtanInternal.Div(y, x));
+                        ? rightNeg - {{ method }}({{ xy }})
+                        : {{ method }}({{ yx }});
                 } else {
-                    return AtanInternal.RightNeg;
+                    return rightNeg;
                 }
             } else if (y > 0) {
                 if (x < 0) {
                     return -y < x
-                        ? AtanInternal.Right - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
-                        : AtanInternal.Straight + AtanInternal.{{ method }}(AtanInternal.Div(y, x));
+                        ? right - {{ method }}({{ xy }})
+                        : straight + {{ method }}({{ yx }});
                 } else if (x > 0) {
                     return y > x
-                        ? AtanInternal.Right - AtanInternal.{{ method }}(AtanInternal.Div(x, y))
-                        : AtanInternal.{{ method }}(AtanInternal.Div(y, x));
+                        ? right - {{ method }}({{ xy }})
+                        : {{ method }}({{ yx }});
                 } else {
-                    return AtanInternal.Right;
+                    return right;
                 }
             } else {
-                return x < 0 ? AtanInternal.Straight : 0;
+                return x < 0 ? straight : 0;
             }
         }
 
-{%- endfor %}
-
-        public enum AtanMethod : byte {
-            {%- for i in range(end=atan_params | length / 4) %}
-            {{ atan_params | nth(n=4 * i) }},
-            {%- endfor %}
-        }
-
-        /// <summary>
-        /// 指定された方法で逆正接を近似する｡
-        /// <example>
-        /// <code>
-        /// const int k = 1 &lt;&lt; 15;
-        /// var x = k * 2 / 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
-        /// var actual = Intar.Mathi.Atan(x, method);
-        /// var expected = System.Math.Atan((double)x / k);
-        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[6] }});
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
-        /// <param name="method">逆正接の近似方法</param>
-        /// <returns>2 の 30 乗を PI とする逆正接</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan(int x, AtanMethod method) {
-            switch (method) {
-                {%- for i in range(end=atan_params | length / 4) %}
-                {%- if loop.last %}
-                default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan{{ atan_params | nth(n=4 * i) }}(x);
-                {%- endfor %}
-            }
-        }
-
-        /// <summary>
-        /// 指定された方法で逆正接を近似する｡
-        /// <example>
-        /// <code>
-        /// var y = 2;
-        /// var x = 3;
-        /// var method = Intar.Mathi.AtanMethod.{{ atan_params[4] }};
-        /// var actual = Intar.Mathi.Atan2(y, x, method);
-        /// var expected = System.Math.Atan2(y, x);
-        /// var a = System.Math.PI / (1 &lt;&lt; 30) * actual;
-        /// Assert.AreEqual(expected, a, {{ atan_params[7] }});
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とするタンジェント</param>
-        /// <param name="method">逆正接の近似方法</param>
-        /// <returns>2 の 30 乗を PI とする逆正接</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Atan2(int y, int x, AtanMethod method) {
-            switch (method) {
-                {%- for i in range(end=atan_params | length / 4) %}
-                {%- if loop.last %}
-                default:{% endif %}
-                case AtanMethod.{{ atan_params | nth(n=4 * i) }}: return Atan2{{ atan_params | nth(n=4 * i) }}(y, x);
-                {%- endfor %}
-            }
-        }
+        {%- endfor %}
 
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
         {{- self::clamp(type = type) }}

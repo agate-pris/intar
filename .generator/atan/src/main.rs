@@ -82,7 +82,8 @@ macro_rules! p2 {
             let expected = (x as f64 / ONE as f64).atan();
             let w = x.unsigned_abs();
             let z = ONE - w;
-            let y = ($consts[1] + (1 as $ut << ($shift + 2 - 1))) >> ($shift + 2);
+            let y = 1 as $ut << ($shift + 2 - 1);
+            let y = ($consts[1] + y) >> ($shift + 2);
             let y = ($consts[0] + z * y) >> ($shift + 3);
             let y = y as $t * x;
             y as f64 * PI / (1 as $ut << ($shift * 2)) as f64 - expected
@@ -98,7 +99,8 @@ macro_rules! p3 {
             let expected = (x as f64 / ONE as f64).atan();
             let w = x.unsigned_abs();
             let z = ONE - w;
-            let y = ($consts[2] + (1 as $ut << ($shift + 6 - 4 - 1))) >> ($shift + 6 - 4);
+            let y = 1 as $ut << ($shift + 6 - 4 - 1);
+            let y = ($consts[2] + y) >> ($shift + 6 - 4);
             let y = ($consts[1] + (y * w)) >> ($shift + 4 - 2);
             let y = ($consts[0] + (z * y)) >> ($shift + 3);
             let y = y as $t * x;
@@ -112,12 +114,13 @@ macro_rules! p9 {
         fn $name(x: i32) -> f64 {
             let x = x as $t * (1 as $t << ($shift - 15));
             let z = (x * x) as $ut >> $shift;
-            let y = (1 as $ut << ($shift + 8 - 6 - 1));
-            let y = (($consts[4] + y) >> ($shift + 8 - 6)) * z;
-            let y = (($consts[3] - y) >> ($shift + 6 - 5)) * z;
-            let y = (($consts[2] - y) >> ($shift + 5 - 4)) * z;
-            let y = (($consts[1] - y) >> ($shift + 4 - 2)) * z;
-            let y = (($consts[0] - y) >> ($shift + 2 + 1)) as $t * x;
+            let y = 1 as $ut << ($shift + 8 - 6 - 1);
+            let y = ($consts[4] + y) >> ($shift + 8 - 6);
+            let y = ($consts[3] - (y * z)) >> ($shift + 6 - 5);
+            let y = ($consts[2] - (y * z)) >> ($shift + 5 - 4);
+            let y = ($consts[1] - (y * z)) >> ($shift + 4 - 2);
+            let y = ($consts[0] - (y * z)) >> ($shift + 2 + 1);
+            let y = y as $t * x;
             y as f64 * PI / (1 as $ut << ($shift * 2)) as f64 - (x as f64 / (1 as $ut << $shift) as f64).atan()
         }
     };
