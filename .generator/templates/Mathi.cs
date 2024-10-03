@@ -440,7 +440,7 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P11(long z) {
                 long y;
-                y = P11I64F + (1 << (31 + 6 - 1));
+                y = P11I64F + (1L << (31 + 6 - 1));
                 y = P11I64E - ((y >> (31 + 6)) * z);
                 y = P11I64D - ((y >> (31 + 5)) * z);
                 y = P11I64C - ((y >> (31 + 4)) * z);
@@ -452,7 +452,7 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P10(long z) {
                 long y;
-                y = P10I64E + (1 << (31 + 5 - 1));
+                y = P10I64E + (1L << (31 + 5 - 1));
                 y = P10I64D - ((y >> (31 + 5)) * z);
                 y = P10I64C - ((y >> (31 + 5)) * z);
                 y = P10I64B - ((y >> (31 + 4)) * z);
