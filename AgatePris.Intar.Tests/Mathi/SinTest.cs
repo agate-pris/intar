@@ -153,8 +153,6 @@ namespace AgatePris.Intar.Tests.Mathi {
             Func<long, long> cos, double delta
         ) {
             const long pi = 1L << 32;
-            const double toRad = Math.PI / pi;
-            const double toReal = 1.0 / (1L << 62);
             Utility.AssertAreEqual(sin(0), sin(long.MinValue), long.MinValue);
             Utility.AssertAreEqual(cos(0), cos(long.MinValue), long.MinValue);
             Utility.AssertAreEqual(sin(-1), sin(long.MaxValue), long.MaxValue);
