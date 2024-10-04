@@ -11,15 +11,11 @@ namespace AgatePris.Intar.Tests.Mathi {
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64C, 16923976036855135454);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64D, 15996234637818023067);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64E, 15659410489582290881);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64A, 9223372036854775808);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64B, 11494598498449691202);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64C, 12457570583526187604);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U64A, 9223372036854775808);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U64B, 12823969718335781357);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32A, 2147483648);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32B, 2676294767);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32C, 2900504177);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U32A, 2147483648);
             Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U32B, 2985813123);
         }
 
