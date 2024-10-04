@@ -184,10 +184,10 @@ namespace AgatePris.Intar {
             // 15996234637818023067
             // 15659410489582290881
 
-            internal const uint P2U32A = 1U << 31;
-            internal const uint P3U32A = 1U << 31;
-            internal const ulong P2U64A = 1UL << 63;
-            internal const ulong P3U64A = 1UL << 63;
+            const uint P2U32A = 1U << 31;
+            const uint P3U32A = 1U << 31;
+            const ulong P2U64A = 1UL << 63;
+            const ulong P3U64A = 1UL << 63;
             internal const uint P2U32B = (uint)(0.0m + (Z1 * (1U << 4) * 0.273m));
             internal const uint P3U32B = (uint)(0.5m + (Z1 * (1U << 4) * 0.2447m));
             internal const uint P3U32C = (uint)(0.0m + (Z1 * (1U << 6) * 0.0663m));
