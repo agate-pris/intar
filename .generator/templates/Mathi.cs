@@ -224,8 +224,8 @@ namespace AgatePris.Intar {
                 const {{ utype }} one = {{ uone }} << {{ exp }};
                 var w = ({{ utype }})Math.Abs(x);
                 var z = one - w;
-                {{ utype }} y;
-                y = (P2U{{ bits }}B + ({{ uone }} << ({{ exp }} + 2 - 1))) >> ({{ exp }} + 2);
+                var y = {{ uone }} << ({{ exp }} + 2);
+                y = (P2U{{ bits }}B + (y / 2)) >> ({{ exp }} + 2);
                 y = (P2U{{ bits }}A + (z * y)) >> ({{ exp }} + 3);
                 return ({{ type }})y * x;
             }
@@ -235,8 +235,8 @@ namespace AgatePris.Intar {
                 const {{ utype }} one = {{ uone }} << {{ exp }};
                 var w = ({{ utype }})Math.Abs(x);
                 var z = one - w;
-                {{ utype }} y;
-                y = (P3U{{ bits }}C + ({{ uone }} << ({{ exp }} + 6 - 4 - 1))) >> ({{ exp }} + 6 - 4);
+                var y = {{ uone }} << ({{ exp }} + 6 - 4);
+                y = (P3U{{ bits }}C + (y / 2)) >> ({{ exp }} + 6 - 4);
                 y = (P3U{{ bits }}B + (y * w)) >> ({{ exp }} + 4 - 2);
                 y = (P3U{{ bits }}A + (z * y)) >> ({{ exp }} + 3);
                 return ({{ type }})y * x;
@@ -246,8 +246,8 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P9(long x) {
                 var z = (ulong)(x * x) >> 31;
-                ulong y;
-                y = (P9U64E + (1UL << (31 + 8 - 6 - 1))) >> (31 + 8 - 6);
+                var y = 1UL << (31 + 8 - 6);
+                y = (P9U64E + (y / 2)) >> (31 + 8 - 6);
                 y = (P9U64D - (y * z)) >> (31 + 6 - 5);
                 y = (P9U64C - (y * z)) >> (31 + 5 - 4);
                 y = (P9U64B - (y * z)) >> (31 + 4 - 2);

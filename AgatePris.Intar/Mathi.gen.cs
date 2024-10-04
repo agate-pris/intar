@@ -202,8 +202,8 @@ namespace AgatePris.Intar {
                 const uint one = 1U << 15;
                 var w = (uint)Math.Abs(x);
                 var z = one - w;
-                uint y;
-                y = (P2U32B + (1U << (15 + 2 - 1))) >> (15 + 2);
+                var y = 1U << (15 + 2);
+                y = (P2U32B + (y / 2)) >> (15 + 2);
                 y = (P2U32A + (z * y)) >> (15 + 3);
                 return (int)y * x;
             }
@@ -213,8 +213,8 @@ namespace AgatePris.Intar {
                 const uint one = 1U << 15;
                 var w = (uint)Math.Abs(x);
                 var z = one - w;
-                uint y;
-                y = (P3U32C + (1U << (15 + 6 - 4 - 1))) >> (15 + 6 - 4);
+                var y = 1U << (15 + 6 - 4);
+                y = (P3U32C + (y / 2)) >> (15 + 6 - 4);
                 y = (P3U32B + (y * w)) >> (15 + 4 - 2);
                 y = (P3U32A + (z * y)) >> (15 + 3);
                 return (int)y * x;
@@ -225,8 +225,8 @@ namespace AgatePris.Intar {
                 const ulong one = 1UL << 31;
                 var w = (ulong)Math.Abs(x);
                 var z = one - w;
-                ulong y;
-                y = (P2U64B + (1UL << (31 + 2 - 1))) >> (31 + 2);
+                var y = 1UL << (31 + 2);
+                y = (P2U64B + (y / 2)) >> (31 + 2);
                 y = (P2U64A + (z * y)) >> (31 + 3);
                 return (long)y * x;
             }
@@ -236,8 +236,8 @@ namespace AgatePris.Intar {
                 const ulong one = 1UL << 31;
                 var w = (ulong)Math.Abs(x);
                 var z = one - w;
-                ulong y;
-                y = (P3U64C + (1UL << (31 + 6 - 4 - 1))) >> (31 + 6 - 4);
+                var y = 1UL << (31 + 6 - 4);
+                y = (P3U64C + (y / 2)) >> (31 + 6 - 4);
                 y = (P3U64B + (y * w)) >> (31 + 4 - 2);
                 y = (P3U64A + (z * y)) >> (31 + 3);
                 return (long)y * x;
@@ -246,8 +246,8 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P9(long x) {
                 var z = (ulong)(x * x) >> 31;
-                ulong y;
-                y = (P9U64E + (1UL << (31 + 8 - 6 - 1))) >> (31 + 8 - 6);
+                var y = 1UL << (31 + 8 - 6);
+                y = (P9U64E + (y / 2)) >> (31 + 8 - 6);
                 y = (P9U64D - (y * z)) >> (31 + 6 - 5);
                 y = (P9U64C - (y * z)) >> (31 + 5 - 4);
                 y = (P9U64B - (y * z)) >> (31 + 4 - 2);
