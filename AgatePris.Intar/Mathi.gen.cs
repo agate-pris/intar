@@ -778,8 +778,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P11(ulong z) {
-                ulong y;
-                y = P11I64F + (1UL << (31 + 6 - 1));
+                var y = 1UL;
+                y = P11I64F + ((y << (31 + 6)) / 2);
                 y = P11I64E - ((y >> (31 + 6)) * z);
                 y = P11I64D - ((y >> (31 + 5)) * z);
                 y = P11I64C - ((y >> (31 + 4)) * z);
@@ -790,8 +790,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P10(ulong z) {
-                ulong y;
-                y = P10I64E + (1UL << (31 + 5 - 1));
+                var y = 1UL;
+                y = P10I64E + ((y << (31 + 5)) / 2);
                 y = P10I64D - ((y >> (31 + 5)) * z);
                 y = P10I64C - ((y >> (31 + 5)) * z);
                 y = P10I64B - ((y >> (31 + 4)) * z);
@@ -801,8 +801,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P5(uint z) {
-                uint y;
-                y = P5I32C + (1U << (15 + 3 - 1));
+                var y = 1U;
+                y = P5I32C + ((y << (15 + 3)) / 2);
                 y = P5I32B - ((y >> (15 + 3)) * z);
                 y = P5I32A - ((y >> (15 + 1)) * z);
                 return y;
@@ -810,8 +810,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P4(uint z) {
-                uint y;
-                y = P4I32B + (1U << (15 + 3 - 1));
+                var y = 1U;
+                y = P4I32B + ((y << (15 + 3)) / 2);
                 y = P4I32A - ((y >> (15 + 3)) * z);
                 return (y >> 16) * z;
             }
