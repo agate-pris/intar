@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public static class Mathi {
+        const decimal Pi = 3.1415926535897932384626433833m;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int AsinInternal(int x) {
             // (2^15) / (0.5 * PI) * 0.0187293
@@ -163,8 +165,6 @@ namespace AgatePris.Intar {
                 return (int)((al + (Math.Sign(a) * Math.Abs(bl))) / (bl << 1));
             }
 
-            const decimal PI = 3.1415926535897932384626433833m;
-
             // 2147483648
             // 2147483648
             // 9223372036854775808
@@ -185,17 +185,17 @@ namespace AgatePris.Intar {
             internal const uint P3U32A = 1U << 31;
             internal const ulong P2U64A = 1UL << 63;
             internal const ulong P3U64A = 1UL << 63;
-            internal const uint P2U32B = (uint)(0.0m + ((1U << 31) / PI * (1U << 4) * 0.273m));
-            internal const uint P3U32B = (uint)(0.5m + ((1U << 31) / PI * (1U << 4) * 0.2447m));
-            internal const uint P3U32C = (uint)(0.0m + ((1U << 31) / PI * (1U << 6) * 0.0663m));
-            internal const ulong P2U64B = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 4) * 0.273m));
-            internal const ulong P3U64B = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 4) * 0.2447m));
-            internal const ulong P3U64C = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 6) * 0.0663m));
-            internal const ulong P9U64A = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 2) * 0.999_866_0m));
-            internal const ulong P9U64B = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 4) * 0.330_299_5m));
-            internal const ulong P9U64C = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 5) * 0.180_141_0m));
-            internal const ulong P9U64D = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 6) * 0.085_133_0m));
-            internal const ulong P9U64E = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 8) * 0.020_835_1m));
+            internal const uint P2U32B = (uint)(0.0m + ((1U << 31) / Pi * (1U << 4) * 0.273m));
+            internal const uint P3U32B = (uint)(0.5m + ((1U << 31) / Pi * (1U << 4) * 0.2447m));
+            internal const uint P3U32C = (uint)(0.0m + ((1U << 31) / Pi * (1U << 6) * 0.0663m));
+            internal const ulong P2U64B = (ulong)(0.0m + ((1UL << 63) / Pi * (1UL << 4) * 0.273m));
+            internal const ulong P3U64B = (ulong)(0.5m + ((1UL << 63) / Pi * (1UL << 4) * 0.2447m));
+            internal const ulong P3U64C = (ulong)(0.0m + ((1UL << 63) / Pi * (1UL << 6) * 0.0663m));
+            internal const ulong P9U64A = (ulong)(0.5m + ((1UL << 63) / Pi * (1UL << 2) * 0.999_866_0m));
+            internal const ulong P9U64B = (ulong)(0.5m + ((1UL << 63) / Pi * (1UL << 4) * 0.330_299_5m));
+            internal const ulong P9U64C = (ulong)(0.5m + ((1UL << 63) / Pi * (1UL << 5) * 0.180_141_0m));
+            internal const ulong P9U64D = (ulong)(0.5m + ((1UL << 63) / Pi * (1UL << 6) * 0.085_133_0m));
+            internal const ulong P9U64E = (ulong)(0.0m + ((1UL << 63) / Pi * (1UL << 8) * 0.020_835_1m));
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int P2(int x) {
@@ -718,7 +718,7 @@ namespace AgatePris.Intar {
                 }
             }
 
-            const decimal K01 = 3.1415926535897932384626433833m / 2;
+            const decimal K01 = Pi / 2;
             const decimal K02 = K01 * K01;
             const decimal K03 = K02 * K01;
             const decimal K04 = K03 * K01;
