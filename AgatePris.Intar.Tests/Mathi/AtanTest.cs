@@ -6,17 +6,35 @@ namespace AgatePris.Intar.Tests.Mathi {
     public class AtanTest {
         [Test]
         public static void TestConsts() {
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64A, 11741988375818245753);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64B, 15515570644620693826);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64C, 16923976036855135454);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64D, 15996234637818023067);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P9U64E, 15659410489582290881);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64B, 11494598498449691202);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U64C, 12457570583526187604);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U64B, 12823969718335781357);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32B, 2676294767);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P3U32C, 2900504177);
-            Utility.AssertAreEqual(Intar.Mathi.AtanInternal.P2U32B, 2985813123);
+            var actual = new ulong[] {
+                Intar.Mathi.AtanInternal.P9U64A,
+                Intar.Mathi.AtanInternal.P9U64B,
+                Intar.Mathi.AtanInternal.P9U64C,
+                Intar.Mathi.AtanInternal.P9U64D,
+                Intar.Mathi.AtanInternal.P9U64E,
+                Intar.Mathi.AtanInternal.P3U64B,
+                Intar.Mathi.AtanInternal.P3U64C,
+                Intar.Mathi.AtanInternal.P2U64B,
+                Intar.Mathi.AtanInternal.P3U32B,
+                Intar.Mathi.AtanInternal.P3U32C,
+                Intar.Mathi.AtanInternal.P2U32B,
+            };
+            for (var i = 0; i < actual.Length; ++i) {
+                Console.WriteLine($"{actual[i]},");
+            }
+            Assert.AreEqual(new ulong[] {
+                11741988375818245753,
+                15515570644620693826,
+                16923976036855135454,
+                15996234637818023067,
+                15659410489582290881,
+                11494598498449691202,
+                12457570583526187604,
+                12823969718335781357,
+                2676294767,
+                2900504177,
+                2985813123,
+            }, actual);
         }
 
         [Test]
