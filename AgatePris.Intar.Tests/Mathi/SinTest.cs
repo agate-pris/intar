@@ -7,38 +7,45 @@ namespace AgatePris.Intar.Tests.Mathi {
     public class SinTest {
         [Test]
         public static void TestConsts() {
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64B);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64C);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64D);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64E);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64F);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64B);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64C);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64D);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64E);
-            Console.WriteLine(Intar.Mathi.SinInternal.P5I32A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P5I32B);
-            Console.WriteLine(Intar.Mathi.SinInternal.P5I32C);
-            Console.WriteLine(Intar.Mathi.SinInternal.P4I32A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P4I32B);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64A, 14488038916154245685);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64B, 11915934368436992009);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64C, 11760553260076371255);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64D, 11054273349336558994);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64E, 12108815703571716367);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64F, 16602603363585481494);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64A, 11378879071774596408);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64B, 9358747397805171131);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64C, 12315189113921640896);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64D, 17335849242745400440);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64E, 14400453044121993745);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32A, 3373259426);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32B, 2764129413);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32C, 2500540483);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P4I32A, 2631866036);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P4I32B, 3875141568);
+            var actual = new ulong[] {
+                Intar.Mathi.SinInternal.P11I64A,
+                Intar.Mathi.SinInternal.P11I64B,
+                Intar.Mathi.SinInternal.P11I64C,
+                Intar.Mathi.SinInternal.P11I64D,
+                Intar.Mathi.SinInternal.P11I64E,
+                Intar.Mathi.SinInternal.P11I64F,
+                Intar.Mathi.SinInternal.P10I64A,
+                Intar.Mathi.SinInternal.P10I64B,
+                Intar.Mathi.SinInternal.P10I64C,
+                Intar.Mathi.SinInternal.P10I64D,
+                Intar.Mathi.SinInternal.P10I64E,
+                Intar.Mathi.SinInternal.P5I32A,
+                Intar.Mathi.SinInternal.P5I32B,
+                Intar.Mathi.SinInternal.P5I32C,
+                Intar.Mathi.SinInternal.P4I32A,
+                Intar.Mathi.SinInternal.P4I32B,
+            };
+            for (var i = 0; i < actual.Length; ++i) {
+                Console.WriteLine($"{actual[i]},");
+            }
+            Assert.AreEqual(new ulong[] {
+                14488038916154245685,
+                11915934368436992009,
+                11760553260076371255,
+                11054273349336558994,
+                12108815703571716367,
+                16602603363585481494,
+                11378879071774596408,
+                9358747397805171131,
+                12315189113921640896,
+                17335849242745400440,
+                14400453044121993745,
+                3373259426,
+                2764129413,
+                2500540483,
+                2631866036,
+                3875141568,
+            }, actual);
         }
 
         static void Test(int expected, Func<int, int> f, Func<double, double> g, int x, double delta) {
