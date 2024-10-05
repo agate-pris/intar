@@ -5,82 +5,64 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static int AsinInternal(int x) {
-            // (2^15) / (0.5 * PI) * 0.0187293
-            // = 390.707370478933
-            var ret = 391 * x;
+        internal static class AsinInternal {
+            const decimal Frac2Pi = 2 / Pi;
+            const decimal Z32 = Frac2Pi * (1UL << 31);
+            const decimal Z64 = Frac2Pi * (1UL << 63);
+            internal const uint P3U32A = (uint)(0.5m + (Z32 * (1 << 1) * 1.5707288m));
+            internal const uint P3U32B = (uint)(0.5m + (Z32 * (1 << 3) * 0.2121144m));
+            internal const uint P3U32C = (uint)(0.5m + (Z32 * (1 << 5) * 0.0742610m));
+            internal const uint P3U32D = (uint)(0.0m + (Z32 * (1 << 7) * 0.0187293m));
+            internal const ulong P3U64A = (ulong)(0.5m + (Z64 * (1 << 1) * 1.5707288m));
+            internal const ulong P3U64B = (ulong)(0.5m + (Z64 * (1 << 3) * 0.2121144m));
+            internal const ulong P3U64C = (ulong)(0.5m + (Z64 * (1 << 5) * 0.0742610m));
+            internal const ulong P3U64D = (ulong)(0.0m + (Z64 * (1 << 7) * 0.0187293m));
 
-            // (2^30) / (0.5 * PI) * 0.074261
-            // = 50762240.9295814
-            const int k1 = 50762241;
-            ret = ((k1 - ret) >> 15) * x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static uint P3(uint x) {
+                var y = 1U << (15 + 7 - 5);
+                y = (P3U32D + (y / 2)) >> (15 + 7 - 5);
+                y = (P3U32C - (y * x)) >> (15 + 5 - 3);
+                y = (P3U32B - (y * x)) >> (15 + 3 - 1);
+                y = (P3U32A - (y * x)) >> (15 + 1 + 1);
+                const uint one = 1U << 15;
+                return Sqrt(one * (one - x)) * y;
+            }
 
-            // (2^30) / (0.5 * PI) * 0.2121144
-            // = 144994038.289729
-            const int k2 = 144994038;
-            ret = ((k2 - ret) >> 15) * x;
-
-            // (2^30) / (0.5 * PI) * 1.5707288
-            // = 1073695665.02784
-            const int k3 = 1073695665;
-            ret = (k3 - ret) >> 15;
-
-            const int k0 = 1 << 15;
-
-            return (int)Sqrt(k0 * (k0 - (uint)x)) * ret;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong P3(ulong x) {
+                var y = 1UL << (31 + 7 - 5);
+                y = (P3U64D + (y / 2)) >> (31 + 7 - 5);
+                y = (P3U64C - (y * x)) >> (31 + 5 - 3);
+                y = (P3U64B - (y * x)) >> (31 + 3 - 1);
+                y = (P3U64A - (y * x)) >> (31 + 1 + 1);
+                const ulong one = 1UL << 31;
+                return Sqrt(one * (one - x)) * y;
+            }
         }
 
         /// <summary>
         /// 逆余弦を近似する｡
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とする余弦</param>
-        /// <returns>0 以上 π 以下の､ π を 2 の 30 乗で表した角度｡</returns>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
         /// <remarks>
-        /// <para>以下の式に基づいて近似する｡</para>
-        /// <div class="math"></div>
-        /// <para>\[0\le x\le1\]</para>
-        /// <para>
-        /// \[arcsin\ x =
-        /// \frac{\pi}{2} -
-        /// \left(1 - x\right)^{\frac{1}{2}}
-        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        /// \epsilon\left(x\right)\]
-        /// </para>
-        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
-        /// <para>
-        /// \begin{align*}
-        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
-        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
-        /// \end{align*}
-        /// </para>
-        /// <para>
-        /// 出典：Milton Abramowitz and Irene Stegun .
-        /// Handbook of Mathematical Function
-        /// With Formulas, Graphs, and Mathematical Tables
-        /// (Abramowitz and Stegun) .
-        /// United States Department of Commerce,
-        /// National Bureau of Standards (NBS) , 1964
-        /// </para>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Acos(int x) {
-            var negate = x < 0;
-            var sign = Math.Sign(x);
-            x = AsinInternal(negate ? -x : x);
-            x = sign * (x - (1 << 30));
-            if (x < 0) {
-                return (uint)(x + (1 << 30));
-            } else {
-                return (uint)x + (1 << 30);
+        public static uint AcosP3(int x) {
+            const uint pi = 1U << 31;
+            switch (Math.Sign(x)) {
+                case 0: return pi / 2;
+                case 1: return AsinInternal.P3((uint)x);
+                default: return pi - AsinInternal.P3((uint)-x);
             }
         }
 
@@ -88,48 +70,75 @@ namespace AgatePris.Intar {
         /// 逆正弦を近似する｡
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とする正弦</param>
-        /// <returns>-π/2 以上 π/2 以下の､ π を 2 の 30 乗で表した角度｡</returns>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
         /// <remarks>
-        /// <para>以下の式に基づいて近似する｡</para>
-        /// <div class="math"></div>
-        /// <para>\[0\le x\le1\]</para>
-        /// <para>
-        /// \[arcsin\ x =
-        /// \frac{\pi}{2} -
-        /// \left(1 - x\right)^{\frac{1}{2}}
-        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        /// \epsilon\left(x\right)\]
-        /// </para>
-        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
-        /// <para>
-        /// \begin{align*}
-        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
-        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
-        /// \end{align*}
-        /// </para>
-        /// <para>
-        /// 出典：Milton Abramowitz and Irene Stegun .
-        /// Handbook of Mathematical Function
-        /// With Formulas, Graphs, and Mathematical Tables
-        /// (Abramowitz and Stegun) .
-        /// United States Department of Commerce,
-        /// National Bureau of Standards (NBS) , 1964
-        /// </para>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Asin(int x) {
-            var negate = x < 0;
-            var sign = Math.Sign(x);
-            x = AsinInternal(negate ? -x : x);
-            return sign * ((1 << 30) - x);
+        public static int AsinP3(int x) {
+            const int fracPi2 = 1 << 30;
+            switch (Math.Sign(x)) {
+                case 0: return 0;
+                case 1: return fracPi2 - (int)AsinInternal.P3((uint)x);
+                default: return (int)AsinInternal.P3((uint)-x) - fracPi2;
+            }
+        }
+
+        /// <summary>
+        /// 逆余弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 31 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 63 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AcosP3(long x) {
+            const ulong pi = 1UL << 63;
+            switch (Math.Sign(x)) {
+                case 0: return pi / 2;
+                case 1: return AsinInternal.P3((ulong)x);
+                default: return pi - AsinInternal.P3((ulong)-x);
+            }
+        }
+
+        /// <summary>
+        /// 逆正弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とする正弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long AsinP3(long x) {
+            const long fracPi2 = 1L << 62;
+            switch (Math.Sign(x)) {
+                case 0: return 0;
+                case 1: return fracPi2 - (long)AsinInternal.P3((ulong)x);
+                default: return (long)AsinInternal.P3((ulong)-x) - fracPi2;
+            }
         }
 
         internal static class AtanInternal {
