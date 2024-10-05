@@ -7,7 +7,7 @@ namespace AgatePris.Intar {
 
         internal static class AsinInternal {
             const decimal Frac2Pi = 2 / Pi;
-            const decimal Z32 = Frac2Pi * (1U << 31);
+            const decimal Z32 = Frac2Pi * (1UL << 31);
             const decimal Z64 = Frac2Pi * (1UL << 63);
             internal const uint P3U32A = (uint)(0.5m + (Z32 * (1 << 1) * 1.5707288m));
             internal const uint P3U32B = (uint)(0.5m + (Z32 * (1 << 3) * 0.2121144m));
@@ -49,11 +49,11 @@ namespace AgatePris.Intar {
         /// <remarks>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -94,16 +94,16 @@ namespace AgatePris.Intar {
         /// <summary>
         /// 逆余弦を近似する｡
         /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とする余弦</param>
-        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <param name="x">2 の 31 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 63 乗で表した角度｡</returns>
         /// <remarks>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
