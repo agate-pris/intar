@@ -7,6 +7,12 @@
 {%- else %}{{ throw(message = "invalid arguments. bits: " ~ bits) }}{% endif %}
 {%- endmacro %}
 
+{%- macro one(bits, signed) %}
+{%- if   bits == 32 %}{% if signed %}1 {%- else %}1U {%- endif %}
+{%- elif bits == 64 %}{% if signed %}1L{%- else %}1UL{%- endif %}
+{%- else %}{{ throw(message = "invalid arguments. bits: " ~ bits) }}{% endif %}
+{%- endmacro %}
+
 {%- macro signed_type(t) %}
     {%- if   t == "int"     %}int
     {%- elif t == "uint"    %}int
