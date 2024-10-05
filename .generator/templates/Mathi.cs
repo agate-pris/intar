@@ -95,11 +95,11 @@ namespace AgatePris.Intar {
         /// <remarks>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
