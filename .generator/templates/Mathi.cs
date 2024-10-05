@@ -45,44 +45,6 @@
         /// <returns>2 の {{ 2 * shift }} 乗を 1 とする{{ jp }}</returns>
 {%- endmacro -%}
 
-{%- macro asin_equation() %}
-        /// <remarks>
-        /// <para>以下の式に基づいて近似する｡</para>
-        /// <div class="math"></div>
-        /// <para>\[0\le x\le1\]</para>
-        /// <para>
-        /// \[arcsin\ x =
-        /// \frac{\pi}{2} -
-        /// \left(1 - x\right)^{\frac{1}{2}}
-        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        /// \epsilon\left(x\right)\]
-        /// </para>
-        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
-        /// <para>
-        /// \begin{align*}
-        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
-        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
-        /// \end{align*}
-        /// </para>
-        /// <para>
-        /// 出典：Milton Abramowitz and Irene Stegun .
-        /// Handbook of Mathematical Function
-        /// With Formulas, Graphs, and Mathematical Tables
-        /// (Abramowitz and Stegun) .
-        /// United States Department of Commerce,
-        /// National Bureau of Standards (NBS) , 1964
-        /// </para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
-        /// </div>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
-        /// </div>
-        /// </remarks>
-{%- endmacro -%}
-
 using System;
 using System.Runtime.CompilerServices;
 
@@ -128,8 +90,8 @@ namespace AgatePris.Intar {
         /// <summary>
         /// 逆余弦を近似する｡
         /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とする余弦</param>
-        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <param name="x">2 の {{ p[1] / 2 - 1 }} 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の {{ p[1] - 1 }} 乗で表した角度｡</returns>
         /// <remarks>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
