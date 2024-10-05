@@ -17,6 +17,14 @@ namespace AgatePris.Intar {
             internal const ulong P3U64B = (ulong)(0.5m + (Z64 * (1 << 3) * 0.2121144m));
             internal const ulong P3U64C = (ulong)(0.5m + (Z64 * (1 << 5) * 0.0742610m));
             internal const ulong P3U64D = (ulong)(0.0m + (Z64 * (1 << 7) * 0.0187293m));
+            internal const ulong P7U64A = (ulong)(0.5m + (Z64 * 1.570_796_305_0m * (1 << 1)));
+            internal const ulong P7U64B = (ulong)(0.5m + (Z64 * 0.214_598_801_6m * (1 << 3)));
+            internal const ulong P7U64C = (ulong)(0.5m + (Z64 * 0.088_978_987_4m * (1 << 5)));
+            internal const ulong P7U64D = (ulong)(0.5m + (Z64 * 0.050_174_304_6m * (1 << 5)));
+            internal const ulong P7U64E = (ulong)(0.5m + (Z64 * 0.030_891_881_0m * (1 << 6)));
+            internal const ulong P7U64F = (ulong)(0.5m + (Z64 * 0.017_088_125_6m * (1 << 7)));
+            internal const ulong P7U64G = (ulong)(0.5m + (Z64 * 0.006_670_090_1m * (1 << 8)));
+            internal const ulong P7U64H = (ulong)(0.0m + (Z64 * 0.001_262_491_1m * (1 << 11)));
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P3(uint x) {
@@ -36,6 +44,21 @@ namespace AgatePris.Intar {
                 y = (P3U64C - (y * x)) >> (31 + 5 - 3);
                 y = (P3U64B - (y * x)) >> (31 + 3 - 1);
                 y = (P3U64A - (y * x)) >> (31 + 1 + 1);
+                const ulong one = 1UL << 31;
+                return Sqrt(one * (one - x)) * y;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong P7(ulong x) {
+                var y = 1UL << (31 + 11 - 8);
+                y = (P7U64H + (y / 2)) >> (31 + 11 - 8);
+                y = (P7U64G - (y * x)) >> (31 + 8 - 7);
+                y = (P7U64F - (y * x)) >> (31 + 7 - 6);
+                y = (P7U64E - (y * x)) >> (31 + 6 - 5);
+                y = (P7U64D - (y * x)) >> (31 + 5 - 5);
+                y = (P7U64C - (y * x)) >> (31 + 5 - 3);
+                y = (P7U64B - (y * x)) >> (31 + 3 - 1);
+                y = (P7U64A - (y * x)) >> (31 + 1 + 1);
                 const ulong one = 1UL << 31;
                 return Sqrt(one * (one - x)) * y;
             }
@@ -138,6 +161,56 @@ namespace AgatePris.Intar {
                 case 0: return 0;
                 case 1: return fracPi2 - (long)AsinInternal.P3((ulong)x);
                 default: return (long)AsinInternal.P3((ulong)-x) - fracPi2;
+            }
+        }
+
+        /// <summary>
+        /// 逆余弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 31 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 63 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AcosP7(long x) {
+            const ulong pi = 1UL << 63;
+            switch (Math.Sign(x)) {
+                case 0: return pi / 2;
+                case 1: return AsinInternal.P7((ulong)x);
+                default: return pi - AsinInternal.P7((ulong)-x);
+            }
+        }
+
+        /// <summary>
+        /// 逆正弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とする正弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long AsinP7(long x) {
+            const long fracPi2 = 1L << 62;
+            switch (Math.Sign(x)) {
+                case 0: return 0;
+                case 1: return fracPi2 - (long)AsinInternal.P7((ulong)x);
+                default: return (long)AsinInternal.P7((ulong)-x) - fracPi2;
             }
         }
 
