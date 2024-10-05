@@ -7,38 +7,45 @@ namespace AgatePris.Intar.Tests.Mathi {
     public class SinTest {
         [Test]
         public static void TestConsts() {
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64B);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64C);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64D);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64E);
-            Console.WriteLine(Intar.Mathi.SinInternal.P11I64F);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64B);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64C);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64D);
-            Console.WriteLine(Intar.Mathi.SinInternal.P10I64E);
-            Console.WriteLine(Intar.Mathi.SinInternal.P5I32A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P5I32B);
-            Console.WriteLine(Intar.Mathi.SinInternal.P5I32C);
-            Console.WriteLine(Intar.Mathi.SinInternal.P4I32A);
-            Console.WriteLine(Intar.Mathi.SinInternal.P4I32B);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64A, 14488038916154245685);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64B, 11915934368436992009);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64C, 11760553260076371255);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64D, 11054273349336558994);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64E, 12108815703571716367);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P11I64F, 16602603363585481494);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64A, 11378879071774596408);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64B, 9358747397805171131);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64C, 12315189113921640896);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64D, 17335849242745400440);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P10I64E, 14400453044121993745);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32A, 3373259426);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32B, 2764129413);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P5I32C, 2500540483);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P4I32A, 2631866036);
-            Assert.AreEqual(Intar.Mathi.SinInternal.P4I32B, 3875141568);
+            var actual = new ulong[] {
+                Intar.Mathi.SinInternal.P11I64A,
+                Intar.Mathi.SinInternal.P11I64B,
+                Intar.Mathi.SinInternal.P11I64C,
+                Intar.Mathi.SinInternal.P11I64D,
+                Intar.Mathi.SinInternal.P11I64E,
+                Intar.Mathi.SinInternal.P11I64F,
+                Intar.Mathi.SinInternal.P10I64A,
+                Intar.Mathi.SinInternal.P10I64B,
+                Intar.Mathi.SinInternal.P10I64C,
+                Intar.Mathi.SinInternal.P10I64D,
+                Intar.Mathi.SinInternal.P10I64E,
+                Intar.Mathi.SinInternal.P5I32A,
+                Intar.Mathi.SinInternal.P5I32B,
+                Intar.Mathi.SinInternal.P5I32C,
+                Intar.Mathi.SinInternal.P4I32A,
+                Intar.Mathi.SinInternal.P4I32B,
+            };
+            for (var i = 0; i < actual.Length; ++i) {
+                Console.WriteLine($"{actual[i]},");
+            }
+            Assert.AreEqual(new ulong[] {
+                14488038916154245685,
+                11915934368436992009,
+                11760553260076371255,
+                11054273349336558994,
+                12108815703571716367,
+                16602603363585481494,
+                11378879071774596408,
+                9358747397805171131,
+                12315189113921640896,
+                17335849242745400440,
+                14400453044121993745,
+                3373259426,
+                2764129413,
+                2500540483,
+                2631866036,
+                3875141568,
+            }, actual);
         }
 
         static void Test(int expected, Func<int, int> f, Func<double, double> g, int x, double delta) {
@@ -153,8 +160,6 @@ namespace AgatePris.Intar.Tests.Mathi {
             Func<long, long> cos, double delta
         ) {
             const long pi = 1L << 32;
-            const double toRad = Math.PI / pi;
-            const double toReal = 1.0 / (1L << 62);
             Utility.AssertAreEqual(sin(0), sin(long.MinValue), long.MinValue);
             Utility.AssertAreEqual(cos(0), cos(long.MinValue), long.MinValue);
             Utility.AssertAreEqual(sin(-1), sin(long.MaxValue), long.MaxValue);
@@ -229,10 +234,13 @@ namespace AgatePris.Intar.Tests.Mathi {
         public static void TestSinP4() {
             var expectedSin = new int[] {
                 0, 65536,
-                131072, 163846, 229384, 262164,
-                327704, 360490, 426032, 458824,
+                131072, 163846, 229384, 262164, 327704, 360490, 426032, 458824,
+                524368, 557166, 622712, 688258, 721064, 786612, 819424, 884974,
+                917792, 983344,
             };
             var expectedCos = new int[] {
+                1073741824, 1073741824, 1073741824, 1073741824, 1073741824,
+                1073741824, 1073741824, 1073741824, 1073741824, 1073741824,
                 1073741824, 1073741824, 1073741824, 1073741824, 1073741824,
                 1073741824, 1073741824, 1073741824, 1073741824, 1073741824,
             };
@@ -243,50 +251,60 @@ namespace AgatePris.Intar.Tests.Mathi {
         public static void TestSinP5() {
             var expectedSin = new int[] {
                 0, 51471,
-                102942, 154413, 205884, 257355,
-                308826, 360297, 411768, 463239,
+                102942, 154413, 205884, 257355, 308826, 360297, 411768, 463239,
+                514710, 566181, 617652, 669123, 720594, 772065, 823536, 875007,
+                926478, 977949,
             };
             var expectedCos = new int[] {
                 1073741824, 1073709056, 1073741820, 1073741815, 1073741808,
                 1073741799, 1073741788, 1073741775, 1073709000, 1073741743,
+                1073741724, 1073741703, 1073741680, 1073741655, 1073741628,
+                1073708846, 1073741568, 1073741535, 1073708750, 1073741463,
             };
             TestSin(expectedSin, expectedCos, Intar.Mathi.SinP5, Intar.Mathi.CosP5, 0.0004);
         }
         [Test]
         public static void TestSinP10() {
             var expectedSin = new long[] {
-                10737418240, 15032385526,
-                17179869168, 21474836456,
-                25769803744, 27917287394,
-                32212254684, 34359738340,
-                38654705632, 40802189294,
+                10737418240, 15032385526, 17179869168, 21474836456, 25769803744,
+                27917287394, 32212254684, 34359738340, 38654705632, 40802189294,
+                45097156588, 49392123882, 51539607552, 55834574848, 57982058524,
+                62277025822, 64424509504, 68719476804, 73014444104, 75161927794,
+                79456895096, 81604378792, 85899346096, 88046829798, 92341797104,
+                94489280812, 98784248120,
             };
             var expectedCos = new long[] {
-                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
-                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
             };
             TestSin(expectedSin, expectedCos, Intar.Mathi.SinP10, Intar.Mathi.CosP10, 0.000002);
         }
         [Test]
         public static void TestSinP11() {
+            for (var i = 0; i < 50; ++i) {
+                Console.WriteLine(Intar.Mathi.SinP11(i));
+            }
+            for (var i = 0; i < 100; ++i) {
+                Console.WriteLine(Intar.Mathi.CosP11(i));
+            }
             var expectedSin = new long[] {
                 0,
                 3373259426,
                 6746518852,
-                10119778278,
-                13493037704,
-                16866297130,
-                20239556556,
-                23612815982,
-                26986075408,
-                30359334834,
+                10119778278, 13493037704, 16866297130, 20239556556, 23612815982,
+                26986075408, 30359334834, 33732594260, 37105853686, 40479113112,
+                43852372538, 47225631964, 50598891390, 53972150816, 57345410242,
+                60718669668, 64091929094, 67465188520, 70838447946, 74211707372,
+                77584966798, 80958226224, 84331485650, 87704745076, 91078004502,
+                94451263928, 97824523354,
             };
             var expectedCos = new long[] {
-                4611686007689969664, 4611686007689969668,
-                4611686007689969670, 4611686007689969670,
-                4611686007689969668, 4611686007689969664,
-                4611686005542486016, 4611686007689969650,
-                4611686007689969640, 4611686007689969628,
+                4611686007689969664, 4611686007689969668, 4611686007689969670,
+                4611686007689969670, 4611686007689969668, 4611686007689969664,
+                4611686005542486016, 4611686007689969650, 4611686007689969640,
+                4611686007689969628, 4611686007689969614, 4611686007689969598,
             };
             TestSin(expectedSin, expectedCos, Intar.Mathi.SinP11, Intar.Mathi.CosP11, 0.000002);
         }

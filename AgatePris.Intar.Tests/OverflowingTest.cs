@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using static NUnit.Framework.Assert;
+
 using i32 = System.Int32;
 using i64 = System.Int64;
 using u32 = System.UInt32;

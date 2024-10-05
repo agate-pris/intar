@@ -3,82 +3,107 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public static class Mathi {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static int AsinInternal(int x) {
-            // (2^15) / (0.5 * PI) * 0.0187293
-            // = 390.707370478933
-            var ret = 391 * x;
+        const decimal Pi = 3.1415926535897932384626433833m;
 
-            // (2^30) / (0.5 * PI) * 0.074261
-            // = 50762240.9295814
-            const int k1 = 50762241;
-            ret = ((k1 - ret) >> 15) * x;
+        internal static class AsinInternal {
+            const decimal Frac2Pi = 2 / Pi;
+            const decimal Z32 = Frac2Pi * (1UL << 31);
+            const decimal Z64 = Frac2Pi * (1UL << 63);
 
-            // (2^30) / (0.5 * PI) * 0.2121144
-            // = 144994038.289729
-            const int k2 = 144994038;
-            ret = ((k2 - ret) >> 15) * x;
+            // 4294782660
+            // 2319904613
+            // 3248783419
+            // 3277490973
+            // 18445951068606135392
+            // 9963914441109755535
+            // 13953418538510380357
+            // 14076716544798613906
+            // 18446743817759831598
+            // 10080617338130213281
+            // 16718884102355766130
+            // 9427600920570779471
+            // 11608983047221464490
+            // 12843229610990092589
+            // 10026318940480150471
+            // 15181969944445121899
 
-            // (2^30) / (0.5 * PI) * 1.5707288
-            // = 1073695665.02784
-            const int k3 = 1073695665;
-            ret = (k3 - ret) >> 15;
+            internal const uint P3U32A = (uint)(0.5m + (Z32 * (1 << 1) * 1.5707288m));
+            internal const uint P3U32B = (uint)(0.5m + (Z32 * (1 << 3) * 0.2121144m));
+            internal const uint P3U32C = (uint)(0.5m + (Z32 * (1 << 5) * 0.0742610m));
+            internal const uint P3U32D = (uint)(0.0m + (Z32 * (1 << 7) * 0.0187293m));
+            internal const ulong P3U64A = (ulong)(0.5m + (Z64 * (1 << 1) * 1.5707288m));
+            internal const ulong P3U64B = (ulong)(0.5m + (Z64 * (1 << 3) * 0.2121144m));
+            internal const ulong P3U64C = (ulong)(0.5m + (Z64 * (1 << 5) * 0.0742610m));
+            internal const ulong P3U64D = (ulong)(0.0m + (Z64 * (1 << 7) * 0.0187293m));
+            internal const ulong P7U64A = (ulong)(0.5m + (Z64 * 1.570_796_305_0m * (1 << 1)));
+            internal const ulong P7U64B = (ulong)(0.5m + (Z64 * 0.214_598_801_6m * (1 << 3)));
+            internal const ulong P7U64C = (ulong)(0.5m + (Z64 * 0.088_978_987_4m * (1 << 5)));
+            internal const ulong P7U64D = (ulong)(0.5m + (Z64 * 0.050_174_304_6m * (1 << 5)));
+            internal const ulong P7U64E = (ulong)(0.5m + (Z64 * 0.030_891_881_0m * (1 << 6)));
+            internal const ulong P7U64F = (ulong)(0.5m + (Z64 * 0.017_088_125_6m * (1 << 7)));
+            internal const ulong P7U64G = (ulong)(0.5m + (Z64 * 0.006_670_090_1m * (1 << 8)));
+            internal const ulong P7U64H = (ulong)(0.0m + (Z64 * 0.001_262_491_1m * (1 << 11)));
 
-            const int k0 = 1 << 15;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static uint P3(uint x) {
+                var y = 1U << (15 + 7 - 5);
+                y = (P3U32D + (y / 2)) >> (15 + 7 - 5);
+                y = (P3U32C - (y * x)) >> (15 + 5 - 3);
+                y = (P3U32B - (y * x)) >> (15 + 3 - 1);
+                y = (P3U32A - (y * x)) >> (15 + 1 + 1);
+                const uint one = 1U << 15;
+                return Sqrt(one * (one - x)) * y;
+            }
 
-            return (int)Sqrt(k0 * (k0 - (uint)x)) * ret;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong P3(ulong x) {
+                var y = 1UL << (31 + 7 - 5);
+                y = (P3U64D + (y / 2)) >> (31 + 7 - 5);
+                y = (P3U64C - (y * x)) >> (31 + 5 - 3);
+                y = (P3U64B - (y * x)) >> (31 + 3 - 1);
+                y = (P3U64A - (y * x)) >> (31 + 1 + 1);
+                const ulong one = 1UL << 31;
+                return Sqrt(one * (one - x)) * y;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong P7(ulong x) {
+                var y = 1UL << (31 + 11 - 8);
+                y = (P7U64H + (y / 2)) >> (31 + 11 - 8);
+                y = (P7U64G - (y * x)) >> (31 + 8 - 7);
+                y = (P7U64F - (y * x)) >> (31 + 7 - 6);
+                y = (P7U64E - (y * x)) >> (31 + 6 - 5);
+                y = (P7U64D - (y * x)) >> (31 + 5 - 5);
+                y = (P7U64C - (y * x)) >> (31 + 5 - 3);
+                y = (P7U64B - (y * x)) >> (31 + 3 - 1);
+                y = (P7U64A - (y * x)) >> (31 + 1 + 1);
+                const ulong one = 1UL << 31;
+                return Sqrt(one * (one - x)) * y;
+            }
         }
 
         /// <summary>
         /// 逆余弦を近似する｡
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とする余弦</param>
-        /// <returns>0 以上 π 以下の､ π を 2 の 30 乗で表した角度｡</returns>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
         /// <remarks>
-        /// <para>以下の式に基づいて近似する｡</para>
-        /// <div class="math"></div>
-        /// <para>\[0\le x\le1\]</para>
-        /// <para>
-        /// \[arcsin\ x =
-        /// \frac{\pi}{2} -
-        /// \left(1 - x\right)^{\frac{1}{2}}
-        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        /// \epsilon\left(x\right)\]
-        /// </para>
-        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
-        /// <para>
-        /// \begin{align*}
-        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
-        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
-        /// \end{align*}
-        /// </para>
-        /// <para>
-        /// 出典：Milton Abramowitz and Irene Stegun .
-        /// Handbook of Mathematical Function
-        /// With Formulas, Graphs, and Mathematical Tables
-        /// (Abramowitz and Stegun) .
-        /// United States Department of Commerce,
-        /// National Bureau of Standards (NBS) , 1964
-        /// </para>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Acos(int x) {
-            var negate = x < 0;
-            var sign = Math.Sign(x);
-            x = AsinInternal(negate ? -x : x);
-            x = sign * (x - (1 << 30));
-            if (x < 0) {
-                return (uint)(x + (1 << 30));
-            } else {
-                return (uint)x + (1 << 30);
+        public static uint AcosP3(int x) {
+            const uint pi = 1U << 31;
+            switch (Math.Sign(x)) {
+                case 0: return pi / 2;
+                case 1: return AsinInternal.P3((uint)x);
+                default: return pi - AsinInternal.P3((uint)-x);
             }
         }
 
@@ -86,48 +111,125 @@ namespace AgatePris.Intar {
         /// 逆正弦を近似する｡
         /// </summary>
         /// <param name="x">2 の 15 乗を 1 とする正弦</param>
-        /// <returns>-π/2 以上 π/2 以下の､ π を 2 の 30 乗で表した角度｡</returns>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
         /// <remarks>
-        /// <para>以下の式に基づいて近似する｡</para>
-        /// <div class="math"></div>
-        /// <para>\[0\le x\le1\]</para>
-        /// <para>
-        /// \[arcsin\ x =
-        /// \frac{\pi}{2} -
-        /// \left(1 - x\right)^{\frac{1}{2}}
-        /// \left(a_0+a_1x+a_2x^2+a_3x^3\right) +
-        /// \epsilon\left(x\right)\]
-        /// </para>
-        /// <para>\[\left|\epsilon\left(x\right)\right|\leq 5 \times 10^{-5}\]</para>
-        /// <para>
-        /// \begin{align*}
-        /// a_0&amp;=\hspace{0.277em}1.57072\ 88&amp;a_2&amp;=\hspace{0.777em}.07426\ 10\newline
-        /// a_1&amp;=                -.21211\ 44&amp;a_3&amp;=               -.01872\ 93
-        /// \end{align*}
-        /// </para>
-        /// <para>
-        /// 出典：Milton Abramowitz and Irene Stegun .
-        /// Handbook of Mathematical Function
-        /// With Formulas, Graphs, and Mathematical Tables
-        /// (Abramowitz and Stegun) .
-        /// United States Department of Commerce,
-        /// National Bureau of Standards (NBS) , 1964
-        /// </para>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 誤った値を返します｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
         /// </div>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
-        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-32768 未満または 32768 より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
         /// </div>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Asin(int x) {
-            var negate = x < 0;
-            var sign = Math.Sign(x);
-            x = AsinInternal(negate ? -x : x);
-            return sign * ((1 << 30) - x);
+        public static int AsinP3(int x) {
+            const int fracPi2 = 1 << 30;
+            switch (Math.Sign(x)) {
+                case 0: return 0;
+                case 1: return fracPi2 - (int)AsinInternal.P3((uint)x);
+                default: return (int)AsinInternal.P3((uint)-x) - fracPi2;
+            }
+        }
+
+        /// <summary>
+        /// 逆余弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 31 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 63 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AcosP3(long x) {
+            const ulong pi = 1UL << 63;
+            switch (Math.Sign(x)) {
+                case 0: return pi / 2;
+                case 1: return AsinInternal.P3((ulong)x);
+                default: return pi - AsinInternal.P3((ulong)-x);
+            }
+        }
+
+        /// <summary>
+        /// 逆正弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とする正弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long AsinP3(long x) {
+            const long fracPi2 = 1L << 62;
+            switch (Math.Sign(x)) {
+                case 0: return 0;
+                case 1: return fracPi2 - (long)AsinInternal.P3((ulong)x);
+                default: return (long)AsinInternal.P3((ulong)-x) - fracPi2;
+            }
+        }
+
+        /// <summary>
+        /// 逆余弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 31 乗を 1 とする余弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 63 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AcosP7(long x) {
+            const ulong pi = 1UL << 63;
+            switch (Math.Sign(x)) {
+                case 0: return pi / 2;
+                case 1: return AsinInternal.P7((ulong)x);
+                default: return pi - AsinInternal.P7((ulong)-x);
+            }
+        }
+
+        /// <summary>
+        /// 逆正弦を近似する｡
+        /// </summary>
+        /// <param name="x">2 の 15 乗を 1 とする正弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <remarks>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 誤った値を返します｡</para>
+        /// </div>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは引数 <c>x</c> が範囲外 (-1 に相当する値未満または 1 に相当する値より大きい値) の場合､ 例外を送出する場合があります｡</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long AsinP7(long x) {
+            const long fracPi2 = 1L << 62;
+            switch (Math.Sign(x)) {
+                case 0: return 0;
+                case 1: return fracPi2 - (long)AsinInternal.P7((ulong)x);
+                default: return (long)AsinInternal.P7((ulong)-x) - fracPi2;
+            }
         }
 
         internal static class AtanInternal {
@@ -163,7 +265,8 @@ namespace AgatePris.Intar {
                 return (int)((al + (Math.Sign(a) * Math.Abs(bl))) / (bl << 1));
             }
 
-            const decimal PI = 3.1415926535897932384626433833m;
+            const decimal Z1 = (1UL << 31) / Pi;
+            const decimal Z2 = (1UL << 63) / Pi;
 
             // 2147483648
             // 2147483648
@@ -181,29 +284,29 @@ namespace AgatePris.Intar {
             // 15996234637818023067
             // 15659410489582290881
 
-            internal const uint P2U32A = 1U << 31;
-            internal const uint P3U32A = 1U << 31;
-            internal const ulong P2U64A = 1UL << 63;
-            internal const ulong P3U64A = 1UL << 63;
-            internal const uint P2U32B = (uint)(0.0m + ((1U << 31) / PI * (1U << 4) * 0.273m));
-            internal const uint P3U32B = (uint)(0.5m + ((1U << 31) / PI * (1U << 4) * 0.2447m));
-            internal const uint P3U32C = (uint)(0.0m + ((1U << 31) / PI * (1U << 6) * 0.0663m));
-            internal const ulong P2U64B = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 4) * 0.273m));
-            internal const ulong P3U64B = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 4) * 0.2447m));
-            internal const ulong P3U64C = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 6) * 0.0663m));
-            internal const ulong P9U64A = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 2) * 0.999_866_0m));
-            internal const ulong P9U64B = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 4) * 0.330_299_5m));
-            internal const ulong P9U64C = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 5) * 0.180_141_0m));
-            internal const ulong P9U64D = (ulong)(0.5m + ((1UL << 63) / PI * (1UL << 6) * 0.085_133_0m));
-            internal const ulong P9U64E = (ulong)(0.0m + ((1UL << 63) / PI * (1UL << 8) * 0.020_835_1m));
+            const uint P2U32A = 1U << 31;
+            const uint P3U32A = 1U << 31;
+            const ulong P2U64A = 1UL << 63;
+            const ulong P3U64A = 1UL << 63;
+            internal const uint P2U32B = (uint)(0.0m + (Z1 * (1U << 4) * 0.273m));
+            internal const uint P3U32B = (uint)(0.5m + (Z1 * (1U << 4) * 0.2447m));
+            internal const uint P3U32C = (uint)(0.0m + (Z1 * (1U << 6) * 0.0663m));
+            internal const ulong P2U64B = (ulong)(0.0m + (Z2 * (1UL << 4) * 0.273m));
+            internal const ulong P3U64B = (ulong)(0.5m + (Z2 * (1UL << 4) * 0.2447m));
+            internal const ulong P3U64C = (ulong)(0.0m + (Z2 * (1UL << 6) * 0.0663m));
+            internal const ulong P9U64A = (ulong)(0.5m + (Z2 * (1UL << 2) * 0.999_866_0m));
+            internal const ulong P9U64B = (ulong)(0.5m + (Z2 * (1UL << 4) * 0.330_299_5m));
+            internal const ulong P9U64C = (ulong)(0.5m + (Z2 * (1UL << 5) * 0.180_141_0m));
+            internal const ulong P9U64D = (ulong)(0.5m + (Z2 * (1UL << 6) * 0.085_133_0m));
+            internal const ulong P9U64E = (ulong)(0.0m + (Z2 * (1UL << 8) * 0.020_835_1m));
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int P2(int x) {
                 const uint one = 1U << 15;
                 var w = (uint)Math.Abs(x);
                 var z = one - w;
-                uint y;
-                y = (P2U32B + (1U << (15 + 2 - 1))) >> (15 + 2);
+                var y = 1U << (15 + 2);
+                y = (P2U32B + (y / 2)) >> (15 + 2);
                 y = (P2U32A + (z * y)) >> (15 + 3);
                 return (int)y * x;
             }
@@ -213,8 +316,8 @@ namespace AgatePris.Intar {
                 const uint one = 1U << 15;
                 var w = (uint)Math.Abs(x);
                 var z = one - w;
-                uint y;
-                y = (P3U32C + (1U << (15 + 6 - 4 - 1))) >> (15 + 6 - 4);
+                var y = 1U << (15 + 6 - 4);
+                y = (P3U32C + (y / 2)) >> (15 + 6 - 4);
                 y = (P3U32B + (y * w)) >> (15 + 4 - 2);
                 y = (P3U32A + (z * y)) >> (15 + 3);
                 return (int)y * x;
@@ -225,8 +328,8 @@ namespace AgatePris.Intar {
                 const ulong one = 1UL << 31;
                 var w = (ulong)Math.Abs(x);
                 var z = one - w;
-                ulong y;
-                y = (P2U64B + (1UL << (31 + 2 - 1))) >> (31 + 2);
+                var y = 1UL << (31 + 2);
+                y = (P2U64B + (y / 2)) >> (31 + 2);
                 y = (P2U64A + (z * y)) >> (31 + 3);
                 return (long)y * x;
             }
@@ -236,8 +339,8 @@ namespace AgatePris.Intar {
                 const ulong one = 1UL << 31;
                 var w = (ulong)Math.Abs(x);
                 var z = one - w;
-                ulong y;
-                y = (P3U64C + (1UL << (31 + 6 - 4 - 1))) >> (31 + 6 - 4);
+                var y = 1UL << (31 + 6 - 4);
+                y = (P3U64C + (y / 2)) >> (31 + 6 - 4);
                 y = (P3U64B + (y * w)) >> (31 + 4 - 2);
                 y = (P3U64A + (z * y)) >> (31 + 3);
                 return (long)y * x;
@@ -246,8 +349,8 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P9(long x) {
                 var z = (ulong)(x * x) >> 31;
-                ulong y;
-                y = (P9U64E + (1UL << (31 + 8 - 6 - 1))) >> (31 + 8 - 6);
+                var y = 1UL << (31 + 8 - 6);
+                y = (P9U64E + (y / 2)) >> (31 + 8 - 6);
                 y = (P9U64D - (y * z)) >> (31 + 6 - 5);
                 y = (P9U64C - (y * z)) >> (31 + 5 - 4);
                 y = (P9U64B - (y * z)) >> (31 + 4 - 2);
@@ -718,7 +821,9 @@ namespace AgatePris.Intar {
                 }
             }
 
-            const decimal K01 = 3.1415926535897932384626433833m / 2;
+            const decimal Z1 = 1UL << 31;
+            const decimal Z2 = 1UL << 63;
+            const decimal K01 = Pi / 2;
             const decimal K02 = K01 * K01;
             const decimal K03 = K02 * K01;
             const decimal K04 = K03 * K01;
@@ -751,30 +856,30 @@ namespace AgatePris.Intar {
             // 2631866036
             // 3875141568
 
-            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * (1UL << 63)));
-            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * (1UL << 63) * (1 << 1)));
-            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * (1UL << 63) * (1 << 4)));
-            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * (1UL << 63) * (1 << 8)));
-            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * (1UL << 63) * (1 << 13)));
-            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * (1UL << 63) * (1 << 19)));
-            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * (1UL << 63)));
-            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * (1UL << 63) * (1 << 2)));
-            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * (1UL << 63) * (1 << 6)));
-            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * (1UL << 63) * (1 << 11)));
-            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * (1UL << 63) * (1 << 16)));
-            internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * (1U << 31)));
-            internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * (1U << 31) * (1 << 1)));
-            internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * (1U << 31) * (1 << 4)));
-            internal const uint P4I32A = (uint)(0.5m + (0.49670m * K02 * (1U << 31)));
-            internal const uint P4I32B = (uint)(0.0m + (0.03705m * K04 * (1U << 31) * (1 << 3)));
+            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z2));
+            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z2 * (1 << 1)));
+            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z2 * (1 << 4)));
+            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * Z2 * (1 << 8)));
+            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * Z2 * (1 << 13)));
+            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * Z2 * (1 << 19)));
+            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * Z2));
+            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * Z2 * (1 << 2)));
+            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z2 * (1 << 6)));
+            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z2 * (1 << 11)));
+            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z2 * (1 << 16)));
+            internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * Z1));
+            internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * Z1 * (1 << 1)));
+            internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * Z1 * (1 << 4)));
+            internal const uint P4I32A = (uint)(0.5m + (0.49670m * K02 * Z1));
+            internal const uint P4I32B = (uint)(0.0m + (0.03705m * K04 * Z1 * (1 << 3)));
 
             // 精度に対して与える影響が軽微であるため､
             // 乗算前に一度にまとめてビットシフトを行う｡
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P11(ulong z) {
-                ulong y;
-                y = P11I64F + (1UL << (31 + 6 - 1));
+                var y = 1UL;
+                y = P11I64F + ((y << (31 + 6)) / 2);
                 y = P11I64E - ((y >> (31 + 6)) * z);
                 y = P11I64D - ((y >> (31 + 5)) * z);
                 y = P11I64C - ((y >> (31 + 4)) * z);
@@ -785,8 +890,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P10(ulong z) {
-                ulong y;
-                y = P10I64E + (1UL << (31 + 5 - 1));
+                var y = 1UL;
+                y = P10I64E + ((y << (31 + 5)) / 2);
                 y = P10I64D - ((y >> (31 + 5)) * z);
                 y = P10I64C - ((y >> (31 + 5)) * z);
                 y = P10I64B - ((y >> (31 + 4)) * z);
@@ -796,8 +901,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P5(uint z) {
-                uint y;
-                y = P5I32C + (1U << (15 + 3 - 1));
+                var y = 1U;
+                y = P5I32C + ((y << (15 + 3)) / 2);
                 y = P5I32B - ((y >> (15 + 3)) * z);
                 y = P5I32A - ((y >> (15 + 1)) * z);
                 return y;
@@ -805,8 +910,8 @@ namespace AgatePris.Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P4(uint z) {
-                uint y;
-                y = P4I32B + (1U << (15 + 3 - 1));
+                var y = 1U;
+                y = P4I32B + ((y << (15 + 3)) / 2);
                 y = P4I32A - ((y >> (15 + 3)) * z);
                 return (y >> 16) * z;
             }
