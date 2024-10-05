@@ -15,11 +15,19 @@ namespace AgatePris.Intar.Tests.Mathi {
                 Intar.Mathi.AsinInternal.P3U64B,
                 Intar.Mathi.AsinInternal.P3U64C,
                 Intar.Mathi.AsinInternal.P3U64D,
+                Intar.Mathi.AsinInternal.P7U64A,
+                Intar.Mathi.AsinInternal.P7U64B,
+                Intar.Mathi.AsinInternal.P7U64C,
+                Intar.Mathi.AsinInternal.P7U64D,
+                Intar.Mathi.AsinInternal.P7U64E,
+                Intar.Mathi.AsinInternal.P7U64F,
+                Intar.Mathi.AsinInternal.P7U64G,
+                Intar.Mathi.AsinInternal.P7U64H,
             };
-            for (var i = 0; i < actual.Length / 2; ++i) {
+            for (var i = 0; i < 4; ++i) {
                 Assert.IsTrue(actual[i] > 1U << 31);
             }
-            for (var i = actual.Length / 2; i < actual.Length; ++i) {
+            for (var i = 4; i < actual.Length; ++i) {
                 Assert.IsTrue(actual[i] > 1UL << 63);
             }
             foreach (var x in actual) {
@@ -34,6 +42,14 @@ namespace AgatePris.Intar.Tests.Mathi {
                 9963914441109755535,
                 13953418538510380357,
                 14076716544798613906,
+                18446743817759831598,
+                10080617338130213281,
+                16718884102355766130,
+                9427600920570779471,
+                11608983047221464490,
+                12843229610990092589,
+                10026318940480150471,
+                15181969944445121899,
             }, actual);
         }
 
@@ -165,6 +181,24 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611417244089453490, 4611402705505332708, 4611388876450648994,
             };
             TestAsin(head, tail, Intar.Mathi.AsinP3, Intar.Mathi.AcosP3, 0.00007);
+        }
+        [Test]
+        public static void TestAsinP7() {
+            var head = new long[] {
+                0,
+                66571993058, 70866960322, 70866960322, 73014443939, 73014443939,
+                75161927556, 75161927556, 77309411173, 79456894816, 81604378432,
+                81604378432, 83751862048, 83751862048, 85899345664, 85899345664,
+                88046829280, 90194312919, 92341796534, 92341796534, 94489280149,
+                94489280149, 96636763764, 96636763764,
+            };
+            var tail = new long[] {
+                4611686018427387904, 4611596423997743324, 4611559310172291072,
+                4611530834842990136, 4611506827634684207, 4611485676079649427,
+                4611466554609878497, 4611448970204664482, 4611432601917063168,
+                4611417231271486068, 4611402691994306850, 4611388862279969994,
+            };
+            TestAsin(head, tail, Intar.Mathi.AsinP7, Intar.Mathi.AcosP7, 0.00000003);
         }
     }
 }

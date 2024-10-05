@@ -48,6 +48,17 @@ namespace AgatePris.Intar {
             internal const u{{ p[0] }} P3U{{ p[1] }}C = (u{{ p[0] }})(0.5m + (Z{{ p[1] }} * (1 << 5) * 0.0742610m));
             internal const u{{ p[0] }} P3U{{ p[1] }}D = (u{{ p[0] }})(0.0m + (Z{{ p[1] }} * (1 << 7) * 0.0187293m));
             {%- endfor %}
+            {%- for bits in [64] %}
+            {%- set type = macros::inttype(bits=bits, signed=false) %}
+            internal const {{ type }} P7U{{ bits }}A = ({{ type }})(0.5m + (Z{{ bits }} * 1.570_796_305_0m * (1 << 1)));
+            internal const {{ type }} P7U{{ bits }}B = ({{ type }})(0.5m + (Z{{ bits }} * 0.214_598_801_6m * (1 << 3)));
+            internal const {{ type }} P7U{{ bits }}C = ({{ type }})(0.5m + (Z{{ bits }} * 0.088_978_987_4m * (1 << 5)));
+            internal const {{ type }} P7U{{ bits }}D = ({{ type }})(0.5m + (Z{{ bits }} * 0.050_174_304_6m * (1 << 5)));
+            internal const {{ type }} P7U{{ bits }}E = ({{ type }})(0.5m + (Z{{ bits }} * 0.030_891_881_0m * (1 << 6)));
+            internal const {{ type }} P7U{{ bits }}F = ({{ type }})(0.5m + (Z{{ bits }} * 0.017_088_125_6m * (1 << 7)));
+            internal const {{ type }} P7U{{ bits }}G = ({{ type }})(0.5m + (Z{{ bits }} * 0.006_670_090_1m * (1 << 8)));
+            internal const {{ type }} P7U{{ bits }}H = ({{ type }})(0.0m + (Z{{ bits }} * 0.001_262_491_1m * (1 << 11)));
+            {%- endfor %}
 
             {%- for p in ps %}
 
@@ -62,11 +73,32 @@ namespace AgatePris.Intar {
                 return Sqrt(one * (one - x)) * y;
             }
             {%- endfor %}
+
+            {%- for bits in [64] %}
+            {%- set type=macros::inttype(bits=bits, signed=false) %}
+            {%- set one=macros::one(bits=bits, signed=false) %}
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static {{ type }} P7({{ type }} x) {
+                var y = {{ one }} << ({{ bits / 2 - 1 }} + 11 - 8);
+                y = (P7U{{ bits }}H + (y / 2)) >> ({{ bits / 2 - 1 }} + 11 - 8);
+                y = (P7U{{ bits }}G - (y * x)) >> ({{ bits / 2 - 1 }} + 8 - 7);
+                y = (P7U{{ bits }}F - (y * x)) >> ({{ bits / 2 - 1 }} + 7 - 6);
+                y = (P7U{{ bits }}E - (y * x)) >> ({{ bits / 2 - 1 }} + 6 - 5);
+                y = (P7U{{ bits }}D - (y * x)) >> ({{ bits / 2 - 1 }} + 5 - 5);
+                y = (P7U{{ bits }}C - (y * x)) >> ({{ bits / 2 - 1 }} + 5 - 3);
+                y = (P7U{{ bits }}B - (y * x)) >> ({{ bits / 2 - 1 }} + 3 - 1);
+                y = (P7U{{ bits }}A - (y * x)) >> ({{ bits / 2 - 1 }} + 1 + 1);
+                const {{ type }} one = {{ one }} << {{ bits / 2 - 1 }};
+                return Sqrt(one * (one - x)) * y;
+            }
+            {%- endfor %}
         }
 
         {%- set p1=['int',  32, '',  3] %}
         {%- set p2=['long', 64, 'L', 3] %}
-        {%- for p in [p1, p2] %}
+        {%- set p3=['long', 64, 'L', 7] %}
+        {%- for p in [p1, p2, p3] %}
 
         /// <summary>
         /// 逆余弦を近似する｡
