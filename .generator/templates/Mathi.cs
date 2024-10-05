@@ -1,24 +1,5 @@
 {% import "macros.cs" as macros %}
 
-{% macro clamp(type) %}
-
-        /// <summary>
-        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
-        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
-#if NET6_0_OR_GREATER
-            return Math.Clamp(v, min, max);
-#else
-            if (min > max) {
-                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-            }
-            return Math.Min(Math.Max(v, min), max);
-#endif
-        }
-{%- endmacro -%}
-
 {%- macro sin_comment(sin, type, order, error) %}
 {%- if sin %}{% set prefix='Sin' %}{% set jp='正弦比' %}
 {%- else   %}{% set prefix='Cos' %}{% set jp='余弦比' %}
@@ -352,7 +333,22 @@ namespace AgatePris.Intar {
         {%- endfor %}
 
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
-        {{- self::clamp(type = type) }}
+
+        /// <summary>
+        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
+        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
+#if NET6_0_OR_GREATER
+            return Math.Clamp(v, min, max);
+#else
+            if (min > max) {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+            return Math.Min(Math.Max(v, min), max);
+#endif
+        }
 {%- endfor %}
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
