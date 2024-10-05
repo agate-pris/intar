@@ -15,11 +15,19 @@ namespace AgatePris.Intar.Tests.Mathi {
                 Intar.Mathi.AsinInternal.P3U64B,
                 Intar.Mathi.AsinInternal.P3U64C,
                 Intar.Mathi.AsinInternal.P3U64D,
+                Intar.Mathi.AsinInternal.P7U64A,
+                Intar.Mathi.AsinInternal.P7U64B,
+                Intar.Mathi.AsinInternal.P7U64C,
+                Intar.Mathi.AsinInternal.P7U64D,
+                Intar.Mathi.AsinInternal.P7U64E,
+                Intar.Mathi.AsinInternal.P7U64F,
+                Intar.Mathi.AsinInternal.P7U64G,
+                Intar.Mathi.AsinInternal.P7U64H,
             };
-            for (var i = 0; i < actual.Length / 2; ++i) {
+            for (var i = 0; i < 4; ++i) {
                 Assert.IsTrue(actual[i] > 1U << 31);
             }
-            for (var i = actual.Length / 2; i < actual.Length; ++i) {
+            for (var i = 4; i < actual.Length; ++i) {
                 Assert.IsTrue(actual[i] > 1UL << 63);
             }
             foreach (var x in actual) {
@@ -34,6 +42,14 @@ namespace AgatePris.Intar.Tests.Mathi {
                 9963914441109755535,
                 13953418538510380357,
                 14076716544798613906,
+                18446743817759831598,
+                10080617338130213281,
+                16718884102355766130,
+                9427600920570779471,
+                11608983047221464490,
+                12843229610990092589,
+                10026318940480150471,
+                15181969944445121899,
             }, actual);
         }
 
