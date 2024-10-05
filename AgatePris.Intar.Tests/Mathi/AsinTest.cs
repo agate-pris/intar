@@ -69,10 +69,12 @@ namespace AgatePris.Intar.Tests.Mathi {
                 var ePos = expectedTail[iPos];
                 var eNeg = -ePos;
                 var iNeg = -iPos;
-                Utility.AssertAreEqual(ePos, asin(iNeg + one), iPos);
-                Utility.AssertAreEqual(eNeg, asin(iPos - one), iPos);
-                Utility.AssertAreEqual(ePos + (pi / 2), acos(iPos - one), iPos);
-                Utility.AssertAreEqual(eNeg + (pi / 2), acos(iNeg + one), iPos);
+                var a = iNeg + one;
+                var b = iPos - one;
+                Utility.AssertAreEqual(ePos, asin(a), iPos);
+                Utility.AssertAreEqual(eNeg, asin(b), iPos);
+                Utility.AssertAreEqual(ePos + (pi / 2), acos(b), iPos);
+                Utility.AssertAreEqual(eNeg + (pi / 2), acos(a), iPos);
             }
         }
         [Test]
