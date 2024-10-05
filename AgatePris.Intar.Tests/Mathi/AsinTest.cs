@@ -77,6 +77,60 @@ namespace AgatePris.Intar.Tests.Mathi {
                 Utility.AssertAreEqual(eNeg + (pi / 2), acos(a), iPos);
             }
         }
+        static void TestAsin(
+            long[] expectedHead, long[] expectedTail,
+            Func<long, long> asin, Func<long, ulong> acos,
+            double error
+        ) {
+            const long one = 1L << 31;
+            for (var x = 0; x < expectedHead.Length; ++x) {
+                Console.WriteLine($"{asin(x)},");
+            }
+            for (var x = 0; x < expectedTail.Length; ++x) {
+                Console.WriteLine($"{asin(one - x)},");
+            }
+            const double toReal = 1.0 / one;
+            const double toRad = Math.PI / (1UL << 63);
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i < 32768; ++i) {
+                var xPos = rng.NextInt64(one + 1);
+                var xNeg = -xPos;
+                Utility.AssertAreEqual(Math.Asin(xPos * toReal), asin(xPos) * toRad, error, xPos);
+                Utility.AssertAreEqual(Math.Acos(xPos * toReal), acos(xPos) * toRad, error, xPos);
+                Utility.AssertAreEqual(Math.Asin(xNeg * toReal), asin(xNeg) * toRad, error, xPos);
+                Utility.AssertAreEqual(Math.Acos(xNeg * toReal), acos(xNeg) * toRad, error, xPos);
+            }
+            const ulong pi = 1UL << 63;
+            for (var iPos = 0; iPos < expectedHead.Length; ++iPos) {
+                var ePos = expectedHead[iPos];
+                var eNeg = -ePos;
+                var iNeg = -iPos;
+                Utility.AssertAreEqual(Math.Asin(iPos * toReal), asin(iPos) * toRad, error, iPos);
+                Utility.AssertAreEqual(Math.Asin(iNeg * toReal), asin(iNeg) * toRad, error, iPos);
+                Utility.AssertAreEqual(Math.Acos(iPos * toReal), acos(iPos) * toRad, error, iPos);
+                Utility.AssertAreEqual(Math.Acos(iNeg * toReal), acos(iNeg) * toRad, error, iPos);
+                Utility.AssertAreEqual(ePos, asin(iPos), iPos);
+                Utility.AssertAreEqual(eNeg, asin(iNeg), iPos);
+                Utility.AssertAreEqual((pi / 2) + (ulong)ePos, acos(iNeg), iPos);
+                Utility.AssertAreEqual((pi / 2) - (ulong)ePos, acos(iPos), iPos);
+            }
+            for (var iPos = 0; iPos < expectedTail.Length; ++iPos) {
+                var ePos = expectedTail[iPos];
+                var eNeg = -ePos;
+                var iNeg = -iPos;
+                var a = iNeg + one;
+                var b = iPos - one;
+                Utility.AssertAreEqual(Math.Asin(a * toReal), asin(a) * toRad, error, iPos);
+                Utility.AssertAreEqual(Math.Asin(b * toReal), asin(b) * toRad, error, iPos);
+                Utility.AssertAreEqual(Math.Acos(b * toReal), acos(b) * toRad, error, iPos);
+                Utility.AssertAreEqual(Math.Acos(a * toReal), acos(a) * toRad, error, iPos);
+                Utility.AssertAreEqual(ePos, asin(a), iPos);
+                Utility.AssertAreEqual(eNeg, asin(b), iPos);
+                Utility.AssertAreEqual((pi / 2) + (ulong)ePos, acos(b), iPos);
+                Utility.AssertAreEqual((pi / 2) - (ulong)ePos, acos(a), iPos);
+            }
+        }
+
         [Test]
         public static void TestAsinP3() {
             var head = new int[] {
@@ -95,6 +149,22 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1053061623, 1052383100, 1051734078, 1051085056, 1050465535,
             };
             TestAsin(head, tail, Intar.Mathi.AsinP3, Intar.Mathi.AcosP3, 0.00017);
+        }
+        [Test]
+        public static void TestAsinP3L() {
+            var head = new long[] {
+                0,
+                198255690291041, 198257837682370, 198257837682370,
+                198259985073699, 198259985073699, 198262132465028,
+                198262132465028, 198266427340000, 198266427340000,
+            };
+            var tail = new long[] {
+                4611686018427387904, 4611596428270291324, 4611559316214710272,
+                4611530842243330936, 4611506836179872407, 4611485685633505627,
+                4611466565075592697, 4611448981508937682, 4611432614002032640,
+                4611417244089453490, 4611402705505332708, 4611388876450648994,
+            };
+            TestAsin(head, tail, Intar.Mathi.AsinP3, Intar.Mathi.AcosP3, 0.00007);
         }
     }
 }
