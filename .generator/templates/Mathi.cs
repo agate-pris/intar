@@ -59,7 +59,7 @@ namespace AgatePris.Intar {
             {%- set p2 = ['long', 64, 'L'] %}
             {%- set ps = [p1, p2] %}
             {%- for p in ps %}
-            const decimal Z{{ p[1] }} = Frac2Pi * (1U{{ p[2] }} << {{ p[1] - 1 }});
+            const decimal Z{{ p[1] }} = Frac2Pi * (1UL << {{ p[1] - 1 }});
             {%- endfor %}
             {%- for p in ps %}
             internal const u{{ p[0] }} P3U{{ p[1] }}A = (u{{ p[0] }})(0.5m + (Z{{ p[1] }} * (1 << 1) * 1.5707288m));
