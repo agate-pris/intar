@@ -88,8 +88,8 @@ namespace AgatePris.Intar {
             const u{{ p[0] }} pi = 1U{{ p[2] }} << {{ p[1] - 1 }};
             switch (Math.Sign(x)) {
                 case 0: return pi / 2;
-                case 1: return AsinInternal.P3((u{{ p[0] }})x);
-                default: return pi - AsinInternal.P3((u{{ p[0] }})-x);
+                case 1: return AsinInternal.P{{ p[3] }}((u{{ p[0] }})x);
+                default: return pi - AsinInternal.P{{ p[3] }}((u{{ p[0] }})-x);
             }
         }
 
@@ -113,8 +113,8 @@ namespace AgatePris.Intar {
             const {{ p[0] }} fracPi2 = 1{{ p[2] }} << {{ p[1] - 2 }};
             switch (Math.Sign(x)) {
                 case 0: return 0;
-                case 1: return fracPi2 - ({{ p[0] }})AsinInternal.P3((u{{ p[0] }})x);
-                default: return ({{ p[0] }})AsinInternal.P3((u{{ p[0] }})-x) - fracPi2;
+                case 1: return fracPi2 - ({{ p[0] }})AsinInternal.P{{ p[3] }}((u{{ p[0] }})x);
+                default: return ({{ p[0] }})AsinInternal.P{{ p[3] }}((u{{ p[0] }})-x) - fracPi2;
             }
         }
         {%- endfor %}
