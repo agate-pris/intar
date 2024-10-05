@@ -4,96 +4,95 @@ using System.IO;
 
 namespace AgatePris.Intar.Tests.Mathi {
     public class AsinTest {
-        [TestCase("asin.json")]
-        public static void TestAsin(string path) {
-            Assert.Zero(Math.Asin(0));
-            Assert.Zero(Intar.Mathi.Asin(0));
-
-            const int end = 1 << 15;
-
-            path = Utility.MakeUpPath(path);
-            if (File.Exists(path)) {
-                var data = Utility.ReadInts(path);
-                Assert.Zero(data[0]);
-                if (end * end != data[end]) {
-                    Assert.Fail();
-                }
-
-                var max = 0.0;
-                for (var x = 1; x <= end; ++x) {
-                    const double epsilon = 2e-4;
-                    const double toSin = 1 / (double)end;
-                    const double toSinNeg = -toSin;
-                    const double toAsin = Math.PI / (1L << 31);
-                    {
-                        var actual = Intar.Mathi.Asin(x);
-                        if (data[x] != actual) {
-                            Assert.Fail();
-                        }
-                        var expected = Math.Asin(toSin * x);
-                        var a = toAsin * actual;
-                        Assert.AreEqual(expected, a, epsilon);
-                        max = Math.Max(max, Math.Abs(a - expected));
-                    }
-                    {
-                        var actual = Intar.Mathi.Asin(-x);
-                        if (-data[x] != actual) {
-                            Assert.Fail();
-                        }
-                        var expected = Math.Asin(toSinNeg * x);
-                        var a = toAsin * actual;
-                        Assert.AreEqual(expected, a, epsilon);
-                        max = Math.Max(max, Math.Abs(a - expected));
-                    }
-                }
-                Console.WriteLine($"max error: {max}");
-            } else {
-                Utility.WriteInts(path, Intar.Mathi.Asin, end);
+        [Test]
+        public static void TestConsts() {
+            var actual = new ulong[] {
+                Intar.Mathi.AsinInternal.P3U32A,
+                Intar.Mathi.AsinInternal.P3U32B,
+                Intar.Mathi.AsinInternal.P3U32C,
+                Intar.Mathi.AsinInternal.P3U32D,
+                Intar.Mathi.AsinInternal.P3U64A,
+                Intar.Mathi.AsinInternal.P3U64B,
+                Intar.Mathi.AsinInternal.P3U64C,
+                Intar.Mathi.AsinInternal.P3U64D,
+            };
+            for (var i = 0; i < actual.Length / 2; ++i) {
+                Assert.IsTrue(actual[i] > 1U << 31);
             }
+            for (var i = actual.Length / 2; i < actual.Length; ++i) {
+                Assert.IsTrue(actual[i] > 1UL << 63);
+            }
+            foreach (var x in actual) {
+                Console.WriteLine($"{x},");
+            }
+            Assert.AreEqual(new ulong[] {
+                4294782660,
+                2319904613,
+                3248783419,
+                3277490973,
+                18445951068606135392,
+                9963914441109755535,
+                13953418538510380357,
+                14076716544798613906,
+            }, actual);
         }
 
-        [TestCase("asin.json")]
-        public static void TestAcos(string path) {
-            Assert.Zero(Math.Acos(1));
-            Assert.Zero(Intar.Mathi.Acos(1 << 15));
-
-            path = Utility.MakeUpPath(path);
-            if (!File.Exists(path)) {
-                return;
+        static void TestAsin(
+            int[] expectedHead, int[] expectedTail,
+            Func<int, int> asin, Func<int, uint> acos,
+            double error
+        ) {
+            const int one = 1 << 15;
+            for (var x = 0; x < expectedHead.Length; ++x) {
+                Console.WriteLine($"{asin(x)},");
             }
-            var data = Utility.ReadInts(path);
-
-            const int end = 1 << 15;
-            Assert.Zero(data[0]);
-            if (end * end != data[end]) {
-                Assert.Fail();
+            for (var x = 0; x < expectedTail.Length; ++x) {
+                Console.WriteLine($"{asin(one - x)},");
             }
-
-            const double epsilon = 2e-4;
-            const double toSin = 1 / (double)end;
-            const double toAsin = Math.PI / (1L << 31);
-            var max = 0.0;
-            for (var x = -32768; x < 0; ++x) {
-                var actual = Intar.Mathi.Acos(x);
-                if ((1 << 30) + (uint)data[-x] != actual) {
-                    Assert.Fail();
-                }
-                var expected = Math.Acos(toSin * x);
-                var a = toAsin * actual;
-                Assert.AreEqual(expected, a, epsilon);
-                max = Math.Max(max, Math.Abs(a - expected));
+            const double toReal = 1.0 / one;
+            const double toRad = Math.PI / (1U << 31);
+            for (var x = -one; x <= one; ++x) {
+                Utility.AssertAreEqual(Math.Asin(x * toReal), asin(x) * toRad, error);
+                Utility.AssertAreEqual(Math.Acos(x * toReal), acos(x) * toRad, error);
             }
-            for (var x = 0; x < 32768; ++x) {
-                var actual = Intar.Mathi.Acos(x);
-                if ((1 << 30) - (uint)data[x] != actual) {
-                    Assert.Fail();
-                }
-                var expected = Math.Acos(toSin * x);
-                var a = toAsin * actual;
-                Assert.AreEqual(expected, a, epsilon);
-                max = Math.Max(max, Math.Abs(a - expected));
+            const uint pi = 1U << 31;
+            for (var iPos = 0; iPos < expectedHead.Length; ++iPos) {
+                var ePos = expectedHead[iPos];
+                var eNeg = -ePos;
+                var iNeg = -iPos;
+                Utility.AssertAreEqual(ePos, asin(iPos), iPos);
+                Utility.AssertAreEqual(eNeg, asin(iNeg), iPos);
+                Utility.AssertAreEqual(ePos + (pi / 2), acos(iNeg), iPos);
+                Utility.AssertAreEqual(eNeg + (pi / 2), acos(iPos), iPos);
             }
-            Console.WriteLine($"max error: {max}");
+            for (var iPos = 0; iPos < expectedTail.Length; ++iPos) {
+                var ePos = expectedTail[iPos];
+                var eNeg = -ePos;
+                var iNeg = -iPos;
+                Utility.AssertAreEqual(ePos, asin(iNeg + one), iPos);
+                Utility.AssertAreEqual(eNeg, asin(iPos - one), iPos);
+                Utility.AssertAreEqual(ePos + (pi / 2), acos(iPos - one), iPos);
+                Utility.AssertAreEqual(eNeg + (pi / 2), acos(iNeg + one), iPos);
+            }
+        }
+        [Test]
+        public static void TestAsinP3() {
+            var head = new int[] {
+                0, 98302,
+                131068, 131068, 163834, 196599, 229364, 229364, 262129, 262129,
+                294894, 294894, 360420, 360420, 393184, 393184, 425948, 425948,
+                458712, 458712, 524233, 524233, 556996, 556996, 589759, 589759,
+                622522, 655276, 688038, 688038, 720800, 720800, 753562, 753562,
+                786324, 819074, 851835, 851835, 884596, 884596, 917357, 917357,
+                982864, 982864,
+            };
+            var tail = new int[] {
+                1073741824, 1068402324, 1066189824, 1064508324, 1063062824,
+                1061823824, 1060673324, 1059640824, 1058637824, 1057723324,
+                1056867252, 1056041224, 1055244697, 1054507172, 1053769647,
+                1053061623, 1052383100, 1051734078, 1051085056, 1050465535,
+            };
+            TestAsin(head, tail, Intar.Mathi.AsinP3, Intar.Mathi.AcosP3, 0.00017);
         }
     }
 }
