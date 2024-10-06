@@ -229,6 +229,60 @@ a_{10} = 0.00000\ 02605 \times \left( \frac{\pi}{2} \right)^{10}
 \end{gather*}
 $$
 
+## 11 次の多項式による近似
+
+以下の式に基づいて近似する｡
+
+> $$
+> 0 \le x \le \frac{\pi}{2}
+> $$
+>
+> $$
+> \frac{sin\ x}{x} = 1 +
+> a_2   \ x^2    +
+> a_4   \ x^4    +
+> a_6   \ x^6    +
+> a_8   \ x^8    +
+> a_{10}\ x^{10} + \epsilon(x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 2 \times 10^{-9}
+> $$
+>
+> $$
+> \begin{align*}
+> a_2    &= -0.16666\ 66664 & a_4 &= 0.00833\ 33315 \\
+> a_6    &= -0.00019\ 84090 & a_8 &= 0.00000\ 27526 \\
+> a_{10} &= -0.00000\ 00239
+> \end{align*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.97</cite>
+
+以下のように定義する｡
+
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
+
+$$
+f(x) = a_1\ x - a_3\ x^3 + a_5\ x^5 - a_7\ x^7 + a_9\ x^9 - a_{11}\ x^{11}
+$$
+
+$$
+\begin{gather*}
+a_1    = 1.00000\ 00000 \times \left( \frac{\pi}{2} \right)^1 \\
+a_3    = 0.16666\ 66664 \times \left( \frac{\pi}{2} \right)^3 \\
+a_5    = 0.00833\ 33315 \times \left( \frac{\pi}{2} \right)^5 \\
+a_7    = 0.00019\ 84090 \times \left( \frac{\pi}{2} \right)^7 \\
+a_9    = 0.00000\ 27526 \times \left( \frac{\pi}{2} \right)^9 \\
+a_{11} = 0.00000\ 00239 \times \left( \frac{\pi}{2} \right)^{11}
+\end{gather*}
+$$
+
 ## 逆正接 arctangent
 
 以下は arctan のグラフ
