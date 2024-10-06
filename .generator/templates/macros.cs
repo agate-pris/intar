@@ -31,10 +31,3 @@ public static {{ type }}? CheckedAdd({% if ext %}this {% endif %}{{ type }} x, {
     return OverflowingAdd(x, y, out var result) ? @null : result;
 }
 {%- endmacro -%}
-
-{%- macro saturating_add_unsigned(type, ext) -%}
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static {{ type }} SaturatingAdd({% if ext %}this {% endif %}{{ type }} x, {{ type }} y) {
-    return CheckedAdd(x, y) ?? {{ type }}.MaxValue;
-}
-{%- endmacro -%}
