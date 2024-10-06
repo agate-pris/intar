@@ -576,7 +576,8 @@ namespace AgatePris.Intar {
         public static {{ params[0] }} CosP{{ params[1] }}({{ params[0] }} x) => SinP{{ params[1] }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
         {%- endfor %}
 
-{%- for type in ['uint', 'ulong'] %}
+{%- for bits in [32, 64] %}
+{%- set type=macros::inttype(bits=bits, signed=false) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Sqrt({{ type }} x) {
@@ -586,7 +587,7 @@ namespace AgatePris.Intar {
 
             const int halfBits = sizeof({{ type }}) * 4;
             var k = halfBits - (BitOperations.LeadingZeroCount(x - 1) >> 1);
-            var s = {{ macros::one_literal(t=type) }} << k;
+            var s = {{ macros::one(bits=bits, signed=false) }} << k;
             var t = (s + (x >> k)) >> 1;
             while (t < s) {
                 s = t;
