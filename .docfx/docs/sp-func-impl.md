@@ -14,34 +14,20 @@ Intar は [ローラン級数](https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%
 
 ![sin.svg](../images/sin.svg)
 
-微分と積分は以下の通り｡
-
-$$
-\begin{align*}
-     sin'(x)     &=  cos(x) \\
-     cos'(x)     &= -sin(x) \\
-\int sin (x)\ dx &= -cos(x) + C \\
-\int cos (x)\ dx &=  sin(x) + C
-\end{align*}
-$$
-
-テイラー展開は以下の通り｡
+テイラー展開､ 微分､ 積分は以下の通り｡
 
 > $$
 > \begin{gather*}
-> sin\ z =z - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + ... & (|z| < \infty) \\
+> sin\ z =z - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + ... & (|z| < \infty) \tag{4.3.65} \\
+> cos\ z =1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + ... & (|z| < \infty) \tag{4.3.66} \\
+> \frac{d}{dz} sin\ z =  cos\ z \tag{4.3.105} \\
+> \frac{d}{dz} cos\ z = -sin\ z \tag{4.3.106} \\
+> \int sin\ z\ dz = -cos\ z \tag{4.3.113} \\
+> \int cos\ z\ dz =  sin\ z \tag{4.3.114}
 > \end{gather*}
 > $$
 >
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.65</cite>
-
-> $$
-> \begin{gather*}
-> cos\ z =1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + ... & (|z| < \infty)
-> \end{gather*}
-> $$
->
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.66</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions</cite>
 
 ### 2 次の多項式による近似
 
