@@ -29,21 +29,21 @@
         {%- endfor %}
 {%- endmacro -%}
 
-{%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
-{%- set self_bits_signed_type = macros::signed_type(t=self_bits_type) %}
-{%- set self_bits_unsigned_type = macros::unsigned_type(t=self_bits_type) %}
-{%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
-{%- set self_wide_bits_signed_type = macros::signed_type(t=self_wide_bits_type) %}
-{%- set self_wide_bits_unsigned_type = macros::unsigned_type(t=self_wide_bits_type) %}
-{%- set self_component_type = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
-{%- set self_component_signed_type = macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) %}
-{%- set self_component_unsigned_type = macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) %}
-{%- set self_length_squared_unsigned_type = macros::fixed_type(s=false, i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_squared_signed_type = macros::fixed_type(s=true, i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_squared_type = macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_unsigned_type = macros::fixed_type(s=false, i=int_nbits+1, f=frac_nbits-1) %}
-{%- set self_length_signed_type = macros::fixed_type(s=true, i=int_nbits+1, f=frac_nbits-1) %}
-{%- set self_length_type = macros::fixed_type(s=signed, i=int_nbits+1, f=frac_nbits-1) %}
+{%- set self_bits_type               = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
+{%- set self_bits_signed_type        = macros::inttype(bits=int_nbits  +frac_nbits,   signed=true  ) %}
+{%- set self_bits_unsigned_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false ) %}
+{%- set self_wide_bits_type          = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
+{%- set self_wide_bits_signed_type   = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=true  ) %}
+{%- set self_wide_bits_unsigned_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=false ) %}
+{%- set self_component_type               = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set self_component_signed_type        = macros::fixed_type(s=true,   i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set self_component_unsigned_type      = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set self_length_squared_unsigned_type = macros::fixed_type(s=false,  i=2*int_nbits+2, f=2*frac_nbits-2) %}
+{%- set self_length_squared_signed_type   = macros::fixed_type(s=true,   i=2*int_nbits+2, f=2*frac_nbits-2) %}
+{%- set self_length_squared_type          = macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) %}
+{%- set self_length_unsigned_type         = macros::fixed_type(s=false,  i=  int_nbits+1, f=  frac_nbits-1) %}
+{%- set self_length_signed_type           = macros::fixed_type(s=true,   i=  int_nbits+1, f=  frac_nbits-1) %}
+{%- set self_length_type                  = macros::fixed_type(s=signed, i=  int_nbits+1, f=  frac_nbits-1) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
 using AgatePris.Intar.Extensions;
