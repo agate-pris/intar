@@ -43,33 +43,6 @@ $$
 >
 > <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.66</cite>
 
-> $$
-> 0 \le x \le \frac{\pi}{2}
-> $$
->
-> $$
-> cos\ x = 1 +
-> a_2   \ x^2    +
-> a_4   \ x^4    +
-> a_6   \ x^6    +
-> a_8   \ x^8    +
-> a_{10}\ x^{10} + \epsilon(x)
-> $$
->
-> $$
-> | \epsilon (x) | \le 2 \times 10^{-9}
-> $$
->
-> $$
-> \begin{align*}
-> a_2    &= -0.49999\ 99963 & a_4 &= 0.04166\ 66418 \\
-> a_6    &= -0.00138\ 88397 & a_8 &= 0.00002\ 47609 \\
-> a_{10} &= -0.00000\ 02605
-> \end{align*}
-> $$
->
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
-
 ### 2 次の多項式による近似
 
 $cos\ z$ の近似について以下のように定義する｡
@@ -203,6 +176,57 @@ a &= 1.00000 \times \left( \frac{\pi}{2} \right)   \\
 b &= 0.16605 \times \left( \frac{\pi}{2} \right)^3 \\
 c &= 0.00761 \times \left( \frac{\pi}{2} \right)^5
 \end{align*}
+$$
+
+## 10 次の多項式による近似
+
+以下の式に基づいて近似する｡
+
+> $$
+> 0 \le x \le \frac{\pi}{2}
+> $$
+>
+> $$
+> cos\ x = 1 +
+> a_2   \ x^2    +
+> a_4   \ x^4    +
+> a_6   \ x^6    +
+> a_8   \ x^8    +
+> a_{10}\ x^{10} + \epsilon(x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 2 \times 10^{-9}
+> $$
+>
+> $$
+> \begin{align*}
+> a_2    &= -0.49999\ 99963 & a_4 &= 0.04166\ 66418 \\
+> a_6    &= -0.00138\ 88397 & a_8 &= 0.00002\ 47609 \\
+> a_{10} &= -0.00000\ 02605
+> \end{align*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
+
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
+
+$$
+f(x) = 1 - a_2\ x^2 + a_4\ x^4 - a_6\ x^6 + a_8\ x^8 - a_{10}\ x^{10}
+$$
+
+$$
+\begin{gather*}
+a_2    = 0.49999\ 99963 \times \left( \frac{\pi}{2} \right)^2 \\
+a_4    = 0.04166\ 66418 \times \left( \frac{\pi}{2} \right)^4 \\
+a_6    = 0.00138\ 88397 \times \left( \frac{\pi}{2} \right)^6 \\
+a_8    = 0.00002\ 47609 \times \left( \frac{\pi}{2} \right)^8 \\
+a_{10} = 0.00000\ 02605 \times \left( \frac{\pi}{2} \right)^{10}
+\end{gather*}
 $$
 
 ## 逆正接 arctangent
