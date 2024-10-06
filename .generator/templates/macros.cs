@@ -43,10 +43,6 @@
     {%- endif %}
 {%- endmacro %}
 
-{%- macro wide_bits_type(s, i, f) %}
-    {{- self::wide_type(type=self::bits_type(s=s, i=i, f=f)) }}
-{%- endmacro -%}
-
 {%- macro vector_type(dim, type) -%}
     Vector{{ dim }}{{ type }}
 {%- endmacro -%}
