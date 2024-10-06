@@ -331,6 +331,8 @@ $$
 
 ### 2 次の多項式による近似
 
+以下の式に基づいて近似する｡
+
 > Using an extensive computer search,
 > the optimum $\alpha \approx 0.273$
 > and the following approximation for the $arctan(x)$
@@ -348,21 +350,19 @@ $$
 >
 > <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
 
-Intar では以下のように定義する｡
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
 
 $$
 \begin{align*}
 f(x)
-&= \frac{2^{15}}{4} x + \frac{a\ x}{2^{15}} (2^{15} - |x|) \\
-&= x \left(2^{13} + \frac{a \left( 2^{15} - |x| \right)}{2^{15}}  \right)
+&= \frac{1}{4}x + \frac{0.273}{\pi}x\ (1 - x) \\
+&= x \left( \frac{1}{4} + \frac{0.273}{\pi} \left( 1 - x \right) \right)
 \end{align*}
 $$
-
-|    a | RMSE | MAE | ME | 誤差の最大値
-| ---: | ---: | --: | -: | -----------:
-| 2909 | 0.00242 78185 | 0.00207 71743 |  0.00033 33474 |  0.00449 19258
-| 2961 | 0.00259 57169 | 0.00198 29121 |  0.00116 42324 |  0.00518 46628
-| 2850 | 0.00263 51130 | 0.00236 80246 | -0.00060 93592 | -0.00376 70393
 
 ### 3 次の多項式による近似
 
