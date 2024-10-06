@@ -1,14 +1,12 @@
 {% import "macros.cs" as macros %}
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
-{%- set self_bits_type = macros::bits_type(s=signed, i=int_nbits, f=frac_nbits) %}
-{%- set self_wide_bits_type = macros::wide_type(type=self_bits_type) %}
+{%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
+{%- set self_wide_bits_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
 
 {%- macro def_conv(self_type, self_bits_type, s, i, f) %}
     {#- 自身と異なる型の場合のみ定義する #}
     {%- if s != signed or i != int_nbits or f != frac_nbits %}
-        {%- set self_bits_type_one = macros::one_literal(t = self_bits_type) %}
-        {%- set target_bits_type = macros::bits_type(s=s, i=i, f=f) -%}
-        {%- set target_bits_type_one = macros::one_literal(t = target_bits_type) %}
+        {%- set target_bits_type = macros::inttype(bits=i+f, signed=s) -%}
         {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
         {%- set explicit = signed and s == false or frac_nbits > f or
             signed and s and int_nbits > i or
@@ -34,12 +32,12 @@
             {%- elif f > frac_nbits -%}
             {%- if cast %}({{ target_bits_type }}){% endif -%}
             x.Bits * (
-                {{- target_bits_type_one }} << {{ f - frac_nbits -}}
+                {{- macros::one(bits=i+f, signed=s) }} << {{ f - frac_nbits -}}
             )
             {%- else -%}
             {%- if cast %}({{ target_bits_type }})({% endif -%}
             x.Bits / (
-                {{- self_bits_type_one }} << {{ frac_nbits - f -}}
+                {{- macros::one(bits=int_nbits+frac_nbits, signed=signed) }} << {{ frac_nbits - f -}}
             )
             {%- if cast %}){% endif %}
         {%- endif -%}
