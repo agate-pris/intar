@@ -366,6 +366,8 @@ $$
 
 ### 3 次の多項式による近似
 
+以下の式に基づいて近似する｡
+
 > ... Using the minimax criteria,
 > the following polynomial with a maximum absolute error
 > of $0.0015$ rad ($0.086 \textdegree$) is identified as the optimal approximation to $arctan(x)$
@@ -381,21 +383,19 @@ $$
 >
 > <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
 
-Intar では以下のように定義する｡
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
 
 $$
 \begin{align*}
 f(x)
-&= \frac{2^{15}}{4} \ x - \frac{x}{2^{15}} \left( |x| - 2^{15} \right) \times \left(a + \frac{b}{2^{15}} |x| \right) \\
-&= x \left( 2^{13} - \frac{|x| - 2^{15}}{2^{15}} \times \left( a + \frac{b |x|}{2^{15}} \right) \right)
+&= \frac{1}{4} \ x - x \ (x - 1) \times \left( \frac{0.2447}{\pi} + \frac{0.0663}{\pi} x \right) \\
+&= x \left( \frac{1}{4} - (x - 1) \times \left( \frac{0.2447}{\pi} + \frac{0.0663}{\pi} x \right) \right)
 \end{align*}
 $$
-
-|    a |   b | RMSE | MAE | ME | 誤差の最大値
-| ---: | --: | ---: | --: | -: | -----------:
-| 2577 | 664 | 0.00104 91346 | 0.00093 96760 | 0.00032 53353 | 0.00171 47167
-| 2601 | 631 | 0.00106 21832 | 0.00093 28793 | 0.00044 52376 | 0.00192 06566
-| 2555 | 691 | 0.00106 41139 | 0.00096 03372 | 0.00018 95039 | 0.00152 78438
 
 ### 5 次の多項式による近似
 
