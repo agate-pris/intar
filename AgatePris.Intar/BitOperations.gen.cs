@@ -16,9 +16,6 @@ namespace AgatePris.Intar {
 
 #else
 
-        const int bitsOfInt = sizeof(int) * 8;
-        const int bitsOfLong = sizeof(long) * 8;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int PopCount(uint x) {
             const uint k55 = 0x5555_5555;
@@ -30,7 +27,7 @@ namespace AgatePris.Intar {
                 x = ((x >> 4) + x) & k0F;
                 x += x >> 8;
                 x += x >> 16;
-                return (int)x & ((bitsOfInt * 2) - 1);
+                return (int)x & ((32 * 2) - 1);
             }
         }
 
@@ -42,7 +39,7 @@ namespace AgatePris.Intar {
             x |= x >> 8;
             x |= x >> 16;
             unchecked {
-                return bitsOfInt - PopCount(x);
+                return 32 - PopCount(x);
             }
         }
 
@@ -58,7 +55,7 @@ namespace AgatePris.Intar {
                 x += x >> 8;
                 x += x >> 16;
                 x += x >> 32;
-                return (int)x & ((bitsOfLong * 2) - 1);
+                return (int)x & ((64 * 2) - 1);
             }
         }
 
@@ -71,14 +68,14 @@ namespace AgatePris.Intar {
             x |= x >> 16;
             x |= x >> 32;
             unchecked {
-                return bitsOfLong - PopCount(x);
+                return 64 - PopCount(x);
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint RotateLeft(uint x, int k) => (x << k) | (x >> (bitsOfInt - k));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong RotateLeft(ulong x, int k) => (x << k) | (x >> (bitsOfLong - k));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint RotateRight(uint x, int k) => (x >> k) | (x << (bitsOfInt - k));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong RotateRight(ulong x, int k) => (x >> k) | (x << (bitsOfLong - k));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint RotateLeft(uint x, int k) => (x << k) | (x >> (32 - k));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong RotateLeft(ulong x, int k) => (x << k) | (x >> (64 - k));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint RotateRight(uint x, int k) => (x >> k) | (x << (32 - k));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong RotateRight(ulong x, int k) => (x >> k) | (x << (64 - k));
 
 #endif
 
