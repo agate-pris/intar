@@ -16,8 +16,9 @@ namespace AgatePris.Intar.Extensions {
     {%- endfor %}
 {%- endfor %}
 
-{%- for t in ["int", "long"] %}
-    {%- set ut = macros::unsigned_type(t=t) %}
+{%- for bits in [32, 64] %}
+    {%- set t  = macros::inttype(bits=bits, signed=true ) %}
+    {%- set ut = macros::inttype(bits=bits, signed=false) %}
     {%- for m in ["WrappingAddSigned"] %}
         {{ inl }} public static {{ ut }} {{ m }}(this {{ ut }} x, {{ t }} y) => Overflowing.{{ m }}(x, y);
     {%- endfor %}
