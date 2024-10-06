@@ -13,21 +13,6 @@
 {%- else %}{{ throw(message = "invalid arguments. bits: " ~ bits) }}{% endif %}
 {%- endmacro %}
 
-{%- macro unsigned_type(t) %}
-    {%- if   t == "int"     %}uint
-    {%- elif t == "uint"    %}uint
-    {%- elif t == "long"    %}ulong
-    {%- elif t == "ulong"   %}ulong
-    {%- elif t == "short"   %}ushort
-    {%- elif t == "ushort"  %}ushort
-    {%- elif t == "byte"    %}byte
-    {%- elif t == "sbyte"   %}byte
-    {%- elif t == "Int128"  %}UInt128
-    {%- elif t == "UInt128" %}UInt128
-    {%- else                %}{{ throw(message = "invalid arguments. t: " ~ t) }}
-    {%- endif               %}
-{%- endmacro %}
-
 {%- macro fixed_type(s, i, f) %}
     {%- if s %}I
     {%- else %}U{% endif %}
