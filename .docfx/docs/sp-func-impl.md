@@ -25,22 +25,23 @@ $$
 \end{align*}
 $$
 
-sin と cos のテイラー展開は以下の通り｡
+テイラー展開は以下の通り｡
 
-$$
-\begin{align*}
-\sum_{n=0}^\infty \frac{sin^{(n)}(0)}{n!}x^n &= x -
-\frac{x^3}{     6} +
-\frac{x^5}{   120} -
-\frac{x^7}{  5040} +
-\frac{x^9}{362880} - ... \\
-\sum_{n=0}^\infty \frac{cos^{(n)}(0)}{n!}x^n &= 1 -
-\frac{x^2}{    2} +
-\frac{x^4}{   24} -
-\frac{x^6}{  720} +
-\frac{x^8}{40320} - ...
-\end{align*}
-$$
+> $$
+> \begin{gather*}
+> sin\ z =z - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + ... & (|z| < \infty) \\
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.65</cite>
+
+> $$
+> \begin{gather*}
+> cos\ z =1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + ... & (|z| < \infty)
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.66</cite>
 
 > $$
 > 0 \le x \le \frac{\pi}{2}
