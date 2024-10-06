@@ -114,6 +114,14 @@
         }
 {%- endmacro -%}
 
+{%- macro checked_add(type) -%}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }}? CheckedAdd({{ type }} x, {{ type }} y) {
+            {{ type }}? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+{%- endmacro -%}
+
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
@@ -206,7 +214,7 @@ namespace AgatePris.Intar {
             result = unchecked((int)tmp);
             return tmp < int.MinValue || tmp > int.MaxValue;
         }
-        {{ macros::checked_add(type="int", ext=false) | indent(prefix="        ") }}
+        {{ self::checked_add(type="int") }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SaturatingAdd(int x, int y) {
             return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
@@ -220,8 +228,11 @@ namespace AgatePris.Intar {
             result = unchecked((uint)tmp);
             return tmp > uint.MaxValue;
         }
-        {{ macros::checked_add(type="uint", ext=false) | indent(prefix="        ") }}
-        {{ macros::saturating_add_unsigned(type="uint", ext=false) | indent(prefix="        ") }}
+        {{ self::checked_add(type="uint") }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint SaturatingAdd(uint x, uint y) {
+            return CheckedAdd(x, y) ?? uint.MaxValue;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(int x, int y, out int result) {
