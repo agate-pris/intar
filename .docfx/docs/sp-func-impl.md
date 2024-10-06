@@ -34,8 +34,10 @@ Intar は [ローラン級数](https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%
 $cos\ z$ の近似について以下のように定義する｡
 
 $$
-f(x) = 1 - a \times x^2 \\
+\begin{gather*}
+f(x) = 1 - a \times x^2 &
 f(1) = 0
+\end{gather*}
 $$
 
 $a = 1$ は自明｡
@@ -73,10 +75,12 @@ $$
 よって――
 
 $$
-b = 3b - 1 \\
-1 = 2b \\
-b = 0.5 \\
+\begin{gather*}
+b = 3b - 1 &
+1 = 2b &
+b = 0.5 &
 a = 1.5
+\end{gather*}
 $$
 
 ### 4 次の多項式による近似
