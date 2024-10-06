@@ -23,11 +23,3 @@
 {%- macro vector_type(dim, type) -%}
     Vector{{ dim }}{{ type }}
 {%- endmacro -%}
-
-{%- macro checked_add(type, ext) -%}
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static {{ type }}? CheckedAdd({% if ext %}this {% endif %}{{ type }} x, {{ type }} y) {
-    {{ type }}? @null = null;
-    return OverflowingAdd(x, y, out var result) ? @null : result;
-}
-{%- endmacro -%}
