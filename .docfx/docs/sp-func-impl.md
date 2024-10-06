@@ -70,6 +70,17 @@ $$
 >
 > <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.3. Circular Functions 4.3.99</cite>
 
+### 2 次の多項式による近似
+
+$cos\ z$ の近似について以下のように定義する｡
+
+$$
+f(x) = 1 - a \times x^2 \\
+f(1) = 0
+$$
+
+$a = 1$ は自明｡
+
 ### 3 次の多項式による近似
 
 3 次の多項式 $sin_{3}$ について考える｡
