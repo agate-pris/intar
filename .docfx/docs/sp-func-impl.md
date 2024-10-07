@@ -525,12 +525,6 @@ f(x) = 1 - (1 - x)^\frac{1}{2}
 \end{align*}
 $$
 
-## 参考文献
-
-- Another fast fixed-point sine approximation | Coranac
-  - http://www.coranac.com/2009/07/sines/
-  - http://web.archive.org/web/20240629132053/http://www.coranac.com/2009/07/sines/
-
 [^abramowitz-and-stegun]: Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
 [^efficient-atan-approx-func]: Efficient approximations for the arctangent function, Rajan, S. Sichun Wang Inkol, R. Joyal, A., May 2006
