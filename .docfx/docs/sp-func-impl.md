@@ -305,28 +305,6 @@ $$
 \frac{x^9}{9} - ...
 $$
 
-> $$
-> -1 \le x \le 1
-> $$
->
-> $$
-> arctan\ x = a_1 x + a_3 x^5 + a_7 x^7 + a_9 x^9 + \epsilon (x)
-> $$
->
-> $$
-> | \epsilon (x) | \le 10^{-5}
-> $$
->
-> $$
-> \begin{align*}
-> a_1 &= 0.99986\ 60 & a_3 &= -0.33029\ 95 \\
-> a_5 &= 0.18014\ 10 & a_7 &= -0.08513\ 30 \\
-> a_9 &= 0.02083\ 51
-> \end{align*}
-> $$
->
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.47</cite>
-
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
 ### 2 次の多項式による近似
@@ -395,6 +373,50 @@ f(x)
 &= \frac{1}{4} \ x - x \ (x - 1) \times \left( \frac{0.2447}{\pi} + \frac{0.0663}{\pi} x \right) \\
 &= x \left( \frac{1}{4} - (x - 1) \times \left( \frac{0.2447}{\pi} + \frac{0.0663}{\pi} x \right) \right)
 \end{align*}
+$$
+
+## 9 次の多項式による近似
+
+以下の式に基づいて近似する｡
+
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan\ x = a_1 x + a_3 x^3 + a_5 x^5 + a_7 x^7 + a_9 x^9 + \epsilon (x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 10^{-5}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_1 = 0.99986\ 60 & a_3 = -0.33029\ 95 \\
+> a_5 = 0.18014\ 10 & a_7 = -0.08513\ 30 \\
+> a_9 = 0.02083\ 51
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.47</cite>
+
+以下のように定義する｡
+
+$$
+\begin{align*}
+f(x)
+&= a_1 x - a_3 x^3 + a_5 x^5 - a_7 x^7 + a_9 x^9 \\
+&= x \ \left(a_1 - x^2 \left(a_3 - x^2 \left(a_5 - x^2 \left(a_7 - a_9 x^2 \right) \right) \right) \right)
+\end{align*}
+$$
+
+$$
+\begin{gather*}
+a_1 = \frac{0.99986\ 60}{\pi} & a_3 = \frac{0.33029\ 95}{\pi} \\
+a_5 = \frac{0.18014\ 10}{\pi} & a_7 = \frac{0.08513\ 30}{\pi} \\
+a_9 = \frac{0.02083\ 51}{\pi}
+\end{gather*}
 $$
 
 ## 逆正弦 arcsine と逆余弦 arccosine
