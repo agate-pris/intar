@@ -407,50 +407,123 @@ $$
 
 ![asin.svg](../images/asin.svg)
 
-微分と積分は以下の通り｡
-
-$$
-\begin{align*}
-arcsin'(x)&= \frac{1}{\sqrt{1-x^2}} \\
-arccos'(x)&=-\frac{1}{\sqrt{1-x^2}}
-\end{align*}
-$$
-
-$$
-\begin{align*}
-\int arcsin(x)\ dx&=x\ arcsin(x) + \sqrt{1-x^2} + C \\
-\int arccos(x)\ dx&=x\ arccos(x) - \sqrt{1-x^2} + C
-\end{align*}
-$$
-
 以下は $arcsin'(x)$ と $arccos'(x)$ のグラフ｡
 
 ![asin_diff.svg](../images/asin_diff.svg)
 
-以下は $\int arcsin(x)\ dx$ と $\int arccos(x)\ dx$ のグラフ｡
+テイラー展開と微分は以下の通り｡
 
-![asin_integral.svg](../images/asin_integral.svg)
-
-arcsin と arccos のテイラー展開は以下の通り｡
-
-$$
-\begin{align*}
-\sum_{n=0}^\infty \frac{arcsin^{(n)}(0)}{n!}x^n &= x +
-\frac{  x^3}{   6} +
-\frac{ 3x^5}{  40} +
-\frac{ 5x^7}{ 112} +
-\frac{35x^9}{1152} + ... \\
-\sum_{n=0}^\infty \frac{arccos^{(n)}(0)}{n!}x^n &= \frac{\pi}{2} - x -
-\frac{  x^3}{   6} -
-\frac{ 3x^5}{  40} -
-\frac{ 5x^7}{ 112} -
-\frac{35x^9}{1152} - ...
-\end{align*}
-$$
+> $$
+> \begin{gather*}
+> arcsin\ z
+> =                         z
+> + \frac{                  z^3}{2                 \cdot 3}
+> + \frac{1 \cdot 3         z^5}{2 \cdot 4         \cdot 5}
+> + \frac{1 \cdot 3 \cdot 5 z^7}{2 \cdot 4 \cdot 6 \cdot 7} \cdots & (|z| < 1) \tag{4.4.40} \\
+> \frac{d}{dz} arcsin\ z = \left(1 - z^2\right)^{-\frac{1}{2}} \tag{4.4.52} \\
+> \frac{d}{dz} arccos\ z =-\left(1 - z^2\right)^{-\frac{1}{2}} \tag{4.4.52} \\
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions</cite>
 
 スクリプト : [asin.wmx](../gists/asin.wxm)
 
-wip
+### 3 次の多項式と平方根による近似
+
+以下の式に基づいて近似する｡
+
+> $$
+> arcsin\ x = \frac{\pi}{2} - \left(1 - x\right)^\frac{1}{2} \left(
+> a_0      +
+> a_1\ x   +
+> a_2\ x^2 +
+> a_3\ x^3 \right) + \epsilon(x)
+> $$
+>
+> $$
+> |\epsilon(x)| \le 5 \times 10^{-5}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_0 = 1.57072\ 88 & a_1 = -0.21211\ 44 \\
+> a_2 = 0.07426\ 10 & a_3 = -0.01872\ 93
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.45</cite>
+
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
+
+$$
+a'_n = \frac{2}{\pi} \times a_n
+$$
+
+$$
+f(x) = 1 - (1 - x)^\frac{1}{2} \left( a'_0 + a'_1\ x + a'_2\ x^2 + a'_3\ x^3 \right)
+$$
+
+### 7 次の多項式と平方根による近似
+
+以下の式に基づいて近似する｡
+
+> $$
+> \begin{align*}
+> arcsin\ x = \frac{\pi}{2} - \left(1 - x\right)^\frac{1}{2}
+> \left(   a_0
+>        + a_1\ x
+>        + a_2\ x^2
+>        + a_3\ x^3 \right. \\
+> \left. + a_4\ x^4
+>        + a_5\ x^5
+>        + a_6\ x^6
+>        + a_7\ x^7 \right) + \epsilon(x)
+> \end{align*}
+> $$
+>
+> $$
+> |\epsilon(x)| \le 2 \times 10^{-8}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_0 = 1.57079\ 63050 & a_1 = -0.21459\ 88016 \\
+> a_2 = 0.08897\ 89874 & a_3 = -0.05017\ 43046 \\
+> a_4 = 0.03089\ 18810 & a_5 = -0.01708\ 81256 \\
+> a_6 = 0.00667\ 00901 & a_7 - -0.00126\ 24911
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.46</cite>
+
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
+
+$$
+a'_n = \frac{2}{\pi} \times a_n
+$$
+
+$$
+\begin{align*}
+f(x) = 1 - (1 - x)^\frac{1}{2}
+\left(   a'_0
+       + a'_1\ x
+       + a'_2\ x^2
+       + a'_3\ x^3 \right. \\
+\left. + a'_4\ x^4
+       + a'_5\ x^5
+       + a'_6\ x^6
+       + a'_7\ x^7 \right)
+\end{align*}
+$$
 
 ## 参考文献
 
