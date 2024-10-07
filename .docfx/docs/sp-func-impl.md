@@ -14,16 +14,14 @@ Intar は [ローラン級数](https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%
 
 ![sin.svg](../images/sin.svg)
 
-テイラー展開､ 微分､ 積分は以下の通り｡
+テイラー展開､ 微分は以下の通り｡
 
 > $$
 > \begin{gather*}
 > sin\ z =z - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + ... & (|z| < \infty) \tag{4.3.65} \\
 > cos\ z =1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + ... & (|z| < \infty) \tag{4.3.66} \\
 > \frac{d}{dz} sin\ z =  cos\ z \tag{4.3.105} \\
-> \frac{d}{dz} cos\ z = -sin\ z \tag{4.3.106} \\
-> \int sin\ z\ dz = -cos\ z \tag{4.3.113} \\
-> \int cos\ z\ dz =  sin\ z \tag{4.3.114}
+> \frac{d}{dz} cos\ z = -sin\ z \tag{4.3.106}
 > \end{gather*}
 > $$
 >
@@ -56,19 +54,11 @@ f (1) = 1 & f'(1) = 0
 \end{gather*}
 $$
 
-$f(1) = 1$ より――
+$f(1) = 1$ より $a - b = 1$ ｡ $f'(1) = 0$ より――
 
 $$
 \begin{gather*}
-a - b = 1 & b = a - 1
-\end{gather*}
-$$
-
-$f'(1) = 0$ より――
-
-$$
-\begin{gather*}
-a - 3b = 0 & a = 3b
+a - 3b = 0 & a = 3b & b = \frac{a}{3}
 \end{gather*}
 $$
 
@@ -76,10 +66,9 @@ $$
 
 $$
 \begin{gather*}
-b = 3b - 1 &
-1 = 2b &
-b = 0.5 &
-a = 1.5
+a - \frac{a}{3} = \frac{2}{3}\ a = 1 &
+a = 1.5 &
+b = 0.5
 \end{gather*}
 $$
 
@@ -111,18 +100,17 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^n
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = 1 - a\ x^2 + b x^4
-$$
-
-$$
-\begin{gather*}
-a = 0.49670 \times \left( \frac{\pi}{2} \right)^2 &
-b = 0.03705 \times \left( \frac{\pi}{2} \right)^4
-\end{gather*}
+f(x) = 1
++ a'_2\ x^2
++ a'_4\ x^4
 $$
 
 ### 5 次の多項式による近似
@@ -153,19 +141,17 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^{n+1}
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = a\ x - b\ x^3 + c\ x^5
-$$
-
-$$
-\begin{align*}
-a &= 1.00000 \times \left( \frac{\pi}{2} \right)   \\
-b &= 0.16605 \times \left( \frac{\pi}{2} \right)^3 \\
-c &= 0.00761 \times \left( \frac{\pi}{2} \right)^5
-\end{align*}
+f(x) = \frac{\pi}{2}\ x
++ a'_2              \ x^3
++ a'_4              \ x^5
 $$
 
 ## 10 次の多項式による近似
@@ -202,21 +188,20 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^n
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = 1 - a_2\ x^2 + a_4\ x^4 - a_6\ x^6 + a_8\ x^8 - a_{10}\ x^{10}
-$$
-
-$$
-\begin{gather*}
-a_2    = 0.49999\ 99963 \times \left( \frac{\pi}{2} \right)^2 \\
-a_4    = 0.04166\ 66418 \times \left( \frac{\pi}{2} \right)^4 \\
-a_6    = 0.00138\ 88397 \times \left( \frac{\pi}{2} \right)^6 \\
-a_8    = 0.00002\ 47609 \times \left( \frac{\pi}{2} \right)^8 \\
-a_{10} = 0.00000\ 02605 \times \left( \frac{\pi}{2} \right)^{10}
-\end{gather*}
+f(x) = 1
++ a'_{ 2}\ x^{ 2}
++ a'_{ 4}\ x^{ 4}
++ a'_{ 6}\ x^{ 6}
++ a'_{ 8}\ x^{ 8}
++ a'_{10}\ x^{10}
 $$
 
 ## 11 次の多項式による近似
@@ -253,22 +238,20 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^{n+1}
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = a_1\ x - a_3\ x^3 + a_5\ x^5 - a_7\ x^7 + a_9\ x^9 - a_{11}\ x^{11}
-$$
-
-$$
-\begin{gather*}
-a_1    = 1.00000\ 00000 \times \left( \frac{\pi}{2} \right)^1 \\
-a_3    = 0.16666\ 66664 \times \left( \frac{\pi}{2} \right)^3 \\
-a_5    = 0.00833\ 33315 \times \left( \frac{\pi}{2} \right)^5 \\
-a_7    = 0.00019\ 84090 \times \left( \frac{\pi}{2} \right)^7 \\
-a_9    = 0.00000\ 27526 \times \left( \frac{\pi}{2} \right)^9 \\
-a_{11} = 0.00000\ 00239 \times \left( \frac{\pi}{2} \right)^{11}
-\end{gather*}
+f(x) = \frac{\pi}{2}\ x
++ a'_{ 2}           \ x^{ 3}
++ a'_{ 4}           \ x^{ 5}
++ a'_{ 6}           \ x^{ 7}
++ a'_{ 8}           \ x^{ 9}
++ a'_{10}           \ x^{11}
 $$
 
 ## 逆正接 arctangent
