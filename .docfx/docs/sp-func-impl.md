@@ -14,16 +14,14 @@ Intar は [ローラン級数](https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%
 
 ![sin.svg](../images/sin.svg)
 
-テイラー展開､ 微分､ 積分は以下の通り｡
+テイラー展開､ 微分は以下の通り｡
 
 > $$
 > \begin{gather*}
 > sin\ z =z - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + ... & (|z| < \infty) \tag{4.3.65} \\
 > cos\ z =1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + ... & (|z| < \infty) \tag{4.3.66} \\
 > \frac{d}{dz} sin\ z =  cos\ z \tag{4.3.105} \\
-> \frac{d}{dz} cos\ z = -sin\ z \tag{4.3.106} \\
-> \int sin\ z\ dz = -cos\ z \tag{4.3.113} \\
-> \int cos\ z\ dz =  sin\ z \tag{4.3.114}
+> \frac{d}{dz} cos\ z = -sin\ z \tag{4.3.106}
 > \end{gather*}
 > $$
 >
@@ -34,8 +32,10 @@ Intar は [ローラン級数](https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%
 $cos\ z$ の近似について以下のように定義する｡
 
 $$
-f(x) = 1 - a \times x^2 \\
+\begin{gather*}
+f(x) = 1 - a \times x^2 &
 f(1) = 0
+\end{gather*}
 $$
 
 $a = 1$ は自明｡
@@ -54,29 +54,22 @@ f (1) = 1 & f'(1) = 0
 \end{gather*}
 $$
 
-$f(1) = 1$ より――
+$f(1) = 1$ より $a - b = 1$ ｡ $f'(1) = 0$ より――
 
 $$
 \begin{gather*}
-a - b = 1 & b = a - 1
-\end{gather*}
-$$
-
-$f'(1) = 0$ より――
-
-$$
-\begin{gather*}
-a - 3b = 0 & a = 3b
+a - 3b = 0 & a = 3b & b = \frac{a}{3}
 \end{gather*}
 $$
 
 よって――
 
 $$
-b = 3b - 1 \\
-1 = 2b \\
-b = 0.5 \\
-a = 1.5
+\begin{gather*}
+a - \frac{a}{3} = \frac{2}{3}\ a = 1 &
+a = 1.5 &
+b = 0.5
+\end{gather*}
 $$
 
 ### 4 次の多項式による近似
@@ -107,18 +100,17 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^n
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = 1 - a\ x^2 + b x^4
-$$
-
-$$
-\begin{gather*}
-a = 0.49670 \times \left( \frac{\pi}{2} \right)^2 &
-b = 0.03705 \times \left( \frac{\pi}{2} \right)^4
-\end{gather*}
+f(x) = 1
++ a'_2\ x^2
++ a'_4\ x^4
 $$
 
 ### 5 次の多項式による近似
@@ -149,19 +141,17 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^{n+1}
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = a\ x - b\ x^3 + c\ x^5
-$$
-
-$$
-\begin{align*}
-a &= 1.00000 \times \left( \frac{\pi}{2} \right)   \\
-b &= 0.16605 \times \left( \frac{\pi}{2} \right)^3 \\
-c &= 0.00761 \times \left( \frac{\pi}{2} \right)^5
-\end{align*}
+f(x) = \frac{\pi}{2}\ x
++ a'_2              \ x^3
++ a'_4              \ x^5
 $$
 
 ## 10 次の多項式による近似
@@ -198,21 +188,20 @@ $$
 以下のように定義する｡
 
 $$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^n
+$$
+
+$$
 0 \le x \le 1
 $$
 
 $$
-f(x) = 1 - a_2\ x^2 + a_4\ x^4 - a_6\ x^6 + a_8\ x^8 - a_{10}\ x^{10}
-$$
-
-$$
-\begin{gather*}
-a_2    = 0.49999\ 99963 \times \left( \frac{\pi}{2} \right)^2 \\
-a_4    = 0.04166\ 66418 \times \left( \frac{\pi}{2} \right)^4 \\
-a_6    = 0.00138\ 88397 \times \left( \frac{\pi}{2} \right)^6 \\
-a_8    = 0.00002\ 47609 \times \left( \frac{\pi}{2} \right)^8 \\
-a_{10} = 0.00000\ 02605 \times \left( \frac{\pi}{2} \right)^{10}
-\end{gather*}
+f(x) = 1
++ a'_{ 2}\ x^{ 2}
++ a'_{ 4}\ x^{ 4}
++ a'_{ 6}\ x^{ 6}
++ a'_{ 8}\ x^{ 8}
++ a'_{10}\ x^{10}
 $$
 
 ## 11 次の多項式による近似
@@ -248,25 +237,21 @@ $$
 
 以下のように定義する｡
 
-以下のように定義する｡
+$$
+a'_n = a_n \times \left(\frac{\pi}{2}\right)^{n+1}
+$$
 
 $$
 0 \le x \le 1
 $$
 
 $$
-f(x) = a_1\ x - a_3\ x^3 + a_5\ x^5 - a_7\ x^7 + a_9\ x^9 - a_{11}\ x^{11}
-$$
-
-$$
-\begin{gather*}
-a_1    = 1.00000\ 00000 \times \left( \frac{\pi}{2} \right)^1 \\
-a_3    = 0.16666\ 66664 \times \left( \frac{\pi}{2} \right)^3 \\
-a_5    = 0.00833\ 33315 \times \left( \frac{\pi}{2} \right)^5 \\
-a_7    = 0.00019\ 84090 \times \left( \frac{\pi}{2} \right)^7 \\
-a_9    = 0.00000\ 27526 \times \left( \frac{\pi}{2} \right)^9 \\
-a_{11} = 0.00000\ 00239 \times \left( \frac{\pi}{2} \right)^{11}
-\end{gather*}
+f(x) = \frac{\pi}{2}\ x
++ a'_{ 2}           \ x^{ 3}
++ a'_{ 4}           \ x^{ 5}
++ a'_{ 6}           \ x^{ 7}
++ a'_{ 8}           \ x^{ 9}
++ a'_{10}           \ x^{11}
 $$
 
 ## 逆正接 arctangent
@@ -275,59 +260,26 @@ $$
 
 ![atan.svg](../images/atan.svg)
 
-微分と積分は以下の通り｡
-
-$$
-arctan'(x)=\frac{1}{x^2+1}
-$$
-
-$$
-\int arctan(x)\ dx=x\ arctan(x)-\frac{log\left(x^2+1\right)}{2}
-$$
-
-以下は $arctan'(x)$ のグラフ｡
-
-![atan_diff.svg](../images/atan_diff.svg)
-
-以下は $\int arctan(x)\ dx$ のグラフ｡
-
-![atan_integral.svg](../images/atan_integral.svg)
-
-arctan のテイラー展開は以下の通り｡
-
-$$
-\sum_{n=0}^\infty \frac{arctan^{(n)}(0)}{n!}x^n = x -
-\frac{x^3}{3} +
-\frac{x^5}{5} -
-\frac{x^7}{7} +
-\frac{x^9}{9} - ...
-$$
+テイラー展開､ 微分は以下の通り｡
 
 > $$
-> -1 \le x \le 1
+> \begin{gather*}
+> arctan\ z = z
+> - \frac{z^3}{3}
+> + \frac{z^5}{5}
+> - \frac{z^7}{7} + ... &
+> (|z| \le 1\ and\ z^2 \neq -1) \tag{4.4.42} \\
+> \frac{d}{dz} arctan\ z = \frac{1}{1+z^2} \tag{4.4.54}
+> \end{gather*}
 > $$
 >
-> $$
-> arctan\ x = a_1 x + a_3 x^5 + a_7 x^7 + a_9 x^9 + \epsilon (x)
-> $$
->
-> $$
-> | \epsilon (x) | \le 10^{-5}
-> $$
->
-> $$
-> \begin{align*}
-> a_1 &= 0.99986\ 60 & a_3 &= -0.33029\ 95 \\
-> a_5 &= 0.18014\ 10 & a_7 &= -0.08513\ 30 \\
-> a_9 &= 0.02083\ 51
-> \end{align*}
-> $$
->
-> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.47</cite>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions</cite>
 
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
 ### 2 次の多項式による近似
+
+以下の式に基づいて近似する｡
 
 > Using an extensive computer search,
 > the optimum $\alpha \approx 0.273$
@@ -346,23 +298,23 @@ $$
 >
 > <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
 
-Intar では以下のように定義する｡
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
 
 $$
 \begin{align*}
 f(x)
-&= \frac{2^{15}}{4} x + \frac{a\ x}{2^{15}} (2^{15} - |x|) \\
-&= x \left(2^{13} + \frac{a \left( 2^{15} - |x| \right)}{2^{15}}  \right)
+&= \frac{1}{4}x + \frac{0.273}{\pi}x\ (1 - x) \\
+&= x \left( \frac{1}{4} + \frac{0.273}{\pi} \left( 1 - x \right) \right)
 \end{align*}
 $$
 
-|    a | RMSE | MAE | ME | 誤差の最大値
-| ---: | ---: | --: | -: | -----------:
-| 2909 | 0.00242 78185 | 0.00207 71743 |  0.00033 33474 |  0.00449 19258
-| 2961 | 0.00259 57169 | 0.00198 29121 |  0.00116 42324 |  0.00518 46628
-| 2850 | 0.00263 51130 | 0.00236 80246 | -0.00060 93592 | -0.00376 70393
-
 ### 3 次の多項式による近似
+
+以下の式に基づいて近似する｡
 
 > ... Using the minimax criteria,
 > the following polynomial with a maximum absolute error
@@ -379,42 +331,75 @@ $$
 >
 > <cite>Efficient approximations for the arctangent function [^efficient-atan-approx-func]</cite>
 
-Intar では以下のように定義する｡
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
 
 $$
 \begin{align*}
 f(x)
-&= \frac{2^{15}}{4} \ x - \frac{x}{2^{15}} \left( |x| - 2^{15} \right) \times \left(a + \frac{b}{2^{15}} |x| \right) \\
-&= x \left( 2^{13} - \frac{|x| - 2^{15}}{2^{15}} \times \left( a + \frac{b |x|}{2^{15}} \right) \right)
+&= \frac{1}{4} \ x - x \ (x - 1) \times \left( \frac{0.2447}{\pi} + \frac{0.0663}{\pi} x \right) \\
+&= x \left( \frac{1}{4} - (x - 1) \times \left( \frac{0.2447}{\pi} + \frac{0.0663}{\pi} x \right) \right)
 \end{align*}
 $$
 
-|    a |   b | RMSE | MAE | ME | 誤差の最大値
-| ---: | --: | ---: | --: | -: | -----------:
-| 2577 | 664 | 0.00104 91346 | 0.00093 96760 | 0.00032 53353 | 0.00171 47167
-| 2601 | 631 | 0.00106 21832 | 0.00093 28793 | 0.00044 52376 | 0.00192 06566
-| 2555 | 691 | 0.00106 41139 | 0.00096 03372 | 0.00018 95039 | 0.00152 78438
+## 9 次の多項式による近似
 
-### 5 次の多項式による近似
+以下の式に基づいて近似する｡
 
-テイラー展開の結果に従って以下のように定義する｡
+> $$
+> -1 \le x \le 1
+> $$
+>
+> $$
+> arctan\ x = a_1 x + a_3 x^3 + a_5 x^5 + a_7 x^7 + a_9 x^9 + \epsilon (x)
+> $$
+>
+> $$
+> | \epsilon (x) | \le 10^{-5}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_1 = 0.99986\ 60 & a_3 = -0.33029\ 95 \\
+> a_5 = 0.18014\ 10 & a_7 = -0.08513\ 30 \\
+> a_9 = 0.02083\ 51
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.47</cite>
+
+以下のように定義する｡
 
 $$
-f(x) = a\ x - \frac{b\ x^3}{2^{30}} + \frac{c\ x^5}{2^{60}}
+0 \le x \le 1
 $$
 
 $$
-a = 2^{15} \div 4 + b - c
+a'_n = \frac{a_n}{\pi}
 $$
 
-2 次､ 3 次の多項式と異なり偶数次の項の係数を 0 として定義するため､
-式中で絶対値を用いたり $1-|x|$ などの式変形を用いる必要がない｡
-
-|     a |    b |   c | RMSE | MAE | ME | 誤差の最大値
-| ----: | ---: | --: | ---: | --: | -: | -----------:
-| 10379 | 2996 | 809 | 0.00049 13728 | 0.00043 92121 | -0.00015 64635 | -0.00090 98068
-| 10383 | 3014 | 823 | 0.00049 74321 | 0.00043 62866 | -0.00017 24142 | -0.00103 01304
-| 10373 | 2968 | 787 | 0.00050 58158 | 0.00045 53723 | -0.00012 45052 | -0.00075 23404
+$$
+\begin{align*}
+f(x) &
+= a'_1\ x
++ a'_3\ x^3
++ a'_5\ x^5
++ a'_7\ x^7
++ a'_9\ x^9 \\
+&=x
+\left( a'_1 -        x^2
+\left(-a'_3 -        x^2
+\left( a'_5 -        x^2
+\left(-a'_7 - a'_9 \ x^2
+\right)
+\right)
+\right)
+\right)
+\end{align*}
+$$
 
 ## 逆正弦 arcsine と逆余弦 arccosine
 
@@ -422,56 +407,123 @@ $$
 
 ![asin.svg](../images/asin.svg)
 
-微分と積分は以下の通り｡
-
-$$
-\begin{align*}
-arcsin'(x)&= \frac{1}{\sqrt{1-x^2}} \\
-arccos'(x)&=-\frac{1}{\sqrt{1-x^2}}
-\end{align*}
-$$
-
-$$
-\begin{align*}
-\int arcsin(x)\ dx&=x\ arcsin(x) + \sqrt{1-x^2} + C \\
-\int arccos(x)\ dx&=x\ arccos(x) - \sqrt{1-x^2} + C
-\end{align*}
-$$
-
 以下は $arcsin'(x)$ と $arccos'(x)$ のグラフ｡
 
 ![asin_diff.svg](../images/asin_diff.svg)
 
-以下は $\int arcsin(x)\ dx$ と $\int arccos(x)\ dx$ のグラフ｡
+テイラー展開と微分は以下の通り｡
 
-![asin_integral.svg](../images/asin_integral.svg)
-
-arcsin と arccos のテイラー展開は以下の通り｡
-
-$$
-\begin{align*}
-\sum_{n=0}^\infty \frac{arcsin^{(n)}(0)}{n!}x^n &= x +
-\frac{  x^3}{   6} +
-\frac{ 3x^5}{  40} +
-\frac{ 5x^7}{ 112} +
-\frac{35x^9}{1152} + ... \\
-\sum_{n=0}^\infty \frac{arccos^{(n)}(0)}{n!}x^n &= \frac{\pi}{2} - x -
-\frac{  x^3}{   6} -
-\frac{ 3x^5}{  40} -
-\frac{ 5x^7}{ 112} -
-\frac{35x^9}{1152} - ...
-\end{align*}
-$$
+> $$
+> \begin{gather*}
+> arcsin\ z
+> =                         z
+> + \frac{                  z^3}{2                 \cdot 3}
+> + \frac{1 \cdot 3         z^5}{2 \cdot 4         \cdot 5}
+> + \frac{1 \cdot 3 \cdot 5 z^7}{2 \cdot 4 \cdot 6 \cdot 7} \cdots & (|z| < 1) \tag{4.4.40} \\
+> \frac{d}{dz} arcsin\ z = \left(1 - z^2\right)^{-\frac{1}{2}} \tag{4.4.52} \\
+> \frac{d}{dz} arccos\ z =-\left(1 - z^2\right)^{-\frac{1}{2}} \tag{4.4.52} \\
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions</cite>
 
 スクリプト : [asin.wmx](../gists/asin.wxm)
 
-wip
+### 3 次の多項式と平方根による近似
 
-## 参考文献
+以下の式に基づいて近似する｡
 
-- Another fast fixed-point sine approximation | Coranac
-  - http://www.coranac.com/2009/07/sines/
-  - http://web.archive.org/web/20240629132053/http://www.coranac.com/2009/07/sines/
+> $$
+> arcsin\ x = \frac{\pi}{2} - \left(1 - x\right)^\frac{1}{2} \left(
+> a_0      +
+> a_1\ x   +
+> a_2\ x^2 +
+> a_3\ x^3 \right) + \epsilon(x)
+> $$
+>
+> $$
+> |\epsilon(x)| \le 5 \times 10^{-5}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_0 = 1.57072\ 88 & a_1 = -0.21211\ 44 \\
+> a_2 = 0.07426\ 10 & a_3 = -0.01872\ 93
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.45</cite>
+
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
+
+$$
+a'_n = \frac{2}{\pi} \times a_n
+$$
+
+$$
+f(x) = 1 - (1 - x)^\frac{1}{2} \left( a'_0 + a'_1\ x + a'_2\ x^2 + a'_3\ x^3 \right)
+$$
+
+### 7 次の多項式と平方根による近似
+
+以下の式に基づいて近似する｡
+
+> $$
+> \begin{align*}
+> arcsin\ x = \frac{\pi}{2} - \left(1 - x\right)^\frac{1}{2}
+> \left(   a_0
+>        + a_1\ x
+>        + a_2\ x^2
+>        + a_3\ x^3 \right. \\
+> \left. + a_4\ x^4
+>        + a_5\ x^5
+>        + a_6\ x^6
+>        + a_7\ x^7 \right) + \epsilon(x)
+> \end{align*}
+> $$
+>
+> $$
+> |\epsilon(x)| \le 2 \times 10^{-8}
+> $$
+>
+> $$
+> \begin{gather*}
+> a_0 = 1.57079\ 63050 & a_1 = -0.21459\ 88016 \\
+> a_2 = 0.08897\ 89874 & a_3 = -0.05017\ 43046 \\
+> a_4 = 0.03089\ 18810 & a_5 = -0.01708\ 81256 \\
+> a_6 = 0.00667\ 00901 & a_7 - -0.00126\ 24911
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions 4.4.46</cite>
+
+以下のように定義する｡
+
+$$
+0 \le x \le 1
+$$
+
+$$
+a'_n = \frac{2}{\pi} \times a_n
+$$
+
+$$
+\begin{align*}
+f(x) = 1 - (1 - x)^\frac{1}{2}
+\left(   a'_0
+       + a'_1\ x
+       + a'_2\ x^2
+       + a'_3\ x^3 \right. \\
+\left. + a'_4\ x^4
+       + a'_5\ x^5
+       + a'_6\ x^6
+       + a'_7\ x^7 \right)
+\end{align*}
+$$
 
 [^abramowitz-and-stegun]: Milton Abramowitz and Irene Stegun . Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) . United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
