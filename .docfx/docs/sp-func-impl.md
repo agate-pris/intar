@@ -260,33 +260,20 @@ $$
 
 ![atan.svg](../images/atan.svg)
 
-微分と積分は以下の通り｡
+テイラー展開､ 微分は以下の通り｡
 
-$$
-arctan'(x)=\frac{1}{x^2+1}
-$$
-
-$$
-\int arctan(x)\ dx=x\ arctan(x)-\frac{log\left(x^2+1\right)}{2}
-$$
-
-以下は $arctan'(x)$ のグラフ｡
-
-![atan_diff.svg](../images/atan_diff.svg)
-
-以下は $\int arctan(x)\ dx$ のグラフ｡
-
-![atan_integral.svg](../images/atan_integral.svg)
-
-arctan のテイラー展開は以下の通り｡
-
-$$
-\sum_{n=0}^\infty \frac{arctan^{(n)}(0)}{n!}x^n = x -
-\frac{x^3}{3} +
-\frac{x^5}{5} -
-\frac{x^7}{7} +
-\frac{x^9}{9} - ...
-$$
+> $$
+> \begin{gather*}
+> arctan\ z = z
+> - \frac{z^3}{3}
+> + \frac{z^5}{5}
+> - \frac{z^7}{7} + ... &
+> (|z| \le 1\ and\ z^2 \neq -1) \tag{4.4.42} \\
+> \frac{d}{dz} arctan\ z = \frac{1}{1+z^2} \tag{4.4.54}
+> \end{gather*}
+> $$
+>
+> <cite>Abramowitz and Stegun [^abramowitz-and-stegun] 4. Elementary Transcendental Functions R. Zucker 4.4. Inverse Circular Functions</cite>
 
 スクリプト : [atan.wxm](../gists/atan.wxm)
 
@@ -387,19 +374,31 @@ $$
 以下のように定義する｡
 
 $$
-\begin{align*}
-f(x)
-&= a_1 x - a_3 x^3 + a_5 x^5 - a_7 x^7 + a_9 x^9 \\
-&= x \ \left(a_1 - x^2 \left(a_3 - x^2 \left(a_5 - x^2 \left(a_7 - a_9 x^2 \right) \right) \right) \right)
-\end{align*}
+0 \le x \le 1
 $$
 
 $$
-\begin{gather*}
-a_1 = \frac{0.99986\ 60}{\pi} & a_3 = \frac{0.33029\ 95}{\pi} \\
-a_5 = \frac{0.18014\ 10}{\pi} & a_7 = \frac{0.08513\ 30}{\pi} \\
-a_9 = \frac{0.02083\ 51}{\pi}
-\end{gather*}
+a'_n = \frac{a_n}{\pi}
+$$
+
+$$
+\begin{align*}
+f(x) &
+= a'_1\ x
++ a'_3\ x^3
++ a'_5\ x^5
++ a'_7\ x^7
++ a'_9\ x^9 \\
+&=x
+\left( a'_1 -        x^2
+\left(-a'_3 -        x^2
+\left( a'_5 -        x^2
+\left(-a'_7 - a'_9 \ x^2
+\right)
+\right)
+\right)
+\right)
+\end{align*}
 $$
 
 ## 逆正弦 arcsine と逆余弦 arccosine
