@@ -429,8 +429,8 @@ namespace AgatePris.Intar {
             }
             {%- endfor %}
 
-            const decimal Z1 = 1UL << 31;
-            const decimal Z2 = 1UL << 63;
+            const decimal Z32 = 1UL << 31;
+            const decimal Z64 = 1UL << 63;
             const decimal K01 = Pi / 2;
             const decimal K02 = K01 * K01;
             const decimal K03 = K02 * K01;
@@ -464,22 +464,25 @@ namespace AgatePris.Intar {
             // 2631866036
             // 3875141568
 
-            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z2));
-            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z2 * (1 << 1)));
-            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z2 * (1 << 4)));
-            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * Z2 * (1 << 8)));
-            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * Z2 * (1 << 13)));
-            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * Z2 * (1 << 19)));
-            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * Z2));
-            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * Z2 * (1 << 2)));
-            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z2 * (1 << 6)));
-            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z2 * (1 << 11)));
-            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z2 * (1 << 16)));
-            internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * Z1));
-            internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * Z1 * (1 << 1)));
-            internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * Z1 * (1 << 4)));
-            internal const uint P4I32A = (uint)(0.5m + (0.49670m * K02 * Z1));
-            internal const uint P4I32B = (uint)(0.0m + (0.03705m * K04 * Z1 * (1 << 3)));
+            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z64));
+            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z64 * (1 << 1)));
+            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z64 * (1 << 4)));
+            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * Z64 * (1 << 8)));
+            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * Z64 * (1 << 13)));
+            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * Z64 * (1 << 19)));
+            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * Z64));
+            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * Z64 * (1 << 2)));
+            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z64 * (1 << 6)));
+            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z64 * (1 << 11)));
+            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z64 * (1 << 16)));
+            {%- for bits in [32] %}
+            {%- set type = macros::inttype(bits=bits, signed=false) %}
+            internal const {{ type }} P5I{{ bits }}A = ({{ type }})(0.5m + (1.00000m * K01 * Z{{ bits }}));
+            internal const {{ type }} P5I{{ bits }}B = ({{ type }})(0.5m + (0.16605m * K03 * Z{{ bits }} * (1 << 1)));
+            internal const {{ type }} P5I{{ bits }}C = ({{ type }})(0.0m + (0.00761m * K05 * Z{{ bits }} * (1 << 4)));
+            internal const {{ type }} P4I{{ bits }}A = ({{ type }})(0.5m + (0.49670m * K02 * Z{{ bits }}));
+            internal const {{ type }} P4I{{ bits }}B = ({{ type }})(0.0m + (0.03705m * K04 * Z{{ bits }} * (1 << 3)));
+            {%- endfor %}
 
             // 精度に対して与える影響が軽微であるため､
             // 乗算前に一度にまとめてビットシフトを行う｡
