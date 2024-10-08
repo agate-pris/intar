@@ -510,22 +510,28 @@ namespace AgatePris.Intar {
                 return (y >> 32) * z;
             }
 
+            {%- for bits in [32] %}
+            {%- set type = macros::inttype(bits=bits, signed=false) %}
+            {%- set one = macros::one(bits=bits, signed=false) %}
+            {%- set shift = bits / 2 - 1 %}
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static uint P5(uint z) {
-                var y = 1U;
-                y = P5I32C + ((y << (15 + 3)) / 2);
-                y = P5I32B - ((y >> (15 + 3)) * z);
-                y = P5I32A - ((y >> (15 + 1)) * z);
+            internal static {{ type }} P5({{ type }} z) {
+                var y = {{ one }};
+                y = P5I{{ bits }}C + ((y << ({{ shift }} + 3)) / 2);
+                y = P5I{{ bits }}B - ((y >> ({{ shift }} + 3)) * z);
+                y = P5I{{ bits }}A - ((y >> ({{ shift }} + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static uint P4(uint z) {
-                var y = 1U;
-                y = P4I32B + ((y << (15 + 3)) / 2);
-                y = P4I32A - ((y >> (15 + 3)) * z);
-                return (y >> 16) * z;
+            internal static {{ type }} P4({{ type }} z) {
+                var y = {{ one }};
+                y = P4I{{ bits }}B + ((y << ({{ shift }} + 3)) / 2);
+                y = P4I{{ bits }}A - ((y >> ({{ shift }} + 3)) * z);
+                return (y >> {{ shift + 1 }}) * z;
             }
+            {%- endfor %}
         }
 
         {%- set bits_32 = [32] %}
