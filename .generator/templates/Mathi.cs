@@ -458,6 +458,11 @@ namespace AgatePris.Intar {
             // 12315189113921640896
             // 17335849242745400440
             // 14400453044121993745
+            // 14488038916154245685
+            // 11871845430268727827
+            // 10739739599844454195
+            // 11303778553548845368
+            // 16643606305160959259
             // 3373259426
             // 2764129413
             // 2500540483
@@ -475,7 +480,7 @@ namespace AgatePris.Intar {
             internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z64 * (1 << 6)));
             internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z64 * (1 << 11)));
             internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z64 * (1 << 16)));
-            {%- for bits in [32] %}
+            {%- for bits in [64, 32] %}
             {%- set type = macros::inttype(bits=bits, signed=false) %}
             internal const {{ type }} P5I{{ bits }}A = ({{ type }})(0.5m + (1.00000m * K01 * Z{{ bits }}));
             internal const {{ type }} P5I{{ bits }}B = ({{ type }})(0.5m + (0.16605m * K03 * Z{{ bits }} * (1 << 1)));
@@ -510,7 +515,7 @@ namespace AgatePris.Intar {
                 return (y >> 32) * z;
             }
 
-            {%- for bits in [32] %}
+            {%- for bits in [64, 32] %}
             {%- set type = macros::inttype(bits=bits, signed=false) %}
             {%- set one = macros::one(bits=bits, signed=false) %}
             {%- set shift = bits / 2 - 1 %}
@@ -534,7 +539,7 @@ namespace AgatePris.Intar {
             {%- endfor %}
         }
 
-        {%- set bits_32 = [32] %}
+        {%- set bits_32 = [64, 32] %}
         {%- set bits_64 = [64] %}
         {%- set p4  = [bits_32,  4, 0.0018     ] %}
         {%- set p5  = [bits_32,  5, 0.0004     ] %}

@@ -850,6 +850,11 @@ namespace AgatePris.Intar {
             // 12315189113921640896
             // 17335849242745400440
             // 14400453044121993745
+            // 14488038916154245685
+            // 11871845430268727827
+            // 10739739599844454195
+            // 11303778553548845368
+            // 16643606305160959259
             // 3373259426
             // 2764129413
             // 2500540483
@@ -867,6 +872,11 @@ namespace AgatePris.Intar {
             internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z64 * (1 << 6)));
             internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z64 * (1 << 11)));
             internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z64 * (1 << 16)));
+            internal const ulong P5I64A = (ulong)(0.5m + (1.00000m * K01 * Z64));
+            internal const ulong P5I64B = (ulong)(0.5m + (0.16605m * K03 * Z64 * (1 << 1)));
+            internal const ulong P5I64C = (ulong)(0.0m + (0.00761m * K05 * Z64 * (1 << 4)));
+            internal const ulong P4I64A = (ulong)(0.5m + (0.49670m * K02 * Z64));
+            internal const ulong P4I64B = (ulong)(0.0m + (0.03705m * K04 * Z64 * (1 << 3)));
             internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * Z32));
             internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * Z32 * (1 << 1)));
             internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * Z32 * (1 << 4)));
@@ -900,6 +910,23 @@ namespace AgatePris.Intar {
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong P5(ulong z) {
+                var y = 1UL;
+                y = P5I64C + ((y << (31 + 3)) / 2);
+                y = P5I64B - ((y >> (31 + 3)) * z);
+                y = P5I64A - ((y >> (31 + 1)) * z);
+                return y;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong P4(ulong z) {
+                var y = 1UL;
+                y = P4I64B + ((y << (31 + 3)) / 2);
+                y = P4I64A - ((y >> (31 + 3)) * z);
+                return (y >> 32) * z;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P5(uint z) {
                 var y = 1U;
                 y = P5I32C + ((y << (15 + 3)) / 2);
@@ -916,6 +943,56 @@ namespace AgatePris.Intar {
                 return (y >> 16) * z;
             }
         }
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.CosP4(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.0018);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long CosP4(long x) {
+            const long fracPi2 = 1L << 31;
+            const long one = 1L << 62;
+            var q = SinInternal.ToQuadrant(x);
+            x &= fracPi2 - 1;
+            switch (q) {
+                default:
+                case SinInternal.Quadrant.First: return one - (long)SinInternal.P4((ulong)(x * x) >> 31);
+                case SinInternal.Quadrant.Third: return (long)SinInternal.P4((ulong)(x * x) >> 31) - one;
+                case SinInternal.Quadrant.Fourth: return one - (long)SinInternal.P4((ulong)((fracPi2 - x) * (fracPi2 - x)) >> 31);
+                case SinInternal.Quadrant.Second: return (long)SinInternal.P4((ulong)((fracPi2 - x) * (fracPi2 - x)) >> 31) - one;
+            }
+        }
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.SinP4(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.0018);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long SinP4(long x) => CosP4(Overflowing.WrappingSub(x, 1L << 31));
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -1016,6 +1093,47 @@ namespace AgatePris.Intar {
         /// <returns>2 の 62 乗を 1 とする正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long SinP10(long x) => CosP10(Overflowing.WrappingSub(x, 1L << 31));
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.SinP5(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.0004);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long SinP5(long x) {
+            x = SinInternal.MakeArgOdd(x);
+            return x * (long)(SinInternal.P5((ulong)(x * x) >> 31) >> 32);
+        }
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.CosP5(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.0004);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long CosP5(long x) => SinP5(Overflowing.WrappingAdd(x, 1L << 31));
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。

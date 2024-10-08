@@ -19,6 +19,11 @@ namespace AgatePris.Intar.Tests.Mathi {
                 Intar.Mathi.SinInternal.P10I64C,
                 Intar.Mathi.SinInternal.P10I64D,
                 Intar.Mathi.SinInternal.P10I64E,
+                Intar.Mathi.SinInternal.P5I64A,
+                Intar.Mathi.SinInternal.P5I64B,
+                Intar.Mathi.SinInternal.P5I64C,
+                Intar.Mathi.SinInternal.P4I64A,
+                Intar.Mathi.SinInternal.P4I64B,
                 Intar.Mathi.SinInternal.P5I32A,
                 Intar.Mathi.SinInternal.P5I32B,
                 Intar.Mathi.SinInternal.P5I32C,
@@ -40,6 +45,11 @@ namespace AgatePris.Intar.Tests.Mathi {
                 12315189113921640896,
                 17335849242745400440,
                 14400453044121993745,
+                14488038916154245685,
+                11871845430268727827,
+                10739739599844454195,
+                11303778553548845368,
+                16643606305160959259,
                 3373259426,
                 2764129413,
                 2500540483,
@@ -246,7 +256,6 @@ namespace AgatePris.Intar.Tests.Mathi {
             };
             TestSin(expectedSin, expectedCos, Intar.Mathi.SinP4, Intar.Mathi.CosP4, 0.0018);
         }
-
         [Test]
         public static void TestSinP5() {
             var expectedSin = new int[] {
@@ -260,6 +269,43 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1073741799, 1073741788, 1073741775, 1073709000, 1073741743,
                 1073741724, 1073741703, 1073741680, 1073741655, 1073741628,
                 1073708846, 1073741568, 1073741535, 1073708750, 1073741463,
+            };
+            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP5, Intar.Mathi.CosP5, 0.0004);
+        }
+        [Test]
+        public static void TestSinP4L() {
+            var expectedSin = new long[] {
+                22136261443584, 22140556390264, 22142703853300, 22146998799982,
+                22149146263024, 22153441209708, 22155588672756, 22159883619442,
+                22164178566128, 22166326029184, 22170620975872, 22172768438934,
+                22177063385624, 22179210848692, 22183505795384, 22185653258458,
+            };
+            var expectedCos = new long[] {
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+                1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
+            };
+            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP4, Intar.Mathi.CosP4, 0.0018);
+        }
+        [Test]
+        public static void TestSinP5L() {
+            var expectedSin = new long[] {
+                0,
+                3373259426,
+                6746518852,
+                10119778278, 13493037704, 16866297130, 20239556556, 23612815982,
+                26986075408, 30359334834, 33732594260, 37105853686, 40479113112,
+                43852372538, 47225631964, 50598891390, 53972150816, 57345410242,
+                60718669668, 64091929094, 67465188520, 70838447946, 74211707372,
+                77584966798, 80958226224, 84331485650, 87704745076, 91078004502,
+                94451263928, 97824523354, 101197782780, 104571042206,
+            };
+            var expectedCos = new long[] {
+                4611674963181568000, 4611674963181573147, 4611674963181578292,
+                4611674963181583435, 4611674963181588576, 4611674963181593715,
+                4611674961034115210, 4611674963181603987, 4611674963181609120,
+                4611674961034130612, 4611674963181619380, 4611674963181624507,
             };
             TestSin(expectedSin, expectedCos, Intar.Mathi.SinP5, Intar.Mathi.CosP5, 0.0004);
         }
