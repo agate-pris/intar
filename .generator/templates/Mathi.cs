@@ -521,6 +521,13 @@ namespace AgatePris.Intar {
             {%- set shift = bits / 2 - 1 %}
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static {{ type }} P3({{ type }} z) {
+                const {{ type }} a = ({{ one }} << {{ shift * 2 }}) * 3;
+                const {{ type }} b = ({{ one }} << {{ shift * 2 }}) * 2;
+                return a - ((b >> {{ shift + 1 }}) * z);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static {{ type }} P5({{ type }} z) {
                 var y = {{ one }};
                 y = P5I{{ bits }}C + ((y << ({{ shift }} + 3)) / 2);
@@ -543,6 +550,7 @@ namespace AgatePris.Intar {
         {%- set bits_64 = [64] %}
         {%- set p2  = [bits_32,  2, 0.06       ] %}
         {%- set p4  = [bits_32,  4, 0.0018     ] %}
+        {%- set p3  = [bits_32,  3, 0.0004     ] %}
         {%- set p5  = [bits_32,  5, 0.0004     ] %}
         {%- set p10 = [bits_64, 10, 0.000000004] %}
         {%- set p11 = [bits_64, 11, 0.000000004] %}
@@ -603,7 +611,7 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endfor %}
 
-        {%- for params in [p5, p11] %}
+        {%- for params in [p3, p5, p11] %}
         {%- for bits in params[0] %}
         {%- set shift = bits / 2 - 1 %}
         {%- set one   = macros::one(bits=bits, signed=true) %}
