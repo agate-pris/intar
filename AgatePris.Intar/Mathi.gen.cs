@@ -945,6 +945,106 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.CosP2(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.06);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long CosP2(long x) {
+            const long fracPi2 = 1L << 31;
+            const long one = 1L << 62;
+            var q = SinInternal.ToQuadrant(x);
+            x &= fracPi2 - 1;
+            switch (q) {
+                default:
+                case SinInternal.Quadrant.First: return one - (x * x);
+                case SinInternal.Quadrant.Third: return (x * x) - one;
+                case SinInternal.Quadrant.Fourth: return one - ((fracPi2 - x) * (fracPi2 - x));
+                case SinInternal.Quadrant.Second: return ((fracPi2 - x) * (fracPi2 - x)) - one;
+            }
+        }
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const long k = 1L &lt;&lt; 31;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.SinP2(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1L &lt;&lt; 62);
+        /// Assert.AreEqual(expected, a, 0.06);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 31 乗を直角とする角度</param>
+        /// <returns>2 の 62 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long SinP2(long x) => CosP2(Overflowing.WrappingSub(x, 1L << 31));
+
+        /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.CosP2(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Cos(rad);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.06);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int CosP2(int x) {
+            const int fracPi2 = 1 << 15;
+            const int one = 1 << 30;
+            var q = SinInternal.ToQuadrant(x);
+            x &= fracPi2 - 1;
+            switch (q) {
+                default:
+                case SinInternal.Quadrant.First: return one - (x * x);
+                case SinInternal.Quadrant.Third: return (x * x) - one;
+                case SinInternal.Quadrant.Fourth: return one - ((fracPi2 - x) * (fracPi2 - x));
+                case SinInternal.Quadrant.Second: return ((fracPi2 - x) * (fracPi2 - x)) - one;
+            }
+        }
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// <example>
+        /// <code>
+        /// const int k = 1 &lt;&lt; 15;
+        /// var x = k * 30 / 90;
+        /// var actual = Intar.Mathi.SinP2(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.Sin(rad);
+        /// var a = (double)actual / (1 &lt;&lt; 30);
+        /// Assert.AreEqual(expected, a, 0.06);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の 15 乗を直角とする角度</param>
+        /// <returns>2 の 30 乗を 1 とする正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int SinP2(int x) => CosP2(Overflowing.WrappingSub(x, 1 << 15));
+
+        /// <summary>
         /// 4 次の多項式で余弦比を近似する。
         /// <example>
         /// <code>
