@@ -187,92 +187,58 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static QuaternionI17F15 AxisAngleP2(Vector3Int axis, I17F15 angle) {
-            return AxisAngleP2(axis.x, axis.y, axis.z, angle);
+            return AxisAngle2(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP3A16384(int axisX, int axisY, int axisZ, I17F15 angle) {
+        public static QuaternionI17F15 AxisAngleP3(int axisX, int axisY, int axisZ, I17F15 angle) {
             var half = angle.Half();
-            var s = half.SinP3A16384();
-            var c = half.CosP3A16384();
+            var s = half.SinP3();
+            var c = half.CosP3();
             return AxisAngle(axisX, axisY, axisZ, s, c);
         }
 
 #if UNITY_5_6_OR_NEWER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP3A16384(Vector3Int axis, I17F15 angle) {
-            return AxisAngleP3A16384(axis.x, axis.y, axis.z, angle);
+        public static QuaternionI17F15 AxisAngleP3(Vector3Int axis, I17F15 angle) {
+            return AxisAngle3(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP4A7032(int axisX, int axisY, int axisZ, I17F15 angle) {
+        public static QuaternionI17F15 AxisAngleP4(int axisX, int axisY, int axisZ, I17F15 angle) {
             var half = angle.Half();
-            var s = half.SinP4A7032();
-            var c = half.CosP4A7032();
+            var s = half.SinP4();
+            var c = half.CosP4();
             return AxisAngle(axisX, axisY, axisZ, s, c);
         }
 
 #if UNITY_5_6_OR_NEWER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP4A7032(Vector3Int axis, I17F15 angle) {
-            return AxisAngleP4A7032(axis.x, axis.y, axis.z, angle);
+        public static QuaternionI17F15 AxisAngleP4(Vector3Int axis, I17F15 angle) {
+            return AxisAngle4(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP4A7384(int axisX, int axisY, int axisZ, I17F15 angle) {
+        public static QuaternionI17F15 AxisAngleP5(int axisX, int axisY, int axisZ, I17F15 angle) {
             var half = angle.Half();
-            var s = half.SinP4A7384();
-            var c = half.CosP4A7384();
+            var s = half.SinP5();
+            var c = half.CosP5();
             return AxisAngle(axisX, axisY, axisZ, s, c);
         }
 
 #if UNITY_5_6_OR_NEWER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP4A7384(Vector3Int axis, I17F15 angle) {
-            return AxisAngleP4A7384(axis.x, axis.y, axis.z, angle);
-        }
-
-#endif
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP5A51472(int axisX, int axisY, int axisZ, I17F15 angle) {
-            var half = angle.Half();
-            var s = half.SinP5A51472();
-            var c = half.CosP5A51472();
-            return AxisAngle(axisX, axisY, axisZ, s, c);
-        }
-
-#if UNITY_5_6_OR_NEWER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP5A51472(Vector3Int axis, I17F15 angle) {
-            return AxisAngleP5A51472(axis.x, axis.y, axis.z, angle);
-        }
-
-#endif
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP5A51437(int axisX, int axisY, int axisZ, I17F15 angle) {
-            var half = angle.Half();
-            var s = half.SinP5A51437();
-            var c = half.CosP5A51437();
-            return AxisAngle(axisX, axisY, axisZ, s, c);
-        }
-
-#if UNITY_5_6_OR_NEWER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngleP5A51437(Vector3Int axis, I17F15 angle) {
-            return AxisAngleP5A51437(axis.x, axis.y, axis.z, angle);
+        public static QuaternionI17F15 AxisAngleP5(Vector3Int axis, I17F15 angle) {
+            return AxisAngle5(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
@@ -552,12 +518,12 @@ namespace AgatePris.Intar.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP3A16384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerXyzP3(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP3A16384();
-                var c = half.CosP3A16384();
+                var s = half.SinP3();
+                var c = half.CosP3();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -586,17 +552,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP3A16384(
+        public static QuaternionI17F15 EulerXyzP3(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXyzP3A16384(new Vector3I17F15(x, y, z));
+        ) => EulerXyzP3(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP3A16384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerXzyP3(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP3A16384();
-                var c = half.CosP3A16384();
+                var s = half.SinP3();
+                var c = half.CosP3();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -625,17 +591,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP3A16384(
+        public static QuaternionI17F15 EulerXzyP3(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXzyP3A16384(new Vector3I17F15(x, y, z));
+        ) => EulerXzyP3(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP3A16384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerYxzP3(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP3A16384();
-                var c = half.CosP3A16384();
+                var s = half.SinP3();
+                var c = half.CosP3();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -664,17 +630,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP3A16384(
+        public static QuaternionI17F15 EulerYxzP3(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYxzP3A16384(new Vector3I17F15(x, y, z));
+        ) => EulerYxzP3(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP3A16384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerYzxP3(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP3A16384();
-                var c = half.CosP3A16384();
+                var s = half.SinP3();
+                var c = half.CosP3();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -703,17 +669,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP3A16384(
+        public static QuaternionI17F15 EulerYzxP3(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYzxP3A16384(new Vector3I17F15(x, y, z));
+        ) => EulerYzxP3(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP3A16384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerZxyP3(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP3A16384();
-                var c = half.CosP3A16384();
+                var s = half.SinP3();
+                var c = half.CosP3();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -742,17 +708,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP3A16384(
+        public static QuaternionI17F15 EulerZxyP3(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZxyP3A16384(new Vector3I17F15(x, y, z));
+        ) => EulerZxyP3(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP3A16384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerZyxP3(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP3A16384();
-                var c = half.CosP3A16384();
+                var s = half.SinP3();
+                var c = half.CosP3();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -781,57 +747,57 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP3A16384(
+        public static QuaternionI17F15 EulerZyxP3(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZyxP3A16384(new Vector3I17F15(x, y, z));
+        ) => EulerZyxP3(new Vector3I17F15(x, y, z));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP3A16384(Vector3I17F15 xyz, RotationOrder order) {
+        public static QuaternionI17F15 EulerP3(Vector3I17F15 xyz, RotationOrder order) {
             switch (order) {
-                case RotationOrder.XYZ: return EulerXyzP3A16384(xyz);
-                case RotationOrder.XZY: return EulerXzyP3A16384(xyz);
-                case RotationOrder.YXZ: return EulerYxzP3A16384(xyz);
-                case RotationOrder.YZX: return EulerYzxP3A16384(xyz);
+                case RotationOrder.XYZ: return EulerXyzP3(xyz);
+                case RotationOrder.XZY: return EulerXzyP3(xyz);
+                case RotationOrder.YXZ: return EulerYxzP3(xyz);
+                case RotationOrder.YZX: return EulerYzxP3(xyz);
                 default:
-                case RotationOrder.ZXY: return EulerZxyP3A16384(xyz);
-                case RotationOrder.ZYX: return EulerZyxP3A16384(xyz);
+                case RotationOrder.ZXY: return EulerZxyP3(xyz);
+                case RotationOrder.ZYX: return EulerZyxP3(xyz);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP3A16384(
+        public static QuaternionI17F15 EulerP3(
             I17F15 x, I17F15 y, I17F15 z, RotationOrder order
-        ) => EulerP3A16384(new Vector3I17F15(x, y, z), order);
+        ) => EulerP3(new Vector3I17F15(x, y, z), order);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateXP3A16384(I17F15 angle) {
+        public static QuaternionI17F15 RotateXP3(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP3A16384();
-            var c = (I17F15)half.CosP3A16384();
+            var s = (I17F15)half.SinP3();
+            var c = (I17F15)half.CosP3();
             return new QuaternionI17F15(s, I17F15.Zero, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateYP3A16384(I17F15 angle) {
+        public static QuaternionI17F15 RotateYP3(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP3A16384();
-            var c = (I17F15)half.CosP3A16384();
+            var s = (I17F15)half.SinP3();
+            var c = (I17F15)half.CosP3();
             return new QuaternionI17F15(I17F15.Zero, s, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateZP3A16384(I17F15 angle) {
+        public static QuaternionI17F15 RotateZP3(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP3A16384();
-            var c = (I17F15)half.CosP3A16384();
+            var s = (I17F15)half.SinP3();
+            var c = (I17F15)half.CosP3();
             return new QuaternionI17F15(I17F15.Zero, I17F15.Zero, s, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP4A7032(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerXyzP4(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7032();
-                var c = half.CosP4A7032();
+                var s = half.SinP4();
+                var c = half.CosP4();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -860,17 +826,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP4A7032(
+        public static QuaternionI17F15 EulerXyzP4(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXyzP4A7032(new Vector3I17F15(x, y, z));
+        ) => EulerXyzP4(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP4A7032(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerXzyP4(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7032();
-                var c = half.CosP4A7032();
+                var s = half.SinP4();
+                var c = half.CosP4();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -899,17 +865,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP4A7032(
+        public static QuaternionI17F15 EulerXzyP4(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXzyP4A7032(new Vector3I17F15(x, y, z));
+        ) => EulerXzyP4(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP4A7032(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerYxzP4(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7032();
-                var c = half.CosP4A7032();
+                var s = half.SinP4();
+                var c = half.CosP4();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -938,17 +904,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP4A7032(
+        public static QuaternionI17F15 EulerYxzP4(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYxzP4A7032(new Vector3I17F15(x, y, z));
+        ) => EulerYxzP4(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP4A7032(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerYzxP4(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7032();
-                var c = half.CosP4A7032();
+                var s = half.SinP4();
+                var c = half.CosP4();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -977,17 +943,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP4A7032(
+        public static QuaternionI17F15 EulerYzxP4(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYzxP4A7032(new Vector3I17F15(x, y, z));
+        ) => EulerYzxP4(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP4A7032(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerZxyP4(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7032();
-                var c = half.CosP4A7032();
+                var s = half.SinP4();
+                var c = half.CosP4();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1016,17 +982,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP4A7032(
+        public static QuaternionI17F15 EulerZxyP4(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZxyP4A7032(new Vector3I17F15(x, y, z));
+        ) => EulerZxyP4(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP4A7032(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerZyxP4(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7032();
-                var c = half.CosP4A7032();
+                var s = half.SinP4();
+                var c = half.CosP4();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1055,57 +1021,57 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP4A7032(
+        public static QuaternionI17F15 EulerZyxP4(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZyxP4A7032(new Vector3I17F15(x, y, z));
+        ) => EulerZyxP4(new Vector3I17F15(x, y, z));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP4A7032(Vector3I17F15 xyz, RotationOrder order) {
+        public static QuaternionI17F15 EulerP4(Vector3I17F15 xyz, RotationOrder order) {
             switch (order) {
-                case RotationOrder.XYZ: return EulerXyzP4A7032(xyz);
-                case RotationOrder.XZY: return EulerXzyP4A7032(xyz);
-                case RotationOrder.YXZ: return EulerYxzP4A7032(xyz);
-                case RotationOrder.YZX: return EulerYzxP4A7032(xyz);
+                case RotationOrder.XYZ: return EulerXyzP4(xyz);
+                case RotationOrder.XZY: return EulerXzyP4(xyz);
+                case RotationOrder.YXZ: return EulerYxzP4(xyz);
+                case RotationOrder.YZX: return EulerYzxP4(xyz);
                 default:
-                case RotationOrder.ZXY: return EulerZxyP4A7032(xyz);
-                case RotationOrder.ZYX: return EulerZyxP4A7032(xyz);
+                case RotationOrder.ZXY: return EulerZxyP4(xyz);
+                case RotationOrder.ZYX: return EulerZyxP4(xyz);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP4A7032(
+        public static QuaternionI17F15 EulerP4(
             I17F15 x, I17F15 y, I17F15 z, RotationOrder order
-        ) => EulerP4A7032(new Vector3I17F15(x, y, z), order);
+        ) => EulerP4(new Vector3I17F15(x, y, z), order);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateXP4A7032(I17F15 angle) {
+        public static QuaternionI17F15 RotateXP4(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP4A7032();
-            var c = (I17F15)half.CosP4A7032();
+            var s = (I17F15)half.SinP4();
+            var c = (I17F15)half.CosP4();
             return new QuaternionI17F15(s, I17F15.Zero, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateYP4A7032(I17F15 angle) {
+        public static QuaternionI17F15 RotateYP4(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP4A7032();
-            var c = (I17F15)half.CosP4A7032();
+            var s = (I17F15)half.SinP4();
+            var c = (I17F15)half.CosP4();
             return new QuaternionI17F15(I17F15.Zero, s, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateZP4A7032(I17F15 angle) {
+        public static QuaternionI17F15 RotateZP4(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP4A7032();
-            var c = (I17F15)half.CosP4A7032();
+            var s = (I17F15)half.SinP4();
+            var c = (I17F15)half.CosP4();
             return new QuaternionI17F15(I17F15.Zero, I17F15.Zero, s, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP4A7384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerXyzP5(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7384();
-                var c = half.CosP4A7384();
+                var s = half.SinP5();
+                var c = half.CosP5();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1134,17 +1100,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP4A7384(
+        public static QuaternionI17F15 EulerXyzP5(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXyzP4A7384(new Vector3I17F15(x, y, z));
+        ) => EulerXyzP5(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP4A7384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerXzyP5(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7384();
-                var c = half.CosP4A7384();
+                var s = half.SinP5();
+                var c = half.CosP5();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1173,17 +1139,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP4A7384(
+        public static QuaternionI17F15 EulerXzyP5(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXzyP4A7384(new Vector3I17F15(x, y, z));
+        ) => EulerXzyP5(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP4A7384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerYxzP5(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7384();
-                var c = half.CosP4A7384();
+                var s = half.SinP5();
+                var c = half.CosP5();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1212,17 +1178,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP4A7384(
+        public static QuaternionI17F15 EulerYxzP5(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYxzP4A7384(new Vector3I17F15(x, y, z));
+        ) => EulerYxzP5(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP4A7384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerYzxP5(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7384();
-                var c = half.CosP4A7384();
+                var s = half.SinP5();
+                var c = half.CosP5();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1251,17 +1217,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP4A7384(
+        public static QuaternionI17F15 EulerYzxP5(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYzxP4A7384(new Vector3I17F15(x, y, z));
+        ) => EulerYzxP5(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP4A7384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerZxyP5(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7384();
-                var c = half.CosP4A7384();
+                var s = half.SinP5();
+                var c = half.CosP5();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1290,17 +1256,17 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP4A7384(
+        public static QuaternionI17F15 EulerZxyP5(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZxyP4A7384(new Vector3I17F15(x, y, z));
+        ) => EulerZxyP5(new Vector3I17F15(x, y, z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP4A7384(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 EulerZyxP5(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.SinP4A7384();
-                var c = half.CosP4A7384();
+                var s = half.SinP5();
+                var c = half.CosP5();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -1329,595 +1295,47 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP4A7384(
+        public static QuaternionI17F15 EulerZyxP5(
             I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZyxP4A7384(new Vector3I17F15(x, y, z));
+        ) => EulerZyxP5(new Vector3I17F15(x, y, z));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP4A7384(Vector3I17F15 xyz, RotationOrder order) {
+        public static QuaternionI17F15 EulerP5(Vector3I17F15 xyz, RotationOrder order) {
             switch (order) {
-                case RotationOrder.XYZ: return EulerXyzP4A7384(xyz);
-                case RotationOrder.XZY: return EulerXzyP4A7384(xyz);
-                case RotationOrder.YXZ: return EulerYxzP4A7384(xyz);
-                case RotationOrder.YZX: return EulerYzxP4A7384(xyz);
+                case RotationOrder.XYZ: return EulerXyzP5(xyz);
+                case RotationOrder.XZY: return EulerXzyP5(xyz);
+                case RotationOrder.YXZ: return EulerYxzP5(xyz);
+                case RotationOrder.YZX: return EulerYzxP5(xyz);
                 default:
-                case RotationOrder.ZXY: return EulerZxyP4A7384(xyz);
-                case RotationOrder.ZYX: return EulerZyxP4A7384(xyz);
+                case RotationOrder.ZXY: return EulerZxyP5(xyz);
+                case RotationOrder.ZYX: return EulerZyxP5(xyz);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP4A7384(
+        public static QuaternionI17F15 EulerP5(
             I17F15 x, I17F15 y, I17F15 z, RotationOrder order
-        ) => EulerP4A7384(new Vector3I17F15(x, y, z), order);
+        ) => EulerP5(new Vector3I17F15(x, y, z), order);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateXP4A7384(I17F15 angle) {
+        public static QuaternionI17F15 RotateXP5(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP4A7384();
-            var c = (I17F15)half.CosP4A7384();
+            var s = (I17F15)half.SinP5();
+            var c = (I17F15)half.CosP5();
             return new QuaternionI17F15(s, I17F15.Zero, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateYP4A7384(I17F15 angle) {
+        public static QuaternionI17F15 RotateYP5(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP4A7384();
-            var c = (I17F15)half.CosP4A7384();
+            var s = (I17F15)half.SinP5();
+            var c = (I17F15)half.CosP5();
             return new QuaternionI17F15(I17F15.Zero, s, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateZP4A7384(I17F15 angle) {
+        public static QuaternionI17F15 RotateZP5(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.SinP4A7384();
-            var c = (I17F15)half.CosP4A7384();
-            return new QuaternionI17F15(I17F15.Zero, I17F15.Zero, s, c);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP5A51472(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51472();
-                var c = half.CosP5A51472();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) - (sy * sz * cx);
-                var y = (sy * cz * cx) + (sz * sx * cy);
-                var z = (sz * cx * cy) - (sx * sy * cz);
-                var w = (cx * cy * cz) + (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP5A51472(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXyzP5A51472(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP5A51472(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51472();
-                var c = half.CosP5A51472();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) + (sy * sz * cx);
-                var y = (sy * cz * cx) + (sz * sx * cy);
-                var z = (sz * cx * cy) - (sx * sy * cz);
-                var w = (cx * cy * cz) - (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP5A51472(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXzyP5A51472(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP5A51472(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51472();
-                var c = half.CosP5A51472();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) - (sy * sz * cx);
-                var y = (sy * cz * cx) + (sz * sx * cy);
-                var z = (sz * cx * cy) + (sx * sy * cz);
-                var w = (cx * cy * cz) - (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP5A51472(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYxzP5A51472(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP5A51472(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51472();
-                var c = half.CosP5A51472();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) - (sy * sz * cx);
-                var y = (sy * cz * cx) - (sz * sx * cy);
-                var z = (sz * cx * cy) + (sx * sy * cz);
-                var w = (cx * cy * cz) + (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP5A51472(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYzxP5A51472(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP5A51472(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51472();
-                var c = half.CosP5A51472();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) + (sy * sz * cx);
-                var y = (sy * cz * cx) - (sz * sx * cy);
-                var z = (sz * cx * cy) - (sx * sy * cz);
-                var w = (cx * cy * cz) + (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP5A51472(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZxyP5A51472(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP5A51472(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51472();
-                var c = half.CosP5A51472();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) + (sy * sz * cx);
-                var y = (sy * cz * cx) - (sz * sx * cy);
-                var z = (sz * cx * cy) + (sx * sy * cz);
-                var w = (cx * cy * cz) - (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP5A51472(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZyxP5A51472(new Vector3I17F15(x, y, z));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP5A51472(Vector3I17F15 xyz, RotationOrder order) {
-            switch (order) {
-                case RotationOrder.XYZ: return EulerXyzP5A51472(xyz);
-                case RotationOrder.XZY: return EulerXzyP5A51472(xyz);
-                case RotationOrder.YXZ: return EulerYxzP5A51472(xyz);
-                case RotationOrder.YZX: return EulerYzxP5A51472(xyz);
-                default:
-                case RotationOrder.ZXY: return EulerZxyP5A51472(xyz);
-                case RotationOrder.ZYX: return EulerZyxP5A51472(xyz);
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP5A51472(
-            I17F15 x, I17F15 y, I17F15 z, RotationOrder order
-        ) => EulerP5A51472(new Vector3I17F15(x, y, z), order);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateXP5A51472(I17F15 angle) {
-            var half = angle.Half();
-            var s = (I17F15)half.SinP5A51472();
-            var c = (I17F15)half.CosP5A51472();
-            return new QuaternionI17F15(s, I17F15.Zero, I17F15.Zero, c);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateYP5A51472(I17F15 angle) {
-            var half = angle.Half();
-            var s = (I17F15)half.SinP5A51472();
-            var c = (I17F15)half.CosP5A51472();
-            return new QuaternionI17F15(I17F15.Zero, s, I17F15.Zero, c);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateZP5A51472(I17F15 angle) {
-            var half = angle.Half();
-            var s = (I17F15)half.SinP5A51472();
-            var c = (I17F15)half.CosP5A51472();
-            return new QuaternionI17F15(I17F15.Zero, I17F15.Zero, s, c);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP5A51437(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51437();
-                var c = half.CosP5A51437();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) - (sy * sz * cx);
-                var y = (sy * cz * cx) + (sz * sx * cy);
-                var z = (sz * cx * cy) - (sx * sy * cz);
-                var w = (cx * cy * cz) + (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXyzP5A51437(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXyzP5A51437(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP5A51437(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51437();
-                var c = half.CosP5A51437();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) + (sy * sz * cx);
-                var y = (sy * cz * cx) + (sz * sx * cy);
-                var z = (sz * cx * cy) - (sx * sy * cz);
-                var w = (cx * cy * cz) - (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerXzyP5A51437(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerXzyP5A51437(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP5A51437(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51437();
-                var c = half.CosP5A51437();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) - (sy * sz * cx);
-                var y = (sy * cz * cx) + (sz * sx * cy);
-                var z = (sz * cx * cy) + (sx * sy * cz);
-                var w = (cx * cy * cz) - (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYxzP5A51437(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYxzP5A51437(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP5A51437(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51437();
-                var c = half.CosP5A51437();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) - (sy * sz * cx);
-                var y = (sy * cz * cx) - (sz * sx * cy);
-                var z = (sz * cx * cy) + (sx * sy * cz);
-                var w = (cx * cy * cz) + (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerYzxP5A51437(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerYzxP5A51437(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP5A51437(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51437();
-                var c = half.CosP5A51437();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) + (sy * sz * cx);
-                var y = (sy * cz * cx) - (sz * sx * cy);
-                var z = (sz * cx * cy) - (sx * sy * cz);
-                var w = (cx * cy * cz) + (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZxyP5A51437(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZxyP5A51437(new Vector3I17F15(x, y, z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP5A51437(Vector3I17F15 xyz) {
-            long sx, sy, sz, cx, cy, cz;
-            {
-                var half = xyz.Half();
-                var s = half.SinP5A51437();
-                var c = half.CosP5A51437();
-                const int k = 1 << 10;
-
-                // Convert to 44 integer bits and 20 fractional bits.
-                // It is commutative about the order of the multiplication
-                // while ensuring maximum precision.
-                sx = s.X.Bits / k;
-                sy = s.Y.Bits / k;
-                sz = s.Z.Bits / k;
-                cx = c.X.Bits / k;
-                cy = c.Y.Bits / k;
-                cz = c.Z.Bits / k;
-            }
-
-            {
-                var x = (sx * cy * cz) + (sy * sz * cx);
-                var y = (sy * cz * cx) - (sz * sx * cy);
-                var z = (sz * cx * cy) + (sx * sy * cz);
-                var w = (cx * cy * cz) - (sy * sz * sx);
-
-                const long k = 1L << 45;
-                return new QuaternionI17F15(
-                    I17F15.FromBits((int)(x / k)),
-                    I17F15.FromBits((int)(y / k)),
-                    I17F15.FromBits((int)(z / k)),
-                    I17F15.FromBits((int)(w / k)));
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerZyxP5A51437(
-            I17F15 x, I17F15 y, I17F15 z
-        ) => EulerZyxP5A51437(new Vector3I17F15(x, y, z));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP5A51437(Vector3I17F15 xyz, RotationOrder order) {
-            switch (order) {
-                case RotationOrder.XYZ: return EulerXyzP5A51437(xyz);
-                case RotationOrder.XZY: return EulerXzyP5A51437(xyz);
-                case RotationOrder.YXZ: return EulerYxzP5A51437(xyz);
-                case RotationOrder.YZX: return EulerYzxP5A51437(xyz);
-                default:
-                case RotationOrder.ZXY: return EulerZxyP5A51437(xyz);
-                case RotationOrder.ZYX: return EulerZyxP5A51437(xyz);
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 EulerP5A51437(
-            I17F15 x, I17F15 y, I17F15 z, RotationOrder order
-        ) => EulerP5A51437(new Vector3I17F15(x, y, z), order);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateXP5A51437(I17F15 angle) {
-            var half = angle.Half();
-            var s = (I17F15)half.SinP5A51437();
-            var c = (I17F15)half.CosP5A51437();
-            return new QuaternionI17F15(s, I17F15.Zero, I17F15.Zero, c);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateYP5A51437(I17F15 angle) {
-            var half = angle.Half();
-            var s = (I17F15)half.SinP5A51437();
-            var c = (I17F15)half.CosP5A51437();
-            return new QuaternionI17F15(I17F15.Zero, s, I17F15.Zero, c);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateZP5A51437(I17F15 angle) {
-            var half = angle.Half();
-            var s = (I17F15)half.SinP5A51437();
-            var c = (I17F15)half.CosP5A51437();
+            var s = (I17F15)half.SinP5();
+            var c = (I17F15)half.CosP5();
             return new QuaternionI17F15(I17F15.Zero, I17F15.Zero, s, c);
         }
 
