@@ -115,9 +115,9 @@ namespace AgatePris.Intar.Numerics {
                 // オイラー角から四元数に変換する際のアルゴリズムを選択することができる｡
                 // (それによって､ 変換時の計算の速度や精度の選択権を得る｡ )
                 // もし明示的に四元数で値がセットされていなかった場合､
-                // QuaternionI17F15.EulerZxyP5A51437 で値を計算しキャッシュする｡
+                // QuaternionI17F15.EulerZxyP5 で値を計算しキャッシュする｡
                 if (!localRotation.HasValue) {
-                    localRotation = QuaternionI17F15.EulerZxyP5A51437(localEulerAnglesHint);
+                    localRotation = QuaternionI17F15.EulerZxyP5(localEulerAnglesHint);
                 }
                 return localRotation.Value;
             }
