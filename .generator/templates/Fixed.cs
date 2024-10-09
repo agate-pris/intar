@@ -358,8 +358,12 @@ namespace AgatePris.Intar.Numerics {
 
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
+            "SinP2",
+            "SinP3",
             "SinP4",
             "SinP5",
+            "CosP2",
+            "CosP3",
             "CosP4",
             "CosP5",
         ] %}
