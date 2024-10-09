@@ -162,28 +162,28 @@ namespace AgatePris.Intar.Numerics {
             return new QuaternionI17F15(x, y, z, w);
         }
 
-        {%- for method in sin_methods %}
+        {%- for p in [2, 3, 4, 5] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngle{{ method }}(int axisX, int axisY, int axisZ, I17F15 angle) {
+        public static QuaternionI17F15 AxisAngleP{{ p }}(int axisX, int axisY, int axisZ, I17F15 angle) {
             var half = angle.Half();
-            var s = half.Sin{{ method }}();
-            var c = half.Cos{{ method }}();
+            var s = half.SinP{{ p }}();
+            var c = half.CosP{{ p }}();
             return AxisAngle(axisX, axisY, axisZ, s, c);
         }
 
 #if UNITY_5_6_OR_NEWER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 AxisAngle{{ method }}(Vector3Int axis, I17F15 angle) {
-            return AxisAngle{{ method }}(axis.x, axis.y, axis.z, angle);
+        public static QuaternionI17F15 AxisAngleP{{ p }}(Vector3Int axis, I17F15 angle) {
+            return AxisAngle{{ p }}(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
 
         {%- endfor %}
 
-        {%- for method in sin_methods %}
+        {%- for p in [2, 3, 4, 5] %}
         {%- for order in ["Xyz", "Xzy", "Yxz", "Yzx", "Zxy", "Zyx"] %}
         {%- if   order == "Xyz" %}{%- set s = ['-', '+', '-', '+'] %}
         {%- elif order == "Xzy" %}{%- set s = ['+', '+', '-', '-'] %}
@@ -194,12 +194,12 @@ namespace AgatePris.Intar.Numerics {
         {%- else %}{{ throw(message="Unknown order") }}{%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 Euler{{ order }}{{ method }}(Vector3I17F15 xyz) {
+        public static QuaternionI17F15 Euler{{ order }}P{{ p }}(Vector3I17F15 xyz) {
             long sx, sy, sz, cx, cy, cz;
             {
                 var half = xyz.Half();
-                var s = half.Sin{{ method }}();
-                var c = half.Cos{{ method }}();
+                var s = half.SinP{{ p }}();
+                var c = half.CosP{{ p }}();
                 const int k = 1 << 10;
 
                 // Convert to 44 integer bits and 20 fractional bits.
@@ -228,49 +228,49 @@ namespace AgatePris.Intar.Numerics {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 Euler{{ order }}{{ method }}(
+        public static QuaternionI17F15 Euler{{ order }}P{{ p }}(
             I17F15 x, I17F15 y, I17F15 z
-        ) => Euler{{ order }}{{ method }}(new Vector3I17F15(x, y, z));
+        ) => Euler{{ order }}P{{ p }}(new Vector3I17F15(x, y, z));
 
         {%- endfor %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 Euler{{ method }}(Vector3I17F15 xyz, RotationOrder order) {
+        public static QuaternionI17F15 EulerP{{ p }}(Vector3I17F15 xyz, RotationOrder order) {
             switch (order) {
-                case RotationOrder.XYZ: return EulerXyz{{ method }}(xyz);
-                case RotationOrder.XZY: return EulerXzy{{ method }}(xyz);
-                case RotationOrder.YXZ: return EulerYxz{{ method }}(xyz);
-                case RotationOrder.YZX: return EulerYzx{{ method }}(xyz);
+                case RotationOrder.XYZ: return EulerXyzP{{ p }}(xyz);
+                case RotationOrder.XZY: return EulerXzyP{{ p }}(xyz);
+                case RotationOrder.YXZ: return EulerYxzP{{ p }}(xyz);
+                case RotationOrder.YZX: return EulerYzxP{{ p }}(xyz);
                 default:
-                case RotationOrder.ZXY: return EulerZxy{{ method }}(xyz);
-                case RotationOrder.ZYX: return EulerZyx{{ method }}(xyz);
+                case RotationOrder.ZXY: return EulerZxyP{{ p }}(xyz);
+                case RotationOrder.ZYX: return EulerZyxP{{ p }}(xyz);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 Euler{{ method }}(
+        public static QuaternionI17F15 EulerP{{ p }}(
             I17F15 x, I17F15 y, I17F15 z, RotationOrder order
-        ) => Euler{{ method }}(new Vector3I17F15(x, y, z), order);
+        ) => EulerP{{ p }}(new Vector3I17F15(x, y, z), order);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateX{{ method }}(I17F15 angle) {
+        public static QuaternionI17F15 RotateXP{{ p }}(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.Sin{{ method }}();
-            var c = (I17F15)half.Cos{{ method }}();
+            var s = (I17F15)half.SinP{{ p }}();
+            var c = (I17F15)half.CosP{{ p }}();
             return new QuaternionI17F15(s, I17F15.Zero, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateY{{ method }}(I17F15 angle) {
+        public static QuaternionI17F15 RotateYP{{ p }}(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.Sin{{ method }}();
-            var c = (I17F15)half.Cos{{ method }}();
+            var s = (I17F15)half.SinP{{ p }}();
+            var c = (I17F15)half.CosP{{ p }}();
             return new QuaternionI17F15(I17F15.Zero, s, I17F15.Zero, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static QuaternionI17F15 RotateZ{{ method }}(I17F15 angle) {
+        public static QuaternionI17F15 RotateZP{{ p }}(I17F15 angle) {
             var half = angle.Half();
-            var s = (I17F15)half.Sin{{ method }}();
-            var c = (I17F15)half.Cos{{ method }}();
+            var s = (I17F15)half.SinP{{ p }}();
+            var c = (I17F15)half.CosP{{ p }}();
             return new QuaternionI17F15(I17F15.Zero, I17F15.Zero, s, c);
         }
 
