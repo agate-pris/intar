@@ -30,12 +30,16 @@ namespace AgatePris.Intar.Numerics {
         // Properties
         // ---------------------------------------
 
-        {%- for p in ["X", "Y", "Z", "W"] %}
-        public I17F15 {{ p }} {
+        {%- set i=['I', 'X'] %}
+        {%- set j=['J', 'Y'] %}
+        {%- set k=['K', 'Z'] %}
+        {%- set w=['W', 'W'] %}
+        {%- for c in [i, j, k, w] %}
+        public I17F15 {{ c[0] }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => XYZW.{{ p }};
+            get => XYZW.{{ c[1] }};
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => XYZW.{{ p }} = value;
+            set => XYZW.{{ c[1] }} = value;
         }
         {%- endfor %}
 
