@@ -21,7 +21,7 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public Vector4I17F15 XYZW;
+        public Vector4I17F15 IJKW;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -37,9 +37,9 @@ namespace AgatePris.Intar.Numerics {
         {%- for c in [i, j, k, w] %}
         public I17F15 {{ c[0] }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => XYZW.{{ c[1] }};
+            get => IJKW.{{ c[1] }};
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => XYZW.{{ c[1] }} = value;
+            set => IJKW.{{ c[1] }} = value;
         }
         {%- endfor %}
 
@@ -47,11 +47,11 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI17F15(Vector4I17F15 xyzw) => XYZW = xyzw;
+        public QuaternionI17F15(Vector4I17F15 ijkw) => IJKW = ijkw;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI17F15(I17F15 x, I17F15 y, I17F15 z, I17F15 w)
-            : this(new Vector4I17F15(x, y, z, w)) { }
+        public QuaternionI17F15(I17F15 w, I17F15 i, I17F15 j, I17F15 k)
+            : this(new Vector4I17F15(i, j, k, w)) { }
 
         // Static Properties
         // ---------------------------------------
