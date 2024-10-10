@@ -92,11 +92,11 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            var x = X.ToString(format, formatProvider);
-            var y = Y.ToString(format, formatProvider);
-            var z = Z.ToString(format, formatProvider);
+            var i = I.ToString(format, formatProvider);
+            var j = J.ToString(format, formatProvider);
+            var k = K.ToString(format, formatProvider);
             var w = W.ToString(format, formatProvider);
-            return $"{{ "{{X:{x} Y:{y} Z:{z} W:{w}}}" }}";
+            return $"{{ "{{W:{w} I:{i} J:{j} K:{k}}}" }}";
         }
 
         // Methods
