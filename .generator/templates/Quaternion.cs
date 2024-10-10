@@ -85,7 +85,7 @@ namespace AgatePris.Intar.Numerics {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(QuaternionI17F15 other) => XYZW.Equals(other.XYZW);
+        public bool Equals(QuaternionI17F15 other) => IJKW.Equals(other.IJKW);
 
         // IFormattable
         // ---------------------------------------
@@ -117,10 +117,10 @@ namespace AgatePris.Intar.Numerics {
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI17F15 Conjugate() => new QuaternionI17F15(
-            -XYZW.X,
-            -XYZW.Y,
-            -XYZW.Z,
-            XYZW.W);
+            -IJKW.X,
+            -IJKW.Y,
+            -IJKW.Z,
+            IJKW.W);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static QuaternionI17F15 AxisAngle(int axisX, int axisY, int axisZ, I2F30 sin, I2F30 cos) {
