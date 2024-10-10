@@ -19,7 +19,7 @@ namespace AgatePris.Intar.Numerics {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public Vector4I17F15 XYZW;
+        public Vector4I17F15 IJKW;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -27,40 +27,51 @@ namespace AgatePris.Intar.Numerics {
 
         // Properties
         // ---------------------------------------
-        public I17F15 X {
+        public I17F15 I {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => XYZW.X;
+            get => IJKW.X;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => XYZW.X = value;
+            set => IJKW.X = value;
         }
-        public I17F15 Y {
+        public I17F15 J {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => XYZW.Y;
+            get => IJKW.Y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => XYZW.Y = value;
+            set => IJKW.Y = value;
         }
-        public I17F15 Z {
+        public I17F15 K {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => XYZW.Z;
+            get => IJKW.Z;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => XYZW.Z = value;
+            set => IJKW.Z = value;
         }
         public I17F15 W {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => XYZW.W;
+            get => IJKW.W;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => XYZW.W = value;
+            set => IJKW.W = value;
+        }
+
+        public Vector3I17F15 Imag {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => IJKW.XYZ();
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                IJKW.X = value.X;
+                IJKW.Y = value.Y;
+                IJKW.Z = value.Z;
+            }
         }
 
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI17F15(Vector4I17F15 xyzw) => XYZW = xyzw;
+        public QuaternionI17F15(Vector4I17F15 ijkw) => IJKW = ijkw;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI17F15(I17F15 x, I17F15 y, I17F15 z, I17F15 w)
-            : this(new Vector4I17F15(x, y, z, w)) { }
+        public QuaternionI17F15(I17F15 w, I17F15 i, I17F15 j, I17F15 k)
+            : this(new Vector4I17F15(i, j, k, w)) { }
 
         // Static Properties
         // ---------------------------------------
@@ -85,31 +96,34 @@ namespace AgatePris.Intar.Numerics {
         public override bool Equals(object obj) => obj is QuaternionI17F15 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
+        public override int GetHashCode() => HashCode.Combine(I, J, K, W);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => $"{{X:{X} Y:{Y} Z:{Z} W:{W}}}";
+        public override string ToString() => $"{{W:{W} I:{I} J:{J} K:{K}}}";
 
         // IEquatable<QuaternionI17F15>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(QuaternionI17F15 other) => XYZW.Equals(other.XYZW);
+        public bool Equals(QuaternionI17F15 other) => IJKW.Equals(other.IJKW);
 
         // IFormattable
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            var x = X.ToString(format, formatProvider);
-            var y = Y.ToString(format, formatProvider);
-            var z = Z.ToString(format, formatProvider);
+            var i = I.ToString(format, formatProvider);
+            var j = J.ToString(format, formatProvider);
+            var k = K.ToString(format, formatProvider);
             var w = W.ToString(format, formatProvider);
-            return $"{{X:{x} Y:{y} Z:{z} W:{w}}}";
+            return $"{{W:{w} I:{i} J:{j} K:{k}}}";
         }
 
         // Methods
         // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public QuaternionI17F15 Normalize() => throw new NotImplementedException();
 
         /// <summary>
         /// <para>Returns the conjugate of a quaternion value.</para>
@@ -126,10 +140,15 @@ namespace AgatePris.Intar.Numerics {
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI17F15 Conjugate() => new QuaternionI17F15(
-            -XYZW.X,
-            -XYZW.Y,
-            -XYZW.Z,
-            XYZW.W);
+            -IJKW.X,
+            -IJKW.Y,
+            -IJKW.Z,
+            IJKW.W);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public QuaternionI17F15 Lerp(QuaternionI17F15 other, I17F15 t) {
+            return new QuaternionI17F15((IJKW * (I17F15.One - t)) + (other.IJKW * t));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static QuaternionI17F15 AxisAngle(int axisX, int axisY, int axisZ, I2F30 sin, I2F30 cos) {
@@ -187,7 +206,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static QuaternionI17F15 AxisAngleP2(Vector3Int axis, I17F15 angle) {
-            return AxisAngle2(axis.x, axis.y, axis.z, angle);
+            return AxisAngleP2(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
@@ -204,7 +223,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static QuaternionI17F15 AxisAngleP3(Vector3Int axis, I17F15 angle) {
-            return AxisAngle3(axis.x, axis.y, axis.z, angle);
+            return AxisAngleP3(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
@@ -221,7 +240,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static QuaternionI17F15 AxisAngleP4(Vector3Int axis, I17F15 angle) {
-            return AxisAngle4(axis.x, axis.y, axis.z, angle);
+            return AxisAngleP4(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
@@ -238,7 +257,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static QuaternionI17F15 AxisAngleP5(Vector3Int axis, I17F15 angle) {
-            return AxisAngle5(axis.x, axis.y, axis.z, angle);
+            return AxisAngleP5(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
