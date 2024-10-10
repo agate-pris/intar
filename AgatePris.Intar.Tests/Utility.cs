@@ -1,10 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-
-#if !UNITY_5_6_OR_NEWER
-using System;
-#endif
 
 using NUnit.Framework;
 
