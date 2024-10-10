@@ -47,10 +47,10 @@ namespace AgatePris.Intar.Numerics {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => IJKW.XYZ();
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => {
-                IJKW.x = value.x;
-                IJKW.y = value.y;
-                IJKW.z = value.z;
+            set {
+                IJKW.X = value.X;
+                IJKW.Y = value.Y;
+                IJKW.Z = value.Z;
             }
         }
 
@@ -138,7 +138,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI17F15 Lerp(QuaternionI17F15 other, I17F15 t) {
-            return this * (I17F15.One - t) + other * t;
+            return new QuaternionI17F15((IJKW * (I17F15.One - t)) + (other.IJKW * t));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -199,7 +199,7 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static QuaternionI17F15 AxisAngleP{{ p }}(Vector3Int axis, I17F15 angle) {
-            return AxisAngle{{ p }}(axis.x, axis.y, axis.z, angle);
+            return AxisAngleP{{ p }}(axis.x, axis.y, axis.z, angle);
         }
 
 #endif
