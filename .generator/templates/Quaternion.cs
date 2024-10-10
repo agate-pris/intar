@@ -43,6 +43,17 @@ namespace AgatePris.Intar.Numerics {
         }
         {%- endfor %}
 
+        public Vector3I17F15 Imag {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => IJKW.XYZ();
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => {
+                IJKW.x = value.x;
+                IJKW.y = value.y;
+                IJKW.z = value.z;
+            }
+        }
+
         // Constructors
         // ---------------------------------------
 
@@ -101,6 +112,9 @@ namespace AgatePris.Intar.Numerics {
 
         // Methods
         // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public QuaternionI17F15 Normalize() => throw new NotImplementedException();
 
         /// <summary>
         /// <para>Returns the conjugate of a quaternion value.</para>
