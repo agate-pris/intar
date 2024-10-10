@@ -137,6 +137,11 @@ namespace AgatePris.Intar.Numerics {
             IJKW.W);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public QuaternionI17F15 Lerp(QuaternionI17F15 other, I17F15 t) {
+            return this * (I17F15.One - t) + other * t;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static QuaternionI17F15 AxisAngle(int axisX, int axisY, int axisZ, I2F30 sin, I2F30 cos) {
             I17F15 x, y, z;
             {
