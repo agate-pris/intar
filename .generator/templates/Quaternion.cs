@@ -76,10 +76,10 @@ namespace AgatePris.Intar.Numerics {
         public override bool Equals(object obj) => obj is QuaternionI17F15 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
+        public override int GetHashCode() => HashCode.Combine(I, J, K, W);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => $"{{ "{{X:{X} Y:{Y} Z:{Z} W:{W}}}" }}";
+        public override string ToString() => $"{{ "{{W:{W} I:{I} J:{J} K:{K}}}" }}";
 
         // IEquatable<QuaternionI17F15>
         // ---------------------------------------
