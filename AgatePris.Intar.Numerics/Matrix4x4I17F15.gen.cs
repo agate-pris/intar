@@ -72,10 +72,10 @@ namespace AgatePris.Intar.Numerics {
         public static Matrix4x4I17F15 TRS(
             Vector3I17F15 translation, QuaternionI17F15 rotation, Vector3I17F15 scale
         ) {
-            var v = rotation.XYZW;
-            var vXNeg = -rotation.X;
-            var vYNeg = -rotation.Y;
-            var vZNeg = -rotation.Z;
+            var v = rotation.IJKW;
+            var vXNeg = -rotation.I;
+            var vYNeg = -rotation.J;
+            var vZNeg = -rotation.K;
             var vWNeg = -rotation.W;
             var v2 = v.Twice();
             var c0 = Vector3I17F15.UnitX + (v2.Y * new Vector3I17F15(vYNeg, v.X, vWNeg)) - (v2.Z * new Vector3I17F15(v.Z, vWNeg, vXNeg));
