@@ -1,11 +1,8 @@
 {% import "macros.cs" as macros %}
 
-{%- macro sin_comment(sin, type, order, error) %}
+{%- macro sin_comment(sin, type, shift, one, order, error) %}
 {%- if sin %}{% set prefix='Sin' %}{% set jp='正弦比' %}
 {%- else   %}{% set prefix='Cos' %}{% set jp='余弦比' %}
-{%- endif %}
-{%- if   type == 'int'  %}{% set shift = 15 %}{% set one = '1'  %}
-{%- elif type == 'long' %}{% set shift = 31 %}{% set one = '1L' %}
 {%- endif %}
 
         /// <summary>
@@ -432,8 +429,8 @@ namespace AgatePris.Intar {
             }
             {%- endfor %}
 
-            const decimal Z1 = 1UL << 31;
-            const decimal Z2 = 1UL << 63;
+            const decimal Z32 = 1UL << 31;
+            const decimal Z64 = 1UL << 63;
             const decimal K01 = Pi / 2;
             const decimal K02 = K01 * K01;
             const decimal K03 = K02 * K01;
@@ -461,28 +458,36 @@ namespace AgatePris.Intar {
             // 12315189113921640896
             // 17335849242745400440
             // 14400453044121993745
+            // 14488038916154245685
+            // 11871845430268727827
+            // 10739739599844454195
+            // 11303778553548845368
+            // 16643606305160959259
             // 3373259426
             // 2764129413
             // 2500540483
             // 2631866036
             // 3875141568
 
-            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z2));
-            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z2 * (1 << 1)));
-            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z2 * (1 << 4)));
-            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * Z2 * (1 << 8)));
-            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * Z2 * (1 << 13)));
-            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * Z2 * (1 << 19)));
-            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * Z2));
-            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * Z2 * (1 << 2)));
-            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z2 * (1 << 6)));
-            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z2 * (1 << 11)));
-            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z2 * (1 << 16)));
-            internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * Z1));
-            internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * Z1 * (1 << 1)));
-            internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * Z1 * (1 << 4)));
-            internal const uint P4I32A = (uint)(0.5m + (0.49670m * K02 * Z1));
-            internal const uint P4I32B = (uint)(0.0m + (0.03705m * K04 * Z1 * (1 << 3)));
+            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z64));
+            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z64 * (1 << 1)));
+            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z64 * (1 << 4)));
+            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * Z64 * (1 << 8)));
+            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * Z64 * (1 << 13)));
+            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * Z64 * (1 << 19)));
+            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * Z64));
+            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * Z64 * (1 << 2)));
+            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z64 * (1 << 6)));
+            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z64 * (1 << 11)));
+            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z64 * (1 << 16)));
+            {%- for bits in [64, 32] %}
+            {%- set type = macros::inttype(bits=bits, signed=false) %}
+            internal const {{ type }} P5I{{ bits }}A = ({{ type }})(0.5m + (1.00000m * K01 * Z{{ bits }}));
+            internal const {{ type }} P5I{{ bits }}B = ({{ type }})(0.5m + (0.16605m * K03 * Z{{ bits }} * (1 << 1)));
+            internal const {{ type }} P5I{{ bits }}C = ({{ type }})(0.0m + (0.00761m * K05 * Z{{ bits }} * (1 << 4)));
+            internal const {{ type }} P4I{{ bits }}A = ({{ type }})(0.5m + (0.49670m * K02 * Z{{ bits }}));
+            internal const {{ type }} P4I{{ bits }}B = ({{ type }})(0.0m + (0.03705m * K04 * Z{{ bits }} * (1 << 3)));
+            {%- endfor %}
 
             // 精度に対して与える影響が軽微であるため､
             // 乗算前に一度にまとめてビットシフトを行う｡
@@ -510,70 +515,120 @@ namespace AgatePris.Intar {
                 return (y >> 32) * z;
             }
 
+            {%- for bits in [64, 32] %}
+            {%- set type = macros::inttype(bits=bits, signed=false) %}
+            {%- set one = macros::one(bits=bits, signed=false) %}
+            {%- set shift = bits / 2 - 1 %}
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static uint P5(uint z) {
-                var y = 1U;
-                y = P5I32C + ((y << (15 + 3)) / 2);
-                y = P5I32B - ((y >> (15 + 3)) * z);
-                y = P5I32A - ((y >> (15 + 1)) * z);
+            internal static {{ type }} P3({{ type }} z) {
+                const {{ type }} a = ({{ one }} << {{ shift * 2 }}) * 3;
+                const {{ type }} b = ({{ one }} << {{ shift * 2 }}) * 2;
+                return a - ((b >> {{ shift + 1 }}) * z);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static {{ type }} P5({{ type }} z) {
+                var y = {{ one }};
+                y = P5I{{ bits }}C + ((y << ({{ shift }} + 3)) / 2);
+                y = P5I{{ bits }}B - ((y >> ({{ shift }} + 3)) * z);
+                y = P5I{{ bits }}A - ((y >> ({{ shift }} + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static uint P4(uint z) {
-                var y = 1U;
-                y = P4I32B + ((y << (15 + 3)) / 2);
-                y = P4I32A - ((y >> (15 + 3)) * z);
-                return (y >> 16) * z;
+            internal static {{ type }} P4({{ type }} z) {
+                var y = {{ one }};
+                y = P4I{{ bits }}B + ((y << ({{ shift }} + 3)) / 2);
+                y = P4I{{ bits }}A - ((y >> ({{ shift }} + 3)) * z);
+                return (y >> {{ shift + 1 }}) * z;
             }
+            {%- endfor %}
         }
 
-        {%- set p4  = ['int',   4, 0.0018     ] %}
-        {%- set p5  = ['int',   5, 0.0004     ] %}
-        {%- set p10 = ['long', 10, 0.000000004] %}
-        {%- set p11 = ['long', 11, 0.000000004] %}
+        {%- set bits_32 = [64, 32] %}
+        {%- set bits_64 = [64] %}
+        {%- set p2  = [bits_32,  2, 0.06       ] %}
+        {%- set p4  = [bits_32,  4, 0.0018     ] %}
+        {%- set p3  = [bits_32,  3, 0.0004     ] %}
+        {%- set p5  = [bits_32,  5, 0.0004     ] %}
+        {%- set p10 = [bits_64, 10, 0.000000004] %}
+        {%- set p11 = [bits_64, 11, 0.000000004] %}
 
-        {%- for params in [p4, p10] %}
-        {%- if   params[0] == 'int'  %}{% set shift = 15 %}{% set one = '1'  %}{% set utype='uint'  %}
-        {%- elif params[0] == 'long' %}{% set shift = 31 %}{% set one = '1L' %}{% set utype='ulong' %}
-        {%- endif %}
+        {%- for bits in p2[0] %}
+        {%- set shift = bits / 2 - 1 %}
+        {%- set one   = macros::one(bits=bits, signed=true) %}
+        {%- set type  = macros::inttype(bits=bits, signed=true ) %}
+        {%- set utype = macros::inttype(bits=bits, signed=false) %}
 
-        {{- self::sin_comment(sin=false, type=params[0], order=params[1], error=params[2]) }}
+        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=p2[1], error=p2[2]) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ params[0] }} CosP{{ params[1] }}({{ params[0] }} x) {
-            const {{ params[0] }} fracPi2 = {{ one }} << {{ shift }};
-            const {{ params[0] }} one = {{ one }} << {{ 2 * shift }};
+        public static {{ type }} CosP{{ p2[1] }}({{ type }} x) {
+            const {{ type }} fracPi2 = {{ one }} << {{ shift }};
+            const {{ type }} one = {{ one }} << {{ 2 * shift }};
             var q = SinInternal.ToQuadrant(x);
             x &= fracPi2 - 1;
             switch (q) {
                 default:
-                case SinInternal.Quadrant.First: return one - ({{ params[0] }})SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }});
-                case SinInternal.Quadrant.Third: return ({{ params[0] }})SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }}) - one;
-                case SinInternal.Quadrant.Fourth: return one - ({{ params[0] }})SinInternal.P{{ params[1] }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }});
-                case SinInternal.Quadrant.Second: return ({{ params[0] }})SinInternal.P{{ params[1] }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }}) - one;
+                case SinInternal.Quadrant.First: return one - (x * x);
+                case SinInternal.Quadrant.Third: return (x * x) - one;
+                case SinInternal.Quadrant.Fourth: return one - ((fracPi2 - x) * (fracPi2 - x));
+                case SinInternal.Quadrant.Second: return ((fracPi2 - x) * (fracPi2 - x)) - one;
             }
         }
 
-        {{- self::sin_comment(sin=true, type=params[0], order=params[1], error=params[2]) }}
+        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=p2[1], error=p2[2]) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ params[0] }} SinP{{ params[1] }}({{ params[0] }} x) => CosP{{ params[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        public static {{ type }} SinP{{ p2[1] }}({{ type }} x) => CosP{{ p2[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
         {%- endfor %}
 
-        {%- for params in [p5, p11] %}
-        {%- if   params[0] == 'int'  %}{% set shift = 15 %}{% set one = '1'  %}{% set utype='uint'  %}
-        {%- elif params[0] == 'long' %}{% set shift = 31 %}{% set one = '1L' %}{% set utype='ulong' %}
-        {%- endif %}
+        {%- for params in [p4, p10] %}
+        {%- for bits in params[0] %}
+        {%- set shift = bits / 2 - 1 %}
+        {%- set one   = macros::one(bits=bits, signed=true) %}
+        {%- set type  = macros::inttype(bits=bits, signed=true ) %}
+        {%- set utype = macros::inttype(bits=bits, signed=false) %}
 
-        {{- self::sin_comment(sin=true, type=params[0], order=params[1], error=params[2]) }}
+        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ params[0] }} SinP{{ params[1] }}({{ params[0] }} x) {
-            x = SinInternal.MakeArgOdd(x);
-            return x * ({{ params[0] }})(SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
+        public static {{ type }} CosP{{ params[1] }}({{ type }} x) {
+            const {{ type }} fracPi2 = {{ one }} << {{ shift }};
+            const {{ type }} one = {{ one }} << {{ 2 * shift }};
+            var q = SinInternal.ToQuadrant(x);
+            x &= fracPi2 - 1;
+            switch (q) {
+                default:
+                case SinInternal.Quadrant.First: return one - ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }});
+                case SinInternal.Quadrant.Third: return ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }}) - one;
+                case SinInternal.Quadrant.Fourth: return one - ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }});
+                case SinInternal.Quadrant.Second: return ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }}) - one;
+            }
         }
 
-        {{- self::sin_comment(sin=false, type=params[0], order=params[1], error=params[2]) }}
+        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ params[0] }} CosP{{ params[1] }}({{ params[0] }} x) => SinP{{ params[1] }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
+        public static {{ type }} SinP{{ params[1] }}({{ type }} x) => CosP{{ params[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        {%- endfor %}
+        {%- endfor %}
+
+        {%- for params in [p3, p5, p11] %}
+        {%- for bits in params[0] %}
+        {%- set shift = bits / 2 - 1 %}
+        {%- set one   = macros::one(bits=bits, signed=true) %}
+        {%- set type  = macros::inttype(bits=bits, signed=true ) %}
+        {%- set utype = macros::inttype(bits=bits, signed=false) %}
+
+        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} SinP{{ params[1] }}({{ type }} x) {
+            x = SinInternal.MakeArgOdd(x);
+            return x * ({{ type }})(SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
+        }
+
+        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} CosP{{ params[1] }}({{ type }} x) => SinP{{ params[1] }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
+        {%- endfor %}
         {%- endfor %}
 
 {%- for bits in [32, 64] %}

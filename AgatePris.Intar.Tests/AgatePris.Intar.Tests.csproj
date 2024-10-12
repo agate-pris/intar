@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0;net6.0;net7.0</TargetFrameworks>
 
-    <Version>0.13.0</Version>
+    <Version>0.14.0</Version>
 
     <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
     <BaseOutputPath>.bin\</BaseOutputPath>

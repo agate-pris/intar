@@ -1,4 +1,4 @@
-# Internal implementation of special function approximation 特殊関数の近似の内部実装
+# 特殊関数の近似の内部実装
 
 ## 序文
 
