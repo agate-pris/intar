@@ -1,11 +1,12 @@
----
-_layout: landing
----
+# クイックスタート
 
-# This is the **HOMEPAGE**.
+[Unity Package Manager](https://docs.unity3d.com/ja/2021.3/Manual/upm-ui.html) から [このリポジトリ](https://github.com/agate-pris/intar.git) を参照するだけでセットアップが完了します｡
 
-Refer to [Markdown](http://daringfireball.net/projects/markdown/) for how to write markdown files.
+![Add package from git URL](images/add-package-from-git-url.png)
 
-## Quick Start Notes:
+他のアセンブリから使う場合は、アセンブリディフィニションに参照を追加してください｡
 
-1. Add images to the *images* folder if the file is referencing an image.
+![Assembly Definition References](images/assembly-definition-references.png)
+
+> [!NOTE]
+> [NuGet パッケージ マネージャー](https://www.nuget.org/) には対応 **していません** ｡

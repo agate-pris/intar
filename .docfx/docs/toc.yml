@@ -1,8 +1,9 @@
-- name: Introduction
-  href: introduction.md
-- name: Getting Started
-  href: getting-started.md
-- name: Internal implementation of special function approximation 特殊関数の近似の内部実装
+- name: 概要
+- href: introduction.md
+- href: ../index.md
+
+- name: 付録
+- name: 特殊関数の近似の内部実装
   href: sp-func-impl.md
 - name: 参考文献
   href: cites.md

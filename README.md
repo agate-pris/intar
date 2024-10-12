@@ -1,5 +1,7 @@
 # Intar
 
+ドキュメントは https://agate-pris.github.io/intar/ を参照｡
+
 ## 変換行列を右から掛けるか左から掛けるか
 
 [`System.Numerics`](https://learn.microsoft.com/ja-jp/dotnet/api/system.numerics) は下記の形式で変換行列を作成するようになっている｡ ベクトルに対して変換行列を右から掛ける｡
