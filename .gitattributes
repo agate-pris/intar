@@ -1,3 +1,30 @@
+*.7z    binary
+*.bin   binary
+*.bmp   binary
+*.exe   binary
+*.gif   binary
+*.gz    binary
+*.jpeg  binary
+*.jpg   bianry
+*.mov   binary
+*.mp3   binary
+*.mp4   binary
+*.obj   binary
+*.ogg   binary
+*.otf   binary
+*.pdf   binary
+*.png   binary
+*.psd   binary
+*.tga   binary
+*.tiff  binary
+*.ttf   binary
+*.wav   binary
+*.webm  binary
+*.webp  binary
+*.woff  binary
+*.woff2 binary
+*.zip   binary
+
 *.cs            text eol=lf
 *.csproj        text
 *.editorconfig  text
