@@ -26,7 +26,7 @@ namespace AgatePris.Intar.Numerics {
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
     , IFormattable
-    , IVector<{{ self_length_squared_unsigned_type }}, {{ self_length_squared_signed_type }}, {{ self_length_unsigned_type }}, {{ self_length_signed_type }}>
+//  , IVector<{{ self_length_squared_unsigned_type }}, {{ self_length_squared_signed_type }}, {{ self_length_unsigned_type }}, {{ self_length_signed_type }}>
     , IVectorComponentRespective<{{ self_component_type }}> {
         // Fields
         // ---------------------------------------
@@ -466,6 +466,8 @@ namespace AgatePris.Intar.Numerics {
             }
         }
 
+        /*
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
 
@@ -645,6 +647,8 @@ namespace AgatePris.Intar.Numerics {
                 {{ self_component_type }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
                 {{ self_component_type }}.FromBits({% if signed %}b3 ? -y3 : {% endif %}y3){% endif %}{% endif %});
         }
+
+        */
 
         {%- if self_component_type == "I17F15" %}
         {%- for name in [
