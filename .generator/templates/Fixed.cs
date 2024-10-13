@@ -63,7 +63,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Numerics {
+namespace AgatePris.Intar {
     [Serializable]
     public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
         // Consts
@@ -217,7 +217,48 @@ namespace AgatePris.Intar.Numerics {
             const decimal k = 1.0M / oneRepr;
             return k * x.Bits;
         }
-{{ self::explicit_conversion_to_fixed(self_type=self_type, self_bits_type=self_bits_type) }}
+{# これは空行挿入用のコメント #}
+        {%- for other_signed in [true, false] %}
+        {%- for other in fixed_list %}
+        {%- if not signed == other_signed or not int_nbits == other[0] or not frac_nbits == other[1] %}
+        {%- set other_type = macros::fixed_type(s=other_signed, i=other[0], f=other[1]) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static{% if
+            signed != other_signed or
+            int_nbits > other[0] or
+            frac_nbits > other[1]
+        %} explicit {% else %} implicit {% endif %}operator {{
+            other_type
+        }}({{ self_type }} x) => {{ other_type }}.FromBits(
+            {#- 変換先の型より小数部のビット数が小さい場合、その分の値を掛ける #}
+            {#- 内部表現の値は必ずより大きくなる、かつ符号が変わることはないので #}
+            {#- 変換先の型に変換してから乗算を行う #}
+            {#- 変換先の型より小数部のビット数が大きい場合、その分の値で割る #}
+            {#- この時、小数部のビット数はどちらも 0 より大きいので #}
+            {#- 除算に用いる値は必ず自身の型の表現の範囲内で表現できる #}
+            {#- 除算後、変換先の型と符号の有無が同じ、かつ変換先のビット数が変換元以上の場合、暗黙の型変換を行う #}
+            {#- それ以外の場合、明示的に型変換を行う #}
+            {#- 変換先の型と小数部のビット数が同じ場合ただ値を変換する #}
+            {#- 変換先の型と符号の有無が同じ、かつ変換先の型の整数部のビット数の方が大きい場合、暗黙の型変換を行う #}
+            {#- それ以外の場合、明示的に型変換を行う #}
+            {%- if frac_nbits < other[1] %}
+                {%- if signed != other_signed or int_nbits + frac_nbits > other[0] + other[1] -%}
+                    ({{ macros::inttype(bits=other[0]+other[1], signed=other_signed) }})
+                {%- endif %}x.Bits * ({{ macros::one(bits=other[0]+other[1], signed=other_signed) }} << {{ other[1] - frac_nbits }})
+            {%- elif frac_nbits > other[1] %}
+                {%- if signed != other_signed or int_nbits + frac_nbits > other[0] + other[1] -%}
+                    ({{ macros::inttype(bits=other[0]+other[1], signed=other_signed) }})(x.Bits / ({{ macros::one(bits=int_nbits+frac_nbits, signed=signed) }} << {{ frac_nbits - other[1] }}))
+                {%- else -%}
+                    x.Bits / ({{ macros::one(bits=int_nbits+frac_nbits, signed=signed) }} << {{ frac_nbits - other[1] }})
+                {%- endif %}
+            {%- else %}
+                {%- if signed != other_signed or int_nbits > other[0] -%}
+                    ({{ macros::inttype(bits=other[0]+other[1], signed=other_signed) }})
+                {%- endif %}x.Bits
+            {%- endif -%}
+        );
+        {%- endif %}
+        {%- endfor %}
+        {%- endfor %}
 
         // Object
         // ---------------------------------------
@@ -336,25 +377,51 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} LosslessMul(
-            {{- self_bits_type }} other) => FromBits(Bits * other);
-{%- if int_nbits != 2 %}
-{%- for i in range(start = 1, end = int_nbits - 1) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }} LosslessMul({% if signed %}I{% else %}U{% endif %}{{ int_nbits + frac_nbits - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits - i }}F{{ frac_nbits + i }}.FromBits(Bits * other.Bits);
-{%- endfor %}
-{%- endif %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} LosslessMul({{
+            self_bits_type
+        }} other) => FromBits(Bits * other);
 
-{%- if int_nbits + frac_nbits == 32 %}
+        {%- for result in fixed_list %}
+        {%- for other in fixed_list %}
+        {%- if
+            int_nbits + frac_nbits == result[0] + result[1] and
+            int_nbits + frac_nbits == other[0] + other[1] and
+            result[1] == frac_nbits + other[1]
+        %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            macros::fixed_type(s=signed, i=result[0], f=result[1])
+        }} LosslessMul({{
+            macros::fixed_type(s=signed, i=other[0], f=other[1])
+        }} other) => {{
+            macros::fixed_type(s=signed, i=result[0], f=result[1])
+        }}.FromBits(Bits * other.Bits);
+        {%- endif %}
+        {%- endfor %}
+        {%- endfor %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }} WideningMul(
-            {{- self_bits_type }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 }}F{{ frac_nbits }}.FromBits((
-                {{- self_wide_bits_type -}}
-            )Bits * other);
-{%- for i in range(start = 1, end = 31) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {% if signed %}I{% else %}U{% endif %}{{ int_nbits + 32 - i }}F{{ frac_nbits + i }} WideningMul({% if signed %}I{% else %}U{% endif %}{{ 32 - i }}F{{ i }} other) => {% if signed %}I{% else %}U{% endif %}{{ int_nbits +32 - i }}F{{ frac_nbits + i }}.FromBits(({% if signed %}long{% else %}ulong{% endif %})Bits * other.Bits);
-{%- endfor %}
+        {%- for result in fixed_list %}
+        {%- for other in [32, 64] %}
+        {%- if int_nbits + other == result[0] and frac_nbits == result[1] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            macros::fixed_type(s=signed, i=int_nbits+other, f=frac_nbits)
+        }} WideningMul({{ macros::inttype(bits=other, signed=signed) }} other) => {{
+            macros::fixed_type(s=signed, i=int_nbits+other, f=frac_nbits)
+        }}.FromBits(({{ macros::inttype(bits=int_nbits+frac_nbits+other, signed=signed) }})Bits * other);
+        {%- endif %}
+        {%- endfor %}
+        {%- endfor %}
 
-{%- endif %}
+        {%- for result in fixed_list %}
+        {%- for other in fixed_list %}
+        {%- if int_nbits + other[0] == result[0] and frac_nbits + other[1] == result[1] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            macros::fixed_type(s=signed, i=int_nbits+other[0], f=frac_nbits+other[1])
+        }} WideningMul({{ macros::inttype(bits=other, signed=signed) }} other) => {{
+            macros::fixed_type(s=signed, i=int_nbits+other[0], f=frac_nbits+other[1])
+        }}.FromBits(({{ macros::inttype(bits=int_nbits+frac_nbits+other[0]+other[1], signed=signed) }})Bits * other);
+        {%- endif %}
+        {%- endfor %}
+        {%- endfor %}
 
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
@@ -389,4 +456,4 @@ namespace AgatePris.Intar.Numerics {
         {%- endif %}
 
     }
-}
+} // namespace AgatePris.Intar
