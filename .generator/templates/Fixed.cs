@@ -450,7 +450,7 @@ namespace AgatePris.Intar {
         // ------------------
 {% for dim in [2, 3, 4] %}
 {%- set vec_type = macros::vector_type(dim=dim, type=self_type) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
 {%- endfor %}
 
         {%- endif %}
