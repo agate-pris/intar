@@ -17,6 +17,9 @@ using System.Text.Json.Serialization;
 #endif
 
 namespace AgatePris.Intar.Tests.Numerics {
+
+    #if ENABLE_VECTOR_TEST
+
     public class VectorTest {
         static bool IsInt(long x) => int.MinValue <= x && x <= int.MaxValue;
         static bool IsUInt(long x) => uint.MinValue <= x && x <= uint.MaxValue;
@@ -728,4 +731,7 @@ namespace AgatePris.Intar.Tests.Numerics {
             }
         }
     }
+
+    #endif // ENABLE_VECTOR_TEST
+
 }
