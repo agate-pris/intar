@@ -8,6 +8,10 @@
     fixed_64_31,
     fixed_64_62,
 ] -%}
+{%- set vector = [
+    fixed_32_15,
+    fixed_32_30,
+] -%}
 
 {
     "glob": "**/*.cs",
@@ -54,17 +58,15 @@
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Numerics",
+            "dir_path": "AgatePris.Intar",
             "template_name": "Vector.cs",
             "files": [
-                {%- for i in range(start = 2, end = 31) %}
-                {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } },
+                {%- for dim in [2, 3, 4] %}
+                {%- for i in vector %}
+                {%- for signed in [true, false] %}
+                { "file_name": "Vector{{ dim }}{% if signed %}I{% else %}U{% endif %}{{ i[0] }}F{{ i[1] }}.gen.cs", "params": { "dim": {{ dim }}, "signed": {{ signed }}, "int_nbits": {{ i[0] }}, "frac_nbits": {{ i[1] }}, "fixed": true } }
+                {%- if not loop.last %},{% endif %}
                 {%- endfor %}
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 31) %}
-                {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}
