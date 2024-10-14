@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar", "AgatePri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Tests", "AgatePris.Intar.Tests\AgatePris.Intar.Tests.csproj", "{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgatePris.Intar.Numerics", "AgatePris.Intar.Numerics\AgatePris.Intar.Numerics.csproj", "{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,17 +44,5 @@ Global
 		{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}.Release|x64.Build.0 = Release|Any CPU
 		{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}.Release|x86.ActiveCfg = Release|Any CPU
 		{05C51F8F-2BCC-4A6C-B2B5-643B0BE1F5CD}.Release|x86.Build.0 = Release|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Debug|x64.Build.0 = Debug|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Debug|x86.Build.0 = Debug|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Release|x64.ActiveCfg = Release|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Release|x64.Build.0 = Release|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Release|x86.ActiveCfg = Release|Any CPU
-		{EFD28DBF-09F9-4F2A-B54B-88F2BB6D9CEF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
