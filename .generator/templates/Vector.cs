@@ -16,11 +16,13 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public struct VectorSquaredLength    {{- self_component_signed_type }}
+    public struct VectorSquaredLength{{- self_component_signed_type }}
     : IComparable<VectorSquaredLength{{- self_component_signed_type }}>
     , IEquatable<VectorSquaredLength {{- self_component_signed_type }}> {
+
         // この構造体はベクトルの大きさを比較するためだけに使用する。
         // そのため、将来破壊的変更が発生しうるメソッドやフィールド、プロパティは公開しない。
+
         internal byte upper;
         internal ulong lower;
 
@@ -130,7 +132,7 @@ namespace AgatePris.Intar {
             self_component_signed_type }} right) => (left.lower != right.lower) || (left.upper != right.upper);
     }
 
-    {%- for signed in [true, false] %}
+    {%- for signed in [true] %}
 
     {%- set self_bits_type               = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
     {%- set self_wide_bits_type          = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
@@ -607,7 +609,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public VectorSquaredLength{{ self_component_signed_type }} LengthSquaredUnsigned() {
+        public VectorSquaredLength{{ self_component_signed_type }} LengthSquared() {
             var lower = (ulong)((long)X.Bits * X.Bits);
             {%- for i in range(start=2, end=dim+1) %}
             {%- if   i == 2 %}{% set name = 'Y' %}
