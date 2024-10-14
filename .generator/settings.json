@@ -62,10 +62,7 @@
             "template_name": "Vector.cs",
             "files": [
                 {%- for i in vector %}
-                {%- for signed in [true, false] %}
-                { "file_name": "Vector{% if signed %}I{% else %}U{% endif %}{{ i[0] }}F{{ i[1] }}.gen.cs", "params": { "signed": {{ signed }}, "int_nbits": {{ i[0] }}, "frac_nbits": {{ i[1] }}, "fixed": true } }
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
+                { "file_name": "VectorI{{ i[0] }}F{{ i[1] }}.gen.cs", "params": { "int_nbits": {{ i[0] }}, "frac_nbits": {{ i[1] }}, "fixed": true } }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
             ]
