@@ -1,4 +1,4 @@
-namespace AgatePris.Intar.Numerics {
+namespace AgatePris.Intar {
     public interface IVector<
         TLengthSquaredUnsigned, TLengthSquaredSigned,
         TLengthUnsigned, TLengthSigned
