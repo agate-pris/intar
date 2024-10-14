@@ -1,34 +1,5 @@
 {% import "macros.cs" as macros %}
 
-{% macro swizzling(component_type) %}
-        {%- if   dim == 2 %} {%- set cmp = ['X', 'Y'          ] %}
-        {%- elif dim == 3 %} {%- set cmp = ['X', 'Y', 'Z'     ] %}
-        {%- elif dim == 4 %} {%- set cmp = ['X', 'Y', 'Z', 'W'] %}
-        {%- else %} {{- "Unexpected dim. dim: " ~ dim }}
-        {%- endif -%}
-        {%- for x in cmp %}
-        {%- for y in cmp %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ macros::vector_type(dim=2, type=component_type) }} {{ x }}{{ y }}() => new {{ macros::vector_type(dim=2, type=component_type) }}({{ x }}, {{ y }});
-        {%- endfor %}
-        {%- endfor %}
-        {%- for x in cmp %}
-        {%- for y in cmp %}
-        {%- for z in cmp %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ macros::vector_type(dim=3, type=component_type) }} {{ x }}{{ y }}{{ z }}() => new {{ macros::vector_type(dim=3, type=component_type) }}({{ x }}, {{ y }}, {{ z }});
-        {%- endfor %}
-        {%- endfor %}
-        {%- endfor %}
-        {%- for x in cmp %}
-        {%- for y in cmp %}
-        {%- for z in cmp %}
-        {%- for w in cmp %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ macros::vector_type(dim=4, type=component_type) }} {{ x }}{{ y }}{{ z }}{{ w }}() => new {{ macros::vector_type(dim=4, type=component_type) }}({{ x }}, {{ y }}, {{ z }}, {{ w }});
-        {%- endfor %}
-        {%- endfor %}
-        {%- endfor %}
-        {%- endfor %}
-{%- endmacro -%}
-
 {%- set self_bits_type               = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_signed_type        = macros::inttype(bits=int_nbits  +frac_nbits,   signed=true  ) %}
 {%- set self_bits_unsigned_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false ) %}
@@ -695,7 +666,40 @@ namespace AgatePris.Intar.Numerics {
 
         // Swizzling
         // ---------
-{{ self::swizzling(component_type=self_component_type) }}
+{# これは改行を挿入するためのコメントです #}
+
+        {%- if   dim == 2 %} {%- set cmp = ['X', 'Y'          ] %}
+        {%- elif dim == 3 %} {%- set cmp = ['X', 'Y', 'Z'     ] %}
+        {%- elif dim == 4 %} {%- set cmp = ['X', 'Y', 'Z', 'W'] %}
+        {%- else %} {{- "Unexpected dim. dim: " ~ dim }}
+        {%- endif -%}
+        {%- for x in cmp %}
+        {%- for y in cmp %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            macros::vector_type(dim=2, type=self_component_type) }} {{ x -}}  {{ y -}}() => new {{
+            macros::vector_type(dim=2, type=self_component_type) }}({{ x -}}, {{ y -}});
+        {%- endfor %}
+        {%- endfor %}
+        {%- for x in cmp %}
+        {%- for y in cmp %}
+        {%- for z in cmp %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            macros::vector_type(dim=3, type=self_component_type) }} {{ x -}}  {{ y -}}  {{ z -}}() => new {{
+            macros::vector_type(dim=3, type=self_component_type) }}({{ x -}}, {{ y -}}, {{ z -}});
+        {%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
+        {%- for x in cmp %}
+        {%- for y in cmp %}
+        {%- for z in cmp %}
+        {%- for w in cmp %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            macros::vector_type(dim=4, type=self_component_type) }} {{ x -}}  {{ y -}}  {{ z -}}  {{ w -}}() => new {{
+            macros::vector_type(dim=4, type=self_component_type) }}({{ x -}}, {{ y -}}, {{ z -}}, {{ w -}});
+        {%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
 
     }
 }
