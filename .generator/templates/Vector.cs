@@ -1,27 +1,22 @@
 {% import "macros.cs" as macros %}
 
-{%- set self_bits_type               = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_signed_type        = macros::inttype(bits=int_nbits  +frac_nbits,   signed=true  ) %}
 {%- set self_bits_unsigned_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false ) %}
-{%- set self_wide_bits_type          = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
 {%- set self_wide_bits_signed_type   = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=true  ) %}
 {%- set self_wide_bits_unsigned_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=false ) %}
-{%- set self_component_type               = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_component_signed_type        = macros::fixed_type(s=true,   i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_component_unsigned_type      = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_length_squared_unsigned_type = macros::fixed_type(s=false,  i=2*int_nbits+2, f=2*frac_nbits-2) %}
 {%- set self_length_squared_signed_type   = macros::fixed_type(s=true,   i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_squared_type          = macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) %}
 {%- set self_length_unsigned_type         = macros::fixed_type(s=false,  i=  int_nbits+1, f=  frac_nbits-1) %}
 {%- set self_length_signed_type           = macros::fixed_type(s=true,   i=  int_nbits+1, f=  frac_nbits-1) %}
-{%- set self_length_type                  = macros::fixed_type(s=signed, i=  int_nbits+1, f=  frac_nbits-1) %}
 
 using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public struct SquaredLength{{ self_component_type }} {
+    public struct SquaredLength{{ self_component_signed_type }} {
         internal byte upper;
         internal ulong lower;
         internal LengthSquared(byte upper, ulong lower) {
@@ -29,6 +24,14 @@ namespace AgatePris.Intar {
             this.lower = lower;
         }
     }
+
+    {%- for signed in [true, false] %}
+
+    {%- set self_bits_type               = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
+    {%- set self_wide_bits_type          = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
+    {%- set self_component_type               = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
+    {%- set self_length_squared_type          = macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) %}
+    {%- set self_length_type                  = macros::fixed_type(s=signed, i=  int_nbits+1, f=  frac_nbits-1) %}
 
     {%- for dim in [2, 3, 4] %}
     {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
@@ -498,7 +501,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SquaredLength{{ self_component_type }} LengthSquaredUnsigned() {
+        public SquaredLength{{ self_component_signed_type }} LengthSquaredUnsigned() {
             var lower = (ulong)((long)X.Bits * X.Bits);
             byte upper;
             if (lower.OverflowingAdd((ulong)((long)Y.Bits * Y.Bits), out lower)) {
@@ -521,7 +524,7 @@ namespace AgatePris.Intar {
                 upper++;
             }
             {%- endfor %}
-            return new SquaredLength{{ self_component_type }}(upper, lower);
+            return new SquaredLength{{ self_component_signed_type }}(upper, lower);
         }
 
         /*
@@ -763,5 +766,6 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endfor %}
     }
+    {%- endfor %}
     {%- endfor %}
 } // namespace AgatePris.Intar
