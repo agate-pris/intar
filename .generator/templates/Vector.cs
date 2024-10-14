@@ -21,6 +21,15 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
+    public struct SquaredLength{{ self_component_type }} {
+        internal byte upper;
+        internal ulong lower;
+        internal LengthSquared(byte upper, ulong lower) {
+            this.upper = upper;
+            this.lower = lower;
+        }
+    }
+
     {%- for dim in [2, 3, 4] %}
     {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
     [Serializable]
@@ -488,17 +497,8 @@ namespace AgatePris.Intar {
             }
         }
 
-        public struct LengthSquared {
-            internal byte upper;
-            internal ulong lower;
-            internal LengthSquared(byte upper, ulong lower) {
-                this.upper = upper;
-                this.lower = lower;
-            }
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public LengthSquared LengthSquaredUnsigned() {
+        public SquaredLength{{ self_component_type }} LengthSquaredUnsigned() {
             var lower = (ulong)((long)X.Bits * X.Bits);
             byte upper;
             if (lower.OverflowingAdd((ulong)((long)Y.Bits * Y.Bits), out lower)) {
@@ -506,10 +506,22 @@ namespace AgatePris.Intar {
             } else {
                 upper = 0;
             }
-            if (lower.OverflowingAdd((ulong)((long)Z.Bits * Z.Bits), out lower)) {
+            {%- for i in range(2, dim) %}
+            {%- if   i == 2 %}{% set name = 'Y' %}
+            {%- elif i == 3 %}{% set name = 'Z' %}
+            {%- elif i == 4 %}{% set name = 'W' %}
+            {%- endif %}
+            if (lower.OverflowingAdd((ulong)((long){{ name }}.Bits * {{ name }}.Bits), out lower)) {
+            {%- if i == 2 %}
+                upper = 1;
+            } else {
+                upper = 0;
+            }
+            {%- else %}
                 upper++;
             }
-            return new LengthSquared(upper, lower);
+            {%- endfor %}
+            return new SquaredLength{{ self_component_type }}(upper, lower);
         }
 
         /*
@@ -750,7 +762,6 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
-
     }
     {%- endfor %}
 } // namespace AgatePris.Intar
