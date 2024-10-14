@@ -16,10 +16,10 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public struct SquaredLength{{ self_component_signed_type }} {
+    public struct VectorSquaredLength{{ self_component_signed_type }} {
         internal byte upper;
         internal ulong lower;
-        internal LengthSquared(byte upper, ulong lower) {
+        internal VectorSquaredLength{{ self_component_signed_type }}(byte upper, ulong lower) {
             this.upper = upper;
             this.lower = lower;
         }
@@ -34,7 +34,8 @@ namespace AgatePris.Intar {
     {%- set self_length_type                  = macros::fixed_type(s=signed, i=  int_nbits+1, f=  frac_nbits-1) %}
 
     {%- for dim in [2, 3, 4] %}
-    {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
+    {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) %}
+
     [Serializable]
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
@@ -501,30 +502,24 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SquaredLength{{ self_component_signed_type }} LengthSquaredUnsigned() {
+        public VectorSquaredLength{{ self_component_signed_type }} LengthSquaredUnsigned() {
             var lower = (ulong)((long)X.Bits * X.Bits);
-            byte upper;
-            if (lower.OverflowingAdd((ulong)((long)Y.Bits * Y.Bits), out lower)) {
-                upper = 1;
-            } else {
-                upper = 0;
-            }
-            {%- for i in range(start=2, end=dim) %}
+            {%- for i in range(start=2, end=dim+1) %}
             {%- if   i == 2 %}{% set name = 'Y' %}
             {%- elif i == 3 %}{% set name = 'Z' %}
             {%- elif i == 4 %}{% set name = 'W' %}
             {%- endif %}
-            if (lower.OverflowingAdd((ulong)((long){{ name }}.Bits * {{ name }}.Bits), out lower)) {
             {%- if i == 2 %}
-                upper = 1;
-            } else {
-                upper = 0;
+            var upper = lower.OverflowingAdd((ulong)((long){{ name }}.Bits * {{ name }}.Bits), out lower)
+                ? (byte)1
+                : (byte)0;
             {%- else %}
+            if (lower.OverflowingAdd((ulong)((long){{ name }}.Bits * {{ name }}.Bits), out lower)) {
                 upper++;
-            {%- endif %}
             }
+            {%- endif %}
             {%- endfor %}
-            return new SquaredLength{{ self_component_signed_type }}(upper, lower);
+            return new VectorSquaredLength{{ self_component_signed_type }}(upper, lower);
         }
 
         /*
