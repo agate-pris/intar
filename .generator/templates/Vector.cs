@@ -487,6 +487,30 @@ namespace AgatePris.Intar {
             }
         }
 
+        public struct LengthSquared {
+            internal byte upper;
+            internal ulong lower;
+            internal LengthSquared(byte upper, ulong lower) {
+                this.upper = upper;
+                this.lower = lower;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public LengthSquared LengthSquaredUnsigned() {
+            var lower = (ulong)((long)X.Bits * X.Bits);
+            byte upper;
+            if (lower.OverflowingAdd((ulong)((long)Y.Bits * Y.Bits), out lower)) {
+                upper = 1;
+            } else {
+                upper = 0;
+            }
+            if (lower.OverflowingAdd((ulong)((long)Z.Bits * Z.Bits), out lower)) {
+                upper++;
+            }
+            return new LengthSquared(upper, lower);
+        }
+
         /*
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
