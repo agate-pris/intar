@@ -509,7 +509,7 @@ namespace AgatePris.Intar {
             } else {
                 upper = 0;
             }
-            {%- for i in range(2, dim) %}
+            {%- for i in range(start=2, end=dim) %}
             {%- if   i == 2 %}{% set name = 'Y' %}
             {%- elif i == 3 %}{% set name = 'Z' %}
             {%- elif i == 4 %}{% set name = 'W' %}
@@ -519,9 +519,9 @@ namespace AgatePris.Intar {
                 upper = 1;
             } else {
                 upper = 0;
-            }
             {%- else %}
                 upper++;
+            {%- endif %}
             }
             {%- endfor %}
             return new SquaredLength{{ self_component_signed_type }}(upper, lower);
