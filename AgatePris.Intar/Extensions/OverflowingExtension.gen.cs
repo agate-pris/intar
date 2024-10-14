@@ -33,16 +33,22 @@ namespace AgatePris.Intar.Extensions {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long WrappingAbs(this long x) => Overflowing.WrappingAbs(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong UnsignedAbs(this long x) => Overflowing.UnsignedAbs(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingAdd(this int x, int y, out int result) => Overflowing.OverflowingAdd(x, y, out result);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingMul(this int x, int y, out int result) => Overflowing.OverflowingMul(x, y, out result);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int? CheckedAdd(this int x, int y) => Overflowing.CheckedAdd(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int? CheckedMul(this int x, int y) => Overflowing.CheckedMul(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int SaturatingAdd(this int x, int y) => Overflowing.SaturatingAdd(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int SaturatingMul(this int x, int y) => Overflowing.SaturatingMul(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingAdd(this uint x, uint y, out uint result) => Overflowing.OverflowingAdd(x, y, out result);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingMul(this uint x, uint y, out uint result) => Overflowing.OverflowingMul(x, y, out result);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint? CheckedAdd(this uint x, uint y) => Overflowing.CheckedAdd(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint? CheckedMul(this uint x, uint y) => Overflowing.CheckedMul(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint SaturatingAdd(this uint x, uint y) => Overflowing.SaturatingAdd(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingAdd(this long x, long y, out long result) => Overflowing.OverflowingAdd(x, y, out result);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long? CheckedAdd(this long x, long y) => Overflowing.CheckedAdd(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long SaturatingAdd(this long x, long y) => Overflowing.SaturatingAdd(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingAdd(this ulong x, ulong y, out ulong result) => Overflowing.OverflowingAdd(x, y, out result);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong? CheckedAdd(this ulong x, ulong y) => Overflowing.CheckedAdd(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong SaturatingAdd(this ulong x, ulong y) => Overflowing.SaturatingAdd(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingMul(this int x, int y, out int result) => Overflowing.OverflowingMul(x, y, out result);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int? CheckedMul(this int x, int y) => Overflowing.CheckedMul(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int SaturatingMul(this int x, int y) => Overflowing.SaturatingMul(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingMul(this uint x, uint y, out uint result) => Overflowing.OverflowingMul(x, y, out result);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint? CheckedMul(this uint x, uint y) => Overflowing.CheckedMul(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint SaturatingMul(this uint x, uint y) => Overflowing.SaturatingMul(x, y);
     }
 }
