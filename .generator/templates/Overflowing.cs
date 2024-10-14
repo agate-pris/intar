@@ -114,14 +114,6 @@
         }
 {%- endmacro -%}
 
-{%- macro checked_add(type) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }}? CheckedAdd({{ type }} x, {{ type }} y) {
-            {{ type }}? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
@@ -208,31 +200,87 @@ namespace AgatePris.Intar {
         {{ self::checked_neg(type = "int") }}
         {{ self::checked_neg(type = "long") }}
 
+        {%- set u_32 = [false, 32] %}
+        {%- set u_64 = [false, 64] %}
+        {%- set i_32 = [true,  32] %}
+        {%- set i_64 = [true,  64] %}
+        {%- for e in [u_32, u_64, i_32, i_64] %}
+        {%- set t = macros::inttype(signed=e[0], bits=e[1]) %}
+
+        /// <summary>
+        /// <para>Calculates <c>x + y</c></para>
+        /// </summary>
+        /// <returns>
+        /// Returns a boolean indicating whether an arithmetic overflow would occur.
+        /// </returns>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(false, Overflowing.OverflowingAdd(5U, 2U, out var result));
+        /// System.Assert.AreEqual(true, Overflowing.OverflowingAdd(uint.MaxValue, 1U, out result));
+        /// </code>
+        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingAdd(int x, int y, out int result) {
-            var tmp = ((long)x) + y;
-            result = unchecked((int)tmp);
-            return tmp < int.MinValue || tmp > int.MaxValue;
-        }
-        {{ self::checked_add(type="int") }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SaturatingAdd(int x, int y) {
-            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
-                ? int.MinValue
-                : int.MaxValue);
+        public static bool OverflowingAdd({{ t }} x, {{ t }} y, out {{ t }} result) {
+            {%- if e[0] %}
+            // 両辺の符号が異なる場合、オーバーフローは発生しない。
+            // オーバーフローが発生すると、
+            // 両辺の符号が正の場合、結果は両辺のどちらの値よりも必ず小さくなる。
+            // 両辺の符号が負の場合、結果は両辺のどちらの値よりも必ず大きくなる。
+            result = unchecked(x + y);
+            return
+                ((x < 0) && (y < 0) && (result > x)) ||
+                ((x > 0) && (y > 0) && (result < x));
+            {%- else %}
+            // unchecked コンテキストでは、整数の演算結果はラップアラウンドする。
+            // 特に、符号なし整数のそれについては、C# 以外の言語 (C++ など) でも同様の振る舞いが期待できる。
+            // ラップアラウンドした場合、結果は両辺のどちらの値よりも必ず小さくなる。
+            result = unchecked(x + y);
+            return result < x;
+            {%- endif %}
         }
 
+        /// <summary>
+        /// Checked integer addition. Computes <c>x + y</c>,
+        /// returning <c>null</c> if overflow occured.
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
+        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
+        /// </code>
+        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingAdd(uint x, uint y, out uint result) {
-            var tmp = ((ulong)x) + y;
-            result = unchecked((uint)tmp);
-            return tmp > uint.MaxValue;
+        public static {{ t }}? CheckedAdd({{ t }} x, {{ t }} y) {
+            {{ t }}? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
         }
-        {{ self::checked_add(type="uint") }}
+
+        /// <summary>
+        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
+        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
+        /// </code>
+        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingAdd(uint x, uint y) {
-            return CheckedAdd(x, y) ?? uint.MaxValue;
+        public static {{ t }} SaturatingAdd({{ t }} x, {{ t }} y)
+        {%- if e[0] %} {
+            // オーバーフローが起きた場合、両辺が負の場合は負方向のオーバーフロー、
+            // それ以外の場合は必ず正方向のオーバーフローとなる。
+            // 両辺の符号が異なる場合はオーバーフローが起きないが、
+            // それを検査するのは CheckedAdd の責務である。
+            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
+                ? {{ t }}.MinValue
+                : {{ t }}.MaxValue);
         }
+        {%- else %} => CheckedAdd(x, y) ?? {{ t }}.MaxValue;
+        {%- endif %}
+        {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(int x, int y, out int result) {
