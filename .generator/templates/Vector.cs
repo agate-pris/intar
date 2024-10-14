@@ -10,15 +10,24 @@
 {%- set self_length_squared_signed_type   = macros::fixed_type(s=true,   i=2*int_nbits+2, f=2*frac_nbits-2) %}
 {%- set self_length_unsigned_type         = macros::fixed_type(s=false,  i=  int_nbits+1, f=  frac_nbits-1) %}
 {%- set self_length_signed_type           = macros::fixed_type(s=true,   i=  int_nbits+1, f=  frac_nbits-1) %}
+{%- set magnitude = 'Vector' ~ {{ self_component_signed_type }} ~ 'Magnitude' %}
 
-using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
+using AgatePris.Intar.Extensions;
+
 namespace AgatePris.Intar {
-    public struct VectorSquaredLength{{- self_component_signed_type }}
-    : IComparable<VectorSquaredLength{{- self_component_signed_type }}>
-    , IEquatable<VectorSquaredLength {{- self_component_signed_type }}> {
+    // ここにこの構造体はベクトルの Magnitude を表現する型であり、
+    // 実際には 2 乗和の平方根ではなく 2 乗された値を表現する型であることをコメントする。
+    // また、それ故にただ「大きさ」のみを表現し、大きさ同士を比較することしかできないように設計されていること、
+    // そのため、他の数値型に変換したり、ここからベクトルの長さを得たりするインタフェースを持たないことを明記する。
+    // さらに、整数演算によって実装されるため、
+    // NaN などの特殊な状態を持たず、
+    // 故に全順序集合であることを明記する。
+    public struct {{ magnitude }}
+    : IComparable<{{ magnitude }}>
+    , IEquatable<{{ magnitude }}> {
 
         // この構造体はベクトルの大きさを比較するためだけに使用する。
         // そのため、将来破壊的変更が発生しうるメソッドやフィールド、プロパティは公開しない。
@@ -27,20 +36,18 @@ namespace AgatePris.Intar {
         internal ulong lower;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal VectorSquaredLength{{
-            self_component_signed_type
-        }}(byte upper, ulong lower) {
+        internal {{ magnitude }}(byte upper, ulong lower) {
             this.upper = upper;
             this.lower = lower;
         }
 
         //
-        // IComparable<VectorSquaredLength{{- self_component_signed_type }}>
+        // IComparable<{{ magnitude }}>
         //
 
         /// <inheritdoc cref="IComparable{T}.CompareTo(T)" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int CompareTo(VectorSquaredLength{{- self_component_signed_type }} other) {
+        public int CompareTo({{ magnitude }} other) {
             if (this < other) {
                 return -1;
             } else if (this > other) {
@@ -51,19 +58,19 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEquatable<VectorSquaredLength{{- self_component_signed_type }}>
+        // IEquatable<{{ magnitude }}>
         //
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(VectorSquaredLength{{- self_component_signed_type }} other) => this == other;
+        public bool Equals({{ magnitude }} other) => this == other;
         // upper == other.upper && lower == other.lower;
 
         //
         // Object
         //
 
-        public override bool Equals(object obj) => (obj is VectorSquaredLength{{- self_component_signed_type }} o) && Equals(o);
+        public override bool Equals(object obj) => (obj is {{ magnitude }} o) && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(upper, lower);
@@ -76,9 +83,7 @@ namespace AgatePris.Intar {
         //
 
         /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_LessThan(TSelf, TOther)" />
-        public static bool operator <(VectorSquaredLength{{
-            self_component_signed_type }} left, VectorSquaredLength{{
-            self_component_signed_type }} right) {
+        public static bool operator <({{ magnitude  }} left, {{ magnitude }} right) {
             if (left.upper < right.upper) {
                 return true;
             }
@@ -86,9 +91,7 @@ namespace AgatePris.Intar {
         }
 
         /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_LessThanOrEqual(TSelf, TOther)" />
-        public static bool operator <=(VectorSquaredLength{{
-            self_component_signed_type }} left, VectorSquaredLength{{
-            self_component_signed_type }} right) {
+        public static bool operator <=({{ magnitude }} left, {{ magnitude }} right) {
             if (left.upper < right.upper) {
                 return true;
             }
@@ -96,9 +99,7 @@ namespace AgatePris.Intar {
         }
 
         /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_GreaterThan(TSelf, TOther)" />
-        public static bool operator >(VectorSquaredLength{{
-            self_component_signed_type }} left, VectorSquaredLength{{
-            self_component_signed_type }} right) {
+        public static bool operator >({{ magnitude }} left, {{ magnitude }} right) {
             if (left.upper > right.upper) {
                 return true;
             }
@@ -106,9 +107,7 @@ namespace AgatePris.Intar {
         }
 
         /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_GreaterThanOrEqual(TSelf, TOther)" />
-        public static bool operator >=(VectorSquaredLength{{
-            self_component_signed_type }} left, VectorSquaredLength{{
-            self_component_signed_type }} right) {
+        public static bool operator >=({{ magnitude }} left, {{ magnitude }} right) {
             if (left.upper > right.upper) {
                 return true;
             }
@@ -121,15 +120,11 @@ namespace AgatePris.Intar {
 
         /// <inheritdoc cref="IEqualityOperators{TSelf, TOther, TResult}.op_Equality(TSelf, TOther)" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(VectorSquaredLength{{
-            self_component_signed_type }} left, VectorSquaredLength{{
-            self_component_signed_type }} right) => (left.lower == right.lower) && (left.upper == right.upper);
+        public static bool operator ==({{ magnitude }} left, {{ magnitude }} right) => (left.lower == right.lower) && (left.upper == right.upper);
 
         /// <inheritdoc cref="IEqualityOperators{TSelf, TOther, TResult}.op_Inequality(TSelf, TOther)" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(VectorSquaredLength{{
-            self_component_signed_type }} left, VectorSquaredLength{{
-            self_component_signed_type }} right) => (left.lower != right.lower) || (left.upper != right.upper);
+        public static bool operator !=({{ magnitude }} left, {{ magnitude }} right) => (left.lower != right.lower) || (left.upper != right.upper);
     }
 
     {%- for signed in [true] %}
@@ -608,8 +603,10 @@ namespace AgatePris.Intar {
             }
         }
 
+        // ここに重要な情報として、通常のいわゆる Magnitude とはことなり
+        // 2 乗和の平方根ではなく 2 乗された値を表現する型であることをコメントする。
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public VectorSquaredLength{{ self_component_signed_type }} LengthSquared() {
+        public {{ magnitude }} Magnitude() {
             var lower = (ulong)((long)X.Bits * X.Bits);
             {%- for i in range(start=2, end=dim+1) %}
             {%- if   i == 2 %}{% set name = 'Y' %}
@@ -626,7 +623,7 @@ namespace AgatePris.Intar {
             }
             {%- endif %}
             {%- endfor %}
-            return new VectorSquaredLength{{ self_component_signed_type }}(upper, lower);
+            return new {{ magnitude }}(upper, lower);
         }
 
         /*
