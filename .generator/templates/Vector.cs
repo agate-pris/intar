@@ -15,13 +15,14 @@
 {%- set self_length_unsigned_type         = macros::fixed_type(s=false,  i=  int_nbits+1, f=  frac_nbits-1) %}
 {%- set self_length_signed_type           = macros::fixed_type(s=true,   i=  int_nbits+1, f=  frac_nbits-1) %}
 {%- set self_length_type                  = macros::fixed_type(s=signed, i=  int_nbits+1, f=  frac_nbits-1) %}
-{%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
 using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
+    {%- for dim in [2, 3, 4] %}
+    {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
     [Serializable]
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
@@ -751,4 +752,5 @@ namespace AgatePris.Intar {
         {%- endfor %}
 
     }
+    {%- endfor %}
 } // namespace AgatePris.Intar
