@@ -39,16 +39,16 @@ namespace AgatePris.Intar.Extensions {
     {%- endfor %}
 {%- endfor %}
 
+{%- for t in ['int', 'uint', 'long', 'ulong'] %}
+        {{ inl }} public static bool OverflowingAdd(this {{ t }} x, {{ t }} y, out {{ t }} result) => Overflowing.OverflowingAdd(x, y, out result);
+        {{ inl }} public static {{ t }}? CheckedAdd(this {{ t }} x, {{ t }} y) => Overflowing.CheckedAdd(x, y);
+        {{ inl }} public static {{ t }} SaturatingAdd(this {{ t }} x, {{ t }} y) => Overflowing.SaturatingAdd(x, y);
+{%- endfor %}
+
 {%- for t in ["int", "uint"] %}
-    {%- for m in ["OverflowingAdd", "OverflowingMul"] %}
-        {{ inl }} public static bool {{ m }}(this {{ t }} x, {{ t }} y, out {{ t }} result) => Overflowing.{{ m }}(x, y, out result);
-    {%- endfor %}
-    {%- for m in ["CheckedAdd", "CheckedMul"] %}
-        {{ inl }} public static {{ t }}? {{ m }}(this {{ t }} x, {{ t }} y) => Overflowing.{{ m }}(x, y);
-    {%- endfor %}
-    {%- for m in ["SaturatingAdd", "SaturatingMul"] %}
-        {{ inl }} public static {{ t }} {{ m }}(this {{ t }} x, {{ t }} y) => Overflowing.{{ m }}(x, y);
-    {%- endfor %}
+        {{ inl }} public static bool OverflowingMul(this {{ t }} x, {{ t }} y, out {{ t }} result) => Overflowing.OverflowingMul(x, y, out result);
+        {{ inl }} public static {{ t }}? CheckedMul(this {{ t }} x, {{ t }} y) => Overflowing.CheckedMul(x, y);
+        {{ inl }} public static {{ t }} SaturatingMul(this {{ t }} x, {{ t }} y) => Overflowing.SaturatingMul(x, y);
 {%- endfor %}
     }
 }
