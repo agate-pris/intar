@@ -17,8 +17,8 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     public struct VectorSquaredLength    {{- self_component_signed_type }}
-        : IComparable<VectorSquaredLength{{- self_component_signed_type }}>
-        , IEquatable<VectorSquaredLength {{- self_component_signed_type }}> {
+    : IComparable<VectorSquaredLength{{- self_component_signed_type }}>
+    , IEquatable<VectorSquaredLength {{- self_component_signed_type }}> {
         // この構造体はベクトルの大きさを比較するためだけに使用する。
         // そのため、将来破壊的変更が発生しうるメソッドやフィールド、プロパティは公開しない。
         internal byte upper;
