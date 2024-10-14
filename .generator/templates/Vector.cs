@@ -631,19 +631,6 @@ namespace AgatePris.Intar {
 
         /*
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_squared_unsigned_type }} LengthSquaredUnsigned() => {{ self_length_squared_unsigned_type }}.FromBits(
-            {% if signed %}({{ self_wide_bits_unsigned_type }}){% endif %}LengthSquaredInternal()
-        );
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_squared_signed_type }} LengthSquaredSigned() => {{ self_length_squared_signed_type }}.FromBits(
-            {% if not signed %}({{ self_wide_bits_signed_type }}){% endif %}LengthSquaredInternal()
-        );
-
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
