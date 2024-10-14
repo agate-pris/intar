@@ -10,7 +10,7 @@
 {%- set self_length_squared_signed_type   = macros::fixed_type(s=true,   i=2*int_nbits+2, f=2*frac_nbits-2) %}
 {%- set self_length_unsigned_type         = macros::fixed_type(s=false,  i=  int_nbits+1, f=  frac_nbits-1) %}
 {%- set self_length_signed_type           = macros::fixed_type(s=true,   i=  int_nbits+1, f=  frac_nbits-1) %}
-{%- set magnitude = 'Vector' ~ {{ self_component_signed_type }} ~ 'Magnitude' %}
+{%- set magnitude = 'Vector' ~ self_component_signed_type ~ 'Magnitude' %}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -432,6 +432,8 @@ namespace AgatePris.Intar {
             Z.WrappingMul(other.Z){% if dim > 3 %},
             W.WrappingMul(other.W){% endif %}{% endif %});
 
+#if INTAR_ENABLE_VECTOR_UNSIGNED
+
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -447,6 +449,7 @@ namespace AgatePris.Intar {
             Y.WrappingSubUnsigned(other.Y){% if dim > 2 %},
             Z.WrappingSubUnsigned(other.Z){% if dim > 3 %},
             W.WrappingSubUnsigned(other.W){% endif %}{% endif %});
+
         {%- else %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -455,6 +458,7 @@ namespace AgatePris.Intar {
             Y.WrappingAddSigned(other.Y){% if dim > 2 %},
             Z.WrappingAddSigned(other.Z){% if dim > 3 %},
             W.WrappingAddSigned(other.W){% endif %}{% endif %});
+
         {%- endif %}
 
         {%- if signed %}
@@ -467,6 +471,8 @@ namespace AgatePris.Intar {
             W.UnsignedAbs(){% endif %}{% endif %});
 
         {%- endif %}
+
+#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
