@@ -420,6 +420,7 @@ namespace AgatePris.Intar.Numerics {
 
         {%- endif %}
 
+        /// ドット積を計算する｡ 合算前に 4 で除算する｡
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_wide_bits_type }} DotInternal({{ self_type }} other) {
             var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
@@ -437,6 +438,16 @@ namespace AgatePris.Intar.Numerics {
                 (w / 4){% endif %}{% endif %};
         }
 
+        /// <summary>
+        /// ドット積を計算する｡
+        /// </summary>
+        /// <remarks>
+        /// <div class="WARNING alert alert-warning">
+        /// <h5>Warning</h5>
+        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出する｡</para>
+        /// </div>
+        /// </remarks>
+        /// <seealso cref="SaturatingDot"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_component_type }} Dot({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
@@ -447,6 +458,16 @@ namespace AgatePris.Intar.Numerics {
             return {{ self_component_type }}.FromBits(({{ self_bits_type }})(DotInternal(other) / k));
         }
 
+        /// <summary>
+        /// ドット積を計算する｡
+        /// </summary>
+        /// <remarks>
+        /// <div class="IMPORTANT alert alert-warning">
+        /// <h5>Important</h5>
+        /// <para>このメソッドは値が範囲外の場合に最大値または最小値を返す｡</para>
+        /// </div>
+        /// </remarks>
+        /// <seealso cref="Dot"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_component_type }} SaturatingDot({{ self_type }} other) {
             const {{ self_wide_bits_type }} k =
