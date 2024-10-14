@@ -16,13 +16,118 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public struct VectorSquaredLength{{ self_component_signed_type }} {
+    public struct VectorSquaredLength    {{- self_component_signed_type }}
+        : IComparable<VectorSquaredLength{{- self_component_signed_type }}>
+        , IEquatable<VectorSquaredLength {{- self_component_signed_type }}> {
+        // この構造体はベクトルの大きさを比較するためだけに使用する。
+        // そのため、将来破壊的変更が発生しうるメソッドやフィールド、プロパティは公開しない。
         internal byte upper;
         internal ulong lower;
-        internal VectorSquaredLength{{ self_component_signed_type }}(byte upper, ulong lower) {
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal VectorSquaredLength{{
+            self_component_signed_type
+        }}(byte upper, ulong lower) {
             this.upper = upper;
             this.lower = lower;
         }
+
+        //
+        // IComparable<VectorSquaredLength{{- self_component_signed_type }}>
+        //
+
+        /// <inheritdoc cref="IComparable{T}.CompareTo(T)" />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(VectorSquaredLength{{- self_component_signed_type }} other) {
+            if (this < other) {
+                return -1;
+            } else if (this > other) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        //
+        // IEquatable<VectorSquaredLength{{- self_component_signed_type }}>
+        //
+
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(VectorSquaredLength{{- self_component_signed_type }} other) => this == other;
+        // upper == other.upper && lower == other.lower;
+
+        //
+        // Object
+        //
+
+        public override bool Equals(object obj) => (obj is VectorSquaredLength{{- self_component_signed_type }} o) && Equals(o);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode() => HashCode.Combine(upper, lower);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString() => $"<{upper}, {lower}>";
+
+        //
+        // IComparisonOperators
+        //
+
+        /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_LessThan(TSelf, TOther)" />
+        public static bool operator <(VectorSquaredLength{{
+            self_component_signed_type }} left, VectorSquaredLength{{
+            self_component_signed_type }} right) {
+            if (left.upper < right.upper) {
+                return true;
+            }
+            return (left.upper == right.upper) && (left.lower < right.lower);
+        }
+
+        /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_LessThanOrEqual(TSelf, TOther)" />
+        public static bool operator <=(VectorSquaredLength{{
+            self_component_signed_type }} left, VectorSquaredLength{{
+            self_component_signed_type }} right) {
+            if (left.upper < right.upper) {
+                return true;
+            }
+            return (left.upper == right.upper) && (left.lower <= right.lower);
+        }
+
+        /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_GreaterThan(TSelf, TOther)" />
+        public static bool operator >(VectorSquaredLength{{
+            self_component_signed_type }} left, VectorSquaredLength{{
+            self_component_signed_type }} right) {
+            if (left.upper > right.upper) {
+                return true;
+            }
+            return (left.upper == right.upper) && (left.lower > right.lower);
+        }
+
+        /// <inheritdoc cref="IComparisonOperators{TSelf, TOther, TResult}.op_GreaterThanOrEqual(TSelf, TOther)" />
+        public static bool operator >=(VectorSquaredLength{{
+            self_component_signed_type }} left, VectorSquaredLength{{
+            self_component_signed_type }} right) {
+            if (left.upper > right.upper) {
+                return true;
+            }
+            return (left.upper == right.upper) && (left.lower >= right.lower);
+        }
+
+        //
+        // IEqualityOperators
+        //
+
+        /// <inheritdoc cref="IEqualityOperators{TSelf, TOther, TResult}.op_Equality(TSelf, TOther)" />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(VectorSquaredLength{{
+            self_component_signed_type }} left, VectorSquaredLength{{
+            self_component_signed_type }} right) => (left.lower == right.lower) && (left.upper == right.upper);
+
+        /// <inheritdoc cref="IEqualityOperators{TSelf, TOther, TResult}.op_Inequality(TSelf, TOther)" />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(VectorSquaredLength{{
+            self_component_signed_type }} left, VectorSquaredLength{{
+            self_component_signed_type }} right) => (left.lower != right.lower) || (left.upper != right.upper);
     }
 
     {%- for signed in [true, false] %}
