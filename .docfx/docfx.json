@@ -5,8 +5,7 @@
         {
           "src": "..",
           "files": [
-            "AgatePris.Intar/AgatePris.Intar.csproj",
-            "AgatePris.Intar.Numerics/AgatePris.Intar.Numerics.csproj"
+            "AgatePris.Intar/AgatePris.Intar.csproj"
           ]
         }
       ],
