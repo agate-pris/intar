@@ -2,35 +2,35 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "AgatePris.Intar",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "BitOperations.cs",
             "files": [
                 { "file_name": "BitOperations.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Mathi.cs",
             "files": [
                 { "file_name": "Mathi.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Overflowing.cs",
             "files": [
                 { "file_name": "Overflowing.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar/Extensions",
+            "dir_path": "../AgatePris.Intar/Extensions",
             "template_name": "OverflowingExtension.cs",
             "files": [
                 { "file_name": "OverflowingExtension.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Numerics",
+            "dir_path": "../AgatePris.Intar.Numerics",
             "template_name": "Fixed.cs",
             "files": [
                 {%- for i in range(start = 2, end = 32) %}
@@ -49,7 +49,7 @@
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Numerics",
+            "dir_path": "../AgatePris.Intar.Numerics",
             "template_name": "Vector.cs",
             "files": [
                 {%- for i in range(start = 2, end = 31) %}
