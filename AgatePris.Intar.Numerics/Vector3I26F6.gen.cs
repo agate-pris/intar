@@ -250,6 +250,8 @@ namespace AgatePris.Intar.Numerics {
             Y.WrappingMul(other.Y),
             Z.WrappingMul(other.Z));
 
+#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I26F6 WrappingAddUnsigned(Vector3U26F6 other) => new Vector3I26F6(
             X.WrappingAddUnsigned(other.X),
@@ -267,6 +269,8 @@ namespace AgatePris.Intar.Numerics {
             X.UnsignedAbs(),
             Y.UnsignedAbs(),
             Z.UnsignedAbs());
+
+#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I26F6 SaturatingAdd(Vector3I26F6 other) => new Vector3I26F6(

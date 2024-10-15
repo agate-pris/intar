@@ -450,9 +450,13 @@ namespace AgatePris.Intar.Numerics {
         // ベクトル型との演算
         // ------------------
 
+#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2U24F8 SaturatingMul(Vector2U24F8 other) => other.SaturatingMul(this);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3U24F8 SaturatingMul(Vector3U24F8 other) => other.SaturatingMul(this);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4U24F8 SaturatingMul(Vector4U24F8 other) => other.SaturatingMul(this);
+
+#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
     }
 }

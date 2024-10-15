@@ -316,6 +316,8 @@ namespace AgatePris.Intar.Numerics {
             Z.WrappingMul(other.Z){% if dim > 3 %},
             W.WrappingMul(other.W){% endif %}{% endif %});
 
+#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -331,6 +333,7 @@ namespace AgatePris.Intar.Numerics {
             Y.WrappingSubUnsigned(other.Y){% if dim > 2 %},
             Z.WrappingSubUnsigned(other.Z){% if dim > 3 %},
             W.WrappingSubUnsigned(other.W){% endif %}{% endif %});
+
         {%- else %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -339,6 +342,7 @@ namespace AgatePris.Intar.Numerics {
             Y.WrappingAddSigned(other.Y){% if dim > 2 %},
             Z.WrappingAddSigned(other.Z){% if dim > 3 %},
             W.WrappingAddSigned(other.W){% endif %}{% endif %});
+
         {%- endif %}
 
         {%- if signed %}
@@ -351,6 +355,8 @@ namespace AgatePris.Intar.Numerics {
             W.UnsignedAbs(){% endif %}{% endif %});
 
         {%- endif %}
+
+#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(

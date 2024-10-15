@@ -54,12 +54,7 @@
             "files": [
                 {%- for i in range(start = 2, end = 31) %}
                 {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } },
-                {%- endfor %}
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 31) %}
-                {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } }
+                { "file_name": "Vector{{ dim + 2 }}I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}
