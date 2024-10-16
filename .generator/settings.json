@@ -1,3 +1,7 @@
+{%- set vector_1 = [32 - 15, 15] %}
+{%- set vector_2 = [32 - 30, 30] %}
+{%- set vector_list = [vector_1, vector_2] %}
+
 {
     "glob": "**/*.cs",
     "output_dest": [
