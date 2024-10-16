@@ -377,12 +377,13 @@ namespace AgatePris.Intar.Numerics {
         {%- endfor %}
         {%- endif %}
 
-        {%- if int_nbits + frac_nbits == 32 and int_nbits > 1 and frac_nbits > 1 %}
+        {%- for v in vector_list %}
+        {%- if v[0] == int_nbits and v[1] == frac_nbits %}
 
         // ベクトル型との演算
         // ------------------
 
-{%-if not signed %}
+{%- if not signed %}
 
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
@@ -394,7 +395,6 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
         {%- endfor %}
 
-
 {%-if not signed %}
 
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
@@ -402,6 +402,7 @@ namespace AgatePris.Intar.Numerics {
 {%- endif %}
 
         {%- endif %}
+        {%- endfor %}
 
     }
 }
