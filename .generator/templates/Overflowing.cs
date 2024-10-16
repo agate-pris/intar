@@ -116,6 +116,12 @@
 
 using System.Runtime.CompilerServices;
 
+#if NET7_0_OR_GREATER
+
+using System;
+
+#endif // NET7_0_OR_GREATER
+
 namespace AgatePris.Intar {
     public static class Overflowing {
         {%- for t in ['int', 'uint', 'long', 'ulong'] %}
@@ -200,12 +206,20 @@ namespace AgatePris.Intar {
         {{ self::checked_neg(type = "int") }}
         {{ self::checked_neg(type = "long") }}
 
-        {%- set u_32 = [false, 32] %}
-        {%- set u_64 = [false, 64] %}
-        {%- set i_32 = [true,  32] %}
-        {%- set i_64 = [true,  64] %}
-        {%- for e in [u_32, u_64, i_32, i_64] %}
+        {%- set u_32  = [false,  32] %}
+        {%- set u_64  = [false,  64] %}
+        {%- set u_128 = [false, 128] %}
+        {%- set i_32  = [true,   32] %}
+        {%- set i_64  = [true,   64] %}
+        {%- set i_128 = [true,  128] %}
+        {%- for e in [u_32, u_64, u_128, i_32, i_64, i_128] %}
         {%- set t = macros::inttype(signed=e[0], bits=e[1]) %}
+
+        {%- if e[1] == 128 %}
+
+#if NET7_0_OR_GREATER
+
+        {%- endif %}
 
         /// <summary>
         /// <para>Calculates <c>x + y</c></para>
@@ -277,6 +291,13 @@ namespace AgatePris.Intar {
         }
         {%- else %} => CheckedAdd(x, y) ?? {{ t }}.MaxValue;
         {%- endif %}
+
+        {%- if e[1] == 128 %}
+
+#endif // NET7_0_OR_GREATER
+
+        {%- endif %}
+
         {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
