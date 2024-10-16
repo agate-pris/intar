@@ -1,5 +1,11 @@
 using System.Runtime.CompilerServices;
 
+#if NET7_0_OR_GREATER
+
+using System;
+
+#endif // NET7_0_OR_GREATER
+
 namespace AgatePris.Intar {
     public static class Overflowing {
 
@@ -403,6 +409,62 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong SaturatingAdd(ulong x, ulong y) => CheckedAdd(x, y) ?? ulong.MaxValue;
 
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para>Calculates <c>x + y</c></para>
+        /// </summary>
+        /// <returns>
+        /// Returns a boolean indicating whether an arithmetic overflow would occur.
+        /// </returns>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(false, Overflowing.OverflowingAdd(5U, 2U, out var result));
+        /// System.Assert.AreEqual(true, Overflowing.OverflowingAdd(uint.MaxValue, 1U, out result));
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingAdd(UInt128 x, UInt128 y, out UInt128 result) {
+            // unchecked コンテキストでは、整数の演算結果はラップアラウンドする。
+            result = unchecked(x + y);
+
+            // 結果がより小さくなったらオーバーフロー。
+            return result < x;
+        }
+
+        /// <summary>
+        /// Checked integer addition. Computes <c>x + y</c>,
+        /// returning <c>null</c> if overflow occured.
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
+        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128? CheckedAdd(UInt128 x, UInt128 y) {
+            UInt128? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+
+        /// <summary>
+        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
+        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 SaturatingAdd(UInt128 x, UInt128 y) => CheckedAdd(x, y) ?? UInt128.MaxValue;
+
+#endif // NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Calculates <c>x + y</c></para>
         /// </summary>
@@ -524,6 +586,71 @@ namespace AgatePris.Intar {
                 ? long.MinValue
                 : long.MaxValue);
         }
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para>Calculates <c>x + y</c></para>
+        /// </summary>
+        /// <returns>
+        /// Returns a boolean indicating whether an arithmetic overflow would occur.
+        /// </returns>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(false, Overflowing.OverflowingAdd(5U, 2U, out var result));
+        /// System.Assert.AreEqual(true, Overflowing.OverflowingAdd(uint.MaxValue, 1U, out result));
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingAdd(Int128 x, Int128 y, out Int128 result) {
+            // unchecked コンテキストでは、整数の演算結果はラップアラウンドする。
+            result = unchecked(x + y);
+
+            // 右辺が 0 未満の場合、結果がより大きくなったらオーバーフロー。
+            // それ以外の場合、結果がより小さくなったらオーバーフロー。
+            return y < 0 ? result > x : result < x;
+        }
+
+        /// <summary>
+        /// Checked integer addition. Computes <c>x + y</c>,
+        /// returning <c>null</c> if overflow occured.
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
+        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128? CheckedAdd(Int128 x, Int128 y) {
+            Int128? @null = null;
+            return OverflowingAdd(x, y, out var result) ? @null : result;
+        }
+
+        /// <summary>
+        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
+        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 SaturatingAdd(Int128 x, Int128 y) {
+            // オーバーフローが起きた場合、両辺が負の場合は負方向のオーバーフロー、
+            // それ以外の場合は必ず正方向のオーバーフローとなる。
+            // 両辺の符号が異なる場合はオーバーフローが起きないが、
+            // それを検査するのは CheckedAdd の責務である。
+            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
+                ? Int128.MinValue
+                : Int128.MaxValue);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(int x, int y, out int result) {
