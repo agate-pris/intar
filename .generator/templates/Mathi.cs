@@ -651,6 +651,34 @@ namespace AgatePris.Intar {
             return s;
         }
 {%- endfor %}
+
+#if NET7_0_OR_GREATER
+
+#pragma warning disable IDE0001
+#pragma warning disable IDE0002
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static System.UInt128 Sqrt(System.UInt128 x) {
+            if (x <= 1) {
+                return x;
+            }
+
+            const int halfBits = 64;
+            var k = halfBits - ((int)System.UInt128.LeadingZeroCount(x - 1) >> 1);
+            var s = new System.UInt128(0, 1) << k;
+            var t = (s + (x >> k)) >> 1;
+            while (t < s) {
+                s = t;
+                t = (s + (x / s)) >> 1;
+            }
+            return s;
+        }
+
+#pragma warning restore IDE0002
+#pragma warning restore IDE0001
+
+#endif // NET7_0_OR_GREATER
+
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Twice({{ type }} x) => x * 2;
 {%- endfor %}
