@@ -8,8 +8,9 @@
 {%- endmacro %}
 
 {%- macro one(bits, signed) %}
-{%- if   bits == 32 %}{% if signed %}1 {%- else %}1U {%- endif %}
-{%- elif bits == 64 %}{% if signed %}1L{%- else %}1UL{%- endif %}
+{%- if   bits ==  32 %}{% if signed %}1         {%- else %}1U         {%- endif %}
+{%- elif bits ==  64 %}{% if signed %}1L        {%- else %}1UL        {%- endif %}
+{%- elif bits == 128 %}{% if signed %}Int128.One{%- else %}UInt128.One{%- endif %}
 {%- else %}{{ throw(message = "invalid arguments. bits: " ~ bits) }}{% endif %}
 {%- endmacro %}
 
