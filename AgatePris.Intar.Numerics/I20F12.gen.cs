@@ -457,12 +457,5 @@ namespace AgatePris.Intar.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I23F41 WideningMul(I3F29 other) => I23F41.FromBits((long)Bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I22F42 WideningMul(I2F30 other) => I22F42.FromBits((long)Bits * other.Bits);
 
-        // ベクトル型との演算
-        // ------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I20F12 SaturatingMul(Vector2I20F12 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I20F12 SaturatingMul(Vector3I20F12 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I20F12 SaturatingMul(Vector4I20F12 other) => other.SaturatingMul(this);
-
     }
 }
