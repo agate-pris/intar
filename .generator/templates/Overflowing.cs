@@ -222,20 +222,17 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingAdd({{ t }} x, {{ t }} y, out {{ t }} result) {
-            {%- if e[0] %}
-            // 両辺の符号が異なる場合、オーバーフローは発生しない。
-            // オーバーフローが発生すると、
-            // 両辺の符号が正の場合、結果は両辺のどちらの値よりも必ず小さくなる。
-            // 両辺の符号が負の場合、結果は両辺のどちらの値よりも必ず大きくなる。
-            result = unchecked(x + y);
-            return
-                ((x < 0) && (y < 0) && (result > x)) ||
-                ((x > 0) && (y > 0) && (result < x));
-            {%- else %}
             // unchecked コンテキストでは、整数の演算結果はラップアラウンドする。
-            // 特に、符号なし整数のそれについては、C# 以外の言語 (C++ など) でも同様の振る舞いが期待できる。
-            // ラップアラウンドした場合、結果は両辺のどちらの値よりも必ず小さくなる。
             result = unchecked(x + y);
+
+            {%- if e[0] %}
+
+            // 右辺が 0 未満の場合、結果がより大きくなったらオーバーフロー。
+            // それ以外の場合、結果がより小さくなったらオーバーフロー。
+            return y < 0 ? result > x : result < x;
+            {%- else %}
+
+            // 結果がより小さくなったらオーバーフロー。
             return result < x;
             {%- endif %}
         }
