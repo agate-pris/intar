@@ -56,9 +56,9 @@
             "dir_path": "../AgatePris.Intar.Numerics",
             "template_name": "Vector.cs",
             "files": [
-                {%- for i in range(start = 2, end = 31) %}
+                {%- for v in vector_list %}
                 {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } }
+                { "file_name": "Vector{{ dim + 2 }}I{{ v[0] }}F{{ v[1] }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ v[0] }}, "frac_nbits": {{ v[1] }}, "fixed": true } }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}
