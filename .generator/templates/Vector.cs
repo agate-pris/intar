@@ -471,6 +471,8 @@ namespace AgatePris.Intar.Numerics {
             }
         }
 
+        {%- if self_component_type == "I17F15" %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
 
@@ -590,6 +592,14 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_length_type }} Length() => LengthUnsigned();
+        {%- endif %}
+
+        {%- else %}
+
+        // ベクトルの長さに関するメソッドは要素の型が I17F15 以外の場合は生成しない。
+        // これは、それらは実用的ではなく、
+        // 無駄に大量の固定小数点数型のコンパイル時間とドキュメントの生成時間を増大させるためである。
+
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
