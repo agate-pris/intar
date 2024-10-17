@@ -25,8 +25,7 @@ namespace AgatePris.Intar.Numerics {
     [Serializable]
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
-    , IFormattable
-    , IVectorComponentRespective<{{ self_component_type }}> {
+    , IFormattable {
         // Fields
         // ---------------------------------------
 
