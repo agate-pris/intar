@@ -1,4 +1,3 @@
-using AgatePris.Intar.Numerics;
 using AgatePris.Intar.Rand;
 using NUnit.Framework;
 
