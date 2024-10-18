@@ -26,6 +26,19 @@
         },
         {
             "dir_path": "../AgatePris.Intar",
+            "template_name": "Fixed.cs",
+            "files": [
+                {%- for signed in [true, false] %}
+                {%- for f in fixed_list %}
+                { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Mathi.cs",
             "files": [
                 { "file_name": "Mathi.gen.cs", "params": {} }
@@ -46,20 +59,7 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar.Numerics",
-            "template_name": "Fixed.cs",
-            "files": [
-                {%- for signed in [true, false] %}
-                {%- for f in fixed_list %}
-                { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
-            ]
-        },
-        {
-            "dir_path": "../AgatePris.Intar.Numerics",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Vector.cs",
             "files": [
                 {%- for v in vector_list %}

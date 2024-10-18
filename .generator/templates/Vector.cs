@@ -21,7 +21,7 @@ using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Numerics {
+namespace AgatePris.Intar {
     [Serializable]
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
@@ -706,4 +706,4 @@ namespace AgatePris.Intar.Numerics {
         {%- endfor %}
 
     }
-}
+} // // namespace AgatePris.Intar
