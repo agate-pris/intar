@@ -5,7 +5,7 @@
 {%- set fixed_5 = [ 64 - 31, 31] %}
 {%- set fixed_6 = [ 64 - 62, 62] %}
 {%- set fixed_7 = [128 - 30, 30] %}
-{%- set fixed_8 = [128 - 60, 30] %}
+{%- set fixed_8 = [128 - 60, 60] %}
 {%- set fixed_list = [
     fixed_1,
     fixed_2,
