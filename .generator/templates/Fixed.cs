@@ -3,62 +3,7 @@
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_wide_bits_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
 
-{%- macro def_conv(self_type, self_bits_type, s, i, f) %}
-    {#- 自身と異なる型の場合のみ定義する #}
-    {%- if s != signed or i != int_nbits or f != frac_nbits %}
-        {%- set target_bits_type = macros::inttype(bits=i+f, signed=s) -%}
-        {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
-        {%- set explicit = signed and s == false or frac_nbits > f or
-            signed and s and int_nbits > i or
-            signed and not s and int_nbits - 1 > i or
-            not signed and s and int_nbits > i - 1 or
-            not signed and not s and int_nbits > i
-        %}
-        {%- set cast =
-            self_bits_type == "int" and (target_bits_type == "uint" or target_bits_type == "ulong") or
-            self_bits_type == "uint" and (target_bits_type == "int") or
-            self_bits_type == "long" and (target_bits_type == "int" or target_bits_type == "uint" or target_bits_type == "ulong") or
-            self_bits_type == "ulong" and (target_bits_type == "int" or target_bits_type == "uint" or target_bits_type == "long")
-        %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static
-        {%- if explicit %} explicit
-        {%- else %} implicit
-        {%- endif %} operator {{ target_type }}(
-        {{- self_type }} x) => {{ target_type -}}
-        .FromBits(
-        {%- if f == frac_nbits -%}
-            {%- if cast %}({{ target_bits_type }}){% endif -%}
-            x.Bits
-            {%- elif f > frac_nbits -%}
-            {%- if cast %}({{ target_bits_type }}){% endif -%}
-            x.Bits * (
-                {{- macros::one(bits=i+f, signed=s) }} << {{ f - frac_nbits -}}
-            )
-            {%- else -%}
-            {%- if cast %}({{ target_bits_type }})({% endif -%}
-            x.Bits / (
-                {{- macros::one(bits=int_nbits+frac_nbits, signed=signed) }} << {{ frac_nbits - f -}}
-            )
-            {%- if cast %}){% endif %}
-        {%- endif -%}
-        );
-    {%- endif %}
-{%- endmacro %}
-
-{%- macro explicit_conversion_to_fixed(self_type, self_bits_type) %}
-{%- for i in range(start = 1, end = 31) %}
-    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=true, i=32-i, f=i) }}
-{%- endfor %}
-{%- for i in range(start = 1, end = 31) %}
-    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=false, i=32-i, f=i) }}
-{%- endfor %}
-{%- for i in range(start = 1, end = 63) %}
-    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=true, i=64-i, f=i) }}
-{%- endfor %}
-{%- for i in range(start = 1, end = 63) %}
-    {{- self::def_conv(self_type=self_type, self_bits_type=self_bits_type, s=false, i=64-i, f=i) }}
-{%- endfor %}
-{%- endmacro -%}
+{#- 固定小数点数の定義 -#}
 
 using System;
 using System.Runtime.CompilerServices;
