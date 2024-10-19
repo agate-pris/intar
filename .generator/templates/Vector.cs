@@ -467,11 +467,9 @@ namespace AgatePris.Intar {
             {{ dot_bits_type }} z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
             {{ dot_bits_type }} w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
 
-            return
-                x +
-                y{% if dim > 2 %} +
-                z{% if dim > 3 %} +
-                w{% endif %}{% endif %};
+            return x + y
+            {%- if dim > 2 %} + z{% endif %}
+            {%- if dim > 3 %} + w{% endif %};
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
