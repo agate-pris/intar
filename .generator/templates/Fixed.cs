@@ -90,11 +90,31 @@ namespace AgatePris.Intar {
         // Static methods
         // --------------
 
+{%- if int_nbits + frac_nbits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+{%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * OneRepr);
+
+{%- if int_nbits + frac_nbits > 64 %}
+
+#else // NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * OneRepr);
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}
 
         // Static Properties
         // -----------------
