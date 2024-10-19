@@ -480,7 +480,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ dot_type }} LengthSquared() => Dot(this);
 
-{%- set length_type = macros::fixed_type(s=signed, i=int_nbits*4+frac_nbits*3, f=frac_nbits) %}
+{%- set length_type = macros::fixed_type(s=signed, i=int_nbits*2+frac_nbits*1, f=frac_nbits) %}
 
         /// <summary>
         /// <para>Returns the length of the vector.</para>
