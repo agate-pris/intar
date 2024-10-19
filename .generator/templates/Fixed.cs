@@ -139,6 +139,15 @@ namespace AgatePris.Intar {
         // Arithmetic Operators
         // --------------------
 
+        {%- if int_nbits + frac_nbits > 64 %}
+
+        // 128 ビットの場合、
+        // 算術演算子は .NET 7 以降の場合のみ定義される。
+
+#if NET7_0_OR_GREATER
+
+        {%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator +({{ self_type }} left, {{ self_type }} right) {
             return FromBits(left.Bits + right.Bits);
@@ -184,6 +193,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator -({{ self_type }} x) => FromBits(-x.Bits);
 {%- endif %}
+
+
+        {%- if int_nbits + frac_nbits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+        {%- endif %}
 
         // Comparison operators
         // --------------------
