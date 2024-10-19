@@ -57,7 +57,23 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+{%- if int_nbits + frac_nbits < 128 %}
+
         public {{ self_bits_type }} Bits;
+
+{%- else %}
+
+#if NET7_0_OR_GREATER
+
+        public {{ self_bits_type }} Bits;
+
+#else // NET7_0_OR_GREATER
+
+        internal {{ self_bits_type }} Bits;
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
