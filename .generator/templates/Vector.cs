@@ -21,6 +21,40 @@ using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
+{#- 各要素の 32 ビット固定小数点数型の場合
+    ドット積の計算で 128 ビット整数値型を使用する。
+    32 ビットよりも大きい方について、
+    現時点での実装予定は無い。 #}
+{%- if int_nbits + frac_nbits == 32 %}
+
+#if NET7_0_OR_GREATER
+
+{%- if signed %}
+
+using I128 = System.Int128;
+
+{%- else %}
+
+using U128 = System.UInt128;
+
+{%- endif %}
+
+#else // NET7_0_OR_GREATER
+
+{%- if signed %}
+
+using I128 = AgatePris.Intar.Int128;
+
+{%- else %}
+
+using U128 = AgatePris.Intar.UInt128;
+
+{%- endif %}
+
+#endif
+
+{%- endif %}
+
 namespace AgatePris.Intar {
     [Serializable]
     public struct {{ self_type }}
