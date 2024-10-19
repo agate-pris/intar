@@ -39,6 +39,13 @@
         },
         {
             "dir_path": "../AgatePris.Intar",
+            "template_name": "Int128.cs",
+            "files": [
+                { "file_name": "Int128.gen.cs", "params": {} }
+            ]
+        },
+        {
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Mathi.cs",
             "files": [
                 { "file_name": "Mathi.gen.cs", "params": {} }
