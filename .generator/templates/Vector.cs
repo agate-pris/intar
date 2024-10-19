@@ -467,9 +467,6 @@ namespace AgatePris.Intar {
             {{ dot_bits_type }} z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
             {{ dot_bits_type }} w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
 
-            // オーバーフローを避けるため､ 事前に除算する｡
-            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
             return
                 x +
                 y{% if dim > 2 %} +
