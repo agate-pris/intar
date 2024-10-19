@@ -1,6 +1,12 @@
 using System;
 using System.Runtime.CompilerServices;
 
+#if NET7_0_OR_GREATER
+
+using I128 = System.Int128;
+
+#endif // NET7_0_OR_GREATER
+
 namespace AgatePris.Intar {
     [Serializable]
     public struct I6F58 : IEquatable<I6F58>, IFormattable {
@@ -82,13 +88,13 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I6F58 operator *(I6F58 left, I6F58 right) {
-            Int128 l = left.Bits;
+            I128 l = left.Bits;
             return FromBits((long)(l * right.Bits / oneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I6F58 operator /(I6F58 left, I6F58 right) {
-            Int128 l = left.Bits;
+            I128 l = left.Bits;
             return FromBits((long)(l * oneRepr / right.Bits));
         }
 
