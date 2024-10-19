@@ -53,5 +53,51 @@ namespace AgatePris.Intar.Tests.Mathi {
                 }
             });
         }
+
+#if NET7_0_OR_GREATER
+
+        [Test]
+        public static void TestSqrtUInt128() {
+            {
+                var a = Intar.Mathi.Sqrt(new System.UInt128(0, 0));
+                var e = new System.UInt128(0, 0);
+                if (e != a) {
+                    Assert.AreEqual(e, a);
+                }
+            }
+            {
+                var a = Intar.Mathi.Sqrt(new System.UInt128(ulong.MaxValue, ulong.MaxValue));
+                var e = new System.UInt128(0, ulong.MaxValue);
+                if (e != a) {
+                    Assert.AreEqual(e, a);
+                }
+            }
+
+            var processorCount = System.Environment.ProcessorCount;
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            _ = Parallel.For(0, processorCount, n => {
+                var r = rng;
+                for (var i = 0; i < n; ++i) {
+                    r.Jump();
+                }
+                for (var i = 0; i < 99999; i++) {
+                    var x = new System.UInt128(
+                        unchecked((uint)r.NextInt64()),
+                        unchecked((uint)r.NextInt64()));
+                    var a = Intar.Mathi.Sqrt(x);
+                    if (a * a > x) {
+                        Assert.Fail();
+                    }
+                    if (a != new System.UInt128(0, ulong.MaxValue)) {
+                        if ((a + 1) * (a + 1) <= x) {
+                            Assert.Fail();
+                        }
+                    }
+                }
+            });
+        }
+
+#endif // NET7_0_OR_GREATER
+
     }
 }

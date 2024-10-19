@@ -1,4 +1,3 @@
-using AgatePris.Intar.Numerics;
 using NUnit.Framework;
 
 namespace AgatePris.Intar.Tests {

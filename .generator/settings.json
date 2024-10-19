@@ -1,65 +1,70 @@
+{%- set fixed_1 = [32 - 14, 14] %}
+{%- set fixed_2 = [32 - 15, 15] %}
+{%- set fixed_3 = [32 - 29, 29] %}
+{%- set fixed_4 = [32 - 30, 30] %}
+{%- set fixed_5 = [64 - 28, 28] %}
+{%- set fixed_6 = [64 - 31, 31] %}
+{%- set fixed_7 = [64 - 58, 58] %}
+{%- set fixed_8 = [64 - 62, 62] %}
+{%- set fixed_list = [
+    fixed_1, fixed_2, fixed_3, fixed_4,
+    fixed_5, fixed_6, fixed_7, fixed_8
+] %}
+{%- set vector_1 = [32 - 15, 15] %}
+{%- set vector_2 = [32 - 30, 30] %}
+{%- set vector_list = [vector_1, vector_2] %}
+
 {
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "AgatePris.Intar",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "BitOperations.cs",
             "files": [
                 { "file_name": "BitOperations.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar",
+            "dir_path": "../AgatePris.Intar",
+            "template_name": "Fixed.cs",
+            "files": [
+                {%- for signed in [true, false] %}
+                {%- for f in fixed_list %}
+                { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Mathi.cs",
             "files": [
                 { "file_name": "Mathi.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Overflowing.cs",
             "files": [
                 { "file_name": "Overflowing.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar/Extensions",
+            "dir_path": "../AgatePris.Intar/Extensions",
             "template_name": "OverflowingExtension.cs",
             "files": [
                 { "file_name": "OverflowingExtension.gen.cs", "params": {} }
             ]
         },
         {
-            "dir_path": "AgatePris.Intar.Numerics",
-            "template_name": "Fixed.cs",
-            "files": [
-                {%- for i in range(start = 2, end = 32) %}
-                { "file_name": "I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 32) %}
-                { "file_name": "U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }} } },
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 64) %}
-                { "file_name": "I{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } },
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 64) %}
-                { "file_name": "U{{ i }}F{{ 64 - i }}.gen.cs", "params": { "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 64 - i }} } }
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
-            ]
-        },
-        {
-            "dir_path": "AgatePris.Intar.Numerics",
+            "dir_path": "../AgatePris.Intar",
             "template_name": "Vector.cs",
             "files": [
-                {%- for i in range(start = 2, end = 31) %}
+                {%- for v in vector_list %}
                 {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}I{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } },
-                {%- endfor %}
-                {%- endfor %}
-                {%- for i in range(start = 2, end = 31) %}
-                {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}U{{ i }}F{{ 32 - i }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": false, "int_nbits": {{ i }}, "frac_nbits": {{ 32 - i }}, "fixed": true } }
+                { "file_name": "Vector{{ dim + 2 }}I{{ v[0] }}F{{ v[1] }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ v[0] }}, "frac_nbits": {{ v[1] }}, "fixed": true } }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}

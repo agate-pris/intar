@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0;net6.0;net7.0</TargetFrameworks>
 
-    <Version>0.15.0</Version>
+    <Version>0.16.0</Version>
 
     <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
     <BaseOutputPath>.bin\</BaseOutputPath>
@@ -35,7 +35,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AgatePris.Intar\AgatePris.Intar.csproj" />
-    <ProjectReference Include="..\AgatePris.Intar.Numerics\AgatePris.Intar.Numerics.csproj" />
   </ItemGroup>
 
 </Project>

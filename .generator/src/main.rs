@@ -8,7 +8,7 @@ use tera::Tera;
 #[derive(Debug, Parser)]
 struct Args {
     /// Path to output directory
-    #[arg(short, long, default_value_t = String::from("output"))]
+    #[arg(short, long, default_value_t = String::from("."))]
     output: String,
 
     /// Path to settings file

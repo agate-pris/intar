@@ -21,13 +21,11 @@ using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar.Numerics {
+namespace AgatePris.Intar {
     [Serializable]
     public struct {{ self_type }}
     : IEquatable<{{ self_type }}>
-    , IFormattable
-    , IVector<{{ self_length_squared_unsigned_type }}, {{ self_length_squared_signed_type }}, {{ self_length_unsigned_type }}, {{ self_length_signed_type }}>
-    , IVectorComponentRespective<{{ self_component_type }}> {
+    , IFormattable {
         // Fields
         // ---------------------------------------
 
@@ -316,6 +314,8 @@ namespace AgatePris.Intar.Numerics {
             Z.WrappingMul(other.Z){% if dim > 3 %},
             W.WrappingMul(other.W){% endif %}{% endif %});
 
+#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -331,6 +331,7 @@ namespace AgatePris.Intar.Numerics {
             Y.WrappingSubUnsigned(other.Y){% if dim > 2 %},
             Z.WrappingSubUnsigned(other.Z){% if dim > 3 %},
             W.WrappingSubUnsigned(other.W){% endif %}{% endif %});
+
         {%- else %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -339,6 +340,7 @@ namespace AgatePris.Intar.Numerics {
             Y.WrappingAddSigned(other.Y){% if dim > 2 %},
             Z.WrappingAddSigned(other.Z){% if dim > 3 %},
             W.WrappingAddSigned(other.W){% endif %}{% endif %});
+
         {%- endif %}
 
         {%- if signed %}
@@ -351,6 +353,8 @@ namespace AgatePris.Intar.Numerics {
             W.UnsignedAbs(){% endif %}{% endif %});
 
         {%- endif %}
+
+#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
@@ -589,7 +593,10 @@ namespace AgatePris.Intar.Numerics {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}? Normalize() {
-            {% if signed -%}
+            {%- if signed %}
+
+            // 各要素の内部表現型を取り出し、
+            // その絶対値を得る。
 
             var x0 = X.Bits;
             var x1 = Y.Bits;{% if dim > 2 %}
@@ -613,10 +620,16 @@ namespace AgatePris.Intar.Numerics {
 
             {%- endif %}
 
+            // 各要素の最大値が 0 の場合は null を返す。
+
             var max = a0.Max(a1){% if dim > 2 %}.Max(a2){% if dim > 3 %}.Max(a3){% endif %}{% endif %};
             if (max == 0) {
                 return null;
             }
+
+            // ベクトルの大きさが小さい時の誤差を小さくするため、
+            // 最大の要素が表現型の範囲に収まるように拡大する。
+            // 最大の要素以外にも同じ値を乗算する。
 
             {{ self_wide_bits_unsigned_type }} m = {{ self_bits_unsigned_type }}.MaxValue / max;
 
@@ -630,6 +643,8 @@ namespace AgatePris.Intar.Numerics {
                 (l3 * l3 / 4){% endif %}{% endif %};
             var ll = Mathi.Sqrt(sum);
 
+            // 小数部の桁をあわせる。
+
             const {{ self_wide_bits_unsigned_type }} k =
             {%- if self_wide_bits_unsigned_type == "ulong" %} 1UL
             {%- else %}{{ throw(message="self_wide_bits_unsigned_type: " ~ self_wide_bits_unsigned_type) }}
@@ -638,6 +653,8 @@ namespace AgatePris.Intar.Numerics {
             {%- for i in range(end=dim) %}
             var y{{ i }} = ({{ self_bits_type }})(l{{ i }} * k / ll);
             {%- endfor %}
+
+            // 最後に符号をあわせて返す。
 
             return new {{ self_type }}(
                 {{ self_component_type }}.FromBits({% if signed %}b0 ? -y0 : {% endif %}y0),
@@ -702,4 +719,4 @@ namespace AgatePris.Intar.Numerics {
         {%- endfor %}
 
     }
-}
+} // // namespace AgatePris.Intar
