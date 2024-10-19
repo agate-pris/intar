@@ -12,11 +12,13 @@ using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
 
-using {% if signed %}I{% else %}U{% endif %}128 = System.{% if not signed %}U{% endif %}Int128;
+using I128 = System.Int128;
+using U128 = System.UInt128;
 
 #else // NET7_0_OR_GREATER
 
-using {% if signed %}I{% else %}U{% endif %}128 = AgatePris.Intar.{% if not signed %}U{% endif %}Int128;
+using I128 = AgatePris.Intar.Int128;
+using U128 = AgatePris.Intar.UInt128;
 
 #endif // NET7_0_OR_GREATER
 
@@ -398,11 +400,9 @@ namespace AgatePris.Intar {
 
 {%- if int_nbits + frac_nbits > 64 %}
 
-        // 128 ビットの場合、各種メソッドは .NET 7 以降の場合のみ定義される。
+        // 128 ビットの場合、各種メソッドは定義されない。
 
-#if NET7_0_OR_GREATER
-
-{%- endif %}
+{%- else %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
@@ -578,10 +578,6 @@ namespace AgatePris.Intar {
 
         {%- endif %}
         {%- endfor %}
-
-{%- if int_nbits + frac_nbits > 64 %}
-
-#endif // NET7_0_OR_GREATER
 
 {%- endif %}
 
