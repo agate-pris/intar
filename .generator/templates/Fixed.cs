@@ -39,10 +39,14 @@ namespace AgatePris.Intar {
 
         {%- else %}
 
+#if NET7_0_OR_GREATER
+
         static {{ self_bits_type }} OneRepr {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => new {{ self_bits_type }}(0, 1) << FracNbits;
         }
+
+#endif // NET7_0_OR_GREATER
 
         {%- endif %}
 
