@@ -424,21 +424,23 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
+{%- set dot_bits_type = macros::inttype(signed=signed, bits=int_nbits*4+frac_nbits*4) %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_wide_bits_type }} DotInternal({{ self_type }} other) {
-            var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
-            var y = (({{ self_wide_bits_type }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
-            var z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
-            var w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
+        {{ dot_bits_type }} DotInternal({{ self_type }} other) {
+            {{ dot_bits_type }} x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
+            {{ dot_bits_type }} y = (({{ self_wide_bits_type }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
+            {{ dot_bits_type }} z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
+            {{ dot_bits_type }} w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
 
             // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
             // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
             return
-                (x / 4) +
-                (y / 4){% if dim > 2 %} +
-                (z / 4){% if dim > 3 %} +
-                (w / 4){% endif %}{% endif %};
+                x +
+                y{% if dim > 2 %} +
+                z{% if dim > 3 %} +
+                w{% endif %}{% endif %};
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
