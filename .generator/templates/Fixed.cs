@@ -8,13 +8,15 @@
 using System;
 using System.Runtime.CompilerServices;
 
-{%- if int_nbits + frac_nbits > 32 %}
+{%- if int_nbits + frac_nbits == 32 or int_nbits + frac_nbits == 64 or int_nbits + frac_nbits == 128 %}
 
 #if NET7_0_OR_GREATER
 
-using {% if signed %}I{% else %} U{% endif %}{{
-    int_nbits * 2 + frac_nbits * 2 }} = System.{% if not signed %}U{% endif %}Int{{
-    int_nbits * 2 + frac_nbits * 2 }};
+using {% if signed %}I{% else %}U{% endif %}128 = System.{% if not signed %}U{% endif %}Int128;
+
+#else // NET7_0_OR_GREATER
+
+using {% if signed %}I{% else %}U{% endif %}128 = AgatePris.Intar.{% if not signed %}U{% endif %}Int128;
 
 #endif // NET7_0_OR_GREATER
 
