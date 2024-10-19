@@ -15,6 +15,7 @@ namespace AgatePris.Intar {
 
         public static Int128 MinValue => new Int128(1UL << 63, 0);
         public static Int128 MaxValue => new Int128((1UL << 63) - 1, ulong.MaxValue);
+        public static Int128 One => new Int128(0, 1);
 
         public Int128(ulong upper, ulong lower) {
             this.lower = lower;
