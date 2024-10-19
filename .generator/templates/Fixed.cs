@@ -17,12 +17,9 @@ namespace AgatePris.Intar {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
-        const {{ self_bits_type }} oneRepr = 1{% if self_bits_type == "int" -%}
-        {%- elif self_bits_type == "uint" -%}U
-        {%- elif self_bits_type == "long" -%}L
-        {%- elif self_bits_type == "ulong" -%}UL
-        {%- else %}{{ throw(message = "self::self_bits_type returns unknown value.") }}
-        {%- endif %} << FracNbits;
+        const {{ self_bits_type }} oneRepr = {{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} << FracNbits;
 
         // Fields
         // ------
