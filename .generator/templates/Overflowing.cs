@@ -114,6 +114,7 @@
         }
 {%- endmacro -%}
 
+using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
@@ -281,8 +282,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(int x, int y, out int result) {
-            long l = x;
-            l *= y;
+            var l = Math.BigMul(x, y);
             result = unchecked((int)l);
             return l < int.MinValue || l > int.MaxValue;
         }
@@ -300,8 +300,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(uint x, uint y, out uint result) {
-            ulong l = x;
-            l *= y;
+            var l = ((ulong)x) * y;
             result = unchecked((uint)l);
             return l > int.MaxValue;
         }
