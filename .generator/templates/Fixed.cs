@@ -24,7 +24,22 @@ using {% if signed %}I{% else %}U{% endif %}128 = AgatePris.Intar.{% if not sign
 
 namespace AgatePris.Intar {
     [Serializable]
-    public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
+    public struct {{ self_type }}
+    : IEquatable<{{ self_type }}>
+
+{%- if int_nbits + frac_nbits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    , IFormattable
+
+#endif
+
+    {
+
+{%- else %}
+    , IFormattable {
+{%- endif %}
         // Consts
         // ------
 
@@ -53,19 +68,27 @@ namespace AgatePris.Intar {
         // Fields
         // ------
 
+{%- if int_nbits + frac_nbits < 128 %}
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-{%- if int_nbits + frac_nbits < 128 %}
-
         public {{ self_bits_type }} Bits;
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
 
 {%- else %}
 
 #if NET7_0_OR_GREATER
 
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+
         public {{ self_bits_type }} Bits;
+
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 
 #else // NET7_0_OR_GREATER
 
@@ -74,10 +97,6 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
 {%- endif %}
-
-#if NET5_0_OR_GREATER
-#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#endif
 
         // Constructors
         // ------------
@@ -158,6 +177,12 @@ namespace AgatePris.Intar {
             return FromBits(left.Bits - right.Bits);
         }
 
+{%- if int_nbits + frac_nbits > 64 %}
+
+        // 128 ビットの場合、乗算・除算は定義されない。
+
+{%- else %}
+
 {%- if int_nbits + frac_nbits == 64 %}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
@@ -182,6 +207,8 @@ namespace AgatePris.Intar {
 {%- if int_nbits + frac_nbits == 64 %}
 
 #endif
+
+{%- endif %}
 
 {%- endif %}
 
@@ -218,10 +245,27 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self_type }} x) => {% if self_bits_type != "int" %}(int)({% endif %}x.Bits / OneRepr{% if self_bits_type != "int" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self_type }} x) => {% if self_bits_type != "uint" %}(uint)({% endif %}x.Bits / OneRepr{% if self_bits_type != "uint" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self_type }} x) => {% if self_bits_type == "ulong" %}(long)({% endif %}x.Bits / OneRepr{% if self_bits_type == "ulong" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong({{ self_type }} x) => {% if signed %}(ulong)({% endif %}x.Bits / OneRepr{% if signed %}){% endif %};
+{%- if int_nbits + frac_nbits > 64 %}
+
+        // 128 ビットの場合、変換演算子は
+        // .NET 7 以降の場合のみ定義される。
+
+#if NET7_0_OR_GREATER
+
+{%- endif %}
+
+{%- for s in [true, false] %}
+    {%- for bits in [32, 64] %}
+        {%- set t = macros::inttype(signed=s, bits=bits) %}
+        {%- set cast
+            = signed and not s
+            or not signed and s and int_nbits + frac_nbits >= bits
+            or signed == s and int_nbits + frac_nbits > bits %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{
+            macros::inttype(signed=s, bits=bits)
+        }}({{ self_type}} x) => {% if cast %}({{ t }})({% endif %}x.Bits / OneRepr{% if cast %}){% endif %};
+    {%- endfor %}
+{%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float({{ self_type }} x) {
@@ -290,6 +334,12 @@ namespace AgatePris.Intar {
     {%- endfor %}
 {%- endfor %}
 
+{%- if int_nbits + frac_nbits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}
+
         // Object
         // ---------------------------------------
 
@@ -298,8 +348,22 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Bits.GetHashCode();
 
+{%- if int_nbits + frac_nbits > 64 %}
+
+        // 128 ビットの場合、各種メソッドは .NET 7 以降の場合のみ定義される。
+
+#if NET7_0_OR_GREATER
+
+{%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ((double)this).ToString((IFormatProvider)null);
+
+{%- if int_nbits + frac_nbits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}
 
         // IEquatable<{{ self_type }}>
         // ---------------------------------------
@@ -310,13 +374,35 @@ namespace AgatePris.Intar {
         // IFormattable
         // ---------------------------------------
 
+{%- if int_nbits + frac_nbits > 64 %}
+
+        // 128 ビットの場合、各種メソッドは .NET 7 以降の場合のみ定義される。
+
+#if NET7_0_OR_GREATER
+
+{%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
 
+{%- if int_nbits + frac_nbits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}
+
         // Methods
         // ---------------------------------------
+
+{%- if int_nbits + frac_nbits > 64 %}
+
+        // 128 ビットの場合、各種メソッドは .NET 7 以降の場合のみ定義される。
+
+#if NET7_0_OR_GREATER
+
+{%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
@@ -492,6 +578,12 @@ namespace AgatePris.Intar {
 
         {%- endif %}
         {%- endfor %}
+
+{%- if int_nbits + frac_nbits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}
 
     }
 } // namespace AgatePris.Intar
