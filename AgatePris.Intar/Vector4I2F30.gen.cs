@@ -473,6 +473,10 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30? Normalize() {
+
+            // 各要素の内部表現型を取り出し、
+            // その絶対値を得る。
+
             var x0 = X.Bits;
             var x1 = Y.Bits;
             var x2 = Z.Bits;
@@ -486,10 +490,16 @@ namespace AgatePris.Intar {
             var a2 = unchecked((uint)(b2 ? Overflowing.WrappingNeg(x2) : x2));
             var a3 = unchecked((uint)(b3 ? Overflowing.WrappingNeg(x3) : x3));
 
+            // 各要素の最大値が 0 の場合は null を返す。
+
             var max = a0.Max(a1).Max(a2).Max(a3);
             if (max == 0) {
                 return null;
             }
+
+            // ベクトルの大きさが小さい時の誤差を小さくするため、
+            // 最大の要素が表現型の範囲に収まるように拡大する。
+            // 最大の要素以外にも同じ値を乗算する。
 
             ulong m = uint.MaxValue / max;
             var l0 = m * a0;
@@ -503,11 +513,15 @@ namespace AgatePris.Intar {
                 (l3 * l3 / 4);
             var ll = Mathi.Sqrt(sum);
 
+            // 小数部の桁をあわせる。
+
             const ulong k = 1UL << 29;
             var y0 = (int)(l0 * k / ll);
             var y1 = (int)(l1 * k / ll);
             var y2 = (int)(l2 * k / ll);
             var y3 = (int)(l3 * k / ll);
+
+            // 最後に符号をあわせて返す。
 
             return new Vector4I2F30(
                 I2F30.FromBits(b0 ? -y0 : y0),
