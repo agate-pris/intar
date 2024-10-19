@@ -31,9 +31,20 @@ namespace AgatePris.Intar {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
+        {%- if int_nbits + frac_nbits < 128 %}
+
         const {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
+
+        {%- else %}
+
+        static {{ self_bits_type }} OneRepr {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new {{ self_bits_type }}(0, 1) << FracNbits;
+        }
+
+        {%- endif %}
 
         // Fields
         // ------
