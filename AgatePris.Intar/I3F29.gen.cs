@@ -10,7 +10,7 @@ namespace AgatePris.Intar {
         public const int IntNbits = 3;
         public const int FracNbits = 29;
 
-        const int oneRepr = 1 << FracNbits;
+        const int OneRepr = 1 << FracNbits;
 
         // Fields
         // ------
@@ -40,7 +40,7 @@ namespace AgatePris.Intar {
         public static I3F29 FromBits(int bits) => new I3F29(bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I3F29 FromNum(int num) => FromBits(num * oneRepr);
+        public static I3F29 FromNum(int num) => FromBits(num * OneRepr);
 
         // Static Properties
         // -----------------
@@ -78,13 +78,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I3F29 operator *(I3F29 left, I3F29 right) {
             long l = left.Bits;
-            return FromBits((int)(l * right.Bits / oneRepr));
+            return FromBits((int)(l * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I3F29 operator /(I3F29 left, I3F29 right) {
             long l = left.Bits;
-            return FromBits((int)(l * oneRepr / right.Bits));
+            return FromBits((int)(l * OneRepr / right.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -110,26 +110,26 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(I3F29 x) => x.Bits / oneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(I3F29 x) => (uint)(x.Bits / oneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(I3F29 x) => x.Bits / oneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(I3F29 x) => (ulong)(x.Bits / oneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(I3F29 x) => x.Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(I3F29 x) => (uint)(x.Bits / OneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(I3F29 x) => x.Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(I3F29 x) => (ulong)(x.Bits / OneRepr);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(I3F29 x) {
-            const float k = 1.0f / oneRepr;
+            const float k = 1.0f / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(I3F29 x) {
-            const double k = 1.0 / oneRepr;
+            const double k = 1.0 / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator decimal(I3F29 x) {
-            const decimal k = 1.0M / oneRepr;
+            const decimal k = 1.0M / OneRepr;
             return k * x.Bits;
         }
 
@@ -221,7 +221,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingMul(I3F29 other, out I3F29 result) {
-            var bits = ((long)Bits) * other.Bits / oneRepr;
+            var bits = ((long)Bits) * other.Bits / OneRepr;
             result = FromBits(unchecked((int)bits));
             return bits < int.MinValue || bits > int.MaxValue;
         }

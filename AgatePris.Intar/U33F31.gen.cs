@@ -16,7 +16,7 @@ namespace AgatePris.Intar {
         public const int IntNbits = 33;
         public const int FracNbits = 31;
 
-        const ulong oneRepr = 1UL << FracNbits;
+        const ulong OneRepr = 1UL << FracNbits;
 
         // Fields
         // ------
@@ -46,7 +46,7 @@ namespace AgatePris.Intar {
         public static U33F31 FromBits(ulong bits) => new U33F31(bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 FromNum(ulong num) => FromBits(num * oneRepr);
+        public static U33F31 FromNum(ulong num) => FromBits(num * OneRepr);
 
         // Static Properties
         // -----------------
@@ -89,13 +89,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U33F31 operator *(U33F31 left, U33F31 right) {
             U128 l = left.Bits;
-            return FromBits((ulong)(l * right.Bits / oneRepr));
+            return FromBits((ulong)(l * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U33F31 operator /(U33F31 left, U33F31 right) {
             U128 l = left.Bits;
-            return FromBits((ulong)(l * oneRepr / right.Bits));
+            return FromBits((ulong)(l * OneRepr / right.Bits));
         }
 
 #endif
@@ -120,26 +120,26 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(U33F31 x) => (int)(x.Bits / oneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(U33F31 x) => (uint)(x.Bits / oneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(U33F31 x) => (long)(x.Bits / oneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(U33F31 x) => x.Bits / oneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(U33F31 x) => (int)(x.Bits / OneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(U33F31 x) => (uint)(x.Bits / OneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(U33F31 x) => (long)(x.Bits / OneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(U33F31 x) => x.Bits / OneRepr;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(U33F31 x) {
-            const float k = 1.0f / oneRepr;
+            const float k = 1.0f / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(U33F31 x) {
-            const double k = 1.0 / oneRepr;
+            const double k = 1.0 / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator decimal(U33F31 x) {
-            const decimal k = 1.0M / oneRepr;
+            const decimal k = 1.0M / OneRepr;
             return k * x.Bits;
         }
 

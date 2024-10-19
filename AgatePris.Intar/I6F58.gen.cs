@@ -16,7 +16,7 @@ namespace AgatePris.Intar {
         public const int IntNbits = 6;
         public const int FracNbits = 58;
 
-        const long oneRepr = 1L << FracNbits;
+        const long OneRepr = 1L << FracNbits;
 
         // Fields
         // ------
@@ -46,7 +46,7 @@ namespace AgatePris.Intar {
         public static I6F58 FromBits(long bits) => new I6F58(bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I6F58 FromNum(long num) => FromBits(num * oneRepr);
+        public static I6F58 FromNum(long num) => FromBits(num * OneRepr);
 
         // Static Properties
         // -----------------
@@ -89,13 +89,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I6F58 operator *(I6F58 left, I6F58 right) {
             I128 l = left.Bits;
-            return FromBits((long)(l * right.Bits / oneRepr));
+            return FromBits((long)(l * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I6F58 operator /(I6F58 left, I6F58 right) {
             I128 l = left.Bits;
-            return FromBits((long)(l * oneRepr / right.Bits));
+            return FromBits((long)(l * OneRepr / right.Bits));
         }
 
 #endif
@@ -123,26 +123,26 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(I6F58 x) => (int)(x.Bits / oneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(I6F58 x) => (uint)(x.Bits / oneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(I6F58 x) => x.Bits / oneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(I6F58 x) => (ulong)(x.Bits / oneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(I6F58 x) => (int)(x.Bits / OneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(I6F58 x) => (uint)(x.Bits / OneRepr);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(I6F58 x) => x.Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(I6F58 x) => (ulong)(x.Bits / OneRepr);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(I6F58 x) {
-            const float k = 1.0f / oneRepr;
+            const float k = 1.0f / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(I6F58 x) {
-            const double k = 1.0 / oneRepr;
+            const double k = 1.0 / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator decimal(I6F58 x) {
-            const decimal k = 1.0M / oneRepr;
+            const decimal k = 1.0M / OneRepr;
             return k * x.Bits;
         }
 

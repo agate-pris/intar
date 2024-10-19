@@ -29,7 +29,7 @@ namespace AgatePris.Intar {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
-        const {{ self_bits_type }} oneRepr = {{
+        const {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
 
@@ -61,7 +61,7 @@ namespace AgatePris.Intar {
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * oneRepr);
+        public static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * OneRepr);
 
         // Static Properties
         // -----------------
@@ -108,13 +108,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
             {{ self_wide_bits_type }} l = left.Bits;
-            return FromBits(({{ self_bits_type }})(l * right.Bits / oneRepr));
+            return FromBits(({{ self_bits_type }})(l * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator /({{ self_type }} left, {{ self_type }} right) {
             {{ self_wide_bits_type }} l = left.Bits;
-            return FromBits(({{ self_bits_type }})(l * oneRepr / right.Bits));
+            return FromBits(({{ self_bits_type }})(l * OneRepr / right.Bits));
         }
 
 {%- if int_nbits + frac_nbits == 64 %}
@@ -149,26 +149,26 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self_type }} x) => {% if self_bits_type != "int" %}(int)({% endif %}x.Bits / oneRepr{% if self_bits_type != "int" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self_type }} x) => {% if self_bits_type != "uint" %}(uint)({% endif %}x.Bits / oneRepr{% if self_bits_type != "uint" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self_type }} x) => {% if self_bits_type == "ulong" %}(long)({% endif %}x.Bits / oneRepr{% if self_bits_type == "ulong" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong({{ self_type }} x) => {% if signed %}(ulong)({% endif %}x.Bits / oneRepr{% if signed %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self_type }} x) => {% if self_bits_type != "int" %}(int)({% endif %}x.Bits / OneRepr{% if self_bits_type != "int" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self_type }} x) => {% if self_bits_type != "uint" %}(uint)({% endif %}x.Bits / OneRepr{% if self_bits_type != "uint" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self_type }} x) => {% if self_bits_type == "ulong" %}(long)({% endif %}x.Bits / OneRepr{% if self_bits_type == "ulong" %}){% endif %};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong({{ self_type }} x) => {% if signed %}(ulong)({% endif %}x.Bits / OneRepr{% if signed %}){% endif %};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float({{ self_type }} x) {
-            const float k = 1.0f / oneRepr;
+            const float k = 1.0f / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double({{ self_type }} x) {
-            const double k = 1.0 / oneRepr;
+            const double k = 1.0 / OneRepr;
             return k * x.Bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator decimal({{ self_type }} x) {
-            const decimal k = 1.0M / oneRepr;
+            const decimal k = 1.0M / OneRepr;
             return k * x.Bits;
         }
 
@@ -312,7 +312,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
-            var bits = (({{ self_wide_bits_type }})Bits) * other.Bits / oneRepr;
+            var bits = (({{ self_wide_bits_type }})Bits) * other.Bits / OneRepr;
             result = FromBits(unchecked(({{ self_bits_type }})bits));
             {%- if signed %}
             return bits < {{ self_bits_type }}.MinValue || bits > {{ self_bits_type }}.MaxValue;
