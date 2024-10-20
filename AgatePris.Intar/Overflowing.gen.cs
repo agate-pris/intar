@@ -560,5 +560,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(ulong x, ulong y, out ulong result) => Mathi.BigMul(x, y, out result) != 0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingMul(long x, long y, out long result) {
+            _ = Mathi.BigMul(x, y, out result);
+            throw new NotImplementedException();
+        }
     }
 }
