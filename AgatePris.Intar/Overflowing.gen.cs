@@ -558,5 +558,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingMul(ulong x, ulong y, out ulong result) => Mathi.BigMul(x, y, out result) != 0;
     }
 }
