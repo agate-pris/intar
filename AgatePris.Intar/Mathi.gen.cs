@@ -650,6 +650,55 @@ namespace AgatePris.Intar {
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long BigMul(int a, int b) => (long)a * b;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong BigMul(uint a, uint b) => (ulong)a * b;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong BigMul(ulong a, ulong b, out ulong low) {
+
+            // .NET 5 以降では Math.BigMul が使えるので、それを使う。
+
+#if NET5_0_OR_GREATER
+
+            return Math.BigMul(a, b, out low);
+
+#else // NET5_0_OR_GREATER
+
+            const ulong mask = 0xffff_ffff;
+
+            // a と b を上位 32 ビットと下位 32 ビットに分ける
+
+            var a_h = a >> 32;
+            var b_h = b >> 32;
+            var a_l = a & mask;
+            var b_l = b & mask;
+
+            // 上位ビット、下位ビットを組み合わせごとに各々乗算する
+
+            var h_h = a_h * b_h;
+            var l_l = a_l * b_l;
+            var h_l = a_h * b_l;
+            var l_h = a_l * b_h;
+
+            // 下位 64 ビットの上位 32 ビットを計算する。
+            var mid = (l_l >> 32)
+                + (h_l & mask)
+                + (l_h & mask);
+
+            // 下位 64 ビットを計算する。
+            low = (mid << 32) | (l_l & mask);
+
+            // 上位 64 ビットを計算する。
+            return h_h
+                + (l_h >> 32)
+                + (h_l >> 32)
+                + (mid >> 32);
+
+#endif
+
+        }
+
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
