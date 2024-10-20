@@ -54,8 +54,8 @@ namespace AgatePris.Intar.Tests.Numerics {
             }
             {
                 var a = q.Length();
-                const double delta = 0.004;
-                Utility.AssertAreEqual(p.Length() / 2, (float)a, delta);
+                const double delta = 0.008;
+                Utility.AssertAreEqual(p.Length(), (float)a, delta);
             }
         }
         static void Test(I17F15 x, I17F15 y) {
@@ -82,8 +82,8 @@ namespace AgatePris.Intar.Tests.Numerics {
             }
             {
                 var a = q.Length();
-                const double delta = 0.004;
-                Utility.AssertAreEqual(p.Length() / 2, (float)a, delta);
+                const double delta = 0.008;
+                Utility.AssertAreEqual(p.Length(), (float)a, delta);
             }
         }
 
