@@ -320,5 +320,44 @@ namespace AgatePris.Intar.Tests {
             Assert.AreEqual(int.MinValue, Overflowing.SaturatingAdd(int.MinValue + 1, -100));
             Assert.AreEqual(int.MaxValue, Overflowing.SaturatingAdd(int.MaxValue - 1, 100));
         }
+
+        [Test]
+        public static void TestOverflowingMulLong() {
+
+            // ランダムな long の値を用意し checked / unchecked の両方で乗算を行い、
+            // 例外を送出するか否かと結果を比較する。
+
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+
+            for (var i = 0; i < 50000; i++) {
+                ulong a, b;
+                unchecked {
+                    a = (ulong)rng.NextInt64();
+                    b = (ulong)rng.NextInt64();
+                }
+                var overflow = Overflowing.OverflowingMul(a, b, out var actual);
+                var expected = unchecked(a * b);
+                try {
+                    checked {
+
+                        // 速度のため、条件分岐をあらかじめ行う。
+                        // 実際にエラーが発生した時、
+                        // いい感じのエラーメッセージを出させるために Assert を使う。
+
+                        _ = a * b;
+                        if (overflow) {
+                            Assert.IsFalse(overflow, $"a: {a} b: {b}");
+                        }
+                    }
+                } catch {
+                    if (!overflow) {
+                        Assert.IsTrue(overflow, $"a: {a} b: {b}");
+                    }
+                }
+                if (actual != expected) {
+                    Assert.AreEqual(actual, expected, $"a: {a} b: {b}");
+                }
+            }
+        }
     }
 }
