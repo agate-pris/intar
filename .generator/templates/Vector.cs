@@ -6,15 +6,9 @@
 {%- set self_wide_bits_type          = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
 {%- set self_wide_bits_signed_type   = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=true  ) %}
 {%- set self_wide_bits_unsigned_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=false ) %}
-{%- set self_component_type               = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_component_signed_type        = macros::fixed_type(s=true,   i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_component_unsigned_type      = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_length_squared_unsigned_type = macros::fixed_type(s=false,  i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_squared_signed_type   = macros::fixed_type(s=true,   i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_squared_type          = macros::fixed_type(s=signed, i=2*int_nbits+2, f=2*frac_nbits-2) %}
-{%- set self_length_unsigned_type         = macros::fixed_type(s=false,  i=  int_nbits+1, f=  frac_nbits-1) %}
-{%- set self_length_signed_type           = macros::fixed_type(s=true,   i=  int_nbits+1, f=  frac_nbits-1) %}
-{%- set self_length_type                  = macros::fixed_type(s=signed, i=  int_nbits+1, f=  frac_nbits-1) %}
+{%- set self_component_type          = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set self_component_signed_type   = macros::fixed_type(s=true,   i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set self_component_unsigned_type = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
 using AgatePris.Intar.Extensions;
@@ -470,125 +464,44 @@ namespace AgatePris.Intar {
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_wide_bits_type }} LengthSquaredInternal() => DotInternal(this);
+        {%- if not signed or dim > 3 %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_squared_unsigned_type }} LengthSquaredUnsigned() => {{ self_length_squared_unsigned_type }}.FromBits(
-            {% if signed %}({{ self_wide_bits_unsigned_type }}){% endif %}LengthSquaredInternal()
-        );
+        // ベクトルの長さは符号つき、
+        // かつ次元が 3 以下の場合のみ定義される。
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_squared_signed_type }} LengthSquaredSigned() => {{ self_length_squared_signed_type }}.FromBits(
-            {% if not signed %}({{ self_wide_bits_signed_type }}){% endif %}LengthSquaredInternal()
-        );
+        {%- else %}
+
+        {%- set len_sqr_ty = macros::fixed_type(s=false, i=int_nbits*2, f=frac_nbits * 2) %}
 
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>This method divides the square of each element by 4
-        /// during the calculation to prevent overflow.</para>
-        /// <para>このメソッドはオーバーフローを防ぐため､
-        /// 計算の過程で各要素の 2 乗を 4 で除算します｡
-        /// そのため､ 精度が犠牲になっています｡
-        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡</para>
-        /// </div>
-        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_squared_type }} LengthSquared() => LengthSquared{% if signed %}Signed{% else %}Unsigned{% endif %}();
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_bits_unsigned_type }} LengthInternal() {
-            {%- if signed %}
-            var squared = LengthSquaredInternal();
-            return ({{ self_bits_unsigned_type }})Mathi.Sqrt(({{ self_wide_bits_unsigned_type }})squared);
-            {%- else %}
-            return ({{ self_bits_unsigned_type }})Mathi.Sqrt(LengthSquaredInternal());
-            {%- endif %}
+        public {{ len_sqr_ty }} LengthSquared() {
+            var a1 = Overflowing.UnsignedAbs(X.Bits);
+            var a2 = Overflowing.UnsignedAbs(Y.Bits);{% if dim > 2 %}
+            var a3 = Overflowing.UnsignedAbs(Z.Bits);{% if dim > 3 %}
+            var a4 = Overflowing.UnsignedAbs(W.Bits);{% endif %}{% endif %}
+            var s1 = ({{ self_wide_bits_unsigned_type }})a1 * a1;
+            var s2 = ({{ self_wide_bits_unsigned_type }})a2 * a2;{% if dim > 2 %}
+            var s3 = ({{ self_wide_bits_unsigned_type }})a3 * a3;{% if dim > 3 %}
+            var s4 = ({{ self_wide_bits_unsigned_type }})a4 * a4;{% endif %}{% endif %}
+            return {{ len_sqr_ty }}.FromBits(s1 + s2
+            {%- if dim > 2 %} + s3
+            {%- if dim > 3 %} + s4
+            {%- endif %}{% endif %});
         }
 
         /// <summary>
-        /// <para>Returns the half of the length of the vector.</para>
-        /// <para>ベクトルの長さの半分を返します｡</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>This method differs from <see cref="LengthHalf{% if not signed %}Signed{% endif %}">LengthHalf{% if not signed %}Signed{% endif %}</see> in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="LengthHalf{% if not signed %}Signed{% endif %}">LengthHalf{% if not signed %}Signed{% endif %}</see> とは異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </remarks>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf{% if not signed %}Signed{% endif %}"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_component_unsigned_type }} LengthHalf{% if signed %}Unsigned
-        {%- endif %}() => {{ self_component_unsigned_type }}.FromBits(LengthInternal());
-
-        /// <summary>
-        /// <para>Returns the half of the length of the vector.</para>
-        /// <para>ベクトルの長さの半分を返します｡</para>
-        /// <remarks><div class="WARNING alert alert-warning">
-        /// <h5>Warning</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
-        /// <para><see cref="LengthHalf{% if signed %}Unsigned{% endif %}">LengthHalf{% if signed %}Unsigned{% endif %}</see> differs from this method in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><see cref="LengthHalf{% if signed %}Unsigned{% endif %}">LengthHalf{% if signed %}Unsigned{% endif %}</see> はこのメソッドと異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </div></remarks>
-        /// </summary>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf{% if signed %}Unsigned{% endif %}"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_component_signed_type }} LengthHalf{% if not signed %}Signed
-        {%- endif %}() => {{ self_component_signed_type }}.FromBits(checked(({{ self_bits_signed_type }})LengthInternal()));
-
-        /// <summary>
         /// <para>Returns the length of the vector.</para>
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
-        /// <remarks>
-        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </remarks>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf{%if signed %}Unsigned{% endif %}"/>
-        /// <seealso cref="LengthSigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_unsigned_type }} LengthUnsigned() => {{ self_length_unsigned_type }}.FromBits(LengthInternal());
+        public {{ self_component_unsigned_type }} Length() {
+            return {{ self_component_unsigned_type }}.FromBits(({{ self_bits_unsigned_type }})Mathi.Sqrt(LengthSquared().Bits));
+        }
 
-        /// <summary>
-        /// <para>Returns the length of the vector.</para>
-        /// <para>ベクトルの長さを返します｡</para>
-        /// <remarks><div class="WARNING alert alert-warning">
-        /// <h5>Warning</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
-        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> differs from this method in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> はこのメソッドと異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </div></remarks>
-        /// </summary>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf{%if not signed %}Signed{% endif %}"/>
-        /// <seealso cref="LengthUnsigned"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_signed_type }} LengthSigned() => {{ self_length_signed_type }}.FromBits(checked(({{ self_bits_signed_type }})LengthInternal()));
-
-        {%- if signed %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_type }} Length() => LengthSigned();
-        {%- else %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_length_type }} Length() => LengthUnsigned();
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

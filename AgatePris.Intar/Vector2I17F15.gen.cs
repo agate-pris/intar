@@ -275,113 +275,27 @@ namespace AgatePris.Intar {
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        long LengthSquaredInternal() => DotInternal(this);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U36F28 LengthSquaredUnsigned() => U36F28.FromBits(
-            (ulong)LengthSquaredInternal()
-        );
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I36F28 LengthSquaredSigned() => I36F28.FromBits(
-            LengthSquaredInternal()
-        );
-
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>This method divides the square of each element by 4
-        /// during the calculation to prevent overflow.</para>
-        /// <para>このメソッドはオーバーフローを防ぐため､
-        /// 計算の過程で各要素の 2 乗を 4 で除算します｡
-        /// そのため､ 精度が犠牲になっています｡
-        /// また､ 戻り値の型もそれに準じて小数部が 2 ビット小さい型になっています｡</para>
-        /// </div>
-        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I36F28 LengthSquared() => LengthSquaredSigned();
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        uint LengthInternal() {
-            var squared = LengthSquaredInternal();
-            return (uint)Mathi.Sqrt((ulong)squared);
+        public U34F30 LengthSquared() {
+            var a1 = Overflowing.UnsignedAbs(X.Bits);
+            var a2 = Overflowing.UnsignedAbs(Y.Bits);
+            var s1 = (ulong)a1 * a1;
+            var s2 = (ulong)a2 * a2;
+            return U34F30.FromBits(s1 + s2);
         }
 
         /// <summary>
-        /// <para>Returns the half of the length of the vector.</para>
-        /// <para>ベクトルの長さの半分を返します｡</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>This method differs from <see cref="LengthHalf">LengthHalf</see> in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="LengthHalf">LengthHalf</see> とは異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </remarks>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15 LengthHalfUnsigned() => U17F15.FromBits(LengthInternal());
-
-        /// <summary>
-        /// <para>Returns the half of the length of the vector.</para>
-        /// <para>ベクトルの長さの半分を返します｡</para>
-        /// <remarks><div class="WARNING alert alert-warning">
-        /// <h5>Warning</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
-        /// <para><see cref="LengthHalfUnsigned">LengthHalfUnsigned</see> differs from this method in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><see cref="LengthHalfUnsigned">LengthHalfUnsigned</see> はこのメソッドと異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </div></remarks>
-        /// </summary>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalfUnsigned"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 LengthHalf() => I17F15.FromBits(checked((int)LengthInternal()));
-
-        /// <summary>
         /// <para>Returns the length of the vector.</para>
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
-        /// <remarks>
-        /// <para>This method differs from <see cref="LengthSigned">LengthSigned</see> in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para>このメソッドは <see cref="LengthSigned">LengthSigned</see> とは異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </remarks>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalfUnsigned"/>
-        /// <seealso cref="LengthSigned"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U18F14 LengthUnsigned() => U18F14.FromBits(LengthInternal());
-
-        /// <summary>
-        /// <para>Returns the length of the vector.</para>
-        /// <para>ベクトルの長さを返します｡</para>
-        /// <remarks><div class="WARNING alert alert-warning">
-        /// <h5>Warning</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外を送出します｡</para>
-        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> differs from this method in that
-        /// it does not throws an exception because the result always falls within a range.</para>
-        /// <para><see cref="LengthUnsigned">LengthUnsigned</see> はこのメソッドと異なり､
-        /// 結果が必ず範囲内に収まるため例外を送出することはありません｡</para>
-        /// </div></remarks>
-        /// </summary>
-        /// <seealso cref="LengthSquared"/>
-        /// <seealso cref="LengthHalf"/>
-        /// <seealso cref="LengthUnsigned"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I18F14 LengthSigned() => I18F14.FromBits(checked((int)LengthInternal()));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I18F14 Length() => LengthSigned();
+        public U17F15 Length() {
+            return U17F15.FromBits((uint)Mathi.Sqrt(LengthSquared().Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I17F15? Normalize() {

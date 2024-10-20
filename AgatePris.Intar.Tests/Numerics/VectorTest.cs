@@ -26,16 +26,6 @@ namespace AgatePris.Intar.Tests.Numerics {
                 Utility.AssertAreEqual(e.Z, (float)(a?.Z ?? I17F15.Zero), delta);
                 Utility.AssertAreEqual(e.W, (float)(a?.W ?? I17F15.Zero), delta);
             }
-            {
-                var a = q.LengthSquared();
-                const double delta = 1024;
-                Utility.AssertAreEqual(p.LengthSquared(), (float)a, delta);
-            }
-            {
-                var a = q.LengthHalfUnsigned();
-                const double delta = 0.004;
-                Utility.AssertAreEqual(p.Length() / 2, (float)a, delta);
-            }
         }
         static void Test(I17F15 x, I17F15 y, I17F15 z) {
             var p = new System.Numerics.Vector3(
@@ -63,7 +53,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 Utility.AssertAreEqual(p.LengthSquared(), (float)a, delta);
             }
             {
-                var a = q.LengthHalfUnsigned();
+                var a = q.Length();
                 const double delta = 0.004;
                 Utility.AssertAreEqual(p.Length() / 2, (float)a, delta);
             }
@@ -91,7 +81,7 @@ namespace AgatePris.Intar.Tests.Numerics {
                 Utility.AssertAreEqual(p.LengthSquared(), (float)a, delta);
             }
             {
-                var a = q.LengthHalfUnsigned();
+                var a = q.Length();
                 const double delta = 0.004;
                 Utility.AssertAreEqual(p.Length() / 2, (float)a, delta);
             }
