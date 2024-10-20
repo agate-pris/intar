@@ -699,6 +699,23 @@ namespace AgatePris.Intar {
 
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long BigMul(long a, long b, out long low) {
+
+            // .NET 5 以降では Math.BigMul が使えるので、それを使う。
+
+#if NET5_0_OR_GREATER
+
+            return Math.BigMul(a, b, out low);
+
+#else // NET5_0_OR_GREATER
+
+            throw new NotImplementedException();
+
+#endif // NET5_0_OR_GREATER
+
+        }
+
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
