@@ -133,20 +133,16 @@ namespace AgatePris.Intar {
             return k * x.Bits;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I18F14(I17F15 x) => I18F14.FromBits(x.Bits / (1 << 1));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I3F29(I17F15 x) => I3F29.FromBits(x.Bits * (1 << 14));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(I17F15 x) => I2F30.FromBits(x.Bits * (1 << 15));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I36F28(I17F15 x) => I36F28.FromBits(x.Bits * (1L << 13));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I34F30(I17F15 x) => I34F30.FromBits(x.Bits * (1L << 15));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I33F31(I17F15 x) => I33F31.FromBits(x.Bits * (1L << 16));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I6F58(I17F15 x) => I6F58.FromBits(x.Bits * (1L << 43));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I4F60(I17F15 x) => I4F60.FromBits(x.Bits * (1L << 45));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F62(I17F15 x) => I2F62.FromBits(x.Bits * (1L << 47));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U18F14(I17F15 x) => U18F14.FromBits((uint)(x.Bits / (1 << 1)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U17F15(I17F15 x) => U17F15.FromBits((uint)x.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U3F29(I17F15 x) => U3F29.FromBits((uint)x.Bits * (1U << 14));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(I17F15 x) => U2F30.FromBits((uint)x.Bits * (1U << 15));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U36F28(I17F15 x) => U36F28.FromBits((ulong)x.Bits * (1UL << 13));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U34F30(I17F15 x) => U34F30.FromBits((ulong)x.Bits * (1UL << 15));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U33F31(I17F15 x) => U33F31.FromBits((ulong)x.Bits * (1UL << 16));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U6F58(I17F15 x) => U6F58.FromBits((ulong)x.Bits * (1UL << 43));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F60(I17F15 x) => U4F60.FromBits((ulong)x.Bits * (1UL << 45));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F62(I17F15 x) => U2F62.FromBits((ulong)x.Bits * (1UL << 47));
 
         // Object
@@ -238,8 +234,8 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I17F15 LosslessMul(int other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I3F29 LosslessMul(I18F14 other) => I3F29.FromBits(Bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 LosslessMul(I17F15 other) => I2F30.FromBits(Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 WideningMul(I17F15 other) => I34F30.FromBits((long)Bits * other.Bits);
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
