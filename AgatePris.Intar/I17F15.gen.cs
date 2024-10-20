@@ -42,6 +42,16 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I17F15 FromNum(int num) => FromBits(num * OneRepr);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15? CheckedFromNum(int num) {
+            if (num > int.MaxValue / OneRepr ||
+                num < int.MinValue / OneRepr) {
+                return null;
+            } else {
+                return FromBits(num * OneRepr);
+            }
+        }
+
         // Static Properties
         // -----------------
 

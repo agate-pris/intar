@@ -42,6 +42,14 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F30 FromNum(uint num) => FromBits(num * OneRepr);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30? CheckedFromNum(uint num) {
+            U2F30? @null = null;
+            return num > uint.MaxValue / OneRepr
+                ? @null
+                : FromBits(num * OneRepr);
+        }
+
         // Static Properties
         // -----------------
 
