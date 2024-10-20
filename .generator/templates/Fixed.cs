@@ -66,18 +66,17 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }}? CheckedFromNum({{ self_bits_type }} num) {
             {%- if signed %}
-            if ({{ self_bits_type }}.MaxValue / OneRepr < num ||
-                {{ self_bits_type }}.MinValue / OneRepr > num) {
+            if (num > {{ self_bits_type }}.MaxValue / OneRepr ||
+                num < {{ self_bits_type }}.MinValue / OneRepr) {
                 return null;
             } else {
                 return FromBits(num * OneRepr);
             }
             {%- else %}
-            if ({{ self_bits_type }}.MaxValue / OneRepr < num) {
-                return null;
-            } else {
-                return FromBits(num * OneRepr);
-            }
+            {{ self_type }}? @null = null;
+            return num > uint.MaxValue / OneRepr
+                ? @null
+                : FromBits(num * OneRepr);
             {%- endif %}
         }
 
