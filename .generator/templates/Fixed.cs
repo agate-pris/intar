@@ -60,8 +60,84 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.FromNum(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * OneRepr);
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictFromNum(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictFromNum({{ self_bits_type }} num) => FromBits(checked(num * OneRepr));
+
+        {%- set type_1 = ['float', '1.0f'] %}
+        {%- set type_2 = ['double', '1.0'] %}
+        {%- set type_3 = ['decimal', '1.0m'] %}
+        {%- for t in [type_1, type_2, type_3] %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.FromNum({{ t[1] }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} FromNum({{ t[0] }} num) => FromBits(({{ self_bits_type }})(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictFromNum({{ t[1] }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictFromNum({{ t[0] }} num) => FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
+
+        {%- endfor %}
 
         // Static Properties
         // -----------------
@@ -135,12 +211,8 @@ namespace AgatePris.Intar {
         // Comparison operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Equals(rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => !(lhs == rhs);
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Bits == rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Bits != rhs.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <({{ self_type }} left, {{ self_type }} right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >({{ self_type }} left, {{ self_type }} right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self_type }} left, {{ self_type }} right) => left.Bits <= right.Bits;
@@ -284,8 +356,6 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        {%- if int_nbits + frac_nbits <= 32 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
@@ -298,17 +368,11 @@ namespace AgatePris.Intar {
             return OverflowingAdd(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {%- if signed %}
         public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return CheckedAdd(other) ?? ((Bits < 0) && (other.Bits < 0)
-                ? MinValue
-                : MaxValue);
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
-        {%- else %}
-        public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return CheckedAdd(other) ?? MaxValue;
-        }
-        {%- endif %}
+
+        {%- if int_nbits + frac_nbits <= 32 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
@@ -338,40 +402,37 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            self_type
-        }} LosslessMul({{
-            self_bits_type
-        }} other) => FromBits(Bits * other);
-
-{%- for output in fixed_list %}
-    {%- if output[0] + output[1] == int_nbits + frac_nbits %}
-        {%- for rhs in fixed_list %}
-            {%- if rhs[0] + rhs[1] == int_nbits + frac_nbits
-                and output[1] == frac_nbits + rhs[1] %}
-            {%- set output_type = macros::fixed_type(s=signed, i=int_nbits - rhs[1], f=frac_nbits + rhs[1]) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            output_type
-        }} LosslessMul({{
-            macros::fixed_type(s=signed, i=rhs[0], f=rhs[1])
-        }} other) => {{ output_type }}.FromBits(Bits * other.Bits);
-            {%- endif %}
-        {%- endfor %}
-    {%- endif %}
-{%- endfor %}
-
 {%- for output in fixed_list %}
     {%- for rhs in fixed_list %}
         {%- if int_nbits + rhs[0] == output[0]
             and frac_nbits + rhs[1] == output[1] %}
-            {%- set output_type = macros::fixed_type(s=signed, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            output_type
-        }} WideningMul({{
-            macros::fixed_type(s=signed, i=rhs[0], f=rhs[1])
-        }} other) => {{ output_type }}.FromBits(({{
-            self_wide_bits_type
-        }})Bits * other.Bits);
+            {%- set   signed_big = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+            {%- set unsigned_big = macros::fixed_type(s=false, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+            {%- for s in [true, false] %}
+                {%- if signed == s %}
+                    {%- set t = macros::fixed_type(s=s,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} BigMul({{
+            macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
+        }} other) {
+            return {{ t }}.FromBits(({{
+                self_wide_bits_type
+            }})Bits * other.Bits);
+        }
+
+                {%- else %}
+                    {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} BigMul({{
+            macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
+        }} other) {
+            return {{ t }}.FromBits(Bits * other.Bits);
+        }
+
+                {%- endif %}
+            {%- endfor %}
         {%- endif %}
     {%- endfor %}
 {%- endfor %}

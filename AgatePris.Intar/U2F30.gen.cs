@@ -39,8 +39,149 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F30 FromBits(uint bits) => new U2F30(bits);
 
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.FromNum(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F30 FromNum(uint num) => FromBits(num * OneRepr);
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.StrictFromNum(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 StrictFromNum(uint num) => FromBits(checked(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.FromNum(1.0f);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 FromNum(float num) => FromBits((uint)(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.StrictFromNum(1.0f);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 StrictFromNum(float num) => FromBits(checked((uint)(num * OneRepr)));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.FromNum(1.0);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 FromNum(double num) => FromBits((uint)(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.StrictFromNum(1.0);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 StrictFromNum(double num) => FromBits(checked((uint)(num * OneRepr)));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.FromNum(1.0m);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 FromNum(decimal num) => FromBits((uint)(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U2F30.StrictFromNum(1.0m);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 StrictFromNum(decimal num) => FromBits(checked((uint)(num * OneRepr)));
 
         // Static Properties
         // -----------------
@@ -93,12 +234,8 @@ namespace AgatePris.Intar {
         // Comparison operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(U2F30 lhs, U2F30 rhs) => lhs.Equals(rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(U2F30 lhs, U2F30 rhs) => !(lhs == rhs);
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U2F30 lhs, U2F30 rhs) => lhs.Bits == rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U2F30 lhs, U2F30 rhs) => lhs.Bits != rhs.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U2F30 left, U2F30 right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U2F30 left, U2F30 right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U2F30 left, U2F30 right) => left.Bits <= right.Bits;
@@ -200,7 +337,7 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F30 SaturatingAdd(U2F30 other) {
-            return CheckedAdd(other) ?? MaxValue;
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -219,8 +356,15 @@ namespace AgatePris.Intar {
             return CheckedMul(other) ?? MaxValue;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 LosslessMul(uint other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 WideningMul(U2F30 other) => U4F60.FromBits((ulong)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I4F60 BigMul(I2F30 other) {
+            return I4F60.FromBits(Bits * other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U4F60 BigMul(U2F30 other) {
+            return U4F60.FromBits((ulong)Bits * other.Bits);
+        }
 
         // ベクトル型との演算
         // ------------------
