@@ -337,5 +337,21 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 WrappingMul(U2F62 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 WrappingAddSigned(I2F62 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool OverflowingAdd(U2F62 other, out U2F62 result) {
+            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+            result = FromBits(bits);
+            return b;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62? CheckedAdd(U2F62 other) {
+            U2F62? @null = null;
+            return OverflowingAdd(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62 SaturatingAdd(U2F62 other) {
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        }
+
     }
 } // namespace AgatePris.Intar
