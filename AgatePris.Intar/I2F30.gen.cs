@@ -367,7 +367,7 @@ namespace AgatePris.Intar {
                 ? MaxValue
                 : MinValue);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 WideningMul(I2F30 other) => I4F60.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 BigMul(I2F30 other) => I4F60.FromBits((long)Bits * other.Bits);
 
         // ベクトル型との演算
         // ------------------

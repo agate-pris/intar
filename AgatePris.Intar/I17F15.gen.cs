@@ -367,7 +367,7 @@ namespace AgatePris.Intar {
                 ? MaxValue
                 : MinValue);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 WideningMul(I17F15 other) => I34F30.FromBits((long)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 BigMul(I17F15 other) => I34F30.FromBits((long)Bits * other.Bits);
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
