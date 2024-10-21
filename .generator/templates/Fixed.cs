@@ -211,12 +211,8 @@ namespace AgatePris.Intar {
         // Comparison operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Equals(rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => !(lhs == rhs);
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Bits == rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Bits != rhs.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <({{ self_type }} left, {{ self_type }} right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >({{ self_type }} left, {{ self_type }} right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self_type }} left, {{ self_type }} right) => left.Bits <= right.Bits;
