@@ -406,14 +406,33 @@ namespace AgatePris.Intar {
     {%- for rhs in fixed_list %}
         {%- if int_nbits + rhs[0] == output[0]
             and frac_nbits + rhs[1] == output[1] %}
-            {%- set output_type = macros::fixed_type(s=signed, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            output_type
-        }} BigMul({{
-            macros::fixed_type(s=signed, i=rhs[0], f=rhs[1])
-        }} other) => {{ output_type }}.FromBits(({{
-            self_wide_bits_type
-        }})Bits * other.Bits);
+            {%- set   signed_big = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+            {%- set unsigned_big = macros::fixed_type(s=false, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+            {%- for s in [true, false] %}
+                {%- if signed == s %}
+                    {%- set t = macros::fixed_type(s=s,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} BigMul({{
+            macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
+        }} other) {
+            return {{ t }}.FromBits(({{
+                self_wide_bits_type
+            }})Bits * other.Bits);
+        }
+
+                {%- else %}
+                    {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} BigMul({{
+            macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
+        }} other) {
+            return {{ t }}.FromBits(Bits * other.Bits);
+        }
+
+                {%- endif %}
+            {%- endfor %}
         {%- endif %}
     {%- endfor %}
 {%- endfor %}
