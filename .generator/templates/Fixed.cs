@@ -356,8 +356,6 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        {%- if int_nbits + frac_nbits <= 32 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
@@ -373,6 +371,8 @@ namespace AgatePris.Intar {
         public {{ self_type }} SaturatingAdd({{ self_type }} other) {
             return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
+
+        {%- if int_nbits + frac_nbits <= 32 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
