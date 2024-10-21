@@ -351,8 +351,5 @@ namespace AgatePris.Intar {
             return U34F30.FromBits(Overflowing.UnsignedAbs(Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 LosslessMul(long other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 LosslessMul(I34F30 other) => I4F60.FromBits(Bits * other.Bits);
-
     }
 } // namespace AgatePris.Intar

@@ -351,7 +351,5 @@ namespace AgatePris.Intar {
             return U2F62.FromBits(Overflowing.UnsignedAbs(Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 LosslessMul(long other) => FromBits(Bits * other);
-
     }
 } // namespace AgatePris.Intar
