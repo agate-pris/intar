@@ -62,6 +62,24 @@ namespace AgatePris.Intar {
         /// <para>指定された数値から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U17F15.StrictFromNum(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 StrictFromNum(uint num) => FromBits(checked(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
         /// </div>
         /// </summary>
@@ -74,6 +92,24 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 FromNum(float num) => FromBits((uint)(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U17F15.StrictFromNum(1.0f);
+        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 StrictFromNum(float num) => FromBits(checked((uint)(num * OneRepr)));
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -98,6 +134,24 @@ namespace AgatePris.Intar {
         /// <para>指定された数値から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U17F15.StrictFromNum(1.0);
+        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 StrictFromNum(double num) => FromBits(checked((uint)(num * OneRepr)));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
         /// </div>
         /// </summary>
@@ -110,6 +164,24 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 FromNum(decimal num) => FromBits((uint)(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U17F15.StrictFromNum(1.0m);
+        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 StrictFromNum(decimal num) => FromBits(checked((uint)(num * OneRepr)));
 
         // Static Properties
         // -----------------

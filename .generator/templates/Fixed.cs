@@ -78,6 +78,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromNum({{ self_bits_type }} num) => FromBits(num * OneRepr);
 
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictFromNum(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictFromNum({{ self_bits_type }} num) => FromBits(checked(num * OneRepr));
+
         {%- set type_1 = ['float', '1.0f'] %}
         {%- set type_2 = ['double', '1.0'] %}
         {%- set type_3 = ['decimal', '1.0m'] %}
@@ -100,6 +118,24 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromNum({{ t[0] }} num) => FromBits(({{ self_bits_type }})(num * OneRepr));
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictFromNum({{ t[1] }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictFromNum({{ t[0] }} num) => FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
 
         {%- endfor %}
 
