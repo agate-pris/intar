@@ -409,7 +409,7 @@ namespace AgatePris.Intar {
             {%- set output_type = macros::fixed_type(s=signed, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
             output_type
-        }} WideningMul({{
+        }} BigMul({{
             macros::fixed_type(s=signed, i=rhs[0], f=rhs[1])
         }} other) => {{ output_type }}.FromBits(({{
             self_wide_bits_type

@@ -355,7 +355,7 @@ namespace AgatePris.Intar {
         public U2F30 SaturatingMul(U2F30 other) {
             return CheckedMul(other) ?? MaxValue;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 WideningMul(U2F30 other) => U4F60.FromBits((ulong)Bits * other.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 BigMul(U2F30 other) => U4F60.FromBits((ulong)Bits * other.Bits);
 
         // ベクトル型との演算
         // ------------------
