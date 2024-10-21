@@ -347,9 +347,7 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 SaturatingAdd(I2F30 other) {
-            return CheckedAdd(other) ?? ((Bits < 0) && (other.Bits < 0)
-                ? MinValue
-                : MaxValue);
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

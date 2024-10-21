@@ -370,17 +370,9 @@ namespace AgatePris.Intar {
             return OverflowingAdd(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {%- if signed %}
         public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return CheckedAdd(other) ?? ((Bits < 0) && (other.Bits < 0)
-                ? MinValue
-                : MaxValue);
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
-        {%- else %}
-        public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return CheckedAdd(other) ?? MaxValue;
-        }
-        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
