@@ -373,9 +373,6 @@ namespace AgatePris.Intar {
                 ? MaxValue
                 : MinValue);
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I17F15 LosslessMul(int other) => FromBits(Bits * other);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 LosslessMul(I17F15 other) => I2F30.FromBits(Bits * other.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 WideningMul(I17F15 other) => I34F30.FromBits((long)Bits * other.Bits);
 
         /// <summary>

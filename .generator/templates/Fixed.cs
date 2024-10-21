@@ -414,28 +414,6 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            self_type
-        }} LosslessMul({{
-            self_bits_type
-        }} other) => FromBits(Bits * other);
-
-{%- for output in fixed_list %}
-    {%- if output[0] + output[1] == int_nbits + frac_nbits %}
-        {%- for rhs in fixed_list %}
-            {%- if rhs[0] + rhs[1] == int_nbits + frac_nbits
-                and output[1] == frac_nbits + rhs[1] %}
-            {%- set output_type = macros::fixed_type(s=signed, i=int_nbits - rhs[1], f=frac_nbits + rhs[1]) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            output_type
-        }} LosslessMul({{
-            macros::fixed_type(s=signed, i=rhs[0], f=rhs[1])
-        }} other) => {{ output_type }}.FromBits(Bits * other.Bits);
-            {%- endif %}
-        {%- endfor %}
-    {%- endif %}
-{%- endfor %}
-
 {%- for output in fixed_list %}
     {%- for rhs in fixed_list %}
         {%- if int_nbits + rhs[0] == output[0]

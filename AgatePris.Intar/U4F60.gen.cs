@@ -341,7 +341,5 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 WrappingMul(U4F60 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 WrappingAddSigned(I4F60 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 LosslessMul(ulong other) => FromBits(Bits * other);
-
     }
 } // namespace AgatePris.Intar
