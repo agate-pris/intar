@@ -48,20 +48,46 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
         /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U33F31.FromNum(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// var a = U33F31.CheckedFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 FromNum(ulong num) => FromBits(num * OneRepr);
+        public static U33F31? CheckedFrom(int num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            // 自身が符号なしで相手が 0 未満の場合は null
+            // この分岐は相手が符号なしなら最適化により消去される。
+            if (num < 0) {
+                return null;
+            }
+
+            // 相手が最大値より大きい場合は null
+            // この時点で 0 より大きいことが確定しているので、
+            // 相手を符号なしの型に変換してから比較する。
+            // 自身もまた符号なしであるから、
+            // 比較演算の際に必要なら暗黙の型変換が行われる。
+            if ((uint)num > MaxValue.Bits / OneRepr) {
+                return null;
+            }
+
+            return FromBits((ulong)num * OneRepr);
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -74,12 +100,188 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U33F31.StrictFromNum(1);
+        /// var a = U33F31.StrictFrom(1);
         /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 StrictFromNum(ulong num) => FromBits(checked(num * OneRepr));
+        public static U33F31 StrictFrom(int num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            return FromBits(checked((ulong)num * OneRepr));
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U33F31.From(1);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 From(uint num) {
+            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
+            // 自身が符号あり、相手が符号なしの場合、
+            // 自身の符号部分を除いた整数部について同様である。
+            return FromBits(num * OneRepr);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U33F31.CheckedFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31? CheckedFrom(long num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            // 自身が符号なしで相手が 0 未満の場合は null
+            // この分岐は相手が符号なしなら最適化により消去される。
+            if (num < 0) {
+                return null;
+            }
+
+            // 相手が最大値より大きい場合は null
+            // この時点で 0 より大きいことが確定しているので、
+            // 相手を符号なしの型に変換してから比較する。
+            // 自身もまた符号なしであるから、
+            // 比較演算の際に必要なら暗黙の型変換が行われる。
+            if ((ulong)num > MaxValue.Bits / OneRepr) {
+                return null;
+            }
+
+            return FromBits((ulong)num * OneRepr);
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U33F31.StrictFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 StrictFrom(long num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            return FromBits(checked((ulong)num * OneRepr));
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U33F31.CheckedFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31? CheckedFrom(ulong num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            // 自身が符号なしで相手が 0 未満の場合は null
+            // この分岐は相手が符号なしなら最適化により消去される。
+            if (num < 0) {
+                return null;
+            }
+
+            // 相手が最大値より大きい場合は null
+            // この時点で 0 より大きいことが確定しているので、
+            // 相手を符号なしの型に変換してから比較する。
+            // 自身もまた符号なしであるから、
+            // 比較演算の際に必要なら暗黙の型変換が行われる。
+            if ((ulong)num > MaxValue.Bits / OneRepr) {
+                return null;
+            }
+
+            return FromBits((ulong)num * OneRepr);
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = U33F31.StrictFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 StrictFrom(ulong num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            return FromBits(checked((ulong)num * OneRepr));
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
