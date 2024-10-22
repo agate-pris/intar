@@ -359,10 +359,19 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int({{ self_type }} x) => {% if self_bits_type != "int" %}(int)({% endif %}x.Bits / OneRepr{% if self_bits_type != "int" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint({{ self_type }} x) => {% if self_bits_type != "uint" %}(uint)({% endif %}x.Bits / OneRepr{% if self_bits_type != "uint" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long({{ self_type }} x) => {% if self_bits_type == "ulong" %}(long)({% endif %}x.Bits / OneRepr{% if self_bits_type == "ulong" %}){% endif %};
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong({{ self_type }} x) => {% if signed %}(ulong)({% endif %}x.Bits / OneRepr{% if signed %}){% endif %};
+#pragma warning disable IDE0004 // 不要なキャストの削除
+{# これは改行を挿入するためのコメントです。 #}
+
+{%- for bits in [32, 64] %}
+    {%- for s in [true, false] %}
+        {%- set t = macros::inttype(signed=s, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{
+            t }}({{ self_type }} x) => ({{
+            t }})(x.Bits / OneRepr);
+    {%- endfor %}
+{%- endfor %}
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float({{ self_type }} x) {

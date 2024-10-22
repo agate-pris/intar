@@ -453,10 +453,14 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(U4F60 x) => (int)(x.Bits / OneRepr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(U4F60 x) => (uint)(x.Bits / OneRepr);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(U4F60 x) => (long)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(U4F60 x) => x.Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(U4F60 x) => (ulong)(x.Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(U4F60 x) {
