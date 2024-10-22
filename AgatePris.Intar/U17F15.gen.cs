@@ -565,7 +565,7 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U17F15 SaturatingMul(U17F15 other) {
-            return CheckedMul(other) ?? MaxValue;
+            return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

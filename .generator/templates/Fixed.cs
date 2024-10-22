@@ -529,13 +529,7 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingMul({{ self_type }} other) {
-            {%- if signed %}
-            return CheckedMul(other) ?? (((Bits < 0) == (other.Bits < 0))
-                ? MaxValue
-                : MinValue);
-            {%- else %}
-            return CheckedMul(other) ?? MaxValue;
-            {%- endif %}
+            return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
         }
 
         {%- endif %}
