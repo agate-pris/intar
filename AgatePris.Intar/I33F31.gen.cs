@@ -48,20 +48,76 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
         /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.From(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 From(int num) {
+            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
+            // 自身が符号あり、相手が符号なしの場合、
+            // 自身の符号部分を除いた整数部について同様である。
+            return FromBits(num * OneRepr);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.From(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 From(uint num) {
+            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
+            // 自身が符号あり、相手が符号なしの場合、
+            // 自身の符号部分を除いた整数部について同様である。
+            return FromBits(num * OneRepr);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I33F31.FromNum(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// var a = I33F31.CheckedFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I33F31 FromNum(long num) => FromBits(num * OneRepr);
+        public static I33F31? CheckedFrom(long num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            // 自身と相手の両方が符号ありの場合、
+            // 比較演算の際に双方が大きい型に合わせて暗黙に変換される。
+            if (num > MaxValue.Bits / OneRepr ||
+                num < MinValue.Bits / OneRepr) {
+                return null;
+            }
+
+            return FromBits((long)num * OneRepr);
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -74,12 +130,89 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I33F31.StrictFromNum(1);
+        /// var a = I33F31.StrictFrom(1);
         /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I33F31 StrictFromNum(long num) => FromBits(checked(num * OneRepr));
+        public static I33F31 StrictFrom(long num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            return FromBits(checked((long)num * OneRepr));
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.CheckedFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31? CheckedFrom(ulong num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            // 自身が符号あり、相手が符号なしであるから、
+            // 相手が最小値未満であることはありえない。
+            // よって、自身の最大値を符号なしの型に変換して比較する。
+            // この際、大きい方の型に暗黙に変換される。
+            if (num > (ulong)(MaxValue.Bits / OneRepr)) {
+                return null;
+            }
+
+            return FromBits((long)num * OneRepr);
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.StrictFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 StrictFrom(ulong num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079
+#pragma warning disable IDE0004
+
+            return FromBits(checked((long)num * OneRepr));
+
+#pragma warning restore IDE0004
+#pragma warning restore IDE0079
+
+        }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
