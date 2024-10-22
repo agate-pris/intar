@@ -15,9 +15,8 @@ namespace AgatePris.Intar.Tests {
         [Test]
         public static void TestStrictFromNum() {
             _ = Assert.Throws<OverflowException>(() => I17F15.StrictFrom(int.MaxValue));
-            _ = Assert.Throws<OverflowException>(() => I2F30.StrictFromNum(2.0f));
-            _ = Assert.Throws<OverflowException>(() => I2F30.StrictFromNum(2.0));
-            _ = Assert.Throws<OverflowException>(() => I2F30.StrictFromNum(2.0m));
+            _ = Assert.Throws<OverflowException>(() => I2F30.StrictFrom(2.0f));
+            _ = Assert.Throws<OverflowException>(() => I2F30.StrictFrom(2.0));
         }
     }
 }

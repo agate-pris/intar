@@ -307,23 +307,7 @@ namespace AgatePris.Intar {
 
         }
 
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I2F62.FromNum(1.0f);
-        /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 FromNum(float num) => FromBits((long)(num * OneRepr));
+        // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -336,30 +320,17 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I2F62.StrictFromNum(1.0f);
+        /// var a = I2F62.StrictLossyFrom(1.0f);
         /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 StrictFromNum(float num) => FromBits(checked((long)(num * OneRepr)));
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I2F62.FromNum(1.0);
-        /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 FromNum(double num) => FromBits((long)(num * OneRepr));
+        public static I2F62 StrictLossyFrom(float num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked((long)(num * OneRepr)));
+        }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -372,48 +343,17 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I2F62.StrictFromNum(1.0);
+        /// var a = I2F62.StrictLossyFrom(1.0);
         /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 StrictFromNum(double num) => FromBits(checked((long)(num * OneRepr)));
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I2F62.FromNum(1.0m);
-        /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 FromNum(decimal num) => FromBits((long)(num * OneRepr));
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I2F62.StrictFromNum(1.0m);
-        /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 StrictFromNum(decimal num) => FromBits(checked((long)(num * OneRepr)));
+        public static I2F62 StrictLossyFrom(double num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked((long)(num * OneRepr)));
+        }
 
         // Static Properties
         // -----------------
