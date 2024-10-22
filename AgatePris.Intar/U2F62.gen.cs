@@ -1,12 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-#if NET7_0_OR_GREATER
-
-using  U128 = System.UInt128;
-
-#endif // NET7_0_OR_GREATER
-
 namespace AgatePris.Intar {
     [Serializable]
     public struct U2F62 : IEquatable<U2F62>, IFormattable {
@@ -425,13 +419,13 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F62 operator *(U2F62 left, U2F62 right) {
-            U128 l = left.Bits;
+            UInt128 l = left.Bits;
             return FromBits((ulong)(l * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F62 operator /(U2F62 left, U2F62 right) {
-            U128 l = left.Bits;
+            UInt128 l = left.Bits;
             return FromBits((ulong)(l * OneRepr / right.Bits));
         }
 

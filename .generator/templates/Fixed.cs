@@ -8,18 +8,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-{%- if int_nbits + frac_nbits > 32 %}
-
-#if NET7_0_OR_GREATER
-
-using {% if signed %}I{% else %} U{% endif %}{{
-    int_nbits * 2 + frac_nbits * 2 }} = System.{% if not signed %}U{% endif %}Int{{
-    int_nbits * 2 + frac_nbits * 2 }};
-
-#endif // NET7_0_OR_GREATER
-
-{%- endif %}
-
 namespace AgatePris.Intar {
     [Serializable]
     public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
