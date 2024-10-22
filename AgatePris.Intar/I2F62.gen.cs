@@ -194,11 +194,11 @@ namespace AgatePris.Intar {
 
         public static I2F62 Zero {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(0);
+            get => new I2F62(0);
         }
         public static I2F62 One {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(1);
+            get => new I2F62(OneRepr);
         }
         public static I2F62 MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

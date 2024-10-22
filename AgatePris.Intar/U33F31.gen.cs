@@ -194,11 +194,11 @@ namespace AgatePris.Intar {
 
         public static U33F31 Zero {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(0);
+            get => new U33F31(0);
         }
         public static U33F31 One {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(1);
+            get => new U33F31(OneRepr);
         }
         public static U33F31 MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

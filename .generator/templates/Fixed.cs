@@ -144,11 +144,11 @@ namespace AgatePris.Intar {
 
         public static {{ self_type }} Zero {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(0);
+            get => new {{ self_type }}(0);
         }
         public static {{ self_type }} One {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(1);
+            get => new {{ self_type }}(OneRepr);
         }
         public static {{ self_type }} MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

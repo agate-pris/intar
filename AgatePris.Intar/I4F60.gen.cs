@@ -194,11 +194,11 @@ namespace AgatePris.Intar {
 
         public static I4F60 Zero {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(0);
+            get => new I4F60(0);
         }
         public static I4F60 One {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(1);
+            get => new I4F60(OneRepr);
         }
         public static I4F60 MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -188,11 +188,11 @@ namespace AgatePris.Intar {
 
         public static U17F15 Zero {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(0);
+            get => new U17F15(0);
         }
         public static U17F15 One {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromNum(1);
+            get => new U17F15(OneRepr);
         }
         public static U17F15 MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
