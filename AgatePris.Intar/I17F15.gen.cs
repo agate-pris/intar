@@ -337,7 +337,7 @@ namespace AgatePris.Intar {
             if (double.IsNaN(num) ||
                 double.IsInfinity(num) ||
                 num >= int.MaxValue + 1.0 ||
-                num <=  int.MinValue - 1.0) {
+                num <= int.MinValue - 1.0) {
                 return null;
             }
             return FromBits((int)num);

@@ -217,7 +217,7 @@ namespace AgatePris.Intar {
                 {{ from }}.IsInfinity(num) ||
                 num >= {{ self_bits_type }}.MaxValue + {{ one }}
             {%- if signed %} ||
-                num <=  {{ self_bits_type }}.MinValue - {{ one }}
+                num <= {{ self_bits_type }}.MinValue - {{ one }}
             {%- endif %}) {
                 return null;
             }
