@@ -331,23 +331,7 @@ namespace AgatePris.Intar {
 
         }
 
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U2F30.FromNum(1.0f);
-        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 FromNum(float num) => FromBits((uint)(num * OneRepr));
+        // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -360,66 +344,33 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U2F30.StrictFromNum(1.0f);
+        /// var a = U2F30.StrictLossyFrom(1.0f);
         /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 StrictFromNum(float num) => FromBits(checked((uint)(num * OneRepr)));
+        public static U2F30 StrictLossyFrom(float num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked((uint)(num * OneRepr)));
+        }
 
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U2F30.FromNum(1.0);
-        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 FromNum(double num) => FromBits((uint)(num * OneRepr));
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U2F30.StrictFromNum(1.0);
-        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 StrictFromNum(double num) => FromBits(checked((uint)(num * OneRepr)));
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドはオーバーフローを引き起こします。その場合の動作はビルド時の既定のオーバーフロー チェック コンテキストに従います。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U2F30.FromNum(1.0m);
-        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 FromNum(decimal num) => FromBits((uint)(num * OneRepr));
+        public static U2F30? CheckedFrom(double num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            // また、整数の基数は 2 であるから、
+            // 自身のビット数よりも相手の仮数部の方が大きい限り、
+            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
+            num *= OneRepr;
+            if (double.IsNaN(num) ||
+                double.IsInfinity(num) ||
+                num >= uint.MaxValue + 1.0) {
+                return null;
+            }
+            return FromBits((uint)num);
+        }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
@@ -432,12 +383,17 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U2F30.StrictFromNum(1.0m);
+        /// var a = U2F30.StrictFrom(1.0);
         /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 StrictFromNum(decimal num) => FromBits(checked((uint)(num * OneRepr)));
+        public static U2F30 StrictFrom(double num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked((uint)(num * OneRepr)));
+        }
 
         // Static Properties
         // -----------------
