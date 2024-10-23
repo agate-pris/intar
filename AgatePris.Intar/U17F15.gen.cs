@@ -33,11 +33,183 @@ namespace AgatePris.Intar {
             Bits = bits;
         }
 
-        // Static methods
-        // --------------
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 FromBits(uint bits) => new U17F15(bits);
+
+        // Static Properties
+        // -----------------
+
+        public static U17F15 Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new U17F15(0);
+        }
+        public static U17F15 One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new U17F15(OneRepr);
+        }
+        public static U17F15 MinValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(uint.MinValue);
+        }
+        public static U17F15 MaxValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(uint.MaxValue);
+        }
+
+        // Arithmetic Operators
+        // --------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 operator +(U17F15 left, U17F15 right) {
+            return FromBits(left.Bits + right.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 operator -(U17F15 left, U17F15 right) {
+            return FromBits(left.Bits - right.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 operator *(U17F15 left, U17F15 right) {
+            ulong l = left.Bits;
+            return FromBits((uint)(l * right.Bits / OneRepr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 operator /(U17F15 left, U17F15 right) {
+            ulong l = left.Bits;
+            return FromBits((uint)(l * OneRepr / right.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U17F15 operator +(U17F15 x) => FromBits(+x.Bits);
+
+        // Comparison operators
+        // --------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U17F15 lhs, U17F15 rhs) => lhs.Bits == rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U17F15 lhs, U17F15 rhs) => lhs.Bits != rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U17F15 left, U17F15 right) => left.Bits < right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U17F15 left, U17F15 right) => left.Bits > right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U17F15 left, U17F15 right) => left.Bits <= right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U17F15 left, U17F15 right) => left.Bits >= right.Bits;
+
+        // Conversion operators
+        // --------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(U17F15 x) => I17F15.FromBits((int)x.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(U17F15 x) => I2F30.FromBits((int)x.Bits * (1 << 15));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I34F30(U17F15 x) => I34F30.FromBits(x.Bits * (1L << 15));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I33F31(U17F15 x) => I33F31.FromBits(x.Bits * (1L << 16));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I4F60(U17F15 x) => I4F60.FromBits(x.Bits * (1L << 45));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F62(U17F15 x) => I2F62.FromBits(x.Bits * (1L << 47));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(U17F15 x) => U2F30.FromBits(x.Bits * (1U << 15));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U34F30(U17F15 x) => U34F30.FromBits(x.Bits * (1UL << 15));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U33F31(U17F15 x) => U33F31.FromBits(x.Bits * (1UL << 16));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F60(U17F15 x) => U4F60.FromBits(x.Bits * (1UL << 45));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F62(U17F15 x) => U2F62.FromBits(x.Bits * (1UL << 47));
+
+        // Object
+        // ---------------------------------------
+
+        public override bool Equals(object obj) => obj is U17F15 o && Equals(o);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode() => Bits.GetHashCode();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString() => ToDouble().ToString((IFormatProvider)null);
+
+        // IEquatable<U17F15>
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(U17F15 other) => Bits == other.Bits;
+
+        // IFormattable
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ToString(string format, IFormatProvider formatProvider) {
+            return ToDouble().ToString(format, formatProvider);
+        }
+
+        // Methods
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Min(U17F15 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Max(U17F15 other) => FromBits(Math.Max(Bits, other.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 Clamp(
+            U17F15 min, U17F15 max
+        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Half() => FromBits(Mathi.Half(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Twice() => FromBits(Mathi.Twice(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingAdd(U17F15 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingSub(U17F15 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingMul(U17F15 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingAddSigned(I17F15 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool OverflowingAdd(U17F15 other, out U17F15 result) {
+            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+            result = FromBits(bits);
+            return b;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15? CheckedAdd(U17F15 other) {
+            U17F15? @null = null;
+            return OverflowingAdd(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 SaturatingAdd(U17F15 other) {
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool OverflowingMul(U17F15 other, out U17F15 result) {
+            var bits = ((ulong)Bits) * other.Bits / OneRepr;
+            result = FromBits(unchecked((uint)bits));
+            return bits > uint.MaxValue;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15? CheckedMul(U17F15 other) {
+            U17F15? @null = null;
+            return OverflowingMul(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 SaturatingMul(U17F15 other) {
+            return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I34F30 BigMul(I17F15 other) {
+            return I34F30.FromBits(Bits * other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U34F30 BigMul(U17F15 other) {
+            return U34F30.FromBits((ulong)Bits * other.Bits);
+        }
+
+        // ベクトル型との演算
+        // ------------------
+
+#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2U17F15 SaturatingMul(Vector2U17F15 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3U17F15 SaturatingMul(Vector3U17F15 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4U17F15 SaturatingMul(Vector4U17F15 other) => other.SaturatingMul(this);
+
+#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
+        //
+        // Convert from
+        //
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
@@ -404,179 +576,8 @@ namespace AgatePris.Intar {
             return FromBits(checked((uint)(num * OneRepr)));
         }
 
-        // Static Properties
-        // -----------------
-
-        public static U17F15 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U17F15(0);
-        }
-        public static U17F15 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U17F15(OneRepr);
-        }
-        public static U17F15 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(uint.MinValue);
-        }
-        public static U17F15 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(uint.MaxValue);
-        }
-
-        // Arithmetic Operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 operator +(U17F15 left, U17F15 right) {
-            return FromBits(left.Bits + right.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 operator -(U17F15 left, U17F15 right) {
-            return FromBits(left.Bits - right.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 operator *(U17F15 left, U17F15 right) {
-            ulong l = left.Bits;
-            return FromBits((uint)(l * right.Bits / OneRepr));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 operator /(U17F15 left, U17F15 right) {
-            ulong l = left.Bits;
-            return FromBits((uint)(l * OneRepr / right.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 operator +(U17F15 x) => FromBits(+x.Bits);
-
-        // Comparison operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U17F15 lhs, U17F15 rhs) => lhs.Bits == rhs.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U17F15 lhs, U17F15 rhs) => lhs.Bits != rhs.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U17F15 left, U17F15 right) => left.Bits < right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U17F15 left, U17F15 right) => left.Bits > right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U17F15 left, U17F15 right) => left.Bits <= right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U17F15 left, U17F15 right) => left.Bits >= right.Bits;
-
-        // Conversion operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(U17F15 x) => I17F15.FromBits((int)x.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(U17F15 x) => I2F30.FromBits((int)x.Bits * (1 << 15));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I34F30(U17F15 x) => I34F30.FromBits(x.Bits * (1L << 15));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I33F31(U17F15 x) => I33F31.FromBits(x.Bits * (1L << 16));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I4F60(U17F15 x) => I4F60.FromBits(x.Bits * (1L << 45));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F62(U17F15 x) => I2F62.FromBits(x.Bits * (1L << 47));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(U17F15 x) => U2F30.FromBits(x.Bits * (1U << 15));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U34F30(U17F15 x) => U34F30.FromBits(x.Bits * (1UL << 15));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator U33F31(U17F15 x) => U33F31.FromBits(x.Bits * (1UL << 16));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F60(U17F15 x) => U4F60.FromBits(x.Bits * (1UL << 45));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F62(U17F15 x) => U2F62.FromBits(x.Bits * (1UL << 47));
-
-        // Object
-        // ---------------------------------------
-
-        public override bool Equals(object obj) => obj is U17F15 o && Equals(o);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Bits.GetHashCode();
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => ToDouble().ToString((IFormatProvider)null);
-
-        // IEquatable<U17F15>
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(U17F15 other) => Bits == other.Bits;
-
-        // IFormattable
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ToString(string format, IFormatProvider formatProvider) {
-            return ToDouble().ToString(format, formatProvider);
-        }
-
-        // Methods
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Min(U17F15 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Max(U17F15 other) => FromBits(Math.Max(Bits, other.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15 Clamp(
-            U17F15 min, U17F15 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Twice() => FromBits(Mathi.Twice(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingAdd(U17F15 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingSub(U17F15 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingMul(U17F15 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 WrappingAddSigned(I17F15 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingAdd(U17F15 other, out U17F15 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15? CheckedAdd(U17F15 other) {
-            U17F15? @null = null;
-            return OverflowingAdd(other, out var result) ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15 SaturatingAdd(U17F15 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingMul(U17F15 other, out U17F15 result) {
-            var bits = ((ulong)Bits) * other.Bits / OneRepr;
-            result = FromBits(unchecked((uint)bits));
-            return bits > uint.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15? CheckedMul(U17F15 other) {
-            U17F15? @null = null;
-            return OverflowingMul(other, out var result) ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15 SaturatingMul(U17F15 other) {
-            return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I34F30 BigMul(I17F15 other) {
-            return I34F30.FromBits(Bits * other.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U34F30 BigMul(U17F15 other) {
-            return U34F30.FromBits((ulong)Bits * other.Bits);
-        }
-
-        // ベクトル型との演算
-        // ------------------
-
-#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2U17F15 SaturatingMul(Vector2U17F15 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3U17F15 SaturatingMul(Vector3U17F15 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4U17F15 SaturatingMul(Vector4U17F15 other) => other.SaturatingMul(this);
-
-#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
         //
-        // Conversions
+        // Convert to
         //
 
         // 整数への変換で小数点以下の精度が失われるのは自明なので

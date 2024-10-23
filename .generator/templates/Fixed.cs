@@ -42,274 +42,8 @@ namespace AgatePris.Intar {
             Bits = bits;
         }
 
-        // Static methods
-        // --------------
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
-
-{#- 整数型からの変換 #}
-{%- for bits in [32, 64] %}
-    {%- for s in [true, false] %}
-        {%- set from = macros::inttype(bits=bits, signed=s) %}
-
-        {#- 符号の有無が同じで整数部の桁数が相手以上か、
-            自身が符号あり、相手が符号なしで
-            符号を除いた整数部の桁数が相手以上なら必ず変換可能 #}
-        {%- if signed == s and int_nbits >= bits
-            or signed and not s and int_nbits - 1 >= bits %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.From(1);
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} From({{ from }} num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
-        }
-
-        {#- 変換に失敗する場合がある (表現の範囲外) 場合はこちら #}
-        {%- else %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedFrom({{ from }} num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
-            {%- if signed == s %}
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxValue.Bits / OneRepr ||
-                num < MinValue.Bits / OneRepr) {
-                return null;
-            }
-
-            {%- elif signed and not s %}
-
-            // 自身が符号あり、相手が符号なしであるから、
-            // 相手が最小値未満であることはありえない。
-            // よって、自身の最大値を符号なしの型に変換して比較する。
-            // この際、大きい方の型に暗黙に変換される。
-            if (num > ({{
-                macros::inttype(bits=int_nbits+frac_nbits, signed=false)
-            }})(MaxValue.Bits / OneRepr)) {
-                return null;
-            }
-
-            {%- else %}
-
-            // 自身が符号なしで、相手が符号ありの場合、
-            // 相手が 0 未満、または
-            // 相手が自身の最大値よりも大きければ null
-            if (num < 0) {
-                return null;
-            } else if (({{
-                macros::inttype(bits=bits, signed=false)
-            }})num > MaxValue.Bits / OneRepr) {
-                return null;
-            }
-
-            {%- endif %}
-
-            return FromBits(({{ self_bits_type }})num * OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictFrom({{ from }} num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
-            return FromBits(checked(({{ self_bits_type }})num * OneRepr));
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
-        }
-
-        {%- endif %}
-    {%- endfor %}
-{%- endfor %}
-
-        // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
-
-{#- 浮動小数点数型からの変換 #}
-{%- for bits in [32, 64] %}
-    {%-   if bits == 32 %}{% set from='float'  %}{% set one='1.0f' %}
-    {%- elif bits == 64 %}{% set from='double' %}{% set one='1.0'  %}
-    {%- endif %}
-
-    {#- ビット数が自身よりも大きい場合、変換の際に精度を失う #}
-    {%- if int_nbits + frac_nbits < bits %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedLossyFrom({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            // また、整数の基数は 2 であるから、
-            // 自身のビット数よりも相手の仮数部の方が大きい限り、
-            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
-            num *= OneRepr;
-            if ({{ from }}.IsNaN(num) ||
-                {{ from }}.IsInfinity(num) ||
-                num >= {{ self_bits_type }}.MaxValue + {{ one }}
-            {%- if signed %} ||
-                num <= {{ self_bits_type }}.MinValue - {{ one }}
-            {%- endif %}) {
-                return null;
-            }
-            return FromBits(({{ self_bits_type }})num);
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictLossyFrom({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
-        }
-
-    {#- ビットが自身以下の場合、変換の際に精度は損なわれない
-        半精度浮動小数点数はサポートしない。 #}
-    {%- elif bits > 16 %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictFrom({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
-        }
-
-        {%- if int_nbits + frac_nbits < 64 %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedFrom({{ from }} num) {
-            // より大きい型に変換して計算。
-            return CheckedLossyFrom(num);
-        }
-
-        {%- else %}
-
-        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
-        // 現時点では未実装。
-        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
-
-        {%- endif %}
-
-    {%- endif %}
-{%- endfor %}
 
         // Static Properties
         // -----------------
@@ -633,7 +367,274 @@ namespace AgatePris.Intar {
         {%- endfor %}
 
         //
-        // Conversions
+        // Convert from
+        //
+
+{#- 整数型からの変換 #}
+{%- for bits in [32, 64] %}
+    {%- for s in [true, false] %}
+        {%- set from = macros::inttype(bits=bits, signed=s) %}
+
+        {#- 符号の有無が同じで整数部の桁数が相手以上か、
+            自身が符号あり、相手が符号なしで
+            符号を除いた整数部の桁数が相手以上なら必ず変換可能 #}
+        {%- if signed == s and int_nbits >= bits
+            or signed and not s and int_nbits - 1 >= bits %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
+        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.From(1);
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} From({{ from }} num) {
+            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
+            // 自身が符号あり、相手が符号なしの場合、
+            // 自身の符号部分を除いた整数部について同様である。
+            return FromBits(num * OneRepr);
+        }
+
+        {#- 変換に失敗する場合がある (表現の範囲外) 場合はこちら #}
+        {%- else %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified <see cref="{{ from }}" /> value.</para>
+        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.CheckedFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a?.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }}? CheckedFrom({{ from }} num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            {%- if signed == s %}
+
+            // 自身と相手の符号が同じ場合、
+            // 暗黙に大きい方の型にキャストされる。
+            if (num > MaxValue.Bits / OneRepr ||
+                num < MinValue.Bits / OneRepr) {
+                return null;
+            }
+
+            {%- elif signed and not s %}
+
+            // 自身が符号あり、相手が符号なしであるから、
+            // 相手が最小値未満であることはありえない。
+            // よって、自身の最大値を符号なしの型に変換して比較する。
+            // この際、大きい方の型に暗黙に変換される。
+            if (num > ({{
+                macros::inttype(bits=int_nbits+frac_nbits, signed=false)
+            }})(MaxValue.Bits / OneRepr)) {
+                return null;
+            }
+
+            {%- else %}
+
+            // 自身が符号なしで、相手が符号ありの場合、
+            // 相手が 0 未満、または
+            // 相手が自身の最大値よりも大きければ null
+            if (num < 0) {
+                return null;
+            } else if (({{
+                macros::inttype(bits=bits, signed=false)
+            }})num > MaxValue.Bits / OneRepr) {
+                return null;
+            }
+
+            {%- endif %}
+
+            return FromBits(({{ self_bits_type }})num * OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified <see cref="{{ from }}" /> value.</para>
+        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictFrom({{ from }} num) {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return FromBits(checked(({{ self_bits_type }})num * OneRepr));
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        {%- endif %}
+    {%- endfor %}
+{%- endfor %}
+
+        // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
+
+{#- 浮動小数点数型からの変換 #}
+{%- for bits in [32, 64] %}
+    {%-   if bits == 32 %}{% set from='float'  %}{% set one='1.0f' %}
+    {%- elif bits == 64 %}{% set from='double' %}{% set one='1.0'  %}
+    {%- endif %}
+
+    {#- ビット数が自身よりも大きい場合、変換の際に精度を失う #}
+    {%- if int_nbits + frac_nbits < bits %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }}? CheckedLossyFrom({{ from }} num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            // また、整数の基数は 2 であるから、
+            // 自身のビット数よりも相手の仮数部の方が大きい限り、
+            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
+            num *= OneRepr;
+            if ({{ from }}.IsNaN(num) ||
+                {{ from }}.IsInfinity(num) ||
+                num >= {{ self_bits_type }}.MaxValue + {{ one }}
+            {%- if signed %} ||
+                num <= {{ self_bits_type }}.MinValue - {{ one }}
+            {%- endif %}) {
+                return null;
+            }
+            return FromBits(({{ self_bits_type }})num);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictLossyFrom({{ from }} num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
+        }
+
+    {#- ビットが自身以下の場合、変換の際に精度は損なわれない
+        半精度浮動小数点数はサポートしない。 #}
+    {%- elif bits > 16 %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictFrom({{ one }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} StrictFrom({{ from }} num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
+        }
+
+        {%- if int_nbits + frac_nbits < 64 %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }}? CheckedFrom({{ from }} num) {
+            // より大きい型に変換して計算。
+            return CheckedLossyFrom(num);
+        }
+
+        {%- else %}
+
+        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
+        // 現時点では未実装。
+        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
+
+        {%- endif %}
+
+    {%- endif %}
+{%- endfor %}
+
+        //
+        // Convert to
         //
 
         // 整数への変換で小数点以下の精度が失われるのは自明なので

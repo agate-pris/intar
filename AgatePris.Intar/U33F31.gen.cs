@@ -33,11 +33,153 @@ namespace AgatePris.Intar {
             Bits = bits;
         }
 
-        // Static methods
-        // --------------
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U33F31 FromBits(ulong bits) => new U33F31(bits);
+
+        // Static Properties
+        // -----------------
+
+        public static U33F31 Zero {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new U33F31(0);
+        }
+        public static U33F31 One {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new U33F31(OneRepr);
+        }
+        public static U33F31 MinValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(ulong.MinValue);
+        }
+        public static U33F31 MaxValue {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(ulong.MaxValue);
+        }
+
+        // Arithmetic Operators
+        // --------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 operator +(U33F31 left, U33F31 right) {
+            return FromBits(left.Bits + right.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 operator -(U33F31 left, U33F31 right) {
+            return FromBits(left.Bits - right.Bits);
+        }
+
+        // 128 ビット整数型は .NET 7 以降にしか無いので,
+        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 operator *(U33F31 left, U33F31 right) {
+            UInt128 l = left.Bits;
+            return FromBits((ulong)(l * right.Bits / OneRepr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 operator /(U33F31 left, U33F31 right) {
+            UInt128 l = left.Bits;
+            return FromBits((ulong)(l * OneRepr / right.Bits));
+        }
+
+#endif
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U33F31 operator +(U33F31 x) => FromBits(+x.Bits);
+
+        // Comparison operators
+        // --------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U33F31 lhs, U33F31 rhs) => lhs.Bits == rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U33F31 lhs, U33F31 rhs) => lhs.Bits != rhs.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U33F31 left, U33F31 right) => left.Bits < right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U33F31 left, U33F31 right) => left.Bits > right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U33F31 left, U33F31 right) => left.Bits <= right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U33F31 left, U33F31 right) => left.Bits >= right.Bits;
+
+        // Conversion operators
+        // --------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(U33F31 x) => I17F15.FromBits((int)(x.Bits / (1UL << 16)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(U33F31 x) => I2F30.FromBits((int)(x.Bits / (1UL << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I34F30(U33F31 x) => I34F30.FromBits((long)(x.Bits / (1UL << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I33F31(U33F31 x) => I33F31.FromBits((long)x.Bits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I4F60(U33F31 x) => I4F60.FromBits((long)x.Bits * (1L << 29));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F62(U33F31 x) => I2F62.FromBits((long)x.Bits * (1L << 31));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U17F15(U33F31 x) => U17F15.FromBits((uint)(x.Bits / (1UL << 16)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(U33F31 x) => U2F30.FromBits((uint)(x.Bits / (1UL << 1)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U34F30(U33F31 x) => U34F30.FromBits(x.Bits / (1UL << 1));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F60(U33F31 x) => U4F60.FromBits(x.Bits * (1UL << 29));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F62(U33F31 x) => U2F62.FromBits(x.Bits * (1UL << 31));
+
+        // Object
+        // ---------------------------------------
+
+        public override bool Equals(object obj) => obj is U33F31 o && Equals(o);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode() => Bits.GetHashCode();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
+
+        // IEquatable<U33F31>
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(U33F31 other) => Bits == other.Bits;
+
+        // IFormattable
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ToString(string format, IFormatProvider formatProvider) {
+            return LossyToDouble().ToString(format, formatProvider);
+        }
+
+        // Methods
+        // ---------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Min(U33F31 other) => FromBits(Math.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Max(U33F31 other) => FromBits(Math.Max(Bits, other.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U33F31 Clamp(
+            U33F31 min, U33F31 max
+        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Half() => FromBits(Mathi.Half(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Twice() => FromBits(Mathi.Twice(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingAdd(U33F31 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingSub(U33F31 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingMul(U33F31 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingAddSigned(I33F31 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool OverflowingAdd(U33F31 other, out U33F31 result) {
+            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+            result = FromBits(bits);
+            return b;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U33F31? CheckedAdd(U33F31 other) {
+            U33F31? @null = null;
+            return OverflowingAdd(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U33F31 SaturatingAdd(U33F31 other) {
+            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        }
+
+        //
+        // Convert from
+        //
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
@@ -313,149 +455,8 @@ namespace AgatePris.Intar {
         // 現時点では未実装。
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
 
-        // Static Properties
-        // -----------------
-
-        public static U33F31 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U33F31(0);
-        }
-        public static U33F31 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U33F31(OneRepr);
-        }
-        public static U33F31 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(ulong.MinValue);
-        }
-        public static U33F31 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(ulong.MaxValue);
-        }
-
-        // Arithmetic Operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 operator +(U33F31 left, U33F31 right) {
-            return FromBits(left.Bits + right.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 operator -(U33F31 left, U33F31 right) {
-            return FromBits(left.Bits - right.Bits);
-        }
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 operator *(U33F31 left, U33F31 right) {
-            UInt128 l = left.Bits;
-            return FromBits((ulong)(l * right.Bits / OneRepr));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 operator /(U33F31 left, U33F31 right) {
-            UInt128 l = left.Bits;
-            return FromBits((ulong)(l * OneRepr / right.Bits));
-        }
-
-#endif
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U33F31 operator +(U33F31 x) => FromBits(+x.Bits);
-
-        // Comparison operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U33F31 lhs, U33F31 rhs) => lhs.Bits == rhs.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U33F31 lhs, U33F31 rhs) => lhs.Bits != rhs.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U33F31 left, U33F31 right) => left.Bits < right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U33F31 left, U33F31 right) => left.Bits > right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U33F31 left, U33F31 right) => left.Bits <= right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U33F31 left, U33F31 right) => left.Bits >= right.Bits;
-
-        // Conversion operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(U33F31 x) => I17F15.FromBits((int)(x.Bits / (1UL << 16)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(U33F31 x) => I2F30.FromBits((int)(x.Bits / (1UL << 1)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I34F30(U33F31 x) => I34F30.FromBits((long)(x.Bits / (1UL << 1)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I33F31(U33F31 x) => I33F31.FromBits((long)x.Bits);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I4F60(U33F31 x) => I4F60.FromBits((long)x.Bits * (1L << 29));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F62(U33F31 x) => I2F62.FromBits((long)x.Bits * (1L << 31));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U17F15(U33F31 x) => U17F15.FromBits((uint)(x.Bits / (1UL << 16)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(U33F31 x) => U2F30.FromBits((uint)(x.Bits / (1UL << 1)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U34F30(U33F31 x) => U34F30.FromBits(x.Bits / (1UL << 1));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F60(U33F31 x) => U4F60.FromBits(x.Bits * (1UL << 29));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F62(U33F31 x) => U2F62.FromBits(x.Bits * (1UL << 31));
-
-        // Object
-        // ---------------------------------------
-
-        public override bool Equals(object obj) => obj is U33F31 o && Equals(o);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Bits.GetHashCode();
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
-
-        // IEquatable<U33F31>
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(U33F31 other) => Bits == other.Bits;
-
-        // IFormattable
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ToString(string format, IFormatProvider formatProvider) {
-            return LossyToDouble().ToString(format, formatProvider);
-        }
-
-        // Methods
-        // ---------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Min(U33F31 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Max(U33F31 other) => FromBits(Math.Max(Bits, other.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 Clamp(
-            U33F31 min, U33F31 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Twice() => FromBits(Mathi.Twice(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingAdd(U33F31 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingSub(U33F31 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingMul(U33F31 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 WrappingAddSigned(I33F31 other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingAdd(U33F31 other, out U33F31 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31? CheckedAdd(U33F31 other) {
-            U33F31? @null = null;
-            return OverflowingAdd(other, out var result) ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 SaturatingAdd(U33F31 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
-
         //
-        // Conversions
+        // Convert to
         //
 
         // 整数への変換で小数点以下の精度が失われるのは自明なので
