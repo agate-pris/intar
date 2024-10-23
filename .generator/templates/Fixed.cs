@@ -116,13 +116,10 @@ namespace AgatePris.Intar {
 
         // Comparison operators
         // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Bits == rhs.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Bits != rhs.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <({{ self_type }} left, {{ self_type }} right) => left.Bits < right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >({{ self_type }} left, {{ self_type }} right) => left.Bits > right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=({{ self_type }} left, {{ self_type }} right) => left.Bits <= right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=({{ self_type }} left, {{ self_type }} right) => left.Bits >= right.Bits;
+{# これは改行を挿入するためのコメントです #}
+{%- for op in ['==', '!=', '<', '>', '<=', '>='] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator {{ op }}({{ self_type }} left, {{ self_type }} right) => left.Bits {{ op }} right.Bits;
+{%- endfor %}
 
         // Conversion operators
         // --------------------
