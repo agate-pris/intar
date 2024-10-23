@@ -465,24 +465,6 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator float(U17F15 x) {
-            const float k = 1.0f / OneRepr;
-            return k * x.Bits;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator double(U17F15 x) {
-            const double k = 1.0 / OneRepr;
-            return k * x.Bits;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator decimal(U17F15 x) {
-            const decimal k = 1.0M / OneRepr;
-            return k * x.Bits;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(U17F15 x) => I17F15.FromBits((int)x.Bits);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(U17F15 x) => I2F30.FromBits((int)x.Bits * (1 << 15));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static implicit operator I34F30(U17F15 x) => I34F30.FromBits(x.Bits * (1L << 15));
@@ -504,7 +486,7 @@ namespace AgatePris.Intar {
         public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
+        public override string ToString() => ToDouble().ToString((IFormatProvider)null);
 
         // IEquatable<U17F15>
         // ---------------------------------------
@@ -517,7 +499,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            return ((double)this).ToString(format, formatProvider);
+            return ToDouble().ToString(format, formatProvider);
         }
 
         // Methods
@@ -667,6 +649,15 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
+
+        // 浮動小数点数への変換は必ず成功する。
+        // 除算は最適化によって乗算に置き換えられることを期待する。
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float LossyToSingle() => (float)Bits / OneRepr;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double ToDouble() => (double)Bits / OneRepr;
 
     }
 } // namespace AgatePris.Intar
