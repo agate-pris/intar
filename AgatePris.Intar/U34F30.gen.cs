@@ -401,15 +401,6 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(U34F30 x) => (int)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(U34F30 x) => (uint)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(U34F30 x) => (long)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(U34F30 x) => (ulong)(x.Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(U34F30 x) {
             const float k = 1.0f / OneRepr;
@@ -499,6 +490,116 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 SaturatingAdd(U34F30 other) {
             return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        }
+
+        //
+        // Conversions
+        //
+
+        // 整数への変換で小数点以下の精度が失われるのは自明なので
+        // わざわざ明記することはしない。
+
+        /// <summary>
+        /// <para><see cref="int" /> への変換を行います。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int StrictToInt32() {
+            return checked((int)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="int" /> への変換を行います。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int? CheckedToInt32() {
+            var tmp = Bits / OneRepr;
+
+            // 自身が符号なしで、相手が符号ありの場合、
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp > int.MaxValue) {
+                return null;
+            }
+
+            return (int)tmp;
+        }
+
+        /// <summary>
+        /// <para><see cref="uint" /> への変換を行います。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToUInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint StrictToUInt32() {
+            return checked((uint)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="uint" /> への変換を行います。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToUInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint? CheckedToUInt32() {
+            var tmp = Bits / OneRepr;
+
+            // 自身と相手の符号が同じい場合、
+            // 暗黙に大きい方の型にキャストされる。
+            if (tmp < uint.MinValue ||
+                tmp > uint.MaxValue) {
+                return null;
+            }
+
+            return (uint)tmp;
+        }
+
+        /// <summary>
+        /// <para><see cref="long" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long ToInt64() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return (long)(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        /// <summary>
+        /// <para><see cref="ulong" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong ToUInt64() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return (ulong)(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
         }
 
     }

@@ -493,15 +493,6 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator int(U2F30 x) => (int)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator uint(U2F30 x) => (uint)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator long(U2F30 x) => (long)(x.Bits / OneRepr);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator ulong(U2F30 x) => (ulong)(x.Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(U2F30 x) {
             const float k = 1.0f / OneRepr;
@@ -629,6 +620,81 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4U2F30 SaturatingMul(Vector4U2F30 other) => other.SaturatingMul(this);
 
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
+
+        //
+        // Conversions
+        //
+
+        // 整数への変換で小数点以下の精度が失われるのは自明なので
+        // わざわざ明記することはしない。
+
+        /// <summary>
+        /// <para><see cref="int" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int ToInt32() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return (int)(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        /// <summary>
+        /// <para><see cref="uint" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint ToUInt32() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return (uint)(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        /// <summary>
+        /// <para><see cref="long" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long ToInt64() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return (long)(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        /// <summary>
+        /// <para><see cref="ulong" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong ToUInt64() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return (ulong)(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
 
     }
 } // namespace AgatePris.Intar

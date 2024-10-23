@@ -394,20 +394,6 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-#pragma warning disable IDE0004 // 不要なキャストの削除
-{# これは改行を挿入するためのコメントです。 #}
-
-{%- for bits in [32, 64] %}
-    {%- for s in [true, false] %}
-        {%- set t = macros::inttype(signed=s, bits=bits) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator {{
-            t }}({{ self_type }} x) => ({{
-            t }})(x.Bits / OneRepr);
-    {%- endfor %}
-{%- endfor %}
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float({{ self_type }} x) {
             const float k = 1.0f / OneRepr;
@@ -660,6 +646,119 @@ namespace AgatePris.Intar {
 
         {%- endif %}
         {%- endfor %}
+
+        //
+        // Conversions
+        //
+
+        // 整数への変換で小数点以下の精度が失われるのは自明なので
+        // わざわざ明記することはしない。
+
+{#- 整数型への変換 #}
+{%- for bits in [32, 64] %}
+    {%- for s in [true, false] %}
+        {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        {#- 自身と相手の符号ありなしが同じか、
+            自身が符号なしで相手が符号ありの場合、
+            符号部を除いたビット数について、
+            自身の整数部のそれよりも相手のそれの方が大きければ
+            変換は必ず成功する。 #}
+        {%- if signed == s and int_nbits <= bits
+            or not signed and s and int_nbits <= bits - 1 %}
+
+        /// <summary>
+        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} To{% if not s %}U{% endif %}Int{{ bits }}() {
+            // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            return ({{ t }})(Bits / OneRepr);
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        }
+
+        {#- 自身が符号ありで相手が符号なしか、
+            相手の符号ビットを除いたビット数が自分の符号ビットを除いた整数部よりも大きい場合
+            変換に失敗する場合がある。 #}
+        {%- else %}
+
+        /// <summary>
+        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} StrictTo{% if not s %}U{% endif %}Int{{ bits }}() {
+            return checked(({{ t }})(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }}? CheckedTo{% if not s %}U{% endif %}Int{{ bits }}() {
+            var tmp = Bits / OneRepr;
+
+            {%- if signed == s %}
+
+            // 自身と相手の符号が同じい場合、
+            // 暗黙に大きい方の型にキャストされる。
+            if (tmp < {{ t }}.MinValue ||
+                tmp > {{ t }}.MaxValue) {
+                return null;
+            }
+
+            {%- elif signed and not s %}
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if (({{
+                macros::inttype(signed=false, bits=int_nbits+frac_nbits)
+            }})tmp > {{ t }}.MaxValue) {
+                return null;
+            }
+
+#pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+            {%- else %}
+
+            // 自身が符号なしで、相手が符号ありの場合、
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp > {{ t }}.MaxValue) {
+                return null;
+            }
+
+            {%- endif %}
+
+            return ({{ t }})tmp;
+        }
+
+        {%- endif %}
+
+    {%- endfor %}
+{%- endfor %}
 
     }
 } // namespace AgatePris.Intar
