@@ -428,24 +428,6 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator float(I4F60 x) {
-            const float k = 1.0f / OneRepr;
-            return k * x.Bits;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator double(I4F60 x) {
-            const double k = 1.0 / OneRepr;
-            return k * x.Bits;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator decimal(I4F60 x) {
-            const decimal k = 1.0M / OneRepr;
-            return k * x.Bits;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(I4F60 x) => I17F15.FromBits((int)(x.Bits / (1L << 45)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(I4F60 x) => I2F30.FromBits((int)(x.Bits / (1L << 30)));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I34F30(I4F60 x) => I34F30.FromBits(x.Bits / (1L << 30));
@@ -467,7 +449,7 @@ namespace AgatePris.Intar {
         public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
+        public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
 
         // IEquatable<I4F60>
         // ---------------------------------------
@@ -480,7 +462,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            return ((double)this).ToString(format, formatProvider);
+            return LossyToDouble().ToString(format, formatProvider);
         }
 
         // Methods
@@ -652,6 +634,15 @@ namespace AgatePris.Intar {
 
             return (ulong)tmp;
         }
+
+        // 浮動小数点数への変換は必ず成功する。
+        // 除算は最適化によって乗算に置き換えられることを期待する。
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float LossyToSingle() => (float)Bits / OneRepr;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double LossyToDouble() => (double)Bits / OneRepr;
 
     }
 } // namespace AgatePris.Intar

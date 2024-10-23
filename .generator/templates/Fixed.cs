@@ -393,24 +393,6 @@ namespace AgatePris.Intar {
         // Conversion operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator float({{ self_type }} x) {
-            const float k = 1.0f / OneRepr;
-            return k * x.Bits;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator double({{ self_type }} x) {
-            const double k = 1.0 / OneRepr;
-            return k * x.Bits;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator decimal({{ self_type }} x) {
-            const decimal k = 1.0M / OneRepr;
-            return k * x.Bits;
-        }
-
 {#- 自身と異なる小数点数型への型変換の定義 #}
 {% for s in [true, false] %}
     {%- for target in fixed_list %}
@@ -469,7 +451,9 @@ namespace AgatePris.Intar {
         public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
+        public override string ToString() => {% if
+            int_nbits + frac_nbits > 32
+        %}Lossy{% endif %}ToDouble().ToString((IFormatProvider)null);
 
         // IEquatable<{{ self_type }}>
         // ---------------------------------------
@@ -482,7 +466,9 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            return ((double)this).ToString(format, formatProvider);
+            return {% if
+                int_nbits + frac_nbits > 32
+            %}Lossy{% endif %}ToDouble().ToString(format, formatProvider);
         }
 
         // Methods
@@ -757,6 +743,25 @@ namespace AgatePris.Intar {
         {%- endif %}
 
     {%- endfor %}
+{%- endfor %}
+
+        // 浮動小数点数への変換は必ず成功する。
+        // 除算は最適化によって乗算に置き換えられることを期待する。
+
+{#- 浮動小数点数型への変換 #}
+{%- for bits in [32, 64] %}
+    {%- if   bits == 32 %}{% set t='float'  %}
+    {%- elif bits == 64 %}{% set t='double' %}{% endif %}
+
+    {#- 相手のビット数が自身以下の場合、精度を失う。 #}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} {% if
+            bits <= int_nbits + frac_nbits
+        %}Lossy{% endif %}To{% if
+            bits == 32 %}Single{% elif
+            bits == 64 %}Double{% endif %}() => ({{ t }})Bits / OneRepr;
+
 {%- endfor %}
 
     }

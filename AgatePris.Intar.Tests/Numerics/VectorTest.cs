@@ -5,10 +5,10 @@ namespace AgatePris.Intar.Tests.Numerics {
     public class VectorTest {
         static void Test(I17F15 x, I17F15 y, I17F15 z, I17F15 w) {
             var p = new System.Numerics.Vector4(
-                (float)x,
-                (float)y,
-                (float)z,
-                (float)w);
+                x.LossyToSingle(),
+                y.LossyToSingle(),
+                z.LossyToSingle(),
+                w.LossyToSingle());
             var q = new Vector4I17F15(x, y, z, w);
             {
                 var e = System.Numerics.Vector4.Normalize(p);
@@ -21,17 +21,17 @@ namespace AgatePris.Intar.Tests.Numerics {
                         float.IsNaN(e.W));
                 }
                 const double delta = 0.00004;
-                Utility.AssertAreEqual(e.X, (float)(a?.X ?? I17F15.Zero), delta);
-                Utility.AssertAreEqual(e.Y, (float)(a?.Y ?? I17F15.Zero), delta);
-                Utility.AssertAreEqual(e.Z, (float)(a?.Z ?? I17F15.Zero), delta);
-                Utility.AssertAreEqual(e.W, (float)(a?.W ?? I17F15.Zero), delta);
+                Utility.AssertAreEqual(e.X, (a?.X ?? I17F15.Zero).LossyToSingle(), delta);
+                Utility.AssertAreEqual(e.Y, (a?.Y ?? I17F15.Zero).LossyToSingle(), delta);
+                Utility.AssertAreEqual(e.Z, (a?.Z ?? I17F15.Zero).LossyToSingle(), delta);
+                Utility.AssertAreEqual(e.W, (a?.W ?? I17F15.Zero).LossyToSingle(), delta);
             }
         }
         static void Test(I17F15 x, I17F15 y, I17F15 z) {
             var p = new System.Numerics.Vector3(
-                (float)x,
-                (float)y,
-                (float)z);
+                x.LossyToSingle(),
+                y.LossyToSingle(),
+                z.LossyToSingle());
             var q = new Vector3I17F15(x, y, z);
             {
                 var e = System.Numerics.Vector3.Normalize(p);
@@ -43,25 +43,25 @@ namespace AgatePris.Intar.Tests.Numerics {
                         float.IsNaN(e.Z));
                 }
                 const double delta = 0.00004;
-                Utility.AssertAreEqual(e.X, (float)(a?.X ?? I17F15.Zero), delta);
-                Utility.AssertAreEqual(e.Y, (float)(a?.Y ?? I17F15.Zero), delta);
-                Utility.AssertAreEqual(e.Z, (float)(a?.Z ?? I17F15.Zero), delta);
+                Utility.AssertAreEqual(e.X, (a?.X ?? I17F15.Zero).LossyToSingle(), delta);
+                Utility.AssertAreEqual(e.Y, (a?.Y ?? I17F15.Zero).LossyToSingle(), delta);
+                Utility.AssertAreEqual(e.Z, (a?.Z ?? I17F15.Zero).LossyToSingle(), delta);
             }
             {
                 var a = q.LengthSquared();
                 const double delta = 1024;
-                Utility.AssertAreEqual(p.LengthSquared(), (float)a, delta);
+                Utility.AssertAreEqual(p.LengthSquared(), a.LossyToSingle(), delta);
             }
             {
                 var a = q.Length();
                 const double delta = 0.008;
-                Utility.AssertAreEqual(p.Length(), (float)a, delta);
+                Utility.AssertAreEqual(p.Length(), a.LossyToSingle(), delta);
             }
         }
         static void Test(I17F15 x, I17F15 y) {
             var p = new System.Numerics.Vector2(
-                (float)x,
-                (float)y);
+                x.LossyToSingle(),
+                y.LossyToSingle());
             var q = new Vector2I17F15(x, y);
             {
                 var e = System.Numerics.Vector2.Normalize(p);
@@ -72,18 +72,18 @@ namespace AgatePris.Intar.Tests.Numerics {
                         float.IsNaN(e.Y));
                 }
                 const double delta = 0.00004;
-                Utility.AssertAreEqual(e.X, (float)(a?.X ?? I17F15.Zero), delta);
-                Utility.AssertAreEqual(e.Y, (float)(a?.Y ?? I17F15.Zero), delta);
+                Utility.AssertAreEqual(e.X, (a?.X ?? I17F15.Zero).LossyToSingle(), delta);
+                Utility.AssertAreEqual(e.Y, (a?.Y ?? I17F15.Zero).LossyToSingle(), delta);
             }
             {
                 var a = q.LengthSquared();
                 const double delta = 1024;
-                Utility.AssertAreEqual(p.LengthSquared(), (float)a, delta);
+                Utility.AssertAreEqual(p.LengthSquared(), a.LossyToSingle(), delta);
             }
             {
                 var a = q.Length();
                 const double delta = 0.008;
-                Utility.AssertAreEqual(p.Length(), (float)a, delta);
+                Utility.AssertAreEqual(p.Length(), a.LossyToSingle(), delta);
             }
         }
 
