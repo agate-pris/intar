@@ -61,8 +61,8 @@ namespace AgatePris.Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-            // 自身と相手の両方が符号ありの場合、
-            // 比較演算の際に双方が大きい型に合わせて暗黙に変換される。
+            // 自身と相手の符号が同じ場合、
+            // 暗黙に大きい方の型にキャストされる。
             if (num > MaxValue.Bits / OneRepr ||
                 num < MinValue.Bits / OneRepr) {
                 return null;
@@ -192,8 +192,8 @@ namespace AgatePris.Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-            // 自身と相手の両方が符号ありの場合、
-            // 比較演算の際に双方が大きい型に合わせて暗黙に変換される。
+            // 自身と相手の符号が同じ場合、
+            // 暗黙に大きい方の型にキャストされる。
             if (num > MaxValue.Bits / OneRepr ||
                 num < MinValue.Bits / OneRepr) {
                 return null;

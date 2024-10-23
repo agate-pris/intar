@@ -61,18 +61,12 @@ namespace AgatePris.Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-            // 自身が符号なしで相手が 0 未満の場合は null
-            // この分岐は相手が符号なしなら最適化により消去される。
+            // 自身が符号なしで、相手が符号ありの場合、
+            // 相手が 0 未満、または
+            // 相手が自身の最大値よりも大きければ null
             if (num < 0) {
                 return null;
-            }
-
-            // 相手が最大値より大きい場合は null
-            // この時点で自身が 0 以上であることが確定しているので、
-            // 相手を符号なしの型に変換してから比較する。
-            // 自身もまた符号なしであるから、
-            // 比較演算の際に必要なら暗黙の型変換が行われる。
-            if ((uint)num > MaxValue.Bits / OneRepr) {
+            } else if ((uint)num > MaxValue.Bits / OneRepr) {
                 return null;
             }
 
@@ -153,18 +147,12 @@ namespace AgatePris.Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-            // 自身が符号なしで相手が 0 未満の場合は null
-            // この分岐は相手が符号なしなら最適化により消去される。
+            // 自身が符号なしで、相手が符号ありの場合、
+            // 相手が 0 未満、または
+            // 相手が自身の最大値よりも大きければ null
             if (num < 0) {
                 return null;
-            }
-
-            // 相手が最大値より大きい場合は null
-            // この時点で自身が 0 以上であることが確定しているので、
-            // 相手を符号なしの型に変換してから比較する。
-            // 自身もまた符号なしであるから、
-            // 比較演算の際に必要なら暗黙の型変換が行われる。
-            if ((ulong)num > MaxValue.Bits / OneRepr) {
+            } else if ((ulong)num > MaxValue.Bits / OneRepr) {
                 return null;
             }
 
@@ -226,18 +214,10 @@ namespace AgatePris.Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-            // 自身が符号なしで相手が 0 未満の場合は null
-            // この分岐は相手が符号なしなら最適化により消去される。
-            if (num < 0) {
-                return null;
-            }
-
-            // 相手が最大値より大きい場合は null
-            // この時点で自身が 0 以上であることが確定しているので、
-            // 相手を符号なしの型に変換してから比較する。
-            // 自身もまた符号なしであるから、
-            // 比較演算の際に必要なら暗黙の型変換が行われる。
-            if ((ulong)num > MaxValue.Bits / OneRepr) {
+            // 自身と相手の符号が同じ場合、
+            // 暗黙に大きい方の型にキャストされる。
+            if (num > MaxValue.Bits / OneRepr ||
+                num < MinValue.Bits / OneRepr) {
                 return null;
             }
 
