@@ -102,8 +102,8 @@ namespace AgatePris.Intar {
         public static {{ self_type }}? CheckedFrom({{ from }} num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             {%- if signed %}
                 {%- if s %}
@@ -144,8 +144,8 @@ namespace AgatePris.Intar {
 
             return FromBits(({{ self_bits_type }})num * OneRepr);
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -168,13 +168,13 @@ namespace AgatePris.Intar {
         public static {{ self_type }} StrictFrom({{ from }} num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             return FromBits(checked(({{ self_bits_type }})num * OneRepr));
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 

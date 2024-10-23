@@ -58,8 +58,8 @@ namespace AgatePris.Intar {
         public static U17F15? CheckedFrom(int num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身が符号なしで相手が 0 未満の場合は null
             // この分岐は相手が符号なしなら最適化により消去される。
@@ -78,8 +78,8 @@ namespace AgatePris.Intar {
 
             return FromBits((uint)num * OneRepr);
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -102,13 +102,13 @@ namespace AgatePris.Intar {
         public static U17F15 StrictFrom(int num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             return FromBits(checked((uint)num * OneRepr));
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -131,8 +131,8 @@ namespace AgatePris.Intar {
         public static U17F15? CheckedFrom(uint num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身が符号なしで相手が 0 未満の場合は null
             // この分岐は相手が符号なしなら最適化により消去される。
@@ -151,8 +151,8 @@ namespace AgatePris.Intar {
 
             return FromBits((uint)num * OneRepr);
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -175,13 +175,13 @@ namespace AgatePris.Intar {
         public static U17F15 StrictFrom(uint num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             return FromBits(checked((uint)num * OneRepr));
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -204,8 +204,8 @@ namespace AgatePris.Intar {
         public static U17F15? CheckedFrom(long num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身が符号なしで相手が 0 未満の場合は null
             // この分岐は相手が符号なしなら最適化により消去される。
@@ -224,8 +224,8 @@ namespace AgatePris.Intar {
 
             return FromBits((uint)num * OneRepr);
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -248,13 +248,13 @@ namespace AgatePris.Intar {
         public static U17F15 StrictFrom(long num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             return FromBits(checked((uint)num * OneRepr));
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -277,8 +277,8 @@ namespace AgatePris.Intar {
         public static U17F15? CheckedFrom(ulong num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身が符号なしで相手が 0 未満の場合は null
             // この分岐は相手が符号なしなら最適化により消去される。
@@ -297,8 +297,8 @@ namespace AgatePris.Intar {
 
             return FromBits((uint)num * OneRepr);
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
@@ -321,13 +321,13 @@ namespace AgatePris.Intar {
         public static U17F15 StrictFrom(ulong num) {
             // コード生成の簡単のため、冗長なキャストを許容する。
 
-#pragma warning disable IDE0079
-#pragma warning disable IDE0004
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0004 // 不要なキャストの削除
 
             return FromBits(checked((uint)num * OneRepr));
 
-#pragma warning restore IDE0004
-#pragma warning restore IDE0079
+#pragma warning restore IDE0004 // 不要なキャストの削除
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         }
 
