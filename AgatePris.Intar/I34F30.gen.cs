@@ -144,6 +144,21 @@ namespace AgatePris.Intar {
             return LossyToDouble().ToString(format, formatProvider);
         }
 
+        //
+        // IComparable
+        //
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(I34F30 value) {
+            if (this < value) {
+                return -1;
+            } else if (this > value) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
         // Methods
         // ---------------------------------------
 
