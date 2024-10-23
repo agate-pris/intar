@@ -9,7 +9,7 @@ namespace AgatePris.Intar.Tests {
             var a = I17F15.CheckedFrom(1).Value;
             var b = I17F15.CheckedFrom(2).Value;
             a += b;
-            Utility.AssertAreEqual(3, (int)a);
+            Utility.AssertAreEqual(3, a.ToInt32());
         }
 
         [Test]
