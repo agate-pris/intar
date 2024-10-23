@@ -301,6 +301,12 @@ namespace AgatePris.Intar {
             return CheckedLossyFrom(num);
         }
 
+        {%- else %}
+
+        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
+        // 現時点では未実装。
+        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
+
         {%- endif %}
 
     {%- endif %}

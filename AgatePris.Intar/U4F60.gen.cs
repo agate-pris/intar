@@ -356,6 +356,10 @@ namespace AgatePris.Intar {
             return FromBits(checked((ulong)(num * OneRepr)));
         }
 
+        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
+        // 現時点では未実装。
+        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
         /// <para>指定された数値から新しく固定小数点数を構築します。</para>
@@ -378,6 +382,10 @@ namespace AgatePris.Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない。
             return FromBits(checked((ulong)(num * OneRepr)));
         }
+
+        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
+        // 現時点では未実装。
+        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
 
         // Static Properties
         // -----------------
