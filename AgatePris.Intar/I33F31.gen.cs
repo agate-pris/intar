@@ -221,12 +221,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I33F31.StrictLossyFrom(1.0f);
+        /// var a = I33F31.StrictFrom(1.0f);
         /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I33F31 StrictLossyFrom(float num) {
+        public static I33F31 StrictFrom(float num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
@@ -244,12 +244,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I33F31.StrictLossyFrom(1.0);
+        /// var a = I33F31.StrictFrom(1.0);
         /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I33F31 StrictLossyFrom(double num) {
+        public static I33F31 StrictFrom(double num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。

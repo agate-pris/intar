@@ -344,12 +344,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U2F62.StrictLossyFrom(1.0f);
+        /// var a = U2F62.StrictFrom(1.0f);
         /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F62 StrictLossyFrom(float num) {
+        public static U2F62 StrictFrom(float num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
@@ -367,12 +367,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U2F62.StrictLossyFrom(1.0);
+        /// var a = U2F62.StrictFrom(1.0);
         /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F62 StrictLossyFrom(double num) {
+        public static U2F62 StrictFrom(double num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
