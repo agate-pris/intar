@@ -121,58 +121,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator {{ op }}({{ self_type }} left, {{ self_type }} right) => left.Bits {{ op }} right.Bits;
 {%- endfor %}
 
-        // Conversion operators
-        // --------------------
-
-{#- 自身と異なる小数点数型への型変換の定義 #}
-{% for s in [true, false] %}
-    {%- for target in fixed_list %}
-        {#- 自身と異なる型の場合のみ定義する #}
-        {%- set i = target[0] %}
-        {%- set f = target[1] %}
-        {%- if s != signed or i != int_nbits or f != frac_nbits %}
-            {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
-            {#- 符号ありから符号なしへのキャストは常に explicit
-                符号なしから符号ありへのキャストはターゲットの整数部が自身以下、
-                またはターゲットの小数部が自身未満の場合 explicit
-                それ以外の場合、ターゲットの整数部が自身未満、
-                またはターゲットの小数部が自身未満の場合 explicit #}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {%if
-            signed and not s
-            or not signed and s and int_nbits >= i
-            or not signed and s and frac_nbits > f
-            or signed == s and int_nbits > i
-            or signed == s and frac_nbits > f
-        %}explicit{%
-            else
-        %}implicit{%
-            endif
-        %} operator {{ target_type }}({{ self_type }} x) => {{ target_type }}.FromBits(
-            {#- ターゲットの小数部がより小さい場合、除算してからキャストする。
-                ターゲットの小数部がより大きい場合、キャストしてから乗算する。
-                ターゲットの小数部が同じ場合、ただキャストする。
-                いずれの場合も内部表現型が暗黙型変換可能な場合はキャストしない。 #}
-            {%- set cast
-                = signed and not s
-                or not signed and s and int_nbits + frac_nbits >= i + f
-                or signed ==s and int_nbits + frac_nbits > i + f %}
-            {%- if cast -%}
-                ({{ macros::inttype(bits=i+f, signed=s) }})
-            {%- endif -%}
-            {%- if frac_nbits > f -%}
-                {%- if cast %}({% endif -%}
-                x.Bits / ({{ macros::one(bits=int_nbits+frac_nbits, signed=signed) }} << {{ frac_nbits - f }})
-                {%- if cast %}){% endif -%}
-            {%- elif frac_nbits < f -%}
-                x.Bits * ({{ macros::one(bits=i+f, signed=s) }} << {{ f - frac_nbits }})
-            {%- else -%}
-                x.Bits
-            {%- endif -%}
-        );
-        {%- endif %}
-    {%- endfor %}
-{%- endfor %}
-
         // Object
         // ---------------------------------------
 
@@ -750,6 +698,131 @@ namespace AgatePris.Intar {
             bits == 32 %}Single{% elif
             bits == 64 %}Double{% endif %}() => ({{ t }})Bits / OneRepr;
 
+{%- endfor %}
+
+        // 固定小数点数への変換
+{# これは改行を挿入するためのコメントです #}
+
+{#- 自身と異なる小数点数型への型変換の定義 #}
+{%- for checked in [false, true] %}
+    {%- for s in [true, false] %}
+        {%- for target in fixed_list %}
+            {#- 自身と異なる型の場合のみ定義する #}
+            {%- set i = target[0] %}
+            {%- set f = target[1] %}
+            {%- if s != signed or i != int_nbits or f != frac_nbits %}
+                {%- set target_type = macros::fixed_type(s=s, i=i, f=f) %}
+
+                {#- 相手の方が小数部のビット数が大きい場合、精度を失う #}
+                {%- set lossy = frac_nbits > f %}
+
+                {#- 自分が符号あり、相手が符号なしの場合、
+                    またはお互いの符号ビットを除いた整数部のビット数について、
+                    自分の方が大きい場合、変換に失敗する場合がある。 #}
+                {%- set failable = signed and not s
+                    or not signed and s and int_nbits > i - 1
+                    or signed == s and int_nbits > i %}
+
+                {%- set fo = macros::one(bits=int_nbits+frac_nbits, signed=signed) %}
+                {%- set fbu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
+                {%- set tb = macros::inttype(bits=i+f, signed=s) %}
+                {%- set tbu = macros::inttype(bits=i+f, signed=false) %}
+                {%- set to = macros::one(bits=i+f, signed=s) %}
+                {%- set tmax = target_type ~ '.MaxValue.Bits' %}
+                {%- set tmin = target_type ~ '.MinValue.Bits' %}
+
+                {%- if not checked %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+            target_type }} {%
+            if failable %}Strict{% endif %}{%
+            if lossy %}Lossy{% endif %}To{{
+            target_type }}() => {{ target_type }}.FromBits(
+                {#- 精度を失う場合、除算後に相手の型にキャストする。
+                    精度を失わない場合、相手の型にキャスト後に乗算する。#}
+                {%- if failable %}checked({% endif -%}
+                {%- if lossy -%}
+                    ({{ tb }})(Bits / ({{ fo }} << {{ frac_nbits - f }}))
+                {%- else -%}
+                    ({{ tb }})Bits * ({{ to }} << {{ f - frac_nbits }})
+                {%- endif %}
+                {%- if failable %}){% endif -%}
+            );
+
+                {%- endif %}
+
+                {%- if failable and checked %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ target_type }}? Checked{% if lossy %}Lossy{% endif %}To{{ target_type }}() {
+
+                    {%- if lossy %}
+            var tmp = Bits / ({{ fo }} << {{ frac_nbits - f }});
+
+                        {%- if signed == s %}
+
+            // 自身と相手の符号が同じ場合、
+            // 暗黙に大きい方の型にキャストされる。
+            if (tmp < {{ tmin }} ||
+                tmp > {{ tmax }}) {
+                return null;
+            }
+
+                        {%- elif signed and not s %}
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if (({{ fbu }})tmp > {{ tmax }}) {
+                return null;
+            }
+
+                        {%- else %}
+
+            // 自身が符号なしで、相手が符号ありの場合、
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp > ({{ tbu }}){{ tmax }}) {
+                return null;
+            }
+
+                        {%- endif %}
+
+            return {{ target_type }}.FromBits(({{ tb }})tmp);
+
+                    {%- else %}
+                        {#- 自身と相手の符号が同じ場合、
+                            相手の最大値を除算する値で割ったよりも大きければ null #}
+                        {%- if signed == s %}
+            if (Bits > {{ tmax }} / ({{ to }} << {{ f - frac_nbits }}) ||
+                Bits < {{ tmin }} / ({{ to }} << {{ f - frac_nbits }})) {
+                return null;
+            }
+
+                        {#- 自身が符号なし、相手が符号ありの場合 #}
+                        {%- elif not signed and s %}
+            if (Bits > ({{ tbu }}){{ tmax }} / ({{ to }} << {{ f - frac_nbits }})) {
+                return null;
+            }
+
+                        {#- 自身が符号あり、相手が符号なしの場合 #}
+                        {%- else %}
+            if (Bits < 0) {
+                return null;
+            } else if (({{ fbu }})Bits > {{ tmax }} / ({{ to }} << {{ f - frac_nbits }})) {
+                return null;
+            }
+
+                        {%- endif %}
+
+            return {{ target_type }}.FromBits(({{ tb }})Bits * ({{ to }} << {{ f - frac_nbits }}));
+
+                    {%- endif %}
+        }
+                {%- endif %}
+            {%- endif %}
+        {%- endfor %}
+    {%- endfor %}
 {%- endfor %}
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です

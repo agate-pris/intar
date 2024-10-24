@@ -104,21 +104,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I2F62 left, I2F62 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I2F62 left, I2F62 right) => left.Bits >= right.Bits;
 
-        // Conversion operators
-        // --------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I17F15(I2F62 x) => I17F15.FromBits((int)(x.Bits / (1L << 47)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I2F30(I2F62 x) => I2F30.FromBits((int)(x.Bits / (1L << 32)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I34F30(I2F62 x) => I34F30.FromBits(x.Bits / (1L << 32));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I33F31(I2F62 x) => I33F31.FromBits(x.Bits / (1L << 31));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator I4F60(I2F62 x) => I4F60.FromBits(x.Bits / (1L << 2));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U17F15(I2F62 x) => U17F15.FromBits((uint)(x.Bits / (1L << 47)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F30(I2F62 x) => U2F30.FromBits((uint)(x.Bits / (1L << 32)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U34F30(I2F62 x) => U34F30.FromBits((ulong)(x.Bits / (1L << 32)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U33F31(I2F62 x) => U33F31.FromBits((ulong)(x.Bits / (1L << 31)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U4F60(I2F62 x) => U4F60.FromBits((ulong)(x.Bits / (1L << 2)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static explicit operator U2F62(I2F62 x) => U2F62.FromBits((ulong)x.Bits);
-
         // Object
         // ---------------------------------------
 
@@ -568,6 +553,111 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double LossyToDouble() => (double)Bits / OneRepr;
+
+        // 固定小数点数への変換
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I17F15 LossyToI17F15() => I17F15.FromBits((int)(Bits / (1L << 47)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 LossyToI2F30() => I2F30.FromBits((int)(Bits / (1L << 32)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 LossyToI34F30() => I34F30.FromBits((long)(Bits / (1L << 32)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 LossyToI33F31() => I33F31.FromBits((long)(Bits / (1L << 31)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 LossyToI4F60() => I4F60.FromBits((long)(Bits / (1L << 2)));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 StrictLossyToU17F15() => U17F15.FromBits(checked((uint)(Bits / (1L << 47))));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 StrictLossyToU2F30() => U2F30.FromBits(checked((uint)(Bits / (1L << 32))));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U34F30 StrictLossyToU34F30() => U34F30.FromBits(checked((ulong)(Bits / (1L << 32))));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 StrictLossyToU33F31() => U33F31.FromBits(checked((ulong)(Bits / (1L << 31))));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 StrictLossyToU4F60() => U4F60.FromBits(checked((ulong)(Bits / (1L << 2))));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 StrictToU2F62() => U2F62.FromBits(checked((ulong)Bits * (1UL << 0)));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15? CheckedLossyToU17F15() {
+            var tmp = Bits / (1L << 47);
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > U17F15.MaxValue.Bits) {
+                return null;
+            }
+
+            return U17F15.FromBits((uint)tmp);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F30? CheckedLossyToU2F30() {
+            var tmp = Bits / (1L << 32);
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > U2F30.MaxValue.Bits) {
+                return null;
+            }
+
+            return U2F30.FromBits((uint)tmp);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U34F30? CheckedLossyToU34F30() {
+            var tmp = Bits / (1L << 32);
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > U34F30.MaxValue.Bits) {
+                return null;
+            }
+
+            return U34F30.FromBits((ulong)tmp);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U33F31? CheckedLossyToU33F31() {
+            var tmp = Bits / (1L << 31);
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > U33F31.MaxValue.Bits) {
+                return null;
+            }
+
+            return U33F31.FromBits((ulong)tmp);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U4F60? CheckedLossyToU4F60() {
+            var tmp = Bits / (1L << 2);
+
+            // 自身が符号ありで、相手が符号なしの場合、
+            // 自身が 0 未満、または
+            // 自身が相手の最大値よりも大きければ null
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > U4F60.MaxValue.Bits) {
+                return null;
+            }
+
+            return U4F60.FromBits((ulong)tmp);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62? CheckedToU2F62() {
+            if (Bits < 0) {
+                return null;
+            } else if ((ulong)Bits > U2F62.MaxValue.Bits / (1UL << 0)) {
+                return null;
+            }
+
+            return U2F62.FromBits((ulong)Bits * (1UL << 0));
+        }
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
