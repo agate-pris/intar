@@ -3,7 +3,7 @@
 {%- elif bits ==  64 %}{% if signed %}long {%- else %}ulong {%- endif %}
 {%- elif bits ==  16 %}{% if signed %}short{%- else %}ushort{%- endif %}
 {%- elif bits ==   8 %}{% if signed %}sbyte{%- else %}byte  {%- endif %}
-{%- else             %}{% if signed %}I    {%- else %}U     {%- endif %}{{ bits }}
+{%- else             %}{% if signed %}     {%- else %}U     {%- endif %}Int{{ bits }}
 {%- endif %}
 {%- endmacro %}
 
