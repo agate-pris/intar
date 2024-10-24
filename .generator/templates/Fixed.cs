@@ -382,6 +382,13 @@ namespace AgatePris.Intar {
         // Convert from
         //
 
+        // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+
+#pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
 {#- 整数型からの変換 #}
 {%- for bits in [32, 64] %}
     {%- for s in [true, false] %}
@@ -434,10 +441,6 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }}? CheckedFrom({{ from }} num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
 
             {%- if signed == s %}
 
@@ -476,10 +479,6 @@ namespace AgatePris.Intar {
             {%- endif %}
 
             return FromBits(({{ self_bits_type }})num * OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -499,16 +498,7 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} StrictFrom({{ from }} num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return FromBits(checked(({{ self_bits_type }})num * OneRepr));
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         {%- endif %}
@@ -670,16 +660,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} To{% if not s %}U{% endif %}Int{{ bits }}() {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return ({{ t }})(Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         {#- 自身が符号ありで相手が符号なしか、
@@ -723,9 +704,6 @@ namespace AgatePris.Intar {
 
             {%- elif signed and not s %}
 
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
-
             // 自身が符号ありで、相手が符号なしの場合、
             // 自身が 0 未満、または
             // 自身が相手の最大値よりも大きければ null
@@ -736,9 +714,6 @@ namespace AgatePris.Intar {
             }})tmp > {{ t }}.MaxValue) {
                 return null;
             }
-
-#pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
-#pragma warning restore IDE0079 // 不要な抑制を削除します
 
             {%- else %}
 
@@ -776,6 +751,11 @@ namespace AgatePris.Intar {
             bits == 64 %}Double{% endif %}() => ({{ t }})Bits / OneRepr;
 
 {%- endfor %}
+
+#pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
 } // namespace AgatePris.Intar

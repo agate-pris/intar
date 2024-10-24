@@ -196,6 +196,13 @@ namespace AgatePris.Intar {
         // Convert from
         //
 
+        // コード生成の簡単のため、冗長なキャストを許容する。
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+
+#pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
         /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
@@ -213,10 +220,6 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60? CheckedFrom(int num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身が符号なしで、相手が符号ありの場合、
             // 相手が 0 未満、または
@@ -228,10 +231,6 @@ namespace AgatePris.Intar {
             }
 
             return FromBits((ulong)num * OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -251,16 +250,7 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60 StrictFrom(int num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return FromBits(checked((ulong)num * OneRepr));
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -280,10 +270,6 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60? CheckedFrom(uint num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -293,10 +279,6 @@ namespace AgatePris.Intar {
             }
 
             return FromBits((ulong)num * OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -316,16 +298,7 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60 StrictFrom(uint num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return FromBits(checked((ulong)num * OneRepr));
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -345,10 +318,6 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60? CheckedFrom(long num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身が符号なしで、相手が符号ありの場合、
             // 相手が 0 未満、または
@@ -360,10 +329,6 @@ namespace AgatePris.Intar {
             }
 
             return FromBits((ulong)num * OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -383,16 +348,7 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60 StrictFrom(long num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return FromBits(checked((ulong)num * OneRepr));
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -412,10 +368,6 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60? CheckedFrom(ulong num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -425,10 +377,6 @@ namespace AgatePris.Intar {
             }
 
             return FromBits((ulong)num * OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -448,16 +396,7 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60 StrictFrom(ulong num) {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return FromBits(checked((ulong)num * OneRepr));
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
@@ -528,16 +467,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int ToInt32() {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return (int)(Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -545,16 +475,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint ToUInt32() {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return (uint)(Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -562,16 +483,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long ToInt64() {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return (long)(Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         /// <summary>
@@ -579,16 +491,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong ToUInt64() {
-            // コード生成の簡単のため、冗長なキャストを許容する。
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
             return (ulong)(Bits / OneRepr);
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
         }
 
         // 浮動小数点数への変換は必ず成功する。
@@ -599,6 +502,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double LossyToDouble() => (double)Bits / OneRepr;
+
+#pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
 } // namespace AgatePris.Intar
