@@ -683,6 +683,7 @@ namespace AgatePris.Intar {
 
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
+{# これは改行を挿入するためのコメントです #}
 
 {#- 浮動小数点数型への変換 #}
 {%- for bits in [32, 64] %}
@@ -690,9 +691,7 @@ namespace AgatePris.Intar {
     {%- elif bits == 64 %}{% set t='double' %}{% endif %}
 
     {#- 相手のビット数が自身以下の場合、精度を失う。 #}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }} {% if
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {% if
             bits <= int_nbits + frac_nbits
         %}Lossy{% endif %}To{% if
             bits == 32 %}Single{% elif
