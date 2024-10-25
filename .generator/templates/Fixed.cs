@@ -465,6 +465,32 @@ namespace AgatePris.Intar {
     {%- endif %}
 
     {#- ビット数が自身よりも大きい場合、変換の際に精度を失う #}
+    {%- set lossy = int_nbits + frac_nbits < bits %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified num.</para>
+        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = {{ self_type }}.Strict{% if lossy %}Lossy{% endif %}From({{ one }});
+        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} Strict{% if lossy %}Lossy{% endif %}From({{ from }} num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
+        }
+
+    {#- ビット数が自身よりも大きい場合、変換の際に精度を失う #}
     {%- if int_nbits + frac_nbits < bits %}
 
         /// <summary>
@@ -502,55 +528,9 @@ namespace AgatePris.Intar {
             return FromBits(({{ self_bits_type }})num);
         }
 
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictLossyFrom({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
-        }
-
     {#- ビットが自身以下の場合、変換の際に精度は損なわれない
         半精度浮動小数点数はサポートしない。 #}
     {%- elif bits > 16 %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictFrom({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
-        }
 
         {%- if int_nbits + frac_nbits < 64 %}
 
