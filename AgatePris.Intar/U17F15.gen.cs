@@ -518,6 +518,285 @@ namespace AgatePris.Intar {
             return FromBits(checked((uint)(num * OneRepr)));
         }
 
+        // 固定小数点数からの変換
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I17F15" /> value.</para>
+        /// <para><see cref="I17F15" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedFrom(I17F15)"/>
+        public static U17F15 StrictFrom(I17F15 from) {
+            return FromBits(checked((uint)from.Bits * ((uint)1 << 0)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I17F15" /> value.</para>
+        /// <para><see cref="I17F15" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(I17F15)"/>
+        public static U17F15? CheckedFrom(I17F15 from) {
+            if (from.Bits < 0) {
+                return null;
+            } else if ((uint)from.Bits > MaxRepr / ((uint)1 << 0)) {
+                return null;
+            }
+            return FromBits((uint)from.Bits * ((uint)1 << 0));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I2F30" /> value.</para>
+        /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(I2F30)"/>
+        public static U17F15 StrictLossyFrom(I2F30 from) {
+            return FromBits(checked((uint)(from.Bits / ((int)1 << 15))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I2F30" /> value.</para>
+        /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I2F30)"/>
+        public static U17F15? CheckedLossyFrom(I2F30 from) {
+            var tmp = from.Bits / ((int)1 << 15);
+            if (tmp < 0) {
+                return null;
+            } else if ((uint)tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I34F30" /> value.</para>
+        /// <para><see cref="I34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(I34F30)"/>
+        public static U17F15 StrictLossyFrom(I34F30 from) {
+            return FromBits(checked((uint)(from.Bits / ((long)1 << 15))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I34F30" /> value.</para>
+        /// <para><see cref="I34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I34F30)"/>
+        public static U17F15? CheckedLossyFrom(I34F30 from) {
+            var tmp = from.Bits / ((long)1 << 15);
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I33F31" /> value.</para>
+        /// <para><see cref="I33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(I33F31)"/>
+        public static U17F15 StrictLossyFrom(I33F31 from) {
+            return FromBits(checked((uint)(from.Bits / ((long)1 << 16))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I33F31" /> value.</para>
+        /// <para><see cref="I33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I33F31)"/>
+        public static U17F15? CheckedLossyFrom(I33F31 from) {
+            var tmp = from.Bits / ((long)1 << 16);
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I4F60" /> value.</para>
+        /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(I4F60)"/>
+        public static U17F15 StrictLossyFrom(I4F60 from) {
+            return FromBits(checked((uint)(from.Bits / ((long)1 << 45))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I4F60" /> value.</para>
+        /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I4F60)"/>
+        public static U17F15? CheckedLossyFrom(I4F60 from) {
+            var tmp = from.Bits / ((long)1 << 45);
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I2F62" /> value.</para>
+        /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(I2F62)"/>
+        public static U17F15 StrictLossyFrom(I2F62 from) {
+            return FromBits(checked((uint)(from.Bits / ((long)1 << 47))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I2F62" /> value.</para>
+        /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I2F62)"/>
+        public static U17F15? CheckedLossyFrom(I2F62 from) {
+            var tmp = from.Bits / ((long)1 << 47);
+            if (tmp < 0) {
+                return null;
+            } else if ((ulong)tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U2F30" /> value.</para>
+        /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static U17F15 LossyFrom(U2F30 from) {
+            return FromBits((uint)(from.Bits / ((uint)1 << 15)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
+        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(U34F30)"/>
+        public static U17F15 StrictLossyFrom(U34F30 from) {
+            return FromBits(checked((uint)(from.Bits / ((ulong)1 << 15))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
+        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(U34F30)"/>
+        public static U17F15? CheckedLossyFrom(U34F30 from) {
+            var tmp = from.Bits / ((ulong)1 << 15);
+            if (tmp < MinRepr ||
+                tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U33F31" /> value.</para>
+        /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyFrom(U33F31)"/>
+        public static U17F15 StrictLossyFrom(U33F31 from) {
+            return FromBits(checked((uint)(from.Bits / ((ulong)1 << 16))));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U33F31" /> value.</para>
+        /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(U33F31)"/>
+        public static U17F15? CheckedLossyFrom(U33F31 from) {
+            var tmp = from.Bits / ((ulong)1 << 16);
+            if (tmp < MinRepr ||
+                tmp > MaxRepr) {
+                return null;
+            }
+            return FromBits((uint)tmp);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U4F60" /> value.</para>
+        /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static U17F15 LossyFrom(U4F60 from) {
+            return FromBits((uint)(from.Bits / ((ulong)1 << 45)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U2F62" /> value.</para>
+        /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static U17F15 LossyFrom(U2F62 from) {
+            return FromBits((uint)(from.Bits / ((ulong)1 << 47)));
+        }
+
         //
         // Convert to
         //

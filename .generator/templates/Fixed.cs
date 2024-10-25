@@ -586,6 +586,124 @@ namespace AgatePris.Intar {
     {%- endif %}
 {%- endfor %}
 
+        // 固定小数点数からの変換
+
+{%- for s in [true, false] %}
+    {%- for target in fixed_list %}
+        {%- set i = target[0] %}
+        {%- set f = target[1] %}
+        {%- if s != signed or i != int_nbits or f != frac_nbits %}
+            {%- set from = macros::fixed_type(s=s, i=i, f=f) %}
+            {%- set lossy = frac_nbits < f %}
+            {%- set failable = not signed and s
+                or signed == s and int_nbits < i
+                or signed and not s and int_nbits - 1 < i %}
+            {%- set fb = macros::inttype(signed=s,     bits=i+f) %}
+            {%- set fu = macros::inttype(signed=false, bits=i+f) %}
+            {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
+
+            {#- コメントなどを共通化するためにループ処理でまかなう #}
+            {%- for strict in [true, false] %}
+                {%- if strict or failable %}
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
+        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        {%- if failable %}
+            {%- if strict %}
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- else %}
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- endif %}
+        {%- else %}
+        /// </summary>
+        {%- endif %}
+        public static {{ self_type }}
+        {%- if failable %}
+            {%- if strict %} Strict
+            {%- else %}? Checked
+            {%- endif %}
+        {%- else %} {% endif %}
+        {%- if lossy %}Lossy{% endif %}From({{ from }} from) {
+            {%- if strict or not failable %}
+            return FromBits(
+                {%- if failable %}checked({% endif %}({{ self_bits_type }})
+                {%- if lossy -%}
+                    (from.Bits / (({{ fb }})1 << {{ f-frac_nbits }}))
+                {%- else -%}
+                    from.Bits * (({{ self_bits_type }})1 << {{ frac_nbits-f }})
+                {%- endif %}
+                {%- if failable %}){% endif -%}
+            );
+
+            {#- checked #}
+            {%- else %}
+
+                {%- if lossy %}
+            var tmp = from.Bits / (({{ fb }})1 << {{ f-frac_nbits }});
+
+                    {%- if signed == s %}
+            if (tmp < MinRepr ||
+                tmp > MaxRepr) {
+                return null;
+            }
+                    {%- elif signed %}
+            if (tmp > ({{ tu }})MaxRepr) {
+                return null;
+            }
+                    {%- else %}
+            if (tmp < 0) {
+                return null;
+            } else if (({{ fu }})tmp > MaxRepr) {
+                return null;
+            }
+                    {%- endif %}
+            return FromBits(({{ self_bits_type }})tmp);
+
+                {%- else %}
+                    {%- set shift = frac_nbits - f %}
+                    {%- set max = 'MaxRepr / ((' ~ self_bits_type ~ ')1 << ' ~ shift ~ ')' %}
+                    {%- set min = 'MinRepr / ((' ~ self_bits_type ~ ')1 << ' ~ shift ~ ')' %}
+
+                    {%- if signed == s %}
+            if (from.Bits > ({{ max }}) ||
+                from.Bits < ({{ min }})) {
+                return null;
+            }
+                    {%- elif signed %}
+            if (from.Bits > ({{ tu }})({{ max }})) {
+                return null;
+            }
+                    {%- else %}
+            if (from.Bits < 0) {
+                return null;
+            } else if (({{ fu }})from.Bits > {{ max }}) {
+                return null;
+            }
+                    {%- endif %}
+            return FromBits(({{ self_bits_type }})from.Bits * (({{ self_bits_type }})1 << {{ frac_nbits-f }}));
+                {%- endif %}
+
+            {%- endif %}
+        }
+
+                {%- endif %}
+            {%- endfor %}
+
+        {%- endif %}
+    {%- endfor %}
+{%- endfor %}
+
         //
         // Convert to
         //

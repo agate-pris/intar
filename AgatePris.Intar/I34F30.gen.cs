@@ -392,6 +392,117 @@ namespace AgatePris.Intar {
         // 現時点では未実装。
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
 
+        // 固定小数点数からの変換
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I17F15" /> value.</para>
+        /// <para><see cref="I17F15" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 From(I17F15 from) {
+            return FromBits((long)from.Bits * ((long)1 << 15));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I2F30" /> value.</para>
+        /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 From(I2F30 from) {
+            return FromBits((long)from.Bits * ((long)1 << 0));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I33F31" /> value.</para>
+        /// <para><see cref="I33F31" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 LossyFrom(I33F31 from) {
+            return FromBits((long)(from.Bits / ((long)1 << 1)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I4F60" /> value.</para>
+        /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 LossyFrom(I4F60 from) {
+            return FromBits((long)(from.Bits / ((long)1 << 30)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I2F62" /> value.</para>
+        /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 LossyFrom(I2F62 from) {
+            return FromBits((long)(from.Bits / ((long)1 << 32)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U17F15" /> value.</para>
+        /// <para><see cref="U17F15" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 From(U17F15 from) {
+            return FromBits((long)from.Bits * ((long)1 << 15));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U2F30" /> value.</para>
+        /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 From(U2F30 from) {
+            return FromBits((long)from.Bits * ((long)1 << 0));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
+        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedFrom(U34F30)"/>
+        public static I34F30 StrictFrom(U34F30 from) {
+            return FromBits(checked((long)from.Bits * ((long)1 << 0)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
+        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(U34F30)"/>
+        public static I34F30? CheckedFrom(U34F30 from) {
+            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 0))) {
+                return null;
+            }
+            return FromBits((long)from.Bits * ((long)1 << 0));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U33F31" /> value.</para>
+        /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 LossyFrom(U33F31 from) {
+            return FromBits((long)(from.Bits / ((ulong)1 << 1)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U4F60" /> value.</para>
+        /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 LossyFrom(U4F60 from) {
+            return FromBits((long)(from.Bits / ((ulong)1 << 30)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U2F62" /> value.</para>
+        /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static I34F30 LossyFrom(U2F62 from) {
+            return FromBits((long)(from.Bits / ((ulong)1 << 32)));
+        }
+
         //
         // Convert to
         //
