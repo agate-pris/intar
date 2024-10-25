@@ -10,6 +10,9 @@ namespace AgatePris.Intar {
         public const int IntNbits = 33;
         public const int FracNbits = 31;
 
+        internal const ulong MinRepr = ulong.MinValue;
+        internal const ulong MaxRepr = ulong.MaxValue;
+
         const ulong OneRepr = 1UL << FracNbits;
 
         // Fields
@@ -49,11 +52,11 @@ namespace AgatePris.Intar {
         }
         public static U33F31 MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(ulong.MinValue);
+            get => FromBits(MinRepr);
         }
         public static U33F31 MaxValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(ulong.MaxValue);
+            get => FromBits(MaxRepr);
         }
 
         // Arithmetic Operators

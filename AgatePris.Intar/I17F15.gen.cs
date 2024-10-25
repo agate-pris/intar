@@ -10,6 +10,9 @@ namespace AgatePris.Intar {
         public const int IntNbits = 17;
         public const int FracNbits = 15;
 
+        internal const int MinRepr = int.MinValue;
+        internal const int MaxRepr = int.MaxValue;
+
         const int OneRepr = 1 << FracNbits;
 
         // Fields
@@ -49,11 +52,11 @@ namespace AgatePris.Intar {
         }
         public static I17F15 MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(int.MinValue);
+            get => FromBits(MinRepr);
         }
         public static I17F15 MaxValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(int.MaxValue);
+            get => FromBits(MaxRepr);
         }
 
         // Arithmetic Operators

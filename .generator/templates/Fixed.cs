@@ -17,6 +17,9 @@ namespace AgatePris.Intar {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
+        internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
+        internal const {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
+
         const {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
@@ -58,11 +61,11 @@ namespace AgatePris.Intar {
         }
         public static {{ self_type }} MinValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits({{ self_bits_type }}.MinValue);
+            get => FromBits(MinRepr);
         }
         public static {{ self_type }} MaxValue {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits({{ self_bits_type }}.MaxValue);
+            get => FromBits(MaxRepr);
         }
 
         // Arithmetic Operators
