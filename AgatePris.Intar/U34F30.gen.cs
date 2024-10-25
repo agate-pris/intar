@@ -745,129 +745,269 @@ namespace AgatePris.Intar {
 
         // 固定小数点数への変換
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I17F15 StrictLossyToI17F15() => I17F15.FromBits(checked((int)(Bits / (1UL << 15))));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 StrictToI2F30() => I2F30.FromBits(checked((int)Bits * (1 << 0)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I34F30 StrictToI34F30() => I34F30.FromBits(checked((long)Bits * (1L << 0)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 StrictToI33F31() => I33F31.FromBits(checked((long)Bits * (1L << 1)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 StrictToI4F60() => I4F60.FromBits(checked((long)Bits * (1L << 30)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 StrictToI2F62() => I2F62.FromBits(checked((long)Bits * (1L << 32)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 StrictLossyToU17F15() => U17F15.FromBits(checked((uint)(Bits / (1UL << 15))));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 StrictToU2F30() => U2F30.FromBits(checked((uint)Bits * (1U << 0)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 StrictToU33F31() => U33F31.FromBits(checked((ulong)Bits * (1UL << 1)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 StrictToU4F60() => U4F60.FromBits(checked((ulong)Bits * (1UL << 30)));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 StrictToU2F62() => U2F62.FromBits(checked((ulong)Bits * (1UL << 32)));
-
+        /// <summary>
+        /// <para>Converts to <see cref="I17F15" />.</para>
+        /// <para><see cref="I17F15" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyToI17F15"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15? CheckedLossyToI17F15() {
-            var tmp = Bits / (1UL << 15);
+        public I17F15? CheckedLossyToI17F15() => I17F15.CheckedLossyFrom(this);
 
-            // 自身が符号なしで、相手が符号ありの場合、
-            // 自身が相手の最大値よりも大きければ null
-            if (tmp > (uint)I17F15.MaxValue.Bits) {
-                return null;
-            }
-
-            return I17F15.FromBits((int)tmp);
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I17F15" />.</para>
+        /// <para><see cref="I17F15" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyToI17F15"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30? CheckedToI2F30() {
-            if (Bits > (uint)I2F30.MaxValue.Bits / (1 << 0)) {
-                return null;
-            }
+        public I17F15 StrictLossyToI17F15() => I17F15.StrictLossyFrom(this);
 
-            return I2F30.FromBits((int)Bits * (1 << 0));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I2F30" />.</para>
+        /// <para><see cref="I2F30" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToI2F30"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I34F30? CheckedToI34F30() {
-            if (Bits > (ulong)I34F30.MaxValue.Bits / (1L << 0)) {
-                return null;
-            }
+        public I2F30? CheckedToI2F30() => I2F30.CheckedFrom(this);
 
-            return I34F30.FromBits((long)Bits * (1L << 0));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I2F30" />.</para>
+        /// <para><see cref="I2F30" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToI2F30"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I33F31? CheckedToI33F31() {
-            if (Bits > (ulong)I33F31.MaxValue.Bits / (1L << 1)) {
-                return null;
-            }
+        public I2F30 StrictToI2F30() => I2F30.StrictFrom(this);
 
-            return I33F31.FromBits((long)Bits * (1L << 1));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I34F30" />.</para>
+        /// <para><see cref="I34F30" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToI34F30"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60? CheckedToI4F60() {
-            if (Bits > (ulong)I4F60.MaxValue.Bits / (1L << 30)) {
-                return null;
-            }
+        public I34F30? CheckedToI34F30() => I34F30.CheckedFrom(this);
 
-            return I4F60.FromBits((long)Bits * (1L << 30));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I34F30" />.</para>
+        /// <para><see cref="I34F30" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToI34F30"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62? CheckedToI2F62() {
-            if (Bits > (ulong)I2F62.MaxValue.Bits / (1L << 32)) {
-                return null;
-            }
+        public I34F30 StrictToI34F30() => I34F30.StrictFrom(this);
 
-            return I2F62.FromBits((long)Bits * (1L << 32));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I33F31" />.</para>
+        /// <para><see cref="I33F31" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToI33F31"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15? CheckedLossyToU17F15() {
-            var tmp = Bits / (1UL << 15);
+        public I33F31? CheckedToI33F31() => I33F31.CheckedFrom(this);
 
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (tmp < U17F15.MinValue.Bits ||
-                tmp > U17F15.MaxValue.Bits) {
-                return null;
-            }
-
-            return U17F15.FromBits((uint)tmp);
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I33F31" />.</para>
+        /// <para><see cref="I33F31" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToI33F31"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30? CheckedToU2F30() {
-            if (Bits > U2F30.MaxValue.Bits / (1U << 0) ||
-                Bits < U2F30.MinValue.Bits / (1U << 0)) {
-                return null;
-            }
+        public I33F31 StrictToI33F31() => I33F31.StrictFrom(this);
 
-            return U2F30.FromBits((uint)Bits * (1U << 0));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I4F60" />.</para>
+        /// <para><see cref="I4F60" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToI4F60"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31? CheckedToU33F31() {
-            if (Bits > U33F31.MaxValue.Bits / (1UL << 1) ||
-                Bits < U33F31.MinValue.Bits / (1UL << 1)) {
-                return null;
-            }
+        public I4F60? CheckedToI4F60() => I4F60.CheckedFrom(this);
 
-            return U33F31.FromBits((ulong)Bits * (1UL << 1));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I4F60" />.</para>
+        /// <para><see cref="I4F60" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToI4F60"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60? CheckedToU4F60() {
-            if (Bits > U4F60.MaxValue.Bits / (1UL << 30) ||
-                Bits < U4F60.MinValue.Bits / (1UL << 30)) {
-                return null;
-            }
+        public I4F60 StrictToI4F60() => I4F60.StrictFrom(this);
 
-            return U4F60.FromBits((ulong)Bits * (1UL << 30));
-        }
-
+        /// <summary>
+        /// <para>Converts to <see cref="I2F62" />.</para>
+        /// <para><see cref="I2F62" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToI2F62"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62? CheckedToU2F62() {
-            if (Bits > U2F62.MaxValue.Bits / (1UL << 32) ||
-                Bits < U2F62.MinValue.Bits / (1UL << 32)) {
-                return null;
-            }
+        public I2F62? CheckedToI2F62() => I2F62.CheckedFrom(this);
 
-            return U2F62.FromBits((ulong)Bits * (1UL << 32));
-        }
+        /// <summary>
+        /// <para>Converts to <see cref="I2F62" />.</para>
+        /// <para><see cref="I2F62" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToI2F62"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 StrictToI2F62() => I2F62.StrictFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U17F15" />.</para>
+        /// <para><see cref="U17F15" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyToU17F15"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15? CheckedLossyToU17F15() => U17F15.CheckedLossyFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U17F15" />.</para>
+        /// <para><see cref="U17F15" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedLossyToU17F15"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 StrictLossyToU17F15() => U17F15.StrictLossyFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U2F30" />.</para>
+        /// <para><see cref="U2F30" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToU2F30"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F30? CheckedToU2F30() => U2F30.CheckedFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U2F30" />.</para>
+        /// <para><see cref="U2F30" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToU2F30"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F30 StrictToU2F30() => U2F30.StrictFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U33F31" />.</para>
+        /// <para><see cref="U33F31" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToU33F31"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U33F31? CheckedToU33F31() => U33F31.CheckedFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U33F31" />.</para>
+        /// <para><see cref="U33F31" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToU33F31"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U33F31 StrictToU33F31() => U33F31.StrictFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U4F60" />.</para>
+        /// <para><see cref="U4F60" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToU4F60"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U4F60? CheckedToU4F60() => U4F60.CheckedFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U4F60" />.</para>
+        /// <para><see cref="U4F60" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToU4F60"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U4F60 StrictToU4F60() => U4F60.StrictFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U2F62" />.</para>
+        /// <para><see cref="U2F62" /> へ変換します。</para>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>Note</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToU2F62"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62? CheckedToU2F62() => U2F62.CheckedFrom(this);
+
+        /// <summary>
+        /// <para>Converts to <see cref="U2F62" />.</para>
+        /// <para><see cref="U2F62" /> へ変換します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="CheckedToU2F62"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62 StrictToU2F62() => U2F62.StrictFrom(this);
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
