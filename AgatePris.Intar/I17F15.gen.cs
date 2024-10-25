@@ -115,7 +115,7 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(I17F15 other) => Bits == other.Bits;
+        public bool Equals(I17F15 other) => this == other;
 
         // IFormattable
         // ---------------------------------------
