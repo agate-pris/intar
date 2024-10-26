@@ -280,37 +280,41 @@ namespace AgatePris.Intar {
         {%- endif %}
         {%- endfor %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(int x, int y, out int result) {
-            var l = Math.BigMul(x, y);
-            result = unchecked((int)l);
-            return l < int.MinValue || l > int.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int? CheckedMul(int x, int y) {
-            int? @null = null;
-            return OverflowingMul(x, y, out var result) ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
-            ((x < 0) == (y < 0))
-            ? int.MaxValue
-            : int.MinValue
-        );
+{%- for bits in [32] %}
+    {%- for s in [true, false] %}
+        {%- set t = macros::inttype(signed=s, bits=bits) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(uint x, uint y, out uint result) {
+        public static bool OverflowingMul({{ t }} x, {{ t }} y, out {{ t }} result) {
+            {%- if bits == 32 and s == false %}
             var l = ((ulong)x) * y;
-            result = unchecked((uint)l);
-            return l > int.MaxValue;
+            {%- else %}
+            var l = Math.BigMul(x, y);
+            {%- endif %}
+            result = unchecked(({{ t }})l);
+            {%- if s %}
+            return l < {{ t }}.MinValue || l > {{ t }}.MaxValue;
+            {%- else %}
+            return l > {{ t }}.MaxValue;
+            {%- endif %}
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint? CheckedMul(uint x, uint y) {
-            uint? @null = null;
+        public static {{ t }}? CheckedMul({{ t }} x, {{ t }} y) {
+            {{ t }}? @null = null;
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
+        public static {{ t }} SaturatingMul({{ t }} x, {{ t }} y) => CheckedMul(x, y) ??
+        {%- if s %} (
+            ((x < 0) == (y < 0))
+            ? {{ t }}.MaxValue
+            : {{ t }}.MinValue
+        );
+        {%- else %} {{ t }}.MaxValue;
+        {%- endif %}
+
+    {%- endfor %}
+{%- endfor %}
 
     }
 }

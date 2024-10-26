@@ -548,7 +548,7 @@ namespace AgatePris.Intar {
         public static bool OverflowingMul(uint x, uint y, out uint result) {
             var l = ((ulong)x) * y;
             result = unchecked((uint)l);
-            return l > int.MaxValue;
+            return l > uint.MaxValue;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint? CheckedMul(uint x, uint y) {
