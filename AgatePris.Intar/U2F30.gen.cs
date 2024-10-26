@@ -180,9 +180,7 @@ namespace AgatePris.Intar {
             return OverflowingMul(other, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 SaturatingMul(U2F30 other) {
-            return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
-        }
+        public U2F30 SaturatingMul(U2F30 other) => CheckedMul(other) ?? MaxValue;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 BigMul(I2F30 other) {
