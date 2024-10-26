@@ -186,17 +186,6 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingAdd({{ self_type }} other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingSub({{ self_type }} other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingMul({{ self_type }} other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
-
-        {%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingAddUnsigned({{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingSubUnsigned({{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
-        {%- else %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} WrappingAddSigned({{ macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) }} other) => FromBits(Overflowing.WrappingAddSigned(Bits, other.Bits));
-        {%- endif %}
-
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -156,12 +156,6 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Twice() => FromBits(Mathi.Twice(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 WrappingAdd(I2F30 other) => FromBits(Overflowing.WrappingAdd(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 WrappingSub(I2F30 other) => FromBits(Overflowing.WrappingSub(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 WrappingMul(I2F30 other) => FromBits(Overflowing.WrappingMul(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 WrappingAddUnsigned(U2F30 other) => FromBits(Overflowing.WrappingAddUnsigned(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 WrappingSubUnsigned(U2F30 other) => FromBits(Overflowing.WrappingSubUnsigned(Bits, other.Bits));
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F30 UnsignedAbs() {
             return U2F30.FromBits(Overflowing.UnsignedAbs(Bits));
