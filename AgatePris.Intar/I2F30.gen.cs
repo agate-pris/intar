@@ -247,8 +247,8 @@ namespace AgatePris.Intar {
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxValue.Bits / OneRepr ||
-                num < MinValue.Bits / OneRepr) {
+            if (num > MaxRepr / OneRepr ||
+                num < MinRepr / OneRepr) {
                 return null;
             }
 
@@ -297,7 +297,7 @@ namespace AgatePris.Intar {
             // 相手が最小値未満であることはありえない。
             // よって、自身の最大値を符号なしの型に変換して比較する。
             // この際、大きい方の型に暗黙に変換される。
-            if (num > (uint)(MaxValue.Bits / OneRepr)) {
+            if (num > (uint)(MaxRepr / OneRepr)) {
                 return null;
             }
 
@@ -344,8 +344,8 @@ namespace AgatePris.Intar {
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxValue.Bits / OneRepr ||
-                num < MinValue.Bits / OneRepr) {
+            if (num > MaxRepr / OneRepr ||
+                num < MinRepr / OneRepr) {
                 return null;
             }
 
@@ -394,7 +394,7 @@ namespace AgatePris.Intar {
             // 相手が最小値未満であることはありえない。
             // よって、自身の最大値を符号なしの型に変換して比較する。
             // この際、大きい方の型に暗黙に変換される。
-            if (num > (uint)(MaxValue.Bits / OneRepr)) {
+            if (num > (uint)(MaxRepr / OneRepr)) {
                 return null;
             }
 
