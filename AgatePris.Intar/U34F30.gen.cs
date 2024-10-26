@@ -184,7 +184,7 @@ namespace AgatePris.Intar {
         bool OverflowingMul(U34F30 other, out U34F30 result) {
             var bits = ((UInt128)Bits) * other.Bits / OneRepr;
             result = FromBits(unchecked((ulong)bits));
-            return bits < MinRepr || bits > MaxRepr;
+            return bits < ulong.MinValue || bits > ulong.MaxValue;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30? CheckedMul(U34F30 other) {

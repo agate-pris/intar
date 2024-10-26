@@ -181,7 +181,7 @@ namespace AgatePris.Intar {
         bool OverflowingMul(I17F15 other, out I17F15 result) {
             var bits = ((long)Bits) * other.Bits / OneRepr;
             result = FromBits(unchecked((int)bits));
-            return bits < MinRepr || bits > MaxRepr;
+            return bits < int.MinValue || bits > int.MaxValue;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I17F15? CheckedMul(I17F15 other) {
