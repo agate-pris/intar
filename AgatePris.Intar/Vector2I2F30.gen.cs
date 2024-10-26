@@ -199,32 +199,7 @@ namespace AgatePris.Intar {
             X.Clamp(min.X, max.X),
             Y.Clamp(min.Y, max.Y));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 WrappingAdd(Vector2I2F30 other) => new Vector2I2F30(
-            X.WrappingAdd(other.X),
-            Y.WrappingAdd(other.Y));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 WrappingSub(Vector2I2F30 other) => new Vector2I2F30(
-            X.WrappingSub(other.X),
-            Y.WrappingSub(other.Y));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 WrappingMul(Vector2I2F30 other) => new Vector2I2F30(
-            X.WrappingMul(other.X),
-            Y.WrappingMul(other.Y));
-
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 WrappingAddUnsigned(Vector2U2F30 other) => new Vector2I2F30(
-            X.WrappingAddUnsigned(other.X),
-            Y.WrappingAddUnsigned(other.Y));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 WrappingSubUnsigned(Vector2U2F30 other) => new Vector2I2F30(
-            X.WrappingSubUnsigned(other.X),
-            Y.WrappingSubUnsigned(other.Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2U2F30 UnsignedAbs() => new Vector2U2F30(

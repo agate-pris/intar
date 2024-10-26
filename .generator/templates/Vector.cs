@@ -287,55 +287,7 @@ namespace AgatePris.Intar {
             Z.Clamp(min.Z, max.Z){% if dim > 3 %},
             W.Clamp(min.W, max.W){% endif %}{% endif %});
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} WrappingAdd({{ self_type }} other) => new {{ self_type }}(
-            X.WrappingAdd(other.X),
-            Y.WrappingAdd(other.Y){% if dim > 2 %},
-            Z.WrappingAdd(other.Z){% if dim > 3 %},
-            W.WrappingAdd(other.W){% endif %}{% endif %});
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} WrappingSub({{ self_type }} other) => new {{ self_type }}(
-            X.WrappingSub(other.X),
-            Y.WrappingSub(other.Y){% if dim > 2 %},
-            Z.WrappingSub(other.Z){% if dim > 3 %},
-            W.WrappingSub(other.W){% endif %}{% endif %});
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} WrappingMul({{ self_type }} other) => new {{ self_type }}(
-            X.WrappingMul(other.X),
-            Y.WrappingMul(other.Y){% if dim > 2 %},
-            Z.WrappingMul(other.Z){% if dim > 3 %},
-            W.WrappingMul(other.W){% endif %}{% endif %});
-
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        {%- if signed %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} WrappingAddUnsigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
-            X.WrappingAddUnsigned(other.X),
-            Y.WrappingAddUnsigned(other.Y){% if dim > 2 %},
-            Z.WrappingAddUnsigned(other.Z){% if dim > 3 %},
-            W.WrappingAddUnsigned(other.W){% endif %}{% endif %});
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} WrappingSubUnsigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
-            X.WrappingSubUnsigned(other.X),
-            Y.WrappingSubUnsigned(other.Y){% if dim > 2 %},
-            Z.WrappingSubUnsigned(other.Z){% if dim > 3 %},
-            W.WrappingSubUnsigned(other.W){% endif %}{% endif %});
-
-        {%- else %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} WrappingAddSigned({{ macros::vector_type(dim=dim, type=macros::fixed_type(s=true, i=int_nbits, f=frac_nbits)) }} other) => new {{ self_type }}(
-            X.WrappingAddSigned(other.X),
-            Y.WrappingAddSigned(other.Y){% if dim > 2 %},
-            Z.WrappingAddSigned(other.Z){% if dim > 3 %},
-            W.WrappingAddSigned(other.W){% endif %}{% endif %});
-
-        {%- endif %}
 
         {%- if signed %}
 
