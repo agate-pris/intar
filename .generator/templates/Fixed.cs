@@ -211,7 +211,14 @@ namespace AgatePris.Intar {
             return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
 
-        {%- if int_nbits + frac_nbits <= 32 %}
+{%- if int_nbits + frac_nbits > 32 %}
+
+        // 128 ビット整数型は .NET 7 以降にしか無いので,
+        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
+
+#if NET7_0_OR_GREATER
+
+{%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
@@ -233,7 +240,11 @@ namespace AgatePris.Intar {
             : MinValue
         ){% else %} MaxValue{% endif %};
 
-        {%- endif %}
+{%- if int_nbits + frac_nbits > 32 %}
+
+#endif
+
+{%- endif %}
 
 {%- for output in fixed_list %}
     {%- for rhs in fixed_list %}

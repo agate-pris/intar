@@ -184,6 +184,31 @@ namespace AgatePris.Intar {
             return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
 
+        // 128 ビット整数型は .NET 7 以降にしか無いので,
+        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        bool OverflowingMul(I33F31 other, out I33F31 result) {
+            var bits = ((Int128)Bits) * other.Bits / OneRepr;
+            result = FromBits(unchecked((long)bits));
+            return bits < MinRepr || bits > MaxRepr;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I33F31? CheckedMul(I33F31 other) {
+            I33F31? @null = null;
+            return OverflowingMul(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I33F31 SaturatingMul(I33F31 other) => CheckedMul(other) ?? (
+            (Bits < 0) == (other.Bits < 0)
+            ? MaxValue
+            : MinValue
+        );
+
+#endif
+
         //
         // Convert from
         //
