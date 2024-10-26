@@ -184,6 +184,29 @@ namespace AgatePris.Intar {
             return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
 
+        // 64 ビット固定小数点数の乗算・除算は .NET 5 以降でのみ使用可能。
+        // (Math.BigMul のオーバーロードが追加されたため)
+
+#if NET5_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        bool OverflowingMul(I34F30 other, out I34F30 result) {
+            var b = Overflowing.OverflowingMul(Bits, other.Bits, out var bits);
+            result = FromBits(unchecked((long)bits));
+            return b;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I34F30? CheckedMul(I34F30 other) {
+            I34F30? @null = null;
+            return OverflowingMul(other, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I34F30 SaturatingMul(I34F30 other) {
+            return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
+        }
+
+#endif // NET5_0_OR_GREATER
+
         //
         // Convert from
         //

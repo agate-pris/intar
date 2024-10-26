@@ -211,7 +211,16 @@ namespace AgatePris.Intar {
             return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
         }
 
-        {%- if int_nbits + frac_nbits <= 32 %}
+{%- if int_nbits + frac_nbits < 128 %}
+
+    {%- if int_nbits + frac_nbits > 32 %}
+
+        // 64 ビット固定小数点数の乗算・除算は .NET 5 以降でのみ使用可能。
+        // (Math.BigMul のオーバーロードが追加されたため)
+
+#if NET5_0_OR_GREATER
+
+    {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
@@ -229,7 +238,13 @@ namespace AgatePris.Intar {
             return FromBits(Overflowing.SaturatingMul(Bits, other.Bits));
         }
 
-        {%- endif %}
+    {%- if int_nbits + frac_nbits > 32 %}
+
+#endif // NET5_0_OR_GREATER
+
+    {%- endif %}
+
+{%- endif %}
 
 {%- for output in fixed_list %}
     {%- for rhs in fixed_list %}
