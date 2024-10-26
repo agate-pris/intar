@@ -558,5 +558,41 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
 
+#if NET5_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingMul(long x, long y, out long result) {
+            var high = Math.BigMul(x, y, out result);
+            return result < 0
+                ? high != -1
+                : high != 0;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long? CheckedMul(long x, long y) {
+            long? @null = null;
+            return OverflowingMul(x, y, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long SaturatingMul(long x, long y) => CheckedMul(x, y) ?? (
+            ((x < 0) == (y < 0))
+            ? long.MaxValue
+            : long.MinValue
+        );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool OverflowingMul(ulong x, ulong y, out ulong result) {
+            var high = Math.BigMul(x, y, out result);
+            return high != 0;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong? CheckedMul(ulong x, ulong y) {
+            ulong? @null = null;
+            return OverflowingMul(x, y, out var result) ? @null : result;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong SaturatingMul(ulong x, ulong y) => CheckedMul(x, y) ?? ulong.MaxValue;
+
+#endif // NET5_0_OR_GREATER
+
     }
 }
