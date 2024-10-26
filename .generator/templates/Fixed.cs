@@ -204,7 +204,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}? CheckedAdd({{ self_type }} other) {
             {{ self_type }}? @null = null;
-            return OverflowingAdd(other, out var result) ? @null : result;
+            var b = OverflowingAdd(other, out var result);
+            return b ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingAdd({{ self_type }} other) {
@@ -231,7 +232,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}? CheckedMul({{ self_type }} other) {
             {{ self_type }}? @null = null;
-            return OverflowingMul(other, out var result) ? @null : result;
+            var b = OverflowingMul(other, out var result);
+            return b ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingMul({{

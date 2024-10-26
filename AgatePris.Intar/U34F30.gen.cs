@@ -168,7 +168,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30? CheckedAdd(U34F30 other) {
             U34F30? @null = null;
-            return OverflowingAdd(other, out var result) ? @null : result;
+            var b = OverflowingAdd(other, out var result);
+            return b ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 SaturatingAdd(U34F30 other) {
@@ -189,7 +190,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30? CheckedMul(U34F30 other) {
             U34F30? @null = null;
-            return OverflowingMul(other, out var result) ? @null : result;
+            var b = OverflowingMul(other, out var result);
+            return b ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 SaturatingMul(U34F30 other) => CheckedMul(other) ?? MaxValue;

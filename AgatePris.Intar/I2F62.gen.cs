@@ -177,7 +177,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62? CheckedAdd(I2F62 other) {
             I2F62? @null = null;
-            return OverflowingAdd(other, out var result) ? @null : result;
+            var b = OverflowingAdd(other, out var result);
+            return b ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 SaturatingAdd(I2F62 other) {
@@ -198,7 +199,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62? CheckedMul(I2F62 other) {
             I2F62? @null = null;
-            return OverflowingMul(other, out var result) ? @null : result;
+            var b = OverflowingMul(other, out var result);
+            return b ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 SaturatingMul(I2F62 other) => CheckedMul(other) ?? (
