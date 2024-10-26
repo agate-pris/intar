@@ -393,8 +393,8 @@ namespace AgatePris.Intar {
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxValue.Bits / OneRepr ||
-                num < MinValue.Bits / OneRepr) {
+            if (num > MaxRepr / OneRepr ||
+                num < MinRepr / OneRepr) {
                 return null;
             }
 
@@ -406,7 +406,7 @@ namespace AgatePris.Intar {
             // この際、大きい方の型に暗黙に変換される。
             if (num > ({{
                 macros::inttype(bits=int_nbits+frac_nbits, signed=false)
-            }})(MaxValue.Bits / OneRepr)) {
+            }})(MaxRepr / OneRepr)) {
                 return null;
             }
 
@@ -419,7 +419,7 @@ namespace AgatePris.Intar {
                 return null;
             } else if (({{
                 macros::inttype(bits=bits, signed=false)
-            }})num > MaxValue.Bits / OneRepr) {
+            }})num > MaxRepr / OneRepr) {
                 return null;
             }
 
