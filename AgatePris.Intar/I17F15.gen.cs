@@ -162,7 +162,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingAdd(I17F15 other, out I17F15 result) {
+        bool OverflowingAdd(I17F15 other, out I17F15 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);
             return b;
@@ -178,7 +178,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingMul(I17F15 other, out I17F15 result) {
+        bool OverflowingMul(I17F15 other, out I17F15 result) {
             var bits = ((long)Bits) * other.Bits / OneRepr;
             result = FromBits(unchecked((int)bits));
             return bits < MinRepr || bits > MaxRepr;

@@ -169,7 +169,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingAdd(I33F31 other, out I33F31 result) {
+        bool OverflowingAdd(I33F31 other, out I33F31 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);
             return b;
