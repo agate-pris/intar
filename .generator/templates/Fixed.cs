@@ -215,9 +215,9 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
-            var bits = (({{ self_wide_bits_type }})Bits) * other.Bits / OneRepr;
+            var b = Overflowing.OverflowingMul(Bits, other.Bits, out var bits);
             result = FromBits(unchecked(({{ self_bits_type }})bits));
-            return bits < MinRepr || bits > MaxRepr;
+            return b;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}? CheckedMul({{ self_type }} other) {
