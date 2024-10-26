@@ -179,9 +179,9 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul(I2F30 other, out I2F30 result) {
-            var bits = ((long)Bits) * other.Bits / OneRepr;
+            var b = Overflowing.OverflowingMul(Bits, other.Bits, out var bits);
             result = FromBits(unchecked((int)bits));
-            return bits < MinRepr || bits > MaxRepr;
+            return b;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30? CheckedMul(I2F30 other) {
