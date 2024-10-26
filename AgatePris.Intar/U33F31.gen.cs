@@ -160,7 +160,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingAdd(U33F31 other, out U33F31 result) {
+        bool OverflowingAdd(U33F31 other, out U33F31 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);
             return b;

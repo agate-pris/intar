@@ -153,7 +153,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingAdd(U17F15 other, out U17F15 result) {
+        bool OverflowingAdd(U17F15 other, out U17F15 result) {
             var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
             result = FromBits(bits);
             return b;
@@ -169,7 +169,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool OverflowingMul(U17F15 other, out U17F15 result) {
+        bool OverflowingMul(U17F15 other, out U17F15 result) {
             var bits = ((ulong)Bits) * other.Bits / OneRepr;
             result = FromBits(unchecked((uint)bits));
             return bits < MinRepr || bits > MaxRepr;
