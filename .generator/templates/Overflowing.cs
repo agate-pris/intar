@@ -280,22 +280,38 @@ namespace AgatePris.Intar {
         {%- endif %}
         {%- endfor %}
 
-{%- for bits in [32] %}
+{%- for bits in [32, 64] %}
+
+    {%- if bits > 32 %}
+
+#if NET5_0_OR_GREATER
+
+    {%- endif %}
+
     {%- for s in [true, false] %}
         {%- set t = macros::inttype(signed=s, bits=bits) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul({{ t }} x, {{ t }} y, out {{ t }} result) {
-            {%- if bits == 32 and s == false %}
-            var l = ((ulong)x) * y;
+        public static bool OverflowingMul({{
+            t }} x, {{
+            t }} y, out {{ t }} result) {
+            {%- if bits > 32 %}
+            var high = Math.BigMul(x, y, out result);
+            return {% if s %}result < 0
+                ? high != -1
+                : {% endif %}high != 0;
             {%- else %}
+                {%- if s  %}
             var l = Math.BigMul(x, y);
-            {%- endif %}
+                {%- else %}
+            var l = ((ulong)x) * y;
+                {%- endif %}
             result = unchecked(({{ t }})l);
-            {%- if s %}
+                {%- if s %}
             return l < {{ t }}.MinValue || l > {{ t }}.MaxValue;
-            {%- else %}
+                {%- else %}
             return l > {{ t }}.MaxValue;
+                {%- endif %}
             {%- endif %}
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -304,7 +320,9 @@ namespace AgatePris.Intar {
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ t }} SaturatingMul({{ t }} x, {{ t }} y) => CheckedMul(x, y) ??
+        public static {{ t }} SaturatingMul({{
+            t }} x, {{
+            t }} y) => CheckedMul(x, y) ??
         {%- if s %} (
             ((x < 0) == (y < 0))
             ? {{ t }}.MaxValue
@@ -314,6 +332,13 @@ namespace AgatePris.Intar {
         {%- endif %}
 
     {%- endfor %}
+
+    {%- if bits > 32 %}
+
+#endif // NET5_0_OR_GREATER
+
+    {%- endif %}
+
 {%- endfor %}
 
     }
