@@ -4,11 +4,16 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     [Serializable]
     public struct U17F15 : IEquatable<U17F15>, IFormattable {
+
+        //
         // Consts
-        // ------
+        //
 
         public const int IntNbits = 17;
         public const int FracNbits = 15;
+
+        // C99 の整数型の大きさに基づき、
+        // 内部表現の最小値と最大値を定義する。
 
         internal const uint MinRepr = uint.MinValue;
         internal const uint MaxRepr = uint.MaxValue;
@@ -72,6 +77,7 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
+
 
         // Arithmetic Operators
         // --------------------
@@ -178,7 +184,7 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U17F15 SaturatingAdd(U17F15 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+            return FromBits(Math.Max(MinRepr, Overflowing.SaturatingAdd(Bits, other.Bits)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -496,16 +502,12 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            // また、整数の基数は 2 であるから、
-            // 自身のビット数よりも相手の仮数部の方が大きい限り、
-            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
-            num *= OneRepr;
             if (double.IsNaN(num) ||
                 double.IsInfinity(num) ||
-                num >= uint.MaxValue + 1.0) {
+                num >= ((uint)1 << 17)) {
                 return null;
             }
-            return FromBits((uint)num);
+            return FromBits((uint)(num * OneRepr));
         }
 
         /// <summary>

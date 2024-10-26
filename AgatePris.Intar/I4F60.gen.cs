@@ -4,13 +4,18 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     [Serializable]
     public struct I4F60 : IEquatable<I4F60>, IFormattable {
+
+        //
         // Consts
-        // ------
+        //
 
         public const int IntNbits = 4;
         public const int FracNbits = 60;
 
-        internal const long MinRepr = long.MinValue;
+        // C99 の整数型の大きさに基づき、
+        // 内部表現の最小値と最大値を定義する。
+
+        internal const long MinRepr = long.MinValue + 1;
         internal const long MaxRepr = long.MaxValue;
         internal const ulong MaxReprUnsigned = MaxRepr;
         internal const long EpsilonRepr = 1;
@@ -69,6 +74,8 @@ namespace AgatePris.Intar {
         // Properties
         //
 
+        public bool IsValid => Bits >= MinRepr;
+
 #if NET7_0_OR_GREATER
 
         internal Int128 WideBits {
@@ -77,6 +84,7 @@ namespace AgatePris.Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
 
         // Arithmetic Operators
         // --------------------
@@ -195,11 +203,13 @@ namespace AgatePris.Intar {
         public I4F60? CheckedAdd(I4F60 other) {
             I4F60? @null = null;
             var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
+            return (b || result.Bits < MinRepr)
+                ? @null
+                : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 SaturatingAdd(I4F60 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+            return FromBits(Math.Max(MinRepr, Overflowing.SaturatingAdd(Bits, other.Bits)));
         }
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
@@ -217,7 +227,9 @@ namespace AgatePris.Intar {
         public I4F60? CheckedMul(I4F60 other) {
             I4F60? @null = null;
             var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
+            return (b || result.Bits < MinRepr)
+                ? @null
+                : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 SaturatingMul(I4F60 other) => CheckedMul(other) ?? (

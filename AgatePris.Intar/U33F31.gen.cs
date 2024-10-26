@@ -4,11 +4,16 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     [Serializable]
     public struct U33F31 : IEquatable<U33F31>, IFormattable {
+
+        //
         // Consts
-        // ------
+        //
 
         public const int IntNbits = 33;
         public const int FracNbits = 31;
+
+        // C99 の整数型の大きさに基づき、
+        // 内部表現の最小値と最大値を定義する。
 
         internal const ulong MinRepr = ulong.MinValue;
         internal const ulong MaxRepr = ulong.MaxValue;
@@ -76,6 +81,7 @@ namespace AgatePris.Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
 
         // Arithmetic Operators
         // --------------------
@@ -189,7 +195,7 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U33F31 SaturatingAdd(U33F31 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+            return FromBits(Math.Max(MinRepr, Overflowing.SaturatingAdd(Bits, other.Bits)));
         }
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,

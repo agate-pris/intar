@@ -4,13 +4,18 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     [Serializable]
     public struct I17F15 : IEquatable<I17F15>, IFormattable {
+
+        //
         // Consts
-        // ------
+        //
 
         public const int IntNbits = 17;
         public const int FracNbits = 15;
 
-        internal const int MinRepr = int.MinValue;
+        // C99 の整数型の大きさに基づき、
+        // 内部表現の最小値と最大値を定義する。
+
+        internal const int MinRepr = int.MinValue + 1;
         internal const int MaxRepr = int.MaxValue;
         internal const uint MaxReprUnsigned = MaxRepr;
         internal const int EpsilonRepr = 1;
@@ -69,10 +74,13 @@ namespace AgatePris.Intar {
         // Properties
         //
 
+        public bool IsValid => Bits >= MinRepr;
+
         internal long WideBits {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
+
 
         // Arithmetic Operators
         // --------------------
@@ -184,11 +192,13 @@ namespace AgatePris.Intar {
         public I17F15? CheckedAdd(I17F15 other) {
             I17F15? @null = null;
             var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
+            return (b || result.Bits < MinRepr)
+                ? @null
+                : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I17F15 SaturatingAdd(I17F15 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+            return FromBits(Math.Max(MinRepr, Overflowing.SaturatingAdd(Bits, other.Bits)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -201,7 +211,9 @@ namespace AgatePris.Intar {
         public I17F15? CheckedMul(I17F15 other) {
             I17F15? @null = null;
             var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
+            return (b || result.Bits < MinRepr)
+                ? @null
+                : result;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I17F15 SaturatingMul(I17F15 other) => CheckedMul(other) ?? (
@@ -536,17 +548,13 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            // また、整数の基数は 2 であるから、
-            // 自身のビット数よりも相手の仮数部の方が大きい限り、
-            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
-            num *= OneRepr;
             if (double.IsNaN(num) ||
                 double.IsInfinity(num) ||
-                num >= int.MaxValue + 1.0 ||
-                num <= int.MinValue - 1.0) {
+                num >= ((int)1 << 16) ||
+                num <= -((int)1 << 16)) {
                 return null;
             }
-            return FromBits((int)num);
+            return FromBits((int)(num * OneRepr));
         }
 
         /// <summary>

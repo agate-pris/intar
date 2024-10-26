@@ -11,13 +11,18 @@ using System.Runtime.CompilerServices;
 namespace AgatePris.Intar {
     [Serializable]
     public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
+
+        //
         // Consts
-        // ------
+        //
 
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
-        internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
+        // C99 の整数型の大きさに基づき、
+        // 内部表現の最小値と最大値を定義する。
+
+        internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue{% if signed %} + 1{% endif %};
         internal const {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
         {%- if signed %}
         internal const {{ self_bits_utype }} MaxReprUnsigned = MaxRepr;
@@ -80,6 +85,12 @@ namespace AgatePris.Intar {
         // Properties
         //
 
+{%- if signed %}
+
+        public bool IsValid => Bits >= MinRepr;
+
+{%- endif %}
+
 {%- if int_nbits + frac_nbits < 128 %}
 
     {%- if int_nbits + frac_nbits > 32 %}
@@ -102,6 +113,7 @@ namespace AgatePris.Intar {
     {%- endif %}
 
 {%- endif %}
+
 
         // Arithmetic Operators
         // --------------------
@@ -238,11 +250,17 @@ namespace AgatePris.Intar {
         public {{ self_type }}? CheckedAdd({{ self_type }} other) {
             {{ self_type }}? @null = null;
             var b = OverflowingAdd(other, out var result);
+{%- if signed %}
+            return (b || result.Bits < MinRepr)
+                ? @null
+                : result;
+{%- else %}
             return b ? @null : result;
+{%- endif %}
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+            return FromBits(Math.Max(MinRepr, Overflowing.SaturatingAdd(Bits, other.Bits)));
         }
 
 {%- if int_nbits + frac_nbits > 32 %}
@@ -266,7 +284,13 @@ namespace AgatePris.Intar {
         public {{ self_type }}? CheckedMul({{ self_type }} other) {
             {{ self_type }}? @null = null;
             var b = OverflowingMul(other, out var result);
+{%- if signed %}
+            return (b || result.Bits < MinRepr)
+                ? @null
+                : result;
+{%- else %}
             return b ? @null : result;
+{%- endif %}
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingMul({{
@@ -526,19 +550,17 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            // また、整数の基数は 2 であるから、
-            // 自身のビット数よりも相手の仮数部の方が大きい限り、
-            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
-            num *= OneRepr;
             if ({{ from }}.IsNaN(num) ||
                 {{ from }}.IsInfinity(num) ||
-                num >= {{ self_bits_type }}.MaxValue + {{ one }}
-            {%- if signed %} ||
-                num <= {{ self_bits_type }}.MinValue - {{ one }}
+            {%- if signed %}
+                num >= (({{ self_bits_type }})1 << {{ int_nbits - 1 }}) ||
+                num <= -(({{ self_bits_type }})1 << {{ int_nbits - 1 }})
+            {%- else %}
+                num >= (({{ self_bits_type }})1 << {{ int_nbits }})
             {%- endif %}) {
                 return null;
             }
-            return FromBits(({{ self_bits_type }})num);
+            return FromBits(({{ self_bits_type }})(num * OneRepr));
         }
 
         /// <summary>
