@@ -216,7 +216,7 @@ namespace AgatePris.Intar {
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-        // 整数からの変換
+        #region Convert from integer
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
@@ -414,7 +414,9 @@ namespace AgatePris.Intar {
             return FromBits(checked((uint)num * OneRepr));
         }
 
-        // 浮動小数点数からの変換
+        #endregion
+
+        #region Convert from floating-point number
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
@@ -517,7 +519,9 @@ namespace AgatePris.Intar {
             return FromBits(checked((uint)(num * OneRepr)));
         }
 
-        // 固定小数点数からの変換
+        #endregion
+
+        #region Convert from fixed-point number
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I17F15" /> value.</para>
@@ -838,11 +842,9 @@ namespace AgatePris.Intar {
             return FromBits((uint)(from.Bits / ((ulong)1 << 32)));
         }
 
-        //
-        // Convert to
-        //
+        #endregion
 
-        // 整数への変換
+        #region Convert to integer
 
         // 整数への変換で小数点以下の精度が失われるのは自明なので
         // わざわざ明記することはしない。
@@ -879,7 +881,9 @@ namespace AgatePris.Intar {
             return (ulong)(Bits / OneRepr);
         }
 
-        // 浮動小数点数への変換
+        #endregion
+
+        #region Convert to floating-point number
 
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
@@ -887,7 +891,9 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / OneRepr;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public double ToDouble() => (double)Bits / OneRepr;
 
-        // 固定小数点数への変換
+        #endregion
+
+        #region Convert to fixed-point number
 
         /// <summary>
         /// <para>Converts to <see cref="I17F15" />.</para>
@@ -999,6 +1005,8 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F62 ToU2F62() => U2F62.From(this);
+
+        #endregion
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
