@@ -2,7 +2,6 @@
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
-{%- set self_wide_bits_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
 
 {#- 固定小数点数の定義 -#}
 
@@ -77,6 +76,33 @@ namespace AgatePris.Intar {
             get => FromBits(EpsilonRepr);
         }
 
+        //
+        // Properties
+        //
+
+{%- if int_nbits + frac_nbits < 128 %}
+
+    {%- if int_nbits + frac_nbits > 32 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
+        internal {{
+            macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed)
+        }} WideBits {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Bits;
+        }
+
+    {%- if int_nbits + frac_nbits > 32 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
+
+{%- endif %}
+
         // Arithmetic Operators
         // --------------------
 
@@ -101,14 +127,12 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
-            {{ self_wide_bits_type }} l = left.Bits;
-            return FromBits(({{ self_bits_type }})(l * right.Bits / OneRepr));
+            return FromBits(({{ self_bits_type }})(left.WideBits * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator /({{ self_type }} left, {{ self_type }} right) {
-            {{ self_wide_bits_type }} l = left.Bits;
-            return FromBits(({{ self_bits_type }})(l * OneRepr / right.Bits));
+            return FromBits(({{ self_bits_type }})(left.WideBits * OneRepr / right.Bits));
         }
 
 {%- if int_nbits + frac_nbits == 64 %}
@@ -232,7 +256,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
-            var bits = (({{ self_wide_bits_type }})Bits) * other.Bits / OneRepr;
+            var bits = WideBits * other.Bits / OneRepr;
             result = FromBits(unchecked(({{ self_bits_type }})bits));
             return bits < {{
                 self_bits_type }}.MinValue || bits > {{
@@ -273,9 +297,7 @@ namespace AgatePris.Intar {
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-            return {{ t }}.FromBits(({{
-                self_wide_bits_type
-            }})Bits * other.Bits);
+            return {{ t }}.FromBits(WideBits * other.Bits);
         }
 
                 {%- else %}
