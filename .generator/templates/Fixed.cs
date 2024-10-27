@@ -344,7 +344,8 @@ namespace AgatePris.Intar {
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-{#- 整数型からの変換 #}
+        // 整数からの変換
+
 {%- for bits in [32, 64] %}
     {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
@@ -460,9 +461,10 @@ namespace AgatePris.Intar {
     {%- endfor %}
 {%- endfor %}
 
+        // 浮動小数点数からの変換
+
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
-{#- 浮動小数点数型からの変換 #}
 {%- for bits in [32, 64] %}
     {%-   if bits == 32 %}{% set from='float'  %}{% set one='1.0f' %}
     {%- elif bits == 64 %}{% set from='double' %}{% set one='1.0'  %}
@@ -712,10 +714,11 @@ namespace AgatePris.Intar {
         // Convert to
         //
 
+        // 整数への変換
+
         // 整数への変換で小数点以下の精度が失われるのは自明なので
         // わざわざ明記することはしない。
 
-{#- 整数型への変換 #}
 {%- for bits in [32, 64] %}
     {%- for s in [true, false] %}
         {%- set t = macros::inttype(bits=bits, signed=s) %}
@@ -805,6 +808,8 @@ namespace AgatePris.Intar {
 
     {%- endfor %}
 {%- endfor %}
+
+        // 浮動小数点数への変換
 
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
