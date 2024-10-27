@@ -68,6 +68,10 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => FromBits(MaxRepr);
         }
+        internal static {{ self_type }} Epsilon {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => FromBits(EpsilonRepr);
+        }
 
         // Arithmetic Operators
         // --------------------
