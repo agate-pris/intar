@@ -85,7 +85,6 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-
         // Arithmetic Operators
         // --------------------
 

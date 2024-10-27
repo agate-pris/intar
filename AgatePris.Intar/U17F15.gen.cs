@@ -78,7 +78,6 @@ namespace AgatePris.Intar {
             get => Bits;
         }
 
-
         // Arithmetic Operators
         // --------------------
 

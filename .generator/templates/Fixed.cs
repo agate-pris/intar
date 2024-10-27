@@ -114,7 +114,6 @@ namespace AgatePris.Intar {
 
 {%- endif %}
 
-
         // Arithmetic Operators
         // --------------------
 
