@@ -19,6 +19,7 @@ namespace AgatePris.Intar {
 
         internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
         internal const {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
+        internal const {{ self_bits_type }} EpsilonRepr = 1;
 
         const {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)

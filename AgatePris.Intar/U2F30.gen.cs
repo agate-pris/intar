@@ -12,6 +12,7 @@ namespace AgatePris.Intar {
 
         internal const uint MinRepr = uint.MinValue;
         internal const uint MaxRepr = uint.MaxValue;
+        internal const uint EpsilonRepr = 1;
 
         const uint OneRepr = 1U << FracNbits;
 
