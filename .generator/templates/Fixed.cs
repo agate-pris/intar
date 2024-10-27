@@ -405,11 +405,13 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
 
-        {#- 符号の有無が同じで整数部の桁数が相手以上か、
-            自身が符号あり、相手が符号なしで
-            符号を除いた整数部の桁数が相手以上なら必ず変換可能 #}
-        {%- if signed == s and int_nbits >= bits
-            or signed and not s and int_nbits - 1 >= bits %}
+        {#- 自身が符号ありで、
+            符号部を除いた整数部のビット数が相手の符号部を除いたビット数よりも大きければ暗黙に変換可能。
+            それ以外の場合、自身と相手の両方が符号なしで、
+            自身の整数部のビット数が相手以上なら暗黙に変換可能。#}
+        {%- if signed and s and int_nbits > bits
+            or signed and not s and int_nbits - 1 > bits
+            or not signed and not s and int_nbits >= bits %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
