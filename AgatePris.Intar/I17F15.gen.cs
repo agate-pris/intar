@@ -192,7 +192,7 @@ namespace AgatePris.Intar {
         public I17F15? CheckedAdd(I17F15 other) {
             I17F15? @null = null;
             var b = OverflowingAdd(other, out var result);
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
         }
@@ -211,7 +211,7 @@ namespace AgatePris.Intar {
         public I17F15? CheckedMul(I17F15 other) {
             I17F15? @null = null;
             var b = OverflowingMul(other, out var result);
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
         }

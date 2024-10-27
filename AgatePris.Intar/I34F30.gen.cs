@@ -203,7 +203,7 @@ namespace AgatePris.Intar {
         public I34F30? CheckedAdd(I34F30 other) {
             I34F30? @null = null;
             var b = OverflowingAdd(other, out var result);
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
         }
@@ -227,7 +227,7 @@ namespace AgatePris.Intar {
         public I34F30? CheckedMul(I34F30 other) {
             I34F30? @null = null;
             var b = OverflowingMul(other, out var result);
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
         }

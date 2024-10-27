@@ -203,7 +203,7 @@ namespace AgatePris.Intar {
         public I2F62? CheckedAdd(I2F62 other) {
             I2F62? @null = null;
             var b = OverflowingAdd(other, out var result);
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
         }
@@ -227,7 +227,7 @@ namespace AgatePris.Intar {
         public I2F62? CheckedMul(I2F62 other) {
             I2F62? @null = null;
             var b = OverflowingMul(other, out var result);
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
         }

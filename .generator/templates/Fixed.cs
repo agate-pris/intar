@@ -251,7 +251,7 @@ namespace AgatePris.Intar {
             {{ self_type }}? @null = null;
             var b = OverflowingAdd(other, out var result);
 {%- if signed %}
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
 {%- else %}
@@ -285,7 +285,7 @@ namespace AgatePris.Intar {
             {{ self_type }}? @null = null;
             var b = OverflowingMul(other, out var result);
 {%- if signed %}
-            return (b || result.Bits < MinRepr)
+            return (b || !result.IsValid)
                 ? @null
                 : result;
 {%- else %}
