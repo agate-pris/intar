@@ -457,7 +457,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I17F15)"/>
         public static U34F30 StrictFrom(I17F15 from) {
-            return FromBits(checked((ulong)from.Bits * ((ulong)1 << 15)));
+            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 15)));
         }
 
         /// <summary>
@@ -470,12 +470,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I17F15)"/>
         public static U34F30? CheckedFrom(I17F15 from) {
+            const int shift = 15;
+            const ulong k = EpsilonRepr << shift;
+            const ulong max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
-            } else if ((uint)from.Bits > MaxRepr / ((ulong)1 << 15)) {
+            } else if ((uint)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * ((ulong)1 << 15));
+            return FromBits((ulong)from.Bits * k);
         }
 
         /// <summary>
@@ -488,7 +491,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I2F30)"/>
         public static U34F30 StrictFrom(I2F30 from) {
-            return FromBits(checked((ulong)from.Bits * ((ulong)1 << 0)));
+            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 0)));
         }
 
         /// <summary>
@@ -501,12 +504,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I2F30)"/>
         public static U34F30? CheckedFrom(I2F30 from) {
+            const int shift = 0;
+            const ulong k = EpsilonRepr << shift;
+            const ulong max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
-            } else if ((uint)from.Bits > MaxRepr / ((ulong)1 << 0)) {
+            } else if ((uint)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * ((ulong)1 << 0));
+            return FromBits((ulong)from.Bits * k);
         }
 
         /// <summary>
@@ -519,7 +525,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I34F30)"/>
         public static U34F30 StrictFrom(I34F30 from) {
-            return FromBits(checked((ulong)from.Bits * ((ulong)1 << 0)));
+            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 0)));
         }
 
         /// <summary>
@@ -532,12 +538,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I34F30)"/>
         public static U34F30? CheckedFrom(I34F30 from) {
+            const int shift = 0;
+            const ulong k = EpsilonRepr << shift;
+            const ulong max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
-            } else if ((ulong)from.Bits > MaxRepr / ((ulong)1 << 0)) {
+            } else if ((ulong)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * ((ulong)1 << 0));
+            return FromBits((ulong)from.Bits * k);
         }
 
         /// <summary>
@@ -550,7 +559,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(I33F31)"/>
         public static U34F30 StrictLossyFrom(I33F31 from) {
-            return FromBits(checked((ulong)(from.Bits / ((long)1 << 1))));
+            return FromBits(checked((ulong)(from.Bits / (I33F31.EpsilonRepr << 1))));
         }
 
         /// <summary>
@@ -563,7 +572,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I33F31)"/>
         public static U34F30? CheckedLossyFrom(I33F31 from) {
-            var tmp = from.Bits / ((long)1 << 1);
+            var tmp = from.Bits / (I33F31.EpsilonRepr << 1);
             if (tmp < 0) {
                 return null;
             } else if ((ulong)tmp > MaxRepr) {
@@ -582,7 +591,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(I4F60)"/>
         public static U34F30 StrictLossyFrom(I4F60 from) {
-            return FromBits(checked((ulong)(from.Bits / ((long)1 << 30))));
+            return FromBits(checked((ulong)(from.Bits / (I4F60.EpsilonRepr << 30))));
         }
 
         /// <summary>
@@ -595,7 +604,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I4F60)"/>
         public static U34F30? CheckedLossyFrom(I4F60 from) {
-            var tmp = from.Bits / ((long)1 << 30);
+            var tmp = from.Bits / (I4F60.EpsilonRepr << 30);
             if (tmp < 0) {
                 return null;
             } else if ((ulong)tmp > MaxRepr) {
@@ -614,7 +623,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(I2F62)"/>
         public static U34F30 StrictLossyFrom(I2F62 from) {
-            return FromBits(checked((ulong)(from.Bits / ((long)1 << 32))));
+            return FromBits(checked((ulong)(from.Bits / (I2F62.EpsilonRepr << 32))));
         }
 
         /// <summary>
@@ -627,7 +636,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I2F62)"/>
         public static U34F30? CheckedLossyFrom(I2F62 from) {
-            var tmp = from.Bits / ((long)1 << 32);
+            var tmp = from.Bits / (I2F62.EpsilonRepr << 32);
             if (tmp < 0) {
                 return null;
             } else if ((ulong)tmp > MaxRepr) {
@@ -641,7 +650,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U17F15" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static U34F30 From(U17F15 from) {
-            return FromBits((ulong)from.Bits * ((ulong)1 << 15));
+            return FromBits((ulong)from.Bits * (EpsilonRepr << 15));
         }
 
         /// <summary>
@@ -649,7 +658,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static U34F30 From(U2F30 from) {
-            return FromBits((ulong)from.Bits * ((ulong)1 << 0));
+            return FromBits((ulong)from.Bits * (EpsilonRepr << 0));
         }
 
         /// <summary>
@@ -657,7 +666,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static U34F30 LossyFrom(U33F31 from) {
-            return FromBits((ulong)(from.Bits / ((ulong)1 << 1)));
+            return FromBits((ulong)(from.Bits / (U33F31.EpsilonRepr << 1)));
         }
 
         /// <summary>
@@ -665,7 +674,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static U34F30 LossyFrom(U4F60 from) {
-            return FromBits((ulong)(from.Bits / ((ulong)1 << 30)));
+            return FromBits((ulong)(from.Bits / (U4F60.EpsilonRepr << 30)));
         }
 
         /// <summary>
@@ -673,7 +682,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static U34F30 LossyFrom(U2F62 from) {
-            return FromBits((ulong)(from.Bits / ((ulong)1 << 32)));
+            return FromBits((ulong)(from.Bits / (U2F62.EpsilonRepr << 32)));
         }
 
         #endregion

@@ -12,6 +12,7 @@ namespace AgatePris.Intar {
 
         internal const int MinRepr = int.MinValue;
         internal const int MaxRepr = int.MaxValue;
+        internal const uint MaxReprUnsigned = MaxRepr;
         internal const int EpsilonRepr = 1;
 
         const int OneRepr = 1 << FracNbits;
@@ -573,7 +574,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(I2F30 from) {
-            return FromBits((int)(from.Bits / ((int)1 << 15)));
+            return FromBits((int)(from.Bits / (I2F30.EpsilonRepr << 15)));
         }
 
         /// <summary>
@@ -586,7 +587,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(I34F30)"/>
         public static I17F15 StrictLossyFrom(I34F30 from) {
-            return FromBits(checked((int)(from.Bits / ((long)1 << 15))));
+            return FromBits(checked((int)(from.Bits / (I34F30.EpsilonRepr << 15))));
         }
 
         /// <summary>
@@ -599,7 +600,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I34F30)"/>
         public static I17F15? CheckedLossyFrom(I34F30 from) {
-            var tmp = from.Bits / ((long)1 << 15);
+            var tmp = from.Bits / (I34F30.EpsilonRepr << 15);
             if (tmp < MinRepr ||
                 tmp > MaxRepr) {
                 return null;
@@ -617,7 +618,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(I33F31)"/>
         public static I17F15 StrictLossyFrom(I33F31 from) {
-            return FromBits(checked((int)(from.Bits / ((long)1 << 16))));
+            return FromBits(checked((int)(from.Bits / (I33F31.EpsilonRepr << 16))));
         }
 
         /// <summary>
@@ -630,7 +631,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I33F31)"/>
         public static I17F15? CheckedLossyFrom(I33F31 from) {
-            var tmp = from.Bits / ((long)1 << 16);
+            var tmp = from.Bits / (I33F31.EpsilonRepr << 16);
             if (tmp < MinRepr ||
                 tmp > MaxRepr) {
                 return null;
@@ -643,7 +644,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(I4F60 from) {
-            return FromBits((int)(from.Bits / ((long)1 << 45)));
+            return FromBits((int)(from.Bits / (I4F60.EpsilonRepr << 45)));
         }
 
         /// <summary>
@@ -651,7 +652,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(I2F62 from) {
-            return FromBits((int)(from.Bits / ((long)1 << 47)));
+            return FromBits((int)(from.Bits / (I2F62.EpsilonRepr << 47)));
         }
 
         /// <summary>
@@ -664,7 +665,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U17F15)"/>
         public static I17F15 StrictFrom(U17F15 from) {
-            return FromBits(checked((int)from.Bits * ((int)1 << 0)));
+            return FromBits(checked((int)from.Bits * (EpsilonRepr << 0)));
         }
 
         /// <summary>
@@ -677,10 +678,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U17F15)"/>
         public static I17F15? CheckedFrom(U17F15 from) {
-            if (from.Bits > (uint)(MaxRepr / ((int)1 << 0))) {
+            const int shift = 0;
+            const int k = EpsilonRepr << shift;
+            const int max = MaxRepr / k;
+            if (from.Bits > (uint)max) {
                 return null;
             }
-            return FromBits((int)from.Bits * ((int)1 << 0));
+            return FromBits((int)from.Bits * k);
         }
 
         /// <summary>
@@ -688,7 +692,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(U2F30 from) {
-            return FromBits((int)(from.Bits / ((uint)1 << 15)));
+            return FromBits((int)(from.Bits / (U2F30.EpsilonRepr << 15)));
         }
 
         /// <summary>
@@ -701,7 +705,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(U34F30)"/>
         public static I17F15 StrictLossyFrom(U34F30 from) {
-            return FromBits(checked((int)(from.Bits / ((ulong)1 << 15))));
+            return FromBits(checked((int)(from.Bits / (U34F30.EpsilonRepr << 15))));
         }
 
         /// <summary>
@@ -714,8 +718,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(U34F30)"/>
         public static I17F15? CheckedLossyFrom(U34F30 from) {
-            var tmp = from.Bits / ((ulong)1 << 15);
-            if (tmp > (uint)MaxRepr) {
+            var tmp = from.Bits / (U34F30.EpsilonRepr << 15);
+            if (tmp > MaxReprUnsigned) {
                 return null;
             }
             return FromBits((int)tmp);
@@ -731,7 +735,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedLossyFrom(U33F31)"/>
         public static I17F15 StrictLossyFrom(U33F31 from) {
-            return FromBits(checked((int)(from.Bits / ((ulong)1 << 16))));
+            return FromBits(checked((int)(from.Bits / (U33F31.EpsilonRepr << 16))));
         }
 
         /// <summary>
@@ -744,8 +748,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictLossyFrom(U33F31)"/>
         public static I17F15? CheckedLossyFrom(U33F31 from) {
-            var tmp = from.Bits / ((ulong)1 << 16);
-            if (tmp > (uint)MaxRepr) {
+            var tmp = from.Bits / (U33F31.EpsilonRepr << 16);
+            if (tmp > MaxReprUnsigned) {
                 return null;
             }
             return FromBits((int)tmp);
@@ -756,7 +760,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(U4F60 from) {
-            return FromBits((int)(from.Bits / ((ulong)1 << 45)));
+            return FromBits((int)(from.Bits / (U4F60.EpsilonRepr << 45)));
         }
 
         /// <summary>
@@ -764,7 +768,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(U2F62 from) {
-            return FromBits((int)(from.Bits / ((ulong)1 << 47)));
+            return FromBits((int)(from.Bits / (U2F62.EpsilonRepr << 47)));
         }
 
         #endregion

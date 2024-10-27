@@ -12,6 +12,7 @@ namespace AgatePris.Intar {
 
         internal const long MinRepr = long.MinValue;
         internal const long MaxRepr = long.MaxValue;
+        internal const ulong MaxReprUnsigned = MaxRepr;
         internal const long EpsilonRepr = 1;
 
         const long OneRepr = 1L << FracNbits;
@@ -497,7 +498,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I17F15)"/>
         public static I2F62 StrictFrom(I17F15 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 47)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 47)));
         }
 
         /// <summary>
@@ -510,11 +511,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I17F15)"/>
         public static I2F62? CheckedFrom(I17F15 from) {
-            if (from.Bits > (MaxRepr / ((long)1 << 47)) ||
-                from.Bits < (MinRepr / ((long)1 << 47))) {
+            const int shift = 47;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            const long min = MinRepr / k;
+            if (from.Bits > max ||
+                from.Bits < min) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 47));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -522,7 +527,7 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I2F62 From(I2F30 from) {
-            return FromBits((long)from.Bits * ((long)1 << 32));
+            return FromBits((long)from.Bits * (EpsilonRepr << 32));
         }
 
         /// <summary>
@@ -535,7 +540,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I34F30)"/>
         public static I2F62 StrictFrom(I34F30 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 32)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 32)));
         }
 
         /// <summary>
@@ -548,11 +553,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I34F30)"/>
         public static I2F62? CheckedFrom(I34F30 from) {
-            if (from.Bits > (MaxRepr / ((long)1 << 32)) ||
-                from.Bits < (MinRepr / ((long)1 << 32))) {
+            const int shift = 32;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            const long min = MinRepr / k;
+            if (from.Bits > max ||
+                from.Bits < min) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 32));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -565,7 +574,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I33F31)"/>
         public static I2F62 StrictFrom(I33F31 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 31)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 31)));
         }
 
         /// <summary>
@@ -578,11 +587,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I33F31)"/>
         public static I2F62? CheckedFrom(I33F31 from) {
-            if (from.Bits > (MaxRepr / ((long)1 << 31)) ||
-                from.Bits < (MinRepr / ((long)1 << 31))) {
+            const int shift = 31;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            const long min = MinRepr / k;
+            if (from.Bits > max ||
+                from.Bits < min) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 31));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -595,7 +608,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(I4F60)"/>
         public static I2F62 StrictFrom(I4F60 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 2)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 2)));
         }
 
         /// <summary>
@@ -608,11 +621,15 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I4F60)"/>
         public static I2F62? CheckedFrom(I4F60 from) {
-            if (from.Bits > (MaxRepr / ((long)1 << 2)) ||
-                from.Bits < (MinRepr / ((long)1 << 2))) {
+            const int shift = 2;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            const long min = MinRepr / k;
+            if (from.Bits > max ||
+                from.Bits < min) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 2));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -625,7 +642,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U17F15)"/>
         public static I2F62 StrictFrom(U17F15 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 47)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 47)));
         }
 
         /// <summary>
@@ -638,10 +655,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U17F15)"/>
         public static I2F62? CheckedFrom(U17F15 from) {
-            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 47))) {
+            const int shift = 47;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            if (from.Bits > (ulong)max) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 47));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -654,7 +674,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U2F30)"/>
         public static I2F62 StrictFrom(U2F30 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 32)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 32)));
         }
 
         /// <summary>
@@ -667,10 +687,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U2F30)"/>
         public static I2F62? CheckedFrom(U2F30 from) {
-            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 32))) {
+            const int shift = 32;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            if (from.Bits > (ulong)max) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 32));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -683,7 +706,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U34F30)"/>
         public static I2F62 StrictFrom(U34F30 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 32)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 32)));
         }
 
         /// <summary>
@@ -696,10 +719,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U34F30)"/>
         public static I2F62? CheckedFrom(U34F30 from) {
-            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 32))) {
+            const int shift = 32;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            if (from.Bits > (ulong)max) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 32));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -712,7 +738,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U33F31)"/>
         public static I2F62 StrictFrom(U33F31 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 31)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 31)));
         }
 
         /// <summary>
@@ -725,10 +751,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U33F31)"/>
         public static I2F62? CheckedFrom(U33F31 from) {
-            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 31))) {
+            const int shift = 31;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            if (from.Bits > (ulong)max) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 31));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -741,7 +770,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U4F60)"/>
         public static I2F62 StrictFrom(U4F60 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 2)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 2)));
         }
 
         /// <summary>
@@ -754,10 +783,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U4F60)"/>
         public static I2F62? CheckedFrom(U4F60 from) {
-            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 2))) {
+            const int shift = 2;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            if (from.Bits > (ulong)max) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 2));
+            return FromBits((long)from.Bits * k);
         }
 
         /// <summary>
@@ -770,7 +802,7 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="CheckedFrom(U2F62)"/>
         public static I2F62 StrictFrom(U2F62 from) {
-            return FromBits(checked((long)from.Bits * ((long)1 << 0)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 0)));
         }
 
         /// <summary>
@@ -783,10 +815,13 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U2F62)"/>
         public static I2F62? CheckedFrom(U2F62 from) {
-            if (from.Bits > (ulong)(MaxRepr / ((long)1 << 0))) {
+            const int shift = 0;
+            const long k = EpsilonRepr << shift;
+            const long max = MaxRepr / k;
+            if (from.Bits > (ulong)max) {
                 return null;
             }
-            return FromBits((long)from.Bits * ((long)1 << 0));
+            return FromBits((long)from.Bits * k);
         }
 
         #endregion

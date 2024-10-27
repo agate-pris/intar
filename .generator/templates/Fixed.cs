@@ -1,6 +1,7 @@
 {% import "macros.cs" as macros %}
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
+{%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
 {%- set self_wide_bits_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
 
 {#- 固定小数点数の定義 -#}
@@ -19,6 +20,9 @@ namespace AgatePris.Intar {
 
         internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
         internal const {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
+        {%- if signed %}
+        internal const {{ self_bits_utype }} MaxReprUnsigned = MaxRepr;
+        {%- endif %}
         internal const {{ self_bits_type }} EpsilonRepr = 1;
 
         const {{ self_bits_type }} OneRepr = {{
@@ -613,7 +617,6 @@ namespace AgatePris.Intar {
             {%- set failable = not signed and s
                 or signed == s and int_nbits < i
                 or signed and not s and int_nbits - 1 < i %}
-            {%- set fb = macros::inttype(signed=s,     bits=i+f) %}
             {%- set fu = macros::inttype(signed=false, bits=i+f) %}
             {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
 
@@ -654,9 +657,9 @@ namespace AgatePris.Intar {
             return FromBits(
                 {%- if failable %}checked({% endif %}({{ self_bits_type }})
                 {%- if lossy -%}
-                    (from.Bits / (({{ fb }})1 << {{ f-frac_nbits }}))
+                    (from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }}))
                 {%- else -%}
-                    from.Bits * (({{ self_bits_type }})1 << {{ frac_nbits-f }})
+                    from.Bits * (EpsilonRepr << {{ frac_nbits-f }})
                 {%- endif %}
                 {%- if failable %}){% endif -%}
             );
@@ -665,7 +668,7 @@ namespace AgatePris.Intar {
             {%- else %}
 
                 {%- if lossy %}
-            var tmp = from.Bits / (({{ fb }})1 << {{ f-frac_nbits }});
+            var tmp = from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }});
 
                     {%- if signed == s %}
             if (tmp < MinRepr ||
@@ -673,7 +676,7 @@ namespace AgatePris.Intar {
                 return null;
             }
                     {%- elif signed %}
-            if (tmp > ({{ tu }})MaxRepr) {
+            if (tmp > MaxReprUnsigned) {
                 return null;
             }
                     {%- else %}
@@ -686,27 +689,28 @@ namespace AgatePris.Intar {
             return FromBits(({{ self_bits_type }})tmp);
 
                 {%- else %}
-                    {%- set shift = frac_nbits - f %}
-                    {%- set max = 'MaxRepr / ((' ~ self_bits_type ~ ')1 << ' ~ shift ~ ')' %}
-                    {%- set min = 'MinRepr / ((' ~ self_bits_type ~ ')1 << ' ~ shift ~ ')' %}
+            const int shift = {{ frac_nbits-f }};
+            const {{ self_bits_type }} k = EpsilonRepr << shift;
+            const {{ self_bits_type }} max = MaxRepr / k;
 
                     {%- if signed == s %}
-            if (from.Bits > ({{ max }}) ||
-                from.Bits < ({{ min }})) {
+            const {{ self_bits_type }} min = MinRepr / k;
+            if (from.Bits > max ||
+                from.Bits < min) {
                 return null;
             }
                     {%- elif signed %}
-            if (from.Bits > ({{ tu }})({{ max }})) {
+            if (from.Bits > ({{ tu }})max) {
                 return null;
             }
                     {%- else %}
             if (from.Bits < 0) {
                 return null;
-            } else if (({{ fu }})from.Bits > {{ max }}) {
+            } else if (({{ fu }})from.Bits > max) {
                 return null;
             }
                     {%- endif %}
-            return FromBits(({{ self_bits_type }})from.Bits * (({{ self_bits_type }})1 << {{ frac_nbits-f }}));
+            return FromBits(({{ self_bits_type }})from.Bits * k);
                 {%- endif %}
 
             {%- endif %}
