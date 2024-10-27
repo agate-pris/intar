@@ -65,6 +65,19 @@ namespace AgatePris.Intar {
             get => FromBits(EpsilonRepr);
         }
 
+        //
+        // Properties
+        //
+
+#if NET7_0_OR_GREATER
+
+        internal Int128 WideBits {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Bits;
+        }
+
+#endif // NET7_0_OR_GREATER
+
         // Arithmetic Operators
         // --------------------
 
@@ -85,14 +98,12 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 operator *(I4F60 left, I4F60 right) {
-            Int128 l = left.Bits;
-            return FromBits((long)(l * right.Bits / OneRepr));
+            return FromBits((long)(left.WideBits * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 operator /(I4F60 left, I4F60 right) {
-            Int128 l = left.Bits;
-            return FromBits((long)(l * OneRepr / right.Bits));
+            return FromBits((long)(left.WideBits * OneRepr / right.Bits));
         }
 
 #endif
@@ -198,7 +209,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul(I4F60 other, out I4F60 result) {
-            var bits = ((Int128)Bits) * other.Bits / OneRepr;
+            var bits = WideBits * other.Bits / OneRepr;
             result = FromBits(unchecked((long)bits));
             return bits < long.MinValue || bits > long.MaxValue;
         }

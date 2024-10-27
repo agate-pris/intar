@@ -64,6 +64,15 @@ namespace AgatePris.Intar {
             get => FromBits(EpsilonRepr);
         }
 
+        //
+        // Properties
+        //
+
+        internal ulong WideBits {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Bits;
+        }
+
         // Arithmetic Operators
         // --------------------
 
@@ -79,14 +88,12 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 operator *(U17F15 left, U17F15 right) {
-            ulong l = left.Bits;
-            return FromBits((uint)(l * right.Bits / OneRepr));
+            return FromBits((uint)(left.WideBits * right.Bits / OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 operator /(U17F15 left, U17F15 right) {
-            ulong l = left.Bits;
-            return FromBits((uint)(l * OneRepr / right.Bits));
+            return FromBits((uint)(left.WideBits * OneRepr / right.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -176,7 +183,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingMul(U17F15 other, out U17F15 result) {
-            var bits = ((ulong)Bits) * other.Bits / OneRepr;
+            var bits = WideBits * other.Bits / OneRepr;
             result = FromBits(unchecked((uint)bits));
             return bits < uint.MinValue || bits > uint.MaxValue;
         }
@@ -196,7 +203,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 BigMul(U17F15 other) {
-            return U34F30.FromBits((ulong)Bits * other.Bits);
+            return U34F30.FromBits(WideBits * other.Bits);
         }
 
         // ベクトル型との演算
