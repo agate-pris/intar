@@ -381,79 +381,72 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
 
-        {#- 符号の有無が同じで整数部の桁数が相手以上か、
-            自身が符号あり、相手が符号なしで
-            符号を除いた整数部の桁数が相手以上なら必ず変換可能 #}
-        {%- if signed == s and int_nbits >= bits
-            or signed and not s and int_nbits - 1 >= bits %}
+        {%- for method in ['from', 'strict', 'checked'] %}
+            {#- 自身の符号部を除いた整数部のビット数が
+                相手の符号部を除いたビット数以上の場合
+                暗黙に型変換可能. #}
+            {%- set implicitly_convertible
+                = signed == s and int_nbits >= bits
+                or signed and not s and int_nbits - 1 >= bits %}
+
+            {#- 暗黙に型変換可能な場合は From のみを定義する.
+                それ以外の場合 From 以外 (StrictFrom, CheckedFrom) を定義する. #}
+            {%- if implicitly_convertible %}
+                {%- if method != 'from' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- else %}
+                {%- if method == 'from' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
         /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.From(1);
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} From({{ from }} num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
-        }
-
-        {#- 変換に失敗する場合がある (表現の範囲外) 場合はこちら #}
-        {%- else %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictFrom(1);
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictFrom({{ from }} num) {
-            return FromBits(checked(({{ self_bits_type }})num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        {%- endif %}
+        {%- if method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
+        {%- endif %}
         /// </summary>
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = {{ self_type }}.CheckedFrom(1);
+        /// var a = {{ self_type }}.
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'checked' %}Checked{% endif %}From(1);
         /// System.Assert.AreEqual({{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a?.Bits);
+        }} &lt;&lt; {{ frac_nbits }}, a{% if method == 'checked' %}?{% endif %}.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedFrom({{ from }} num) {
+        public static {{ self_type }}
+        {%- if method == 'checked' %}? {% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'checked' %}Checked{% endif %}From({{ from }} num) {
 
-            {%- if signed == s %}
+            {%- if method == 'from' %}
+            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
+            // 自身が符号あり、相手が符号なしの場合、
+            // 自身の符号部分を除いた整数部について同様である。
+            return FromBits(num * OneRepr);
+            {%- endif %}
+
+            {%- if method == 'strict' %}
+            return FromBits(checked(({{ self_bits_type }})num * OneRepr));
+            {%- endif %}
+
+            {%- if method == 'checked' %}
+                {%- if signed == s %}
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -462,7 +455,7 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            {%- elif signed and not s %}
+                {%- elif signed and not s %}
 
             // 自身が符号あり、相手が符号なしであるから、
             // 相手が最小値未満であることはありえない。
@@ -487,12 +480,13 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            {%- endif %}
+                {%- endif %}
 
             return FromBits(({{ self_bits_type }})num * OneRepr);
+            {%- endif %}
         }
 
-        {%- endif %}
+        {%- endfor %}
     {%- endfor %}
 {%- endfor %}
 
