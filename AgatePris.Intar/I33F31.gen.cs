@@ -280,7 +280,7 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="long" /> value.</para>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
         /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
@@ -300,7 +300,7 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="long" /> value.</para>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
         /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
@@ -328,7 +328,7 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="ulong" /> value.</para>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
         /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
@@ -348,7 +348,7 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="ulong" /> value.</para>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
         /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
