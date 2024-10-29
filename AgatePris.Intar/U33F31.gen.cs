@@ -239,7 +239,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -259,7 +259,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -308,7 +308,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -328,7 +328,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -358,7 +358,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -378,7 +378,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

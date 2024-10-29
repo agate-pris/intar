@@ -423,7 +423,9 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = {{ self_type }}.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -443,7 +445,9 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = {{ self_type }}.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a?.Bits);
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

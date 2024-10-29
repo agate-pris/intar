@@ -242,7 +242,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -262,7 +262,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -292,7 +292,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -312,7 +312,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -340,7 +340,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -360,7 +360,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -390,7 +390,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -410,7 +410,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
+        /// System.Assert.AreEqual(1U &lt;&lt; 15, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

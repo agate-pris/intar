@@ -291,7 +291,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = I33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -311,7 +311,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = I33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -339,7 +339,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = I33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -359,7 +359,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = I33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
