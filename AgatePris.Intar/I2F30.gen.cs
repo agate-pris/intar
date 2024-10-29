@@ -243,6 +243,26 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
         /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I2F30.StrictFrom(1);
+        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 StrictFrom(int num) {
+            return FromBits(checked((int)num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
+        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
@@ -269,8 +289,8 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="int" /> value.</para>
-        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from specified <see cref="uint" /> value.</para>
+        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
@@ -284,7 +304,7 @@ namespace AgatePris.Intar {
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 StrictFrom(int num) {
+        public static I2F30 StrictFrom(uint num) {
             return FromBits(checked((int)num * OneRepr));
         }
 
@@ -318,8 +338,8 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="uint" /> value.</para>
-        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from specified <see cref="long" /> value.</para>
+        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
@@ -333,7 +353,7 @@ namespace AgatePris.Intar {
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 StrictFrom(uint num) {
+        public static I2F30 StrictFrom(long num) {
             return FromBits(checked((int)num * OneRepr));
         }
 
@@ -366,8 +386,8 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from specified <see cref="ulong" /> value.</para>
+        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
@@ -381,7 +401,7 @@ namespace AgatePris.Intar {
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 StrictFrom(long num) {
+        public static I2F30 StrictFrom(ulong num) {
             return FromBits(checked((int)num * OneRepr));
         }
 
@@ -412,26 +432,6 @@ namespace AgatePris.Intar {
             }
 
             return FromBits((int)num * OneRepr);
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I2F30.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 StrictFrom(ulong num) {
-            return FromBits(checked((int)num * OneRepr));
         }
 
         #endregion
