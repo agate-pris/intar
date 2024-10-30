@@ -506,7 +506,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I17F15.StrictLossyFrom(1.0f);
+        /// var a = I17F15.CheckedFrom(1.0f);
         /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
         /// </code>
         /// </example>
@@ -550,7 +550,7 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = I17F15.StrictLossyFrom(1.0);
+        /// var a = I17F15.CheckedLossyFrom(1.0);
         /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
         /// </code>
         /// </example>

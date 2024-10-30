@@ -441,7 +441,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U2F62.StrictFrom(1.0f);
-        /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 62, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -468,7 +468,7 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = U2F62.StrictFrom(1.0);
-        /// System.Assert.AreEqual(1 &lt;&lt; 62, a.Bits);
+        /// System.Assert.AreEqual(1UL &lt;&lt; 62, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

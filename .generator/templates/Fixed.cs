@@ -515,7 +515,9 @@ namespace AgatePris.Intar {
         /// Basic usage:
         /// <code>
         /// var a = {{ self_type }}.Strict{% if lossy %}Lossy{% endif %}From({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -540,8 +542,10 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// var a = {{ self_type }}.CheckedLossyFrom({{ one }});
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -581,8 +585,10 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// var a = {{ self_type }}.CheckedFrom({{ one }});
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
