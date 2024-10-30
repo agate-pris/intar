@@ -518,8 +518,8 @@ namespace AgatePris.Intar {
         {%- endif %}
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
+        /// <para> <see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
         {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>

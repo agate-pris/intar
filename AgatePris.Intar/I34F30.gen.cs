@@ -383,8 +383,8 @@ namespace AgatePris.Intar {
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
+        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
@@ -410,8 +410,8 @@ namespace AgatePris.Intar {
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
+        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
