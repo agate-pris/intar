@@ -596,39 +596,45 @@ namespace AgatePris.Intar {
             {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
 
             {#- コメントなどを共通化するためにループ処理でまかなう #}
-            {%- for strict in [true, false] %}
-                {%- if strict or failable %}
+            {%- for method in ['from', 'strict', 'checked'] %}
+
+                {#- 失敗しうる場合 From は定義しない.
+                    それ以外の場合 From 以外は定義しない. #}
+                {%- if failable %}
+                    {%- if method == 'from' %}
+                        {%- continue %}
+                    {%- endif %}
+                {%- else %}
+                    {%- if method != 'from' %}
+                        {%- continue %}
+                    {%- endif %}
+                {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
         /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        {%- if failable %}
-            {%- if strict %}
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- else %}
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- endif %}
         {%- else %}
         /// </summary>
         {%- endif %}
         public static {{ self_type }}
-        {%- if failable %}
-            {%- if strict %} Strict
-            {%- else %}? Checked
-            {%- endif %}
-        {%- else %} {% endif %}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ from }} from) {
-            {%- if strict or not failable %}
+            {%- if method == 'from' or method == 'strict' %}
             return FromBits(
                 {%- if failable %}checked({% endif %}({{ self_bits_type }})
                 {%- if lossy -%}
@@ -639,8 +645,7 @@ namespace AgatePris.Intar {
                 {%- if failable %}){% endif -%}
             );
 
-            {#- checked #}
-            {%- else %}
+            {%- elif method == 'checked' %}
 
                 {%- if lossy %}
             var tmp = from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }});
@@ -691,7 +696,6 @@ namespace AgatePris.Intar {
             {%- endif %}
         }
 
-                {%- endif %}
             {%- endfor %}
 
         {%- endif %}
