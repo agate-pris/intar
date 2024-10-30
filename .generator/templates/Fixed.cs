@@ -425,9 +425,8 @@ namespace AgatePris.Intar {
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }}
-        {%- if method == 'checked' %}? {% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'checked' %}Checked{% endif %}From({{ from }} num) {
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}From({{ from }} num) {
 
             {%- if method == 'from' %}
             // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
