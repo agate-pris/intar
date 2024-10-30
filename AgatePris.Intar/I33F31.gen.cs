@@ -41,29 +41,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 FromBits(long bits) => new I33F31(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static I33F31 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new I33F31(0);
-        }
-        public static I33F31 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new I33F31(OneRepr);
-        }
-        public static I33F31 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static I33F31 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static I33F31 Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly I33F31 Zero;
+        public static readonly I33F31 One = new I33F31(OneRepr);
+        public static readonly I33F31 MinValue = new I33F31(MinRepr);
+        public static readonly I33F31 MaxValue = new I33F31(MaxRepr);
+        internal static readonly I33F31 Epsilon = new I33F31(EpsilonRepr);
 
         //
         // Properties

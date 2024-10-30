@@ -52,29 +52,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static {{ self_type }} Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}(0);
-        }
-        public static {{ self_type }} One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}(OneRepr);
-        }
-        public static {{ self_type }} MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static {{ self_type }} MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static {{ self_type }} Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly {{ self_type }} Zero;
+        public static readonly {{ self_type }} One = new {{ self_type }}(OneRepr);
+        public static readonly {{ self_type }} MinValue = new {{ self_type }}(MinRepr);
+        public static readonly {{ self_type }} MaxValue = new {{ self_type }}(MaxRepr);
+        internal static readonly {{ self_type }} Epsilon = new {{ self_type }}(EpsilonRepr);
 
         //
         // Properties

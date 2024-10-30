@@ -40,29 +40,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U4F60 FromBits(ulong bits) => new U4F60(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static U4F60 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U4F60(0);
-        }
-        public static U4F60 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U4F60(OneRepr);
-        }
-        public static U4F60 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static U4F60 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static U4F60 Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly U4F60 Zero;
+        public static readonly U4F60 One = new U4F60(OneRepr);
+        public static readonly U4F60 MinValue = new U4F60(MinRepr);
+        public static readonly U4F60 MaxValue = new U4F60(MaxRepr);
+        internal static readonly U4F60 Epsilon = new U4F60(EpsilonRepr);
 
         //
         // Properties

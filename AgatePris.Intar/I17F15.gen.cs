@@ -41,29 +41,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I17F15 FromBits(int bits) => new I17F15(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static I17F15 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new I17F15(0);
-        }
-        public static I17F15 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new I17F15(OneRepr);
-        }
-        public static I17F15 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static I17F15 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static I17F15 Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly I17F15 Zero;
+        public static readonly I17F15 One = new I17F15(OneRepr);
+        public static readonly I17F15 MinValue = new I17F15(MinRepr);
+        public static readonly I17F15 MaxValue = new I17F15(MaxRepr);
+        internal static readonly I17F15 Epsilon = new I17F15(EpsilonRepr);
 
         //
         // Properties

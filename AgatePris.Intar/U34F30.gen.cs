@@ -40,29 +40,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U34F30 FromBits(ulong bits) => new U34F30(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static U34F30 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U34F30(0);
-        }
-        public static U34F30 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new U34F30(OneRepr);
-        }
-        public static U34F30 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static U34F30 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static U34F30 Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly U34F30 Zero;
+        public static readonly U34F30 One = new U34F30(OneRepr);
+        public static readonly U34F30 MinValue = new U34F30(MinRepr);
+        public static readonly U34F30 MaxValue = new U34F30(MaxRepr);
+        internal static readonly U34F30 Epsilon = new U34F30(EpsilonRepr);
 
         //
         // Properties
