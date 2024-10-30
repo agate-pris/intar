@@ -503,53 +503,64 @@ namespace AgatePris.Intar {
 
     {%- set lossy = int_nbits + frac_nbits < bits %}
 
+    {%- for method in ['strict', 'checked'] %}
+
+        {#- メソッドが checked の場合, 精度が double 以上の場合は定義しない. #}
+        {%- if method == 'checked' %}
+            {%- if int_nbits + frac_nbits > 52 %}
+
+        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
+        // 現時点では未実装。
+        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
+
+                {%- continue %}
+            {%- endif %}
+        {%- endif %}
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from specified num.</para>
         /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.Strict{% if lossy %}Lossy{% endif %}From({{ one }});
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} Strict{% if lossy %}Lossy{% endif %}From({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
-        }
-
-    {#- ビット数が自身よりも大きい場合、変換の際に精度を失う #}
-    {%- if lossy %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        {%- endif %}
+        {%- if method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
+        {%- endif %}
         /// </summary>
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = {{ self_type }}.CheckedLossyFrom({{ one }});
+        /// var a = {{ self_type }}.
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'checked' %}Checked{% endif %}
+        {%- if lossy %}Lossy{% endif %}From({{ one }});
         /// System.Assert.AreEqual({{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} &lt;&lt; {{ frac_nbits }}, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedLossyFrom({{ from }} num) {
+        public static {{ self_type }}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if lossy %}Lossy{% endif %}From({{ from }} num) {
+            {%- if method == 'strict' %}
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
+            {%- endif %}
+            {%- if method == 'checked' %}
+                {%- if not lossy %}
+            // より大きい型に変換して計算。
+            return CheckedLossyFrom(num);
+                {%- else %}
             // OneRepr は 2 の自然数冪であるから、
             // その乗算によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
@@ -566,46 +577,11 @@ namespace AgatePris.Intar {
                 return null;
             }
             return FromBits(({{ self_bits_type }})num);
+                {%- endif %}
+            {%- endif %}
         }
 
-    {#- ビットが自身以下の場合、変換の際に精度は損なわれない
-        半精度浮動小数点数はサポートしない。 #}
-    {%- elif bits > 16 %}
-
-        {%- if int_nbits + frac_nbits < 64 %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.CheckedFrom({{ one }});
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedFrom({{ from }} num) {
-            // より大きい型に変換して計算。
-            return CheckedLossyFrom(num);
-        }
-
-        {%- else %}
-
-        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
-        // 現時点では未実装。
-        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
-
-        {%- endif %}
-
-    {%- endif %}
+    {%- endfor %}
 {%- endfor %}
 
         #endregion
