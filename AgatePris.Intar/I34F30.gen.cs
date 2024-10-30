@@ -252,7 +252,7 @@ namespace AgatePris.Intar {
             // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
             // 自身が符号あり、相手が符号なしの場合、
             // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
+            return FromBits(unchecked(num * OneRepr));
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace AgatePris.Intar {
             // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
             // 自身が符号あり、相手が符号なしの場合、
             // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
+            return FromBits(unchecked(num * OneRepr));
         }
 
         /// <summary>
@@ -282,6 +282,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(long)"/>
         /// <seealso cref="CheckedFrom(long)"/>
         /// <example>
         /// Basic usage:
@@ -298,12 +299,35 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
         /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(long)"/>
+        /// <seealso cref="CheckedFrom(long)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I34F30.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I34F30 UncheckedFrom(long num) {
+            return FromBits(unchecked((long)num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
+        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(long)"/>
+        /// <seealso cref="UncheckedFrom(long)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -332,6 +356,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(ulong)"/>
         /// <seealso cref="CheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
@@ -348,12 +373,35 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
         /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(ulong)"/>
+        /// <seealso cref="CheckedFrom(ulong)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I34F30.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I34F30 UncheckedFrom(ulong num) {
+            return FromBits(unchecked((long)num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
+        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(ulong)"/>
+        /// <seealso cref="UncheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
         /// <code>
