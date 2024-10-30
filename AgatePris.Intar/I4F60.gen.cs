@@ -244,6 +244,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(int)"/>
         /// <seealso cref="CheckedFrom(int)"/>
         /// <example>
         /// Basic usage:
@@ -260,12 +261,35 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
         /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(int)"/>
+        /// <seealso cref="CheckedFrom(int)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I4F60.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 60, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I4F60 UncheckedFrom(int num) {
+            return FromBits(unchecked(num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
+        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(int)"/>
+        /// <seealso cref="UncheckedFrom(int)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -294,6 +318,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(uint)"/>
         /// <seealso cref="CheckedFrom(uint)"/>
         /// <example>
         /// Basic usage:
@@ -310,12 +335,35 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
         /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(uint)"/>
+        /// <seealso cref="CheckedFrom(uint)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I4F60.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 60, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I4F60 UncheckedFrom(uint num) {
+            return FromBits(unchecked(num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
+        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(uint)"/>
+        /// <seealso cref="UncheckedFrom(uint)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -345,6 +393,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(long)"/>
         /// <seealso cref="CheckedFrom(long)"/>
         /// <example>
         /// Basic usage:
@@ -361,12 +410,35 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
         /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(long)"/>
+        /// <seealso cref="CheckedFrom(long)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I4F60.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 60, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I4F60 UncheckedFrom(long num) {
+            return FromBits(unchecked(num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
+        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(long)"/>
+        /// <seealso cref="UncheckedFrom(long)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -395,6 +467,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(ulong)"/>
         /// <seealso cref="CheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
@@ -411,12 +484,35 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
         /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(ulong)"/>
+        /// <seealso cref="CheckedFrom(ulong)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I4F60.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 60, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I4F60 UncheckedFrom(ulong num) {
+            return FromBits(unchecked(num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
+        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(ulong)"/>
+        /// <seealso cref="UncheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
         /// <code>

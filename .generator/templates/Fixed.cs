@@ -376,7 +376,7 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
 
-        {%- for method in ['from', 'strict', 'checked'] %}
+        {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
             {#- 自身の符号部を除いた整数部のビット数が
                 相手の符号部を除いたビット数以上の場合
                 暗黙に型変換可能. #}
@@ -405,6 +405,15 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom({{ from }})"/>
+        /// <seealso cref="CheckedFrom({{ from }})"/>
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom({{ from }})"/>
         /// <seealso cref="CheckedFrom({{ from }})"/>
         {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
@@ -413,6 +422,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom({{ from }})"/>
+        /// <seealso cref="UncheckedFrom({{ from }})"/>
         {%- else %}
         /// </summary>
         {%- endif %}
@@ -421,6 +431,7 @@ namespace AgatePris.Intar {
         /// <code>
         /// var a = {{ self_type }}.
         {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if method == 'checked' %}Checked{% endif %}From(1);
         /// System.Assert.AreEqual({{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
@@ -430,20 +441,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }}
         {%- if method == 'checked' %}? Checked{% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif %}From({{ from }} num) {
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}From({{ from }} num) {
 
             {%- if method == 'from' %}
             // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
             // 自身が符号あり、相手が符号なしの場合、
             // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
             {%- endif %}
 
-            {%- if method == 'strict' %}
-            return FromBits(checked(({{ self_bits_type }})num * OneRepr));
-            {%- endif %}
-
-            {%- if method == 'checked' %}
+            {%- if method != 'checked' %}
+            return FromBits(
+                {%- if method == 'from' or method == 'unchecked' %}unchecked({% endif %}
+                {%- if method == 'strict' %}checked(({{ self_bits_type }}){% endif -%}
+                num * OneRepr
+                {%- if method == 'from' or method == 'unchecked' %}){% endif %}
+                {%- if method == 'strict' %}){% endif -%}
+            );
+            {%- else %}
                 {%- if signed == s %}
 
             // 自身と相手の符号が同じ場合、
