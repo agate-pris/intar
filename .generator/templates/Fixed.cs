@@ -505,7 +505,7 @@ namespace AgatePris.Intar {
 
         {#- メソッドが checked の場合, 精度が double 以上の場合は定義しない. #}
         {%- if method == 'checked' %}
-            {%- if int_nbits + frac_nbits > 52 %}
+            {%- if int_nbits + frac_nbits > 32 %}
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
         // 現時点では未実装。
@@ -523,14 +523,20 @@ namespace AgatePris.Intar {
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
-        {%- endif %}
-        {%- if method == 'checked' %}
+        /// </summary>
+            {%- if int_nbits + frac_nbits < 64 %}
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- endif %}
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
-        {%- endif %}
         /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        {%- else %}
+        /// </summary>
+        {%- endif %}
         /// <example>
         /// Basic usage:
         /// <code>
