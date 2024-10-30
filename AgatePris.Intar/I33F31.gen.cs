@@ -15,7 +15,7 @@ namespace AgatePris.Intar {
         internal const ulong MaxReprUnsigned = MaxRepr;
         internal const long EpsilonRepr = 1;
 
-        const long OneRepr = 1L << FracNbits;
+        internal const long OneRepr = 1L << FracNbits;
 
         // Fields
         // ------

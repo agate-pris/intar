@@ -14,7 +14,7 @@ namespace AgatePris.Intar {
         internal const ulong MaxRepr = ulong.MaxValue;
         internal const ulong EpsilonRepr = 1;
 
-        const ulong OneRepr = 1UL << FracNbits;
+        internal const ulong OneRepr = 1UL << FracNbits;
 
         // Fields
         // ------

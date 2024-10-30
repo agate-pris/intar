@@ -24,7 +24,7 @@ namespace AgatePris.Intar {
         {%- endif %}
         internal const {{ self_bits_type }} EpsilonRepr = 1;
 
-        const {{ self_bits_type }} OneRepr = {{
+        internal const {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
 
