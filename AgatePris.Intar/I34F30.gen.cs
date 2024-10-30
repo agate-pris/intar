@@ -282,6 +282,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="CheckedFrom(long)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -302,6 +303,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="StrictFrom(long)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -330,6 +332,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="CheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -350,6 +353,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="StrictFrom(ulong)"/>
         /// <example>
         /// Basic usage:
         /// <code>

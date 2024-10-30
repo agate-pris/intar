@@ -404,14 +404,18 @@ namespace AgatePris.Intar {
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
-        {%- endif %}
-        {%- if method == 'checked' %}
+        /// </summary>
+        /// <seealso cref="CheckedFrom({{ from }})"/>
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
-        {%- endif %}
         /// </summary>
+        /// <seealso cref="StrictFrom({{ from }})"/>
+        {%- else %}
+        /// </summary>
+        {%- endif %}
         /// <example>
         /// Basic usage:
         /// <code>
