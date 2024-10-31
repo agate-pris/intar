@@ -24,7 +24,7 @@ namespace AgatePris.Intar {
         {%- endif %}
         internal const {{ self_bits_type }} EpsilonRepr = 1;
 
-        const {{ self_bits_type }} OneRepr = {{
+        internal const {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
 
@@ -52,29 +52,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static {{ self_type }} Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}(0);
-        }
-        public static {{ self_type }} One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}(OneRepr);
-        }
-        public static {{ self_type }} MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static {{ self_type }} MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static {{ self_type }} Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly {{ self_type }} Zero;
+        public static readonly {{ self_type }} One = new {{ self_type }}(OneRepr);
+        public static readonly {{ self_type }} MinValue = new {{ self_type }}(MinRepr);
+        public static readonly {{ self_type }} MaxValue = new {{ self_type }}(MaxRepr);
+        internal static readonly {{ self_type }} Epsilon = new {{ self_type }}(EpsilonRepr);
 
         //
         // Properties
@@ -381,55 +376,91 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
 
-        {#- 符号の有無が同じで整数部の桁数が相手以上か、
-            自身が符号あり、相手が符号なしで
-            符号を除いた整数部の桁数が相手以上なら必ず変換可能 #}
-        {%- if signed == s and int_nbits >= bits
-            or signed and not s and int_nbits - 1 >= bits %}
+        {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
+            {#- 自身の符号部を除いた整数部のビット数が
+                相手の符号部を除いたビット数以上の場合
+                暗黙に型変換可能. #}
+            {%- set implicitly_convertible
+                = signed == s and int_nbits >= bits
+                or signed and not s and int_nbits - 1 >= bits %}
+
+            {#- 暗黙に型変換可能な場合は From のみを定義する.
+                それ以外の場合 From 以外 (StrictFrom, CheckedFrom) を定義する. #}
+            {%- if implicitly_convertible %}
+                {%- if method != 'from' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- else %}
+                {%- if method == 'from' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
         /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        {%- if method == 'strict' %}
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.From(1);
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} From({{ from }} num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
-        }
-
-        {#- 変換に失敗する場合がある (表現の範囲外) 場合はこちら #}
-        {%- else %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        /// <seealso cref="UncheckedFrom({{ from }})"/>
+        /// <seealso cref="CheckedFrom({{ from }})"/>
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom({{ from }})"/>
+        /// <seealso cref="CheckedFrom({{ from }})"/>
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="StrictFrom({{ from }})"/>
+        /// <seealso cref="UncheckedFrom({{ from }})"/>
+        {%- else %}
+        /// </summary>
+        {%- endif %}
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = {{ self_type }}.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a?.Bits);
+        /// var a = {{ self_type }}.
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
+        {%- if method == 'checked' %}Checked{% endif %}From(1);
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a{% if method == 'checked' %}?{% endif %}.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedFrom({{ from }} num) {
+        public static {{ self_type }}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}From({{ from }} num) {
 
-            {%- if signed == s %}
+            {%- if method == 'from' %}
+            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
+            // 自身が符号あり、相手が符号なしの場合、
+            // 自身の符号部分を除いた整数部について同様である。
+            {%- endif %}
+
+            {%- if method != 'checked' %}
+            return FromBits(
+                {%- if method == 'from' or method == 'unchecked' %}unchecked({% endif %}
+                {%- if method == 'strict' %}checked({% endif %}
+                {%- if method == 'strict' or method == 'unchecked' %}({{ self_bits_type }}){% endif -%}
+                num * OneRepr
+                {%- if method == 'from' or method == 'unchecked' %}){% endif %}
+                {%- if method == 'strict' %}){% endif -%}
+            );
+            {%- else %}
+                {%- if signed == s %}
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -438,7 +469,7 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            {%- elif signed and not s %}
+                {%- elif signed and not s %}
 
             // 自身が符号あり、相手が符号なしであるから、
             // 相手が最小値未満であることはありえない。
@@ -463,32 +494,13 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            {%- endif %}
+                {%- endif %}
 
             return FromBits(({{ self_bits_type }})num * OneRepr);
+            {%- endif %}
         }
 
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} StrictFrom({{ from }} num) {
-            return FromBits(checked(({{ self_bits_type }})num * OneRepr));
-        }
-
-        {%- endif %}
+        {%- endfor %}
     {%- endfor %}
 {%- endfor %}
 
@@ -505,49 +517,85 @@ namespace AgatePris.Intar {
 
     {%- set lossy = int_nbits + frac_nbits < bits %}
 
+    {%- for method in ['strict', 'unchecked', 'checked'] %}
+
+        {#- メソッドが checked の場合, 精度が double 以上の場合は定義しない. #}
+        {%- if method == 'checked' %}
+            {%- if int_nbits + frac_nbits > 32 %}
+
+        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
+        // 現時点では未実装。
+        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
+
+                {%- continue %}
+            {%- endif %}
+        {%- endif %}
+
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
+        /// <para> <see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.Strict{% if lossy %}Lossy{% endif %}From({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} Strict{% if lossy %}Lossy{% endif %}From({{ from }} num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
-        }
-
-    {#- ビット数が自身よりも大きい場合、変換の際に精度を失う #}
-    {%- if lossy %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- if int_nbits + frac_nbits < 64 %}
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- endif %}
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- if int_nbits + frac_nbits < 64 %}
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- endif %}
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        {%- else %}
+        /// </summary>
+        {%- endif %}
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
+        /// var a = {{ self_type }}.
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
+        {%- if method == 'checked' %}Checked{% endif %}
+        {%- if lossy %}Lossy{% endif %}From({{ one }});
+        /// System.Assert.AreEqual({{
+            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedLossyFrom({{ from }} num) {
+        public static {{ self_type }}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
+        {%- if lossy %}Lossy{% endif %}From({{ from }} num) {
+            {%- if method != 'checked' %}
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(
+                {%- if method == 'strict' %}checked
+                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * OneRepr)));
+            {%- else %}
+                {%- if not lossy %}
+            // より大きい型に変換して計算。
+            return CheckedLossyFrom(num);
+                {%- else %}
             // OneRepr は 2 の自然数冪であるから、
             // その乗算によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
@@ -564,44 +612,11 @@ namespace AgatePris.Intar {
                 return null;
             }
             return FromBits(({{ self_bits_type }})num);
+                {%- endif %}
+            {%- endif %}
         }
 
-    {#- ビットが自身以下の場合、変換の際に精度は損なわれない
-        半精度浮動小数点数はサポートしない。 #}
-    {%- elif bits > 16 %}
-
-        {%- if int_nbits + frac_nbits < 64 %}
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.StrictLossyFrom({{ one }});
-        /// System.Assert.AreEqual(1 &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}? CheckedFrom({{ from }} num) {
-            // より大きい型に変換して計算。
-            return CheckedLossyFrom(num);
-        }
-
-        {%- else %}
-
-        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
-        // 現時点では未実装。
-        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
-
-        {%- endif %}
-
-    {%- endif %}
+    {%- endfor %}
 {%- endfor %}
 
         #endregion
@@ -622,50 +637,66 @@ namespace AgatePris.Intar {
             {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
 
             {#- コメントなどを共通化するためにループ処理でまかなう #}
-            {%- for strict in [true, false] %}
-                {%- if strict or failable %}
+            {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
+
+                {#- 失敗しうる場合 From は定義しない.
+                    それ以外の場合 From 以外は定義しない. #}
+                {%- if failable %}
+                    {%- if method == 'from' %}
+                        {%- continue %}
+                    {%- endif %}
+                {%- else %}
+                    {%- if method != 'from' %}
+                        {%- continue %}
+                    {%- endif %}
+                {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
         /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        {%- if failable %}
-            {%- if strict %}
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
         /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- else %}
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- endif %}
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
         {%- else %}
         /// </summary>
         {%- endif %}
         public static {{ self_type }}
-        {%- if failable %}
-            {%- if strict %} Strict
-            {%- else %}? Checked
-            {%- endif %}
-        {%- else %} {% endif %}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ from }} from) {
-            {%- if strict or not failable %}
+            {%- if method != 'checked' %}
             return FromBits(
-                {%- if failable %}checked({% endif %}({{ self_bits_type }})
+                {%- if method == 'strict' %}checked
+                {%- else %}unchecked{% endif %}(({{ self_bits_type }})
                 {%- if lossy -%}
                     (from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }}))
                 {%- else -%}
                     from.Bits * (EpsilonRepr << {{ frac_nbits-f }})
-                {%- endif %}
-                {%- if failable %}){% endif -%}
+                {%- endif %})
             );
 
-            {#- checked #}
             {%- else %}
 
                 {%- if lossy %}
@@ -717,7 +748,6 @@ namespace AgatePris.Intar {
             {%- endif %}
         }
 
-                {%- endif %}
             {%- endfor %}
 
         {%- endif %}
@@ -740,45 +770,63 @@ namespace AgatePris.Intar {
             符号部を除いたビット数について、
             自身の整数部のそれよりも相手のそれの方が大きければ
             変換は必ず成功する。 #}
-        {%- if signed == s and int_nbits <= bits
+        {%- set implicitly_convertible
+            = signed == s and int_nbits <= bits
             or not signed and s and int_nbits <= bits - 1 %}
 
+        {%- for method in ['to', 'strict', 'unchecked', 'checked'] %}
+
+            {#- 暗黙に変換可能な場合 To 以外は定義しない. #}
+            {%- if implicitly_convertible %}
+                {%- if method != 'to' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- else %}
+                {%- if method == 'to' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- endif %}
+
         /// <summary>
         /// <para><see cref="{{ t }}" /> への変換を行います。</para>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }} To{% if not s %}U{% endif %}Int{{ bits }}() {
-            return ({{ t }})(Bits / OneRepr);
-        }
-
-        {#- 自身が符号ありで相手が符号なしか、
-            相手の符号ビットを除いたビット数が自分の符号ビットを除いた整数部よりも大きい場合
-            変換に失敗する場合がある。 #}
-        {%- else %}
-
-        /// <summary>
-        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
         /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }} StrictTo{% if not s %}U{% endif %}Int{{ bits }}() {
-            return checked(({{ t }})(Bits / OneRepr));
-        }
-
-        /// <summary>
-        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        /// <seealso cref="UncheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        {%- else %}
+        /// </summary>
+        {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }}? CheckedTo{% if not s %}U{% endif %}Int{{ bits }}() {
+        public {{ t }}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif -%}
+        To{% if not s %}U{% endif %}Int{{ bits }}() {
+            {%- if method != 'checked' %}
+            return {% if method == 'strict' %}checked
+            {%- else %}unchecked{% endif %}(({{ t }})(Bits / OneRepr));
+
+            {%- else %}
             var tmp = Bits / OneRepr;
 
             {%- if signed == s %}
@@ -814,9 +862,11 @@ namespace AgatePris.Intar {
             {%- endif %}
 
             return ({{ t }})tmp;
+
+            {%- endif %}
         }
 
-        {%- endif %}
+        {%- endfor %}
 
     {%- endfor %}
 {%- endfor %}
@@ -841,75 +891,6 @@ namespace AgatePris.Intar {
             bits == 32 %}Single{% elif
             bits == 64 %}Double{% endif %}() => ({{ t }})Bits / OneRepr;
 
-{%- endfor %}
-
-        #endregion
-
-        #region Convert to fixed-point number
-
-{%- for s in [true, false] %}
-    {%- for target in fixed_list %}
-        {#- 自身と異なる型の場合のみ定義する #}
-        {%- set i = target[0] %}
-        {%- set f = target[1] %}
-        {%- if s != signed or i != int_nbits or f != frac_nbits %}
-            {%- set to = macros::fixed_type(s=s, i=i, f=f) %}
-
-            {#- 相手の方が小数部のビット数が小さい場合、精度を失う #}
-            {%- set lossy = frac_nbits > f %}
-
-            {#- 自分が符号あり、相手が符号なしの場合、
-                またはお互いの符号ビットを除いた整数部のビット数について、
-                自分の方が大きい場合、変換に失敗する場合がある。 #}
-            {%- set failable = signed and not s
-                or not signed and s and int_nbits > i - 1
-                or signed == s and int_nbits > i %}
-
-            {%- for strict in [false, true] %}
-                {%- if strict or failable %}
-
-        /// <summary>
-        /// <para>Converts to <see cref="{{ to }}" />.</para>
-        /// <para><see cref="{{ to }}" /> へ変換します。</para>
-        {%- if failable %}
-            {%- if strict %}
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}To{{ to }}"/>
-            {%- else %}
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}To{{ to }}"/>
-            {%- endif %}
-        {%- else %}
-        /// </summary>
-        {%- endif %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ to }}
-        {%- if failable %}
-            {%- if strict %} Strict
-            {%- else %}? Checked
-            {%- endif %}
-        {%- else %} {% endif %}
-        {%- if lossy %}Lossy{% endif %}To{{ to }}() => {{ to }}.
-            {%- if failable %}
-                {%- if strict %}Strict
-                {%- else %}Checked
-                {%- endif %}
-            {%- endif %}
-            {%- if lossy %}Lossy{% endif %}From(this);
-
-                {%- endif %}
-            {%- endfor %}
-
-        {%- endif %}
-    {%- endfor %}
 {%- endfor %}
 
         #endregion

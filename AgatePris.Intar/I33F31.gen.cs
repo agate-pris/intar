@@ -15,7 +15,7 @@ namespace AgatePris.Intar {
         internal const ulong MaxReprUnsigned = MaxRepr;
         internal const long EpsilonRepr = 1;
 
-        const long OneRepr = 1L << FracNbits;
+        internal const long OneRepr = 1L << FracNbits;
 
         // Fields
         // ------
@@ -41,29 +41,24 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 FromBits(long bits) => new I33F31(bits);
 
-        // Static Properties
-        // -----------------
+        //
+        // Static readonly fields
+        //
 
-        public static I33F31 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new I33F31(0);
-        }
-        public static I33F31 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new I33F31(OneRepr);
-        }
-        public static I33F31 MinValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MinRepr);
-        }
-        public static I33F31 MaxValue {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(MaxRepr);
-        }
-        internal static I33F31 Epsilon {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => FromBits(EpsilonRepr);
-        }
+        // > 14.5.6.2 Static field initialization
+        // >
+        // > ... If a static constructor (S.14.12) exists in the class,
+        // > execution of the static field initializers occurs immediately prior to executing that static constructor.
+        // > Otherwise, the static field initializers are executed at an implementation-dependent time prior to the first
+        // > use of a static field of that class.
+        //
+        // -- ECMA-334 6th edition June 2022
+
+        public static readonly I33F31 Zero;
+        public static readonly I33F31 One = new I33F31(OneRepr);
+        public static readonly I33F31 MinValue = new I33F31(MinRepr);
+        public static readonly I33F31 MaxValue = new I33F31(MaxRepr);
+        internal static readonly I33F31 Epsilon = new I33F31(EpsilonRepr);
 
         //
         // Properties
@@ -257,7 +252,7 @@ namespace AgatePris.Intar {
             // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
             // 自身が符号あり、相手が符号なしの場合、
             // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
+            return FromBits(unchecked(num * OneRepr));
         }
 
         /// <summary>
@@ -276,22 +271,68 @@ namespace AgatePris.Intar {
             // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
             // 自身が符号あり、相手が符号なしの場合、
             // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(num * OneRepr);
+            return FromBits(unchecked(num * OneRepr));
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="long" /> value.</para>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
+        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>Warning</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="UncheckedFrom(long)"/>
+        /// <seealso cref="CheckedFrom(long)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.StrictFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 StrictFrom(long num) {
+            return FromBits(checked((long)num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
+        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(long)"/>
+        /// <seealso cref="CheckedFrom(long)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 UncheckedFrom(long num) {
+            return FromBits(unchecked((long)num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
         /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="StrictFrom(long)"/>
+        /// <seealso cref="UncheckedFrom(long)"/>
         /// <example>
         /// Basic usage:
         /// <code>
         /// var a = I33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -308,38 +349,64 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
+        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(ulong)"/>
+        /// <seealso cref="CheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
         /// <code>
         /// var a = I33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I33F31 StrictFrom(long num) {
+        public static I33F31 StrictFrom(ulong num) {
             return FromBits(checked((long)num * OneRepr));
         }
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="ulong" /> value.</para>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
+        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(ulong)"/>
+        /// <seealso cref="CheckedFrom(ulong)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.UncheckedFrom(1);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 UncheckedFrom(ulong num) {
+            return FromBits(unchecked((long)num * OneRepr));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
         /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="StrictFrom(ulong)"/>
+        /// <seealso cref="UncheckedFrom(ulong)"/>
         /// <example>
         /// Basic usage:
         /// <code>
         /// var a = I33F31.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a?.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -356,26 +423,6 @@ namespace AgatePris.Intar {
             return FromBits((long)num * OneRepr);
         }
 
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from specified <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I33F31.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I33F31 StrictFrom(ulong num) {
-            return FromBits(checked((long)num * OneRepr));
-        }
-
         #endregion
 
         #region Convert from floating-point number
@@ -383,18 +430,19 @@ namespace AgatePris.Intar {
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
+        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(float)"/>
         /// <example>
         /// Basic usage:
         /// <code>
         /// var a = I33F31.StrictFrom(1.0f);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -405,23 +453,48 @@ namespace AgatePris.Intar {
             return FromBits(checked((long)(num * OneRepr)));
         }
 
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
+        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(float)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.UncheckedFrom(1.0f);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 UncheckedFrom(float num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(unchecked((long)(num * OneRepr)));
+        }
+
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
         // 現時点では未実装。
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
 
         /// <summary>
-        /// <para>Constructs a new fixed-point number from specified num.</para>
-        /// <para>指定された数値から新しく固定小数点数を構築します。</para>
+        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
+        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(double)"/>
         /// <example>
         /// Basic usage:
         /// <code>
         /// var a = I33F31.StrictFrom(1.0);
-        /// System.Assert.AreEqual(1 &lt;&lt; 31, a.Bits);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -430,6 +503,30 @@ namespace AgatePris.Intar {
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
             return FromBits(checked((long)(num * OneRepr)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
+        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(double)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I33F31.UncheckedFrom(1.0);
+        /// System.Assert.AreEqual(1L &lt;&lt; 31, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 UncheckedFrom(double num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(unchecked((long)(num * OneRepr)));
         }
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
@@ -445,7 +542,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I17F15" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 From(I17F15 from) {
-            return FromBits((long)from.Bits * (EpsilonRepr << 16));
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 16))
+            );
         }
 
         /// <summary>
@@ -453,7 +551,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 From(I2F30 from) {
-            return FromBits((long)from.Bits * (EpsilonRepr << 1));
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 1))
+            );
         }
 
         /// <summary>
@@ -464,9 +563,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(I34F30)"/>
         /// <seealso cref="CheckedFrom(I34F30)"/>
         public static I33F31 StrictFrom(I34F30 from) {
-            return FromBits(checked((long)from.Bits * (EpsilonRepr << 1)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 1))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I34F30" /> value.</para>
+        /// <para><see cref="I34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(I34F30)"/>
+        /// <seealso cref="CheckedFrom(I34F30)"/>
+        public static I33F31 UncheckedFrom(I34F30 from) {
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 1))
+            );
         }
 
         /// <summary>
@@ -478,6 +594,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(I34F30)"/>
+        /// <seealso cref="UncheckedFrom(I34F30)"/>
         public static I33F31? CheckedFrom(I34F30 from) {
             const int shift = 1;
             const long k = EpsilonRepr << shift;
@@ -495,7 +612,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 LossyFrom(I4F60 from) {
-            return FromBits((long)(from.Bits / (I4F60.EpsilonRepr << 29)));
+            return FromBits(unchecked((long)(from.Bits / (I4F60.EpsilonRepr << 29)))
+            );
         }
 
         /// <summary>
@@ -503,7 +621,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 LossyFrom(I2F62 from) {
-            return FromBits((long)(from.Bits / (I2F62.EpsilonRepr << 31)));
+            return FromBits(unchecked((long)(from.Bits / (I2F62.EpsilonRepr << 31)))
+            );
         }
 
         /// <summary>
@@ -511,7 +630,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U17F15" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 From(U17F15 from) {
-            return FromBits((long)from.Bits * (EpsilonRepr << 16));
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 16))
+            );
         }
 
         /// <summary>
@@ -519,7 +639,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 From(U2F30 from) {
-            return FromBits((long)from.Bits * (EpsilonRepr << 1));
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 1))
+            );
         }
 
         /// <summary>
@@ -530,9 +651,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(U34F30)"/>
         /// <seealso cref="CheckedFrom(U34F30)"/>
         public static I33F31 StrictFrom(U34F30 from) {
-            return FromBits(checked((long)from.Bits * (EpsilonRepr << 1)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 1))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
+        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(U34F30)"/>
+        /// <seealso cref="CheckedFrom(U34F30)"/>
+        public static I33F31 UncheckedFrom(U34F30 from) {
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 1))
+            );
         }
 
         /// <summary>
@@ -544,6 +682,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(U34F30)"/>
+        /// <seealso cref="UncheckedFrom(U34F30)"/>
         public static I33F31? CheckedFrom(U34F30 from) {
             const int shift = 1;
             const long k = EpsilonRepr << shift;
@@ -562,9 +701,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(U33F31)"/>
         /// <seealso cref="CheckedFrom(U33F31)"/>
         public static I33F31 StrictFrom(U33F31 from) {
-            return FromBits(checked((long)from.Bits * (EpsilonRepr << 0)));
+            return FromBits(checked((long)from.Bits * (EpsilonRepr << 0))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U33F31" /> value.</para>
+        /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(U33F31)"/>
+        /// <seealso cref="CheckedFrom(U33F31)"/>
+        public static I33F31 UncheckedFrom(U33F31 from) {
+            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 0))
+            );
         }
 
         /// <summary>
@@ -576,6 +732,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(U33F31)"/>
+        /// <seealso cref="UncheckedFrom(U33F31)"/>
         public static I33F31? CheckedFrom(U33F31 from) {
             const int shift = 0;
             const long k = EpsilonRepr << shift;
@@ -591,7 +748,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 LossyFrom(U4F60 from) {
-            return FromBits((long)(from.Bits / (U4F60.EpsilonRepr << 29)));
+            return FromBits(unchecked((long)(from.Bits / (U4F60.EpsilonRepr << 29)))
+            );
         }
 
         /// <summary>
@@ -599,7 +757,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I33F31 LossyFrom(U2F62 from) {
-            return FromBits((long)(from.Bits / (U2F62.EpsilonRepr << 31)));
+            return FromBits(unchecked((long)(from.Bits / (U2F62.EpsilonRepr << 31)))
+            );
         }
 
         #endregion
@@ -616,10 +775,25 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedToInt32"/>
         /// <seealso cref="CheckedToInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int StrictToInt32() {
             return checked((int)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="int" /> への変換を行います。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToInt32"/>
+        /// <seealso cref="CheckedToInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int UncheckedToInt32() {
+            return unchecked((int)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -630,6 +804,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictToInt32"/>
+        /// <seealso cref="UncheckedToInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int? CheckedToInt32() {
             var tmp = Bits / OneRepr;
@@ -651,10 +826,25 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedToUInt32"/>
         /// <seealso cref="CheckedToUInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint StrictToUInt32() {
             return checked((uint)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="uint" /> への変換を行います。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToUInt32"/>
+        /// <seealso cref="CheckedToUInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint UncheckedToUInt32() {
+            return unchecked((uint)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -665,6 +855,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictToUInt32"/>
+        /// <seealso cref="UncheckedToUInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint? CheckedToUInt32() {
             var tmp = Bits / OneRepr;
@@ -686,7 +877,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long ToInt64() {
-            return (long)(Bits / OneRepr);
+            return unchecked((long)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -696,10 +887,25 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedToUInt64"/>
         /// <seealso cref="CheckedToUInt64"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong StrictToUInt64() {
             return checked((ulong)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="ulong" /> への変換を行います。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToUInt64"/>
+        /// <seealso cref="CheckedToUInt64"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong UncheckedToUInt64() {
+            return unchecked((ulong)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -710,6 +916,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictToUInt64"/>
+        /// <seealso cref="UncheckedToUInt64"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong? CheckedToUInt64() {
             var tmp = Bits / OneRepr;
@@ -735,257 +942,6 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / OneRepr;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public double LossyToDouble() => (double)Bits / OneRepr;
-
-        #endregion
-
-        #region Convert to fixed-point number
-
-        /// <summary>
-        /// <para>Converts to <see cref="I17F15" />.</para>
-        /// <para><see cref="I17F15" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyToI17F15"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15? CheckedLossyToI17F15() => I17F15.CheckedLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I17F15" />.</para>
-        /// <para><see cref="I17F15" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedLossyToI17F15"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 StrictLossyToI17F15() => I17F15.StrictLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I2F30" />.</para>
-        /// <para><see cref="I2F30" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyToI2F30"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30? CheckedLossyToI2F30() => I2F30.CheckedLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I2F30" />.</para>
-        /// <para><see cref="I2F30" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedLossyToI2F30"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 StrictLossyToI2F30() => I2F30.StrictLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I34F30" />.</para>
-        /// <para><see cref="I34F30" /> へ変換します。</para>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I34F30 LossyToI34F30() => I34F30.LossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I4F60" />.</para>
-        /// <para><see cref="I4F60" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToI4F60"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60? CheckedToI4F60() => I4F60.CheckedFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I4F60" />.</para>
-        /// <para><see cref="I4F60" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedToI4F60"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60 StrictToI4F60() => I4F60.StrictFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I2F62" />.</para>
-        /// <para><see cref="I2F62" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToI2F62"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62? CheckedToI2F62() => I2F62.CheckedFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="I2F62" />.</para>
-        /// <para><see cref="I2F62" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedToI2F62"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 StrictToI2F62() => I2F62.StrictFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U17F15" />.</para>
-        /// <para><see cref="U17F15" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyToU17F15"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15? CheckedLossyToU17F15() => U17F15.CheckedLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U17F15" />.</para>
-        /// <para><see cref="U17F15" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedLossyToU17F15"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15 StrictLossyToU17F15() => U17F15.StrictLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U2F30" />.</para>
-        /// <para><see cref="U2F30" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyToU2F30"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30? CheckedLossyToU2F30() => U2F30.CheckedLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U2F30" />.</para>
-        /// <para><see cref="U2F30" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedLossyToU2F30"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 StrictLossyToU2F30() => U2F30.StrictLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U34F30" />.</para>
-        /// <para><see cref="U34F30" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyToU34F30"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U34F30? CheckedLossyToU34F30() => U34F30.CheckedLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U34F30" />.</para>
-        /// <para><see cref="U34F30" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedLossyToU34F30"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U34F30 StrictLossyToU34F30() => U34F30.StrictLossyFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U33F31" />.</para>
-        /// <para><see cref="U33F31" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToU33F31"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31? CheckedToU33F31() => U33F31.CheckedFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U33F31" />.</para>
-        /// <para><see cref="U33F31" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedToU33F31"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 StrictToU33F31() => U33F31.StrictFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U4F60" />.</para>
-        /// <para><see cref="U4F60" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToU4F60"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60? CheckedToU4F60() => U4F60.CheckedFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U4F60" />.</para>
-        /// <para><see cref="U4F60" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedToU4F60"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60 StrictToU4F60() => U4F60.StrictFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U2F62" />.</para>
-        /// <para><see cref="U2F62" /> へ変換します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToU2F62"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62? CheckedToU2F62() => U2F62.CheckedFrom(this);
-
-        /// <summary>
-        /// <para>Converts to <see cref="U2F62" />.</para>
-        /// <para><see cref="U2F62" /> へ変換します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="CheckedToU2F62"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62 StrictToU2F62() => U2F62.StrictFrom(this);
 
         #endregion
 
