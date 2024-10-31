@@ -579,6 +579,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(float)"/>
         /// <seealso cref="CheckedFrom(float)"/>
         /// <example>
         /// Basic usage:
@@ -598,12 +599,38 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
         /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(float)"/>
+        /// <seealso cref="CheckedFrom(float)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I17F15.UncheckedFrom(1.0f);
+        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 UncheckedFrom(float num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(unchecked((int)(num * OneRepr)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
+        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(float)"/>
+        /// <seealso cref="UncheckedFrom(float)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -625,6 +652,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedLossyFrom(double)"/>
         /// <seealso cref="CheckedLossyFrom(double)"/>
         /// <example>
         /// Basic usage:
@@ -644,12 +672,38 @@ namespace AgatePris.Intar {
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
         /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(double)"/>
+        /// <seealso cref="CheckedLossyFrom(double)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I17F15.UncheckedLossyFrom(1.0);
+        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 UncheckedLossyFrom(double num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(unchecked((int)(num * OneRepr)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
+        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictLossyFrom(double)"/>
+        /// <seealso cref="UncheckedLossyFrom(double)"/>
         /// <example>
         /// Basic usage:
         /// <code>

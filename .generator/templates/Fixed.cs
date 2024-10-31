@@ -517,7 +517,7 @@ namespace AgatePris.Intar {
 
     {%- set lossy = int_nbits + frac_nbits < bits %}
 
-    {%- for method in ['strict', 'checked'] %}
+    {%- for method in ['strict', 'unchecked', 'checked'] %}
 
         {#- メソッドが checked の場合, 精度が double 以上の場合は定義しない. #}
         {%- if method == 'checked' %}
@@ -540,6 +540,17 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- if int_nbits + frac_nbits < 64 %}
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+            {%- endif %}
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
             {%- if int_nbits + frac_nbits < 64 %}
         /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
             {%- endif %}
@@ -550,6 +561,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
         {%- else %}
         /// </summary>
         {%- endif %}
@@ -558,6 +570,7 @@ namespace AgatePris.Intar {
         /// <code>
         /// var a = {{ self_type }}.
         {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if method == 'checked' %}Checked{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ one }});
         /// System.Assert.AreEqual({{
@@ -569,12 +582,15 @@ namespace AgatePris.Intar {
         public static {{ self_type }}
         {%- if method == 'checked' %}? Checked{% else %} {% endif %}
         {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ from }} num) {
-            {%- if method == 'strict' %}
+            {%- if method == 'strict' or method == 'unchecked' %}
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked(({{ self_bits_type }})(num * OneRepr)));
+            return FromBits(
+            {%- if method == 'strict' %}checked
+            {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * OneRepr)));
             {%- endif %}
             {%- if method == 'checked' %}
                 {%- if not lossy %}
