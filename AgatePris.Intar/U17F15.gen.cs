@@ -1131,7 +1131,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int ToInt32() {
-            return (int)(Bits / OneRepr);
+            return unchecked((int)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -1139,7 +1139,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint ToUInt32() {
-            return (uint)(Bits / OneRepr);
+            return unchecked((uint)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -1147,7 +1147,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long ToInt64() {
-            return (long)(Bits / OneRepr);
+            return unchecked((long)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -1155,7 +1155,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong ToUInt64() {
-            return (ulong)(Bits / OneRepr);
+            return unchecked((ulong)(Bits / OneRepr));
         }
 
         #endregion

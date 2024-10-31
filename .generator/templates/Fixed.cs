@@ -779,7 +779,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} To{% if not s %}U{% endif %}Int{{ bits }}() {
-            return ({{ t }})(Bits / OneRepr);
+            return unchecked(({{ t }})(Bits / OneRepr));
         }
 
         {#- 自身が符号ありで相手が符号なしか、

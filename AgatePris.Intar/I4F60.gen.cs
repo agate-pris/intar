@@ -1052,7 +1052,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int ToInt32() {
-            return (int)(Bits / OneRepr);
+            return unchecked((int)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -1097,7 +1097,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long ToInt64() {
-            return (long)(Bits / OneRepr);
+            return unchecked((long)(Bits / OneRepr));
         }
 
         /// <summary>
