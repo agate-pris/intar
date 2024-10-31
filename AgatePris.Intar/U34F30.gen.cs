@@ -946,10 +946,25 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedToInt32"/>
         /// <seealso cref="CheckedToInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int StrictToInt32() {
             return checked((int)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="int" /> への変換を行います。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToInt32"/>
+        /// <seealso cref="CheckedToInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int UncheckedToInt32() {
+            return unchecked((int)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -960,6 +975,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictToInt32"/>
+        /// <seealso cref="UncheckedToInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int? CheckedToInt32() {
             var tmp = Bits / OneRepr;
@@ -980,10 +996,25 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedToUInt32"/>
         /// <seealso cref="CheckedToUInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint StrictToUInt32() {
             return checked((uint)(Bits / OneRepr));
+        }
+
+        /// <summary>
+        /// <para><see cref="uint" /> への変換を行います。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictToUInt32"/>
+        /// <seealso cref="CheckedToUInt32"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint UncheckedToUInt32() {
+            return unchecked((uint)(Bits / OneRepr));
         }
 
         /// <summary>
@@ -994,6 +1025,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictToUInt32"/>
+        /// <seealso cref="UncheckedToUInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint? CheckedToUInt32() {
             var tmp = Bits / OneRepr;
