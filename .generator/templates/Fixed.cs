@@ -638,7 +638,7 @@ namespace AgatePris.Intar {
             {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
 
             {#- コメントなどを共通化するためにループ処理でまかなう #}
-            {%- for method in ['from', 'strict', 'checked'] %}
+            {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
 
                 {#- 失敗しうる場合 From は定義しない.
                     それ以外の場合 From 以外は定義しない. #}
@@ -661,6 +661,15 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
         /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
         {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
@@ -669,22 +678,24 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
+        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
         {%- else %}
         /// </summary>
         {%- endif %}
         public static {{ self_type }}
         {%- if method == 'checked' %}? Checked{% else %} {% endif %}
         {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ from }} from) {
-            {%- if method == 'from' or method == 'strict' %}
+            {%- if method == 'from' or method == 'strict' or method == 'unchecked' %}
             return FromBits(
-                {%- if failable %}checked({% endif %}({{ self_bits_type }})
+                {%- if method == 'strict' %}checked
+                {%- else %}unchecked{% endif %}(({{ self_bits_type }})
                 {%- if lossy -%}
                     (from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }}))
                 {%- else -%}
                     from.Bits * (EpsilonRepr << {{ frac_nbits-f }})
-                {%- endif %}
-                {%- if failable %}){% endif -%}
+                {%- endif %})
             );
 
             {%- elif method == 'checked' %}

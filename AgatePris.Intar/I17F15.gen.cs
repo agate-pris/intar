@@ -738,7 +738,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(I2F30 from) {
-            return FromBits((int)(from.Bits / (I2F30.EpsilonRepr << 15)));
+            return FromBits(unchecked((int)(from.Bits / (I2F30.EpsilonRepr << 15)))
+            );
         }
 
         /// <summary>
@@ -749,9 +750,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedLossyFrom(I34F30)"/>
         /// <seealso cref="CheckedLossyFrom(I34F30)"/>
         public static I17F15 StrictLossyFrom(I34F30 from) {
-            return FromBits(checked((int)(from.Bits / (I34F30.EpsilonRepr << 15))));
+            return FromBits(checked((int)(from.Bits / (I34F30.EpsilonRepr << 15)))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I34F30" /> value.</para>
+        /// <para><see cref="I34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I34F30)"/>
+        /// <seealso cref="CheckedLossyFrom(I34F30)"/>
+        public static I17F15 UncheckedLossyFrom(I34F30 from) {
+            return FromBits(unchecked((int)(from.Bits / (I34F30.EpsilonRepr << 15)))
+            );
         }
 
         /// <summary>
@@ -763,6 +781,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I34F30)"/>
+        /// <seealso cref="UncheckedLossyFrom(I34F30)"/>
         public static I17F15? CheckedLossyFrom(I34F30 from) {
             var tmp = from.Bits / (I34F30.EpsilonRepr << 15);
             if (tmp < MinRepr ||
@@ -780,9 +799,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedLossyFrom(I33F31)"/>
         /// <seealso cref="CheckedLossyFrom(I33F31)"/>
         public static I17F15 StrictLossyFrom(I33F31 from) {
-            return FromBits(checked((int)(from.Bits / (I33F31.EpsilonRepr << 16))));
+            return FromBits(checked((int)(from.Bits / (I33F31.EpsilonRepr << 16)))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="I33F31" /> value.</para>
+        /// <para><see cref="I33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(I33F31)"/>
+        /// <seealso cref="CheckedLossyFrom(I33F31)"/>
+        public static I17F15 UncheckedLossyFrom(I33F31 from) {
+            return FromBits(unchecked((int)(from.Bits / (I33F31.EpsilonRepr << 16)))
+            );
         }
 
         /// <summary>
@@ -794,6 +830,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictLossyFrom(I33F31)"/>
+        /// <seealso cref="UncheckedLossyFrom(I33F31)"/>
         public static I17F15? CheckedLossyFrom(I33F31 from) {
             var tmp = from.Bits / (I33F31.EpsilonRepr << 16);
             if (tmp < MinRepr ||
@@ -808,7 +845,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(I4F60 from) {
-            return FromBits((int)(from.Bits / (I4F60.EpsilonRepr << 45)));
+            return FromBits(unchecked((int)(from.Bits / (I4F60.EpsilonRepr << 45)))
+            );
         }
 
         /// <summary>
@@ -816,7 +854,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(I2F62 from) {
-            return FromBits((int)(from.Bits / (I2F62.EpsilonRepr << 47)));
+            return FromBits(unchecked((int)(from.Bits / (I2F62.EpsilonRepr << 47)))
+            );
         }
 
         /// <summary>
@@ -827,9 +866,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(U17F15)"/>
         /// <seealso cref="CheckedFrom(U17F15)"/>
         public static I17F15 StrictFrom(U17F15 from) {
-            return FromBits(checked((int)from.Bits * (EpsilonRepr << 0)));
+            return FromBits(checked((int)from.Bits * (EpsilonRepr << 0))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U17F15" /> value.</para>
+        /// <para><see cref="U17F15" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(U17F15)"/>
+        /// <seealso cref="CheckedFrom(U17F15)"/>
+        public static I17F15 UncheckedFrom(U17F15 from) {
+            return FromBits(unchecked((int)from.Bits * (EpsilonRepr << 0))
+            );
         }
 
         /// <summary>
@@ -841,6 +897,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictFrom(U17F15)"/>
+        /// <seealso cref="UncheckedFrom(U17F15)"/>
         public static I17F15? CheckedFrom(U17F15 from) {
             const int shift = 0;
             const int k = EpsilonRepr << shift;
@@ -856,7 +913,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(U2F30 from) {
-            return FromBits((int)(from.Bits / (U2F30.EpsilonRepr << 15)));
+            return FromBits(unchecked((int)(from.Bits / (U2F30.EpsilonRepr << 15)))
+            );
         }
 
         /// <summary>
@@ -867,9 +925,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedLossyFrom(U34F30)"/>
         /// <seealso cref="CheckedLossyFrom(U34F30)"/>
         public static I17F15 StrictLossyFrom(U34F30 from) {
-            return FromBits(checked((int)(from.Bits / (U34F30.EpsilonRepr << 15))));
+            return FromBits(checked((int)(from.Bits / (U34F30.EpsilonRepr << 15)))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
+        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(U34F30)"/>
+        /// <seealso cref="CheckedLossyFrom(U34F30)"/>
+        public static I17F15 UncheckedLossyFrom(U34F30 from) {
+            return FromBits(unchecked((int)(from.Bits / (U34F30.EpsilonRepr << 15)))
+            );
         }
 
         /// <summary>
@@ -881,6 +956,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictLossyFrom(U34F30)"/>
+        /// <seealso cref="UncheckedLossyFrom(U34F30)"/>
         public static I17F15? CheckedLossyFrom(U34F30 from) {
             var tmp = from.Bits / (U34F30.EpsilonRepr << 15);
             if (tmp > MaxReprUnsigned) {
@@ -897,9 +973,26 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedLossyFrom(U33F31)"/>
         /// <seealso cref="CheckedLossyFrom(U33F31)"/>
         public static I17F15 StrictLossyFrom(U33F31 from) {
-            return FromBits(checked((int)(from.Bits / (U33F31.EpsilonRepr << 16))));
+            return FromBits(checked((int)(from.Bits / (U33F31.EpsilonRepr << 16)))
+            );
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U33F31" /> value.</para>
+        /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictLossyFrom(U33F31)"/>
+        /// <seealso cref="CheckedLossyFrom(U33F31)"/>
+        public static I17F15 UncheckedLossyFrom(U33F31 from) {
+            return FromBits(unchecked((int)(from.Bits / (U33F31.EpsilonRepr << 16)))
+            );
         }
 
         /// <summary>
@@ -911,6 +1004,7 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictLossyFrom(U33F31)"/>
+        /// <seealso cref="UncheckedLossyFrom(U33F31)"/>
         public static I17F15? CheckedLossyFrom(U33F31 from) {
             var tmp = from.Bits / (U33F31.EpsilonRepr << 16);
             if (tmp > MaxReprUnsigned) {
@@ -924,7 +1018,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(U4F60 from) {
-            return FromBits((int)(from.Bits / (U4F60.EpsilonRepr << 45)));
+            return FromBits(unchecked((int)(from.Bits / (U4F60.EpsilonRepr << 45)))
+            );
         }
 
         /// <summary>
@@ -932,7 +1027,8 @@ namespace AgatePris.Intar {
         /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
         public static I17F15 LossyFrom(U2F62 from) {
-            return FromBits((int)(from.Bits / (U2F62.EpsilonRepr << 47)));
+            return FromBits(unchecked((int)(from.Bits / (U2F62.EpsilonRepr << 47)))
+            );
         }
 
         #endregion
