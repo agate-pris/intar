@@ -774,7 +774,7 @@ namespace AgatePris.Intar {
             = signed == s and int_nbits <= bits
             or not signed and s and int_nbits <= bits - 1 %}
 
-        {%- for method in ['to', 'strict', 'checked'] %}
+        {%- for method in ['to', 'strict', 'unchecked', 'checked'] %}
 
             {#- 暗黙に変換可能な場合 To 以外は定義しない. #}
             {%- if implicitly_convertible %}
@@ -795,6 +795,15 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        {%- elif method == 'unchecked' %}
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
         /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
         {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
@@ -803,13 +812,15 @@ namespace AgatePris.Intar {
         /// </div>
         /// </summary>
         /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        /// <seealso cref="UncheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
         {%- else %}
         /// </summary>
         {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }}
         {%- if method == 'checked' %}? Checked{% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif -%}
+        {%- if method == 'strict' %}Strict{% endif %}
+        {%- if method == 'unchecked' %}Unchecked{% endif -%}
         To{% if not s %}U{% endif %}Int{{ bits }}() {
             {%- if method != 'checked' %}
             return {% if method == 'strict' %}checked
