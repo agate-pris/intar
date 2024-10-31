@@ -584,15 +584,14 @@ namespace AgatePris.Intar {
         {%- if method == 'strict' %}Strict{% endif %}
         {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ from }} num) {
-            {%- if method == 'strict' or method == 'unchecked' %}
+            {%- if method != 'checked' %}
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
             return FromBits(
-            {%- if method == 'strict' %}checked
-            {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * OneRepr)));
-            {%- endif %}
-            {%- if method == 'checked' %}
+                {%- if method == 'strict' %}checked
+                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * OneRepr)));
+            {%- else %}
                 {%- if not lossy %}
             // より大きい型に変換して計算。
             return CheckedLossyFrom(num);
@@ -687,7 +686,7 @@ namespace AgatePris.Intar {
         {%- if method == 'strict' %}Strict{% endif %}
         {%- if method == 'unchecked' %}Unchecked{% endif %}
         {%- if lossy %}Lossy{% endif %}From({{ from }} from) {
-            {%- if method == 'from' or method == 'strict' or method == 'unchecked' %}
+            {%- if method != 'checked' %}
             return FromBits(
                 {%- if method == 'strict' %}checked
                 {%- else %}unchecked{% endif %}(({{ self_bits_type }})
@@ -698,7 +697,7 @@ namespace AgatePris.Intar {
                 {%- endif %})
             );
 
-            {%- elif method == 'checked' %}
+            {%- else %}
 
                 {%- if lossy %}
             var tmp = from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }});
@@ -771,45 +770,52 @@ namespace AgatePris.Intar {
             符号部を除いたビット数について、
             自身の整数部のそれよりも相手のそれの方が大きければ
             変換は必ず成功する。 #}
-        {%- if signed == s and int_nbits <= bits
+        {%- set implicitly_convertible
+            = signed == s and int_nbits <= bits
             or not signed and s and int_nbits <= bits - 1 %}
 
+        {%- for method in ['to', 'strict', 'checked'] %}
+
+            {#- 暗黙に変換可能な場合 To 以外は定義しない. #}
+            {%- if implicitly_convertible %}
+                {%- if method != 'to' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- else %}
+                {%- if method == 'to' %}
+                    {%- continue %}
+                {%- endif %}
+            {%- endif %}
+
         /// <summary>
         /// <para><see cref="{{ t }}" /> への変換を行います。</para>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }} To{% if not s %}U{% endif %}Int{{ bits }}() {
-            return unchecked(({{ t }})(Bits / OneRepr));
-        }
-
-        {#- 自身が符号ありで相手が符号なしか、
-            相手の符号ビットを除いたビット数が自分の符号ビットを除いた整数部よりも大きい場合
-            変換に失敗する場合がある。 #}
-        {%- else %}
-
-        /// <summary>
-        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }} StrictTo{% if not s %}U{% endif %}Int{{ bits }}() {
-            return checked(({{ t }})(Bits / OneRepr));
-        }
-
-        /// <summary>
-        /// <para><see cref="{{ t }}" /> への変換を行います。</para>
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
+        {%- else %}
+        /// </summary>
+        {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }}? CheckedTo{% if not s %}U{% endif %}Int{{ bits }}() {
+        public {{ t }}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif -%}
+        To{% if not s %}U{% endif %}Int{{ bits }}() {
+            {%- if method != 'checked' %}
+            return {% if method == 'strict' %}checked
+            {%- else %}unchecked{% endif %}(({{ t }})(Bits / OneRepr));
+
+            {%- else %}
             var tmp = Bits / OneRepr;
 
             {%- if signed == s %}
@@ -845,9 +851,11 @@ namespace AgatePris.Intar {
             {%- endif %}
 
             return ({{ t }})tmp;
+
+            {%- endif %}
         }
 
-        {%- endif %}
+        {%- endfor %}
 
     {%- endfor %}
 {%- endfor %}
@@ -896,47 +904,47 @@ namespace AgatePris.Intar {
                 or not signed and s and int_nbits > i - 1
                 or signed == s and int_nbits > i %}
 
-            {%- for strict in [false, true] %}
-                {%- if strict or failable %}
+            {%- for method in ['to', 'checked', 'strict'] %}
+
+                {%- if failable %}
+                    {%- if method == 'to' %}
+                        {%- continue %}
+                    {%- endif %}
+                {%- else %}
+                    {%- if method != 'to' %}
+                        {%- continue %}
+                    {%- endif %}
+                {%- endif %}
 
         /// <summary>
         /// <para>Converts to <see cref="{{ to }}" />.</para>
         /// <para><see cref="{{ to }}" /> へ変換します。</para>
-        {%- if failable %}
-            {%- if strict %}
+        {%- if method == 'strict' %}
         /// <div class="WARNING alert alert-info">
         /// <h5>Warning</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}To{{ to }}"/>
-            {%- else %}
+        {%- elif method == 'checked' %}
         /// <div class="NOTE alert alert-info">
         /// <h5>Note</h5>
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
         /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}To{{ to }}"/>
-            {%- endif %}
         {%- else %}
         /// </summary>
         {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ to }}
-        {%- if failable %}
-            {%- if strict %} Strict
-            {%- else %}? Checked
-            {%- endif %}
-        {%- else %} {% endif %}
+        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
+        {%- if method == 'strict' %}Strict{% endif %}
         {%- if lossy %}Lossy{% endif %}To{{ to }}() => {{ to }}.
-            {%- if failable %}
-                {%- if strict %}Strict
-                {%- else %}Checked
-                {%- endif %}
-            {%- endif %}
+            {%- if method == 'strict' %}Strict{% endif %}
+            {%- if method == 'checked' %}Checked{% endif %}
             {%- if lossy %}Lossy{% endif %}From(this);
 
-                {%- endif %}
             {%- endfor %}
 
         {%- endif %}
