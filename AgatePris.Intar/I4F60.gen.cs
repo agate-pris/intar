@@ -548,6 +548,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(float)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -563,6 +564,30 @@ namespace AgatePris.Intar {
             return FromBits(checked((long)(num * OneRepr)));
         }
 
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
+        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(float)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I4F60.UncheckedFrom(1.0f);
+        /// System.Assert.AreEqual(1L &lt;&lt; 60, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I4F60 UncheckedFrom(float num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(unchecked((long)(num * OneRepr)));
+        }
+
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
         // 現時点では未実装。
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
@@ -575,6 +600,7 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
+        /// <seealso cref="UncheckedFrom(double)"/>
         /// <example>
         /// Basic usage:
         /// <code>
@@ -588,6 +614,30 @@ namespace AgatePris.Intar {
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
             return FromBits(checked((long)(num * OneRepr)));
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
+        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
+        /// <div class="CAUTION alert alert-info">
+        /// <h5>Caution</h5>
+        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
+        /// </div>
+        /// </summary>
+        /// <seealso cref="StrictFrom(double)"/>
+        /// <example>
+        /// Basic usage:
+        /// <code>
+        /// var a = I4F60.UncheckedFrom(1.0);
+        /// System.Assert.AreEqual(1L &lt;&lt; 60, a.Bits);
+        /// </code>
+        /// </example>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I4F60 UncheckedFrom(double num) {
+            // OneRepr は 2 の自然数冪であるから、
+            // その乗算および型変換によって精度が失われることは
+            // 基数 (Radix) が 2 の自然数冪でない限りない。
+            return FromBits(unchecked((long)(num * OneRepr)));
         }
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
