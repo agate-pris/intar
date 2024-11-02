@@ -234,6 +234,19 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 AsinP7() => I2F62.FromBits(Mathi.AsinP7(Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP2() => I2F62.FromBits(Mathi.AtanP2(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP3() => I2F62.FromBits(Mathi.AtanP3(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP9() => I2F62.FromBits(Mathi.AtanP9(Bits));
+
+        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
+        // 実装のために 128 ビット整数が必要なため、
+        // 64 ビットの固定小数点数に対しては未実装。
+
         //
         // Convert from
         //

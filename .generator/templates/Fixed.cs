@@ -313,6 +313,7 @@ namespace AgatePris.Intar {
 {%- if signed %}
     {%- if int_nbits == 17 and frac_nbits == 15
         or int_nbits == 33 and frac_nbits == 31 %}
+
         {%- for order in [3, 7] %}
 
             {%- if order == 7 and int_nbits < 32 %}
@@ -329,7 +330,43 @@ namespace AgatePris.Intar {
         public {{ asin }} AsinP{{ order }}() => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(Bits));
 
         {%- endfor %}
+
+        {%- for order in [2, 3, 9] %}
+            {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
+            {%- if order == 9 and int_nbits < 32 %}
+                {%- continue %}
+            {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ atan }} AtanP{{ order }}() => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(Bits));
+        {%- endfor %}
+
     {%- endif %}
+
+    {%- if int_nbits+frac_nbits > 32 %}
+
+        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
+        // 実装のために 128 ビット整数が必要なため、
+        // 64 ビットの固定小数点数に対しては未実装。
+
+    {%- else %}
+
+        {%- for order in [2, 3, 9] %}
+            {%- if order < 9 %}
+                {%- set f = 32-2 %}
+            {%- else %}
+                {%- set f = 64-2 %}
+            {%- endif %}
+            {%- set atan = macros::fixed_type(i=2, f=f, s=true) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
+            return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(Bits, other.Bits));
+        }
+        {%- endfor %}
+
+    {%- endif %}
+
 {%- endif %}
 
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}

@@ -214,6 +214,21 @@ namespace AgatePris.Intar {
             return I4F60.FromBits(Bits * other.Bits);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Atan2P2(I2F30 other) {
+            return I2F30.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Atan2P3(I2F30 other) {
+            return I2F30.FromBits(Mathi.Atan2P3(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P9(I2F30 other) {
+            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+        }
+
         // ベクトル型との演算
         // ------------------
 
