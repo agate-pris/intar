@@ -194,6 +194,18 @@ namespace AgatePris.Intar {
         public static int WrappingSubUnsigned(int x, uint y) => WrappingSub(x, unchecked((int)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingSubUnsigned(long x, ulong y) => WrappingSub(x, unchecked((long)y));
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 WrappingSub(Int128 x, Int128 y) => unchecked(x - y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 WrappingSub(UInt128 x, UInt128 y) => unchecked(x - y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 WrappingSubUnsigned(Int128 x, UInt128 y) => WrappingSub(x, unchecked((Int128)y));
+
+#endif // NET7_0_OR_GREATER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint AbsDiff(int x, int y) {
             unchecked {
