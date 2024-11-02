@@ -222,6 +222,18 @@ namespace AgatePris.Intar {
 
 #endif
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62 AcosP3() => U2F62.FromBits(Mathi.AcosP3(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AsinP3() => I2F62.FromBits(Mathi.AsinP3(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62 AcosP7() => U2F62.FromBits(Mathi.AcosP7(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AsinP7() => I2F62.FromBits(Mathi.AsinP7(Bits));
+
         //
         // Convert from
         //

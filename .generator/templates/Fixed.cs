@@ -310,6 +310,28 @@ namespace AgatePris.Intar {
     {%- endfor %}
 {%- endfor %}
 
+{%- if signed %}
+    {%- if int_nbits == 17 and frac_nbits == 15
+        or int_nbits == 33 and frac_nbits == 31 %}
+        {%- for dim in [3, 7] %}
+
+            {%- if dim == 7 and int_nbits < 32 %}
+                {%- continue %}
+            {%- endif %}
+
+            {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
+            {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ acos }} AcosP{{ dim }}() => {{ acos }}.FromBits(Mathi.AcosP{{ dim }}(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ asin }} AsinP{{ dim }}() => {{ asin }}.FromBits(Mathi.AsinP{{ dim }}(Bits));
+
+        {%- endfor %}
+    {%- endif %}
+{%- endif %}
+
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
             "SinP4",

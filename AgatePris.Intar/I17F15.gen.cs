@@ -214,6 +214,12 @@ namespace AgatePris.Intar {
             return I34F30.FromBits(Bits * other.Bits);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F30 AcosP3() => U2F30.FromBits(Mathi.AcosP3(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 AsinP3() => I2F30.FromBits(Mathi.AsinP3(Bits));
+
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
         /// </summary>
