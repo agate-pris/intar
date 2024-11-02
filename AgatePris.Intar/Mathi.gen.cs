@@ -778,10 +778,10 @@ namespace AgatePris.Intar {
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Half(int x) => x / 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Half(uint x) => x / 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Half(long x) => x / 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Half(ulong x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Half(int x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Half(uint x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Half(long x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Half(ulong x) => x / 2;
 
         internal static class SinInternal {
             internal enum Quadrant : byte {
@@ -1475,10 +1475,10 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Twice(int x) => x * 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Twice(uint x) => x * 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Twice(long x) => x * 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Twice(ulong x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Twice(int x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Twice(uint x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Twice(long x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Twice(ulong x) => x * 2;
 
     }
 }
