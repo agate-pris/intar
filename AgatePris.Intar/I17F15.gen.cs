@@ -156,9 +156,9 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I17F15 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 Clamp(
-            I17F15 min, I17F15 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public I17F15 Clamp(I17F15 min, I17F15 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I17F15 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I17F15 Twice() => FromBits(Mathi.Twice(Bits));

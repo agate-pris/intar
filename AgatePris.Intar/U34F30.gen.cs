@@ -162,9 +162,9 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U34F30 Max(U34F30 other) => FromBits(Math.Max(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U34F30 Clamp(
-            U34F30 min, U34F30 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public U34F30 Clamp(U34F30 min, U34F30 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U34F30 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U34F30 Twice() => FromBits(Mathi.Twice(Bits));

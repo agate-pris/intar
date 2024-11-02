@@ -181,16 +181,14 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector2I2F30 Twice() => new Vector2I2F30(X.Twice(), Y.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 Clamp(I2F30 min, I2F30 max) => new Vector2I2F30(
-            X.Clamp(min, max),
-            Y.Clamp(min, max));
+        public Vector2I2F30 Clamp(I2F30 min, I2F30 max) {
+            return new Vector2I2F30(X.Clamp(min, max), Y.Clamp(min, max));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I2F30 Clamp(
-            Vector2I2F30 min, Vector2I2F30 max
-        ) => new Vector2I2F30(
-            X.Clamp(min.X, max.X),
-            Y.Clamp(min.Y, max.Y));
+        public Vector2I2F30 Clamp(Vector2I2F30 min, Vector2I2F30 max) {
+            return new Vector2I2F30(X.Clamp(min.X, max.X), Y.Clamp(min.Y, max.Y));
+        }
 
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 

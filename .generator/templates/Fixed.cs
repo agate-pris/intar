@@ -206,9 +206,9 @@ namespace AgatePris.Intar {
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp(
-            {{ self_type }} min, {{ self_type }} max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));

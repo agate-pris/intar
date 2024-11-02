@@ -265,20 +265,22 @@ namespace AgatePris.Intar {
             {%- if dim > 3 %}, W.Twice(){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) => new {{ self_type }}(
-            X.Clamp(min, max),
-            Y.Clamp(min, max){% if dim > 2 %},
-            Z.Clamp(min, max){% if dim > 3 %},
-            W.Clamp(min, max){% endif %}{% endif %});
+        public {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) {
+            return new {{ self_type }}({#             -#}
+                X.Clamp(min, max), {#                 -#}
+                Y.Clamp(min, max){% if dim > 2 %}, {# -#}
+                Z.Clamp(min, max){% if dim > 3 %}, {# -#}
+                W.Clamp(min, max){% endif %}{% endif %});
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp(
-            {{ self_type }} min, {{ self_type }} max
-        ) => new {{ self_type }}(
-            X.Clamp(min.X, max.X),
-            Y.Clamp(min.Y, max.Y){% if dim > 2 %},
-            Z.Clamp(min.Z, max.Z){% if dim > 3 %},
-            W.Clamp(min.W, max.W){% endif %}{% endif %});
+        public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
+            return new {{ self_type }}({#                 -#}
+                X.Clamp(min.X, max.X), {#                 -#}
+                Y.Clamp(min.Y, max.Y){% if dim > 2 %}, {# -#}
+                Z.Clamp(min.Z, max.Z){% if dim > 3 %}, {# -#}
+                W.Clamp(min.W, max.W){% endif %}{% endif %});
+        }
 
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
