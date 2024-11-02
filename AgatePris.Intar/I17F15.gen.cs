@@ -220,6 +220,27 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 AsinP3() => I2F30.FromBits(Mathi.AsinP3(Bits));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 AtanP2() => I2F30.FromBits(Mathi.AtanP2(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 AtanP3() => I2F30.FromBits(Mathi.AtanP3(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Atan2P2(I17F15 other) {
+            return I2F30.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Atan2P3(I17F15 other) {
+            return I2F30.FromBits(Mathi.Atan2P3(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P9(I17F15 other) {
+            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+        }
+
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
         /// </summary>
