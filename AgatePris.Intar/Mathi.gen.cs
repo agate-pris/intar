@@ -5,6 +5,8 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        #region Asin / Acos
+
         internal static class AsinInternal {
             const decimal Frac2Pi = 2 / Pi;
             const decimal Z32 = Frac2Pi * (1UL << 31);
@@ -231,6 +233,10 @@ namespace AgatePris.Intar {
                 default: return (long)AsinInternal.P7((ulong)-x) - fracPi2;
             }
         }
+
+        #endregion
+
+        #region Atan
 
         internal static class AtanInternal {
             // Round(K * Inv(a / K))
@@ -650,6 +656,10 @@ namespace AgatePris.Intar {
             }
         }
 
+        #endregion
+
+        #region Clamp
+
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
@@ -778,10 +788,15 @@ namespace AgatePris.Intar {
 #endif
         }
 
+        #endregion
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Half(int x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Half(uint x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Half(long x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Half(ulong x) => x / 2;
+
+        #region Sin / Cos
 
         internal static class SinInternal {
             internal enum Quadrant : byte {
@@ -1412,6 +1427,8 @@ namespace AgatePris.Intar {
         /// <returns>2 の 62 乗を 1 とする余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long CosP11(long x) => SinP11(Overflowing.WrappingAdd(x, 1L << 31));
+
+        #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {

@@ -30,6 +30,8 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        #region Asin / Acos
+
         internal static class AsinInternal {
             const decimal Frac2Pi = 2 / Pi;
 
@@ -164,6 +166,10 @@ namespace AgatePris.Intar {
             }
         }
         {%- endfor %}
+
+        #endregion
+
+        #region Atan
 
         internal static class AtanInternal {
             // Round(K * Inv(a / K))
@@ -378,6 +384,10 @@ namespace AgatePris.Intar {
 
         {%- endfor %}
 
+        #endregion
+
+        #region Clamp
+
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
 
         /// <summary>
@@ -396,9 +406,14 @@ namespace AgatePris.Intar {
 #endif
         }
 {%- endfor %}
+
+        #endregion
+
 {% for type in ["int", "uint", "long", "ulong"] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
+
+        #region Sin / Cos
 
         internal static class SinInternal {
             internal enum Quadrant : byte {
@@ -630,6 +645,8 @@ namespace AgatePris.Intar {
         public static {{ type }} CosP{{ params[1] }}({{ type }} x) => SinP{{ params[1] }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
         {%- endfor %}
         {%- endfor %}
+
+        #endregion
 
 {%- for bits in [32, 64] %}
 {%- set type=macros::inttype(bits=bits, signed=false) %}
