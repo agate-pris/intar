@@ -207,26 +207,6 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint AbsDiff(int x, int y) {
-            unchecked {
-                var ux = (uint)x;
-                var uy = (uint)y;
-                return (x < y)
-                    ? WrappingSub(uy, ux)
-                    : WrappingSub(ux, uy);
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong AbsDiff(long x, long y) {
-            unchecked {
-                var ux = (ulong)x;
-                var uy = (ulong)y;
-                return (x < y)
-                    ? WrappingSub(uy, ux)
-                    : WrappingSub(ux, uy);
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingNeg(int x) => WrappingSub(0, x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingNeg(long x) => WrappingSub(0L, x);
@@ -263,19 +243,6 @@ namespace AgatePris.Intar {
         public static long WrappingMul(long x, long y) => unchecked(x * y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingMul(ulong x, ulong y) => unchecked(x * y);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint AbsDiff(uint x, uint y) {
-            return (x < y)
-                ? y - x
-                : x - y;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong AbsDiff(ulong x, ulong y) {
-            return (x < y)
-                ? y - x
-                : x - y;
-        }
 
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]

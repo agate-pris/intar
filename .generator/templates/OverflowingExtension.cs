@@ -25,12 +25,6 @@ namespace AgatePris.Intar.Extensions {
     {%- for m in ["WrappingAddUnsigned", "WrappingSubUnsigned"] %}
         {{ inl }} public static {{ t }} {{ m }}(this {{ t }} x, {{ ut }} y) => Overflowing.{{ m }}(x, y);
     {%- endfor %}
-    {%- for m in ["AbsDiff"] %}
-        {{ inl }} public static {{ ut }} {{ m }}(this {{ t }} x, {{ t }} y) => Overflowing.{{ m }}(x, y);
-    {%- endfor %}
-    {%- for m in ["AbsDiff"] %}
-        {{ inl }} public static {{ ut }} {{ m }}(this {{ ut }} x, {{ ut }} y) => Overflowing.{{ m }}(x, y);
-    {%- endfor %}
     {%- for m in ["WrappingAbs"] %}
         {{ inl }} public static {{ t }} {{ m }}(this {{ t }} x) => Overflowing.{{ m }}(x);
     {%- endfor %}

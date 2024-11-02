@@ -5,6 +5,42 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint AbsDiff(int x, int y) {
+            unchecked {
+                var ux = (uint)x;
+                var uy = (uint)y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint AbsDiff(uint x, uint y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AbsDiff(long x, long y) {
+            unchecked {
+                var ux = (ulong)x;
+                var uy = (ulong)y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AbsDiff(ulong x, ulong y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
         #region Asin / Acos
 
         internal static class AsinInternal {
