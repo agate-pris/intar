@@ -1,5 +1,11 @@
 ﻿using NUnit.Framework;
 
+#if NET7_0_OR_GREATER
+
+using System;
+
+#endif // NET7_0_OR_GREATER
+
 namespace AgatePris.Intar.Tests.Mathi {
     public static class MiscTest {
         [Test]
@@ -18,6 +24,19 @@ namespace AgatePris.Intar.Tests.Mathi {
             Utility.AssertAreEqual(Intar.Mathi.AbsDiff(-2L, -100L), 98);
             Utility.AssertAreEqual(Intar.Mathi.AbsDiff(int.MinValue, int.MaxValue), uint.MaxValue);
             Utility.AssertAreEqual(Intar.Mathi.AbsDiff(long.MinValue, long.MaxValue), ulong.MaxValue);
+
+#if NET7_0_OR_GREATER
+
+            Assert.AreEqual(Intar.Mathi.AbsDiff((Int128)2, (Int128)100), (UInt128)98);
+            Assert.AreEqual(Intar.Mathi.AbsDiff((Int128)100, (Int128)2), (UInt128)98);
+            Assert.AreEqual(Intar.Mathi.AbsDiff((Int128)(-2), (Int128)100), (UInt128)102);
+            Assert.AreEqual(Intar.Mathi.AbsDiff((Int128)(-2), (Int128)(-100)), (UInt128)98);
+            Assert.AreEqual(Intar.Mathi.AbsDiff((UInt128)2, (UInt128)100), (UInt128)98);
+            Assert.AreEqual(Intar.Mathi.AbsDiff((UInt128)100, (UInt128)2), (UInt128)98);
+            Assert.AreEqual(Intar.Mathi.AbsDiff(Int128.MinValue, Int128.MaxValue), UInt128.MaxValue);
+
+#endif // NET7_0_OR_GREATER
+
         }
     }
 }

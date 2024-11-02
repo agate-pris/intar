@@ -30,7 +30,15 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
-{%- for bits in [32, 64] %}
+{%- for bits in [32, 64, 128] %}
+
+    {%- if bits > 64 %}
+
+        // 128 ビット整数型に対する AbsDiff は .NET 7 以降のみ
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
 
     {%- set st = macros::inttype(bits=bits, signed=true ) %}
     {%- set ut = macros::inttype(bits=bits, signed=false) %}
@@ -52,6 +60,12 @@ namespace AgatePris.Intar {
                 ? y - x
                 : x - y;
         }
+
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
 
 {%- endfor %}
 

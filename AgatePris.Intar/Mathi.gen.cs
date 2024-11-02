@@ -41,6 +41,30 @@ namespace AgatePris.Intar {
                 : x - y;
         }
 
+        // 128 ビット整数型に対する AbsDiff は .NET 7 以降のみ
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 AbsDiff(Int128 x, Int128 y) {
+            unchecked {
+                var ux = (UInt128)x;
+                var uy = (UInt128)y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 AbsDiff(UInt128 x, UInt128 y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+#endif // NET7_0_OR_GREATER
+
         #region Asin / Acos
 
         internal static class AsinInternal {
