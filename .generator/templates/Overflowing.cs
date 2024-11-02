@@ -45,19 +45,6 @@
         public static {{ unsigned }} UnsignedAbs({{ signed }} x) => unchecked(({{ unsigned }})WrappingAbs(x));
 {%- endmacro -%}
 
-{% macro abs_diff_signed(signed, unsigned) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ unsigned }} AbsDiff({{ signed }} x, {{ signed }} y) {
-            unchecked {
-                var ux = ({{ unsigned }})x;
-                var uy = ({{ unsigned }})y;
-                return (x < y)
-                    ? WrappingSub(uy, ux)
-                    : WrappingSub(ux, uy);
-            }
-        }
-{%- endmacro -%}
-
 {% macro overflowing_abs(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -103,15 +90,6 @@
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static {{ type }}? CheckedAbs({{ type }} x) => (x < 0) ? x.CheckedNeg() : x;
-{%- endmacro -%}
-
-{% macro abs_diff_unsigned(type) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} AbsDiff({{ type }} x, {{ type }} y) {
-            return (x < y)
-                ? y - x
-                : x - y;
-        }
 {%- endmacro -%}
 
 using System;
@@ -184,8 +162,6 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-        {{ self::abs_diff_signed(signed = "int", unsigned = "uint") }}
-        {{ self::abs_diff_signed(signed = "long", unsigned = "ulong") }}
         {{ self::wrapping_neg(type = "int", zero = "0") }}
         {{ self::wrapping_neg(type = "long", zero = "0L") }}
         {{ self::wrapping_neg(type = "uint", zero = "0U") }}
@@ -201,9 +177,6 @@ namespace AgatePris.Intar {
         {{ self::wrapping_mul(type = "uint") }}
         {{ self::wrapping_mul(type = "long") }}
         {{ self::wrapping_mul(type = "ulong") }}
-
-        {{ self::abs_diff_unsigned(type = "uint") }}
-        {{ self::abs_diff_unsigned(type = "ulong") }}
 
         {{ self::overflowing_neg_signed(type = "int") }}
         {{ self::overflowing_neg_signed(type = "long") }}

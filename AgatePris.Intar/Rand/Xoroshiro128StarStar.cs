@@ -17,7 +17,7 @@ namespace AgatePris.Intar.Rand {
             return unchecked((long)result);
         }
         public long NextInt64(long minValue, long maxValue) {
-            var d = Overflowing.AbsDiff(minValue, maxValue);
+            var d = Mathi.AbsDiff(minValue, maxValue);
             var x = unchecked((ulong)NextInt64());
             while (ulong.MaxValue / d * d <= x) {
                 x = unchecked((ulong)NextInt64());

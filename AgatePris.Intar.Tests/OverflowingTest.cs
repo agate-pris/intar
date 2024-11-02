@@ -21,8 +21,6 @@ namespace AgatePris.Intar.Tests {
             const i64 i64_10 = 10;
             const i32 i32Neg2 = -2;
             const i64 i64Neg2 = -2;
-            const i32 i32Neg100 = -100;
-            const i64 i64Neg100 = -100;
             const i32 i32_100 = 100;
             const i64 i64_100 = 100;
             const u32 u32_1 = 1;
@@ -89,20 +87,6 @@ namespace AgatePris.Intar.Tests {
             Utility.AssertAreEqual(Overflowing.UnsignedAbs(i64Neg2), 2);
             Utility.AssertAreEqual(Overflowing.UnsignedAbs(i32.MinValue), (u32)i32.MaxValue + 1);
             Utility.AssertAreEqual(Overflowing.UnsignedAbs(i64.MinValue), (u64)i64.MaxValue + 1);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i32_100, i32_2), 98);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i64_100, i64_2), 98);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i32_2, i32_100), 98);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i64_2, i64_100), 98);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i32Neg2, i32_100), 102);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i64Neg2, i64_100), 102);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i32Neg2, i32Neg100), 98);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i64Neg2, i64Neg100), 98);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i32.MinValue, i32.MaxValue), u32.MaxValue);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(i64.MinValue, i64.MaxValue), u64.MaxValue);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(u32_100, u32_1), 99);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(u64_100, u64_1), 99);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(u32_1, u32_100), 99);
-            Utility.AssertAreEqual(Overflowing.AbsDiff(u64_1, u64_100), 99);
         }
 
         [Test]

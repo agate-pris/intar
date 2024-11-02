@@ -30,6 +30,31 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+{%- for bits in [32, 64] %}
+
+    {%- set st = macros::inttype(bits=bits, signed=true ) %}
+    {%- set ut = macros::inttype(bits=bits, signed=false) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ ut }} AbsDiff({{ st }} x, {{ st }} y) {
+            unchecked {
+                var ux = ({{ ut }})x;
+                var uy = ({{ ut }})y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ ut }} AbsDiff({{ ut }} x, {{ ut }} y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+{%- endfor %}
+
         #region Asin / Acos
 
         internal static class AsinInternal {
