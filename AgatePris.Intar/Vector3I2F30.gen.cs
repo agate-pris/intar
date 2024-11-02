@@ -204,17 +204,8 @@ namespace AgatePris.Intar {
             Y.Abs(),
             Z.Abs());
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 Half() => new Vector3I2F30(
-            X.Half(),
-            Y.Half(),
-            Z.Half());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 Twice() => new Vector3I2F30(
-            X.Twice(),
-            Y.Twice(),
-            Z.Twice());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector3I2F30 Half() => new Vector3I2F30(X.Half(), Y.Half(), Z.Half());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector3I2F30 Twice() => new Vector3I2F30(X.Twice(), Y.Twice(), Z.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I2F30 Clamp(I2F30 min, I2F30 max) => new Vector3I2F30(

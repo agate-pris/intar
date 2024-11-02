@@ -166,9 +166,8 @@ namespace AgatePris.Intar {
             U2F62 min, U2F62 max
         ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U2F62 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U2F62 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool OverflowingAdd(U2F62 other, out U2F62 result) {

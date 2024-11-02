@@ -397,7 +397,7 @@ namespace AgatePris.Intar {
         }
 {%- endfor %}
 {% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
 
         internal static class SinInternal {
@@ -680,7 +680,7 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
 {% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Twice({{ type }} x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Twice({{ type }} x) => x * 2;
 {%- endfor %}
 
     }
