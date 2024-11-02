@@ -175,6 +175,15 @@ namespace AgatePris.Intar {
         {{ self::wrapping_sub(type = "ulong") }}
         {{- self::wrapping_sub_unsigned(signed="int", unsigned="uint") }}
         {{- self::wrapping_sub_unsigned(signed="long", unsigned="ulong") }}
+
+#if NET7_0_OR_GREATER
+
+        {{ self::wrapping_sub(type = "Int128") }}
+        {{ self::wrapping_sub(type = "UInt128") }}
+        {{- self::wrapping_sub_unsigned(signed="Int128", unsigned="UInt128") }}
+
+#endif // NET7_0_OR_GREATER
+
         {{ self::abs_diff_signed(signed = "int", unsigned = "uint") }}
         {{ self::abs_diff_signed(signed = "long", unsigned = "ulong") }}
         {{ self::wrapping_neg(type = "int", zero = "0") }}
