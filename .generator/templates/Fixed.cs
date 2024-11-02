@@ -313,9 +313,9 @@ namespace AgatePris.Intar {
 {%- if signed %}
     {%- if int_nbits == 17 and frac_nbits == 15
         or int_nbits == 33 and frac_nbits == 31 %}
-        {%- for dim in [3, 7] %}
+        {%- for order in [3, 7] %}
 
-            {%- if dim == 7 and int_nbits < 32 %}
+            {%- if order == 7 and int_nbits < 32 %}
                 {%- continue %}
             {%- endif %}
 
@@ -323,10 +323,10 @@ namespace AgatePris.Intar {
             {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ acos }} AcosP{{ dim }}() => {{ acos }}.FromBits(Mathi.AcosP{{ dim }}(Bits));
+        public {{ acos }} AcosP{{ order }}() => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ asin }} AsinP{{ dim }}() => {{ asin }}.FromBits(Mathi.AsinP{{ dim }}(Bits));
+        public {{ asin }} AsinP{{ order }}() => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(Bits));
 
         {%- endfor %}
     {%- endif %}
