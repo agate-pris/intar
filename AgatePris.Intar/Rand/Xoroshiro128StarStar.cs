@@ -17,7 +17,11 @@ namespace AgatePris.Intar.Rand {
             return result;
         }
         public long NextInt64() {
-            return unchecked((long)NextInt64());
+            var result = NextUInt64();
+            while (result == 1UL << 63) {
+                result = NextUInt64();
+            }
+            return unchecked((long)result);
         }
         public long NextInt64(long minValue, long maxValue) {
             var d = Mathi.AbsDiff(minValue, maxValue);
