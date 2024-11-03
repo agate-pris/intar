@@ -304,13 +304,6 @@ namespace AgatePris.Intar {
             Z.SaturatingAdd(other.Z){% if dim > 3 %},
             W.SaturatingAdd(other.W){% endif %}{% endif %});
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingMul({{ self_component_type }} other) => new {{ self_type }}(
-            X.SaturatingMul(other),
-            Y.SaturatingMul(other){% if dim > 2 %},
-            Z.SaturatingMul(other){% if dim > 3 %},
-            W.SaturatingMul(other){% endif %}{% endif %});
-
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

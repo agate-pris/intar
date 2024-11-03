@@ -269,13 +269,6 @@ namespace AgatePris.Intar {
             W.SaturatingAdd(other.W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 SaturatingMul(I2F30 other) => new Vector4I2F30(
-            X.SaturatingMul(other),
-            Y.SaturatingMul(other),
-            Z.SaturatingMul(other),
-            W.SaturatingMul(other));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         long DotInternal(Vector4I2F30 other) {
             var x = ((long)X.Bits) * other.X.Bits;
             var y = ((long)Y.Bits) * other.Y.Bits;
