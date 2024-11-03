@@ -396,33 +396,6 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endif %}
 
-        {%- for v in vector_list %}
-        {%- if v[0] == int_nbits and v[1] == frac_nbits %}
-
-        // ベクトル型との演算
-        // ------------------
-
-{%- if not signed %}
-
-#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-{%- endif %}
-{# これは改行を挿入するためのコメントです #}
-
-        {%- for dim in [2, 3, 4] %}
-        {%- set vec_type = macros::vector_type(dim=dim, type=self_type) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
-        {%- endfor %}
-
-{%-if not signed %}
-
-#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-{%- endif %}
-
-        {%- endif %}
-        {%- endfor %}
-
         //
         // Convert from
         //
