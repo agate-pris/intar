@@ -22,12 +22,10 @@ namespace AgatePris.Intar.Extensions {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int WrappingAddUnsigned(this int x, uint y) => Overflowing.WrappingAddUnsigned(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int WrappingSubUnsigned(this int x, uint y) => Overflowing.WrappingSubUnsigned(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int WrappingAbs(this int x) => Overflowing.WrappingAbs(x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint UnsignedAbs(this int x) => Overflowing.UnsignedAbs(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong WrappingAddSigned(this ulong x, long y) => Overflowing.WrappingAddSigned(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long WrappingAddUnsigned(this long x, ulong y) => Overflowing.WrappingAddUnsigned(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long WrappingSubUnsigned(this long x, ulong y) => Overflowing.WrappingSubUnsigned(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long WrappingAbs(this long x) => Overflowing.WrappingAbs(x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong UnsignedAbs(this long x) => Overflowing.UnsignedAbs(x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool OverflowingAdd(this int x, int y, out int result) => Overflowing.OverflowingAdd(x, y, out result);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int? CheckedAdd(this int x, int y) => Overflowing.CheckedAdd(x, y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int SaturatingAdd(this int x, int y) => Overflowing.SaturatingAdd(x, y);
