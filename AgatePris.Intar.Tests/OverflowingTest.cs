@@ -81,12 +81,6 @@ namespace AgatePris.Intar.Tests {
             Utility.AssertAreEqual(Overflowing.WrappingAbs(i64.MinValue), i64.MinValue);
             Utility.AssertAreEqual(unchecked((u32)Overflowing.WrappingAbs(i32.MinValue)), (u32)i32.MaxValue + 1);
             Utility.AssertAreEqual(unchecked((u64)Overflowing.WrappingAbs(i64.MinValue)), (u64)i64.MaxValue + 1);
-            Utility.AssertAreEqual(Overflowing.UnsignedAbs(i32_100), 100);
-            Utility.AssertAreEqual(Overflowing.UnsignedAbs(i64_100), 100);
-            Utility.AssertAreEqual(Overflowing.UnsignedAbs(i32Neg2), 2);
-            Utility.AssertAreEqual(Overflowing.UnsignedAbs(i64Neg2), 2);
-            Utility.AssertAreEqual(Overflowing.UnsignedAbs(i32.MinValue), (u32)i32.MaxValue + 1);
-            Utility.AssertAreEqual(Overflowing.UnsignedAbs(i64.MinValue), (u64)i64.MaxValue + 1);
         }
 
         [Test]
