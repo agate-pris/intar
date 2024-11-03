@@ -235,13 +235,6 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        // ベクトル型との演算
-        // ------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I2F30 SaturatingMul(Vector2I2F30 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I2F30 SaturatingMul(Vector3I2F30 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I2F30 SaturatingMul(Vector4I2F30 other) => other.SaturatingMul(this);
-
         //
         // Convert from
         //
