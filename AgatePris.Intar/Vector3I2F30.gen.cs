@@ -228,12 +228,6 @@ namespace AgatePris.Intar {
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 SaturatingAdd(Vector3I2F30 other) => new Vector3I2F30(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y),
-            Z.SaturatingAdd(other.Z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CrossInternal(Vector3I2F30 other, out long x, out long y, out long z) {
             var ax = (long)X.Bits;
             var ay = (long)Y.Bits;
