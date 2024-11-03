@@ -1557,5 +1557,15 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Twice(long x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Twice(ulong x) => x * 2;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint UnsignedAbs(int x) {
+            return unchecked((uint)Overflowing.WrappingAbs(x));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong UnsignedAbs(long x) {
+            return unchecked((ulong)Overflowing.WrappingAbs(x));
+        }
+
     }
 }
