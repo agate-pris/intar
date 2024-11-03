@@ -351,6 +351,9 @@ namespace AgatePris.Intar {
 
     {%- else %}
 
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
         {%- for order in [2, 3, 9] %}
             {%- if order < 9 %}
                 {%- set f = 32-2 %}
@@ -364,6 +367,9 @@ namespace AgatePris.Intar {
             return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(Bits, other.Bits));
         }
         {%- endfor %}
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
     {%- endif %}
 

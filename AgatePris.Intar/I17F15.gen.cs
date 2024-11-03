@@ -226,6 +226,9 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 AtanP3() => I2F30.FromBits(Mathi.AtanP3(Bits));
 
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 Atan2P2(I17F15 other) {
             return I2F30.FromBits(Mathi.Atan2P2(Bits, other.Bits));
@@ -240,6 +243,9 @@ namespace AgatePris.Intar {
         public I2F62 Atan2P9(I17F15 other) {
             return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
         }
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。

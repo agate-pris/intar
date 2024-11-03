@@ -214,6 +214,9 @@ namespace AgatePris.Intar {
             return I4F60.FromBits(Bits * other.Bits);
         }
 
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 Atan2P2(I2F30 other) {
             return I2F30.FromBits(Mathi.Atan2P2(Bits, other.Bits));
@@ -228,6 +231,9 @@ namespace AgatePris.Intar {
         public I2F62 Atan2P9(I2F30 other) {
             return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
         }
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         // ベクトル型との演算
         // ------------------
