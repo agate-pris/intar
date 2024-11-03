@@ -54,13 +54,6 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar/Extensions",
-            "template_name": "OverflowingExtension.cs",
-            "files": [
-                { "file_name": "OverflowingExtension.gen.cs", "params": {} }
-            ]
-        },
-        {
             "dir_path": "../AgatePris.Intar",
             "template_name": "Vector.cs",
             "files": [
