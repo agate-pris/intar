@@ -426,10 +426,10 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ len_sqr_ty }} LengthSquared() {
-            var a1 = Overflowing.UnsignedAbs(X.Bits);
-            var a2 = Overflowing.UnsignedAbs(Y.Bits);{% if dim > 2 %}
-            var a3 = Overflowing.UnsignedAbs(Z.Bits);{% if dim > 3 %}
-            var a4 = Overflowing.UnsignedAbs(W.Bits);{% endif %}{% endif %}
+            var a1 = Mathi.UnsignedAbs(X.Bits);
+            var a2 = Mathi.UnsignedAbs(Y.Bits);{% if dim > 2 %}
+            var a3 = Mathi.UnsignedAbs(Z.Bits);{% if dim > 3 %}
+            var a4 = Mathi.UnsignedAbs(W.Bits);{% endif %}{% endif %}
             var s1 = ({{ self_wide_bits_unsigned_type }})a1 * a1;
             var s2 = ({{ self_wide_bits_unsigned_type }})a2 * a2;{% if dim > 2 %}
             var s3 = ({{ self_wide_bits_unsigned_type }})a3 * a3;{% if dim > 3 %}
