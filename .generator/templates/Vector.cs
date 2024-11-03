@@ -297,13 +297,6 @@ namespace AgatePris.Intar {
 
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y){% if dim > 2 %},
-            Z.SaturatingAdd(other.Z){% if dim > 3 %},
-            W.SaturatingAdd(other.W){% endif %}{% endif %});
-
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

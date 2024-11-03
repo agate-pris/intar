@@ -262,13 +262,6 @@ namespace AgatePris.Intar {
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 SaturatingAdd(Vector4I2F30 other) => new Vector4I2F30(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y),
-            Z.SaturatingAdd(other.Z),
-            W.SaturatingAdd(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         long DotInternal(Vector4I2F30 other) {
             var x = ((long)X.Bits) * other.X.Bits;
             var y = ((long)Y.Bits) * other.Y.Bits;
