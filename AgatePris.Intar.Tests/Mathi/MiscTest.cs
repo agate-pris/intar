@@ -38,5 +38,15 @@ namespace AgatePris.Intar.Tests.Mathi {
 #endif // NET7_0_OR_GREATER
 
         }
+
+        [Test]
+        public static void TestUnsignedAbs() {
+            Utility.AssertAreEqual(Intar.Mathi.UnsignedAbs(100), 100);
+            Utility.AssertAreEqual(Intar.Mathi.UnsignedAbs(100L), 100);
+            Utility.AssertAreEqual(Intar.Mathi.UnsignedAbs(-2), 2);
+            Utility.AssertAreEqual(Intar.Mathi.UnsignedAbs(-2L), 2);
+            Utility.AssertAreEqual(Intar.Mathi.UnsignedAbs(int.MinValue), (uint)int.MaxValue + 1);
+            Utility.AssertAreEqual(Intar.Mathi.UnsignedAbs(long.MinValue), (ulong)long.MaxValue + 1);
+        }
     }
 }

@@ -218,10 +218,6 @@ namespace AgatePris.Intar {
         public static int WrappingAbs(int x) => (x < 0) ? WrappingNeg(x) : x;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingAbs(long x) => (x < 0) ? WrappingNeg(x) : x;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint UnsignedAbs(int x) => unchecked((uint)WrappingAbs(x));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong UnsignedAbs(long x) => unchecked((ulong)WrappingAbs(x));
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingAbs(int, out int result) {

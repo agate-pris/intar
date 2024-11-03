@@ -165,7 +165,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U17F15 UnsignedAbs() {
-            return U17F15.FromBits(Overflowing.UnsignedAbs(Bits));
+            return U17F15.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -40,11 +40,6 @@
         public static {{ type }} WrappingAbs({{ type }} x) => (x < 0) ? WrappingNeg(x) : x;
 {%- endmacro -%}
 
-{% macro unsigned_abs(signed, unsigned) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ unsigned }} UnsignedAbs({{ signed }} x) => unchecked(({{ unsigned }})WrappingAbs(x));
-{%- endmacro -%}
-
 {% macro overflowing_abs(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -168,8 +163,6 @@ namespace AgatePris.Intar {
         {{ self::wrapping_neg(type = "ulong", zero = "0UL") }}
         {{ self::wrapping_abs(type = "int") }}
         {{ self::wrapping_abs(type = "long") }}
-        {{ self::unsigned_abs(signed = "int", unsigned = "uint") }}
-        {{ self::unsigned_abs(signed = "long", unsigned = "ulong") }}
         {{ self::overflowing_abs(type = "int") }}
         {{ self::overflowing_abs(type = "long") }}
 

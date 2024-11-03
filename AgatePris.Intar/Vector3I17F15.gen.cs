@@ -331,9 +331,9 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 LengthSquared() {
-            var a1 = Overflowing.UnsignedAbs(X.Bits);
-            var a2 = Overflowing.UnsignedAbs(Y.Bits);
-            var a3 = Overflowing.UnsignedAbs(Z.Bits);
+            var a1 = Mathi.UnsignedAbs(X.Bits);
+            var a2 = Mathi.UnsignedAbs(Y.Bits);
+            var a3 = Mathi.UnsignedAbs(Z.Bits);
             var s1 = (ulong)a1 * a1;
             var s2 = (ulong)a2 * a2;
             var s3 = (ulong)a3 * a3;
