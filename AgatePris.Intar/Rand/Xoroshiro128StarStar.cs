@@ -7,14 +7,17 @@ namespace AgatePris.Intar.Rand {
             this.s1 = s1;
         }
 
-        public long NextInt64() {
+        public ulong NextUInt64() {
             var s0 = this.s0;
             var s1 = this.s1;
             var result = unchecked(BitOperations.RotateLeft(s0 * 5, 7) * 9);
             s1 ^= s0;
             this.s0 = BitOperations.RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);
             this.s1 = BitOperations.RotateLeft(s1, 37);
-            return unchecked((long)result);
+            return result;
+        }
+        public long NextInt64() {
+            return unchecked((long)NextInt64());
         }
         public long NextInt64(long minValue, long maxValue) {
             var d = Mathi.AbsDiff(minValue, maxValue);
