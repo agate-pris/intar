@@ -28,9 +28,6 @@ namespace AgatePris.Intar.Extensions {
     {%- for m in ["WrappingAbs"] %}
         {{ inl }} public static {{ t }} {{ m }}(this {{ t }} x) => Overflowing.{{ m }}(x);
     {%- endfor %}
-    {%- for m in ["UnsignedAbs"] %}
-        {{ inl }} public static {{ ut }} {{ m }}(this {{ t }} x) => Overflowing.{{ m }}(x);
-    {%- endfor %}
 {%- endfor %}
 
 {%- for t in ['int', 'uint', 'long', 'ulong'] %}
