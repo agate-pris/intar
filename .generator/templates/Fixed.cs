@@ -248,14 +248,14 @@ namespace AgatePris.Intar {
 
 {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked(({{ self_bits_type }})bits));
-            return bits < {{
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
+        //    var bits = WideBits * other.Bits / OneRepr;
+        //    result = FromBits(unchecked(({{ self_bits_type }})bits));
+        //    return bits < {{
                 self_bits_type }}.MinValue || bits > {{
                 self_bits_type }}.MaxValue;
-        }
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public {{ self_type }}? CheckedMul({{ self_type }} other) {
         //    {{ self_type }}? @null = null;

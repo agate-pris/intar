@@ -201,12 +201,12 @@ namespace AgatePris.Intar {
 
 #if NET7_0_OR_GREATER
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul(I4F60 other, out I4F60 result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked((long)bits));
-            return bits < long.MinValue || bits > long.MaxValue;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //bool OverflowingMul(I4F60 other, out I4F60 result) {
+        //    var bits = WideBits * other.Bits / OneRepr;
+        //    result = FromBits(unchecked((long)bits));
+        //    return bits < long.MinValue || bits > long.MaxValue;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public I4F60? CheckedMul(I4F60 other) {
         //    I4F60? @null = null;
