@@ -181,10 +181,10 @@ namespace AgatePris.Intar {
             var b = OverflowingAdd(other, out var result);
             return b ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 SaturatingAdd(U33F31 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public U33F31 SaturatingAdd(U33F31 other) {
+        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        //}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.

@@ -234,10 +234,10 @@ namespace AgatePris.Intar {
             var b = OverflowingAdd(other, out var result);
             return b ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public {{ self_type }} SaturatingAdd({{ self_type }} other) {
+        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        //}
 
 {%- if int_nbits + frac_nbits > 32 %}
 
