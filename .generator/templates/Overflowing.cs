@@ -1,10 +1,5 @@
 {% import "macros.cs" as macros %}
 
-{% macro wrapping_add(type) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingAdd({{ type }} x, {{ type }} y) => unchecked(x + y);
-{%- endmacro -%}
-
 {% macro wrapping_mul(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} WrappingMul({{ type }} x, {{ type }} y) => unchecked(x * y);
@@ -56,11 +51,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictMul({{ t }} x, {{ t }} y) => checked(x * y);
         {%- endfor %}
 
-        {{ self::wrapping_add(type = "int") }}
-        {{ self::wrapping_add(type = "uint") }}
-        {{ self::wrapping_add(type = "long") }}
-        {{ self::wrapping_add(type = "ulong") }}
-
 {%- for bits in [32, 64, 128] %}
 
     {%- if bits > 64 %}
@@ -75,6 +65,15 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
 
         {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        {%- if bits < 128 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ t }} WrappingAdd({{ t }} x, {{ t }} y) {
+            return unchecked(x + y);
+        }
+
+        {%- endif %}
 
         {%- if s %}
 

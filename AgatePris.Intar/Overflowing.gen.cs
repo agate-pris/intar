@@ -142,13 +142,9 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictMul(ulong x, ulong y) => checked(x * y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAdd(int x, int y) => unchecked(x + y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingAdd(uint x, uint y) => unchecked(x + y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAdd(long x, long y) => unchecked(x + y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingAdd(ulong x, ulong y) => unchecked(x + y);
+        public static int WrappingAdd(int x, int y) {
+            return unchecked(x + y);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAddUnsigned(int x, uint y) {
@@ -178,6 +174,11 @@ namespace AgatePris.Intar {
         //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint WrappingAdd(uint x, uint y) {
+            return unchecked(x + y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint WrappingAddSigned(uint x, int y) {
             return WrappingAdd(x, unchecked((uint)y));
         }
@@ -193,6 +194,11 @@ namespace AgatePris.Intar {
         //    var b = OverflowingNeg(x, out var result);
         //    return b ? (uint?)null : result;
         //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingAdd(long x, long y) {
+            return unchecked(x + y);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingAddUnsigned(long x, ulong y) {
@@ -220,6 +226,11 @@ namespace AgatePris.Intar {
         //public static long? CheckedAbs(long x) {
         //    return (x < 0) ? CheckedNeg(x) : x;
         //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong WrappingAdd(ulong x, ulong y) {
+            return unchecked(x + y);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingAddSigned(ulong x, long y) {
