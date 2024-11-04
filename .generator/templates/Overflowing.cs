@@ -294,15 +294,15 @@ namespace AgatePris.Intar {
             {{ t }}? @null = null;
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ t }} SaturatingMul({{
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static {{ t }} SaturatingMul({{
             t }} x, {{
             t }} y) => CheckedMul(x, y) ??
         {%- if s %} (
-            ((x < 0) == (y < 0))
-            ? {{ t }}.MaxValue
-            : {{ t }}.MinValue
-        );
+        //    ((x < 0) == (y < 0))
+        //    ? {{ t }}.MaxValue
+        //    : {{ t }}.MinValue
+        //);
         {%- else %} {{ t }}.MaxValue;
         {%- endif %}
 

@@ -512,12 +512,12 @@ namespace AgatePris.Intar {
             int? @null = null;
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
-            ((x < 0) == (y < 0))
-            ? int.MaxValue
-            : int.MinValue
-        );
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
+        //    ((x < 0) == (y < 0))
+        //    ? int.MaxValue
+        //    : int.MinValue
+        //);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(uint x, uint y, out uint result) {
@@ -530,8 +530,8 @@ namespace AgatePris.Intar {
             uint? @null = null;
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
 
 #if NET5_0_OR_GREATER
 
@@ -547,12 +547,12 @@ namespace AgatePris.Intar {
             long? @null = null;
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long SaturatingMul(long x, long y) => CheckedMul(x, y) ?? (
-            ((x < 0) == (y < 0))
-            ? long.MaxValue
-            : long.MinValue
-        );
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static long SaturatingMul(long x, long y) => CheckedMul(x, y) ?? (
+        //    ((x < 0) == (y < 0))
+        //    ? long.MaxValue
+        //    : long.MinValue
+        //);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool OverflowingMul(ulong x, ulong y, out ulong result) {
@@ -564,8 +564,8 @@ namespace AgatePris.Intar {
             ulong? @null = null;
             return OverflowingMul(x, y, out var result) ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong SaturatingMul(ulong x, ulong y) => CheckedMul(x, y) ?? ulong.MaxValue;
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static ulong SaturatingMul(ulong x, ulong y) => CheckedMul(x, y) ?? ulong.MaxValue;
 
 #endif // NET5_0_OR_GREATER
 
