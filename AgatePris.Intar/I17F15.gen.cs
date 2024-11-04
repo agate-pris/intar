@@ -180,10 +180,10 @@ namespace AgatePris.Intar {
             var b = OverflowingAdd(other, out var result);
             return b ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 SaturatingAdd(I17F15 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public I17F15 SaturatingAdd(I17F15 other) {
+        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        //}
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //bool OverflowingMul(I17F15 other, out I17F15 result) {
