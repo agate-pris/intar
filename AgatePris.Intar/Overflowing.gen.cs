@@ -1,5 +1,10 @@
-using System;
 using System.Runtime.CompilerServices;
+
+#if NET7_0_OR_GREATER
+
+using System;
+
+#endif // NET7_0_OR_GREATER
 
 namespace AgatePris.Intar {
     public static class Overflowing {
@@ -501,12 +506,12 @@ namespace AgatePris.Intar {
                 : long.MaxValue);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(int x, int y, out int result) {
-            var l = Math.BigMul(x, y);
-            result = unchecked((int)l);
-            return l < int.MinValue || l > int.MaxValue;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingMul(int x, int y, out int result) {
+        //    var l = Math.BigMul(x, y);
+        //    result = unchecked((int)l);
+        //    return l < int.MinValue || l > int.MaxValue;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static int? CheckedMul(int x, int y) {
         //    int? @null = null;
@@ -519,12 +524,12 @@ namespace AgatePris.Intar {
         //    : int.MinValue
         //);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(uint x, uint y, out uint result) {
-            var l = ((ulong)x) * y;
-            result = unchecked((uint)l);
-            return l > uint.MaxValue;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingMul(uint x, uint y, out uint result) {
+        //    var l = ((ulong)x) * y;
+        //    result = unchecked((uint)l);
+        //    return l > uint.MaxValue;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static uint? CheckedMul(uint x, uint y) {
         //    uint? @null = null;
@@ -535,13 +540,13 @@ namespace AgatePris.Intar {
 
 #if NET5_0_OR_GREATER
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(long x, long y, out long result) {
-            var high = Math.BigMul(x, y, out result);
-            return result < 0
-                ? high != -1
-                : high != 0;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingMul(long x, long y, out long result) {
+        //    var high = Math.BigMul(x, y, out result);
+        //    return result < 0
+        //        ? high != -1
+        //        : high != 0;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static long? CheckedMul(long x, long y) {
         //    long? @null = null;
@@ -554,11 +559,11 @@ namespace AgatePris.Intar {
         //    : long.MinValue
         //);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul(ulong x, ulong y, out ulong result) {
-            var high = Math.BigMul(x, y, out result);
-            return high != 0;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingMul(ulong x, ulong y, out ulong result) {
+        //    var high = Math.BigMul(x, y, out result);
+        //    return high != 0;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static ulong? CheckedMul(ulong x, ulong y) {
         //    ulong? @null = null;
