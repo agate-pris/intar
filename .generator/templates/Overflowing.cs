@@ -266,29 +266,29 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
         {%- set t = macros::inttype(signed=s, bits=bits) %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingMul({{
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingMul({{
             t }} x, {{
             t }} y, out {{ t }} result) {
             {%- if bits > 32 %}
-            var high = Math.BigMul(x, y, out result);
-            return {% if s %}result < 0
-                ? high != -1
-                : {% endif %}high != 0;
+        //    var high = Math.BigMul(x, y, out result);
+        //    return {% if s %}result < 0
+        //        ? high != -1
+        //        : {% endif %}high != 0;
             {%- else %}
                 {%- if s  %}
-            var l = Math.BigMul(x, y);
+        //    var l = Math.BigMul(x, y);
                 {%- else %}
-            var l = ((ulong)x) * y;
+        //    var l = ((ulong)x) * y;
                 {%- endif %}
-            result = unchecked(({{ t }})l);
+        //    result = unchecked(({{ t }})l);
                 {%- if s %}
-            return l < {{ t }}.MinValue || l > {{ t }}.MaxValue;
+        //    return l < {{ t }}.MinValue || l > {{ t }}.MaxValue;
                 {%- else %}
-            return l > {{ t }}.MaxValue;
+        //    return l > {{ t }}.MaxValue;
                 {%- endif %}
             {%- endif %}
-        }
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static {{ t }}? CheckedMul({{ t }} x, {{ t }} y) {
         //    {{ t }}? @null = null;
