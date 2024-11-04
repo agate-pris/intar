@@ -18,7 +18,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictAdd(int x, int y) => checked(x + y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictAdd(int x, int y) => checked(x + y);
 
         /// <summary>
         /// <para>Subtracts two values to compute their difference.</para>
@@ -29,7 +29,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictSub(int x, int y) => checked(x - y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictSub(int x, int y) => checked(x - y);
 
         /// <summary>
         /// <para>Multiplies two values together to compute their product.</para>
@@ -51,7 +51,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictAdd(uint x, uint y) => checked(x + y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictAdd(uint x, uint y) => checked(x + y);
 
         /// <summary>
         /// <para>Subtracts two values to compute their difference.</para>
@@ -62,7 +62,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictSub(uint x, uint y) => checked(x - y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictSub(uint x, uint y) => checked(x - y);
 
         /// <summary>
         /// <para>Multiplies two values together to compute their product.</para>
@@ -84,7 +84,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictAdd(long x, long y) => checked(x + y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictAdd(long x, long y) => checked(x + y);
 
         /// <summary>
         /// <para>Subtracts two values to compute their difference.</para>
@@ -95,7 +95,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictSub(long x, long y) => checked(x - y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictSub(long x, long y) => checked(x - y);
 
         /// <summary>
         /// <para>Multiplies two values together to compute their product.</para>
@@ -117,7 +117,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictAdd(ulong x, ulong y) => checked(x + y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictAdd(ulong x, ulong y) => checked(x + y);
 
         /// <summary>
         /// <para>Subtracts two values to compute their difference.</para>
@@ -128,7 +128,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictSub(ulong x, ulong y) => checked(x - y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictSub(ulong x, ulong y) => checked(x - y);
 
         /// <summary>
         /// <para>Multiplies two values together to compute their product.</para>
