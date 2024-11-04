@@ -199,6 +199,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WrappingAbs(int x) {
+            return (x < 0) ? WrappingNeg(x) : x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint WrappingSub(uint x, uint y) {
             return unchecked(x - y);
         }
@@ -216,6 +221,11 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingNeg(long x) {
             return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingAbs(long x) {
+            return (x < 0) ? WrappingNeg(x) : x;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -262,10 +272,6 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAbs(int x) => (x < 0) ? WrappingNeg(x) : x;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAbs(long x) => (x < 0) ? WrappingNeg(x) : x;
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingAbs(int, out int result) {

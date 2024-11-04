@@ -25,11 +25,6 @@
         public static {{ signed }} WrappingSubUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingSub(x, unchecked(({{ signed }})y));
 {%- endmacro -%}
 
-{% macro wrapping_abs(type) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingAbs({{ type }} x) => (x < 0) ? WrappingNeg(x) : x;
-{%- endmacro -%}
-
 {% macro overflowing_abs(type) -%}
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -160,6 +155,19 @@ namespace AgatePris.Intar {
             return WrappingSub(0, x);
         }
 
+        {%- if s %}
+
+            {%- if bits < 128 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ t }} WrappingAbs({{ t }} x) {
+            return (x < 0) ? WrappingNeg(x) : x;
+        }
+
+            {%- endif %}
+
+        {%- endif %}
+
     {%- endfor %}
 
     {%- if bits > 64 %}
@@ -179,8 +187,6 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-        {{ self::wrapping_abs(type = "int") }}
-        {{ self::wrapping_abs(type = "long") }}
         {{ self::overflowing_abs(type = "int") }}
         {{ self::overflowing_abs(type = "long") }}
 
