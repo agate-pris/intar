@@ -1,10 +1,5 @@
 {% import "macros.cs" as macros %}
 
-{% macro wrapping_mul(type) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingMul({{ type }} x, {{ type }} y) => unchecked(x * y);
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -195,10 +190,18 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
-        {{ self::wrapping_mul(type = "int") }}
-        {{ self::wrapping_mul(type = "uint") }}
-        {{ self::wrapping_mul(type = "long") }}
-        {{ self::wrapping_mul(type = "ulong") }}
+{%- for bits in [32, 64] %}
+    {%- for s in [true, false] %}
+
+        {%- set t = macros::inttype(signed=s, bits=bits) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ t }} WrappingMul({{ t }} x, {{ t }} y) {
+            return unchecked(x * y);
+        }
+
+    {%- endfor %}
+{%- endfor %}
 
         {%- set u_32 = [false, 32] %}
         {%- set u_64 = [false, 64] %}

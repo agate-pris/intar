@@ -400,13 +400,24 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingMul(int x, int y) => unchecked(x * y);
+        public static int WrappingMul(int x, int y) {
+            return unchecked(x * y);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingMul(uint x, uint y) => unchecked(x * y);
+        public static uint WrappingMul(uint x, uint y) {
+            return unchecked(x * y);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingMul(long x, long y) => unchecked(x * y);
+        public static long WrappingMul(long x, long y) {
+            return unchecked(x * y);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingMul(ulong x, ulong y) => unchecked(x * y);
+        public static ulong WrappingMul(ulong x, ulong y) {
+            return unchecked(x * y);
+        }
 
         /// <summary>
         /// <para>Calculates <c>x + y</c></para>
