@@ -43,7 +43,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictMul({{ t }} x, {{ t }} y) => checked(x * y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictMul({{ t }} x, {{ t }} y) => checked(x * y);
         {%- endfor %}
 
 {%- for bits in [32, 64, 128] %}

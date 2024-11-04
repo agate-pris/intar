@@ -40,7 +40,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictMul(int x, int y) => checked(x * y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictMul(int x, int y) => checked(x * y);
 
         /// <summary>
         /// <para>Adds two values together to compute their sum.</para>
@@ -73,7 +73,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictMul(uint x, uint y) => checked(x * y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictMul(uint x, uint y) => checked(x * y);
 
         /// <summary>
         /// <para>Adds two values together to compute their sum.</para>
@@ -106,7 +106,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictMul(long x, long y) => checked(x * y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictMul(long x, long y) => checked(x * y);
 
         /// <summary>
         /// <para>Adds two values together to compute their sum.</para>
@@ -139,7 +139,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictMul(ulong x, ulong y) => checked(x * y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictMul(ulong x, ulong y) => checked(x * y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAdd(int x, int y) {
