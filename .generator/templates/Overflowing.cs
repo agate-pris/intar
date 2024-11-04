@@ -57,15 +57,6 @@
         //}
 {%- endmacro -%}
 
-{% macro checked_neg(type) -%}
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ type }}? CheckedNeg({{ type }} x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? ({{ type }}?)null : result;
-        //}
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -122,8 +113,6 @@ namespace AgatePris.Intar {
         {{- self::wrapping_add_unsigned(signed="long", unsigned="ulong") }}
         {{ self::overflowing_neg_unsigned(type = "uint") }}
         {{ self::overflowing_neg_unsigned(type = "ulong") }}
-        {{ self::checked_neg(type = "uint") }}
-        {{ self::checked_neg(type = "ulong") }}
 
 {%- for bits in [32, 64, 128] %}
 
@@ -136,6 +125,12 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
 
         {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static {{ t }}? CheckedNeg({{ t }} x) {
+        //    var b = OverflowingNeg(x, out var result);
+        //    return b ? ({{ t }}?)null : result;
+        //}
 
         {%- if s %}
 
@@ -194,8 +189,6 @@ namespace AgatePris.Intar {
 
         {{ self::overflowing_neg_signed(type = "int") }}
         {{ self::overflowing_neg_signed(type = "long") }}
-        {{ self::checked_neg(type = "int") }}
-        {{ self::checked_neg(type = "long") }}
 
         {%- set u_32 = [false, 32] %}
         {%- set u_64 = [false, 64] %}
