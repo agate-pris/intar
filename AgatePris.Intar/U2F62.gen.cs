@@ -203,8 +203,8 @@ namespace AgatePris.Intar {
             var b = OverflowingMul(other, out var result);
             return b ? @null : result;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62 SaturatingMul(U2F62 other) => CheckedMul(other) ?? MaxValue;
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public U2F62 SaturatingMul(U2F62 other) => CheckedMul(other) ?? MaxValue;
 
 #endif
 
