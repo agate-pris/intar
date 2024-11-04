@@ -222,12 +222,12 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
+        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+        //    result = FromBits(bits);
+        //    return b;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public {{ self_type }}? CheckedAdd({{ self_type }} other) {
         //    {{ self_type }}? @null = null;
