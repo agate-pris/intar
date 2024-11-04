@@ -275,6 +275,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WrappingSubUnsigned(int x, uint y) {
+            return WrappingSub(x, unchecked((int)y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAbs(int x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
@@ -303,6 +308,11 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingNeg(long x) {
             return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingSubUnsigned(long x, ulong y) {
+            return WrappingSub(x, unchecked((long)y));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -339,6 +349,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 WrappingSubUnsigned(Int128 x, UInt128 y) {
+            return WrappingSub(x, unchecked((Int128)y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 WrappingAbs(Int128 x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
@@ -358,16 +373,6 @@ namespace AgatePris.Intar {
         public static UInt128 WrappingNeg(UInt128 x) {
             return WrappingSub(0, x);
         }
-
-#endif // NET7_0_OR_GREATER
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingSubUnsigned(int x, uint y) => WrappingSub(x, unchecked((int)y));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingSubUnsigned(long x, ulong y) => WrappingSub(x, unchecked((long)y));
-
-#if NET7_0_OR_GREATER
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int128 WrappingSubUnsigned(Int128 x, UInt128 y) => WrappingSub(x, unchecked((Int128)y));
 
 #endif // NET7_0_OR_GREATER
 
