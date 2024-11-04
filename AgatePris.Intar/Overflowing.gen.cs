@@ -194,8 +194,18 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WrappingNeg(int x) {
+            return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint WrappingSub(uint x, uint y) {
             return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint WrappingNeg(uint x) {
+            return WrappingSub(0, x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,8 +214,18 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingNeg(long x) {
+            return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingSub(ulong x, ulong y) {
             return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong WrappingNeg(ulong x) {
+            return WrappingSub(0, x);
         }
 
 #if NET7_0_OR_GREATER
@@ -232,14 +252,6 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingNeg(int x) => WrappingSub(0, x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingNeg(long x) => WrappingSub(0L, x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingNeg(uint x) => WrappingSub(0U, x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingNeg(ulong x) => WrappingSub(0UL, x);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAbs(int x) => (x < 0) ? WrappingNeg(x) : x;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
