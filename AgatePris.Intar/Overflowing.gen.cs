@@ -153,10 +153,11 @@ namespace AgatePris.Intar {
         public static uint WrappingAddSigned(uint x, int y) => WrappingAdd(x, unchecked((uint)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingAddSigned(ulong x, long y) => WrappingAdd(x, unchecked((ulong)y));
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAddUnsigned(int x, uint y) => WrappingAdd(x, unchecked((int)y));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAddUnsigned(long x, ulong y) => WrappingAdd(x, unchecked((long)y));
+        public static int WrappingAddUnsigned(int x, uint y) {
+            return WrappingAdd(x, unchecked((int)y));
+        }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(int x, out int result) {
@@ -191,6 +192,11 @@ namespace AgatePris.Intar {
         //    var b = OverflowingNeg(x, out var result);
         //    return b ? (uint?)null : result;
         //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingAddUnsigned(long x, ulong y) {
+            return WrappingAdd(x, unchecked((long)y));
+        }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(long x, out long result) {

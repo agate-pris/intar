@@ -15,11 +15,6 @@
         public static {{ unsigned }} WrappingAddSigned({{ unsigned }} x, {{ signed }} y) => WrappingAdd(x, unchecked(({{ unsigned }})y));
 {%- endmacro -%}
 
-{% macro wrapping_add_unsigned(signed, unsigned) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ signed }} WrappingAddUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingAdd(x, unchecked(({{ signed }})y));
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -72,8 +67,6 @@ namespace AgatePris.Intar {
         {{ self::wrapping_add(type = "ulong") }}
         {{- self::wrapping_add_signed(unsigned="uint", signed="int") }}
         {{- self::wrapping_add_signed(unsigned="ulong", signed="long") }}
-        {{- self::wrapping_add_unsigned(signed="int", unsigned="uint") }}
-        {{- self::wrapping_add_unsigned(signed="long", unsigned="ulong") }}
 
 {%- for bits in [32, 64, 128] %}
 
@@ -83,9 +76,25 @@ namespace AgatePris.Intar {
 
     {%- endif %}
 
+    {%- set st = macros::inttype(bits=bits, signed=true ) %}
+    {%- set ut = macros::inttype(bits=bits, signed=false) %}
+
     {%- for s in [true, false] %}
 
         {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        {%- if s %}
+
+            {%- if bits < 128 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ st }} WrappingAddUnsigned({{ st }} x, {{ ut }} y) {
+            return WrappingAdd(x, unchecked(({{ st }})y));
+        }
+
+            {%- endif %}
+
+        {%- endif %}
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg({{ t }} x, out {{ t }} result) {
