@@ -10,11 +10,6 @@
         public static {{ type }} WrappingMul({{ type }} x, {{ type }} y) => unchecked(x * y);
 {%- endmacro -%}
 
-{% macro wrapping_add_signed(unsigned, signed) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ unsigned }} WrappingAddSigned({{ unsigned }} x, {{ signed }} y) => WrappingAdd(x, unchecked(({{ unsigned }})y));
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -65,8 +60,6 @@ namespace AgatePris.Intar {
         {{ self::wrapping_add(type = "uint") }}
         {{ self::wrapping_add(type = "long") }}
         {{ self::wrapping_add(type = "ulong") }}
-        {{- self::wrapping_add_signed(unsigned="uint", signed="int") }}
-        {{- self::wrapping_add_signed(unsigned="ulong", signed="long") }}
 
 {%- for bits in [32, 64, 128] %}
 
@@ -90,6 +83,17 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ st }} WrappingAddUnsigned({{ st }} x, {{ ut }} y) {
             return WrappingAdd(x, unchecked(({{ st }})y));
+        }
+
+            {%- endif %}
+
+        {%- else %}
+
+            {%- if bits < 128 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ ut }} WrappingAddSigned({{ ut }} x, {{ st }} y) {
+            return WrappingAdd(x, unchecked(({{ ut }})y));
         }
 
             {%- endif %}

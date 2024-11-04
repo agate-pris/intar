@@ -149,10 +149,6 @@ namespace AgatePris.Intar {
         public static long WrappingAdd(long x, long y) => unchecked(x + y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingAdd(ulong x, ulong y) => unchecked(x + y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingAddSigned(uint x, int y) => WrappingAdd(x, unchecked((uint)y));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingAddSigned(ulong x, long y) => WrappingAdd(x, unchecked((ulong)y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAddUnsigned(int x, uint y) {
@@ -180,6 +176,11 @@ namespace AgatePris.Intar {
         //public static int? CheckedAbs(int x) {
         //    return (x < 0) ? CheckedNeg(x) : x;
         //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint WrappingAddSigned(uint x, int y) {
+            return WrappingAdd(x, unchecked((uint)y));
+        }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(uint x, out uint result) {
@@ -219,6 +220,11 @@ namespace AgatePris.Intar {
         //public static long? CheckedAbs(long x) {
         //    return (x < 0) ? CheckedNeg(x) : x;
         //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong WrappingAddSigned(ulong x, long y) {
+            return WrappingAdd(x, unchecked((ulong)y));
+        }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(ulong x, out ulong result) {
