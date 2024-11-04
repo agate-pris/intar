@@ -180,27 +180,6 @@ namespace AgatePris.Intar {
         //    return (x < 0) ? CheckedNeg(x) : x;
         //}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingSub(int x, int y) {
-            return unchecked(x - y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingNeg(int x) {
-            return WrappingSub(0, x);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingAbs(int x) {
-            return (x < 0) ? WrappingNeg(x) : x;
-        }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(int, out int result) {
-        //    result = WrappingAbs(x);
-        //    return x == int.MinValue;
-        //}
-
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(uint x, out uint result) {
         //    result = WrappingAdd(~x, 1);
@@ -212,16 +191,6 @@ namespace AgatePris.Intar {
         //    var b = OverflowingNeg(x, out var result);
         //    return b ? (uint?)null : result;
         //}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingSub(uint x, uint y) {
-            return unchecked(x - y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingNeg(uint x) {
-            return WrappingSub(0, x);
-        }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(long x, out long result) {
@@ -245,27 +214,6 @@ namespace AgatePris.Intar {
         //    return (x < 0) ? CheckedNeg(x) : x;
         //}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingSub(long x, long y) {
-            return unchecked(x - y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingNeg(long x) {
-            return WrappingSub(0, x);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingAbs(long x) {
-            return (x < 0) ? WrappingNeg(x) : x;
-        }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(long, out long result) {
-        //    result = WrappingAbs(x);
-        //    return x == long.MinValue;
-        //}
-
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(ulong x, out ulong result) {
         //    result = WrappingAdd(~x, 1);
@@ -277,16 +225,6 @@ namespace AgatePris.Intar {
         //    var b = OverflowingNeg(x, out var result);
         //    return b ? (ulong?)null : result;
         //}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingSub(ulong x, ulong y) {
-            return unchecked(x - y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingNeg(ulong x) {
-            return WrappingSub(0, x);
-        }
 
 #if NET7_0_OR_GREATER
 
@@ -312,6 +250,84 @@ namespace AgatePris.Intar {
         //    return (x < 0) ? CheckedNeg(x) : x;
         //}
 
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingNeg(UInt128 x, out UInt128 result) {
+        //    result = WrappingAdd(~x, 1);
+        //    return x != 0;
+        //}
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static UInt128? CheckedNeg(UInt128 x) {
+        //    var b = OverflowingNeg(x, out var result);
+        //    return b ? (UInt128?)null : result;
+        //}
+
+#endif // NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WrappingSub(int x, int y) {
+            return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WrappingNeg(int x) {
+            return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WrappingAbs(int x) {
+            return (x < 0) ? WrappingNeg(x) : x;
+        }
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingAbs(int, out int result) {
+        //    result = WrappingAbs(x);
+        //    return x == int.MinValue;
+        //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint WrappingSub(uint x, uint y) {
+            return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint WrappingNeg(uint x) {
+            return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingSub(long x, long y) {
+            return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingNeg(long x) {
+            return WrappingSub(0, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long WrappingAbs(long x) {
+            return (x < 0) ? WrappingNeg(x) : x;
+        }
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingAbs(long, out long result) {
+        //    result = WrappingAbs(x);
+        //    return x == long.MinValue;
+        //}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong WrappingSub(ulong x, ulong y) {
+            return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong WrappingNeg(ulong x) {
+            return WrappingSub(0, x);
+        }
+
+#if NET7_0_OR_GREATER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 WrappingSub(Int128 x, Int128 y) {
             return unchecked(x - y);
@@ -331,18 +347,6 @@ namespace AgatePris.Intar {
         //public static bool OverflowingAbs(Int128, out Int128 result) {
         //    result = WrappingAbs(x);
         //    return x == Int128.MinValue;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(UInt128 x, out UInt128 result) {
-        //    result = WrappingAdd(~x, 1);
-        //    return x != 0;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static UInt128? CheckedNeg(UInt128 x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (UInt128?)null : result;
         //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

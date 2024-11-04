@@ -123,6 +123,28 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
+    {%- endfor %}
+
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
+
+{%- endfor %}
+
+{%- for bits in [32, 64, 128] %}
+
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
+    {%- for s in [true, false] %}
+
+        {%- set t = macros::inttype(bits=bits, signed=s) %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} WrappingSub({{ t }} x, {{ t }} y) {
             return unchecked(x - y);
