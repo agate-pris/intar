@@ -21,7 +21,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictAdd({{ t }} x, {{ t }} y) => checked(x + y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictAdd({{ t }} x, {{ t }} y) => checked(x + y);
 
         /// <summary>
         /// <para>Subtracts two values to compute their difference.</para>
@@ -32,7 +32,7 @@ namespace AgatePris.Intar {
         /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
         /// </div></remarks>
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictSub({{ t }} x, {{ t }} y) => checked(x - y);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictSub({{ t }} x, {{ t }} y) => checked(x - y);
 
         /// <summary>
         /// <para>Multiplies two values together to compute their product.</para>
