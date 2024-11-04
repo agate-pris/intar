@@ -185,12 +185,12 @@ namespace AgatePris.Intar {
             result = FromBits(bits);
             return b;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60? CheckedAdd(I4F60 other) {
-            I4F60? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public I4F60? CheckedAdd(I4F60 other) {
+        //    I4F60? @null = null;
+        //    var b = OverflowingAdd(other, out var result);
+        //    return b ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public I4F60 SaturatingAdd(I4F60 other) {
         //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
