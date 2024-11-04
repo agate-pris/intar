@@ -179,12 +179,12 @@ namespace AgatePris.Intar {
             return U4F60.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(I4F60 other, out I4F60 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //bool OverflowingAdd(I4F60 other, out I4F60 result) {
+        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+        //    result = FromBits(bits);
+        //    return b;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public I4F60? CheckedAdd(I4F60 other) {
         //    I4F60? @null = null;

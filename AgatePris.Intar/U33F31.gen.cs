@@ -169,12 +169,12 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U33F31 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U33F31 Twice() => FromBits(Mathi.Twice(Bits));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(U33F31 other, out U33F31 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //bool OverflowingAdd(U33F31 other, out U33F31 result) {
+        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
+        //    result = FromBits(bits);
+        //    return b;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public U33F31? CheckedAdd(U33F31 other) {
         //    U33F31? @null = null;
