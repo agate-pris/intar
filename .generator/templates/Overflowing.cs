@@ -289,11 +289,11 @@ namespace AgatePris.Intar {
                 {%- endif %}
             {%- endif %}
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ t }}? CheckedMul({{ t }} x, {{ t }} y) {
-            {{ t }}? @null = null;
-            return OverflowingMul(x, y, out var result) ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static {{ t }}? CheckedMul({{ t }} x, {{ t }} y) {
+        //    {{ t }}? @null = null;
+        //    return OverflowingMul(x, y, out var result) ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static {{ t }} SaturatingMul({{
             t }} x, {{

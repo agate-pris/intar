@@ -507,11 +507,11 @@ namespace AgatePris.Intar {
             result = unchecked((int)l);
             return l < int.MinValue || l > int.MaxValue;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int? CheckedMul(int x, int y) {
-            int? @null = null;
-            return OverflowingMul(x, y, out var result) ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static int? CheckedMul(int x, int y) {
+        //    int? @null = null;
+        //    return OverflowingMul(x, y, out var result) ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
         //    ((x < 0) == (y < 0))
@@ -525,11 +525,11 @@ namespace AgatePris.Intar {
             result = unchecked((uint)l);
             return l > uint.MaxValue;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint? CheckedMul(uint x, uint y) {
-            uint? @null = null;
-            return OverflowingMul(x, y, out var result) ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static uint? CheckedMul(uint x, uint y) {
+        //    uint? @null = null;
+        //    return OverflowingMul(x, y, out var result) ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
 
@@ -542,11 +542,11 @@ namespace AgatePris.Intar {
                 ? high != -1
                 : high != 0;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long? CheckedMul(long x, long y) {
-            long? @null = null;
-            return OverflowingMul(x, y, out var result) ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static long? CheckedMul(long x, long y) {
+        //    long? @null = null;
+        //    return OverflowingMul(x, y, out var result) ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static long SaturatingMul(long x, long y) => CheckedMul(x, y) ?? (
         //    ((x < 0) == (y < 0))
@@ -559,11 +559,11 @@ namespace AgatePris.Intar {
             var high = Math.BigMul(x, y, out result);
             return high != 0;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong? CheckedMul(ulong x, ulong y) {
-            ulong? @null = null;
-            return OverflowingMul(x, y, out var result) ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static ulong? CheckedMul(ulong x, ulong y) {
+        //    ulong? @null = null;
+        //    return OverflowingMul(x, y, out var result) ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static ulong SaturatingMul(ulong x, ulong y) => CheckedMul(x, y) ?? ulong.MaxValue;
 
