@@ -155,14 +155,10 @@ namespace AgatePris.Intar {
             return unchecked(x - y);
         }
 
-        {%- if bits < 128 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} WrappingNeg({{ t }} x) {
             return WrappingSub(0, x);
         }
-
-        {%- endif %}
 
     {%- endfor %}
 
