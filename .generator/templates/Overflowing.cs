@@ -34,29 +34,6 @@
         //}
 {%- endmacro -%}
 
-{% macro overflowing_neg_signed(type) -%}
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg({{ type }} x, out {{ type }} result) {
-        //    if (x == {{ type }}.MinValue) {
-        //        result = {{ type }}.MinValue;
-        //        return true;
-        //    } else {
-        //        result = -x;
-        //        return false;
-        //    }
-        //}
-{%- endmacro -%}
-
-{% macro overflowing_neg_unsigned(type) -%}
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg({{ type }} x, out {{ type }} result) {
-        //    result = WrappingAdd(~x, 1);
-        //    return x != 0;
-        //}
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -111,8 +88,6 @@ namespace AgatePris.Intar {
         {{- self::wrapping_add_signed(unsigned="ulong", signed="long") }}
         {{- self::wrapping_add_unsigned(signed="int", unsigned="uint") }}
         {{- self::wrapping_add_unsigned(signed="long", unsigned="ulong") }}
-        {{ self::overflowing_neg_unsigned(type = "uint") }}
-        {{ self::overflowing_neg_unsigned(type = "ulong") }}
 
 {%- for bits in [32, 64, 128] %}
 
@@ -125,6 +100,22 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
 
         {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingNeg({{ t }} x, out {{ t }} result) {
+        {%- if s %}
+        //    if (x == {{ t }}.MinValue) {
+        //        result = {{ t }}.MinValue;
+        //        return true;
+        //    } else {
+        //        result = -x;
+        //        return false;
+        //    }
+        {%- else %}
+        //    result = WrappingAdd(~x, 1);
+        //    return x != 0;
+        {%- endif %}
+        //}
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static {{ t }}? CheckedNeg({{ t }} x) {
@@ -186,9 +177,6 @@ namespace AgatePris.Intar {
         {{ self::wrapping_mul(type = "uint") }}
         {{ self::wrapping_mul(type = "long") }}
         {{ self::wrapping_mul(type = "ulong") }}
-
-        {{ self::overflowing_neg_signed(type = "int") }}
-        {{ self::overflowing_neg_signed(type = "long") }}
 
         {%- set u_32 = [false, 32] %}
         {%- set u_64 = [false, 64] %}
