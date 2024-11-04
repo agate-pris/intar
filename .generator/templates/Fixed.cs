@@ -256,12 +256,12 @@ namespace AgatePris.Intar {
                 self_bits_type }}.MinValue || bits > {{
                 self_bits_type }}.MaxValue;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}? CheckedMul({{ self_type }} other) {
-            {{ self_type }}? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public {{ self_type }}? CheckedMul({{ self_type }} other) {
+        //    {{ self_type }}? @null = null;
+        //    var b = OverflowingMul(other, out var result);
+        //    return b ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public {{ self_type }} SaturatingMul({{
             self_type }} other) => CheckedMul(other) ??
