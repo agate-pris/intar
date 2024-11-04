@@ -196,6 +196,12 @@ namespace AgatePris.Intar {
         }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingAbs(int, out int result) {
+        //    result = WrappingAbs(x);
+        //    return x == int.MinValue;
+        //}
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(uint x, out uint result) {
         //    result = WrappingAdd(~x, 1);
         //    return x != 0;
@@ -253,6 +259,12 @@ namespace AgatePris.Intar {
         public static long WrappingAbs(long x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingAbs(long, out long result) {
+        //    result = WrappingAbs(x);
+        //    return x == long.MinValue;
+        //}
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(ulong x, out ulong result) {
@@ -316,6 +328,12 @@ namespace AgatePris.Intar {
         }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingAbs(Int128, out Int128 result) {
+        //    result = WrappingAbs(x);
+        //    return x == Int128.MinValue;
+        //}
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static bool OverflowingNeg(UInt128 x, out UInt128 result) {
         //    result = WrappingAdd(~x, 1);
         //    return x != 0;
@@ -348,19 +366,6 @@ namespace AgatePris.Intar {
         public static Int128 WrappingSubUnsigned(Int128 x, UInt128 y) => WrappingSub(x, unchecked((Int128)y));
 
 #endif // NET7_0_OR_GREATER
-
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(int, out int result) {
-        //    result = WrappingAbs(x);
-        //    return x == int.MinValue;
-        //}
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(long, out long result) {
-        //    result = WrappingAbs(x);
-        //    return x == long.MinValue;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingMul(int x, int y) => unchecked(x * y);

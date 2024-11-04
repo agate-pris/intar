@@ -25,15 +25,6 @@
         public static {{ signed }} WrappingSubUnsigned({{ signed }} x, {{ unsigned }} y) => WrappingSub(x, unchecked(({{ signed }})y));
 {%- endmacro -%}
 
-{% macro overflowing_abs(type) -%}
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs({{ type }}, out {{ type }} result) {
-        //    result = WrappingAbs(x);
-        //    return x == {{ type }}.MinValue;
-        //}
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -149,6 +140,12 @@ namespace AgatePris.Intar {
             return (x < 0) ? WrappingNeg(x) : x;
         }
 
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool OverflowingAbs({{ t }}, out {{ t }} result) {
+        //    result = WrappingAbs(x);
+        //    return x == {{ t }}.MinValue;
+        //}
+
         {%- endif %}
 
     {%- endfor %}
@@ -169,9 +166,6 @@ namespace AgatePris.Intar {
         {{- self::wrapping_sub_unsigned(signed="Int128", unsigned="UInt128") }}
 
 #endif // NET7_0_OR_GREATER
-
-        {{ self::overflowing_abs(type = "int") }}
-        {{ self::overflowing_abs(type = "long") }}
 
         {{ self::wrapping_mul(type = "int") }}
         {{ self::wrapping_mul(type = "uint") }}
