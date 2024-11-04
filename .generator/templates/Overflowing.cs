@@ -66,12 +66,6 @@
         //}
 {%- endmacro -%}
 
-{% macro checked_abs(type) -%}
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ type }}? CheckedAbs({{ type }} x) => (x < 0) ? x.CheckedNeg() : x;
-{%- endmacro -%}
-
 using System.Runtime.CompilerServices;
 
 #if NET7_0_OR_GREATER
@@ -130,8 +124,6 @@ namespace AgatePris.Intar {
         {{ self::overflowing_neg_unsigned(type = "ulong") }}
         {{ self::checked_neg(type = "uint") }}
         {{ self::checked_neg(type = "ulong") }}
-        {{ self::checked_abs(type = "int") }}
-        {{ self::checked_abs(type = "long") }}
 
 {%- for bits in [32, 64, 128] %}
 
@@ -144,6 +136,15 @@ namespace AgatePris.Intar {
     {%- for s in [true, false] %}
 
         {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        {%- if s %}
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static {{ t }}? CheckedAbs({{ t }} x) {
+        //    return (x < 0) ? CheckedNeg(x) : x;
+        //}
+
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} WrappingSub({{ t }} x, {{ t }} y) {

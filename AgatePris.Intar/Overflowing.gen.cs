@@ -181,12 +181,11 @@ namespace AgatePris.Intar {
         //    var b = OverflowingNeg(x, out var result);
         //    return b ? (ulong?)null : result;
         //}
-        // まだテストを書いていないのでコメントアウトしておく
+
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedAbs(int x) => (x < 0) ? x.CheckedNeg() : x;
-        // まだテストを書いていないのでコメントアウトしておく
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedAbs(long x) => (x < 0) ? x.CheckedNeg() : x;
+        //public static int? CheckedAbs(int x) {
+        //    return (x < 0) ? CheckedNeg(x) : x;
+        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingSub(int x, int y) {
@@ -212,6 +211,11 @@ namespace AgatePris.Intar {
         public static uint WrappingNeg(uint x) {
             return WrappingSub(0, x);
         }
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static long? CheckedAbs(long x) {
+        //    return (x < 0) ? CheckedNeg(x) : x;
+        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingSub(long x, long y) {
@@ -239,6 +243,11 @@ namespace AgatePris.Intar {
         }
 
 #if NET7_0_OR_GREATER
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static Int128? CheckedAbs(Int128 x) {
+        //    return (x < 0) ? CheckedNeg(x) : x;
+        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 WrappingSub(Int128 x, Int128 y) {
