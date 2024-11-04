@@ -228,12 +228,12 @@ namespace AgatePris.Intar {
             result = FromBits(bits);
             return b;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}? CheckedAdd({{ self_type }} other) {
-            {{ self_type }}? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public {{ self_type }}? CheckedAdd({{ self_type }} other) {
+        //    {{ self_type }}? @null = null;
+        //    var b = OverflowingAdd(other, out var result);
+        //    return b ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public {{ self_type }} SaturatingAdd({{ self_type }} other) {
         //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
