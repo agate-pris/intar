@@ -197,12 +197,12 @@ namespace AgatePris.Intar {
             result = FromBits(unchecked((ulong)bits));
             return bits < ulong.MinValue || bits > ulong.MaxValue;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62? CheckedMul(U2F62 other) {
-            U2F62? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public U2F62? CheckedMul(U2F62 other) {
+        //    U2F62? @null = null;
+        //    var b = OverflowingMul(other, out var result);
+        //    return b ? @null : result;
+        //}
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public U2F62 SaturatingMul(U2F62 other) => CheckedMul(other) ?? MaxValue;
 
