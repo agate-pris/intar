@@ -251,6 +251,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 WrappingAbs(Int128 x) {
+            return (x < 0) ? WrappingNeg(x) : x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 WrappingSub(UInt128 x, UInt128 y) {
             return unchecked(x - y);
         }
