@@ -1567,5 +1567,14 @@ namespace AgatePris.Intar {
             return unchecked((ulong)Overflowing.WrappingAbs(x));
         }
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 UnsignedAbs(Int128 x) {
+            return unchecked((UInt128)Overflowing.WrappingAbs(x));
+        }
+
+#endif // NET7_0_OR_GREATER
+
     }
 }

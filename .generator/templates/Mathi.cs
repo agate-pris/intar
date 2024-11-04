@@ -739,13 +739,27 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Twice({{ type }} x) => x * 2;
 {%- endfor %}
 
-{%- for bits in [32, 64] %}
+{%- for bits in [32, 64, 128] %}
+
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
     {%- set ut = macros::inttype(bits=bits, signed=false) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ ut }} UnsignedAbs({{ macros::inttype(bits=bits, signed=true) }} x) {
             return unchecked(({{ ut }})Overflowing.WrappingAbs(x));
         }
+
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
+
 {%- endfor %}
 
     }
