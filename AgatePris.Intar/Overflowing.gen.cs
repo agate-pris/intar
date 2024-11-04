@@ -187,25 +187,46 @@ namespace AgatePris.Intar {
         // まだテストを書いていないのでコメントアウトしておく
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static long? CheckedAbs(long x) => (x < 0) ? x.CheckedNeg() : x;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WrappingSub(int x, int y) => unchecked(x - y);
+        public static int WrappingSub(int x, int y) {
+            return unchecked(x - y);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint WrappingSub(uint x, uint y) => unchecked(x - y);
+        public static uint WrappingSub(uint x, uint y) {
+            return unchecked(x - y);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long WrappingSub(long x, long y) => unchecked(x - y);
+        public static long WrappingSub(long x, long y) {
+            return unchecked(x - y);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong WrappingSub(ulong x, ulong y) => unchecked(x - y);
+        public static ulong WrappingSub(ulong x, ulong y) {
+            return unchecked(x - y);
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 WrappingSub(Int128 x, Int128 y) {
+            return unchecked(x - y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 WrappingSub(UInt128 x, UInt128 y) {
+            return unchecked(x - y);
+        }
+
+#endif // NET7_0_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingSubUnsigned(int x, uint y) => WrappingSub(x, unchecked((int)y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingSubUnsigned(long x, ulong y) => WrappingSub(x, unchecked((long)y));
 
 #if NET7_0_OR_GREATER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int128 WrappingSub(Int128 x, Int128 y) => unchecked(x - y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt128 WrappingSub(UInt128 x, UInt128 y) => unchecked(x - y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 WrappingSubUnsigned(Int128 x, UInt128 y) => WrappingSub(x, unchecked((Int128)y));
 

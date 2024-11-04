@@ -5,11 +5,6 @@
         public static {{ type }} WrappingAdd({{ type }} x, {{ type }} y) => unchecked(x + y);
 {%- endmacro -%}
 
-{% macro wrapping_sub(type) -%}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} WrappingSub({{ type }} x, {{ type }} y) => unchecked(x - y);
-{%- endmacro -%}
-
 {% macro wrapping_mul(type) -%}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} WrappingMul({{ type }} x, {{ type }} y) => unchecked(x * y);
@@ -147,17 +142,39 @@ namespace AgatePris.Intar {
         {{ self::checked_neg(type = "ulong") }}
         {{ self::checked_abs(type = "int") }}
         {{ self::checked_abs(type = "long") }}
-        {{ self::wrapping_sub(type = "int") }}
-        {{ self::wrapping_sub(type = "uint") }}
-        {{ self::wrapping_sub(type = "long") }}
-        {{ self::wrapping_sub(type = "ulong") }}
+
+{%- for bits in [32, 64, 128] %}
+
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
+    {%- for s in [true, false] %}
+
+        {%- set t = macros::inttype(bits=bits, signed=s) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ t }} WrappingSub({{ t }} x, {{ t }} y) {
+            return unchecked(x - y);
+        }
+
+    {%- endfor %}
+
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
+
+{%- endfor %}
+
         {{- self::wrapping_sub_unsigned(signed="int", unsigned="uint") }}
         {{- self::wrapping_sub_unsigned(signed="long", unsigned="ulong") }}
 
 #if NET7_0_OR_GREATER
 
-        {{ self::wrapping_sub(type = "Int128") }}
-        {{ self::wrapping_sub(type = "UInt128") }}
         {{- self::wrapping_sub_unsigned(signed="Int128", unsigned="UInt128") }}
 
 #endif // NET7_0_OR_GREATER
