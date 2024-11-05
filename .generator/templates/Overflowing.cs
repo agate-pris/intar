@@ -160,29 +160,6 @@ namespace AgatePris.Intar {
             return OverflowingAdd(x, y, out var result) ? @null : result;
         }
 
-        /// <summary>
-        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
-        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ t }} SaturatingAdd({{ t }} x, {{ t }} y)
-        {%- if e[0] %} {
-            // オーバーフローが起きた場合、両辺が負の場合は負方向のオーバーフロー、
-            // それ以外の場合は必ず正方向のオーバーフローとなる。
-            // 両辺の符号が異なる場合はオーバーフローが起きないが、
-            // それを検査するのは CheckedAdd の責務である。
-            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
-                ? {{ t }}.MinValue
-                : {{ t }}.MaxValue);
-        }
-        {%- else %} => CheckedAdd(x, y) ?? {{ t }}.MaxValue;
-        {%- endif %}
         {%- endfor %}
 
     }

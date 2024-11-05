@@ -207,19 +207,6 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
-        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SaturatingAdd(uint x, uint y) => CheckedAdd(x, y) ?? uint.MaxValue;
-
-        /// <summary>
         /// <para>Calculates <c>x + y</c></para>
         /// </summary>
         /// <returns>
@@ -257,19 +244,6 @@ namespace AgatePris.Intar {
             ulong? @null = null;
             return OverflowingAdd(x, y, out var result) ? @null : result;
         }
-
-        /// <summary>
-        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
-        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong SaturatingAdd(ulong x, ulong y) => CheckedAdd(x, y) ?? ulong.MaxValue;
 
         /// <summary>
         /// <para>Calculates <c>x + y</c></para>
@@ -312,27 +286,6 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
-        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int SaturatingAdd(int x, int y) {
-            // オーバーフローが起きた場合、両辺が負の場合は負方向のオーバーフロー、
-            // それ以外の場合は必ず正方向のオーバーフローとなる。
-            // 両辺の符号が異なる場合はオーバーフローが起きないが、
-            // それを検査するのは CheckedAdd の責務である。
-            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
-                ? int.MinValue
-                : int.MaxValue);
-        }
-
-        /// <summary>
         /// <para>Calculates <c>x + y</c></para>
         /// </summary>
         /// <returns>
@@ -370,27 +323,6 @@ namespace AgatePris.Intar {
         public static long? CheckedAdd(long x, long y) {
             long? @null = null;
             return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
-
-        /// <summary>
-        /// Saturating integer addition. Computes <c>x + y</c>, saturating at the numeric bounds instead of overflowing.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(101U, Overflowing.SaturatingAdd(100U, 1U));
-        /// System.Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue, 127U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long SaturatingAdd(long x, long y) {
-            // オーバーフローが起きた場合、両辺が負の場合は負方向のオーバーフロー、
-            // それ以外の場合は必ず正方向のオーバーフローとなる。
-            // 両辺の符号が異なる場合はオーバーフローが起きないが、
-            // それを検査するのは CheckedAdd の責務である。
-            return CheckedAdd(x, y) ?? ((x < 0) && (y < 0)
-                ? long.MinValue
-                : long.MaxValue);
         }
 
     }

@@ -278,21 +278,5 @@ namespace AgatePris.Intar.Tests {
             Assert.AreEqual(ulong.MinValue + 1, r15);
             Assert.AreEqual(2, r25);
         }
-
-        [Test]
-        public static void TestSaturatingAdd() {
-            Assert.AreEqual(ulong.MaxValue, Overflowing.SaturatingAdd(ulong.MaxValue - 1UL, 100UL));
-            Assert.AreEqual(uint.MaxValue, Overflowing.SaturatingAdd(uint.MaxValue - 1U, 100U));
-            Assert.AreEqual(101UL, Overflowing.SaturatingAdd(ulong.MinValue + 1UL, 100UL));
-            Assert.AreEqual(101U, Overflowing.SaturatingAdd(uint.MinValue + 1U, 100U));
-            Assert.AreEqual(long.MaxValue - 101, Overflowing.SaturatingAdd(long.MaxValue - 1, -100));
-            Assert.AreEqual(long.MinValue + 101, Overflowing.SaturatingAdd(long.MinValue + 1, 100));
-            Assert.AreEqual(int.MaxValue - 101, Overflowing.SaturatingAdd(int.MaxValue - 1, -100));
-            Assert.AreEqual(int.MinValue + 101, Overflowing.SaturatingAdd(int.MinValue + 1, 100));
-            Assert.AreEqual(long.MinValue, Overflowing.SaturatingAdd(long.MinValue + 1, -100));
-            Assert.AreEqual(long.MaxValue, Overflowing.SaturatingAdd(long.MaxValue - 1, 100));
-            Assert.AreEqual(int.MinValue, Overflowing.SaturatingAdd(int.MinValue + 1, -100));
-            Assert.AreEqual(int.MaxValue, Overflowing.SaturatingAdd(int.MaxValue - 1, 100));
-        }
     }
 }
