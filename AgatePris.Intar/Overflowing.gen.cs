@@ -190,23 +190,6 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// Checked integer addition. Computes <c>x + y</c>,
-        /// returning <c>null</c> if overflow occured.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
-        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint? CheckedAdd(uint x, uint y) {
-            uint? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
-
-        /// <summary>
         /// <para>Calculates <c>x + y</c></para>
         /// </summary>
         /// <returns>
@@ -226,23 +209,6 @@ namespace AgatePris.Intar {
 
             // 結果がより小さくなったらオーバーフロー。
             return result < x;
-        }
-
-        /// <summary>
-        /// Checked integer addition. Computes <c>x + y</c>,
-        /// returning <c>null</c> if overflow occured.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
-        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong? CheckedAdd(ulong x, ulong y) {
-            ulong? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
         }
 
         /// <summary>
@@ -269,23 +235,6 @@ namespace AgatePris.Intar {
         }
 
         /// <summary>
-        /// Checked integer addition. Computes <c>x + y</c>,
-        /// returning <c>null</c> if overflow occured.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
-        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int? CheckedAdd(int x, int y) {
-            int? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
-
-        /// <summary>
         /// <para>Calculates <c>x + y</c></para>
         /// </summary>
         /// <returns>
@@ -306,23 +255,6 @@ namespace AgatePris.Intar {
             // 右辺が 0 未満の場合、結果がより大きくなったらオーバーフロー。
             // それ以外の場合、結果がより小さくなったらオーバーフロー。
             return y < 0 ? result > x : result < x;
-        }
-
-        /// <summary>
-        /// Checked integer addition. Computes <c>x + y</c>,
-        /// returning <c>null</c> if overflow occured.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
-        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long? CheckedAdd(long x, long y) {
-            long? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
         }
 
     }

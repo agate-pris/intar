@@ -143,23 +143,6 @@ namespace AgatePris.Intar {
             {%- endif %}
         }
 
-        /// <summary>
-        /// Checked integer addition. Computes <c>x + y</c>,
-        /// returning <c>null</c> if overflow occured.
-        /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(uint.MaxValue - 1U, Overflowing.CheckedAdd(uint.MaxValue - 2U, 1U));
-        /// System.Assert.AreEqual(null, Overflowing.CheckedAdd(uint.MaxValue - 2U, 3U));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ t }}? CheckedAdd({{ t }} x, {{ t }} y) {
-            {{ t }}? @null = null;
-            return OverflowingAdd(x, y, out var result) ? @null : result;
-        }
-
         {%- endfor %}
 
     }
