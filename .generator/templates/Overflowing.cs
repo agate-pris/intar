@@ -9,7 +9,7 @@ using System;
 #endif // NET7_0_OR_GREATER
 
 namespace AgatePris.Intar {
-    public static class Overflowing {
+    static class Overflowing {
         {%- for t in ['int', 'uint', 'long', 'ulong'] %}
 
         /// <summary>
