@@ -179,49 +179,6 @@ namespace AgatePris.Intar {
             return U33F31.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingAdd(I33F31 other, out I33F31 result) {
-        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-        //    result = FromBits(bits);
-        //    return b;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I33F31? CheckedAdd(I33F31 other) {
-        //    I33F31? @null = null;
-        //    var b = OverflowingAdd(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I33F31 SaturatingAdd(I33F31 other) {
-        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        //}
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingMul(I33F31 other, out I33F31 result) {
-        //    var bits = WideBits * other.Bits / OneRepr;
-        //    result = FromBits(unchecked((long)bits));
-        //    return bits < long.MinValue || bits > long.MaxValue;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I33F31? CheckedMul(I33F31 other) {
-        //    I33F31? @null = null;
-        //    var b = OverflowingMul(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I33F31 SaturatingMul(I33F31 other) => CheckedMul(other) ?? (
-        //    (Bits < 0) == (other.Bits < 0)
-        //    ? MaxValue
-        //    : MinValue
-        //);
-
-#endif
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F62 AcosP3() => U2F62.FromBits(Mathi.AcosP3(Bits));
 

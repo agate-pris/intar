@@ -158,38 +158,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U17F15 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U17F15 Twice() => FromBits(Mathi.Twice(Bits));
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingAdd(U17F15 other, out U17F15 result) {
-        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-        //    result = FromBits(bits);
-        //    return b;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public U17F15? CheckedAdd(U17F15 other) {
-        //    U17F15? @null = null;
-        //    var b = OverflowingAdd(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public U17F15 SaturatingAdd(U17F15 other) {
-        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingMul(U17F15 other, out U17F15 result) {
-        //    var bits = WideBits * other.Bits / OneRepr;
-        //    result = FromBits(unchecked((uint)bits));
-        //    return bits < uint.MinValue || bits > uint.MaxValue;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public U17F15? CheckedMul(U17F15 other) {
-        //    U17F15? @null = null;
-        //    var b = OverflowingMul(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public U17F15 SaturatingMul(U17F15 other) => CheckedMul(other) ?? MaxValue;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 BigMul(I17F15 other) {
             return I34F30.FromBits(Bits * other.Bits);

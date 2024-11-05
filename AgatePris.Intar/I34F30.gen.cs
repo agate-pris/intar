@@ -179,49 +179,6 @@ namespace AgatePris.Intar {
             return U34F30.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingAdd(I34F30 other, out I34F30 result) {
-        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-        //    result = FromBits(bits);
-        //    return b;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I34F30? CheckedAdd(I34F30 other) {
-        //    I34F30? @null = null;
-        //    var b = OverflowingAdd(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I34F30 SaturatingAdd(I34F30 other) {
-        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        //}
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingMul(I34F30 other, out I34F30 result) {
-        //    var bits = WideBits * other.Bits / OneRepr;
-        //    result = FromBits(unchecked((long)bits));
-        //    return bits < long.MinValue || bits > long.MaxValue;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I34F30? CheckedMul(I34F30 other) {
-        //    I34F30? @null = null;
-        //    var b = OverflowingMul(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public I34F30 SaturatingMul(I34F30 other) => CheckedMul(other) ?? (
-        //    (Bits < 0) == (other.Bits < 0)
-        //    ? MaxValue
-        //    : MinValue
-        //);
-
-#endif
-
         // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
         // 実装のために 128 ビット整数が必要なため、
         // 64 ビットの固定小数点数に対しては未実装。

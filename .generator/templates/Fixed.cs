@@ -222,61 +222,6 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
-        //    var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-        //    result = FromBits(bits);
-        //    return b;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public {{ self_type }}? CheckedAdd({{ self_type }} other) {
-        //    {{ self_type }}? @null = null;
-        //    var b = OverflowingAdd(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-        //    return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        //}
-
-{%- if int_nbits + frac_nbits > 32 %}
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-{%- endif %}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
-        //    var bits = WideBits * other.Bits / OneRepr;
-        //    result = FromBits(unchecked(({{ self_bits_type }})bits));
-        //    return bits < {{
-                self_bits_type }}.MinValue || bits > {{
-                self_bits_type }}.MaxValue;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public {{ self_type }}? CheckedMul({{ self_type }} other) {
-        //    {{ self_type }}? @null = null;
-        //    var b = OverflowingMul(other, out var result);
-        //    return b ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public {{ self_type }} SaturatingMul({{
-            self_type }} other) => CheckedMul(other) ??
-        {%- if signed %} (
-        //    (Bits < 0) == (other.Bits < 0)
-        //    ? MaxValue
-        //    : MinValue
-        //){% else %} MaxValue{% endif %};
-
-{%- if int_nbits + frac_nbits > 32 %}
-
-#endif
-
-{%- endif %}
-
 {%- for output in fixed_list %}
     {%- for rhs in fixed_list %}
         {%- if int_nbits + rhs[0] == output[0]
