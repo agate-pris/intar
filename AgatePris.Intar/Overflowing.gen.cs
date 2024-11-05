@@ -7,7 +7,7 @@ using System;
 #endif // NET7_0_OR_GREATER
 
 namespace AgatePris.Intar {
-    public static class Overflowing {
+    static class Overflowing {
 
         /// <summary>
         /// <para>Adds two values together to compute their sum.</para>
