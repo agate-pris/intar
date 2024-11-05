@@ -1,4 +1,3 @@
-using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -268,7 +267,7 @@ namespace AgatePris.Intar {
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = a0.Max(a1);
+            var max = Math.Max(a0, a1);
             if (max == 0) {
                 return null;
             }

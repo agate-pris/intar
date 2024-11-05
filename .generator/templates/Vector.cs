@@ -11,7 +11,6 @@
 {%- set self_component_unsigned_type = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
-using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -468,7 +467,11 @@ namespace AgatePris.Intar {
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = a0.Max(a1){% if dim > 2 %}.Max(a2){% if dim > 3 %}.Max(a3){% endif %}{% endif %};
+            var max = {% if dim > 2 %}Math.Max({% endif -%}
+                Math.Max(a0, a1)
+                {%- if dim == 3 %}, a2{% endif %}
+                {%- if dim == 4 %}, Math.Max(a2, a3){% endif %}
+                {%- if dim > 2 %}){% endif %};
             if (max == 0) {
                 return null;
             }
