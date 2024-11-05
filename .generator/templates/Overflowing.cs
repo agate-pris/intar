@@ -106,19 +106,6 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
-{%- for bits in [32, 64] %}
-    {%- for s in [true, false] %}
-
-        {%- set t = macros::inttype(signed=s, bits=bits) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ t }} WrappingMul({{ t }} x, {{ t }} y) {
-            return unchecked(x * y);
-        }
-
-    {%- endfor %}
-{%- endfor %}
-
         {%- set u_32 = [false, 32] %}
         {%- set u_64 = [false, 64] %}
         {%- set i_32 = [true,  32] %}

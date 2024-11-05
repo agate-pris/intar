@@ -17,8 +17,6 @@ namespace AgatePris.Intar.Tests {
             const i64 i64_2 = 2;
             const u32 u32_2 = 2;
             const u64 u64_2 = 2;
-            const i32 i32_10 = 10;
-            const i64 i64_10 = 10;
             const i32 i32Neg2 = -2;
             const i64 i64Neg2 = -2;
             const i32 i32_100 = 100;
@@ -45,8 +43,6 @@ namespace AgatePris.Intar.Tests {
             Utility.AssertAreEqual(Overflowing.WrappingSub(i64Neg2, i64.MaxValue), i64.MaxValue);
             Utility.AssertAreEqual(Overflowing.WrappingSub(u32_100, u32.MaxValue), 101);
             Utility.AssertAreEqual(Overflowing.WrappingSub(u64_100, u64.MaxValue), 101);
-            Utility.AssertAreEqual(Overflowing.WrappingMul(i32_10, 12), 120);
-            Utility.AssertAreEqual(Overflowing.WrappingMul(i64_10, 12), 120);
             Utility.AssertAreEqual(Overflowing.WrappingAddUnsigned(i32_100, 27), 127);
             Utility.AssertAreEqual(Overflowing.WrappingAddUnsigned(i64_100, 27), 127);
             Utility.AssertAreEqual(Overflowing.WrappingAddUnsigned(i32_2, u32.MaxValue), 1);
