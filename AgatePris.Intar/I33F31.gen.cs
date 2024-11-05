@@ -167,61 +167,42 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I33F31 Clamp(
-            I33F31 min, I33F31 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public I33F31 Clamp(I33F31 min, I33F31 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U33F31 UnsignedAbs() {
-            return U33F31.FromBits(Overflowing.UnsignedAbs(Bits));
+            return U33F31.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(I33F31 other, out I33F31 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I33F31? CheckedAdd(I33F31 other) {
-            I33F31? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I33F31 SaturatingAdd(I33F31 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
+        public U2F62 AcosP3() => U2F62.FromBits(Mathi.AcosP3(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul(I33F31 other, out I33F31 result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked((long)bits));
-            return bits < long.MinValue || bits > long.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I33F31? CheckedMul(I33F31 other) {
-            I33F31? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I33F31 SaturatingMul(I33F31 other) => CheckedMul(other) ?? (
-            (Bits < 0) == (other.Bits < 0)
-            ? MaxValue
-            : MinValue
-        );
+        public I2F62 AsinP3() => I2F62.FromBits(Mathi.AsinP3(Bits));
 
-#endif
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62 AcosP7() => U2F62.FromBits(Mathi.AcosP7(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AsinP7() => I2F62.FromBits(Mathi.AsinP7(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP2() => I2F62.FromBits(Mathi.AtanP2(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP3() => I2F62.FromBits(Mathi.AtanP3(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP9() => I2F62.FromBits(Mathi.AtanP9(Bits));
+
+        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
+        // 実装のために 128 ビット整数が必要なため、
+        // 64 ビットの固定小数点数に対しては未実装。
 
         //
         // Convert from

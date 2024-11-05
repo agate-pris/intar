@@ -11,7 +11,6 @@
 {%- set self_component_unsigned_type = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
 
-using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -257,35 +256,30 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Half() => new {{ self_type }}(
-            X.Half(),
-            Y.Half(){% if dim > 2 %},
-            Z.Half(){% if dim > 3 %},
-            W.Half(){% endif %}{% endif %});
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => new {{ self_type }}(X.Half(), Y.Half()
+            {%- if dim > 2 %}, Z.Half()
+            {%- if dim > 3 %}, W.Half(){% endif %}{% endif %});
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => new {{ self_type }}(X.Twice(), Y.Twice()
+            {%- if dim > 2 %}, Z.Twice()
+            {%- if dim > 3 %}, W.Twice(){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Twice() => new {{ self_type }}(
-            X.Twice(),
-            Y.Twice(){% if dim > 2 %},
-            Z.Twice(){% if dim > 3 %},
-            W.Twice(){% endif %}{% endif %});
+        public {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) {
+            return new {{ self_type }}({#             -#}
+                X.Clamp(min, max), {#                 -#}
+                Y.Clamp(min, max){% if dim > 2 %}, {# -#}
+                Z.Clamp(min, max){% if dim > 3 %}, {# -#}
+                W.Clamp(min, max){% endif %}{% endif %});
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) => new {{ self_type }}(
-            X.Clamp(min, max),
-            Y.Clamp(min, max){% if dim > 2 %},
-            Z.Clamp(min, max){% if dim > 3 %},
-            W.Clamp(min, max){% endif %}{% endif %});
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp(
-            {{ self_type }} min, {{ self_type }} max
-        ) => new {{ self_type }}(
-            X.Clamp(min.X, max.X),
-            Y.Clamp(min.Y, max.Y){% if dim > 2 %},
-            Z.Clamp(min.Z, max.Z){% if dim > 3 %},
-            W.Clamp(min.W, max.W){% endif %}{% endif %});
+        public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
+            return new {{ self_type }}({#                 -#}
+                X.Clamp(min.X, max.X), {#                 -#}
+                Y.Clamp(min.Y, max.Y){% if dim > 2 %}, {# -#}
+                Z.Clamp(min.Z, max.Z){% if dim > 3 %}, {# -#}
+                W.Clamp(min.W, max.W){% endif %}{% endif %});
+        }
 
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
@@ -301,20 +295,6 @@ namespace AgatePris.Intar {
         {%- endif %}
 
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingAdd({{ self_type }} other) => new {{ self_type }}(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y){% if dim > 2 %},
-            Z.SaturatingAdd(other.Z){% if dim > 3 %},
-            W.SaturatingAdd(other.W){% endif %}{% endif %});
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingMul({{ self_component_type }} other) => new {{ self_type }}(
-            X.SaturatingMul(other),
-            Y.SaturatingMul(other){% if dim > 2 %},
-            Z.SaturatingMul(other){% if dim > 3 %},
-            W.SaturatingMul(other){% endif %}{% endif %});
 
         {%- if signed and dim == 3 %}
 
@@ -431,10 +411,10 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ len_sqr_ty }} LengthSquared() {
-            var a1 = Overflowing.UnsignedAbs(X.Bits);
-            var a2 = Overflowing.UnsignedAbs(Y.Bits);{% if dim > 2 %}
-            var a3 = Overflowing.UnsignedAbs(Z.Bits);{% if dim > 3 %}
-            var a4 = Overflowing.UnsignedAbs(W.Bits);{% endif %}{% endif %}
+            var a1 = Mathi.UnsignedAbs(X.Bits);
+            var a2 = Mathi.UnsignedAbs(Y.Bits);{% if dim > 2 %}
+            var a3 = Mathi.UnsignedAbs(Z.Bits);{% if dim > 3 %}
+            var a4 = Mathi.UnsignedAbs(W.Bits);{% endif %}{% endif %}
             var s1 = ({{ self_wide_bits_unsigned_type }})a1 * a1;
             var s2 = ({{ self_wide_bits_unsigned_type }})a2 * a2;{% if dim > 2 %}
             var s3 = ({{ self_wide_bits_unsigned_type }})a3 * a3;{% if dim > 3 %}
@@ -487,7 +467,11 @@ namespace AgatePris.Intar {
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = a0.Max(a1){% if dim > 2 %}.Max(a2){% if dim > 3 %}.Max(a3){% endif %}{% endif %};
+            var max = {% if dim > 2 %}Math.Max({% endif -%}
+                Math.Max(a0, a1)
+                {%- if dim == 3 %}, a2{% endif %}
+                {%- if dim == 4 %}, Math.Max(a2, a3){% endif %}
+                {%- if dim > 2 %}){% endif %};
             if (max == 0) {
                 return null;
             }

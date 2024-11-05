@@ -151,45 +151,12 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 Max(U2F30 other) => FromBits(Math.Max(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 Clamp(
-            U2F30 min, U2F30 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F30 Twice() => FromBits(Mathi.Twice(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(U2F30 other, out U2F30 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30? CheckedAdd(U2F30 other) {
-            U2F30? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 SaturatingAdd(U2F30 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        public U2F30 Clamp(U2F30 min, U2F30 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul(U2F30 other, out U2F30 result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked((uint)bits));
-            return bits < uint.MinValue || bits > uint.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30? CheckedMul(U2F30 other) {
-            U2F30? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 SaturatingMul(U2F30 other) => CheckedMul(other) ?? MaxValue;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U2F30 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U2F30 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 BigMul(I2F30 other) {
@@ -200,17 +167,6 @@ namespace AgatePris.Intar {
         public U4F60 BigMul(U2F30 other) {
             return U4F60.FromBits(WideBits * other.Bits);
         }
-
-        // ベクトル型との演算
-        // ------------------
-
-#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2U2F30 SaturatingMul(Vector2U2F30 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3U2F30 SaturatingMul(Vector3U2F30 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4U2F30 SaturatingMul(Vector4U2F30 other) => other.SaturatingMul(this);
-
-#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
         //
         // Convert from

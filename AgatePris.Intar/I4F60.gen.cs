@@ -167,61 +167,21 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60 Clamp(
-            I4F60 min, I4F60 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public I4F60 Clamp(I4F60 min, I4F60 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I4F60 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I4F60 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 UnsignedAbs() {
-            return U4F60.FromBits(Overflowing.UnsignedAbs(Bits));
+            return U4F60.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(I4F60 other, out I4F60 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60? CheckedAdd(I4F60 other) {
-            I4F60? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60 SaturatingAdd(I4F60 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul(I4F60 other, out I4F60 result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked((long)bits));
-            return bits < long.MinValue || bits > long.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60? CheckedMul(I4F60 other) {
-            I4F60? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60 SaturatingMul(I4F60 other) => CheckedMul(other) ?? (
-            (Bits < 0) == (other.Bits < 0)
-            ? MaxValue
-            : MinValue
-        );
-
-#endif
+        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
+        // 実装のために 128 ビット整数が必要なため、
+        // 64 ビットの固定小数点数に対しては未実装。
 
         //
         // Convert from

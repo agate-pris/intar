@@ -1,4 +1,3 @@
-using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -237,35 +236,18 @@ namespace AgatePris.Intar {
             Z.Abs(),
             W.Abs());
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 Half() => new Vector4I17F15(
-            X.Half(),
-            Y.Half(),
-            Z.Half(),
-            W.Half());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector4I17F15 Half() => new Vector4I17F15(X.Half(), Y.Half(), Z.Half(), W.Half());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector4I17F15 Twice() => new Vector4I17F15(X.Twice(), Y.Twice(), Z.Twice(), W.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 Twice() => new Vector4I17F15(
-            X.Twice(),
-            Y.Twice(),
-            Z.Twice(),
-            W.Twice());
+        public Vector4I17F15 Clamp(I17F15 min, I17F15 max) {
+            return new Vector4I17F15(X.Clamp(min, max), Y.Clamp(min, max), Z.Clamp(min, max), W.Clamp(min, max));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 Clamp(I17F15 min, I17F15 max) => new Vector4I17F15(
-            X.Clamp(min, max),
-            Y.Clamp(min, max),
-            Z.Clamp(min, max),
-            W.Clamp(min, max));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 Clamp(
-            Vector4I17F15 min, Vector4I17F15 max
-        ) => new Vector4I17F15(
-            X.Clamp(min.X, max.X),
-            Y.Clamp(min.Y, max.Y),
-            Z.Clamp(min.Z, max.Z),
-            W.Clamp(min.W, max.W));
+        public Vector4I17F15 Clamp(Vector4I17F15 min, Vector4I17F15 max) {
+            return new Vector4I17F15(X.Clamp(min.X, max.X), Y.Clamp(min.Y, max.Y), Z.Clamp(min.Z, max.Z), W.Clamp(min.W, max.W));
+        }
 
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
@@ -277,20 +259,6 @@ namespace AgatePris.Intar {
             W.UnsignedAbs());
 
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 SaturatingAdd(Vector4I17F15 other) => new Vector4I17F15(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y),
-            Z.SaturatingAdd(other.Z),
-            W.SaturatingAdd(other.W));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 SaturatingMul(I17F15 other) => new Vector4I17F15(
-            X.SaturatingMul(other),
-            Y.SaturatingMul(other),
-            Z.SaturatingMul(other),
-            W.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         long DotInternal(Vector4I17F15 other) {
@@ -352,7 +320,7 @@ namespace AgatePris.Intar {
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = a0.Max(a1).Max(a2).Max(a3);
+            var max = Math.Max(Math.Max(a0, a1), Math.Max(a2, a3));
             if (max == 0) {
                 return null;
             }

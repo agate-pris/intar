@@ -156,54 +156,17 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Clamp(
-            I2F30 min, I2F30 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public I2F30 Clamp(I2F30 min, I2F30 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Twice() => FromBits(Mathi.Twice(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F30 UnsignedAbs() {
-            return U2F30.FromBits(Overflowing.UnsignedAbs(Bits));
+            return U2F30.FromBits(Mathi.UnsignedAbs(Bits));
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(I2F30 other, out I2F30 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30? CheckedAdd(I2F30 other) {
-            I2F30? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SaturatingAdd(I2F30 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul(I2F30 other, out I2F30 result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked((int)bits));
-            return bits < int.MinValue || bits > int.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30? CheckedMul(I2F30 other) {
-            I2F30? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SaturatingMul(I2F30 other) => CheckedMul(other) ?? (
-            (Bits < 0) == (other.Bits < 0)
-            ? MaxValue
-            : MinValue
-        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 BigMul(I2F30 other) {
@@ -215,12 +178,26 @@ namespace AgatePris.Intar {
             return I4F60.FromBits(Bits * other.Bits);
         }
 
-        // ベクトル型との演算
-        // ------------------
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I2F30 SaturatingMul(Vector2I2F30 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I2F30 SaturatingMul(Vector3I2F30 other) => other.SaturatingMul(this);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I2F30 SaturatingMul(Vector4I2F30 other) => other.SaturatingMul(this);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Atan2P2(I2F30 other) {
+            return I2F30.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Atan2P3(I2F30 other) {
+            return I2F30.FromBits(Mathi.Atan2P3(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P9(I2F30 other) {
+            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+        }
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 
         //
         // Convert from

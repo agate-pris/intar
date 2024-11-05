@@ -206,77 +206,21 @@ namespace AgatePris.Intar {
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp(
-            {{ self_type }} min, {{ self_type }} max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
 
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} UnsignedAbs() {
-            return {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }}.FromBits(Overflowing.UnsignedAbs(Bits));
+            return {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }}.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
         {%- endif %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd({{ self_type }} other, out {{ self_type }} result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}? CheckedAdd({{ self_type }} other) {
-            {{ self_type }}? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingAdd({{ self_type }} other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
-        }
-
-{%- if int_nbits + frac_nbits > 32 %}
-
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-{%- endif %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul({{ self_type }} other, out {{ self_type }} result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked(({{ self_bits_type }})bits));
-            return bits < {{
-                self_bits_type }}.MinValue || bits > {{
-                self_bits_type }}.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}? CheckedMul({{ self_type }} other) {
-            {{ self_type }}? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingMul({{
-            self_type }} other) => CheckedMul(other) ??
-        {%- if signed %} (
-            (Bits < 0) == (other.Bits < 0)
-            ? MaxValue
-            : MinValue
-        ){% else %} MaxValue{% endif %};
-
-{%- if int_nbits + frac_nbits > 32 %}
-
-#endif
-
-{%- endif %}
 
 {%- for output in fixed_list %}
     {%- for rhs in fixed_list %}
@@ -311,6 +255,71 @@ namespace AgatePris.Intar {
     {%- endfor %}
 {%- endfor %}
 
+{%- if signed %}
+    {%- if int_nbits == 17 and frac_nbits == 15
+        or int_nbits == 33 and frac_nbits == 31 %}
+
+        {%- for order in [3, 7] %}
+
+            {%- if order == 7 and int_nbits < 32 %}
+                {%- continue %}
+            {%- endif %}
+
+            {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
+            {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ acos }} AcosP{{ order }}() => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ asin }} AsinP{{ order }}() => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(Bits));
+
+        {%- endfor %}
+
+        {%- for order in [2, 3, 9] %}
+            {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
+            {%- if order == 9 and int_nbits < 32 %}
+                {%- continue %}
+            {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ atan }} AtanP{{ order }}() => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(Bits));
+        {%- endfor %}
+
+    {%- endif %}
+
+    {%- if int_nbits+frac_nbits > 32 %}
+
+        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
+        // 実装のために 128 ビット整数が必要なため、
+        // 64 ビットの固定小数点数に対しては未実装。
+
+    {%- else %}
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
+        {%- for order in [2, 3, 9] %}
+            {%- if order < 9 %}
+                {%- set f = 32-2 %}
+            {%- else %}
+                {%- set f = 64-2 %}
+            {%- endif %}
+            {%- set atan = macros::fixed_type(i=2, f=f, s=true) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
+            return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(Bits, other.Bits));
+        }
+        {%- endfor %}
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+    {%- endif %}
+
+{%- endif %}
+
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
             "SinP4",
@@ -331,33 +340,6 @@ namespace AgatePris.Intar {
 
         {%- endfor %}
         {%- endif %}
-
-        {%- for v in vector_list %}
-        {%- if v[0] == int_nbits and v[1] == frac_nbits %}
-
-        // ベクトル型との演算
-        // ------------------
-
-{%- if not signed %}
-
-#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-{%- endif %}
-{# これは改行を挿入するためのコメントです #}
-
-        {%- for dim in [2, 3, 4] %}
-        {%- set vec_type = macros::vector_type(dim=dim, type=self_type) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ vec_type }} SaturatingMul({{ vec_type }} other) => other.SaturatingMul(this);
-        {%- endfor %}
-
-{%-if not signed %}
-
-#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-{%- endif %}
-
-        {%- endif %}
-        {%- endfor %}
 
         //
         // Convert from

@@ -30,6 +30,47 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+{%- for bits in [32, 64, 128] %}
+
+    {%- if bits > 64 %}
+
+        // 128 ビット整数型に対する AbsDiff は .NET 7 以降のみ
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
+    {%- set st = macros::inttype(bits=bits, signed=true ) %}
+    {%- set ut = macros::inttype(bits=bits, signed=false) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ ut }} AbsDiff({{ st }} x, {{ st }} y) {
+            unchecked {
+                var ux = ({{ ut }})x;
+                var uy = ({{ ut }})y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ ut }} AbsDiff({{ ut }} x, {{ ut }} y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
+
+{%- endfor %}
+
+        #region Asin / Acos
+
         internal static class AsinInternal {
             const decimal Frac2Pi = 2 / Pi;
 
@@ -164,6 +205,10 @@ namespace AgatePris.Intar {
             }
         }
         {%- endfor %}
+
+        #endregion
+
+        #region Atan
 
         internal static class AtanInternal {
             // Round(K * Inv(a / K))
@@ -378,6 +423,10 @@ namespace AgatePris.Intar {
 
         {%- endfor %}
 
+        #endregion
+
+        #region Clamp
+
 {%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
 
         /// <summary>
@@ -396,9 +445,14 @@ namespace AgatePris.Intar {
 #endif
         }
 {%- endfor %}
+
+        #endregion
+
 {% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Half({{ type }} x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Half({{ type }} x) => x / 2;
 {%- endfor %}
+
+        #region Sin / Cos
 
         internal static class SinInternal {
             internal enum Quadrant : byte {
@@ -631,6 +685,8 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endfor %}
 
+        #endregion
+
 {%- for bits in [32, 64] %}
 {%- set type=macros::inttype(bits=bits, signed=false) %}
 
@@ -680,7 +736,30 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
 {% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ type }} Twice({{ type }} x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Twice({{ type }} x) => x * 2;
+{%- endfor %}
+
+{%- for bits in [32, 64, 128] %}
+
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
+    {%- set ut = macros::inttype(bits=bits, signed=false) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ ut }} UnsignedAbs({{ macros::inttype(bits=bits, signed=true) }} x) {
+            return unchecked(({{ ut }})Overflowing.WrappingAbs(x));
+        }
+
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+
+    {%- endif %}
+
 {%- endfor %}
 
     }

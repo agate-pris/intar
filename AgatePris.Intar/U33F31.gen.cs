@@ -162,52 +162,12 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Max(U33F31 other) => FromBits(Math.Max(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 Clamp(
-            U33F31 min, U33F31 max
-        ) => FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Half() => FromBits(Mathi.Half(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U33F31 Twice() => FromBits(Mathi.Twice(Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingAdd(U33F31 other, out U33F31 result) {
-            var b = Overflowing.OverflowingAdd(Bits, other.Bits, out var bits);
-            result = FromBits(bits);
-            return b;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31? CheckedAdd(U33F31 other) {
-            U33F31? @null = null;
-            var b = OverflowingAdd(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 SaturatingAdd(U33F31 other) {
-            return FromBits(Overflowing.SaturatingAdd(Bits, other.Bits));
+        public U33F31 Clamp(U33F31 min, U33F31 max) {
+            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
         }
 
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        bool OverflowingMul(U33F31 other, out U33F31 result) {
-            var bits = WideBits * other.Bits / OneRepr;
-            result = FromBits(unchecked((ulong)bits));
-            return bits < ulong.MinValue || bits > ulong.MaxValue;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31? CheckedMul(U33F31 other) {
-            U33F31? @null = null;
-            var b = OverflowingMul(other, out var result);
-            return b ? @null : result;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U33F31 SaturatingMul(U33F31 other) => CheckedMul(other) ?? MaxValue;
-
-#endif
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U33F31 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U33F31 Twice() => FromBits(Mathi.Twice(Bits));
 
         //
         // Convert from

@@ -5,6 +5,68 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint AbsDiff(int x, int y) {
+            unchecked {
+                var ux = (uint)x;
+                var uy = (uint)y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint AbsDiff(uint x, uint y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AbsDiff(long x, long y) {
+            unchecked {
+                var ux = (ulong)x;
+                var uy = (ulong)y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong AbsDiff(ulong x, ulong y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+        // 128 ビット整数型に対する AbsDiff は .NET 7 以降のみ
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 AbsDiff(Int128 x, Int128 y) {
+            unchecked {
+                var ux = (UInt128)x;
+                var uy = (UInt128)y;
+                return (x < y)
+                    ? Overflowing.WrappingSub(uy, ux)
+                    : Overflowing.WrappingSub(ux, uy);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 AbsDiff(UInt128 x, UInt128 y) {
+            return (x < y)
+                ? y - x
+                : x - y;
+        }
+
+#endif // NET7_0_OR_GREATER
+
+        #region Asin / Acos
+
         internal static class AsinInternal {
             const decimal Frac2Pi = 2 / Pi;
             const decimal Z32 = Frac2Pi * (1UL << 31);
@@ -231,6 +293,10 @@ namespace AgatePris.Intar {
                 default: return (long)AsinInternal.P7((ulong)-x) - fracPi2;
             }
         }
+
+        #endregion
+
+        #region Atan
 
         internal static class AtanInternal {
             // Round(K * Inv(a / K))
@@ -650,6 +716,10 @@ namespace AgatePris.Intar {
             }
         }
 
+        #endregion
+
+        #region Clamp
+
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
@@ -778,10 +848,15 @@ namespace AgatePris.Intar {
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Half(int x) => x / 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Half(uint x) => x / 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Half(long x) => x / 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Half(ulong x) => x / 2;
+        #endregion
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Half(int x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Half(uint x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Half(long x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Half(ulong x) => x / 2;
+
+        #region Sin / Cos
 
         internal static class SinInternal {
             internal enum Quadrant : byte {
@@ -1413,6 +1488,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long CosP11(long x) => SinP11(Overflowing.WrappingAdd(x, 1L << 31));
 
+        #endregion
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {
             if (x <= 1) {
@@ -1475,10 +1552,29 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Twice(int x) => x * 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Twice(uint x) => x * 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static long Twice(long x) => x * 2;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong Twice(ulong x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Twice(int x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Twice(uint x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Twice(long x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Twice(ulong x) => x * 2;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint UnsignedAbs(int x) {
+            return unchecked((uint)Overflowing.WrappingAbs(x));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong UnsignedAbs(long x) {
+            return unchecked((ulong)Overflowing.WrappingAbs(x));
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 UnsignedAbs(Int128 x) {
+            return unchecked((UInt128)Overflowing.WrappingAbs(x));
+        }
+
+#endif // NET7_0_OR_GREATER
 
     }
 }

@@ -1,4 +1,3 @@
-using AgatePris.Intar.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -204,31 +203,18 @@ namespace AgatePris.Intar {
             Y.Abs(),
             Z.Abs());
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 Half() => new Vector3I2F30(
-            X.Half(),
-            Y.Half(),
-            Z.Half());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector3I2F30 Half() => new Vector3I2F30(X.Half(), Y.Half(), Z.Half());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector3I2F30 Twice() => new Vector3I2F30(X.Twice(), Y.Twice(), Z.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 Twice() => new Vector3I2F30(
-            X.Twice(),
-            Y.Twice(),
-            Z.Twice());
+        public Vector3I2F30 Clamp(I2F30 min, I2F30 max) {
+            return new Vector3I2F30(X.Clamp(min, max), Y.Clamp(min, max), Z.Clamp(min, max));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 Clamp(I2F30 min, I2F30 max) => new Vector3I2F30(
-            X.Clamp(min, max),
-            Y.Clamp(min, max),
-            Z.Clamp(min, max));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 Clamp(
-            Vector3I2F30 min, Vector3I2F30 max
-        ) => new Vector3I2F30(
-            X.Clamp(min.X, max.X),
-            Y.Clamp(min.Y, max.Y),
-            Z.Clamp(min.Z, max.Z));
+        public Vector3I2F30 Clamp(Vector3I2F30 min, Vector3I2F30 max) {
+            return new Vector3I2F30(X.Clamp(min.X, max.X), Y.Clamp(min.Y, max.Y), Z.Clamp(min.Z, max.Z));
+        }
 
 #if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
 
@@ -239,18 +225,6 @@ namespace AgatePris.Intar {
             Z.UnsignedAbs());
 
 #endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 SaturatingAdd(Vector3I2F30 other) => new Vector3I2F30(
-            X.SaturatingAdd(other.X),
-            Y.SaturatingAdd(other.Y),
-            Z.SaturatingAdd(other.Z));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30 SaturatingMul(I2F30 other) => new Vector3I2F30(
-            X.SaturatingMul(other),
-            Y.SaturatingMul(other),
-            Z.SaturatingMul(other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CrossInternal(Vector3I2F30 other, out long x, out long y, out long z) {
@@ -344,9 +318,9 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 LengthSquared() {
-            var a1 = Overflowing.UnsignedAbs(X.Bits);
-            var a2 = Overflowing.UnsignedAbs(Y.Bits);
-            var a3 = Overflowing.UnsignedAbs(Z.Bits);
+            var a1 = Mathi.UnsignedAbs(X.Bits);
+            var a2 = Mathi.UnsignedAbs(Y.Bits);
+            var a3 = Mathi.UnsignedAbs(Z.Bits);
             var s1 = (ulong)a1 * a1;
             var s2 = (ulong)a2 * a2;
             var s3 = (ulong)a3 * a3;
@@ -380,7 +354,7 @@ namespace AgatePris.Intar {
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = a0.Max(a1).Max(a2);
+            var max = Math.Max(Math.Max(a0, a1), a2);
             if (max == 0) {
                 return null;
             }
