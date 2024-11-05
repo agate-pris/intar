@@ -10,41 +10,6 @@ using System;
 
 namespace AgatePris.Intar {
     static class Overflowing {
-        {%- for t in ['int', 'uint', 'long', 'ulong'] %}
-
-        /// <summary>
-        /// <para>Adds two values together to compute their sum.</para>
-        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictAdd({{ t }} x, {{ t }} y) => checked(x + y);
-
-        /// <summary>
-        /// <para>Subtracts two values to compute their difference.</para>
-        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictSub({{ t }} x, {{ t }} y) => checked(x - y);
-
-        /// <summary>
-        /// <para>Multiplies two values together to compute their product.</para>
-        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static {{ t }} StrictMul({{ t }} x, {{ t }} y) => checked(x * y);
-        {%- endfor %}
 
 {%- for bits in [32, 64, 128] %}
 
@@ -94,37 +59,6 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg({{ t }} x, out {{ t }} result) {
-        {%- if s %}
-        //    if (x == {{ t }}.MinValue) {
-        //        result = {{ t }}.MinValue;
-        //        return true;
-        //    } else {
-        //        result = -x;
-        //        return false;
-        //    }
-        {%- else %}
-        //    result = WrappingAdd(~x, 1);
-        //    return x != 0;
-        {%- endif %}
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ t }}? CheckedNeg({{ t }} x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? ({{ t }}?)null : result;
-        //}
-
-        {%- if s %}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ t }}? CheckedAbs({{ t }} x) {
-        //    return (x < 0) ? CheckedNeg(x) : x;
-        //}
-
-        {%- endif %}
-
     {%- endfor %}
 
     {%- if bits > 64 %}
@@ -171,12 +105,6 @@ namespace AgatePris.Intar {
         public static {{ t }} WrappingAbs({{ t }} x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs({{ t }}, out {{ t }} result) {
-        //    result = WrappingAbs(x);
-        //    return x == {{ t }}.MinValue;
-        //}
 
         {%- endif %}
 
@@ -281,67 +209,6 @@ namespace AgatePris.Intar {
         {%- else %} => CheckedAdd(x, y) ?? {{ t }}.MaxValue;
         {%- endif %}
         {%- endfor %}
-
-{%- for bits in [32, 64] %}
-
-    {%- if bits > 32 %}
-
-#if NET5_0_OR_GREATER
-
-    {%- endif %}
-
-    {%- for s in [true, false] %}
-        {%- set t = macros::inttype(signed=s, bits=bits) %}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingMul({{
-            t }} x, {{
-            t }} y, out {{ t }} result) {
-            {%- if bits > 32 %}
-        //    var high = Math.BigMul(x, y, out result);
-        //    return {% if s %}result < 0
-        //        ? high != -1
-        //        : {% endif %}high != 0;
-            {%- else %}
-                {%- if s  %}
-        //    var l = Math.BigMul(x, y);
-                {%- else %}
-        //    var l = ((ulong)x) * y;
-                {%- endif %}
-        //    result = unchecked(({{ t }})l);
-                {%- if s %}
-        //    return l < {{ t }}.MinValue || l > {{ t }}.MaxValue;
-                {%- else %}
-        //    return l > {{ t }}.MaxValue;
-                {%- endif %}
-            {%- endif %}
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ t }}? CheckedMul({{ t }} x, {{ t }} y) {
-        //    {{ t }}? @null = null;
-        //    return OverflowingMul(x, y, out var result) ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static {{ t }} SaturatingMul({{
-            t }} x, {{
-            t }} y) => CheckedMul(x, y) ??
-        {%- if s %} (
-        //    ((x < 0) == (y < 0))
-        //    ? {{ t }}.MaxValue
-        //    : {{ t }}.MinValue
-        //);
-        {%- else %} {{ t }}.MaxValue;
-        {%- endif %}
-
-    {%- endfor %}
-
-    {%- if bits > 32 %}
-
-#endif // NET5_0_OR_GREATER
-
-    {%- endif %}
-
-{%- endfor %}
 
     }
 }

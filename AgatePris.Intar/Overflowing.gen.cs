@@ -9,138 +9,6 @@ using System;
 namespace AgatePris.Intar {
     static class Overflowing {
 
-        /// <summary>
-        /// <para>Adds two values together to compute their sum.</para>
-        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictAdd(int x, int y) => checked(x + y);
-
-        /// <summary>
-        /// <para>Subtracts two values to compute their difference.</para>
-        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictSub(int x, int y) => checked(x - y);
-
-        /// <summary>
-        /// <para>Multiplies two values together to compute their product.</para>
-        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static int StrictMul(int x, int y) => checked(x * y);
-
-        /// <summary>
-        /// <para>Adds two values together to compute their sum.</para>
-        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictAdd(uint x, uint y) => checked(x + y);
-
-        /// <summary>
-        /// <para>Subtracts two values to compute their difference.</para>
-        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictSub(uint x, uint y) => checked(x - y);
-
-        /// <summary>
-        /// <para>Multiplies two values together to compute their product.</para>
-        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint StrictMul(uint x, uint y) => checked(x * y);
-
-        /// <summary>
-        /// <para>Adds two values together to compute their sum.</para>
-        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictAdd(long x, long y) => checked(x + y);
-
-        /// <summary>
-        /// <para>Subtracts two values to compute their difference.</para>
-        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictSub(long x, long y) => checked(x - y);
-
-        /// <summary>
-        /// <para>Multiplies two values together to compute their product.</para>
-        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static long StrictMul(long x, long y) => checked(x * y);
-
-        /// <summary>
-        /// <para>Adds two values together to compute their sum.</para>
-        /// <para>2 つの値を加算し､ その合計を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictAdd(ulong x, ulong y) => checked(x + y);
-
-        /// <summary>
-        /// <para>Subtracts two values to compute their difference.</para>
-        /// <para>1 つの値からもう 1 つの値を引いて､ その差を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictSub(ulong x, ulong y) => checked(x - y);
-
-        /// <summary>
-        /// <para>Multiplies two values together to compute their product.</para>
-        /// <para>2 つの値を掛け合わせて､ その積を計算します｡</para>
-        /// <remarks><div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>This method throws an exception if the result is outside the range of the data type.</para>
-        /// <para>このメソッドは結果がデータ型の範囲外の場合に例外をスローします｡</para>
-        /// </div></remarks>
-        /// </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] public static ulong StrictMul(ulong x, ulong y) => checked(x * y);
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAdd(int x, int y) {
             return unchecked(x + y);
@@ -150,28 +18,6 @@ namespace AgatePris.Intar {
         public static int WrappingAddUnsigned(int x, uint y) {
             return WrappingAdd(x, unchecked((int)y));
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(int x, out int result) {
-        //    if (x == int.MinValue) {
-        //        result = int.MinValue;
-        //        return true;
-        //    } else {
-        //        result = -x;
-        //        return false;
-        //    }
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedNeg(int x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (int?)null : result;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedAbs(int x) {
-        //    return (x < 0) ? CheckedNeg(x) : x;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint WrappingAdd(uint x, uint y) {
@@ -183,18 +29,6 @@ namespace AgatePris.Intar {
             return WrappingAdd(x, unchecked((uint)y));
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(uint x, out uint result) {
-        //    result = WrappingAdd(~x, 1);
-        //    return x != 0;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static uint? CheckedNeg(uint x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (uint?)null : result;
-        //}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long WrappingAdd(long x, long y) {
             return unchecked(x + y);
@@ -204,28 +38,6 @@ namespace AgatePris.Intar {
         public static long WrappingAddUnsigned(long x, ulong y) {
             return WrappingAdd(x, unchecked((long)y));
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(long x, out long result) {
-        //    if (x == long.MinValue) {
-        //        result = long.MinValue;
-        //        return true;
-        //    } else {
-        //        result = -x;
-        //        return false;
-        //    }
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedNeg(long x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (long?)null : result;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedAbs(long x) {
-        //    return (x < 0) ? CheckedNeg(x) : x;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingAdd(ulong x, ulong y) {
@@ -237,53 +49,7 @@ namespace AgatePris.Intar {
             return WrappingAdd(x, unchecked((ulong)y));
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(ulong x, out ulong result) {
-        //    result = WrappingAdd(~x, 1);
-        //    return x != 0;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ulong? CheckedNeg(ulong x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (ulong?)null : result;
-        //}
-
 #if NET7_0_OR_GREATER
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(Int128 x, out Int128 result) {
-        //    if (x == Int128.MinValue) {
-        //        result = Int128.MinValue;
-        //        return true;
-        //    } else {
-        //        result = -x;
-        //        return false;
-        //    }
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static Int128? CheckedNeg(Int128 x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (Int128?)null : result;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static Int128? CheckedAbs(Int128 x) {
-        //    return (x < 0) ? CheckedNeg(x) : x;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingNeg(UInt128 x, out UInt128 result) {
-        //    result = WrappingAdd(~x, 1);
-        //    return x != 0;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static UInt128? CheckedNeg(UInt128 x) {
-        //    var b = OverflowingNeg(x, out var result);
-        //    return b ? (UInt128?)null : result;
-        //}
 
 #endif // NET7_0_OR_GREATER
 
@@ -306,12 +72,6 @@ namespace AgatePris.Intar {
         public static int WrappingAbs(int x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(int, out int result) {
-        //    result = WrappingAbs(x);
-        //    return x == int.MinValue;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint WrappingSub(uint x, uint y) {
@@ -342,12 +102,6 @@ namespace AgatePris.Intar {
         public static long WrappingAbs(long x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(long, out long result) {
-        //    result = WrappingAbs(x);
-        //    return x == long.MinValue;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong WrappingSub(ulong x, ulong y) {
@@ -380,12 +134,6 @@ namespace AgatePris.Intar {
         public static Int128 WrappingAbs(Int128 x) {
             return (x < 0) ? WrappingNeg(x) : x;
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingAbs(Int128, out Int128 result) {
-        //    result = WrappingAbs(x);
-        //    return x == Int128.MinValue;
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 WrappingSub(UInt128 x, UInt128 y) {
@@ -644,74 +392,6 @@ namespace AgatePris.Intar {
                 ? long.MinValue
                 : long.MaxValue);
         }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingMul(int x, int y, out int result) {
-        //    var l = Math.BigMul(x, y);
-        //    result = unchecked((int)l);
-        //    return l < int.MinValue || l > int.MaxValue;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int? CheckedMul(int x, int y) {
-        //    int? @null = null;
-        //    return OverflowingMul(x, y, out var result) ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static int SaturatingMul(int x, int y) => CheckedMul(x, y) ?? (
-        //    ((x < 0) == (y < 0))
-        //    ? int.MaxValue
-        //    : int.MinValue
-        //);
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingMul(uint x, uint y, out uint result) {
-        //    var l = ((ulong)x) * y;
-        //    result = unchecked((uint)l);
-        //    return l > uint.MaxValue;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static uint? CheckedMul(uint x, uint y) {
-        //    uint? @null = null;
-        //    return OverflowingMul(x, y, out var result) ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static uint SaturatingMul(uint x, uint y) => CheckedMul(x, y) ?? uint.MaxValue;
-
-#if NET5_0_OR_GREATER
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingMul(long x, long y, out long result) {
-        //    var high = Math.BigMul(x, y, out result);
-        //    return result < 0
-        //        ? high != -1
-        //        : high != 0;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long? CheckedMul(long x, long y) {
-        //    long? @null = null;
-        //    return OverflowingMul(x, y, out var result) ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static long SaturatingMul(long x, long y) => CheckedMul(x, y) ?? (
-        //    ((x < 0) == (y < 0))
-        //    ? long.MaxValue
-        //    : long.MinValue
-        //);
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool OverflowingMul(ulong x, ulong y, out ulong result) {
-        //    var high = Math.BigMul(x, y, out result);
-        //    return high != 0;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ulong? CheckedMul(ulong x, ulong y) {
-        //    ulong? @null = null;
-        //    return OverflowingMul(x, y, out var result) ? @null : result;
-        //}
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ulong SaturatingMul(ulong x, ulong y) => CheckedMul(x, y) ?? ulong.MaxValue;
-
-#endif // NET5_0_OR_GREATER
 
     }
 }
