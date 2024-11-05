@@ -26,36 +26,24 @@ namespace AgatePris.Intar {
 
         {%- set t = macros::inttype(bits=bits, signed=s) %}
 
-        {%- if bits < 128 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} WrappingAdd({{ t }} x, {{ t }} y) {
             return unchecked(x + y);
         }
 
-        {%- endif %}
-
         {%- if s %}
-
-            {%- if bits < 128 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ st }} WrappingAddUnsigned({{ st }} x, {{ ut }} y) {
             return WrappingAdd(x, unchecked(({{ st }})y));
         }
 
-            {%- endif %}
-
         {%- else %}
-
-            {%- if bits < 128 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ ut }} WrappingAddSigned({{ ut }} x, {{ st }} y) {
             return WrappingAdd(x, unchecked(({{ ut }})y));
         }
-
-            {%- endif %}
 
         {%- endif %}
 
