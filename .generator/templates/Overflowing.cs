@@ -106,44 +106,5 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
-        {%- set u_32 = [false, 32] %}
-        {%- set u_64 = [false, 64] %}
-        {%- set i_32 = [true,  32] %}
-        {%- set i_64 = [true,  64] %}
-        {%- for e in [u_32, u_64, i_32, i_64] %}
-        {%- set t = macros::inttype(signed=e[0], bits=e[1]) %}
-
-        /// <summary>
-        /// <para>Calculates <c>x + y</c></para>
-        /// </summary>
-        /// <returns>
-        /// Returns a boolean indicating whether an arithmetic overflow would occur.
-        /// </returns>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// System.Assert.AreEqual(false, Overflowing.OverflowingAdd(5U, 2U, out var result));
-        /// System.Assert.AreEqual(true, Overflowing.OverflowingAdd(uint.MaxValue, 1U, out result));
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool OverflowingAdd({{ t }} x, {{ t }} y, out {{ t }} result) {
-            // unchecked コンテキストでは、整数の演算結果はラップアラウンドする。
-            result = unchecked(x + y);
-
-            {%- if e[0] %}
-
-            // 右辺が 0 未満の場合、結果がより大きくなったらオーバーフロー。
-            // それ以外の場合、結果がより小さくなったらオーバーフロー。
-            return y < 0 ? result > x : result < x;
-            {%- else %}
-
-            // 結果がより小さくなったらオーバーフロー。
-            return result < x;
-            {%- endif %}
-        }
-
-        {%- endfor %}
-
     }
 }
