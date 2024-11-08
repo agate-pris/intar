@@ -8,6 +8,7 @@
 {%- set component_u = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_type = macros::vector_type(dim=dim, type=component) -%}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
+{%- set repr = macros::vector_primitive(dim=dim, bits=int_nbits+frac_nbits, signed=signed) -%}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -24,25 +25,41 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public {{ component }} X;
-        public {{ component }} Y;{% if dim > 2 %}
-        public {{ component }} Z;{% if dim > 3 %}
-        public {{ component }} W;{% endif %}{% endif %}
+        public {{ repr }} Repr;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+        internal {{ macros::vector_primitive(dim=dim, signed=signed, bits=int_nbits*2+frac_nbits*2)
+        }} WideRepr {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Repr;
+        }
+{% for c in components %}
+        public {{ component }} {{ c }} {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => {{ component }}.FromBits(Repr.{{ c }});
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.{{ c }} = value.Bits;
+        }
+{%- endfor %}
+
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ component }} x, {{ component }} y{% if dim > 2 %}, {{ component }} z{% endif %}{% if dim > 3 %}, {{ component }} w{% endif %}) {
-            X = x;
-            Y = y;{% if dim > 2 %}
-            Z = z;{% if dim > 3 %}
-            W = w;{% endif %}{% endif %}
+        public {{ self_type }}({{ repr }} repr) {
+            Repr = repr;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_type }}(
+            {%- for c in components %}
+            {{- component }} {{ c|lower }}{% if not loop.last %}, {% endif %}
+            {%- endfor %}) : this(new {{ repr }}(
+            {%- for c in components %}
+            {{- c|lower }}.Bits{% if not loop.last %}, {% endif %}
+            {%- endfor %})) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}({{ component }} value) : this(
@@ -69,61 +86,44 @@ namespace AgatePris.Intar {
         // Arithmetic Operators
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator +({{ self_type }} a, {{ self_type }} b) => new {{ self_type }}(
-            a.X + b.X,
-            a.Y + b.Y{% if dim > 2 %},
-            a.Z + b.Z{% if dim > 3 %},
-            a.W + b.W{% endif %}{% endif %});
+{%- for o in ['+', '-'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator -({{ self_type }} a, {{ self_type }} b) => new {{ self_type }}(
-            a.X - b.X,
-            a.Y - b.Y{% if dim > 2 %},
-            a.Z - b.Z{% if dim > 3 %},
-            a.W - b.W{% endif %}{% endif %});
+        public static {{ self_type }} operator {{ o }}({{ self_type }} a, {{ self_type }} b) {
+            return new {{ self_type }}(a.Repr {{ o }} b.Repr);
+        }
+
+{%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ self_type }} a, {{ self_type }} b) => new {{ self_type }}(
-            a.X * b.X,
-            a.Y * b.Y{% if dim > 2 %},
-            a.Z * b.Z{% if dim > 3 %},
-            a.W * b.W{% endif %}{% endif %});
+        public static {{ self_type }} operator *({{ self_type }} a, {{ self_type }} b) {
+            return new {{ self_type }}(({{ repr }})(a.WideRepr * b.Repr / {{ component }}.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ self_type }} a, {{component}} b) => new {{ self_type }}(
-            a.X * b,
-            a.Y * b{% if dim > 2 %},
-            a.Z * b{% if dim > 3 %},
-            a.W * b{% endif %}{% endif %});
+        public static {{ self_type }} operator *({{ self_type }} a, {{component}} b) {
+            return new {{ self_type }}(({{ repr }})(a.WideRepr * b.Bits / {{ component }}.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) => new {{ self_type }}(
-            a * b.X,
-            a * b.Y{% if dim > 2 %},
-            a * b.Z{% if dim > 3 %},
-            a * b.W{% endif %}{% endif %});
+        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) {
+            return new {{ self_type }}(({{ repr }})(a.Bits * b.WideRepr / {{ component }}.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ self_type }} a, {{ self_type }} b) => new {{ self_type }}(
-            a.X / b.X,
-            a.Y / b.Y{% if dim > 2 %},
-            a.Z / b.Z{% if dim > 3 %},
-            a.W / b.W{% endif %}{% endif %});
+        public static {{ self_type }} operator /({{ self_type }} a, {{ self_type }} b) {
+            return new {{ self_type }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Repr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ self_type }} a, {{ component }} b) => new {{ self_type }}(
-            a.X / b,
-            a.Y / b{% if dim > 2 %},
-            a.Z / b{% if dim > 3 %},
-            a.W / b{% endif %}{% endif %});
+        public static {{ self_type }} operator /({{ self_type }} a, {{ component }} b) {
+            return new {{ self_type }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ component }} a, {{ self_type }} b) => new {{ self_type }}(
-            a / b.X,
-            a / b.Y{% if dim > 2 %},
-            a / b.Z{% if dim > 3 %},
-            a / b.W{% endif %}{% endif %});
+        public static {{ self_type }} operator /({{ component }} a, {{ self_type }} b) {
+            return new {{ self_type }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
+        }
 
         // Comparison Operators
         // ---------------------------------------
