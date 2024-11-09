@@ -13,23 +13,45 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public I17F15 X;
-        public I17F15 Y;
-        public I17F15 Z;
+        public Vector3Int32 Repr;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+        internal Vector3Int64 WideRepr {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Repr;
+        }
+
+        public I17F15 X {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I17F15.FromBits(Repr.X);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.X = value.Bits;
+        }
+        public I17F15 Y {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I17F15.FromBits(Repr.Y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.Y = value.Bits;
+        }
+        public I17F15 Z {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I17F15.FromBits(Repr.Z);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.Z = value.Bits;
+        }
+
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I17F15(I17F15 x, I17F15 y, I17F15 z) {
-            X = x;
-            Y = y;
-            Z = z;
+        public Vector3I17F15(Vector3Int32 repr) {
+            Repr = repr;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3I17F15(I17F15 x, I17F15 y, I17F15 z) : this(new Vector3Int32(x.Bits, y.Bits, z.Bits)) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I17F15(I17F15 value) : this(value, value, value) { }
@@ -47,52 +69,44 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator +(Vector3I17F15 a, Vector3I17F15 b) => new Vector3I17F15(
-            a.X + b.X,
-            a.Y + b.Y,
-            a.Z + b.Z);
+        public static Vector3I17F15 operator +(Vector3I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15(a.Repr + b.Repr);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator -(Vector3I17F15 a, Vector3I17F15 b) => new Vector3I17F15(
-            a.X - b.X,
-            a.Y - b.Y,
-            a.Z - b.Z);
+        public static Vector3I17F15 operator -(Vector3I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15(a.Repr - b.Repr);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator *(Vector3I17F15 a, Vector3I17F15 b) => new Vector3I17F15(
-            a.X * b.X,
-            a.Y * b.Y,
-            a.Z * b.Z);
+        public static Vector3I17F15 operator *(Vector3I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15((Vector3Int32)(a.WideRepr * b.Repr / I17F15.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator *(Vector3I17F15 a, I17F15 b) => new Vector3I17F15(
-            a.X * b,
-            a.Y * b,
-            a.Z * b);
+        public static Vector3I17F15 operator *(Vector3I17F15 a, I17F15 b) {
+            return new Vector3I17F15((Vector3Int32)(a.WideRepr * b.Bits / I17F15.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator *(I17F15 a, Vector3I17F15 b) => new Vector3I17F15(
-            a * b.X,
-            a * b.Y,
-            a * b.Z);
+        public static Vector3I17F15 operator *(I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15((Vector3Int32)(a.Bits * b.WideRepr / I17F15.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator /(Vector3I17F15 a, Vector3I17F15 b) => new Vector3I17F15(
-            a.X / b.X,
-            a.Y / b.Y,
-            a.Z / b.Z);
+        public static Vector3I17F15 operator /(Vector3I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15((Vector3Int32)(a.WideRepr * I17F15.OneRepr / b.Repr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator /(Vector3I17F15 a, I17F15 b) => new Vector3I17F15(
-            a.X / b,
-            a.Y / b,
-            a.Z / b);
+        public static Vector3I17F15 operator /(Vector3I17F15 a, I17F15 b) {
+            return new Vector3I17F15((Vector3Int32)(a.WideRepr * I17F15.OneRepr / b.Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 operator /(I17F15 a, Vector3I17F15 b) => new Vector3I17F15(
-            a / b.X,
-            a / b.Y,
-            a / b.Z);
+        public static Vector3I17F15 operator /(I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15((Vector3Int32)(a.WideBits * I17F15.OneRepr / b.WideRepr));
+        }
 
         // Comparison Operators
         // ---------------------------------------

@@ -13,25 +13,51 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public I2F30 X;
-        public I2F30 Y;
-        public I2F30 Z;
-        public I2F30 W;
+        public Vector4Int32 Repr;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+        internal Vector4Int64 WideRepr {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Repr;
+        }
+
+        public I2F30 X {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.X);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.X = value.Bits;
+        }
+        public I2F30 Y {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.Y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.Y = value.Bits;
+        }
+        public I2F30 Z {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.Z);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.Z = value.Bits;
+        }
+        public I2F30 W {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.W);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.W = value.Bits;
+        }
+
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(I2F30 x, I2F30 y, I2F30 z, I2F30 w) {
-            X = x;
-            Y = y;
-            Z = z;
-            W = w;
+        public Vector4I2F30(Vector4Int32 repr) {
+            Repr = repr;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30(I2F30 x, I2F30 y, I2F30 z, I2F30 w) : this(new Vector4Int32(x.Bits, y.Bits, z.Bits, w.Bits)) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30(I2F30 value) : this(value, value, value, value) { }
@@ -50,60 +76,44 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator +(Vector4I2F30 a, Vector4I2F30 b) => new Vector4I2F30(
-            a.X + b.X,
-            a.Y + b.Y,
-            a.Z + b.Z,
-            a.W + b.W);
+        public static Vector4I2F30 operator +(Vector4I2F30 a, Vector4I2F30 b) {
+            return new Vector4I2F30(a.Repr + b.Repr);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator -(Vector4I2F30 a, Vector4I2F30 b) => new Vector4I2F30(
-            a.X - b.X,
-            a.Y - b.Y,
-            a.Z - b.Z,
-            a.W - b.W);
+        public static Vector4I2F30 operator -(Vector4I2F30 a, Vector4I2F30 b) {
+            return new Vector4I2F30(a.Repr - b.Repr);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator *(Vector4I2F30 a, Vector4I2F30 b) => new Vector4I2F30(
-            a.X * b.X,
-            a.Y * b.Y,
-            a.Z * b.Z,
-            a.W * b.W);
+        public static Vector4I2F30 operator *(Vector4I2F30 a, Vector4I2F30 b) {
+            return new Vector4I2F30((Vector4Int32)(a.WideRepr * b.Repr / I2F30.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator *(Vector4I2F30 a, I2F30 b) => new Vector4I2F30(
-            a.X * b,
-            a.Y * b,
-            a.Z * b,
-            a.W * b);
+        public static Vector4I2F30 operator *(Vector4I2F30 a, I2F30 b) {
+            return new Vector4I2F30((Vector4Int32)(a.WideRepr * b.Bits / I2F30.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator *(I2F30 a, Vector4I2F30 b) => new Vector4I2F30(
-            a * b.X,
-            a * b.Y,
-            a * b.Z,
-            a * b.W);
+        public static Vector4I2F30 operator *(I2F30 a, Vector4I2F30 b) {
+            return new Vector4I2F30((Vector4Int32)(a.Bits * b.WideRepr / I2F30.OneRepr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator /(Vector4I2F30 a, Vector4I2F30 b) => new Vector4I2F30(
-            a.X / b.X,
-            a.Y / b.Y,
-            a.Z / b.Z,
-            a.W / b.W);
+        public static Vector4I2F30 operator /(Vector4I2F30 a, Vector4I2F30 b) {
+            return new Vector4I2F30((Vector4Int32)(a.WideRepr * I2F30.OneRepr / b.Repr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator /(Vector4I2F30 a, I2F30 b) => new Vector4I2F30(
-            a.X / b,
-            a.Y / b,
-            a.Z / b,
-            a.W / b);
+        public static Vector4I2F30 operator /(Vector4I2F30 a, I2F30 b) {
+            return new Vector4I2F30((Vector4Int32)(a.WideRepr * I2F30.OneRepr / b.Bits));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4I2F30 operator /(I2F30 a, Vector4I2F30 b) => new Vector4I2F30(
-            a / b.X,
-            a / b.Y,
-            a / b.Z,
-            a / b.W);
+        public static Vector4I2F30 operator /(I2F30 a, Vector4I2F30 b) {
+            return new Vector4I2F30((Vector4Int32)(a.WideBits * I2F30.OneRepr / b.WideRepr));
+        }
 
         // Comparison Operators
         // ---------------------------------------
