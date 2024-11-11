@@ -23,3 +23,7 @@
 {%- macro vector_type(dim, type) -%}
     Vector{{ dim }}{{ type }}
 {%- endmacro -%}
+
+{%- macro vector_primitive(dim, bits, signed) -%}
+    Vector{{ dim }}{% if not signed %}U{% endif %}Int{{ bits }}
+{%- endmacro -%}
