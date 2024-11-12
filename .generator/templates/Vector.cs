@@ -252,21 +252,6 @@ namespace AgatePris.Intar {
                 W.Clamp(min.W, max.W){% endif %}{% endif %});
         }
 
-#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        {%- if signed %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }} UnsignedAbs() => new {{ macros::vector_type(dim=dim, type=macros::fixed_type(s=false, i=int_nbits, f=frac_nbits)) }}(
-            X.UnsignedAbs(),
-            Y.UnsignedAbs(){% if dim > 2 %},
-            Z.UnsignedAbs(){% if dim > 3 %},
-            W.UnsignedAbs(){% endif %}{% endif %});
-
-        {%- endif %}
-
-#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

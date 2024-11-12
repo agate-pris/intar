@@ -206,17 +206,6 @@ namespace AgatePris.Intar {
             return new Vector4I2F30(X.Clamp(min.X, max.X), Y.Clamp(min.Y, max.Y), Z.Clamp(min.Z, max.Z), W.Clamp(min.W, max.W));
         }
 
-#if AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4U2F30 UnsignedAbs() => new Vector4U2F30(
-            X.UnsignedAbs(),
-            Y.UnsignedAbs(),
-            Z.UnsignedAbs(),
-            W.UnsignedAbs());
-
-#endif // AGATE_PRIS_INTAR_ENABLE_UNSIGNED_VECTOR
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         long DotInternal(Vector4I2F30 other) {
             var x = ((long)X.Bits) * other.X.Bits;
