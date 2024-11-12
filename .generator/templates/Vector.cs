@@ -1,15 +1,12 @@
 {% import "macros.cs" as macros %}
 
-{%- set self_bits_type               = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
-{%- set self_bits_signed_type        = macros::inttype(bits=int_nbits  +frac_nbits,   signed=true  ) %}
-{%- set self_bits_unsigned_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false ) %}
-{%- set self_wide_bits_type          = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
-{%- set self_wide_bits_signed_type   = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=true  ) %}
-{%- set self_wide_bits_unsigned_type = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=false ) %}
-{%- set self_component_type          = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_component_signed_type   = macros::fixed_type(s=true,   i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_component_unsigned_type = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
+{%- set bits        = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
+{%- set bits_u      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false ) %}
+{%- set wide_bits   = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
+{%- set wide_bits_u = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=false ) %}
+{%- set component   = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set component_u = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
+{%- set self_type = macros::vector_type(dim=dim, type=component) -%}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
 
 using System;
@@ -27,10 +24,10 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public {{ self_component_type }} X;
-        public {{ self_component_type }} Y;{% if dim > 2 %}
-        public {{ self_component_type }} Z;{% if dim > 3 %}
-        public {{ self_component_type }} W;{% endif %}{% endif %}
+        public {{ component }} X;
+        public {{ component }} Y;{% if dim > 2 %}
+        public {{ component }} Z;{% if dim > 3 %}
+        public {{ component }} W;{% endif %}{% endif %}
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -40,7 +37,7 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ self_component_type }} x, {{ self_component_type }} y{% if dim > 2 %}, {{ self_component_type }} z{% endif %}{% if dim > 3 %}, {{ self_component_type }} w{% endif %}) {
+        public {{ self_type }}({{ component }} x, {{ component }} y{% if dim > 2 %}, {{ component }} z{% endif %}{% if dim > 3 %}, {{ component }} w{% endif %}) {
             X = x;
             Y = y;{% if dim > 2 %}
             Z = z;{% if dim > 3 %}
@@ -48,7 +45,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ self_component_type }} value) : this(
+        public {{ self_type }}({{ component }} value) : this(
 {%- for i in range(end=dim) -%}
     value{% if not loop.last %}, {% endif %}
 {%- endfor -%}
@@ -57,13 +54,13 @@ namespace AgatePris.Intar {
         // Constants
         // ---------------------------------------
 
-        public static readonly {{ self_type }} Zero = new {{ self_type }}({{ self_component_type }}.Zero);
-        public static readonly {{ self_type }} One = new {{ self_type }}({{ self_component_type }}.One);
+        public static readonly {{ self_type }} Zero = new {{ self_type }}({{ component }}.Zero);
+        public static readonly {{ self_type }} One = new {{ self_type }}({{ component }}.One);
 {%- for i in range(end=dim) %}
     {%- if i >= dim %}{% continue %}{% endif %}
         public static readonly {{ self_type }} Unit{{ components[i] }} = new {{ self_type }}(
     {%- for j in range(end=dim) %}
-        {{- self_component_type }}.
+        {{- component }}.
         {%- if i == j %}One{% else %}Zero{% endif %}
         {%- if not loop.last %}, {% endif %}
     {%- endfor %});
@@ -94,14 +91,14 @@ namespace AgatePris.Intar {
             a.W * b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ self_type }} a, {{self_component_type}} b) => new {{ self_type }}(
+        public static {{ self_type }} operator *({{ self_type }} a, {{component}} b) => new {{ self_type }}(
             a.X * b,
             a.Y * b{% if dim > 2 %},
             a.Z * b{% if dim > 3 %},
             a.W * b{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ self_component_type }} a, {{ self_type }} b) => new {{ self_type }}(
+        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) => new {{ self_type }}(
             a * b.X,
             a * b.Y{% if dim > 2 %},
             a * b.Z{% if dim > 3 %},
@@ -115,14 +112,14 @@ namespace AgatePris.Intar {
             a.W / b.W{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ self_type }} a, {{ self_component_type }} b) => new {{ self_type }}(
+        public static {{ self_type }} operator /({{ self_type }} a, {{ component }} b) => new {{ self_type }}(
             a.X / b,
             a.Y / b{% if dim > 2 %},
             a.Z / b{% if dim > 3 %},
             a.W / b{% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ self_component_type }} a, {{ self_type }} b) => new {{ self_type }}(
+        public static {{ self_type }} operator /({{ component }} a, {{ self_type }} b) => new {{ self_type }}(
             a / b.X,
             a / b.Y{% if dim > 2 %},
             a / b.Z{% if dim > 3 %},
@@ -140,7 +137,7 @@ namespace AgatePris.Intar {
         // Indexer
         // ---------------------------------------
 
-        public {{ self_component_type }} this[int index] {
+        public {{ component }} this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
                 switch (index) {
@@ -167,10 +164,18 @@ namespace AgatePris.Intar {
         public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(X, Y{% if dim > 2 %}, Z{% endif %}{% if dim > 3 %}, W{% endif %});
+        public override int GetHashCode() => HashCode.Combine(
+{%- for c in components -%}
+    {{ c }}{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => $"<{X}, {Y}{% if dim > 2 %}, {Z}{% if dim > 3 %}, {W}{% endif %}{% endif %}>";
+        public override string ToString() => $"<
+{%- for c in components -%}
+    { {{- c -}} } {%- if not loop.last %}, {% endif %}
+{%- endfor -%}
+        >";
 
         // IEquatable<{{ self_type }}>
         // ---------------------------------------
@@ -230,7 +235,7 @@ namespace AgatePris.Intar {
             {%- if dim > 3 %}, W.Twice(){% endif %}{% endif %});
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp({{ self_component_type }} min, {{ self_component_type }} max) {
+        public {{ self_type }} Clamp({{ component }} min, {{ component }} max) {
             return new {{ self_type }}({#             -#}
                 X.Clamp(min, max), {#                 -#}
                 Y.Clamp(min, max){% if dim > 2 %}, {# -#}
@@ -265,13 +270,13 @@ namespace AgatePris.Intar {
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void CrossInternal({{ self_type }} other, out {{ self_wide_bits_type }} x, out {{ self_wide_bits_type }} y, out {{ self_wide_bits_type }} z) {
-            var ax = ({{ self_wide_bits_type }})X.Bits;
-            var ay = ({{ self_wide_bits_type }})Y.Bits;
-            var az = ({{ self_wide_bits_type }})Z.Bits;
-            var bx = ({{ self_wide_bits_type }})other.X.Bits;
-            var by = ({{ self_wide_bits_type }})other.Y.Bits;
-            var bz = ({{ self_wide_bits_type }})other.Z.Bits;
+        public void CrossInternal({{ self_type }} other, out {{ wide_bits }} x, out {{ wide_bits }} y, out {{ wide_bits }} z) {
+            var ax = ({{ wide_bits }})X.Bits;
+            var ay = ({{ wide_bits }})Y.Bits;
+            var az = ({{ wide_bits }})Z.Bits;
+            var bx = ({{ wide_bits }})other.X.Bits;
+            var by = ({{ wide_bits }})other.Y.Bits;
+            var bz = ({{ wide_bits }})other.Z.Bits;
 
             x = (ay * bz) - (az * by);
             y = (az * bx) - (ax * bz);
@@ -280,48 +285,48 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Cross({{ self_type }} other) {
-            const {{ self_wide_bits_type }} k =
-            {%- if self_wide_bits_type == "long" %} 1L
-            {%- elif self_wide_bits_type == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            const {{ wide_bits }} k =
+            {%- if wide_bits == "long" %} 1L
+            {%- elif wide_bits == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
             {%- endif %} << {{ frac_nbits }};
             CrossInternal(other, out var x, out var y, out var z);
             return new {{ self_type }}(
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})(x / k)),
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})(y / k)),
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})(z / k)));
+                {{ component }}.FromBits(({{ bits }})(x / k)),
+                {{ component }}.FromBits(({{ bits }})(y / k)),
+                {{ component }}.FromBits(({{ bits }})(z / k)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingCross({{ self_type }} other) {
-            const {{ self_wide_bits_type }} k =
-            {%- if self_wide_bits_type == "long" %} 1L
-            {%- elif self_wide_bits_type == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+            const {{ wide_bits }} k =
+            {%- if wide_bits == "long" %} 1L
+            {%- elif wide_bits == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
             {%- endif %} << {{ frac_nbits }};
             CrossInternal(other, out var x, out var y, out var z);
-            {%- for component in ["x", "y", "z"] %}
-            {{ component }} /= k;
-            if ({{ component }} > {{ self_bits_type }}.MaxValue) {
-                {{ component }} = {{ self_bits_type }}.MaxValue;
-            } else if ({{ component }} < {{ self_bits_type }}.MinValue) {
-                {{ component }} = {{ self_bits_type }}.MinValue;
+            {%- for c in components %}
+            {{ c|lower }} /= k;
+            if ({{ c|lower }} > {{ bits }}.MaxValue) {
+                {{ c|lower }} = {{ bits }}.MaxValue;
+            } else if ({{ c|lower }} < {{ bits }}.MinValue) {
+                {{ c|lower }} = {{ bits }}.MinValue;
             }
             {%- endfor %}
             return new {{ self_type }}(
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})x),
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})y),
-                {{ self_component_type }}.FromBits(({{ self_bits_type }})z));
+                {{ component }}.FromBits(({{ bits }})x),
+                {{ component }}.FromBits(({{ bits }})y),
+                {{ component }}.FromBits(({{ bits }})z));
         }
 
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ self_wide_bits_type }} DotInternal({{ self_type }} other) {
-            var x = (({{ self_wide_bits_type }})X.Bits) * other.X.Bits;
-            var y = (({{ self_wide_bits_type }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
-            var z = (({{ self_wide_bits_type }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
-            var w = (({{ self_wide_bits_type }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
+        {{ wide_bits }} DotInternal({{ self_type }} other) {
+            var x = (({{ wide_bits }})X.Bits) * other.X.Bits;
+            var y = (({{ wide_bits }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
+            var z = (({{ wide_bits }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
+            var w = (({{ wide_bits }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
 
             // オーバーフローを避けるため､ 事前に除算する｡
             // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
@@ -334,31 +339,31 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_component_type }} Dot({{ self_type }} other) {
-            const {{ self_wide_bits_type }} k =
-            {%- if self_wide_bits_type == "long" %} 1L
-            {%- elif self_wide_bits_type == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+        public {{ component }} Dot({{ self_type }} other) {
+            const {{ wide_bits }} k =
+            {%- if wide_bits == "long" %} 1L
+            {%- elif wide_bits == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
             {%- endif %} << {{ frac_nbits - 2 }};
-            return {{ self_component_type }}.FromBits(({{ self_bits_type }})(DotInternal(other) / k));
+            return {{ component }}.FromBits(({{ bits }})(DotInternal(other) / k));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_component_type }} SaturatingDot({{ self_type }} other) {
-            const {{ self_wide_bits_type }} k =
-            {%- if self_wide_bits_type == "long" %} 1L
-            {%- elif self_wide_bits_type == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. self_wide_bits_type: " ~ self_wide_bits_type) }}
+        public {{ component }} SaturatingDot({{ self_type }} other) {
+            const {{ wide_bits }} k =
+            {%- if wide_bits == "long" %} 1L
+            {%- elif wide_bits == "ulong" %} 1UL
+            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
             {%- endif %} << {{ frac_nbits - 2 }};
             var bits = DotInternal(other) / k;
-            if (bits > {{ self_bits_type }}.MaxValue) {
-                return {{ self_component_type }}.MaxValue;
+            if (bits > {{ bits }}.MaxValue) {
+                return {{ component }}.MaxValue;
             {%- if signed %}
-            } else if (bits < {{ self_bits_type }}.MinValue) {
-                return {{ self_component_type }}.MinValue;
+            } else if (bits < {{ bits }}.MinValue) {
+                return {{ component }}.MinValue;
             {%- endif %}
             } else {
-                return {{ self_component_type }}.FromBits(({{ self_bits_type }})bits);
+                return {{ component }}.FromBits(({{ bits }})bits);
             }
         }
 
@@ -381,10 +386,10 @@ namespace AgatePris.Intar {
             var a2 = Mathi.UnsignedAbs(Y.Bits);{% if dim > 2 %}
             var a3 = Mathi.UnsignedAbs(Z.Bits);{% if dim > 3 %}
             var a4 = Mathi.UnsignedAbs(W.Bits);{% endif %}{% endif %}
-            var s1 = ({{ self_wide_bits_unsigned_type }})a1 * a1;
-            var s2 = ({{ self_wide_bits_unsigned_type }})a2 * a2;{% if dim > 2 %}
-            var s3 = ({{ self_wide_bits_unsigned_type }})a3 * a3;{% if dim > 3 %}
-            var s4 = ({{ self_wide_bits_unsigned_type }})a4 * a4;{% endif %}{% endif %}
+            var s1 = ({{ wide_bits_u }})a1 * a1;
+            var s2 = ({{ wide_bits_u }})a2 * a2;{% if dim > 2 %}
+            var s3 = ({{ wide_bits_u }})a3 * a3;{% if dim > 3 %}
+            var s4 = ({{ wide_bits_u }})a4 * a4;{% endif %}{% endif %}
             return {{ len_sqr_ty }}.FromBits(s1 + s2
             {%- if dim > 2 %} + s3
             {%- if dim > 3 %} + s4
@@ -396,8 +401,8 @@ namespace AgatePris.Intar {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_component_unsigned_type }} Length() {
-            return {{ self_component_unsigned_type }}.FromBits(({{ self_bits_unsigned_type }})Mathi.Sqrt(LengthSquared().Bits));
+        public {{ component_u }} Length() {
+            return {{ component_u }}.FromBits(({{ bits_u }})Mathi.Sqrt(LengthSquared().Bits));
         }
 
         {%- endif %}
@@ -419,7 +424,7 @@ namespace AgatePris.Intar {
             {%- endfor %}
 
             {%- for i in range(end=dim) %}
-            var a{{ i }} = unchecked(({{ self_bits_unsigned_type }})(b{{ i }} ? Overflowing.WrappingNeg(x{{ i }}) : x{{ i }}));
+            var a{{ i }} = unchecked(({{ bits_u }})(b{{ i }} ? Overflowing.WrappingNeg(x{{ i }}) : x{{ i }}));
             {%- endfor %}
 
             {%- else -%}
@@ -446,7 +451,7 @@ namespace AgatePris.Intar {
             // 最大の要素が表現型の範囲に収まるように拡大する。
             // 最大の要素以外にも同じ値を乗算する。
 
-            {{ self_wide_bits_unsigned_type }} m = {{ self_bits_unsigned_type }}.MaxValue / max;
+            {{ wide_bits_u }} m = {{ bits_u }}.MaxValue / max;
 
             {%- for i in range(end=dim) %}
             var l{{ i }} = m * a{{ i }};
@@ -460,25 +465,25 @@ namespace AgatePris.Intar {
 
             // 小数部の桁をあわせる。
 
-            const {{ self_wide_bits_unsigned_type }} k =
-            {%- if self_wide_bits_unsigned_type == "ulong" %} 1UL
-            {%- else %}{{ throw(message="self_wide_bits_unsigned_type: " ~ self_wide_bits_unsigned_type) }}
+            const {{ wide_bits_u }} k =
+            {%- if wide_bits_u == "ulong" %} 1UL
+            {%- else %}{{ throw(message="wide_bits_u: " ~ wide_bits_u) }}
             {%- endif %} << {{ frac_nbits - 1 }};
 
             {%- for i in range(end=dim) %}
-            var y{{ i }} = ({{ self_bits_type }})(l{{ i }} * k / ll);
+            var y{{ i }} = ({{ bits }})(l{{ i }} * k / ll);
             {%- endfor %}
 
             // 最後に符号をあわせて返す。
 
             return new {{ self_type }}(
-                {{ self_component_type }}.FromBits({% if signed %}b0 ? -y0 : {% endif %}y0),
-                {{ self_component_type }}.FromBits({% if signed %}b1 ? -y1 : {% endif %}y1){% if dim > 2 %},
-                {{ self_component_type }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
-                {{ self_component_type }}.FromBits({% if signed %}b3 ? -y3 : {% endif %}y3){% endif %}{% endif %});
+                {{ component }}.FromBits({% if signed %}b0 ? -y0 : {% endif %}y0),
+                {{ component }}.FromBits({% if signed %}b1 ? -y1 : {% endif %}y1){% if dim > 2 %},
+                {{ component }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
+                {{ component }}.FromBits({% if signed %}b3 ? -y3 : {% endif %}y3){% endif %}{% endif %});
         }
 
-        {%- if self_component_type == "I17F15" %}
+        {%- if component == "I17F15" %}
         {%- for name in [
             "SinP4",
             "SinP5",
@@ -508,16 +513,16 @@ namespace AgatePris.Intar {
         {%- for x in cmp %}
         {%- for y in cmp %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            macros::vector_type(dim=2, type=self_component_type) }} {{ x -}}  {{ y -}}() => new {{
-            macros::vector_type(dim=2, type=self_component_type) }}({{ x -}}, {{ y -}});
+            macros::vector_type(dim=2, type=component) }} {{ x -}}  {{ y -}}() => new {{
+            macros::vector_type(dim=2, type=component) }}({{ x -}}, {{ y -}});
         {%- endfor %}
         {%- endfor %}
         {%- for x in cmp %}
         {%- for y in cmp %}
         {%- for z in cmp %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            macros::vector_type(dim=3, type=self_component_type) }} {{ x -}}  {{ y -}}  {{ z -}}() => new {{
-            macros::vector_type(dim=3, type=self_component_type) }}({{ x -}}, {{ y -}}, {{ z -}});
+            macros::vector_type(dim=3, type=component) }} {{ x -}}  {{ y -}}  {{ z -}}() => new {{
+            macros::vector_type(dim=3, type=component) }}({{ x -}}, {{ y -}}, {{ z -}});
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -526,8 +531,8 @@ namespace AgatePris.Intar {
         {%- for z in cmp %}
         {%- for w in cmp %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            macros::vector_type(dim=4, type=self_component_type) }} {{ x -}}  {{ y -}}  {{ z -}}  {{ w -}}() => new {{
-            macros::vector_type(dim=4, type=self_component_type) }}({{ x -}}, {{ y -}}, {{ z -}}, {{ w -}});
+            macros::vector_type(dim=4, type=component) }} {{ x -}}  {{ y -}}  {{ z -}}  {{ w -}}() => new {{
+            macros::vector_type(dim=4, type=component) }}({{ x -}}, {{ y -}}, {{ z -}}, {{ w -}});
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
