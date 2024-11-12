@@ -108,7 +108,9 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) => b * a;
+        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) {
+            return b * a;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator /({{ self_type }} a, {{ self_type }} b) {
@@ -165,11 +167,7 @@ namespace AgatePris.Intar {
         public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(
-{%- for c in components -%}
-    {{ c }}{% if not loop.last %}, {% endif %}
-{%- endfor -%}
-        );
+        public override int GetHashCode() => Repr.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<
