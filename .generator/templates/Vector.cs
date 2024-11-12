@@ -144,20 +144,18 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
                 switch (index) {
-                    case 0: return X;
-                    case 1: return Y;{% if dim > 2 %}
-                    case 2: return Z;{% if dim > 3 %}
-                    case 3: return W;{% endif %}{% endif %}
+{%- for i in range(end=dim) %}
+                    case {{ i }}: return {{ components[i] }};
+{%- endfor %}
                     default: throw new ArgumentOutOfRangeException($"index: {index}");
                 }
             }
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 switch (index) {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;{% if dim > 2 %}
-                    case 2: Z = value; break;{% if dim > 3 %}
-                    case 3: W = value; break;{% endif %}{% endif %}
+{%- for i in range(end=dim) %}
+                    case {{ i }}: {{ components[i] }} = value; break;
+{%- endfor %}
                     default: throw new ArgumentOutOfRangeException($"index: {index}");
                 }
             }
