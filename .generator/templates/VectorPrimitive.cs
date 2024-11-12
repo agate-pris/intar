@@ -191,6 +191,14 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
 {%- if signed %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Abs() => new {{ type }}(
+{%- for c in components -%}
+    Math.Abs({{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        );
+
     {%- set t = self::other_type(bits=bits, s=false, dim=dim) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
