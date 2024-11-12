@@ -229,5 +229,72 @@ namespace AgatePris.Intar {
 
 {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Min({{ type }} other) {
+            return new {{ type }}(
+{%- for c in components -%}
+    Math.Min({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Max({{ type }} other) {
+            return new {{ type }}(
+{%- for c in components -%}
+    Math.Max({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Clamp({{
+            component }} min, {{
+            component }} max) {
+            return new {{ type }}(
+{%- for c in components -%}
+    Mathi.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Clamp({{
+            type }} min, {{
+            type }} max) {
+            return new {{ type }}(
+{%- for c in components -%}
+    Mathi.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Half() => new {{ type }}(
+{%- for c in components -%}
+    Mathi.Half({{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} Twice() => new {{ type }}(
+{%- for c in components -%}
+    Mathi.Twice({{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        );
+
+{%- if bits < 64 %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} LengthSquared() {
+    {%- if signed %}
+            var abs = UnsignedAbs();
+    {%- endif %}
+            return
+    {%- for c in components -%}
+        {%- if not loop.first %} + {% endif %} (ulong){% if signed %}abs.{% endif %}{{ c }} * {% if signed %}abs.{% endif %}{{ c }}
+    {%- endfor -%}
+        }
+{%- eneidf %}
+
     }
 }
