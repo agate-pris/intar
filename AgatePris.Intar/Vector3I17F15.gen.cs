@@ -37,26 +37,11 @@ namespace AgatePris.Intar {
         // Constants
         // ---------------------------------------
 
-        public static Vector3I17F15 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(I17F15.Zero);
-        }
-        public static Vector3I17F15 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(I17F15.One);
-        }
-        public static Vector3I17F15 UnitX {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(I17F15.One, I17F15.Zero, I17F15.Zero);
-        }
-        public static Vector3I17F15 UnitY {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(I17F15.Zero, I17F15.One, I17F15.Zero);
-        }
-        public static Vector3I17F15 UnitZ {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(I17F15.Zero, I17F15.Zero, I17F15.One);
-        }
+        public static readonly Vector3I17F15 Zero = new Vector3I17F15(I17F15.Zero);
+        public static readonly Vector3I17F15 One = new Vector3I17F15(I17F15.One);
+        public static readonly Vector3I17F15 UnitX = new Vector3I17F15(I17F15.One, I17F15.Zero, I17F15.Zero);
+        public static readonly Vector3I17F15 UnitY = new Vector3I17F15(I17F15.Zero, I17F15.One, I17F15.Zero);
+        public static readonly Vector3I17F15 UnitZ = new Vector3I17F15(I17F15.Zero, I17F15.Zero, I17F15.One);
 
         // Arithmetic Operators
         // ---------------------------------------
