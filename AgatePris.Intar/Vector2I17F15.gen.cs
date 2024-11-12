@@ -138,9 +138,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            var x = X.ToString(format, formatProvider);
-            var y = Y.ToString(format, formatProvider);
-            return $"<{x}, {y}>";
+            return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}>";
         }
 
         // Methods

@@ -192,11 +192,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            var x = X.ToString(format, formatProvider);
-            var y = Y.ToString(format, formatProvider);{% if dim > 2 %}
-            var z = Z.ToString(format, formatProvider);{% if dim > 3 %}
-            var w = W.ToString(format, formatProvider);{% endif %}{% endif %}
-            return $"<{x}, {y}{% if dim > 2 %}, {z}{% if dim > 3 %}, {w}{% endif %}{% endif %}>";
+            return $"<
+{%- for c in components -%}
+    { {{- c }}.ToString(format, formatProvider)} {%- if not loop.last %}, {% endif %}
+{%- endfor -%}
+            >";
         }
 
         // Methods
