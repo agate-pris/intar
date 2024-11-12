@@ -36,27 +36,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30(I2F30 value) : this(value, value, value, value) { }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(I2F30 x, I2F30 y, Vector2I2F30 zw) : this(x, y, zw.X, zw.Y) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(I2F30 x, Vector3I2F30 yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(Vector2I2F30 xy, Vector2I2F30 zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(Vector4I2F30 xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(I2F30 x, Vector2I2F30 yz, I2F30 w) : this(x, yz.X, yz.Y, w) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(Vector3I2F30 xyz, I2F30 w) : this(xyz.X, xyz.Y, xyz.Z, w) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(Vector2I2F30 xy, I2F30 z, I2F30 w) : this(xy.X, xy.Y, z, w) { }
-
         // Constants
         // ---------------------------------------
 

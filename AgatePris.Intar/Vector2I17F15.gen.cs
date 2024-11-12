@@ -32,9 +32,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I17F15(I17F15 value) : this(value, value) { }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I17F15(Vector2I17F15 xy) : this(xy.X, xy.Y) { }
-
         // Constants
         // ---------------------------------------
 
