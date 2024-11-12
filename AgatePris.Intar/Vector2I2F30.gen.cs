@@ -35,22 +35,10 @@ namespace AgatePris.Intar {
         // Constants
         // ---------------------------------------
 
-        public static Vector2I2F30 Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector2I2F30(I2F30.Zero);
-        }
-        public static Vector2I2F30 One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector2I2F30(I2F30.One);
-        }
-        public static Vector2I2F30 UnitX {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector2I2F30(I2F30.One, I2F30.Zero);
-        }
-        public static Vector2I2F30 UnitY {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector2I2F30(I2F30.Zero, I2F30.One);
-        }
+        public static readonly Vector2I2F30 Zero = new Vector2I2F30(I2F30.Zero);
+        public static readonly Vector2I2F30 One = new Vector2I2F30(I2F30.One);
+        public static readonly Vector2I2F30 UnitX = new Vector2I2F30(I2F30.One, I2F30.Zero);
+        public static readonly Vector2I2F30 UnitY = new Vector2I2F30(I2F30.Zero, I2F30.One);
 
         // Arithmetic Operators
         // ---------------------------------------

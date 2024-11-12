@@ -10,6 +10,7 @@
 {%- set self_component_signed_type   = macros::fixed_type(s=true,   i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_component_unsigned_type = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
 {%- set self_type = macros::vector_type(dim=dim, type=self_component_type) -%}
+{%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -56,30 +57,17 @@ namespace AgatePris.Intar {
         // Constants
         // ---------------------------------------
 
-        public static {{ self_type }} Zero {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}({{ self_component_type }}.Zero);
-        }
-        public static {{ self_type }} One {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}({{ self_component_type }}.One);
-        }
-        public static {{ self_type }} UnitX {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}({{ self_component_type }}.One, {{ self_component_type }}.Zero{% if dim > 2 %}, {{ self_component_type }}.Zero{% endif %}{% if dim > 3 %}, {{ self_component_type }}.Zero{% endif %});
-        }
-        public static {{ self_type }} UnitY {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}({{ self_component_type }}.Zero, {{ self_component_type }}.One{% if dim > 2 %}, {{ self_component_type }}.Zero{% endif %}{% if dim > 3 %}, {{ self_component_type }}.Zero{% endif %});
-        } {%- if dim > 2 %}
-        public static {{ self_type }} UnitZ {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}({{ self_component_type }}.Zero, {{ self_component_type }}.Zero, {{ self_component_type }}.One{% if dim > 3 %}, {{ self_component_type }}.Zero{% endif %});
-        } {%- endif %} {%- if dim > 3 %}
-        public static {{ self_type }} UnitW {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ self_type }}({{ self_component_type }}.Zero, {{ self_component_type }}.Zero, {{ self_component_type }}.Zero, {{ self_component_type }}.One);
-        } {%- endif %}
+        public static readonly {{ self_type }} Zero = new {{ self_type }}({{ self_component_type }}.Zero);
+        public static readonly {{ self_type }} One = new {{ self_type }}({{ self_component_type }}.One);
+{%- for i in range(end=dim) %}
+    {%- if i >= dim %}{% continue %}{% endif %}
+        public static readonly {{ self_type }} Unit{{ components[i] }} = new {{ self_type }}(
+    {%- for j in range(end=dim) %}
+        {{- self_component_type }}.
+        {%- if i == j %}One{% else %}Zero{% endif %}
+        {%- if not loop.last %}, {% endif %}
+    {%- endfor %});
+{%- endfor %}
 
         // Arithmetic Operators
         // ---------------------------------------
