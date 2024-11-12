@@ -47,31 +47,11 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ self_component_type }} value) : this(value, value{% if dim > 2 %}, value{% endif %}{% if dim > 3 %}, value{% endif %}) { } {%- if dim > 3 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ self_component_type }} x, {{ self_component_type }} y, {{ macros::vector_type(dim=2, type=self_component_type) }} zw) : this(x, y, zw.X, zw.Y) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ self_component_type }} x, {{ macros::vector_type(dim=3, type=self_component_type) }} yzw) : this(x, yzw.X, yzw.Y, yzw.Z) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ macros::vector_type(dim=2, type=self_component_type) }} xy, {{ macros::vector_type(dim=2, type=self_component_type) }} zw) : this(xy.X, xy.Y, zw.X, zw.Y) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ macros::vector_type(dim=4, type=self_component_type) }} xyzw) : this(xyzw.X, xyzw.Y, xyzw.Z, xyzw.W) { }
-        {%- endif %} {%- if dim > 2 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ self_component_type }} x, {{ macros::vector_type(dim=2, type=self_component_type) }} yz{% if dim > 3 %}, {{ self_component_type }} w{% endif %}) : this(x, yz.X, yz.Y{% if dim > 3 %}, w{% endif %}) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ macros::vector_type(dim=3, type=self_component_type) }} xyz{% if dim > 3 %}, {{ self_component_type }} w{% endif %}) : this(xyz.X, xyz.Y, xyz.Z{% if dim > 3 %}, w{% endif %}) { }
-        {%- endif %} {%- if dim > 1 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ macros::vector_type(dim=2, type=self_component_type) }} xy{% if dim > 2 %}, {{ self_component_type }} z{% endif %}{% if dim > 3 %}, {{ self_component_type }} w{% endif %}) : this(xy.X, xy.Y{% if dim > 2 %}, z{% endif %}{% if dim > 3 %}, w{% endif %}) { }
-        {%- endif %}
+        public {{ self_type }}({{ self_component_type }} value) : this(
+{%- for i in range(end=dim) -%}
+    value{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        ) { }
 
         // Constants
         // ---------------------------------------

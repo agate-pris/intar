@@ -34,15 +34,6 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I2F30(I2F30 value) : this(value, value, value) { }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30(I2F30 x, Vector2I2F30 yz) : this(x, yz.X, yz.Y) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30(Vector3I2F30 xyz) : this(xyz.X, xyz.Y, xyz.Z) { }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I2F30(Vector2I2F30 xy, I2F30 z) : this(xy.X, xy.Y, z) { }
-
         // Constants
         // ---------------------------------------
 
