@@ -213,29 +213,21 @@ namespace AgatePris.Intar {
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => new {{ self_type }}(X.Half(), Y.Half()
-            {%- if dim > 2 %}, Z.Half()
-            {%- if dim > 3 %}, W.Half(){% endif %}{% endif %});
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => new {{ self_type }}(X.Twice(), Y.Twice()
-            {%- if dim > 2 %}, Z.Twice()
-            {%- if dim > 3 %}, W.Twice(){% endif %}{% endif %});
+{%- for m in ['Half', 'Twice'] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal {{ self_type }} {{ m }}() => new {{ self_type }}(Repr.{{ m }}());
+
+{%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ component }} min, {{ component }} max) {
-            return new {{ self_type }}({#             -#}
-                X.Clamp(min, max), {#                 -#}
-                Y.Clamp(min, max){% if dim > 2 %}, {# -#}
-                Z.Clamp(min, max){% if dim > 3 %}, {# -#}
-                W.Clamp(min, max){% endif %}{% endif %});
+            return new {{ self_type }}(Repr.Clamp(min.Bits, max.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
-            return new {{ self_type }}({#                 -#}
-                X.Clamp(min.X, max.X), {#                 -#}
-                Y.Clamp(min.Y, max.Y){% if dim > 2 %}, {# -#}
-                Z.Clamp(min.Z, max.Z){% if dim > 3 %}, {# -#}
-                W.Clamp(min.W, max.W){% endif %}{% endif %});
+            return new {{ self_type }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
         {%- if signed and dim == 3 %}
