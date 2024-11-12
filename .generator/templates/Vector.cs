@@ -197,28 +197,19 @@ namespace AgatePris.Intar {
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Min({{ self_type }} other) => new {{ self_type }}(
-            X.Min(other.X),
-            Y.Min(other.Y){% if dim > 2 %},
-            Z.Min(other.Z){% if dim > 3 %},
-            W.Min(other.W){% endif %}{% endif %});
+{%- for m in ['Min', 'Max'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Max({{ self_type }} other) => new {{ self_type }}(
-            X.Max(other.X),
-            Y.Max(other.Y){% if dim > 2 %},
-            Z.Max(other.Z){% if dim > 3 %},
-            W.Max(other.W){% endif %}{% endif %});
+        public {{ self_type }} {{ m }}({{ self_type }} other) {
+            return new {{ self_type }}(Repr.{{ m }}(other.Repr));
+        }
+
+{%- endfor %}
 
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Abs() => new {{ self_type }}(
-            X.Abs(),
-            Y.Abs(){% if dim > 2 %},
-            Z.Abs(){% if dim > 3 %},
-            W.Abs(){% endif %}{% endif %});
+        public {{ self_type }} Abs() => new {{ self_type }}(Repr.Abs());
 
         {%- endif %}
 
