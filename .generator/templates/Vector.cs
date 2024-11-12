@@ -108,9 +108,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) {
-            return new {{ self_type }}(({{ repr }})(a.Bits * b.WideRepr / {{ component }}.OneRepr));
-        }
+        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) => b * a;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator /({{ self_type }} a, {{ self_type }} b) {
@@ -130,11 +128,12 @@ namespace AgatePris.Intar {
         // Comparison Operators
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Equals(rhs);
+{%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => !(lhs == rhs);
+        public static bool operator {{ o }}({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Repr {{ o }} rhs.Repr;
+
+{%- endfor %}
 
         // Indexer
         // ---------------------------------------
@@ -183,11 +182,7 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals({{ self_type }} other)
-            => other.X == X
-            && other.Y == Y{% if dim > 2 %}
-            && other.Z == Z{% if dim > 3 %}
-            && other.W == W{% endif %}{% endif %};
+        public bool Equals({{ self_type }} other) => Repr.Equals(other.Repr);
 
         // IFormattable
         // ---------------------------------------
