@@ -54,12 +54,14 @@ namespace AgatePris.Intar {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}(
-            {%- for c in components %}
-            {{- component }} {{ c|lower }}{% if not loop.last %}, {% endif %}
-            {%- endfor %}) : this(new {{ repr }}(
-            {%- for c in components %}
-            {{- c|lower }}.Bits{% if not loop.last %}, {% endif %}
-            {%- endfor %})) { }
+{%- for c in components -%}
+    {{ component }} {{ c|lower }}{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        ) : this(new {{ repr }}(
+{%- for c in components -%}
+    {{ c|lower }}.Bits{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        )) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}({{ component }} value) : this(
