@@ -27,7 +27,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEqualityOperators<Vector4Int64, Vector4Int64>
+        // IEqualityOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,7 +41,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEquatable<Vector4Int64>
+        // IEquatable
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -57,10 +57,10 @@ namespace AgatePris.Intar {
         public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
 
         //
-        // IAdditionOperators<Vector4Int64, Vector4Int64, Vector4Int64>
-        // ISubtractionOperators<Vector4Int64, Vector4Int64, Vector4Int64>
-        // IIMultiplyOperators<Vector4Int64, Vector4Int64, Vector4Int64>
-        // IDivisionOperators<Vector4Int64, Vector4Int64, Vector4Int64>
+        // IAdditionOperators
+        // ISubtractionOperators
+        // IMultiplyOperators
+        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -83,13 +83,6 @@ namespace AgatePris.Intar {
             return new Vector4Int64(left.X / right.X, left.Y / right.Y, left.Z / right.Z, left.W / right.W);
         }
 
-        //
-        // IMultiplyOperators<Vector4Int64, Vector4Int64, long>
-        // IDivisionOperators<Vector4Int64, Vector4Int64, long>
-        // IMultiplyOperators<Vector4Int64, long, Vector4Int64>
-        // IDivisionOperators<Vector4Int64, long, Vector4Int64>
-        //
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int64 operator *(Vector4Int64 left, long right) {
             return new Vector4Int64(left.X * right, left.Y * right, left.Z * right, left.W * right);
@@ -111,7 +104,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IUnaryPlusOperators<Vector4Int64>
+        // IUnaryPlusOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -120,7 +113,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IUnaryNegationOperators<Vector4Int64>
+        // IUnaryNegationOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

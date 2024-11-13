@@ -25,7 +25,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEqualityOperators<Vector3UInt32, Vector3UInt32>
+        // IEqualityOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,7 +39,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEquatable<Vector3UInt32>
+        // IEquatable
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,10 +55,10 @@ namespace AgatePris.Intar {
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
         //
-        // IAdditionOperators<Vector3UInt32, Vector3UInt32, Vector3UInt32>
-        // ISubtractionOperators<Vector3UInt32, Vector3UInt32, Vector3UInt32>
-        // IIMultiplyOperators<Vector3UInt32, Vector3UInt32, Vector3UInt32>
-        // IDivisionOperators<Vector3UInt32, Vector3UInt32, Vector3UInt32>
+        // IAdditionOperators
+        // ISubtractionOperators
+        // IMultiplyOperators
+        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,13 +81,6 @@ namespace AgatePris.Intar {
             return new Vector3UInt32(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
         }
 
-        //
-        // IMultiplyOperators<Vector3UInt32, Vector3UInt32, uint>
-        // IDivisionOperators<Vector3UInt32, Vector3UInt32, uint>
-        // IMultiplyOperators<Vector3UInt32, uint, Vector3UInt32>
-        // IDivisionOperators<Vector3UInt32, uint, Vector3UInt32>
-        //
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3UInt32 operator *(Vector3UInt32 left, uint right) {
             return new Vector3UInt32(left.X * right, left.Y * right, left.Z * right);
@@ -109,7 +102,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IUnaryPlusOperators<Vector3UInt32>
+        // IUnaryPlusOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

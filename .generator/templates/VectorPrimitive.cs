@@ -41,7 +41,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEqualityOperators<{{ type }}, {{ type }}>
+        // IEqualityOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -61,7 +61,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEquatable<{{ type }}>
+        // IEquatable
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,10 +81,10 @@ namespace AgatePris.Intar {
         );
 
         //
-        // IAdditionOperators<{{ type }}, {{ type }}, {{ type }}>
-        // ISubtractionOperators<{{ type }}, {{ type }}, {{ type }}>
-        // IIMultiplyOperators<{{ type }}, {{ type }}, {{ type }}>
-        // IDivisionOperators<{{ type }}, {{ type }}, {{ type }}>
+        // IAdditionOperators
+        // ISubtractionOperators
+        // IMultiplyOperators
+        // IDivisionOperators
         //
 
 {%- for o in ['+', '-', '*', '/'] %}
@@ -100,13 +100,6 @@ namespace AgatePris.Intar {
             );
         }
 {%- endfor %}
-
-        //
-        // IMultiplyOperators<{{ type }}, {{ type }}, {{ component }}>
-        // IDivisionOperators<{{ type }}, {{ type }}, {{ component }}>
-        // IMultiplyOperators<{{ type }}, {{ component }}, {{ type }}>
-        // IDivisionOperators<{{ type }}, {{ component }}, {{ type }}>
-        //
 
 {%- for o in ['*', '/'] %}
 
@@ -134,7 +127,7 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         //
-        // IUnaryPlusOperators<{{ type }}>
+        // IUnaryPlusOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -150,7 +143,7 @@ namespace AgatePris.Intar {
 {%- if signed %}
 
         //
-        // IUnaryNegationOperators<{{ type }}>
+        // IUnaryNegationOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

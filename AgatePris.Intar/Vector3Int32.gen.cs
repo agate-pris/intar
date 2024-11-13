@@ -25,7 +25,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEqualityOperators<Vector3Int32, Vector3Int32>
+        // IEqualityOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,7 +39,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IEquatable<Vector3Int32>
+        // IEquatable
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,10 +55,10 @@ namespace AgatePris.Intar {
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
         //
-        // IAdditionOperators<Vector3Int32, Vector3Int32, Vector3Int32>
-        // ISubtractionOperators<Vector3Int32, Vector3Int32, Vector3Int32>
-        // IIMultiplyOperators<Vector3Int32, Vector3Int32, Vector3Int32>
-        // IDivisionOperators<Vector3Int32, Vector3Int32, Vector3Int32>
+        // IAdditionOperators
+        // ISubtractionOperators
+        // IMultiplyOperators
+        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,13 +81,6 @@ namespace AgatePris.Intar {
             return new Vector3Int32(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
         }
 
-        //
-        // IMultiplyOperators<Vector3Int32, Vector3Int32, int>
-        // IDivisionOperators<Vector3Int32, Vector3Int32, int>
-        // IMultiplyOperators<Vector3Int32, int, Vector3Int32>
-        // IDivisionOperators<Vector3Int32, int, Vector3Int32>
-        //
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int32 operator *(Vector3Int32 left, int right) {
             return new Vector3Int32(left.X * right, left.Y * right, left.Z * right);
@@ -109,7 +102,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IUnaryPlusOperators<Vector3Int32>
+        // IUnaryPlusOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -118,7 +111,7 @@ namespace AgatePris.Intar {
         }
 
         //
-        // IUnaryNegationOperators<Vector3Int32>
+        // IUnaryNegationOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
