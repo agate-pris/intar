@@ -281,28 +281,6 @@ namespace AgatePris.Intar {
                 {{ component }}.FromBits(({{ bits }})(z / k)));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} SaturatingCross({{ self_type }} other) {
-            const {{ wide_bits }} k =
-            {%- if wide_bits == "long" %} 1L
-            {%- elif wide_bits == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
-            {%- endif %} << {{ frac_nbits }};
-            CrossInternal(other, out var x, out var y, out var z);
-            {%- for c in components %}
-            {{ c|lower }} /= k;
-            if ({{ c|lower }} > {{ bits }}.MaxValue) {
-                {{ c|lower }} = {{ bits }}.MaxValue;
-            } else if ({{ c|lower }} < {{ bits }}.MinValue) {
-                {{ c|lower }} = {{ bits }}.MinValue;
-            }
-            {%- endfor %}
-            return new {{ self_type }}(
-                {{ component }}.FromBits(({{ bits }})x),
-                {{ component }}.FromBits(({{ bits }})y),
-                {{ component }}.FromBits(({{ bits }})z));
-        }
-
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
