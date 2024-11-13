@@ -110,6 +110,21 @@ namespace AgatePris.Intar {
             return new Vector2I2F30((Vector2Int32)(a.WideBits * I2F30.OneRepr / b.WideRepr));
         }
 
+        //
+        // IUnaryPlusOperators
+        // IUnaryNegationOperators
+        //
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I2F30 operator +(Vector2I2F30 x) {
+            return new Vector2I2F30(+x.Repr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I2F30 operator -(Vector2I2F30 x) {
+            return new Vector2I2F30(-x.Repr);
+        }
+
         // Comparison Operators
         // ---------------------------------------
 
