@@ -190,7 +190,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void CrossInternal(Vector3I2F30 other, out long x, out long y, out long z) {
+        internal void CrossInternal(Vector3I2F30 other, out long x, out long y, out long z) {
             var ax = (long)X.Bits;
             var ay = (long)Y.Bits;
             var az = (long)Z.Bits;
