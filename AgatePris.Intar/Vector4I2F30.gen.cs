@@ -135,14 +135,15 @@ namespace AgatePris.Intar {
             return new Vector4I2F30(-x.Repr);
         }
 
-        // Comparison Operators
-        // ---------------------------------------
+        //
+        // IEqualityOperators
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector4I2F30 lhs, Vector4I2F30 rhs) => lhs.Equals(rhs);
+        public static bool operator ==(Vector4I2F30 lhs, Vector4I2F30 rhs) => lhs.Repr == rhs.Repr;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector4I2F30 lhs, Vector4I2F30 rhs) => !(lhs == rhs);
+        public static bool operator !=(Vector4I2F30 lhs, Vector4I2F30 rhs) => lhs.Repr != rhs.Repr;
 
         // Indexer
         // ---------------------------------------
@@ -170,26 +171,26 @@ namespace AgatePris.Intar {
             }
         }
 
+        //
         // Object
-        // ---------------------------------------
+        //
 
         public override bool Equals(object obj) => obj is Vector4I2F30 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
+        public override int GetHashCode() => Repr.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}, {Z}, {W}>";
 
-        // IEquatable<Vector4I2F30>
-        // ---------------------------------------
+        //
+        // IEquatable
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector4I2F30 other)
-            => other.X == X
-            && other.Y == Y
-            && other.Z == Z
-            && other.W == W;
+        public bool Equals(Vector4I2F30 other) {
+            return Repr.Equals(other.Repr);
+        }
 
         // IFormattable
         // ---------------------------------------
@@ -199,41 +200,37 @@ namespace AgatePris.Intar {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)}, {W.ToString(format, formatProvider)}>";
         }
 
+        //
         // Methods
-        // ---------------------------------------
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 Min(Vector4I2F30 other) => new Vector4I2F30(
-            X.Min(other.X),
-            Y.Min(other.Y),
-            Z.Min(other.Z),
-            W.Min(other.W));
+        public Vector4I2F30 Min(Vector4I2F30 other) {
+            return new Vector4I2F30(Repr.Min(other.Repr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 Max(Vector4I2F30 other) => new Vector4I2F30(
-            X.Max(other.X),
-            Y.Max(other.Y),
-            Z.Max(other.Z),
-            W.Max(other.W));
+        public Vector4I2F30 Max(Vector4I2F30 other) {
+            return new Vector4I2F30(Repr.Max(other.Repr));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30 Abs() => new Vector4I2F30(
-            X.Abs(),
-            Y.Abs(),
-            Z.Abs(),
-            W.Abs());
+        public Vector4I2F30 Abs() => new Vector4I2F30(Repr.Abs());
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector4I2F30 Half() => new Vector4I2F30(X.Half(), Y.Half(), Z.Half(), W.Half());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal Vector4I2F30 Twice() => new Vector4I2F30(X.Twice(), Y.Twice(), Z.Twice(), W.Twice());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Vector4I2F30 Half() => new Vector4I2F30(Repr.Half());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Vector4I2F30 Twice() => new Vector4I2F30(Repr.Twice());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Clamp(I2F30 min, I2F30 max) {
-            return new Vector4I2F30(X.Clamp(min, max), Y.Clamp(min, max), Z.Clamp(min, max), W.Clamp(min, max));
+            return new Vector4I2F30(Repr.Clamp(min.Bits, max.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Clamp(Vector4I2F30 min, Vector4I2F30 max) {
-            return new Vector4I2F30(X.Clamp(min.X, max.X), Y.Clamp(min.Y, max.Y), Z.Clamp(min.Z, max.Z), W.Clamp(min.W, max.W));
+            return new Vector4I2F30(Repr.Clamp(min.Repr, max.Repr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

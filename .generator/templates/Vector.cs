@@ -154,14 +154,17 @@ namespace AgatePris.Intar {
 
 {%- endif %}
 
-        // Comparison Operators
-        // ---------------------------------------
+        //
+        // IEqualityOperators
+        //
+
+{%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Equals(rhs);
+        public static bool operator {{ o
+        }}({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Repr {{ o }} rhs.Repr;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ self_type }} lhs, {{ self_type }} rhs) => !(lhs == rhs);
+{%- endfor %}
 
         // Indexer
         // ---------------------------------------
@@ -187,17 +190,14 @@ namespace AgatePris.Intar {
             }
         }
 
+        //
         // Object
-        // ---------------------------------------
+        //
 
         public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => HashCode.Combine(
-{%- for c in components -%}
-    {{ c }}{% if not loop.last %}, {% endif %}
-{%- endfor -%}
-        );
+        public override int GetHashCode() => Repr.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<
@@ -206,15 +206,14 @@ namespace AgatePris.Intar {
 {%- endfor -%}
         >";
 
-        // IEquatable<{{ self_type }}>
-        // ---------------------------------------
+        //
+        // IEquatable
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals({{ self_type }} other)
-            => other.X == X
-            && other.Y == Y{% if dim > 2 %}
-            && other.Z == Z{% if dim > 3 %}
-            && other.W == W{% endif %}{% endif %};
+        public bool Equals({{ self_type }} other) {
+            return Repr.Equals(other.Repr);
+        }
 
         // IFormattable
         // ---------------------------------------
@@ -228,57 +227,41 @@ namespace AgatePris.Intar {
             >";
         }
 
+        //
         // Methods
-        // ---------------------------------------
+        //
+
+{%- for m in ['Min', 'Max'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Min({{ self_type }} other) => new {{ self_type }}(
-            X.Min(other.X),
-            Y.Min(other.Y){% if dim > 2 %},
-            Z.Min(other.Z){% if dim > 3 %},
-            W.Min(other.W){% endif %}{% endif %});
+        public {{ self_type }} {{ m }}({{ self_type }} other) {
+            return new {{ self_type }}(Repr.{{ m }}(other.Repr));
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Max({{ self_type }} other) => new {{ self_type }}(
-            X.Max(other.X),
-            Y.Max(other.Y){% if dim > 2 %},
-            Z.Max(other.Z){% if dim > 3 %},
-            W.Max(other.W){% endif %}{% endif %});
+{%- endfor %}
 
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Abs() => new {{ self_type }}(
-            X.Abs(),
-            Y.Abs(){% if dim > 2 %},
-            Z.Abs(){% if dim > 3 %},
-            W.Abs(){% endif %}{% endif %});
+        public {{ self_type }} Abs() => new {{ self_type }}(Repr.Abs());
 
         {%- endif %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => new {{ self_type }}(X.Half(), Y.Half()
-            {%- if dim > 2 %}, Z.Half()
-            {%- if dim > 3 %}, W.Half(){% endif %}{% endif %});
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => new {{ self_type }}(X.Twice(), Y.Twice()
-            {%- if dim > 2 %}, Z.Twice()
-            {%- if dim > 3 %}, W.Twice(){% endif %}{% endif %});
+{%- for m in ['Half', 'Twice'] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal {{ self_type }} {{ m }}() => new {{ self_type }}(Repr.{{ m }}());
+
+{%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ component }} min, {{ component }} max) {
-            return new {{ self_type }}({#             -#}
-                X.Clamp(min, max), {#                 -#}
-                Y.Clamp(min, max){% if dim > 2 %}, {# -#}
-                Z.Clamp(min, max){% if dim > 3 %}, {# -#}
-                W.Clamp(min, max){% endif %}{% endif %});
+            return new {{ self_type }}(Repr.Clamp(min.Bits, max.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
-            return new {{ self_type }}({#                 -#}
-                X.Clamp(min.X, max.X), {#                 -#}
-                Y.Clamp(min.Y, max.Y){% if dim > 2 %}, {# -#}
-                Z.Clamp(min.Z, max.Z){% if dim > 3 %}, {# -#}
-                W.Clamp(min.W, max.W){% endif %}{% endif %});
+            return new {{ self_type }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
         {%- if signed and dim == 3 %}
