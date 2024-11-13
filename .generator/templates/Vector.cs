@@ -133,7 +133,9 @@ namespace AgatePris.Intar {
 {%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator {{ o }}({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Repr {{ o }} rhs.Repr;
+        public static bool operator {{ o }}({{ self_type }} lhs, {{ self_type }} rhs) {
+            return lhs.Repr {{ o }} rhs.Repr;
+        }
 
 {%- endfor %}
 
@@ -180,7 +182,9 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals({{ self_type }} other) => Repr.Equals(other.Repr);
+        public bool Equals({{ self_type }} other) {
+            return Repr.Equals(other.Repr);
+        }
 
         // IFormattable
         // ---------------------------------------
@@ -230,59 +234,30 @@ namespace AgatePris.Intar {
             return new {{ self_type }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
-        {%- if signed and dim == 3 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void CrossInternal({{ self_type }} other, out {{ wide_bits }} x, out {{ wide_bits }} y, out {{ wide_bits }} z) {
-            var ax = ({{ wide_bits }})X.Bits;
-            var ay = ({{ wide_bits }})Y.Bits;
-            var az = ({{ wide_bits }})Z.Bits;
-            var bx = ({{ wide_bits }})other.X.Bits;
-            var by = ({{ wide_bits }})other.Y.Bits;
-            var bz = ({{ wide_bits }})other.Z.Bits;
-
-            x = (ay * bz) - (az * by);
-            y = (az * bx) - (ax * bz);
-            z = (ax * by) - (ay * bx);
-        }
+{%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Cross({{ self_type }} other) {
-            const {{ wide_bits }} k =
-            {%- if wide_bits == "long" %} 1L
-            {%- elif wide_bits == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
-            {%- endif %} << {{ frac_nbits }};
-            CrossInternal(other, out var x, out var y, out var z);
-            return new {{ self_type }}(
-                {{ component }}.FromBits(({{ bits }})(x / k)),
-                {{ component }}.FromBits(({{ bits }})(y / k)),
-                {{ component }}.FromBits(({{ bits }})(z / k)));
+            const {{ wide_bits
+            }} k = {{ macros::one(bits=int_nbits*2+frac_nbits*2, signed=signed)
+            }} << {{ frac_nbits }};
+            var tmp = Repr.Cross(other.Repr) / k;
+            return new {{ self_type }}(({{ repr }})tmp);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} SaturatingCross({{ self_type }} other) {
-            const {{ wide_bits }} k =
-            {%- if wide_bits == "long" %} 1L
-            {%- elif wide_bits == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
-            {%- endif %} << {{ frac_nbits }};
-            CrossInternal(other, out var x, out var y, out var z);
-            {%- for c in components %}
-            {{ c|lower }} /= k;
-            if ({{ c|lower }} > {{ bits }}.MaxValue) {
-                {{ c|lower }} = {{ bits }}.MaxValue;
-            } else if ({{ c|lower }} < {{ bits }}.MinValue) {
-                {{ c|lower }} = {{ bits }}.MinValue;
-            }
-            {%- endfor %}
-            return new {{ self_type }}(
-                {{ component }}.FromBits(({{ bits }})x),
-                {{ component }}.FromBits(({{ bits }})y),
-                {{ component }}.FromBits(({{ bits }})z));
+            const {{ wide_bits
+            }} k = {{ macros::one(bits=int_nbits*2+frac_nbits*2, signed=signed)
+            }} << {{ frac_nbits }};
+            var tmp = (Repr.Cross(other.Repr) / k).Clamp(
+                {{ bits }}.MinValue,
+                {{ bits }}.MaxValue
+            );
+            return new {{ self_type }}(({{ repr }})tmp);
         }
 
-        {%- endif %}
+{%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ wide_bits }} DotInternal({{ self_type }} other) {
