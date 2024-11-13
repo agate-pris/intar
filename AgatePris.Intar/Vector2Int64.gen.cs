@@ -199,5 +199,40 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Twice() => new Vector2Int64(Mathi.Twice(X), Mathi.Twice(Y));
 
+        //
+        // Swizzling
+        //
+
+        // プロパティないしフィールドではないことを明示するためにメソッドとして定義
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 XX() => new Vector2Int64(X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 XY() => new Vector2Int64(X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 YX() => new Vector2Int64(Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 YY() => new Vector2Int64(Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XXX() => new Vector3Int64(X, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XXY() => new Vector3Int64(X, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XYX() => new Vector3Int64(X, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XYY() => new Vector3Int64(X, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 YXX() => new Vector3Int64(Y, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 YXY() => new Vector3Int64(Y, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 YYX() => new Vector3Int64(Y, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 YYY() => new Vector3Int64(Y, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXXX() => new Vector4Int64(X, X, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXXY() => new Vector4Int64(X, X, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXYX() => new Vector4Int64(X, X, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXYY() => new Vector4Int64(X, X, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XYXX() => new Vector4Int64(X, Y, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XYXY() => new Vector4Int64(X, Y, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XYYX() => new Vector4Int64(X, Y, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XYYY() => new Vector4Int64(X, Y, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YXXX() => new Vector4Int64(Y, X, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YXXY() => new Vector4Int64(Y, X, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YXYX() => new Vector4Int64(Y, X, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YXYY() => new Vector4Int64(Y, X, Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYXX() => new Vector4Int64(Y, Y, X, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYXY() => new Vector4Int64(Y, Y, X, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYYX() => new Vector4Int64(Y, Y, Y, X);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYYY() => new Vector4Int64(Y, Y, Y, Y);
+
     }
 }

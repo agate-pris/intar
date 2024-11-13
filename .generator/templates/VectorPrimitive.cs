@@ -300,5 +300,39 @@ namespace AgatePris.Intar {
 {%- endfor -%}
         );
 
+        //
+        // Swizzling
+        //
+
+        // プロパティないしフィールドではないことを明示するためにメソッドとして定義
+{# 改行 #}
+
+{%- for x in components %}
+    {%- for y in components %}
+        {%- set t = macros::vector_primitive(dim=2, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => new {{ t }}({{ x }}, {{ y }});
+    {%- endfor %}
+{%- endfor %}
+
+{%- for x in components %}
+    {%- for y in components %}
+        {%- for z in components %}
+            {%- set t = macros::vector_primitive(dim=3, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}() => new {{ t }}({{ x }}, {{ y }}, {{ z }});
+        {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
+
+{%- for x in components %}
+    {%- for y in components %}
+        {%- for z in components %}
+            {%- for w in components %}
+                {%- set t = macros::vector_primitive(dim=4, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}{{ w }}() => new {{ t }}({{ x }}, {{ y }}, {{ z }}, {{ w }});
+            {%- endfor %}
+        {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
+
     }
 }
