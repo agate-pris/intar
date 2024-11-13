@@ -214,6 +214,11 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt32 Twice() => new Vector3UInt32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 Cross(Vector3UInt32 other) {
+            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
+        }
+
         //
         // Swizzling
         //

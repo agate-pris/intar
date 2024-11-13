@@ -350,6 +350,15 @@ namespace AgatePris.Intar {
 {%- endfor -%}
         );
 
+{%- if bits < 64 and dim == 3 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_type }} Cross({{ type }} other) {
+            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
+        }
+
+{%- endif %}
+
         //
         // Swizzling
         //
