@@ -138,28 +138,15 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector3I17F15 lhs, Vector3I17F15 rhs) => lhs.Repr != rhs.Repr;
 
+        //
         // Indexer
-        // ---------------------------------------
+        //
 
         public I17F15 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get {
-                switch (index) {
-                    case 0: return X;
-                    case 1: return Y;
-                    case 2: return Z;
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
+            get => I17F15.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set {
-                switch (index) {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    case 2: Z = value; break;
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
+            set => Repr[index] = value.Bits;
         }
 
         //

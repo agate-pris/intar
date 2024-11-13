@@ -166,28 +166,15 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
+        //
         // Indexer
-        // ---------------------------------------
+        //
 
         public {{ component }} this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get {
-                switch (index) {
-{%- for i in range(end=dim) %}
-                    case {{ i }}: return {{ components[i] }};
-{%- endfor %}
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
+            get => {{ component }}.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set {
-                switch (index) {
-{%- for i in range(end=dim) %}
-                    case {{ i }}: {{ components[i] }} = value; break;
-{%- endfor %}
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
+            set => Repr[index] = value.Bits;
         }
 
         //

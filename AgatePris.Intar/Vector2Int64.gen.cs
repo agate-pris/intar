@@ -138,6 +138,33 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
+        //
+        // Indexer
+        //
+
+        public long this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+                    case 0: return X;
+                    case 1: return Y;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
+
+        //
+        // Other methods
+        //
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Abs() => new Vector2Int64(Math.Abs(X), Math.Abs(Y));
 
