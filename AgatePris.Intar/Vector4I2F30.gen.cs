@@ -13,25 +13,47 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public I2F30 X;
-        public I2F30 Y;
-        public I2F30 Z;
-        public I2F30 W;
+        public Vector4Int32 Repr;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+        public I2F30 X {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.X);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.X = value.Bits;
+        }
+        public I2F30 Y {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.Y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.Y = value.Bits;
+        }
+        public I2F30 Z {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.Z);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.Z = value.Bits;
+        }
+        public I2F30 W {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I2F30.FromBits(Repr.W);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr.W = value.Bits;
+        }
+
         // Constructors
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I2F30(I2F30 x, I2F30 y, I2F30 z, I2F30 w) {
-            X = x;
-            Y = y;
-            Z = z;
-            W = w;
+        public Vector4I2F30(Vector4Int32 repr) {
+            Repr = repr;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30(I2F30 x, I2F30 y, I2F30 z, I2F30 w) : this(new Vector4Int32(x.Bits, y.Bits, z.Bits, w.Bits)) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30(I2F30 value) : this(value, value, value, value) { }
