@@ -187,6 +187,35 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
+        //
+        // Indexer
+        //
+
+        public {{ component }} this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+{%- for c in components %}
+                    case {{ loop.index0 }}: return {{ c }};
+{%- endfor %}
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+{%- for c in components %}
+                    case {{ loop.index0 }}: {{ c }} = value; break;
+{%- endfor %}
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
+
+        //
+        // Other methods
+        //
+
 {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
