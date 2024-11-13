@@ -485,42 +485,39 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endif %}
 
+        //
         // Swizzling
-        // ---------
-{# これは改行を挿入するためのコメントです #}
+        //
 
-        {%- if   dim == 2 %} {%- set cmp = ['X', 'Y'          ] %}
-        {%- elif dim == 3 %} {%- set cmp = ['X', 'Y', 'Z'     ] %}
-        {%- elif dim == 4 %} {%- set cmp = ['X', 'Y', 'Z', 'W'] %}
-        {%- else %} {{- "Unexpected dim. dim: " ~ dim }}
-        {%- endif -%}
-        {%- for x in cmp %}
-        {%- for y in cmp %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            macros::vector_type(dim=2, type=component) }} {{ x -}}  {{ y -}}() => new {{
-            macros::vector_type(dim=2, type=component) }}({{ x -}}, {{ y -}});
+        // プロパティないしフィールドではないことを明示するためにメソッドとして定義
+{# 改行 #}
+
+{%- for x in components %}
+    {%- for y in components %}
+        {%- set t = macros::vector_type(dim=2, type=component) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => new {{ t }}(Repr.{{ x }}{{ y }}());
+    {%- endfor %}
+{%- endfor %}
+
+{%- for x in components %}
+    {%- for y in components %}
+        {%- for z in components %}
+            {%- set t = macros::vector_type(dim=3, type=component) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}() => new {{ t }}(Repr.{{ x }}{{ y }}{{ z }}());
         {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
+
+{%- for x in components %}
+    {%- for y in components %}
+        {%- for z in components %}
+            {%- for w in components %}
+                {%- set t = macros::vector_type(dim=4, type=component) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}{{ w }}() => new {{ t }}(Repr.{{ x }}{{ y }}{{ z }}{{ w }}());
+            {%- endfor %}
         {%- endfor %}
-        {%- for x in cmp %}
-        {%- for y in cmp %}
-        {%- for z in cmp %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            macros::vector_type(dim=3, type=component) }} {{ x -}}  {{ y -}}  {{ z -}}() => new {{
-            macros::vector_type(dim=3, type=component) }}({{ x -}}, {{ y -}}, {{ z -}});
-        {%- endfor %}
-        {%- endfor %}
-        {%- endfor %}
-        {%- for x in cmp %}
-        {%- for y in cmp %}
-        {%- for z in cmp %}
-        {%- for w in cmp %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
-            macros::vector_type(dim=4, type=component) }} {{ x -}}  {{ y -}}  {{ z -}}  {{ w -}}() => new {{
-            macros::vector_type(dim=4, type=component) }}({{ x -}}, {{ y -}}, {{ z -}}, {{ w -}});
-        {%- endfor %}
-        {%- endfor %}
-        {%- endfor %}
-        {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
 
     }
 } // // namespace AgatePris.Intar
