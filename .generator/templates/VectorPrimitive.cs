@@ -13,6 +13,7 @@
 {%- if bits < 64 %}
 
     {%- set wide_type = self::other_type(bits = 2*bits, s=signed, dim=dim) %}
+    {%- set wide_component = macros::inttype(bits=2*bits, signed=signed) %}
 
 {%- endif %}
 
@@ -220,17 +221,11 @@ namespace AgatePris.Intar {
 {%- if bits < 64 %}
 
         public {{ wide_type }} BigMul({{ component }} other) {
-            return new {{ self::other_type(bits=2*bits, s=sig }}(
-                {%- for c in components -%}
-                ({{ macros::inttype(bits=2*bits, signed=signed) }}){{ c }} * other{% if not loop.last %}, {% endif %}
-                {%- endfor %});
+            return ({{ wide_type }})this * other;
         }
 
         public {{ wide_type }} BigMul({{ type }} other) {
-            return new {{ wide_type }}(
-                {%- for c in components -%}
-                ({{ wide_type }}){{ c }} * other.{{ c }}{% if not loop.last %}, {% endif %}
-                {%- endfor %});
+            return ({{ wide_type }})this * other;
         }
 
 {%- endif %}
@@ -289,29 +284,54 @@ namespace AgatePris.Intar {
 {%- endfor -%}
         );
 
-{%- if bits == 32 and dim == 3 %}
+{%- if bits < 64 and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} CrossInternal() => new {{ type }}(
-{%- for c in components -%}
-    Mathi.Twice({{ c }}){% if not loop.last %}, {% endif %}
-{%- endfor -%}
-        );
+        public {{ wide_type }} Cross({{ type }} other) {
+            // オーバーフローは起きない。
+            //  255 *  255 -    0 *    0 =  65025
+            //  127 * -128 - -128 * -128 = -32640
+            // -128 * -128 -  127 * -128 =  32640
+
+            var w = ({{ wide_type }})this;
+            return new {{ wide_type }}(
+    {%- for i in range(end=3) %}
+        {%- set y = i+1 %}
+        {%- set z = i+2 %}
+        {%- set yc = components | nth(n=y%3) %}
+        {%- set zc = components | nth(n=z%3) %}
+                (w.{{ yc }} * other.{{ zc }}) - (w.{{ zc }} * other.{{ yc }}){% if not loop.last %},{% endif %}
+    {%- endfor %}
+            );
+        }
 
 {%- endif %}
 
 {%- if bits < 64 %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} LengthSquared() {
+        public {{ wide_component }} UncheckedDot({{ type }} other) {
+            return
+{%- for c in components -%}
+    {% if not loop.first %} +{% endif %} (({{ wide_component }}){{ c }} * other.{{ c }})
+{%- endfor -%}
+            ;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component }} {%
+            if not signed and dim > 1 or signed and dim > 3 
+        %}Unchecked{% endif %}LengthSquared() {
     {%- if signed %}
             var abs = UnsignedAbs();
     {%- endif %}
             return
     {%- for c in components -%}
-        {%- if not loop.first %} + {% endif %} (ulong){% if signed %}abs.{% endif %}{{ c }} * {% if signed %}abs.{% endif %}{{ c }}
+        {%- if not loop.first %} +{% endif %} (({{ wide_component }}){% if signed %}abs.{% endif %}{{ c }} * {% if signed %}abs.{% endif %}{{ c }})
     {%- endfor -%}
+            ;
         }
-{%- eneidf %}
+{%- endif %}
 
     }
 }
