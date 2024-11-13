@@ -30,13 +30,13 @@
             "dir_path": "../AgatePris.Intar",
             "template_name": "Fixed.cs",
             "files": [
-                {%- for signed in [true, false] %}
-                {%- for f in fixed_list %}
+{%- for signed in [true, false] %}
+    {%- for f in fixed_list %}
                 { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
+        {%- if not loop.last %},{% endif %}
+    {%- endfor %}
+    {%- if not loop.last %},{% endif %}
+{%- endfor %}
             ]
         },
         {
@@ -57,13 +57,29 @@
             "dir_path": "../AgatePris.Intar",
             "template_name": "Vector.cs",
             "files": [
-                {%- for v in vector_list %}
-                {%- for dim in range(end = 3) %}
+{%- for v in vector_list %}
+    {%- for dim in range(end = 3) %}
                 { "file_name": "Vector{{ dim + 2 }}I{{ v[0] }}F{{ v[1] }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ v[0] }}, "frac_nbits": {{ v[1] }}, "fixed": true } }
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
-                {%- if not loop.last %},{% endif %}
-                {%- endfor %}
+        {%- if not loop.last %},{% endif %}
+    {%- endfor %}
+    {%- if not loop.last %},{% endif %}
+{%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../AgatePris.Intar",
+            "template_name": "VectorPrimitive.cs",
+            "files": [
+{%- for bits in [32, 64] %}
+    {%- for s in [true, false] %}
+        {%- for d in [2, 3, 4] %}
+                { "file_name": "Vector{{ d }}{% if not s %}U{% endif %}Int{{ bits }}.gen.cs", "params": { "dim": {{ d }}, "signed": {{ s }}, "bits": {{ bits }} } }
+            {%- if not loop.last %},{% endif %}
+        {%- endfor %}
+        {%- if not loop.last %},{% endif %}
+    {%- endfor %}
+    {%- if not loop.last %},{% endif %}
+{%- endfor %}
             ]
         }
     ]
