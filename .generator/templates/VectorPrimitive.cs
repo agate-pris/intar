@@ -10,6 +10,12 @@
 {%- set component = macros::inttype(bits=bits, signed=signed) %}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
 
+{%- if bits < 64 %}
+
+    {%- set wide_type = self::other_type(bits = 2*bits, s=signed, dim=dim) %}
+
+{%- endif %}
+
 using System;
 using System.Runtime.CompilerServices;
 
@@ -213,17 +219,17 @@ namespace AgatePris.Intar {
 
 {%- if bits < 64 %}
 
-        public {{ self::other_type(bits=2*bits, s=signed, dim=dim) }} BigMul({{ component }} other) {
-            return new {{ self::other_type(bits=2*bits, s=signed, dim=dim) }}(
+        public {{ wide_type }} BigMul({{ component }} other) {
+            return new {{ self::other_type(bits=2*bits, s=sig }}(
                 {%- for c in components -%}
                 ({{ macros::inttype(bits=2*bits, signed=signed) }}){{ c }} * other{% if not loop.last %}, {% endif %}
                 {%- endfor %});
         }
 
-        public {{ self::other_type(bits=2*bits, s=signed, dim=dim) }} BigMul({{ type }} other) {
-            return new {{ self::other_type(bits=2*bits, s=signed, dim=dim) }}(
+        public {{ wide_type }} BigMul({{ type }} other) {
+            return new {{ wide_type }}(
                 {%- for c in components -%}
-                ({{ macros::inttype(bits=2*bits, signed=signed) }}){{ c }} * other.{{ c }}{% if not loop.last %}, {% endif %}
+                ({{ wide_type }}){{ c }} * other.{{ c }}{% if not loop.last %}, {% endif %}
                 {%- endfor %});
         }
 
@@ -282,6 +288,17 @@ namespace AgatePris.Intar {
     Mathi.Twice({{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
         );
+
+{%- if bits == 32 and dim == 3 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }} CrossInternal() => new {{ type }}(
+{%- for c in components -%}
+    Mathi.Twice({{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+        );
+
+{%- endif %}
 
 {%- if bits < 64 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
