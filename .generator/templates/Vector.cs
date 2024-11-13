@@ -255,7 +255,7 @@ namespace AgatePris.Intar {
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void CrossInternal({{ self_type }} other, out {{ wide_bits }} x, out {{ wide_bits }} y, out {{ wide_bits }} z) {
+        internal void CrossInternal({{ self_type }} other, out {{ wide_bits }} x, out {{ wide_bits }} y, out {{ wide_bits }} z) {
             var ax = ({{ wide_bits }})X.Bits;
             var ay = ({{ wide_bits }})Y.Bits;
             var az = ({{ wide_bits }})Z.Bits;
