@@ -74,14 +74,10 @@ namespace AgatePris.Intar {
         public static readonly Vector4I2F30 UnitW = new Vector4I2F30(I2F30.Zero, I2F30.Zero, I2F30.Zero, I2F30.One);
 
         //
-        // IAdditionOperators<Vector4I2F30, Vector4I2F30, Vector4I2F30>
-        // ISubtractionOperators<Vector4I2F30, Vector4I2F30, Vector4I2F30>
-        // IIMultiplyOperators<Vector4I2F30, Vector4I2F30, Vector4I2F30>
-        // IIMultiplyOperators<Vector4I2F30, I2F30, Vector4I2F30>
-        // IIMultiplyOperators<I2F30, Vector4I2F30, Vector4I2F30>
-        // IDivisionOperators<Vector4I2F30, Vector4I2F30, Vector4I2F30>
-        // IDivisionOperators<Vector4I2F30, I2F30, Vector4I2F30>
-        // IDivisionOperators<I2F30, Vector4I2F30, Vector4I2F30>
+        // IAdditionOperators
+        // ISubtractionOperators
+        // IIMultiplyOperators
+        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

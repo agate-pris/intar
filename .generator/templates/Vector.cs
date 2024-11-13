@@ -90,14 +90,10 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         //
-        // IAdditionOperators<{{ self_type }}, {{ self_type }}, {{ self_type }}>
-        // ISubtractionOperators<{{ self_type }}, {{ self_type }}, {{ self_type }}>
-        // IIMultiplyOperators<{{ self_type }}, {{ self_type }}, {{ self_type }}>
-        // IIMultiplyOperators<{{ self_type }}, {{ component }}, {{ self_type }}>
-        // IIMultiplyOperators<{{ component }}, {{ self_type }}, {{ self_type }}>
-        // IDivisionOperators<{{ self_type }}, {{ self_type }}, {{ self_type }}>
-        // IDivisionOperators<{{ self_type }}, {{ component }}, {{ self_type }}>
-        // IDivisionOperators<{{ component }}, {{ self_type }}, {{ self_type }}>
+        // IAdditionOperators
+        // ISubtractionOperators
+        // IIMultiplyOperators
+        // IDivisionOperators
         //
 
 {%- for o in ['+', '-'] %}
