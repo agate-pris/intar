@@ -139,6 +139,25 @@ namespace AgatePris.Intar {
             return new {{ self_type }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
         }
 
+        //
+        // IUnaryPlusOperators
+        // IUnaryNegationOperators
+        //
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} operator +({{ self_type }} x) {
+            return new {{ self_type }}(+x.Repr);
+        }
+
+{%- if signed %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} operator -({{ self_type }} x) {
+            return new {{ self_type }}(-x.Repr);
+        }
+
+{%- endif %}
+
         // Comparison Operators
         // ---------------------------------------
 
