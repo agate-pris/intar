@@ -210,17 +210,20 @@ namespace AgatePris.Intar {
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Min({{ self_type }} other){
+{%- for m in ['Min', 'Max'] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} {{ m }}({{ self_type }} other){
             return FromBits(
 #if NET7_0_OR_GREATER
-                {{ self_bits_type }}.Min(Bits, other.Bits)
+                {{ self_bits_type }}.{{ m }}(Bits, other.Bits)
 #else
-                Math.Min(Bits, other.Bits)
+                Math.{{ m }}(Bits, other.Bits)
 #endif
             );
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
+{%- endfor %}
+
 {%- if signed %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
 {%- endif %}
