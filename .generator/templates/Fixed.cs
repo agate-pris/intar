@@ -212,7 +212,8 @@ namespace AgatePris.Intar {
 
 {%- for m in ['Min', 'Max'] %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} {{ m }}({{ self_type }} other){
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_type }} {{ m }}({{ self_type }} other){
             return FromBits(
 #if NET7_0_OR_GREATER
                 {{ self_bits_type }}.{{ m }}(Bits, other.Bits)
@@ -225,7 +226,18 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
 {%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_type }} Abs() {
+            return FromBits(
+#if NET7_0_OR_GREATER
+                {{ self_bits_type }}.Abs(Bits)
+#else
+                Math.Abs(Bits)
+#endif
+            );
+        }
+
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
