@@ -236,34 +236,6 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I17F15 SaturatingCross(Vector3I17F15 other) {
-            const long k = 1L << 15;
-            CrossInternal(other, out var x, out var y, out var z);
-            x /= k;
-            if (x > int.MaxValue) {
-                x = int.MaxValue;
-            } else if (x < int.MinValue) {
-                x = int.MinValue;
-            }
-            y /= k;
-            if (y > int.MaxValue) {
-                y = int.MaxValue;
-            } else if (y < int.MinValue) {
-                y = int.MinValue;
-            }
-            z /= k;
-            if (z > int.MaxValue) {
-                z = int.MaxValue;
-            } else if (z < int.MinValue) {
-                z = int.MinValue;
-            }
-            return new Vector3I17F15(
-                I17F15.FromBits((int)x),
-                I17F15.FromBits((int)y),
-                I17F15.FromBits((int)z));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         long DotInternal(Vector3I17F15 other) {
             var x = ((long)X.Bits) * other.X.Bits;
             var y = ((long)Y.Bits) * other.Y.Bits;
