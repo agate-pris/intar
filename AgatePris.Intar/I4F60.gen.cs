@@ -537,7 +537,7 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked((long)(num * OneRepr)));
+            return FromBits(checked((long)(num * (float)OneRepr)));
         }
 
         /// <summary>
@@ -561,7 +561,7 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(unchecked((long)(num * OneRepr)));
+            return FromBits(unchecked((long)(num * (float)OneRepr)));
         }
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
@@ -589,7 +589,7 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked((long)(num * OneRepr)));
+            return FromBits(checked((long)(num * (double)OneRepr)));
         }
 
         /// <summary>
@@ -613,7 +613,7 @@ namespace AgatePris.Intar {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(unchecked((long)(num * OneRepr)));
+            return FromBits(unchecked((long)(num * (double)OneRepr)));
         }
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。

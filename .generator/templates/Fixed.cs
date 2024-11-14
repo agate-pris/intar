@@ -10,7 +10,8 @@
 
 {#- 固定小数点数の定義 -#}
 
-{%- if 64 < int_nbits+frac_nbits %}
+{%- if 64 < int_nbits+frac_nbits -%}
+
 #if NET7_0_OR_GREATER
 
 {%- endif %}
@@ -586,7 +587,7 @@ namespace AgatePris.Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない。
             return FromBits(
                 {%- if method == 'strict' %}checked
-                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * OneRepr)));
+                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * ({{ from }})OneRepr)));
             {%- else %}
                 {%- if not lossy %}
             // より大きい型に変換して計算。
