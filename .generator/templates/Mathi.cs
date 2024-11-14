@@ -460,7 +460,7 @@ namespace AgatePris.Intar {
 
     {%- if bits > 64 %}
 
-#if NET7_0_OR_GREATER
+#endif // NET7_0_OR_GREATER
 
     {%- endif %}
 
