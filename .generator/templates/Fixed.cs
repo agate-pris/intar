@@ -3,7 +3,17 @@
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
 
+{%- if 64 < int_nbits+frac_nbits %}
+    {%- set const = 'static readonly' %}{%- else %}
+    {%- set const = 'const' %}
+{%- endif %}
+
 {#- 固定小数点数の定義 -#}
+
+{%- if 64 < int_nbits+frac_nbits %}
+#if NET7_0_OR_GREATER
+
+{%- endif %}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -17,14 +27,14 @@ namespace AgatePris.Intar {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
-        internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
-        internal const {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
+        internal {{ const }} {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
+        internal {{ const }} {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
         {%- if signed %}
-        internal const {{ self_bits_utype }} MaxReprUnsigned = MaxRepr;
+        internal {{ const }} {{ self_bits_utype }} MaxReprUnsigned = MaxRepr;
         {%- endif %}
-        internal const {{ self_bits_type }} EpsilonRepr = 1;
+        internal {{ const }} {{ self_bits_type }} EpsilonRepr = 1;
 
-        internal const {{ self_bits_type }} OneRepr = {{
+        internal {{ const }} {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
 
@@ -888,3 +898,9 @@ namespace AgatePris.Intar {
 
     }
 } // namespace AgatePris.Intar
+
+{%- if 64 < int_nbits+frac_nbits %}
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}

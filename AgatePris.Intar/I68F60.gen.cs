@@ -1,3 +1,8 @@
+
+
+
+#if NET7_0_OR_GREATER
+
 using System;
 using System.Runtime.CompilerServices;
 
@@ -10,12 +15,12 @@ namespace AgatePris.Intar {
         public const int IntNbits = 68;
         public const int FracNbits = 60;
 
-        internal const Int128 MinRepr = Int128.MinValue;
-        internal const Int128 MaxRepr = Int128.MaxValue;
-        internal const UInt128 MaxReprUnsigned = MaxRepr;
-        internal const Int128 EpsilonRepr = 1;
+        internal static readonly Int128 MinRepr = Int128.MinValue;
+        internal static readonly Int128 MaxRepr = Int128.MaxValue;
+        internal static readonly UInt128 MaxReprUnsigned = MaxRepr;
+        internal static readonly Int128 EpsilonRepr = 1;
 
-        internal const Int128 OneRepr = (Int128)1 << FracNbits;
+        internal static readonly Int128 OneRepr = (Int128)1 << FracNbits;
 
         // Fields
         // ------
@@ -780,3 +785,5 @@ namespace AgatePris.Intar {
 
     }
 } // namespace AgatePris.Intar
+
+#endif // NET7_0_OR_GREATER
