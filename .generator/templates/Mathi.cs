@@ -427,15 +427,26 @@ namespace AgatePris.Intar {
 
         #region Clamp
 
-{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
+{%- for bits in [32, 64, 16, 8, 128] %}
+
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
+    {%- for s in [true, false] %}
+        {%- set t = macros::inttype(bits=bits, signed=s) %}
 
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
-#if NET6_0_OR_GREATER
+        public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
+#if NET7_0_OR_GREATER
+            return {{ t }}.Clamp(v, min, max);
+#elif NET6_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -444,6 +455,15 @@ namespace AgatePris.Intar {
             return Math.Min(Math.Max(v, min), max);
 #endif
         }
+
+    {%- endfor %}
+
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+
+    {%- endif %}
+
 {%- endfor %}
 
         #endregion
