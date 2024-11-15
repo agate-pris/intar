@@ -5,6 +5,8 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        #region AbsDiff
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint AbsDiff(int x, int y) {
             unchecked {
@@ -64,6 +66,8 @@ namespace AgatePris.Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
         #region Asin / Acos
 
@@ -852,6 +856,8 @@ namespace AgatePris.Intar {
 
         #endregion
 
+        #region Half
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Half(int x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Half(uint x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Half(long x) => x / 2;
@@ -863,6 +869,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static UInt128 Half(UInt128 x) => x / 2;
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
         #region Sin / Cos
 
@@ -1498,6 +1506,8 @@ namespace AgatePris.Intar {
 
         #endregion
 
+        #region Sqrt
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {
             if (x <= 1) {
@@ -1559,6 +1569,10 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
+        #endregion
+
+        #region Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Twice(int x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Twice(uint x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Twice(long x) => x * 2;
@@ -1570,6 +1584,10 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static UInt128 Twice(UInt128 x) => x * 2;
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region UnsignedAbs
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint UnsignedAbs(int x) {
@@ -1589,6 +1607,8 @@ namespace AgatePris.Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
     }
 }

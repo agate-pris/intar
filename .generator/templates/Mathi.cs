@@ -30,6 +30,7 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        #region AbsDiff
 {%- for bits in [32, 64, 128] %}
 
     {%- if bits > 64 %}
@@ -68,6 +69,8 @@ namespace AgatePris.Intar {
     {%- endif %}
 
 {%- endfor %}
+
+        #endregion
 
         #region Asin / Acos
 
@@ -426,7 +429,6 @@ namespace AgatePris.Intar {
         #endregion
 
         #region Clamp
-
 {%- for bits in [32, 64, 16, 8, 128] %}
     {%- if bits > 64 %}
 
@@ -456,6 +458,8 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         #endregion
+
+        #region Half
 {# 改行 #}
 {%- for bits in [32, 64, 128] %}
     {%- if bits > 64 %}
@@ -472,6 +476,8 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
     {%- endif %}
 {%- endfor %}
+
+        #endregion
 
         #region Sin / Cos
 
@@ -708,6 +714,7 @@ namespace AgatePris.Intar {
 
         #endregion
 
+        #region Sqrt
 {%- for bits in [32, 64] %}
 {%- set type=macros::inttype(bits=bits, signed=false) %}
 
@@ -755,6 +762,10 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0001
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region Twice
 {# 改行 #}
 {%- for bits in [32, 64, 128] %}
     {%- if bits > 64 %}
@@ -772,8 +783,10 @@ namespace AgatePris.Intar {
     {%- endif %}
 {%- endfor %}
 
-{%- for bits in [32, 64, 128] %}
+        #endregion
 
+        #region UnsignedAbs
+{%- for bits in [32, 64, 128] %}
     {%- if bits > 64 %}
 
 #if NET7_0_OR_GREATER
@@ -794,6 +807,8 @@ namespace AgatePris.Intar {
     {%- endif %}
 
 {%- endfor %}
+
+        #endregion
 
     }
 }
