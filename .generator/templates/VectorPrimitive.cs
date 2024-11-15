@@ -4,14 +4,17 @@
 {%- set type_u = macros::vector_primitive(dim=dim, signed=false,  bits=bits) %}
 {%- set component = macros::inttype(bits=bits, signed=signed) %}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
-
-{%- if bits < 64 %}
-
+{%- if bits < 128 %}
     {%- set wide_type = macros::vector_primitive(dim=dim, signed=signed, bits=2*bits) %}
     {%- set wide_component = macros::inttype(bits=2*bits, signed=signed) %}
+    {%- set math = 'Math' %}
+{%- else %}
+    {%- set math = component %}
+{%- endif %}
+{%- if 64 < bits -%}
+#if NET7_0_OR_GREATER
 
-{%- endif -%}
-
+{% endif -%}
 using System;
 using System.Runtime.CompilerServices;
 
@@ -161,7 +164,11 @@ namespace AgatePris.Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-{%- for other_bits in [32, 64] %}
+{%- for other_bits in [32, 64, 128] %}
+    {%- if other_bits > 64 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
     {%- for s in [true, false] %}
         {%- if bits != other_bits or s != signed %}
             {%- set implicit = signed == s and other_bits >= bits
@@ -182,6 +189,10 @@ namespace AgatePris.Intar {
 
         {%- endif %}
     {%- endfor %}
+    {%- if other_bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
 
 #pragma warning restore IDE0004 // 不要なキャストの削除
@@ -221,7 +232,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }} Abs() => new {{ type }}(
     {%- for c in components -%}
-        Math.Abs({{ c }}){% if not loop.last %}, {% endif %}
+        {{ math }}.Abs({{ c }}){% if not loop.last %}, {% endif %}
     {%- endfor -%}
         );
 
@@ -236,7 +247,11 @@ namespace AgatePris.Intar {
 
 {%- endif %}
 
-{%- if bits < 64 %}
+{%- if bits < 128 %}
+    {%- if bits > 32 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
 
         public {{ wide_type }} BigMul({{ component }} other) {
             return ({{ wide_type }})this * other;
@@ -245,14 +260,17 @@ namespace AgatePris.Intar {
         public {{ wide_type }} BigMul({{ type }} other) {
             return ({{ wide_type }})this * other;
         }
+    {%- if bits > 32 %}
 
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }} Min({{ type }} other) {
             return new {{ type }}(
 {%- for c in components -%}
-    Math.Min({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+    {{ math }}.Min({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
             );
         }
@@ -261,7 +279,7 @@ namespace AgatePris.Intar {
         public {{ type }} Max({{ type }} other) {
             return new {{ type }}(
 {%- for c in components -%}
-    Math.Max({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+    {{ math }}.Max({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
             );
         }
@@ -269,37 +287,53 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type
         }} Clamp({{ component }} min, {{ component }} max) {
+{%- if bits > 64 %}
+            return new {{ type }}(
+    {%- for c in components -%}
+        {{ math }}.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+            );
+{%- else %}
 #if NET5_0_OR_GREATER
             return new {{ type }}(
-{%- for c in components -%}
-    Math.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
-{%- endfor -%}
+    {%- for c in components -%}
+        Math.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
             );
 #else
             return new {{ type }}(
-{%- for c in components -%}
-    Mathi.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
-{%- endfor -%}
+    {%- for c in components -%}
+        Mathi.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
             );
 #endif
+{%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type
         }} Clamp({{ type }} min, {{ type }} max) {
+{%- if bits > 64 %}
+            return new {{ type }}(
+    {%- for c in components -%}
+        {{ math }}.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+            );
+{%- else %}
 #if NET5_0_OR_GREATER
             return new {{ type }}(
-{%- for c in components -%}
-    Math.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
-{%- endfor -%}
+    {%- for c in components -%}
+        Math.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
             );
 #else
             return new {{ type }}(
-{%- for c in components -%}
-    Mathi.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
-{%- endfor -%}
+    {%- for c in components -%}
+        Mathi.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
             );
 #endif
+{%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -352,3 +386,7 @@ namespace AgatePris.Intar {
 
     }
 }
+{%- if 64 < bits %}
+
+#endif // NET7_0_OR_GREATER
+{%- endif %}
