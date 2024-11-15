@@ -1,20 +1,22 @@
+#if NET7_0_OR_GREATER
+
 using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     [Serializable]
-    public struct U4F60 : IEquatable<U4F60>, IFormattable {
+    public struct U8F120 : IEquatable<U8F120>, IFormattable {
         // Consts
         // ------
 
-        public const int IntNbits = 4;
-        public const int FracNbits = 60;
+        public const int IntNbits = 8;
+        public const int FracNbits = 120;
 
-        internal const ulong MinRepr = ulong.MinValue;
-        internal const ulong MaxRepr = ulong.MaxValue;
-        internal const ulong EpsilonRepr = 1;
+        internal static readonly UInt128 MinRepr = UInt128.MinValue;
+        internal static readonly UInt128 MaxRepr = UInt128.MaxValue;
+        internal static readonly UInt128 EpsilonRepr = 1;
 
-        internal const ulong OneRepr = 1UL << FracNbits;
+        internal static readonly UInt128 OneRepr = (UInt128)1 << FracNbits;
 
         // Fields
         // ------
@@ -23,7 +25,7 @@ namespace AgatePris.Intar {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public ulong Bits;
+        public UInt128 Bits;
 
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -33,12 +35,12 @@ namespace AgatePris.Intar {
         // ------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        U4F60(ulong bits) {
+        U8F120(UInt128 bits) {
             Bits = bits;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 FromBits(ulong bits) => new U4F60(bits);
+        public static U8F120 FromBits(UInt128 bits) => new U8F120(bits);
 
         //
         // Static readonly fields
@@ -53,72 +55,46 @@ namespace AgatePris.Intar {
         //
         // -- ECMA-334 6th edition June 2022
 
-        public static readonly U4F60 Zero;
-        public static readonly U4F60 One = new U4F60(OneRepr);
-        public static readonly U4F60 MinValue = new U4F60(MinRepr);
-        public static readonly U4F60 MaxValue = new U4F60(MaxRepr);
-        internal static readonly U4F60 Epsilon = new U4F60(EpsilonRepr);
+        public static readonly U8F120 Zero;
+        public static readonly U8F120 One = new U8F120(OneRepr);
+        public static readonly U8F120 MinValue = new U8F120(MinRepr);
+        public static readonly U8F120 MaxValue = new U8F120(MaxRepr);
+        internal static readonly U8F120 Epsilon = new U8F120(EpsilonRepr);
 
         //
         // Properties
         //
 
-#if NET7_0_OR_GREATER
-
-        internal UInt128 WideBits {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Bits;
-        }
-
-#endif // NET7_0_OR_GREATER
-
         // Arithmetic Operators
         // --------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 operator +(U4F60 left, U4F60 right) {
+        public static U8F120 operator +(U8F120 left, U8F120 right) {
             return FromBits(left.Bits + right.Bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 operator -(U4F60 left, U4F60 right) {
+        public static U8F120 operator -(U8F120 left, U8F120 right) {
             return FromBits(left.Bits - right.Bits);
         }
 
-        // 128 ビット整数型は .NET 7 以降にしか無いので,
-        // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
-
-#if NET7_0_OR_GREATER
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 operator *(U4F60 left, U4F60 right) {
-            return FromBits((ulong)(left.WideBits * right.Bits / OneRepr));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 operator /(U4F60 left, U4F60 right) {
-            return FromBits((ulong)(left.WideBits * OneRepr / right.Bits));
-        }
-
-#endif
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 operator +(U4F60 x) => FromBits(+x.Bits);
+        public static U8F120 operator +(U8F120 x) => FromBits(+x.Bits);
 
         // Comparison operators
         // --------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U4F60 left, U4F60 right) => left.Bits == right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U4F60 left, U4F60 right) => left.Bits != right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U4F60 left, U4F60 right) => left.Bits < right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U4F60 left, U4F60 right) => left.Bits > right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U4F60 left, U4F60 right) => left.Bits <= right.Bits;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U4F60 left, U4F60 right) => left.Bits >= right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U8F120 left, U8F120 right) => left.Bits == right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U8F120 left, U8F120 right) => left.Bits != right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U8F120 left, U8F120 right) => left.Bits < right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U8F120 left, U8F120 right) => left.Bits > right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U8F120 left, U8F120 right) => left.Bits <= right.Bits;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U8F120 left, U8F120 right) => left.Bits >= right.Bits;
 
         // Object
         // ---------------------------------------
 
-        public override bool Equals(object obj) => obj is U4F60 o && Equals(o);
+        public override bool Equals(object obj) => obj is U8F120 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Bits.GetHashCode();
@@ -126,11 +102,11 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
 
-        // IEquatable<U4F60>
+        // IEquatable<U8F120>
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(U4F60 other) => this == other;
+        public bool Equals(U8F120 other) => this == other;
 
         // IFormattable
         // ---------------------------------------
@@ -145,7 +121,7 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int CompareTo(U4F60 value) {
+        public int CompareTo(U8F120 value) {
             if (this < value) {
                 return -1;
             } else if (this > value) {
@@ -158,34 +134,16 @@ namespace AgatePris.Intar {
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 Min(U4F60 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U4F60 Max(U4F60 other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U8F120 Min(U8F120 other) => FromBits(UInt128.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U8F120 Max(U8F120 other) => FromBits(UInt128.Max(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60 Clamp(U4F60 min, U4F60 max) {
-#if NET5_0_OR_GREATER
-            return FromBits(Math.Clamp(Bits, min.Bits, max.Bits));
-#else
-            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
-#endif
+        public U8F120 Clamp(U8F120 min, U8F120 max) {
+            return FromBits(UInt128.Clamp(Bits, min.Bits, max.Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U4F60 Half() => FromBits(Mathi.Half(Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U4F60 Twice() => FromBits(Mathi.Twice(Bits));
-
-#if NET7_0_OR_GREATER
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I8F120 BigMul(I4F60 other) {
-            return I8F120.FromBits((Int128)Bits * (Int128)other.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U8F120 BigMul(U4F60 other) {
-            return U8F120.FromBits(WideBits * other.WideBits);
-        }
-
-#endif // NET7_0_OR_GREATER
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U8F120 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U8F120 Twice() => FromBits(Mathi.Twice(Bits));
 
         //
         // Convert from
@@ -213,13 +171,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.StrictFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.StrictFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 StrictFrom(int num) {
-            return FromBits(checked((ulong)num * OneRepr));
+        public static U8F120 StrictFrom(int num) {
+            return FromBits(checked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -235,13 +193,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.UncheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 UncheckedFrom(int num) {
-            return FromBits(unchecked((ulong)num * OneRepr));
+        public static U8F120 UncheckedFrom(int num) {
+            return FromBits(unchecked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -257,12 +215,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.CheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a?.Bits);
+        /// var a = U8F120.CheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60? CheckedFrom(int num) {
+        public static U8F120? CheckedFrom(int num) {
 
             // 自身が符号なしで、相手が符号ありの場合、
             // 相手が 0 未満、または
@@ -273,7 +231,7 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            return FromBits((ulong)num * OneRepr);
+            return FromBits((UInt128)num * OneRepr);
         }
 
         /// <summary>
@@ -289,13 +247,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.StrictFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.StrictFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 StrictFrom(uint num) {
-            return FromBits(checked((ulong)num * OneRepr));
+        public static U8F120 StrictFrom(uint num) {
+            return FromBits(checked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -311,13 +269,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.UncheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 UncheckedFrom(uint num) {
-            return FromBits(unchecked((ulong)num * OneRepr));
+        public static U8F120 UncheckedFrom(uint num) {
+            return FromBits(unchecked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -333,12 +291,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.CheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a?.Bits);
+        /// var a = U8F120.CheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60? CheckedFrom(uint num) {
+        public static U8F120? CheckedFrom(uint num) {
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -347,7 +305,7 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            return FromBits((ulong)num * OneRepr);
+            return FromBits((UInt128)num * OneRepr);
         }
 
         /// <summary>
@@ -363,13 +321,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.StrictFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.StrictFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 StrictFrom(long num) {
-            return FromBits(checked((ulong)num * OneRepr));
+        public static U8F120 StrictFrom(long num) {
+            return FromBits(checked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -385,13 +343,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.UncheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 UncheckedFrom(long num) {
-            return FromBits(unchecked((ulong)num * OneRepr));
+        public static U8F120 UncheckedFrom(long num) {
+            return FromBits(unchecked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -407,12 +365,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.CheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a?.Bits);
+        /// var a = U8F120.CheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60? CheckedFrom(long num) {
+        public static U8F120? CheckedFrom(long num) {
 
             // 自身が符号なしで、相手が符号ありの場合、
             // 相手が 0 未満、または
@@ -423,7 +381,7 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            return FromBits((ulong)num * OneRepr);
+            return FromBits((UInt128)num * OneRepr);
         }
 
         /// <summary>
@@ -439,13 +397,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.StrictFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.StrictFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 StrictFrom(ulong num) {
-            return FromBits(checked((ulong)num * OneRepr));
+        public static U8F120 StrictFrom(ulong num) {
+            return FromBits(checked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -461,13 +419,13 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.UncheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 UncheckedFrom(ulong num) {
-            return FromBits(unchecked((ulong)num * OneRepr));
+        public static U8F120 UncheckedFrom(ulong num) {
+            return FromBits(unchecked((UInt128)num * OneRepr));
         }
 
         /// <summary>
@@ -483,12 +441,12 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.CheckedFrom(1);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a?.Bits);
+        /// var a = U8F120.CheckedFrom(1);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a?.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60? CheckedFrom(ulong num) {
+        public static U8F120? CheckedFrom(ulong num) {
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -497,7 +455,7 @@ namespace AgatePris.Intar {
                 return null;
             }
 
-            return FromBits((ulong)num * OneRepr);
+            return FromBits((UInt128)num * OneRepr);
         }
 
         #endregion
@@ -518,16 +476,16 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.StrictFrom(1.0f);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.StrictFrom(1.0f);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 StrictFrom(float num) {
+        public static U8F120 StrictFrom(float num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked((ulong)(num * (float)OneRepr)));
+            return FromBits(checked((UInt128)(num * (float)OneRepr)));
         }
 
         /// <summary>
@@ -542,16 +500,16 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.UncheckedFrom(1.0f);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.UncheckedFrom(1.0f);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 UncheckedFrom(float num) {
+        public static U8F120 UncheckedFrom(float num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(unchecked((ulong)(num * (float)OneRepr)));
+            return FromBits(unchecked((UInt128)(num * (float)OneRepr)));
         }
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
@@ -570,16 +528,16 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.StrictFrom(1.0);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.StrictFrom(1.0);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 StrictFrom(double num) {
+        public static U8F120 StrictFrom(double num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked((ulong)(num * (double)OneRepr)));
+            return FromBits(checked((UInt128)(num * (double)OneRepr)));
         }
 
         /// <summary>
@@ -594,16 +552,16 @@ namespace AgatePris.Intar {
         /// <example>
         /// Basic usage:
         /// <code>
-        /// var a = U4F60.UncheckedFrom(1.0);
-        /// System.Assert.AreEqual(1UL &lt;&lt; 60, a.Bits);
+        /// var a = U8F120.UncheckedFrom(1.0);
+        /// System.Assert.AreEqual((UInt128)1 &lt;&lt; 120, a.Bits);
         /// </code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U4F60 UncheckedFrom(double num) {
+        public static U8F120 UncheckedFrom(double num) {
             // OneRepr は 2 の自然数冪であるから、
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(unchecked((ulong)(num * (double)OneRepr)));
+            return FromBits(unchecked((UInt128)(num * (double)OneRepr)));
         }
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
@@ -624,8 +582,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(I17F15)"/>
         /// <seealso cref="CheckedFrom(I17F15)"/>
-        public static U4F60 StrictFrom(I17F15 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 45))
+        public static U8F120 StrictFrom(I17F15 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 105))
             );
         }
 
@@ -639,8 +597,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I17F15)"/>
         /// <seealso cref="CheckedFrom(I17F15)"/>
-        public static U4F60 UncheckedFrom(I17F15 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 45))
+        public static U8F120 UncheckedFrom(I17F15 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 105))
             );
         }
 
@@ -654,16 +612,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I17F15)"/>
         /// <seealso cref="UncheckedFrom(I17F15)"/>
-        public static U4F60? CheckedFrom(I17F15 from) {
-            const int shift = 45;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
+        public static U8F120? CheckedFrom(I17F15 from) {
+            const int shift = 105;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((uint)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
@@ -676,8 +634,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(I2F30)"/>
         /// <seealso cref="CheckedFrom(I2F30)"/>
-        public static U4F60 StrictFrom(I2F30 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 StrictFrom(I2F30 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -691,8 +649,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I2F30)"/>
         /// <seealso cref="CheckedFrom(I2F30)"/>
-        public static U4F60 UncheckedFrom(I2F30 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 UncheckedFrom(I2F30 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -706,16 +664,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I2F30)"/>
         /// <seealso cref="UncheckedFrom(I2F30)"/>
-        public static U4F60? CheckedFrom(I2F30 from) {
-            const int shift = 30;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
+        public static U8F120? CheckedFrom(I2F30 from) {
+            const int shift = 90;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((uint)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
@@ -728,8 +686,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(I34F30)"/>
         /// <seealso cref="CheckedFrom(I34F30)"/>
-        public static U4F60 StrictFrom(I34F30 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 StrictFrom(I34F30 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -743,8 +701,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I34F30)"/>
         /// <seealso cref="CheckedFrom(I34F30)"/>
-        public static U4F60 UncheckedFrom(I34F30 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 UncheckedFrom(I34F30 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -758,16 +716,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I34F30)"/>
         /// <seealso cref="UncheckedFrom(I34F30)"/>
-        public static U4F60? CheckedFrom(I34F30 from) {
-            const int shift = 30;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
+        public static U8F120? CheckedFrom(I34F30 from) {
+            const int shift = 90;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((ulong)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
@@ -780,8 +738,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(I33F31)"/>
         /// <seealso cref="CheckedFrom(I33F31)"/>
-        public static U4F60 StrictFrom(I33F31 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 29))
+        public static U8F120 StrictFrom(I33F31 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 89))
             );
         }
 
@@ -795,8 +753,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I33F31)"/>
         /// <seealso cref="CheckedFrom(I33F31)"/>
-        public static U4F60 UncheckedFrom(I33F31 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 29))
+        public static U8F120 UncheckedFrom(I33F31 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 89))
             );
         }
 
@@ -810,16 +768,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I33F31)"/>
         /// <seealso cref="UncheckedFrom(I33F31)"/>
-        public static U4F60? CheckedFrom(I33F31 from) {
-            const int shift = 29;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
+        public static U8F120? CheckedFrom(I33F31 from) {
+            const int shift = 89;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((ulong)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
@@ -832,8 +790,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(I4F60)"/>
         /// <seealso cref="CheckedFrom(I4F60)"/>
-        public static U4F60 StrictFrom(I4F60 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 0))
+        public static U8F120 StrictFrom(I4F60 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 60))
             );
         }
 
@@ -847,8 +805,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I4F60)"/>
         /// <seealso cref="CheckedFrom(I4F60)"/>
-        public static U4F60 UncheckedFrom(I4F60 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 0))
+        public static U8F120 UncheckedFrom(I4F60 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 60))
             );
         }
 
@@ -862,16 +820,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I4F60)"/>
         /// <seealso cref="UncheckedFrom(I4F60)"/>
-        public static U4F60? CheckedFrom(I4F60 from) {
-            const int shift = 0;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
+        public static U8F120? CheckedFrom(I4F60 from) {
+            const int shift = 60;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((ulong)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
@@ -882,10 +840,10 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedLossyFrom(I2F62)"/>
-        /// <seealso cref="CheckedLossyFrom(I2F62)"/>
-        public static U4F60 StrictLossyFrom(I2F62 from) {
-            return FromBits(checked((ulong)(from.Bits / (I2F62.EpsilonRepr << 2)))
+        /// <seealso cref="UncheckedFrom(I2F62)"/>
+        /// <seealso cref="CheckedFrom(I2F62)"/>
+        public static U8F120 StrictFrom(I2F62 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 58))
             );
         }
 
@@ -897,10 +855,10 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
         /// </div>
         /// </summary>
-        /// <seealso cref="StrictLossyFrom(I2F62)"/>
-        /// <seealso cref="CheckedLossyFrom(I2F62)"/>
-        public static U4F60 UncheckedLossyFrom(I2F62 from) {
-            return FromBits(unchecked((ulong)(from.Bits / (I2F62.EpsilonRepr << 2)))
+        /// <seealso cref="StrictFrom(I2F62)"/>
+        /// <seealso cref="CheckedFrom(I2F62)"/>
+        public static U8F120 UncheckedFrom(I2F62 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 58))
             );
         }
 
@@ -912,16 +870,18 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
-        /// <seealso cref="StrictLossyFrom(I2F62)"/>
-        /// <seealso cref="UncheckedLossyFrom(I2F62)"/>
-        public static U4F60? CheckedLossyFrom(I2F62 from) {
-            var tmp = from.Bits / (I2F62.EpsilonRepr << 2);
-            if (tmp < 0) {
+        /// <seealso cref="StrictFrom(I2F62)"/>
+        /// <seealso cref="UncheckedFrom(I2F62)"/>
+        public static U8F120? CheckedFrom(I2F62 from) {
+            const int shift = 58;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
+            if (from.Bits < 0) {
                 return null;
-            } else if ((ulong)tmp > MaxRepr) {
+            } else if ((ulong)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)tmp);
+            return FromBits((UInt128)from.Bits * k);
         }
 
 #if NET7_0_OR_GREATER
@@ -936,8 +896,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(I68F60)"/>
         /// <seealso cref="CheckedFrom(I68F60)"/>
-        public static U4F60 StrictFrom(I68F60 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 0))
+        public static U8F120 StrictFrom(I68F60 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 60))
             );
         }
 
@@ -951,8 +911,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I68F60)"/>
         /// <seealso cref="CheckedFrom(I68F60)"/>
-        public static U4F60 UncheckedFrom(I68F60 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 0))
+        public static U8F120 UncheckedFrom(I68F60 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 60))
             );
         }
 
@@ -966,16 +926,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(I68F60)"/>
         /// <seealso cref="UncheckedFrom(I68F60)"/>
-        public static U4F60? CheckedFrom(I68F60 from) {
-            const int shift = 0;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
+        public static U8F120? CheckedFrom(I68F60 from) {
+            const int shift = 60;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((UInt128)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
 #endif // NET7_0_OR_GREATER
@@ -990,10 +950,10 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
         /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedLossyFrom(I8F120)"/>
-        /// <seealso cref="CheckedLossyFrom(I8F120)"/>
-        public static U4F60 StrictLossyFrom(I8F120 from) {
-            return FromBits(checked((ulong)(from.Bits / (I8F120.EpsilonRepr << 60)))
+        /// <seealso cref="UncheckedFrom(I8F120)"/>
+        /// <seealso cref="CheckedFrom(I8F120)"/>
+        public static U8F120 StrictFrom(I8F120 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 0))
             );
         }
 
@@ -1005,10 +965,10 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
         /// </div>
         /// </summary>
-        /// <seealso cref="StrictLossyFrom(I8F120)"/>
-        /// <seealso cref="CheckedLossyFrom(I8F120)"/>
-        public static U4F60 UncheckedLossyFrom(I8F120 from) {
-            return FromBits(unchecked((ulong)(from.Bits / (I8F120.EpsilonRepr << 60)))
+        /// <seealso cref="StrictFrom(I8F120)"/>
+        /// <seealso cref="CheckedFrom(I8F120)"/>
+        public static U8F120 UncheckedFrom(I8F120 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 0))
             );
         }
 
@@ -1020,16 +980,18 @@ namespace AgatePris.Intar {
         /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
         /// </div>
         /// </summary>
-        /// <seealso cref="StrictLossyFrom(I8F120)"/>
-        /// <seealso cref="UncheckedLossyFrom(I8F120)"/>
-        public static U4F60? CheckedLossyFrom(I8F120 from) {
-            var tmp = from.Bits / (I8F120.EpsilonRepr << 60);
-            if (tmp < 0) {
+        /// <seealso cref="StrictFrom(I8F120)"/>
+        /// <seealso cref="UncheckedFrom(I8F120)"/>
+        public static U8F120? CheckedFrom(I8F120 from) {
+            const int shift = 0;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
+            if (from.Bits < 0) {
                 return null;
-            } else if ((UInt128)tmp > MaxRepr) {
+            } else if ((UInt128)from.Bits > max) {
                 return null;
             }
-            return FromBits((ulong)tmp);
+            return FromBits((UInt128)from.Bits * k);
         }
 
 #endif // NET7_0_OR_GREATER
@@ -1044,8 +1006,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(U17F15)"/>
         /// <seealso cref="CheckedFrom(U17F15)"/>
-        public static U4F60 StrictFrom(U17F15 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 45))
+        public static U8F120 StrictFrom(U17F15 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 105))
             );
         }
 
@@ -1059,8 +1021,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U17F15)"/>
         /// <seealso cref="CheckedFrom(U17F15)"/>
-        public static U4F60 UncheckedFrom(U17F15 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 45))
+        public static U8F120 UncheckedFrom(U17F15 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 105))
             );
         }
 
@@ -1074,24 +1036,24 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U17F15)"/>
         /// <seealso cref="UncheckedFrom(U17F15)"/>
-        public static U4F60? CheckedFrom(U17F15 from) {
-            const int shift = 45;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
-            const ulong min = MinRepr / k;
+        public static U8F120? CheckedFrom(U17F15 from) {
+            const int shift = 105;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
+            var min = MinRepr / k;
             if (from.Bits > max ||
                 from.Bits < min) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U2F30" /> value.</para>
         /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static U4F60 From(U2F30 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 From(U2F30 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -1105,8 +1067,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(U34F30)"/>
         /// <seealso cref="CheckedFrom(U34F30)"/>
-        public static U4F60 StrictFrom(U34F30 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 StrictFrom(U34F30 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -1120,8 +1082,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U34F30)"/>
         /// <seealso cref="CheckedFrom(U34F30)"/>
-        public static U4F60 UncheckedFrom(U34F30 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 30))
+        public static U8F120 UncheckedFrom(U34F30 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 90))
             );
         }
 
@@ -1135,16 +1097,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U34F30)"/>
         /// <seealso cref="UncheckedFrom(U34F30)"/>
-        public static U4F60? CheckedFrom(U34F30 from) {
-            const int shift = 30;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
-            const ulong min = MinRepr / k;
+        public static U8F120? CheckedFrom(U34F30 from) {
+            const int shift = 90;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
+            var min = MinRepr / k;
             if (from.Bits > max ||
                 from.Bits < min) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
         }
 
         /// <summary>
@@ -1157,8 +1119,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(U33F31)"/>
         /// <seealso cref="CheckedFrom(U33F31)"/>
-        public static U4F60 StrictFrom(U33F31 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 29))
+        public static U8F120 StrictFrom(U33F31 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 89))
             );
         }
 
@@ -1172,8 +1134,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U33F31)"/>
         /// <seealso cref="CheckedFrom(U33F31)"/>
-        public static U4F60 UncheckedFrom(U33F31 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 29))
+        public static U8F120 UncheckedFrom(U33F31 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 89))
             );
         }
 
@@ -1187,24 +1149,33 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U33F31)"/>
         /// <seealso cref="UncheckedFrom(U33F31)"/>
-        public static U4F60? CheckedFrom(U33F31 from) {
-            const int shift = 29;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
-            const ulong min = MinRepr / k;
+        public static U8F120? CheckedFrom(U33F31 from) {
+            const int shift = 89;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
+            var min = MinRepr / k;
             if (from.Bits > max ||
                 from.Bits < min) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
+            return FromBits((UInt128)from.Bits * k);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="U4F60" /> value.</para>
+        /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
+        /// </summary>
+        public static U8F120 From(U4F60 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 60))
+            );
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U2F62" /> value.</para>
         /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static U4F60 LossyFrom(U2F62 from) {
-            return FromBits(unchecked((ulong)(from.Bits / (U2F62.EpsilonRepr << 2)))
+        public static U8F120 From(U2F62 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 58))
             );
         }
 
@@ -1220,8 +1191,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="UncheckedFrom(U68F60)"/>
         /// <seealso cref="CheckedFrom(U68F60)"/>
-        public static U4F60 StrictFrom(U68F60 from) {
-            return FromBits(checked((ulong)from.Bits * (EpsilonRepr << 0))
+        public static U8F120 StrictFrom(U68F60 from) {
+            return FromBits(checked((UInt128)from.Bits * (EpsilonRepr << 60))
             );
         }
 
@@ -1235,8 +1206,8 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U68F60)"/>
         /// <seealso cref="CheckedFrom(U68F60)"/>
-        public static U4F60 UncheckedFrom(U68F60 from) {
-            return FromBits(unchecked((ulong)from.Bits * (EpsilonRepr << 0))
+        public static U8F120 UncheckedFrom(U68F60 from) {
+            return FromBits(unchecked((UInt128)from.Bits * (EpsilonRepr << 60))
             );
         }
 
@@ -1250,69 +1221,16 @@ namespace AgatePris.Intar {
         /// </summary>
         /// <seealso cref="StrictFrom(U68F60)"/>
         /// <seealso cref="UncheckedFrom(U68F60)"/>
-        public static U4F60? CheckedFrom(U68F60 from) {
-            const int shift = 0;
-            const ulong k = EpsilonRepr << shift;
-            const ulong max = MaxRepr / k;
-            const ulong min = MinRepr / k;
+        public static U8F120? CheckedFrom(U68F60 from) {
+            const int shift = 60;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
+            var min = MinRepr / k;
             if (from.Bits > max ||
                 from.Bits < min) {
                 return null;
             }
-            return FromBits((ulong)from.Bits * k);
-        }
-
-#endif // NET7_0_OR_GREATER
-
-#if NET7_0_OR_GREATER
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
-        /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="UncheckedLossyFrom(U8F120)"/>
-        /// <seealso cref="CheckedLossyFrom(U8F120)"/>
-        public static U4F60 StrictLossyFrom(U8F120 from) {
-            return FromBits(checked((ulong)(from.Bits / (U8F120.EpsilonRepr << 60)))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
-        /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(U8F120)"/>
-        /// <seealso cref="CheckedLossyFrom(U8F120)"/>
-        public static U4F60 UncheckedLossyFrom(U8F120 from) {
-            return FromBits(unchecked((ulong)(from.Bits / (U8F120.EpsilonRepr << 60)))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
-        /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(U8F120)"/>
-        /// <seealso cref="UncheckedLossyFrom(U8F120)"/>
-        public static U4F60? CheckedLossyFrom(U8F120 from) {
-            var tmp = from.Bits / (U8F120.EpsilonRepr << 60);
-            if (tmp < MinRepr ||
-                tmp > MaxRepr) {
-                return null;
-            }
-            return FromBits((ulong)tmp);
+            return FromBits((UInt128)from.Bits * k);
         }
 
 #endif // NET7_0_OR_GREATER
@@ -1375,3 +1293,5 @@ namespace AgatePris.Intar {
 
     }
 } // namespace AgatePris.Intar
+
+#endif // NET7_0_OR_GREATER
