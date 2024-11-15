@@ -246,11 +246,15 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
+{%- if int_nbits + frac_nbits > 64 %}
+            return FromBits({{ self_bits_type }}.Clamp(Bits, min.Bits, max.Bits));
+{%- else %}
 #if NET5_0_OR_GREATER
             return FromBits(Math.Clamp(Bits, min.Bits, max.Bits));
 #else
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 #endif
+{%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
