@@ -442,6 +442,16 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+#if NET5_0_OR_GREATER
+        [ObsoleteAttribute(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
 #if NET5_0_OR_GREATER
