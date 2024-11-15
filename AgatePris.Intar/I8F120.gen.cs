@@ -140,17 +140,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F120 Min(I8F120 other) => FromBits(Int128.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F120 Max(I8F120 other) => FromBits(Int128.Max(Bits, other.Bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I8F120 Abs() {
-            return FromBits(
-#if NET7_0_OR_GREATER
-                Int128.Abs(Bits)
-#else
-                Math.Abs(Bits)
-#endif
-            );
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F120 Abs() => FromBits(Int128.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 Clamp(I8F120 min, I8F120 max) {

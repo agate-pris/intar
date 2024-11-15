@@ -223,18 +223,10 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
 {%- if signed %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Abs() {
-            return FromBits(
-#if NET7_0_OR_GREATER
-                {{ self_bits_type }}.Abs(Bits)
-#else
-                Math.Abs(Bits)
-#endif
-            );
-        }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type
+        }} Abs() => FromBits({% if int_nbits+frac_nbits > 64
+        %}{{ self_bits_type }}{% else
+        %}Math{% endif %}.Abs(Bits));
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
