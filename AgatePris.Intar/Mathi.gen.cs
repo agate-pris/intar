@@ -729,7 +729,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -755,7 +755,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -781,7 +781,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -807,7 +807,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -833,7 +833,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -859,7 +859,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -885,7 +885,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
@@ -911,7 +911,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
 #if NET5_0_OR_GREATER
-        [ObsoleteAttribute(
+        [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
             true
