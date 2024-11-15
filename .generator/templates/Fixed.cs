@@ -9,7 +9,6 @@
 
 {#- 固定小数点数の定義 -#}
 {%- if 64 < int_nbits+frac_nbits -%}
-
 #if NET7_0_OR_GREATER
 
 {% endif -%}
