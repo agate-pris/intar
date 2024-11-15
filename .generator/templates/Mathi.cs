@@ -428,15 +428,11 @@ namespace AgatePris.Intar {
         #region Clamp
 
 {%- for bits in [32, 64, 16, 8, 128] %}
-
     {%- if bits > 64 %}
 
         // 128 ビット整数値型については代わりに INumber.Clamp を使うこと
-
         {%- continue %}
-
     {%- endif %}
-
     {%- for s in [true, false] %}
         {%- set t = macros::inttype(bits=bits, signed=s) %}
 
@@ -446,9 +442,6 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
-        {%- if bits > 64 %}
-            return {{ t }}.Clamp(v, min, max);
-        {%- else %}
 #if NET6_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
@@ -457,11 +450,9 @@ namespace AgatePris.Intar {
             }
             return Math.Min(Math.Max(v, min), max);
 #endif
-        {%- endif %}
         }
 
     {%- endfor %}
-
 {%- endfor %}
 
         #endregion
