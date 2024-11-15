@@ -79,16 +79,6 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U68F60 operator *(U68F60 left, U68F60 right) {
-            return FromBits((UInt128)(left.WideBits * right.Bits / OneRepr));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U68F60 operator /(U68F60 left, U68F60 right) {
-            return FromBits((UInt128)(left.WideBits * OneRepr / right.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U68F60 operator +(U68F60 x) => FromBits(+x.Bits);
 
         // Comparison operators
@@ -144,12 +134,12 @@ namespace AgatePris.Intar {
         // Methods
         // ---------------------------------------
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U68F60 Min(U68F60 other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U68F60 Max(U68F60 other) => FromBits(Math.Max(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U68F60 Min(U68F60 other) => FromBits(UInt128.Min(Bits, other.Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public U68F60 Max(U68F60 other) => FromBits(UInt128.Max(Bits, other.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U68F60 Clamp(U68F60 min, U68F60 max) {
-            return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+            return FromBits(UInt128.Clamp(Bits, min.Bits, max.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U68F60 Half() => FromBits(Mathi.Half(Bits));
@@ -514,8 +504,8 @@ namespace AgatePris.Intar {
         /// <seealso cref="UncheckedFrom(I17F15)"/>
         public static U68F60? CheckedFrom(I17F15 from) {
             const int shift = 45;
-            const UInt128 k = EpsilonRepr << shift;
-            const UInt128 max = MaxRepr / k;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((uint)from.Bits > max) {
@@ -566,8 +556,8 @@ namespace AgatePris.Intar {
         /// <seealso cref="UncheckedFrom(I2F30)"/>
         public static U68F60? CheckedFrom(I2F30 from) {
             const int shift = 30;
-            const UInt128 k = EpsilonRepr << shift;
-            const UInt128 max = MaxRepr / k;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((uint)from.Bits > max) {
@@ -618,8 +608,8 @@ namespace AgatePris.Intar {
         /// <seealso cref="UncheckedFrom(I34F30)"/>
         public static U68F60? CheckedFrom(I34F30 from) {
             const int shift = 30;
-            const UInt128 k = EpsilonRepr << shift;
-            const UInt128 max = MaxRepr / k;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((ulong)from.Bits > max) {
@@ -670,8 +660,8 @@ namespace AgatePris.Intar {
         /// <seealso cref="UncheckedFrom(I33F31)"/>
         public static U68F60? CheckedFrom(I33F31 from) {
             const int shift = 29;
-            const UInt128 k = EpsilonRepr << shift;
-            const UInt128 max = MaxRepr / k;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((ulong)from.Bits > max) {
@@ -722,8 +712,8 @@ namespace AgatePris.Intar {
         /// <seealso cref="UncheckedFrom(I4F60)"/>
         public static U68F60? CheckedFrom(I4F60 from) {
             const int shift = 0;
-            const UInt128 k = EpsilonRepr << shift;
-            const UInt128 max = MaxRepr / k;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((ulong)from.Bits > max) {
@@ -782,6 +772,8 @@ namespace AgatePris.Intar {
             return FromBits((UInt128)tmp);
         }
 
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I68F60" /> value.</para>
         /// <para><see cref="I68F60" /> から新しく固定小数点数を構築します。</para>
@@ -824,8 +816,8 @@ namespace AgatePris.Intar {
         /// <seealso cref="UncheckedFrom(I68F60)"/>
         public static U68F60? CheckedFrom(I68F60 from) {
             const int shift = 0;
-            const UInt128 k = EpsilonRepr << shift;
-            const UInt128 max = MaxRepr / k;
+            var k = EpsilonRepr << shift;
+            var max = MaxRepr / k;
             if (from.Bits < 0) {
                 return null;
             } else if ((UInt128)from.Bits > max) {
@@ -833,6 +825,10 @@ namespace AgatePris.Intar {
             }
             return FromBits((UInt128)from.Bits * k);
         }
+
+#endif // NET7_0_OR_GREATER
+
+#if NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I8F120" /> value.</para>
@@ -883,6 +879,8 @@ namespace AgatePris.Intar {
             }
             return FromBits((UInt128)tmp);
         }
+
+#endif // NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U17F15" /> value.</para>
@@ -938,6 +936,8 @@ namespace AgatePris.Intar {
             );
         }
 
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
         /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
@@ -946,6 +946,8 @@ namespace AgatePris.Intar {
             return FromBits(unchecked((UInt128)(from.Bits / (U8F120.EpsilonRepr << 60)))
             );
         }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
@@ -1163,8 +1165,8 @@ namespace AgatePris.Intar {
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / OneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double LossyToDouble() => (double)Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / (float)OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double LossyToDouble() => (double)Bits / (double)OneRepr;
 
         #endregion
 

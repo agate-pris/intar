@@ -213,20 +213,13 @@ namespace AgatePris.Intar {
 
         // Methods
         // ---------------------------------------
-
+{# 改行 #}
 {%- for m in ['Min', 'Max'] %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} {{ m }}({{ self_type }} other) {
-            return FromBits(
-#if NET7_0_OR_GREATER
-                {{ self_bits_type }}.{{ m }}(Bits, other.Bits)
-#else
-                Math.{{ m }}(Bits, other.Bits)
-#endif
-            );
-        }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+        self_type }} {{ m }}({{ self_type
+        }} other) => FromBits({% if int_nbits+frac_nbits > 64
+        %}{{ self_bits_type }}{% else
+        %}Math{% endif %}.{{ m }}(Bits, other.Bits));
 {%- endfor %}
 
 {%- if signed %}

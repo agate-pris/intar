@@ -914,6 +914,8 @@ namespace AgatePris.Intar {
             return FromBits((ulong)from.Bits * k);
         }
 
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I68F60" /> value.</para>
         /// <para><see cref="I68F60" /> から新しく固定小数点数を構築します。</para>
@@ -966,6 +968,10 @@ namespace AgatePris.Intar {
             return FromBits((ulong)from.Bits * k);
         }
 
+#endif // NET7_0_OR_GREATER
+
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I8F120" /> value.</para>
         /// <para><see cref="I8F120" /> から新しく固定小数点数を構築します。</para>
@@ -1015,6 +1021,8 @@ namespace AgatePris.Intar {
             }
             return FromBits((ulong)tmp);
         }
+
+#endif // NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U17F15" /> value.</para>
@@ -1233,6 +1241,8 @@ namespace AgatePris.Intar {
             return FromBits((ulong)from.Bits * k);
         }
 
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U68F60" /> value.</para>
         /// <para><see cref="U68F60" /> から新しく固定小数点数を構築します。</para>
@@ -1285,6 +1295,10 @@ namespace AgatePris.Intar {
             return FromBits((ulong)from.Bits * k);
         }
 
+#endif // NET7_0_OR_GREATER
+
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
         /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
@@ -1334,6 +1348,8 @@ namespace AgatePris.Intar {
             return FromBits((ulong)tmp);
         }
 
+#endif // NET7_0_OR_GREATER
+
         #endregion
 
         #region Convert to integer
@@ -1380,8 +1396,8 @@ namespace AgatePris.Intar {
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / OneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double LossyToDouble() => (double)Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / (float)OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double LossyToDouble() => (double)Bits / (double)OneRepr;
 
         #endregion
 

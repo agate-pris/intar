@@ -171,7 +171,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 BigMul(U17F15 other) {
-            return U34F30.FromBits(WideBits * other.Bits);
+            return U34F30.FromBits(WideBits * other.WideBits);
         }
 
         //
@@ -956,6 +956,8 @@ namespace AgatePris.Intar {
             return FromBits((uint)tmp);
         }
 
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I68F60" /> value.</para>
         /// <para><see cref="I68F60" /> から新しく固定小数点数を構築します。</para>
@@ -1006,6 +1008,10 @@ namespace AgatePris.Intar {
             return FromBits((uint)tmp);
         }
 
+#endif // NET7_0_OR_GREATER
+
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I8F120" /> value.</para>
         /// <para><see cref="I8F120" /> から新しく固定小数点数を構築します。</para>
@@ -1055,6 +1061,8 @@ namespace AgatePris.Intar {
             }
             return FromBits((uint)tmp);
         }
+
+#endif // NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U2F30" /> value.</para>
@@ -1181,6 +1189,8 @@ namespace AgatePris.Intar {
             );
         }
 
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U68F60" /> value.</para>
         /// <para><see cref="U68F60" /> から新しく固定小数点数を構築します。</para>
@@ -1230,6 +1240,10 @@ namespace AgatePris.Intar {
             return FromBits((uint)tmp);
         }
 
+#endif // NET7_0_OR_GREATER
+
+#if NET7_0_OR_GREATER
+
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
         /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
@@ -1238,6 +1252,8 @@ namespace AgatePris.Intar {
             return FromBits(unchecked((uint)(from.Bits / (U8F120.EpsilonRepr << 105)))
             );
         }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
@@ -1285,8 +1301,8 @@ namespace AgatePris.Intar {
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / OneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double ToDouble() => (double)Bits / OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / (float)OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double ToDouble() => (double)Bits / (double)OneRepr;
 
         #endregion
 
