@@ -14,7 +14,7 @@
 
 #if NET7_0_OR_GREATER
 
-{%- endif %}
+{% endif -%}
 
 using System;
 using System.Runtime.CompilerServices;
