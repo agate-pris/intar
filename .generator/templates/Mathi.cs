@@ -444,7 +444,7 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
