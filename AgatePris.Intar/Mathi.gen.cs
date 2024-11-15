@@ -821,7 +821,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Clamp(byte v, byte min, byte max) {
+        public static sbyte Clamp(sbyte v, sbyte min, sbyte max) {
 #if NET6_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
@@ -837,7 +837,7 @@ namespace AgatePris.Intar {
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Clamp(sbyte v, sbyte min, sbyte max) {
+        public static byte Clamp(byte v, byte min, byte max) {
 #if NET6_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
@@ -848,13 +848,41 @@ namespace AgatePris.Intar {
 #endif
         }
 
-        #endregion
+#if NET7_0_OR_GREATER
 
+        /// <summary>
+        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
+        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 Clamp(Int128 v, Int128 min, Int128 max) {
+            return Int128.Clamp(v, min, max);
+        }
+
+        /// <summary>
+        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
+        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 Clamp(UInt128 v, UInt128 min, UInt128 max) {
+            return UInt128.Clamp(v, min, max);
+        }
+
+#endif // NET7_0_OR_GREATER
+
+        #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Half(int x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Half(uint x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Half(long x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Half(ulong x) => x / 2;
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static Int128 Half(Int128 x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static UInt128 Half(UInt128 x) => x / 2;
+
+#endif // NET7_0_OR_GREATER
 
         #region Sin / Cos
 
@@ -1551,11 +1579,17 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Twice(int x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Twice(uint x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Twice(long x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Twice(ulong x) => x * 2;
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static Int128 Twice(Int128 x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static UInt128 Twice(UInt128 x) => x * 2;
+
+#endif // NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint UnsignedAbs(int x) {

@@ -444,9 +444,10 @@ namespace AgatePris.Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
-#if NET7_0_OR_GREATER
+        {%- if bits > 64 %}
             return {{ t }}.Clamp(v, min, max);
-#elif NET6_0_OR_GREATER
+        {%- else %}
+#if NET6_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -454,6 +455,7 @@ namespace AgatePris.Intar {
             }
             return Math.Min(Math.Max(v, min), max);
 #endif
+        {%- endif %}
         }
 
     {%- endfor %}
@@ -467,17 +469,16 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         #endregion
-
+{# 改行 #}
 {%- for bits in [32, 64, 128] %}
     {%- if bits > 64 %}
 
 #if NET7_0_OR_GREATER
+{# 改行 #}
     {%- endif %}
     {%- for s in [true, false] %}
         {%- set t=macros::inttype(signed=s, bits=bits) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static {{ t }} Half({{ t }} x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ t }} Half({{ t }} x) => x / 2;
     {%- endfor %}
     {%- if bits > 64 %}
 
@@ -767,17 +768,16 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0001
 
 #endif // NET7_0_OR_GREATER
-
+{# 改行 #}
 {%- for bits in [32, 64, 128] %}
     {%- if bits > 64 %}
 
 #if NET7_0_OR_GREATER
+{# 改行 #}
     {%- endif %}
     {%- for s in [true, false] %}
         {%- set t=macros::inttype(signed=s, bits=bits) %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static {{ t }} Twice({{ t }} x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ t }} Twice({{ t }} x) => x * 2;
     {%- endfor %}
     {%- if bits > 64 %}
 
