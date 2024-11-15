@@ -728,6 +728,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -754,6 +755,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -780,6 +782,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -806,6 +809,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -832,6 +836,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -858,6 +863,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -884,6 +890,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
@@ -910,6 +917,7 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
 #if NET5_0_OR_GREATER
         [Obsolete(
             "This method is obsolete. Use System.Math.Clamp instead.",
