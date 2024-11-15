@@ -10,7 +10,7 @@
     {%- set wide_type = macros::vector_primitive(dim=dim, signed=signed, bits=2*bits) %}
     {%- set wide_component = macros::inttype(bits=2*bits, signed=signed) %}
 
-{%- endif %}
+{%- endif -%}
 
 using System;
 using System.Runtime.CompilerServices;
