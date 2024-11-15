@@ -31,7 +31,7 @@ namespace AgatePris.Intar {
         internal {{ const }} {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
         internal {{ const }} {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
         {%- if signed %}
-        internal {{ const }} {{ self_bits_utype }} MaxReprUnsigned = MaxRepr;
+        internal {{ const }} {{ self_bits_utype }} MaxReprUnsigned = ({{ self_bits_utype }})MaxRepr;
         {%- endif %}
         internal {{ const }} {{ self_bits_type }} EpsilonRepr = 1;
 
