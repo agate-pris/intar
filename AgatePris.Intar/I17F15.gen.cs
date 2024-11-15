@@ -157,7 +157,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I17F15 Clamp(I17F15 min, I17F15 max) {
+#if NET5_0_OR_GREATER
+            return FromBits(Math.Clamp(Bits, min.Bits, max.Bits));
+#else
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I17F15 Half() => FromBits(Mathi.Half(Bits));

@@ -163,7 +163,11 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 Clamp(U4F60 min, U4F60 max) {
+#if NET5_0_OR_GREATER
+            return FromBits(Math.Clamp(Bits, min.Bits, max.Bits));
+#else
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U4F60 Half() => FromBits(Mathi.Half(Bits));
