@@ -468,8 +468,21 @@ namespace AgatePris.Intar {
 
         #endregion
 
-{% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Half({{ type }} x) => x / 2;
+{%- for bits in [32, 64, 128] %}
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t=macros::inttype(signed=s, bits=bits) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static {{ t }} Half({{ t }} x) => x / 2;
+    {%- endfor %}
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
 
         #region Sin / Cos
@@ -755,8 +768,21 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-{% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Twice({{ type }} x) => x * 2;
+{%- for bits in [32, 64, 128] %}
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t=macros::inttype(signed=s, bits=bits) %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static {{ t }} Twice({{ t }} x) => x * 2;
+    {%- endfor %}
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
 
 {%- for bits in [32, 64, 128] %}
