@@ -2,20 +2,17 @@
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
-
 {%- if 64 < int_nbits+frac_nbits %}
     {%- set const = 'static readonly' %}{%- else %}
     {%- set const = 'const' %}
 {%- endif %}
 
 {#- 固定小数点数の定義 -#}
-
 {%- if 64 < int_nbits+frac_nbits -%}
 
 #if NET7_0_OR_GREATER
 
 {% endif -%}
-
 using System;
 using System.Runtime.CompilerServices;
 
