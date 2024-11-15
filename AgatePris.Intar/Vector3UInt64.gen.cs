@@ -172,12 +172,20 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Clamp(ulong min, ulong max) {
+#if NET5_0_OR_GREATER
+            return new Vector3UInt64(Math.Clamp(X, min, max), Math.Clamp(Y, min, max), Math.Clamp(Z, min, max));
+#else
             return new Vector3UInt64(Mathi.Clamp(X, min, max), Mathi.Clamp(Y, min, max), Mathi.Clamp(Z, min, max));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Clamp(Vector3UInt64 min, Vector3UInt64 max) {
+#if NET5_0_OR_GREATER
+            return new Vector3UInt64(Math.Clamp(X, min.X, max.X), Math.Clamp(Y, min.Y, max.Y), Math.Clamp(Z, min.Z, max.Z));
+#else
             return new Vector3UInt64(Mathi.Clamp(X, min.X, max.X), Mathi.Clamp(Y, min.Y, max.Y), Mathi.Clamp(Z, min.Z, max.Z));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

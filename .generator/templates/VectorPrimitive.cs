@@ -269,21 +269,37 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type
         }} Clamp({{ component }} min, {{ component }} max) {
+#if NET5_0_OR_GREATER
+            return new {{ type }}(
+{%- for c in components -%}
+    Math.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+#else
             return new {{ type }}(
 {%- for c in components -%}
     Mathi.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
 {%- endfor -%}
             );
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type
         }} Clamp({{ type }} min, {{ type }} max) {
+#if NET5_0_OR_GREATER
+            return new {{ type }}(
+{%- for c in components -%}
+    Math.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+#else
             return new {{ type }}(
 {%- for c in components -%}
     Mathi.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
             );
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

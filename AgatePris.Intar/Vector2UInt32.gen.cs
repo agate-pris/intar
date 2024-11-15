@@ -176,12 +176,20 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt32 Clamp(uint min, uint max) {
+#if NET5_0_OR_GREATER
+            return new Vector2UInt32(Math.Clamp(X, min, max), Math.Clamp(Y, min, max));
+#else
             return new Vector2UInt32(Mathi.Clamp(X, min, max), Mathi.Clamp(Y, min, max));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt32 Clamp(Vector2UInt32 min, Vector2UInt32 max) {
+#if NET5_0_OR_GREATER
+            return new Vector2UInt32(Math.Clamp(X, min.X, max.X), Math.Clamp(Y, min.Y, max.Y));
+#else
             return new Vector2UInt32(Mathi.Clamp(X, min.X, max.X), Mathi.Clamp(Y, min.Y, max.Y));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

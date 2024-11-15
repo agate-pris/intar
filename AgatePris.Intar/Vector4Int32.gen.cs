@@ -201,12 +201,20 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int32 Clamp(int min, int max) {
+#if NET5_0_OR_GREATER
+            return new Vector4Int32(Math.Clamp(X, min, max), Math.Clamp(Y, min, max), Math.Clamp(Z, min, max), Math.Clamp(W, min, max));
+#else
             return new Vector4Int32(Mathi.Clamp(X, min, max), Mathi.Clamp(Y, min, max), Mathi.Clamp(Z, min, max), Mathi.Clamp(W, min, max));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int32 Clamp(Vector4Int32 min, Vector4Int32 max) {
+#if NET5_0_OR_GREATER
+            return new Vector4Int32(Math.Clamp(X, min.X, max.X), Math.Clamp(Y, min.Y, max.Y), Math.Clamp(Z, min.Z, max.Z), Math.Clamp(W, min.W, max.W));
+#else
             return new Vector4Int32(Mathi.Clamp(X, min.X, max.X), Mathi.Clamp(Y, min.Y, max.Y), Mathi.Clamp(Z, min.Z, max.Z), Mathi.Clamp(W, min.W, max.W));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
