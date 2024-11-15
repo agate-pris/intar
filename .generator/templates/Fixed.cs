@@ -741,9 +741,8 @@ namespace AgatePris.Intar {
 
                     {%- else %}
             const int shift = {{ frac_nbits-f }};
-                            {%- if int_nbits + frac_nbits > 64 %}
-                            {%- set lc = 'var' %}
-                        {%- else %}
+                        {%- if int_nbits + frac_nbits > 64 %}
+                            {%- set lc = 'var' %}{%- else %}
                             {%- set lc = 'const ' ~ self_bits_type %}
                         {%- endif %}
             {{ lc }} k = EpsilonRepr << shift;
