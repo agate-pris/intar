@@ -275,17 +275,18 @@ namespace AgatePris.Intar {
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-            return {{ t }}.FromBits(WideBits * other.Bits);
+            return {{ t }}.FromBits(WideBits * other.WideBits);
         }
 
                 {%- else %}
                     {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+                    {%- set u = macros::inttype(signed=true,  bits=int_nbits+rhs[0]+frac_nbits+rhs[1]) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-            return {{ t }}.FromBits(Bits * other.Bits);
+            return {{ t }}.FromBits(({{ u }})Bits * ({{ u }})other.Bits);
         }
 
                 {%- endif %}
