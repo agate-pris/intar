@@ -82,12 +82,10 @@ namespace AgatePris.Intar {
         // Properties
         //
 
-{%- if int_nbits + frac_nbits < 128 %}
-
-    {%- if int_nbits + frac_nbits > 32 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
-
     {%- endif %}
 
         internal {{
@@ -96,13 +94,10 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
-
-    {%- if int_nbits + frac_nbits > 32 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
-
     {%- endif %}
-
 {%- endif %}
 
         // Arithmetic Operators
@@ -118,15 +113,13 @@ namespace AgatePris.Intar {
             return FromBits(left.Bits - right.Bits);
         }
 
-{%- if int_nbits + frac_nbits < 128 %}
-
-    {%- if int_nbits + frac_nbits > 32 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
 
 #if NET7_0_OR_GREATER
-
     {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -139,12 +132,10 @@ namespace AgatePris.Intar {
             return FromBits(({{ self_bits_type }})(left.WideBits * OneRepr / right.Bits));
         }
 
-    {%- if int_nbits + frac_nbits == 64 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
 #endif
-
     {%- endif %}
-
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
