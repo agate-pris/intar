@@ -135,6 +135,20 @@ namespace AgatePris.Intar {
             return new Vector3UInt64((ulong)a.X, (ulong)a.Y, (ulong)a.Z);
         }
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Vector3Int128(Vector3Int64 a) {
+            return new Vector3Int128((Int128)a.X, (Int128)a.Y, (Int128)a.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Vector3UInt128(Vector3Int64 a) {
+            return new Vector3UInt128((UInt128)a.X, (UInt128)a.Y, (UInt128)a.Z);
+        }
+
+#endif // NET7_0_OR_GREATER
+
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
@@ -174,6 +188,18 @@ namespace AgatePris.Intar {
         public Vector3UInt64 UnsignedAbs() {
             return new Vector3UInt64(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z));
         }
+
+#if NET7_0_OR_GREATER
+
+        public Vector3Int128 BigMul(long other) {
+            return (Vector3Int128)this * other;
+        }
+
+        public Vector3Int128 BigMul(Vector3Int64 other) {
+            return (Vector3Int128)this * other;
+        }
+
+#endif // NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Min(Vector3Int64 other) {

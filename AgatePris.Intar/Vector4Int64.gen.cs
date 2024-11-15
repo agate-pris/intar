@@ -137,6 +137,20 @@ namespace AgatePris.Intar {
             return new Vector4UInt64((ulong)a.X, (ulong)a.Y, (ulong)a.Z, (ulong)a.W);
         }
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Vector4Int128(Vector4Int64 a) {
+            return new Vector4Int128((Int128)a.X, (Int128)a.Y, (Int128)a.Z, (Int128)a.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Vector4UInt128(Vector4Int64 a) {
+            return new Vector4UInt128((UInt128)a.X, (UInt128)a.Y, (UInt128)a.Z, (UInt128)a.W);
+        }
+
+#endif // NET7_0_OR_GREATER
+
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
@@ -178,6 +192,18 @@ namespace AgatePris.Intar {
         public Vector4UInt64 UnsignedAbs() {
             return new Vector4UInt64(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z), Mathi.UnsignedAbs(W));
         }
+
+#if NET7_0_OR_GREATER
+
+        public Vector4Int128 BigMul(long other) {
+            return (Vector4Int128)this * other;
+        }
+
+        public Vector4Int128 BigMul(Vector4Int64 other) {
+            return (Vector4Int128)this * other;
+        }
+
+#endif // NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Min(Vector4Int64 other) {
