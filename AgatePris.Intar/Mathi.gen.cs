@@ -848,27 +848,7 @@ namespace AgatePris.Intar {
 #endif
         }
 
-#if NET7_0_OR_GREATER
-
-        /// <summary>
-        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
-        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int128 Clamp(Int128 v, Int128 min, Int128 max) {
-            return Int128.Clamp(v, min, max);
-        }
-
-        /// <summary>
-        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
-        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt128 Clamp(UInt128 v, UInt128 min, UInt128 max) {
-            return UInt128.Clamp(v, min, max);
-        }
-
-#endif // NET7_0_OR_GREATER
+        // 128 ビット整数値型については代わりに INumber.Clamp を使うこと
 
         #endregion
 

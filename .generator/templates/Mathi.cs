@@ -431,7 +431,9 @@ namespace AgatePris.Intar {
 
     {%- if bits > 64 %}
 
-#if NET7_0_OR_GREATER
+        // 128 ビット整数値型については代わりに INumber.Clamp を使うこと
+
+        {%- continue %}
 
     {%- endif %}
 
@@ -459,12 +461,6 @@ namespace AgatePris.Intar {
         }
 
     {%- endfor %}
-
-    {%- if bits > 64 %}
-
-#endif // NET7_0_OR_GREATER
-
-    {%- endif %}
 
 {%- endfor %}
 
