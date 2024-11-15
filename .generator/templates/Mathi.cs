@@ -427,14 +427,21 @@ namespace AgatePris.Intar {
 
         #region Clamp
 
-{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
+{%- for bits in [32, 64, 16, 8, 128] %}
+    {%- if bits > 64 %}
+
+        // 128 ビット整数値型については代わりに INumber.Clamp を使うこと
+        {%- continue %}
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t = macros::inttype(bits=bits, signed=s) %}
 
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
+        public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
 #if NET6_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
@@ -444,12 +451,26 @@ namespace AgatePris.Intar {
             return Math.Min(Math.Max(v, min), max);
 #endif
         }
+
+    {%- endfor %}
 {%- endfor %}
 
         #endregion
+{# 改行 #}
+{%- for bits in [32, 64, 128] %}
+    {%- if bits > 64 %}
 
-{% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Half({{ type }} x) => x / 2;
+#if NET7_0_OR_GREATER
+{# 改行 #}
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t=macros::inttype(signed=s, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ t }} Half({{ t }} x) => x / 2;
+    {%- endfor %}
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
 
         #region Sin / Cos
@@ -734,9 +755,21 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0001
 
 #endif // NET7_0_OR_GREATER
+{# 改行 #}
+{%- for bits in [32, 64, 128] %}
+    {%- if bits > 64 %}
 
-{% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Twice({{ type }} x) => x * 2;
+#if NET7_0_OR_GREATER
+{# 改行 #}
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t=macros::inttype(signed=s, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ t }} Twice({{ t }} x) => x * 2;
+    {%- endfor %}
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
 
 {%- for bits in [32, 64, 128] %}
