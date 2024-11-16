@@ -12,6 +12,8 @@
 
 {%- if int_nbits + frac_nbits < 64 %}
     {%- set wide_repr = macros::vector_primitive(dim=dim, signed=signed, bits = 2*int_nbits + 2*frac_nbits) -%}
+    {%- set wide_component = macros::fixed_type(s=signed, i=2*int_nbits, f=2*frac_nbits) %}
+    {%- set wide_type = macros::vector_type(dim=dim, type=wide_component) %}
 {%- endif -%}
 
 using System;
@@ -35,10 +37,13 @@ namespace AgatePris.Intar {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+{%- if int_nbits+frac_nbits < 64 %}
+
         internal {{ wide_repr }} WideRepr {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Repr;
         }
+{%- endif %}
 {% for c in components %}
         public {{ component }} {{ c }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -92,8 +97,6 @@ namespace AgatePris.Intar {
         //
         // IAdditionOperators
         // ISubtractionOperators
-        // IIMultiplyOperators
-        // IDivisionOperators
         //
 
 {%- for o in ['+', '-'] %}
@@ -104,6 +107,13 @@ namespace AgatePris.Intar {
         }
 
 {%- endfor %}
+
+{%- if int_nbits+frac_nbits < 64 %}
+
+        //
+        // IIMultiplyOperators
+        // IDivisionOperators
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} a, {{ self_type }} b) {
@@ -134,6 +144,8 @@ namespace AgatePris.Intar {
         public static {{ self_type }} operator /({{ component }} a, {{ self_type }} b) {
             return new {{ self_type }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
         }
+
+{%- endif %}
 
         //
         // IUnaryPlusOperators
@@ -251,37 +263,17 @@ namespace AgatePris.Intar {
             return new {{ self_type }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
-        {%- if signed and dim == 3 %}
+{%- if signed and dim == 3 and int_nbits+frac_nbits < 64 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void CrossInternal({{ self_type }} other, out {{ wide_bits }} x, out {{ wide_bits }} y, out {{ wide_bits }} z) {
-            var ax = ({{ wide_bits }})X.Bits;
-            var ay = ({{ wide_bits }})Y.Bits;
-            var az = ({{ wide_bits }})Z.Bits;
-            var bx = ({{ wide_bits }})other.X.Bits;
-            var by = ({{ wide_bits }})other.Y.Bits;
-            var bz = ({{ wide_bits }})other.Z.Bits;
-
-            x = (ay * bz) - (az * by);
-            y = (az * bx) - (ax * bz);
-            z = (ax * by) - (ay * bx);
+        public {{ wide_type }} Cross({{ self_type }} other) {
+            var tmp = Repr.Cross(other.Repr);
+            return new {{ wide_type }}(tmp);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Cross({{ self_type }} other) {
-            const {{ wide_bits }} k =
-            {%- if wide_bits == "long" %} 1L
-            {%- elif wide_bits == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
-            {%- endif %} << {{ frac_nbits }};
-            CrossInternal(other, out var x, out var y, out var z);
-            return new {{ self_type }}(
-                {{ component }}.FromBits(({{ bits }})(x / k)),
-                {{ component }}.FromBits(({{ bits }})(y / k)),
-                {{ component }}.FromBits(({{ bits }})(z / k)));
-        }
+{%- endif %}
 
-        {%- endif %}
+{%- if int_nbits+frac_nbits < 64 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ wide_bits }} DotInternal({{ self_type }} other) {
@@ -302,21 +294,17 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ component }} Dot({{ self_type }} other) {
-            const {{ wide_bits }} k =
-            {%- if wide_bits == "long" %} 1L
-            {%- elif wide_bits == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
-            {%- endif %} << {{ frac_nbits - 2 }};
+            const {{ wide_bits }} k = {{
+                macros::one(signed=signed, bits=2*(int_nbits+frac_nbits))
+            }} << {{ frac_nbits - 2 }};
             return {{ component }}.FromBits(({{ bits }})(DotInternal(other) / k));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ component }} SaturatingDot({{ self_type }} other) {
-            const {{ wide_bits }} k =
-            {%- if wide_bits == "long" %} 1L
-            {%- elif wide_bits == "ulong" %} 1UL
-            {%- else %}{{ throw(message = "invalid arguments. wide_bits: " ~ wide_bits) }}
-            {%- endif %} << {{ frac_nbits - 2 }};
+            const {{ wide_bits }} k = {{
+                macros::one(signed=signed, bits=2*(int_nbits+frac_nbits))
+            }} << {{ frac_nbits - 2 }};
             var bits = DotInternal(other) / k;
             if (bits > {{ bits }}.MaxValue) {
                 return {{ component }}.MaxValue;
@@ -329,14 +317,14 @@ namespace AgatePris.Intar {
             }
         }
 
-        {%- if not signed or dim > 3 %}
+    {%- if not signed or dim > 3 %}
 
         // ベクトルの長さは符号つき、
         // かつ次元が 3 以下の場合のみ定義される。
 
-        {%- else %}
+    {%- else %}
 
-        {%- set len_sqr_ty = macros::fixed_type(s=false, i=int_nbits*2, f=frac_nbits * 2) %}
+    {%- set len_sqr_ty = macros::fixed_type(s=false, i=int_nbits*2, f=frac_nbits * 2) %}
 
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
@@ -367,7 +355,7 @@ namespace AgatePris.Intar {
             return {{ component_u }}.FromBits(({{ bits_u }})Mathi.Sqrt(LengthSquared().Bits));
         }
 
-        {%- endif %}
+    {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }}? Normalize() {
@@ -427,10 +415,9 @@ namespace AgatePris.Intar {
 
             // 小数部の桁をあわせる。
 
-            const {{ wide_bits_u }} k =
-            {%- if wide_bits_u == "ulong" %} 1UL
-            {%- else %}{{ throw(message="wide_bits_u: " ~ wide_bits_u) }}
-            {%- endif %} << {{ frac_nbits - 1 }};
+            const {{ wide_bits_u }} k = {{
+                macros::one(signed=false, bits = 2*(int_nbits+frac_nbits))
+            }} << {{ frac_nbits - 1 }};
 
             {%- for i in range(end=dim) %}
             var y{{ i }} = ({{ bits }})(l{{ i }} * k / ll);
@@ -444,6 +431,8 @@ namespace AgatePris.Intar {
                 {{ component }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
                 {{ component }}.FromBits({% if signed %}b3 ? -y3 : {% endif %}y3){% endif %}{% endif %});
         }
+
+    {%- endif %}
 
         {%- if component == "I17F15" %}
         {%- for name in [

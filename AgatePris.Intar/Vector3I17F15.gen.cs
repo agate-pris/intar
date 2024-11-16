@@ -69,8 +69,6 @@ namespace AgatePris.Intar {
         //
         // IAdditionOperators
         // ISubtractionOperators
-        // IIMultiplyOperators
-        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -82,6 +80,11 @@ namespace AgatePris.Intar {
         public static Vector3I17F15 operator -(Vector3I17F15 a, Vector3I17F15 b) {
             return new Vector3I17F15(a.Repr - b.Repr);
         }
+
+        //
+        // IIMultiplyOperators
+        // IDivisionOperators
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I17F15 operator *(Vector3I17F15 a, Vector3I17F15 b) {
@@ -212,27 +215,9 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void CrossInternal(Vector3I17F15 other, out long x, out long y, out long z) {
-            var ax = (long)X.Bits;
-            var ay = (long)Y.Bits;
-            var az = (long)Z.Bits;
-            var bx = (long)other.X.Bits;
-            var by = (long)other.Y.Bits;
-            var bz = (long)other.Z.Bits;
-
-            x = (ay * bz) - (az * by);
-            y = (az * bx) - (ax * bz);
-            z = (ax * by) - (ay * bx);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I17F15 Cross(Vector3I17F15 other) {
-            const long k = 1L << 15;
-            CrossInternal(other, out var x, out var y, out var z);
-            return new Vector3I17F15(
-                I17F15.FromBits((int)(x / k)),
-                I17F15.FromBits((int)(y / k)),
-                I17F15.FromBits((int)(z / k)));
+        public Vector3I34F30 Cross(Vector3I17F15 other) {
+            var tmp = Repr.Cross(other.Repr);
+            return new Vector3I34F30(tmp);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

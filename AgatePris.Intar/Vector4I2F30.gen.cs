@@ -76,8 +76,6 @@ namespace AgatePris.Intar {
         //
         // IAdditionOperators
         // ISubtractionOperators
-        // IIMultiplyOperators
-        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -89,6 +87,11 @@ namespace AgatePris.Intar {
         public static Vector4I2F30 operator -(Vector4I2F30 a, Vector4I2F30 b) {
             return new Vector4I2F30(a.Repr - b.Repr);
         }
+
+        //
+        // IIMultiplyOperators
+        // IDivisionOperators
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator *(Vector4I2F30 a, Vector4I2F30 b) {
