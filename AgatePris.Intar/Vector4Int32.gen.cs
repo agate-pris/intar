@@ -235,6 +235,12 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int32 Twice() => new Vector4Int32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long UncheckedDot(Vector4Int32 other) {
+            var mul = (Vector4Int64)this * other;
+            return mul.X + mul.Y + mul.Z + mul.W;
+        }
+
         //
         // Swizzling
         //

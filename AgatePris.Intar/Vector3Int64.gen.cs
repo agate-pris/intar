@@ -242,6 +242,12 @@ namespace AgatePris.Intar {
             return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128 UncheckedDot(Vector3Int64 other) {
+            var mul = (Vector3Int128)this * other;
+            return mul.X + mul.Y + mul.Z;
+        }
+
 #endif // NET7_0_OR_GREATER
 
         //
