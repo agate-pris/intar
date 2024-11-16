@@ -164,18 +164,6 @@ namespace AgatePris.Intar {
         // Other methods
         //
 
-#if NET7_0_OR_GREATER
-
-        public Vector2UInt128 BigMul(ulong other) {
-            return (Vector2UInt128)this * other;
-        }
-
-        public Vector2UInt128 BigMul(Vector2UInt64 other) {
-            return (Vector2UInt128)this * other;
-        }
-
-#endif // NET7_0_OR_GREATER
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt64 Min(Vector2UInt64 other) {
             return new Vector2UInt64(Math.Min(X, other.X), Math.Min(Y, other.Y));
@@ -211,6 +199,14 @@ namespace AgatePris.Intar {
         public Vector2UInt64 Twice() => new Vector2UInt64(Mathi.Twice(X), Mathi.Twice(Y));
 
 #if NET7_0_OR_GREATER
+
+        public Vector2UInt128 BigMul(ulong other) {
+            return (Vector2UInt128)this * other;
+        }
+
+        public Vector2UInt128 BigMul(Vector2UInt64 other) {
+            return (Vector2UInt128)this * other;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 UncheckedDot(Vector2UInt64 other) {

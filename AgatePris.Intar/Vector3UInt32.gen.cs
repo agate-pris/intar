@@ -168,14 +168,6 @@ namespace AgatePris.Intar {
         // Other methods
         //
 
-        public Vector3UInt64 BigMul(uint other) {
-            return (Vector3UInt64)this * other;
-        }
-
-        public Vector3UInt64 BigMul(Vector3UInt32 other) {
-            return (Vector3UInt64)this * other;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt32 Min(Vector3UInt32 other) {
             return new Vector3UInt32(Math.Min(X, other.X), Math.Min(Y, other.Y), Math.Min(Z, other.Z));
@@ -209,6 +201,14 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt32 Twice() => new Vector3UInt32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
+
+        public Vector3UInt64 BigMul(uint other) {
+            return (Vector3UInt64)this * other;
+        }
+
+        public Vector3UInt64 BigMul(Vector3UInt32 other) {
+            return (Vector3UInt64)this * other;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Cross(Vector3UInt32 other) {

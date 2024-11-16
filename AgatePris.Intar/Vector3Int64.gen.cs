@@ -185,18 +185,6 @@ namespace AgatePris.Intar {
             return new Vector3UInt64(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z));
         }
 
-#if NET7_0_OR_GREATER
-
-        public Vector3Int128 BigMul(long other) {
-            return (Vector3Int128)this * other;
-        }
-
-        public Vector3Int128 BigMul(Vector3Int64 other) {
-            return (Vector3Int128)this * other;
-        }
-
-#endif // NET7_0_OR_GREATER
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Min(Vector3Int64 other) {
             return new Vector3Int64(Math.Min(X, other.X), Math.Min(Y, other.Y), Math.Min(Z, other.Z));
@@ -232,6 +220,14 @@ namespace AgatePris.Intar {
         public Vector3Int64 Twice() => new Vector3Int64(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
 
 #if NET7_0_OR_GREATER
+
+        public Vector3Int128 BigMul(long other) {
+            return (Vector3Int128)this * other;
+        }
+
+        public Vector3Int128 BigMul(Vector3Int64 other) {
+            return (Vector3Int128)this * other;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Cross(Vector3Int64 other) {

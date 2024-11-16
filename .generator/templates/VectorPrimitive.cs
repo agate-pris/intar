@@ -242,25 +242,6 @@ namespace AgatePris.Intar {
 
 {%- endif %}
 
-{%- if bits < 128 %}
-    {%- if bits > 32 %}
-
-#if NET7_0_OR_GREATER
-    {%- endif %}
-
-        public {{ wide_vector }} BigMul({{ component }} other) {
-            return ({{ wide_vector }})this * other;
-        }
-
-        public {{ wide_vector }} BigMul({{ vector }} other) {
-            return ({{ wide_vector }})this * other;
-        }
-    {%- if bits > 32 %}
-
-#endif // NET7_0_OR_GREATER
-    {%- endif %}
-{%- endif %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Min({{ vector }} other) {
             return new {{ vector }}(
@@ -350,6 +331,14 @@ namespace AgatePris.Intar {
 
 #if NET7_0_OR_GREATER
     {%- endif %}
+
+        public {{ wide_vector }} BigMul({{ component }} other) {
+            return ({{ wide_vector }})this * other;
+        }
+
+        public {{ wide_vector }} BigMul({{ vector }} other) {
+            return ({{ wide_vector }})this * other;
+        }
     {%- if dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -189,14 +189,6 @@ namespace AgatePris.Intar {
             return new Vector4UInt32(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z), Mathi.UnsignedAbs(W));
         }
 
-        public Vector4Int64 BigMul(int other) {
-            return (Vector4Int64)this * other;
-        }
-
-        public Vector4Int64 BigMul(Vector4Int32 other) {
-            return (Vector4Int64)this * other;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int32 Min(Vector4Int32 other) {
             return new Vector4Int32(Math.Min(X, other.X), Math.Min(Y, other.Y), Math.Min(Z, other.Z), Math.Min(W, other.W));
@@ -230,6 +222,14 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int32 Twice() => new Vector4Int32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
+
+        public Vector4Int64 BigMul(int other) {
+            return (Vector4Int64)this * other;
+        }
+
+        public Vector4Int64 BigMul(Vector4Int32 other) {
+            return (Vector4Int64)this * other;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long UncheckedDot(Vector4Int32 other) {
