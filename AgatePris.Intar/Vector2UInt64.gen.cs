@@ -214,6 +214,16 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt64 Twice() => new Vector2UInt64(Mathi.Twice(X), Mathi.Twice(Y));
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt128 UncheckedDot(Vector2UInt64 other) {
+            var mul = (Vector2UInt128)this * other;
+            return mul.X + mul.Y;
+        }
+
+#endif // NET7_0_OR_GREATER
+
         //
         // Swizzling
         //
