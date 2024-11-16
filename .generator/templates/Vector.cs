@@ -9,12 +9,15 @@
 {%- set self_type = macros::vector_type(dim=dim, type=component) -%}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
 {%- set repr = macros::vector_primitive(dim=dim, signed=signed, bits=int_nbits+frac_nbits) -%}
-
 {%- if int_nbits+frac_nbits < 128 %}
     {%- set wide_repr = macros::vector_primitive(dim=dim, signed=signed, bits = 2*int_nbits + 2*frac_nbits) -%}
     {%- set wide_component = macros::fixed_type(s=signed, i=2*int_nbits, f=2*frac_nbits) %}
     {%- set wide_type = macros::vector_type(dim=dim, type=wide_component) %}
 {%- endif -%}
+{%- if int_nbits+frac_nbits > 64 -%}
+#if NET7_0_OR_GREATER
+
+{% endif -%}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -460,3 +463,8 @@ namespace AgatePris.Intar {
 
     }
 } // namespace AgatePris.Intar
+
+{%- if int_nbits+frac_nbits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+{%- endif %}
