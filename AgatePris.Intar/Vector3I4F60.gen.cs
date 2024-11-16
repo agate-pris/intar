@@ -177,6 +177,12 @@ namespace AgatePris.Intar {
 #if NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3I8F120 Cross(Vector3I4F60 other) {
+            var tmp = Repr.Cross(other.Repr);
+            return new Vector3I8F120(tmp);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 UncheckedDot(Vector3I4F60 other) {
             return I8F120.FromBits(Repr.UncheckedDot(other.Repr));
         }
