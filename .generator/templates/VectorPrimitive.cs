@@ -1,16 +1,15 @@
 {% import "macros.cs" as macros %}
-
-{%- set type   = macros::vector_primitive(dim=dim, signed=signed, bits=bits) %}
-{%- set type_u = macros::vector_primitive(dim=dim, signed=false,  bits=bits) %}
+{%- set vector   = macros::vector_primitive(signed=signed, dim=dim, bits=bits) %}
+{%- set vector_u = macros::vector_primitive(signed=false,  dim=dim, bits=bits) %}
 {%- set component = macros::inttype(bits=bits, signed=signed) %}
-{%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
 {%- if bits < 128 %}
-    {%- set wide_type = macros::vector_primitive(dim=dim, signed=signed, bits=2*bits) %}
+    {%- set wide_vector = macros::vector_primitive(signed=signed, dim=dim, bits=2*bits) %}
     {%- set wide_component = macros::inttype(bits=2*bits, signed=signed) %}
     {%- set math = 'Math' %}
 {%- else %}
     {%- set math = component %}
 {%- endif %}
+{%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) %}
 {%- if 64 < bits -%}
 #if NET7_0_OR_GREATER
 
@@ -19,7 +18,7 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
-    public struct {{ type }} : IEquatable<{{ type }}> {
+    public struct {{ vector }} : IEquatable<{{ vector }}> {
 
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -32,7 +31,7 @@ namespace AgatePris.Intar {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public {{ type }}(
+        public {{ vector }}(
 {%- for c in components %}
     {{- component }} {{ c | lower }}
     {%- if not loop.last %}, {% endif %}
@@ -69,7 +68,7 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==({{ type }} left, {{ type }} right) {
+        public static bool operator ==({{ vector }} left, {{ vector }} right) {
             return
 {%- for c in components %}
     {%- if not loop.first %} &&{% endif %} left.{{ c }} == right.{{ c }}
@@ -77,7 +76,7 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ type }} left, {{ type }} right) {
+        public static bool operator !=({{ vector }} left, {{ vector }} right) {
             return
 {%- for c in components %}
     {%- if not loop.first %} ||{% endif %} left.{{ c }} != right.{{ c }}
@@ -89,13 +88,13 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals({{ type }} other) => this == other;
+        public bool Equals({{ vector }} other) => this == other;
 
         //
         // Object
         //
 
-        public override bool Equals(object obj) => obj is {{ type }} o && Equals(o);
+        public override bool Equals(object obj) => obj is {{ vector }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(
@@ -114,9 +113,9 @@ namespace AgatePris.Intar {
 {%- for o in ['+', '-', '*', '/'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} operator {{ o
-        }}({{ type }} left, {{ type }} right) {
-            return new {{ type }}(
+        public static {{ vector }} operator {{ o
+        }}({{ vector }} left, {{ vector }} right) {
+            return new {{ vector }}(
     {%- for c in components -%}
         left.{{ c }} {{ o }} right.{{ c }}
         {%- if not loop.last %}, {% endif %}
@@ -128,9 +127,9 @@ namespace AgatePris.Intar {
 {%- for o in ['*', '/'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} operator {{ o
-        }}({{ type }} left, {{ component }} right) {
-            return new {{ type }}(
+        public static {{ vector }} operator {{ o
+        }}({{ vector }} left, {{ component }} right) {
+            return new {{ vector }}(
     {%- for c in components -%}
         left.{{ c }} {{ o }} right
         {%- if not loop.last %}, {% endif %}
@@ -139,9 +138,9 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} operator {{ o
-        }}({{ component }} left, {{ type }} right) {
-            return new {{ type }}(
+        public static {{ vector }} operator {{ o
+        }}({{ component }} left, {{ vector }} right) {
+            return new {{ vector }}(
     {%- for c in components -%}
         left {{ o }} right.{{ c }}
         {%- if not loop.last %}, {% endif %}
@@ -155,8 +154,8 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} operator +({{ type }} x) {
-            return new {{ type }}(
+        public static {{ vector }} operator +({{ vector }} x) {
+            return new {{ vector }}(
 {%- for c in components -%}
     +x.{{ c }}
     {%- if not loop.last %}, {% endif %}
@@ -171,8 +170,8 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} operator -({{ type }} x) {
-            return new {{ type }}(
+        public static {{ vector }} operator -({{ vector }} x) {
+            return new {{ vector }}(
 {%- for c in components -%}
     -x.{{ c }}
     {%- if not loop.last %}, {% endif %}
@@ -200,7 +199,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {% if implicit
         %}implicit{% else
-        %}explicit{% endif %} operator {{ other_type }}({{ type }} a) {
+        %}explicit{% endif %} operator {{ other_type }}({{ vector }} a) {
             return new {{ other_type }}(
             {%- for c in components -%}
                 ({{ t }})a.{{ c }}{% if not loop.last %}, {% endif %}
@@ -226,15 +225,15 @@ namespace AgatePris.Intar {
 {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Abs() => new {{ type }}(
+        public {{ vector }} Abs() => new {{ vector }}(
     {%- for c in components -%}
         {{ math }}.Abs({{ c }}){% if not loop.last %}, {% endif %}
     {%- endfor -%}
         );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type_u }} UnsignedAbs() {
-            return new {{ type_u }}(
+        public {{ vector_u }} UnsignedAbs() {
+            return new {{ vector_u }}(
     {%- for c in components -%}
         Mathi.UnsignedAbs({{ c }}){% if not loop.last %}, {% endif %}
     {%- endfor -%}
@@ -249,12 +248,12 @@ namespace AgatePris.Intar {
 #if NET7_0_OR_GREATER
     {%- endif %}
 
-        public {{ wide_type }} BigMul({{ component }} other) {
-            return ({{ wide_type }})this * other;
+        public {{ wide_vector }} BigMul({{ component }} other) {
+            return ({{ wide_vector }})this * other;
         }
 
-        public {{ wide_type }} BigMul({{ type }} other) {
-            return ({{ wide_type }})this * other;
+        public {{ wide_vector }} BigMul({{ vector }} other) {
+            return ({{ wide_vector }})this * other;
         }
     {%- if bits > 32 %}
 
@@ -263,8 +262,8 @@ namespace AgatePris.Intar {
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Min({{ type }} other) {
-            return new {{ type }}(
+        public {{ vector }} Min({{ vector }} other) {
+            return new {{ vector }}(
 {%- for c in components -%}
     {{ math }}.Min({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
@@ -272,8 +271,8 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Max({{ type }} other) {
-            return new {{ type }}(
+        public {{ vector }} Max({{ vector }} other) {
+            return new {{ vector }}(
 {%- for c in components -%}
     {{ math }}.Max({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
@@ -281,23 +280,23 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type
+        public {{ vector
         }} Clamp({{ component }} min, {{ component }} max) {
 {%- if bits > 64 %}
-            return new {{ type }}(
+            return new {{ vector }}(
     {%- for c in components -%}
         {{ math }}.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
     {%- endfor -%}
             );
 {%- else %}
 #if NET5_0_OR_GREATER
-            return new {{ type }}(
+            return new {{ vector }}(
     {%- for c in components -%}
         Math.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
     {%- endfor -%}
             );
 #else
-            return new {{ type }}(
+            return new {{ vector }}(
     {%- for c in components -%}
         Mathi.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
     {%- endfor -%}
@@ -307,23 +306,23 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type
-        }} Clamp({{ type }} min, {{ type }} max) {
+        public {{ vector
+        }} Clamp({{ vector }} min, {{ vector }} max) {
 {%- if bits > 64 %}
-            return new {{ type }}(
+            return new {{ vector }}(
     {%- for c in components -%}
         {{ math }}.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
     {%- endfor -%}
             );
 {%- else %}
 #if NET5_0_OR_GREATER
-            return new {{ type }}(
+            return new {{ vector }}(
     {%- for c in components -%}
         Math.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
     {%- endfor -%}
             );
 #else
-            return new {{ type }}(
+            return new {{ vector }}(
     {%- for c in components -%}
         Mathi.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
     {%- endfor -%}
@@ -333,14 +332,14 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Half() => new {{ type }}(
+        public {{ vector }} Half() => new {{ vector }}(
 {%- for c in components -%}
     Mathi.Half({{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
         );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Twice() => new {{ type }}(
+        public {{ vector }} Twice() => new {{ vector }}(
 {%- for c in components -%}
     Mathi.Twice({{ c }}){% if not loop.last %}, {% endif %}
 {%- endfor -%}
@@ -354,14 +353,14 @@ namespace AgatePris.Intar {
     {%- if dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_type }} Cross({{ type }} other) {
+        public {{ wide_vector }} Cross({{ vector }} other) {
             return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
     {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ type }} other) {
-            var mul = ({{ wide_type }})this * other;
+        public {{ wide_component }} UncheckedDot({{ vector }} other) {
+            var mul = ({{ wide_vector }})this * other;
             return
     {%- for c in components -%}
         {% if not loop.first %} +{% endif %} mul.{{ c }}
