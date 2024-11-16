@@ -660,4 +660,4 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 WWWW() => new Vector4I17F15(Repr.WWWW());
 
     }
-} // // namespace AgatePris.Intar
+} // namespace AgatePris.Intar

@@ -459,4 +459,4 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
     }
-} // // namespace AgatePris.Intar
+} // namespace AgatePris.Intar

@@ -315,4 +315,4 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I2F30 YYYY() => new Vector4I2F30(Repr.YYYY());
 
     }
-} // // namespace AgatePris.Intar
+} // namespace AgatePris.Intar
