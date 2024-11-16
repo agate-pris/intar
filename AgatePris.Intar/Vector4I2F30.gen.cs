@@ -244,19 +244,6 @@ namespace AgatePris.Intar {
             return I2F30.FromBits((int)(DotInternal(other) / k));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SaturatingDot(Vector4I2F30 other) {
-            const long k = 1L << 28;
-            var bits = DotInternal(other) / k;
-            if (bits > int.MaxValue) {
-                return I2F30.MaxValue;
-            } else if (bits < int.MinValue) {
-                return I2F30.MinValue;
-            } else {
-                return I2F30.FromBits((int)bits);
-            }
-        }
-
         // ベクトルの長さは符号つき、
         // かつ次元が 3 以下の場合のみ定義される。
 

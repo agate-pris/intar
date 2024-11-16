@@ -241,19 +241,6 @@ namespace AgatePris.Intar {
             return I17F15.FromBits((int)(DotInternal(other) / k));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 SaturatingDot(Vector3I17F15 other) {
-            const long k = 1L << 13;
-            var bits = DotInternal(other) / k;
-            if (bits > int.MaxValue) {
-                return I17F15.MaxValue;
-            } else if (bits < int.MinValue) {
-                return I17F15.MinValue;
-            } else {
-                return I17F15.FromBits((int)bits);
-            }
-        }
-
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>

@@ -300,23 +300,6 @@ namespace AgatePris.Intar {
             return {{ component }}.FromBits(({{ bits }})(DotInternal(other) / k));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component }} SaturatingDot({{ self_type }} other) {
-            const {{ wide_bits }} k = {{
-                macros::one(signed=signed, bits=2*(int_nbits+frac_nbits))
-            }} << {{ frac_nbits - 2 }};
-            var bits = DotInternal(other) / k;
-            if (bits > {{ bits }}.MaxValue) {
-                return {{ component }}.MaxValue;
-            {%- if signed %}
-            } else if (bits < {{ bits }}.MinValue) {
-                return {{ component }}.MinValue;
-            {%- endif %}
-            } else {
-                return {{ component }}.FromBits(({{ bits }})bits);
-            }
-        }
-
     {%- if not signed or dim > 3 %}
 
         // ベクトルの長さは符号つき、
