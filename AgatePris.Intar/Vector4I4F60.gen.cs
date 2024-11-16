@@ -19,6 +19,15 @@ namespace AgatePris.Intar {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+#if NET7_0_OR_GREATER
+
+        internal Vector4Int128 WideRepr {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Repr;
+        }
+
+#endif // NET7_0_OR_GREATER
+
         public I4F60 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I4F60.FromBits(Repr.X);

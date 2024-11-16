@@ -38,12 +38,20 @@ namespace AgatePris.Intar {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-{%- if int_nbits+frac_nbits < 64 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
 
         internal {{ wide_repr }} WideRepr {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Repr;
         }
+    {%- if int_nbits+frac_nbits > 32 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endif %}
 {% for c in components %}
         public {{ component }} {{ c }} {
