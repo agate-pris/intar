@@ -181,6 +181,15 @@ namespace AgatePris.Intar {
             return new Vector4I4F60(Repr.Clamp(min.Repr, max.Repr));
         }
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I8F120 UncheckedDot(Vector4I4F60 other) {
+            return I8F120.FromBits(Repr.UncheckedDot(other.Repr));
+        }
+
+#endif // NET7_0_OR_GREATER
+
         //
         // Swizzling
         //
