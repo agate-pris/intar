@@ -222,6 +222,13 @@ namespace AgatePris.Intar {
             return I4F60.FromBits(Repr.UncheckedDot(other.Repr));
         }
 
+        /// <summary>
+        /// <para>Returns the length of the vector squared.</para>
+        /// <para>ベクトルの長さの 2 乗を返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U4F60 UncheckedLengthSquared() => U4F60.FromBits(Repr.UncheckedLengthSquared());
+
         // ベクトルの長さは符号つき、
         // かつ次元が 3 以下の場合のみ定義される。
 

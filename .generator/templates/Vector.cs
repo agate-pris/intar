@@ -7,7 +7,8 @@
 {%- set repr = macros::vector_primitive(dim=dim, signed=signed, bits = int_nbits+frac_nbits) %}
 {%- if int_nbits+frac_nbits < 128 %}
     {%- set wide_bits_u = macros::inttype(bits= 2*int_nbits + 2*frac_nbits, signed=false) %}
-    {%- set wide_component = macros::fixed_type(s=signed, i = 2*int_nbits, f = 2*frac_nbits) %}
+    {%- set wide_component   = macros::fixed_type(s=signed, i = 2*int_nbits, f = 2*frac_nbits) %}
+    {%- set wide_component_u = macros::fixed_type(s=false,  i = 2*int_nbits, f = 2*frac_nbits) %}
     {%- set wide_vector = macros::vector_type(dim=dim, type=wide_component) %}
     {%- set wide_repr = macros::vector_primitive(dim=dim, signed=signed, bits = 2*int_nbits + 2*frac_nbits) %}
 {%- endif %}
@@ -293,6 +294,20 @@ namespace AgatePris.Intar {
         public {{ wide_component }} UncheckedDot({{ vector }} other) {
             return {{ wide_component }}.FromBits(Repr.UncheckedDot(other.Repr));
         }
+
+        /// <summary>
+        /// <para>Returns the length of the vector squared.</para>
+        /// <para>ベクトルの長さの 2 乗を返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component_u }} {%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}LengthSquared() => {{
+            wide_component_u
+        }}.FromBits(Repr.{%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}LengthSquared());
+
     {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
@@ -306,28 +321,6 @@ namespace AgatePris.Intar {
         // かつ次元が 3 以下の場合のみ定義される。
 
     {%- else %}
-
-    {%- set len_sqr_ty = macros::fixed_type(s=false, i=int_nbits*2, f=frac_nbits * 2) %}
-
-        /// <summary>
-        /// <para>Returns the length of the vector squared.</para>
-        /// <para>ベクトルの長さの 2 乗を返します｡</para>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ len_sqr_ty }} LengthSquared() {
-            var a1 = Mathi.UnsignedAbs(X.Bits);
-            var a2 = Mathi.UnsignedAbs(Y.Bits);{% if dim > 2 %}
-            var a3 = Mathi.UnsignedAbs(Z.Bits);{% if dim > 3 %}
-            var a4 = Mathi.UnsignedAbs(W.Bits);{% endif %}{% endif %}
-            var s1 = ({{ wide_bits_u }})a1 * a1;
-            var s2 = ({{ wide_bits_u }})a2 * a2;{% if dim > 2 %}
-            var s3 = ({{ wide_bits_u }})a3 * a3;{% if dim > 3 %}
-            var s4 = ({{ wide_bits_u }})a4 * a4;{% endif %}{% endif %}
-            return {{ len_sqr_ty }}.FromBits(s1 + s2
-            {%- if dim > 2 %} + s3
-            {%- if dim > 3 %} + s4
-            {%- endif %}{% endif %});
-        }
 
         /// <summary>
         /// <para>Returns the length of the vector.</para>
