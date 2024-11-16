@@ -218,6 +218,20 @@ namespace AgatePris.Intar {
             return I68F60.FromBits(Repr.UncheckedDot(other.Repr));
         }
 
+        /// <summary>
+        /// <para>Returns the length of the vector squared.</para>
+        /// <para>ベクトルの長さの 2 乗を返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U68F60 LengthSquared() => U68F60.FromBits(Repr.LengthSquared());
+
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U34F30 Length() => U34F30.FromBits(Repr.Length());
+
 #endif // NET7_0_OR_GREATER
 
         //

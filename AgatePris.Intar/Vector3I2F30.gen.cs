@@ -226,24 +226,14 @@ namespace AgatePris.Intar {
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60 LengthSquared() {
-            var a1 = Mathi.UnsignedAbs(X.Bits);
-            var a2 = Mathi.UnsignedAbs(Y.Bits);
-            var a3 = Mathi.UnsignedAbs(Z.Bits);
-            var s1 = (ulong)a1 * a1;
-            var s2 = (ulong)a2 * a2;
-            var s3 = (ulong)a3 * a3;
-            return U4F60.FromBits(s1 + s2 + s3);
-        }
+        public U4F60 LengthSquared() => U4F60.FromBits(Repr.LengthSquared());
 
         /// <summary>
         /// <para>Returns the length of the vector.</para>
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 Length() {
-            return U2F30.FromBits((uint)Mathi.Sqrt(LengthSquared().Bits));
-        }
+        public U2F30 Length() => U2F30.FromBits(Repr.Length());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I2F30? Normalize() {
