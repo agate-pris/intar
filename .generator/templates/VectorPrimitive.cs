@@ -339,7 +339,7 @@ namespace AgatePris.Intar {
         public {{ wide_vector }} BigMul({{ vector }} other) {
             return ({{ wide_vector }})this * other;
         }
-    {%- if dim == 3 %}
+    {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
