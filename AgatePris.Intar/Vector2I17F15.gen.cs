@@ -208,22 +208,8 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        long DotInternal(Vector2I17F15 other) {
-            var x = ((long)X.Bits) * other.X.Bits;
-            var y = ((long)Y.Bits) * other.Y.Bits;
-
-            // オーバーフローを避けるため､ 事前に除算する｡
-            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            return
-                (x / 4) +
-                (y / 4);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 Dot(Vector2I17F15 other) {
-            const long k = 1L << 13;
-            return I17F15.FromBits((int)(DotInternal(other) / k));
+        public I34F30 UncheckedDot(Vector2I17F15 other) {
+            return I34F30.FromBits(Repr.UncheckedDot(other.Repr));
         }
 
         /// <summary>
