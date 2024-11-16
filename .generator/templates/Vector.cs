@@ -1,19 +1,17 @@
 {% import "macros.cs" as macros %}
-
-{%- set bits        = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
-{%- set bits_u      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false ) %}
-{%- set wide_bits   = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed) %}
-{%- set wide_bits_u = macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=false ) %}
-{%- set component   = macros::fixed_type(s=signed, i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set component_u = macros::fixed_type(s=false,  i=  int_nbits,   f=  frac_nbits  ) %}
-{%- set self_type = macros::vector_type(dim=dim, type=component) -%}
-{%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) -%}
-{%- set repr = macros::vector_primitive(dim=dim, signed=signed, bits=int_nbits+frac_nbits) -%}
+{%- set bits   = macros::inttype(signed=signed, bits = int_nbits+frac_nbits) %}
+{%- set bits_u = macros::inttype(signed=false,  bits = int_nbits+frac_nbits) %}
+{%- set component   = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
+{%- set component_u = macros::fixed_type(s=false,  i=int_nbits, f=frac_nbits) %}
+{%- set vector = macros::vector_type(dim=dim, type=component) %}
+{%- set repr = macros::vector_primitive(dim=dim, signed=signed, bits = int_nbits+frac_nbits) %}
 {%- if int_nbits+frac_nbits < 128 %}
-    {%- set wide_repr = macros::vector_primitive(dim=dim, signed=signed, bits = 2*int_nbits + 2*frac_nbits) -%}
-    {%- set wide_component = macros::fixed_type(s=signed, i=2*int_nbits, f=2*frac_nbits) %}
-    {%- set wide_type = macros::vector_type(dim=dim, type=wide_component) %}
-{%- endif -%}
+    {%- set wide_bits_u = macros::inttype(bits= 2*int_nbits + 2*frac_nbits, signed=false) %}
+    {%- set wide_component = macros::fixed_type(s=signed, i = 2*int_nbits, f = 2*frac_nbits) %}
+    {%- set wide_vector = macros::vector_type(dim=dim, type=wide_component) %}
+    {%- set wide_repr = macros::vector_primitive(dim=dim, signed=signed, bits = 2*int_nbits + 2*frac_nbits) %}
+{%- endif %}
+{%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) %}
 {%- if int_nbits+frac_nbits > 64 -%}
 #if NET7_0_OR_GREATER
 
@@ -24,8 +22,8 @@ using System.Runtime.CompilerServices;
 
 namespace AgatePris.Intar {
     [Serializable]
-    public struct {{ self_type }}
-    : IEquatable<{{ self_type }}>
+    public struct {{ vector }}
+    : IEquatable<{{ vector }}>
     , IFormattable {
         // Fields
         // ---------------------------------------
@@ -67,12 +65,12 @@ namespace AgatePris.Intar {
         // ---------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ repr }} repr) {
+        public {{ vector }}({{ repr }} repr) {
             Repr = repr;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}(
+        public {{ vector }}(
 {%- for c in components -%}
     {{ component }} {{ c|lower }}{% if not loop.last %}, {% endif %}
 {%- endfor -%}
@@ -83,7 +81,7 @@ namespace AgatePris.Intar {
         )) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}({{ component }} value) : this(
+        public {{ vector }}({{ component }} value) : this(
 {%- for i in range(end=dim) -%}
     value{% if not loop.last %}, {% endif %}
 {%- endfor -%}
@@ -92,11 +90,11 @@ namespace AgatePris.Intar {
         // Constants
         // ---------------------------------------
 
-        public static readonly {{ self_type }} Zero = new {{ self_type }}({{ component }}.Zero);
-        public static readonly {{ self_type }} One = new {{ self_type }}({{ component }}.One);
+        public static readonly {{ vector }} Zero = new {{ vector }}({{ component }}.Zero);
+        public static readonly {{ vector }} One = new {{ vector }}({{ component }}.One);
 {%- for i in range(end=dim) %}
     {%- if i >= dim %}{% continue %}{% endif %}
-        public static readonly {{ self_type }} Unit{{ components[i] }} = new {{ self_type }}(
+        public static readonly {{ vector }} Unit{{ components[i] }} = new {{ vector }}(
     {%- for j in range(end=dim) %}
         {{- component }}.
         {%- if i == j %}One{% else %}Zero{% endif %}
@@ -112,8 +110,8 @@ namespace AgatePris.Intar {
 {%- for o in ['+', '-'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator {{ o }}({{ self_type }} a, {{ self_type }} b) {
-            return new {{ self_type }}(a.Repr {{ o }} b.Repr);
+        public static {{ vector }} operator {{ o }}({{ vector }} a, {{ vector }} b) {
+            return new {{ vector }}(a.Repr {{ o }} b.Repr);
         }
 
 {%- endfor %}
@@ -126,33 +124,33 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ self_type }} a, {{ self_type }} b) {
-            return new {{ self_type }}(({{ repr }})(a.WideRepr * b.WideRepr / {{ component }}.OneRepr));
+        public static {{ vector }} operator *({{ vector }} a, {{ vector }} b) {
+            return new {{ vector }}(({{ repr }})(a.WideRepr * b.WideRepr / {{ component }}.OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ self_type }} a, {{component}} b) {
-            return new {{ self_type }}(({{ repr }})(a.WideRepr * b.Bits / {{ component }}.OneRepr));
+        public static {{ vector }} operator *({{ vector }} a, {{component}} b) {
+            return new {{ vector }}(({{ repr }})(a.WideRepr * b.Bits / {{ component }}.OneRepr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator *({{ component }} a, {{ self_type }} b) {
+        public static {{ vector }} operator *({{ component }} a, {{ vector }} b) {
             return b * a;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ self_type }} a, {{ self_type }} b) {
-            return new {{ self_type }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Repr));
+        public static {{ vector }} operator /({{ vector }} a, {{ vector }} b) {
+            return new {{ vector }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Repr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ self_type }} a, {{ component }} b) {
-            return new {{ self_type }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Bits));
+        public static {{ vector }} operator /({{ vector }} a, {{ component }} b) {
+            return new {{ vector }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator /({{ component }} a, {{ self_type }} b) {
-            return new {{ self_type }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
+        public static {{ vector }} operator /({{ component }} a, {{ vector }} b) {
+            return new {{ vector }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
         }
 
 {%- endif %}
@@ -163,15 +161,15 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator +({{ self_type }} x) {
-            return new {{ self_type }}(+x.Repr);
+        public static {{ vector }} operator +({{ vector }} x) {
+            return new {{ vector }}(+x.Repr);
         }
 
 {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} operator -({{ self_type }} x) {
-            return new {{ self_type }}(-x.Repr);
+        public static {{ vector }} operator -({{ vector }} x) {
+            return new {{ vector }}(-x.Repr);
         }
 
 {%- endif %}
@@ -184,7 +182,7 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator {{ o
-        }}({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Repr {{ o }} rhs.Repr;
+        }}({{ vector }} lhs, {{ vector }} rhs) => lhs.Repr {{ o }} rhs.Repr;
 
 {%- endfor %}
 
@@ -192,7 +190,7 @@ namespace AgatePris.Intar {
         // Object
         //
 
-        public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
+        public override bool Equals(object obj) => obj is {{ vector }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Repr.GetHashCode();
@@ -209,7 +207,7 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals({{ self_type }} other) {
+        public bool Equals({{ vector }} other) {
             return Repr.Equals(other.Repr);
         }
 
@@ -232,8 +230,8 @@ namespace AgatePris.Intar {
 {%- for m in ['Min', 'Max'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} {{ m }}({{ self_type }} other) {
-            return new {{ self_type }}(Repr.{{ m }}(other.Repr));
+        public {{ vector }} {{ m }}({{ vector }} other) {
+            return new {{ vector }}(Repr.{{ m }}(other.Repr));
         }
 
 {%- endfor %}
@@ -241,25 +239,25 @@ namespace AgatePris.Intar {
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Abs() => new {{ self_type }}(Repr.Abs());
+        public {{ vector }} Abs() => new {{ vector }}(Repr.Abs());
 
         {%- endif %}
 
 {%- for m in ['Half', 'Twice'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal {{ self_type }} {{ m }}() => new {{ self_type }}(Repr.{{ m }}());
+        internal {{ vector }} {{ m }}() => new {{ vector }}(Repr.{{ m }}());
 
 {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp({{ component }} min, {{ component }} max) {
-            return new {{ self_type }}(Repr.Clamp(min.Bits, max.Bits));
+        public {{ vector }} Clamp({{ component }} min, {{ component }} max) {
+            return new {{ vector }}(Repr.Clamp(min.Bits, max.Bits));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
-            return new {{ self_type }}(Repr.Clamp(min.Repr, max.Repr));
+        public {{ vector }} Clamp({{ vector }} min, {{ vector }} max) {
+            return new {{ vector }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
 {%- if int_nbits+frac_nbits < 128 %}
@@ -270,14 +268,14 @@ namespace AgatePris.Intar {
     {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_type }} Cross({{ self_type }} other) {
+        public {{ wide_vector }} Cross({{ vector }} other) {
             var tmp = Repr.Cross(other.Repr);
-            return new {{ wide_type }}(tmp);
+            return new {{ wide_vector }}(tmp);
         }
     {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ self_type }} other) {
+        public {{ wide_component }} UncheckedDot({{ vector }} other) {
             return {{ wide_component }}.FromBits(Repr.UncheckedDot(other.Repr));
         }
     {%- if int_nbits+frac_nbits > 32 %}
@@ -328,7 +326,7 @@ namespace AgatePris.Intar {
     {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ self_type }}? Normalize() {
+        public {{ vector }}? Normalize() {
             {%- if signed %}
 
             // 各要素の内部表現型を取り出し、
@@ -395,7 +393,7 @@ namespace AgatePris.Intar {
 
             // 最後に符号をあわせて返す。
 
-            return new {{ self_type }}(
+            return new {{ vector }}(
                 {{ component }}.FromBits({% if signed %}b0 ? -y0 : {% endif %}y0),
                 {{ component }}.FromBits({% if signed %}b1 ? -y1 : {% endif %}y1){% if dim > 2 %},
                 {{ component }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
