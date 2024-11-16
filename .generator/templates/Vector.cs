@@ -276,28 +276,8 @@ namespace AgatePris.Intar {
 {%- if int_nbits+frac_nbits < 64 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ wide_bits }} DotInternal({{ self_type }} other) {
-            var x = (({{ wide_bits }})X.Bits) * other.X.Bits;
-            var y = (({{ wide_bits }})Y.Bits) * other.Y.Bits;{% if dim > 2 %}
-            var z = (({{ wide_bits }})Z.Bits) * other.Z.Bits;{% if dim > 3 %}
-            var w = (({{ wide_bits }})W.Bits) * other.W.Bits;{% endif %}{% endif %}
-
-            // オーバーフローを避けるため､ 事前に除算する｡
-            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            return
-                (x / 4) +
-                (y / 4){% if dim > 2 %} +
-                (z / 4){% if dim > 3 %} +
-                (w / 4){% endif %}{% endif %};
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component }} Dot({{ self_type }} other) {
-            const {{ wide_bits }} k = {{
-                macros::one(signed=signed, bits=2*(int_nbits+frac_nbits))
-            }} << {{ frac_nbits - 2 }};
-            return {{ component }}.FromBits(({{ bits }})(DotInternal(other) / k));
+        public {{ wide_component }} UncheckedDot({{ self_type }} other) {
+            return {{ wide_component }}.FromBits(Repr.UncheckedDot(other.Repr));
         }
 
     {%- if not signed or dim > 3 %}
