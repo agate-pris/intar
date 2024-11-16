@@ -308,30 +308,23 @@ namespace AgatePris.Intar {
             if dim > 3 or not signed and dim > 1
         %}Unchecked{% endif %}LengthSquared());
 
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ component_u }} {%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}Length() => {{ component_u }}.FromBits(Repr.{%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}Length());
+
     {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
     {%- endif %}
 {%- endif %}
 {%- if int_nbits+frac_nbits < 64 %}
-
-    {%- if not signed or dim > 3 %}
-
-        // ベクトルの長さは符号つき、
-        // かつ次元が 3 以下の場合のみ定義される。
-
-    {%- else %}
-
-        /// <summary>
-        /// <para>Returns the length of the vector.</para>
-        /// <para>ベクトルの長さを返します｡</para>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component_u }} Length() {
-            return {{ component_u }}.FromBits(({{ bits_u }})Mathi.Sqrt(LengthSquared().Bits));
-        }
-
-    {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }}? Normalize() {

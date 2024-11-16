@@ -239,6 +239,13 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U68F60 UncheckedLengthSquared() => U68F60.FromBits(Repr.UncheckedLengthSquared());
 
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U34F30 UncheckedLength() => U34F30.FromBits(Repr.UncheckedLength());
+
 #endif // NET7_0_OR_GREATER
 
         //

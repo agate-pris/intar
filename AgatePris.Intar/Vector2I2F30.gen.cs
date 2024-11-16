@@ -220,9 +220,7 @@ namespace AgatePris.Intar {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 Length() {
-            return U2F30.FromBits((uint)Mathi.Sqrt(LengthSquared().Bits));
-        }
+        public U2F30 Length() => U2F30.FromBits(Repr.Length());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I2F30? Normalize() {

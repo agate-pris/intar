@@ -229,8 +229,12 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 UncheckedLengthSquared() => U34F30.FromBits(Repr.UncheckedLengthSquared());
 
-        // ベクトルの長さは符号つき、
-        // かつ次元が 3 以下の場合のみ定義される。
+        /// <summary>
+        /// <para>Returns the length of the vector.</para>
+        /// <para>ベクトルの長さを返します｡</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 UncheckedLength() => U17F15.FromBits(Repr.UncheckedLength());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I17F15? Normalize() {
