@@ -211,11 +211,6 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3UInt64 Cross(Vector3UInt32 other) {
-            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong UncheckedDot(Vector3UInt32 other) {
             var mul = (Vector3UInt64)this * other;
             return mul.X + mul.Y + mul.Z;
