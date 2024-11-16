@@ -99,6 +99,45 @@ namespace AgatePris.Intar {
             return new Vector4I34F30(a.Repr - b.Repr);
         }
 
+#if NET7_0_OR_GREATER
+
+        //
+        // IIMultiplyOperators
+        // IDivisionOperators
+        //
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I34F30 operator *(Vector4I34F30 a, Vector4I34F30 b) {
+            return new Vector4I34F30((Vector4Int64)(a.WideRepr * b.WideRepr / I34F30.OneRepr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I34F30 operator *(Vector4I34F30 a, I34F30 b) {
+            return new Vector4I34F30((Vector4Int64)(a.WideRepr * b.Bits / I34F30.OneRepr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I34F30 operator *(I34F30 a, Vector4I34F30 b) {
+            return b * a;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I34F30 operator /(Vector4I34F30 a, Vector4I34F30 b) {
+            return new Vector4I34F30((Vector4Int64)(a.WideRepr * I34F30.OneRepr / b.Repr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I34F30 operator /(Vector4I34F30 a, I34F30 b) {
+            return new Vector4I34F30((Vector4Int64)(a.WideRepr * I34F30.OneRepr / b.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I34F30 operator /(I34F30 a, Vector4I34F30 b) {
+            return new Vector4I34F30((Vector4Int64)(a.WideBits * I34F30.OneRepr / b.WideRepr));
+        }
+
+#endif // NET7_0_OR_GREATER
+
         //
         // IUnaryPlusOperators
         // IUnaryNegationOperators

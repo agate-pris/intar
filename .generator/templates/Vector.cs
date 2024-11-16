@@ -124,7 +124,11 @@ namespace AgatePris.Intar {
 
 {%- endfor %}
 
-{%- if int_nbits+frac_nbits < 64 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
 
         //
         // IIMultiplyOperators
@@ -160,7 +164,10 @@ namespace AgatePris.Intar {
         public static {{ vector }} operator /({{ component }} a, {{ vector }} b) {
             return new {{ vector }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
         }
+    {%- if int_nbits+frac_nbits > 32 %}
 
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endif %}
 
         //
