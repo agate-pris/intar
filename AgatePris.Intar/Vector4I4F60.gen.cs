@@ -19,6 +19,15 @@ namespace AgatePris.Intar {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+#if NET7_0_OR_GREATER
+
+        internal Vector4Int128 WideRepr {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Repr;
+        }
+
+#endif // NET7_0_OR_GREATER
+
         public I4F60 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I4F60.FromBits(Repr.X);
@@ -89,6 +98,45 @@ namespace AgatePris.Intar {
         public static Vector4I4F60 operator -(Vector4I4F60 a, Vector4I4F60 b) {
             return new Vector4I4F60(a.Repr - b.Repr);
         }
+
+#if NET7_0_OR_GREATER
+
+        //
+        // IIMultiplyOperators
+        // IDivisionOperators
+        //
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F60 operator *(Vector4I4F60 a, Vector4I4F60 b) {
+            return new Vector4I4F60((Vector4Int64)(a.WideRepr * b.WideRepr / I4F60.OneRepr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F60 operator *(Vector4I4F60 a, I4F60 b) {
+            return new Vector4I4F60((Vector4Int64)(a.WideRepr * b.Bits / I4F60.OneRepr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F60 operator *(I4F60 a, Vector4I4F60 b) {
+            return b * a;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F60 operator /(Vector4I4F60 a, Vector4I4F60 b) {
+            return new Vector4I4F60((Vector4Int64)(a.WideRepr * I4F60.OneRepr / b.Repr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F60 operator /(Vector4I4F60 a, I4F60 b) {
+            return new Vector4I4F60((Vector4Int64)(a.WideRepr * I4F60.OneRepr / b.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I4F60 operator /(I4F60 a, Vector4I4F60 b) {
+            return new Vector4I4F60((Vector4Int64)(a.WideBits * I4F60.OneRepr / b.WideRepr));
+        }
+
+#endif // NET7_0_OR_GREATER
 
         //
         // IUnaryPlusOperators
