@@ -240,6 +240,13 @@ namespace AgatePris.Intar {
             return mul.X + mul.Y + mul.Z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt128 LengthSquared() {
+            var abs = UnsignedAbs();
+            var sqr = abs.BigMul(abs);
+            return sqr.X + sqr.Y + sqr.Z;
+        }
+
 #endif // NET7_0_OR_GREATER
 
         //

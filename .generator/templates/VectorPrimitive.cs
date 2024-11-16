@@ -4,7 +4,8 @@
 {%- set component = macros::inttype(bits=bits, signed=signed) %}
 {%- if bits < 128 %}
     {%- set wide_vector = macros::vector_primitive(signed=signed, dim=dim, bits=2*bits) %}
-    {%- set wide_component = macros::inttype(bits=2*bits, signed=signed) %}
+    {%- set wide_component   = macros::inttype(signed=signed, bits=2*bits) %}
+    {%- set wide_component_u = macros::inttype(signed=false,  bits=2*bits) %}
     {%- set math = 'Math' %}
 {%- else %}
     {%- set math = component %}
@@ -353,6 +354,23 @@ namespace AgatePris.Intar {
             return
     {%- for c in components -%}
         {% if not loop.first %} +{% endif %} mul.{{ c }}
+    {%- endfor -%}
+            ;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component_u }} {%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}LengthSquared() {
+    {%- if signed %}
+            var abs = UnsignedAbs();
+            var sqr = abs.BigMul(abs);
+    {%- else %}
+            var sqr = BigMul(this);
+    {%- endif %}
+            return
+    {%- for c in components -%}
+        {% if not loop.first %} +{% endif %} sqr.{{ c }}
     {%- endfor -%}
             ;
         }
