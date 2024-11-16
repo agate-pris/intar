@@ -266,19 +266,18 @@ namespace AgatePris.Intar {
             return new {{ self_type }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
-{%- if signed and dim == 3 and int_nbits+frac_nbits < 64 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
+
+#if NET7_0_OR_GREATER
+    {%- endif %}
+    {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_type }} Cross({{ self_type }} other) {
             var tmp = Repr.Cross(other.Repr);
             return new {{ wide_type }}(tmp);
         }
-
-{%- endif %}
-{%- if int_nbits+frac_nbits < 128 %}
-    {%- if int_nbits+frac_nbits > 32 %}
-
-#if NET7_0_OR_GREATER
     {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
