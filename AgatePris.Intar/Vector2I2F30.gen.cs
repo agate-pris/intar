@@ -226,19 +226,6 @@ namespace AgatePris.Intar {
             return I2F30.FromBits((int)(DotInternal(other) / k));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SaturatingDot(Vector2I2F30 other) {
-            const long k = 1L << 28;
-            var bits = DotInternal(other) / k;
-            if (bits > int.MaxValue) {
-                return I2F30.MaxValue;
-            } else if (bits < int.MinValue) {
-                return I2F30.MinValue;
-            } else {
-                return I2F30.FromBits((int)bits);
-            }
-        }
-
         /// <summary>
         /// <para>Returns the length of the vector squared.</para>
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
