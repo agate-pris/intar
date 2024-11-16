@@ -20,6 +20,25 @@ namespace AgatePris.Intar {
             Y = y;
         }
 
+        public uint this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+                    case 0: return X;
+                    case 1: return Y;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
+
         //
         // IEqualityOperators
         //
@@ -140,29 +159,6 @@ namespace AgatePris.Intar {
 
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
-
-        //
-        // Indexer
-        //
-
-        public uint this[int index] {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get {
-                switch (index) {
-                    case 0: return X;
-                    case 1: return Y;
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set {
-                switch (index) {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
-        }
 
         //
         // Other methods

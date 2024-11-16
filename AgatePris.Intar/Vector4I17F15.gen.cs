@@ -49,6 +49,13 @@ namespace AgatePris.Intar {
             set => Repr.W = value.Bits;
         }
 
+        public I17F15 this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I17F15.FromBits(Repr[index]);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr[index] = value.Bits;
+        }
+
         // Constructors
         // ---------------------------------------
 
@@ -147,17 +154,6 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector4I17F15 lhs, Vector4I17F15 rhs) => lhs.Repr != rhs.Repr;
-
-        //
-        // Indexer
-        //
-
-        public I17F15 this[int index] {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => I17F15.FromBits(Repr[index]);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => Repr[index] = value.Bits;
-        }
 
         //
         // Object

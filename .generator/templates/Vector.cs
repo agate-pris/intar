@@ -56,6 +56,13 @@ namespace AgatePris.Intar {
         }
 {%- endfor %}
 
+        public {{ component }} this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => {{ component }}.FromBits(Repr[index]);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr[index] = value.Bits;
+        }
+
         // Constructors
         // ---------------------------------------
 
@@ -180,17 +187,6 @@ namespace AgatePris.Intar {
         }}({{ self_type }} lhs, {{ self_type }} rhs) => lhs.Repr {{ o }} rhs.Repr;
 
 {%- endfor %}
-
-        //
-        // Indexer
-        //
-
-        public {{ component }} this[int index] {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => {{ component }}.FromBits(Repr[index]);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => Repr[index] = value.Bits;
-        }
 
         //
         // Object
