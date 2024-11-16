@@ -222,6 +222,9 @@ namespace AgatePris.Intar {
             return sqr.X + sqr.Y + sqr.Z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
+
         //
         // Swizzling
         //

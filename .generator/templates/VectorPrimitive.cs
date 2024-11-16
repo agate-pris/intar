@@ -1,7 +1,8 @@
 {% import "macros.cs" as macros %}
 {%- set vector   = macros::vector_primitive(signed=signed, dim=dim, bits=bits) %}
 {%- set vector_u = macros::vector_primitive(signed=false,  dim=dim, bits=bits) %}
-{%- set component = macros::inttype(bits=bits, signed=signed) %}
+{%- set component   = macros::inttype(signed=signed, bits=bits) %}
+{%- set component_u = macros::inttype(signed=false,  bits=bits) %}
 {%- if bits < 128 %}
     {%- set wide_vector = macros::vector_primitive(signed=signed, dim=dim, bits=2*bits) %}
     {%- set wide_component   = macros::inttype(signed=signed, bits=2*bits) %}
@@ -374,6 +375,13 @@ namespace AgatePris.Intar {
     {%- endfor -%}
             ;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ component_u }} {%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}Length() => ({{ component_u }})Mathi.Sqrt({%
+            if dim > 3 or not signed and dim > 1
+        %}Unchecked{% endif %}LengthSquared());
     {%- if bits > 32 %}
 
 #endif // NET7_0_OR_GREATER

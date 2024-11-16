@@ -247,6 +247,9 @@ namespace AgatePris.Intar {
             return sqr.X + sqr.Y + sqr.Z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong Length() => (ulong)Mathi.Sqrt(LengthSquared());
+
 #endif // NET7_0_OR_GREATER
 
         //
