@@ -6,7 +6,7 @@ using System;
 
 #endif // NET7_0_OR_GREATER
 
-namespace AgatePris.Intar {
+namespace Intar1991 {
     public class Overflowing {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -168,4 +168,4 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
 
     }
-}
+} // namespace Intar1991

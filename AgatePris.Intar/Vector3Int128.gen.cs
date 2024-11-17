@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace Intar1991 {
     public struct Vector3Int128 : IEquatable<Vector3Int128> {
 
 #if NET5_0_OR_GREATER
@@ -379,6 +379,6 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-}
+} // namespace Intar1991
 
 #endif // NET7_0_OR_GREATER

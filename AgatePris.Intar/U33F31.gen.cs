@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace Intar1991 {
     [Serializable]
     public struct U33F31 : IEquatable<U33F31>, IFormattable {
         // Consts
@@ -1257,4 +1257,4 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
-} // namespace AgatePris.Intar
+} // namespace Intar1991

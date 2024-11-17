@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace Intar1991 {
     [Serializable]
     public struct Vector3I8F120
     : IEquatable<Vector3I8F120>
@@ -303,6 +303,6 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-} // namespace AgatePris.Intar
+} // namespace Intar1991
 
 #endif // NET7_0_OR_GREATER

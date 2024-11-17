@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace Intar1991 {
     [Serializable]
     public struct Vector4I4F60
     : IEquatable<Vector4I4F60>
@@ -640,4 +640,4 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-} // namespace AgatePris.Intar
+} // namespace Intar1991

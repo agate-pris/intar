@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace Intar1991 {
     [Serializable]
     public struct I8F120 : IEquatable<I8F120>, IFormattable {
         // Consts
@@ -1255,6 +1255,6 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
-} // namespace AgatePris.Intar
+} // namespace Intar1991
 
 #endif // NET7_0_OR_GREATER
