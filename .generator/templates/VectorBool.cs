@@ -43,27 +43,19 @@ namespace {{ namespace }} {
 
         #region IEqualityOperators
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ vector }} operator ==({{
-            vector }} left, {{
-            vector }} right) {
-            return new {{ vector }}(
-{%- for c in components -%}
-    left.{{ c }} == right.{{ c }}{% if not loop.last %}, {% endif %}
-{%- endfor -%}
-            );
-        }
+{%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ vector }} operator !=({{
+        public static {{ vector }} operator {{ o }}({{
             vector }} left, {{
             vector }} right) {
             return new {{ vector }}(
 {%- for c in components -%}
-    left.{{ c }} != right.{{ c }}{% if not loop.last %}, {% endif %} 
+    left.{{ c }} {{ o }} right.{{ c }}{% if not loop.last %}, {% endif %}
 {%- endfor -%}
             );
         }
+{%- endfor %}
 
         #endregion
 
