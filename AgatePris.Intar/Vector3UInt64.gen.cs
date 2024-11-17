@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Runtime.CompilerServices;
 
@@ -24,42 +22,68 @@ namespace AgatePris.Intar {
             Z = z;
         }
 
-        //
-        // IEqualityOperators
-        //
+        public ulong this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get {
+                switch (index) {
+                    case 0: return X;
+                    case 1: return Y;
+                    case 2: return Z;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set {
+                switch (index) {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    case 2: Z = value; break;
+                    default: throw new ArgumentOutOfRangeException($"index: {index}");
+                }
+            }
+        }
+
+        #region IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector3UInt64 left, Vector3UInt64 right) {
-            return left.X == right.X && left.Y == right.Y && left.Z == right.Z;
+        public static Vector3Bool operator ==(Vector3UInt64 left, Vector3UInt64 right) {
+            return new Vector3Bool(left.X == right.X, left.Y == right.Y, left.Z == right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector3UInt64 left, Vector3UInt64 right) {
-            return left.X != right.X || left.Y != right.Y || left.Z != right.Z;
+        public static Vector3Bool operator !=(Vector3UInt64 left, Vector3UInt64 right) {
+            return new Vector3Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z);
         }
 
-        //
-        // IEquatable
-        //
+        #endregion
+
+        #region Dervied from INumberBase
+
+        public Vector3Bool IsNegative() {
+            return new Vector3Bool(X < 0, Y < 0, Z < 0);
+        }
+
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector3UInt64 other) => this == other;
+        public bool Equals(Vector3UInt64 other) {
+            return X == other.X && Y == other.Y && Z == other.Z;
+        }
 
-        //
-        // Object
-        //
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is Vector3UInt64 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3UInt64 operator +(Vector3UInt64 left, Vector3UInt64 right) {
@@ -101,14 +125,16 @@ namespace AgatePris.Intar {
             return new Vector3UInt64(left / right.X, left / right.Y, left / right.Z);
         }
 
-        //
-        // IUnaryPlusOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3UInt64 operator +(Vector3UInt64 x) {
             return new Vector3UInt64(+x.X, +x.Y, +x.Z);
         }
+
+        #endregion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -128,33 +154,22 @@ namespace AgatePris.Intar {
             return new Vector3Int64((long)a.X, (long)a.Y, (long)a.Z);
         }
 
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Vector3Int128(Vector3UInt64 a) {
+            return new Vector3Int128((Int128)a.X, (Int128)a.Y, (Int128)a.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Vector3UInt128(Vector3UInt64 a) {
+            return new Vector3UInt128((UInt128)a.X, (UInt128)a.Y, (UInt128)a.Z);
+        }
+
+#endif // NET7_0_OR_GREATER
+
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
-
-        //
-        // Indexer
-        //
-
-        public ulong this[int index] {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get {
-                switch (index) {
-                    case 0: return X;
-                    case 1: return Y;
-                    case 2: return Z;
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set {
-                switch (index) {
-                    case 0: X = value; break;
-                    case 1: Y = value; break;
-                    case 2: Z = value; break;
-                    default: throw new ArgumentOutOfRangeException($"index: {index}");
-                }
-            }
-        }
 
         //
         // Other methods
@@ -172,12 +187,20 @@ namespace AgatePris.Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Clamp(ulong min, ulong max) {
+#if NET5_0_OR_GREATER
+            return new Vector3UInt64(Math.Clamp(X, min, max), Math.Clamp(Y, min, max), Math.Clamp(Z, min, max));
+#else
             return new Vector3UInt64(Mathi.Clamp(X, min, max), Mathi.Clamp(Y, min, max), Mathi.Clamp(Z, min, max));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Clamp(Vector3UInt64 min, Vector3UInt64 max) {
+#if NET5_0_OR_GREATER
+            return new Vector3UInt64(Math.Clamp(X, min.X, max.X), Math.Clamp(Y, min.Y, max.Y), Math.Clamp(Z, min.Z, max.Z));
+#else
             return new Vector3UInt64(Mathi.Clamp(X, min.X, max.X), Mathi.Clamp(Y, min.Y, max.Y), Mathi.Clamp(Z, min.Z, max.Z));
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -186,9 +209,58 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Twice() => new Vector3UInt64(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
 
-        //
-        // Swizzling
-        //
+#if NET7_0_OR_GREATER
+
+        public Vector3UInt128 BigMul(ulong other) {
+            return (Vector3UInt128)this * other;
+        }
+
+        public Vector3UInt128 BigMul(Vector3UInt64 other) {
+            return (Vector3UInt128)this * other;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt128 UncheckedDot(Vector3UInt64 other) {
+            var mul = (Vector3UInt128)this * other;
+            return mul.X + mul.Y + mul.Z;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt128 UncheckedLengthSquared() {
+            var sqr = BigMul(this);
+            return sqr.X + sqr.Y + sqr.Z;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong UncheckedLength() => (ulong)Mathi.Sqrt(UncheckedLengthSquared());
+
+#endif // NET7_0_OR_GREATER
+
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingAdd(Vector3UInt64 other) {
+            return new Vector3UInt64(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y), Overflowing.WrappingAdd(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingSub(Vector3UInt64 other) {
+            return new Vector3UInt64(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y), Overflowing.WrappingSub(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingNeg() {
+            return new Vector3UInt64(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingAddSigned(Vector3Int64 other) {
+            return new Vector3UInt64(Overflowing.WrappingAddSigned(X, other.X), Overflowing.WrappingAddSigned(Y, other.Y), Overflowing.WrappingAddSigned(Z, other.Z));
+        }
+
+        #endregion
+
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -309,6 +381,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt64 ZZZX() => new Vector4UInt64(Z, Z, Z, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt64 ZZZY() => new Vector4UInt64(Z, Z, Z, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt64 ZZZZ() => new Vector4UInt64(Z, Z, Z, Z);
+
+        #endregion
 
     }
 }

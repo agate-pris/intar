@@ -37,6 +37,13 @@ namespace AgatePris.Intar {
             set => Repr.Y = value.Bits;
         }
 
+        public I17F15 this[int index] {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => I17F15.FromBits(Repr[index]);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => Repr[index] = value.Bits;
+        }
+
         // Constructors
         // ---------------------------------------
 
@@ -62,8 +69,6 @@ namespace AgatePris.Intar {
         //
         // IAdditionOperators
         // ISubtractionOperators
-        // IIMultiplyOperators
-        // IDivisionOperators
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -75,6 +80,11 @@ namespace AgatePris.Intar {
         public static Vector2I17F15 operator -(Vector2I17F15 a, Vector2I17F15 b) {
             return new Vector2I17F15(a.Repr - b.Repr);
         }
+
+        //
+        // IIMultiplyOperators
+        // IDivisionOperators
+        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I17F15 operator *(Vector2I17F15 a, Vector2I17F15 b) {
@@ -126,21 +136,16 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector2I17F15 lhs, Vector2I17F15 rhs) => lhs.Repr == rhs.Repr;
+        public static Vector2Bool operator ==(Vector2I17F15 lhs, Vector2I17F15 rhs) => lhs.Repr == rhs.Repr;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector2I17F15 lhs, Vector2I17F15 rhs) => lhs.Repr != rhs.Repr;
+        public static Vector2Bool operator !=(Vector2I17F15 lhs, Vector2I17F15 rhs) => lhs.Repr != rhs.Repr;
 
         //
-        // Indexer
+        // Derived from INumberBase
         //
 
-        public I17F15 this[int index] {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => I17F15.FromBits(Repr[index]);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => Repr[index] = value.Bits;
-        }
+        public Vector2Bool IsNegative() => Repr.IsNegative();
 
         //
         // Object
@@ -205,35 +210,8 @@ namespace AgatePris.Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        long DotInternal(Vector2I17F15 other) {
-            var x = ((long)X.Bits) * other.X.Bits;
-            var y = ((long)Y.Bits) * other.Y.Bits;
-
-            // オーバーフローを避けるため､ 事前に除算する｡
-            // 2 次元から 4 次元までのすべての次元で同じ結果を得るため､
-            // 精度を犠牲にしても 4 次元の計算に合わせて常に 4 で除算する｡
-            return
-                (x / 4) +
-                (y / 4);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 Dot(Vector2I17F15 other) {
-            const long k = 1L << 13;
-            return I17F15.FromBits((int)(DotInternal(other) / k));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I17F15 SaturatingDot(Vector2I17F15 other) {
-            const long k = 1L << 13;
-            var bits = DotInternal(other) / k;
-            if (bits > int.MaxValue) {
-                return I17F15.MaxValue;
-            } else if (bits < int.MinValue) {
-                return I17F15.MinValue;
-            } else {
-                return I17F15.FromBits((int)bits);
-            }
+        public I34F30 UncheckedDot(Vector2I17F15 other) {
+            return I34F30.FromBits(Repr.UncheckedDot(other.Repr));
         }
 
         /// <summary>
@@ -241,22 +219,14 @@ namespace AgatePris.Intar {
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U34F30 LengthSquared() {
-            var a1 = Mathi.UnsignedAbs(X.Bits);
-            var a2 = Mathi.UnsignedAbs(Y.Bits);
-            var s1 = (ulong)a1 * a1;
-            var s2 = (ulong)a2 * a2;
-            return U34F30.FromBits(s1 + s2);
-        }
+        public U34F30 LengthSquared() => U34F30.FromBits(Repr.LengthSquared());
 
         /// <summary>
         /// <para>Returns the length of the vector.</para>
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U17F15 Length() {
-            return U17F15.FromBits((uint)Mathi.Sqrt(LengthSquared().Bits));
-        }
+        public U17F15 Length() => U17F15.FromBits(Repr.Length());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I17F15? Normalize() {
@@ -264,16 +234,15 @@ namespace AgatePris.Intar {
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var x0 = X.Bits;
-            var x1 = Y.Bits;
-            var b0 = x0 < 0;
-            var b1 = x1 < 0;
-            var a0 = unchecked((uint)(b0 ? Overflowing.WrappingNeg(x0) : x0));
-            var a1 = unchecked((uint)(b1 ? Overflowing.WrappingNeg(x1) : x1));
+            var isNegative = IsNegative();
+            var abs = new Vector2UInt32(
+                unchecked((uint)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
+                unchecked((uint)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y))
+            );
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = Math.Max(a0, a1);
+            var max = Math.Max(abs.X, abs.Y);
             if (max == 0) {
                 return null;
             }
@@ -281,26 +250,20 @@ namespace AgatePris.Intar {
             // ベクトルの大きさが小さい時の誤差を小さくするため、
             // 最大の要素が表現型の範囲に収まるように拡大する。
             // 最大の要素以外にも同じ値を乗算する。
+            // 剰余の回数を減らすため、
+            // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            ulong m = uint.MaxValue / max;
-            var l0 = m * a0;
-            var l1 = m * a1;
-            var sum =
-                (l0 * l0 / 4) +
-                (l1 * l1 / 4);
-            var ll = Mathi.Sqrt(sum);
+            var scaled = abs * (uint.MaxValue / max);
+            var sqrDiv4 = scaled.BigMul(scaled) / 4;
+            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y);
 
-            // 小数部の桁をあわせる。
+            const uint fracOneTwo = I17F15.OneRepr / 2;
+            var absNormalized = (Vector2Int32)(scaled.BigMul(fracOneTwo) / halfLength);
 
-            const ulong k = 1UL << 14;
-            var y0 = (int)(l0 * k / ll);
-            var y1 = (int)(l1 * k / ll);
-
-            // 最後に符号をあわせて返す。
-
-            return new Vector2I17F15(
-                I17F15.FromBits(b0 ? -y0 : y0),
-                I17F15.FromBits(b1 ? -y1 : y1));
+            return new Vector2I17F15(new Vector2Int32(
+                isNegative.X ? -absNormalized.X : absNormalized.X,
+                isNegative.Y ? -absNormalized.Y : absNormalized.Y
+            ));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -323,9 +286,7 @@ namespace AgatePris.Intar {
             X.CosP5(),
             Y.CosP5());
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -358,5 +319,7 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYX() => new Vector4I17F15(Repr.YYYX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYY() => new Vector4I17F15(Repr.YYYY());
 
+        #endregion
+
     }
-} // // namespace AgatePris.Intar
+} // namespace AgatePris.Intar

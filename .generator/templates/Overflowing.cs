@@ -9,7 +9,7 @@ using System;
 #endif // NET7_0_OR_GREATER
 
 namespace AgatePris.Intar {
-    static class Overflowing {
+    public class Overflowing {
 
 {%- for bits in [32, 64, 128] %}
 

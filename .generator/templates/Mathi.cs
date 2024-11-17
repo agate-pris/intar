@@ -30,6 +30,7 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        #region AbsDiff
 {%- for bits in [32, 64, 128] %}
 
     {%- if bits > 64 %}
@@ -68,6 +69,8 @@ namespace AgatePris.Intar {
     {%- endif %}
 
 {%- endfor %}
+
+        #endregion
 
         #region Asin / Acos
 
@@ -426,16 +429,33 @@ namespace AgatePris.Intar {
         #endregion
 
         #region Clamp
+{%- for bits in [32, 64, 16, 8, 128] %}
+    {%- if bits > 64 %}
 
-{%- for type in ["int", "uint", "long", "ulong", "short", "ushort", "byte", "sbyte"] %}
+        // 128 ビット整数値型については代わりに INumber.Clamp を使うこと
+        {%- continue %}
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t = macros::inttype(bits=bits, signed=s) %}
 
         /// <summary>
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} Clamp({{ type }} v, {{ type }} min, {{ type }} max) {
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
 #if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ t }} Clamp({{ t }} v, {{ t }} min, {{ t }} max) {
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -444,13 +464,31 @@ namespace AgatePris.Intar {
             return Math.Min(Math.Max(v, min), max);
 #endif
         }
+
+    {%- endfor %}
 {%- endfor %}
 
         #endregion
 
-{% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Half({{ type }} x) => x / 2;
+        #region Half
+{# 改行 #}
+{%- for bits in [32, 64, 128] %}
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+{# 改行 #}
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t=macros::inttype(signed=s, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ t }} Half({{ t }} x) => x / 2;
+    {%- endfor %}
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
+
+        #endregion
 
         #region Sin / Cos
 
@@ -687,6 +725,7 @@ namespace AgatePris.Intar {
 
         #endregion
 
+        #region Sqrt
 {%- for bits in [32, 64] %}
 {%- set type=macros::inttype(bits=bits, signed=false) %}
 
@@ -735,12 +774,30 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-{% for type in ["int", "uint", "long", "ulong"] %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ type }} Twice({{ type }} x) => x * 2;
+        #endregion
+
+        #region Twice
+{# 改行 #}
+{%- for bits in [32, 64, 128] %}
+    {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+{# 改行 #}
+    {%- endif %}
+    {%- for s in [true, false] %}
+        {%- set t=macros::inttype(signed=s, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static {{ t }} Twice({{ t }} x) => x * 2;
+    {%- endfor %}
+    {%- if bits > 64 %}
+
+#endif // NET7_0_OR_GREATER
+    {%- endif %}
 {%- endfor %}
 
-{%- for bits in [32, 64, 128] %}
+        #endregion
 
+        #region UnsignedAbs
+{%- for bits in [32, 64, 128] %}
     {%- if bits > 64 %}
 
 #if NET7_0_OR_GREATER
@@ -761,6 +818,8 @@ namespace AgatePris.Intar {
     {%- endif %}
 
 {%- endfor %}
+
+        #endregion
 
     }
 }

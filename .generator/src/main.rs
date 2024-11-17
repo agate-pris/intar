@@ -3,7 +3,7 @@ use std::{collections::HashMap, path::Path};
 use anyhow::{Context, Result};
 use clap::{arg, Parser};
 use serde::Deserialize;
-use tera::Tera;
+use tera::{from_value, to_value, Tera, Value};
 
 #[derive(Debug, Parser)]
 struct Args {
@@ -42,6 +42,16 @@ struct Settings {
     output_dest: Vec<OutputDest>,
 }
 
+fn log2(args: &HashMap<String, Value>) -> tera::Result<Value> {
+    match args.get("n") {
+        Some(val) => match from_value::<f64>(val.clone()) {
+            Ok(v) => Ok(to_value(v.log2() as usize).unwrap()),
+            Err(_) => Err("oops".into()),
+        },
+        None => Err("oops".into()),
+    }
+}
+
 fn main() -> Result<()> {
     let args = Args::parse();
     let settings = {
@@ -57,7 +67,9 @@ fn main() -> Result<()> {
         let path = &settings.glob;
         let dir = Path::new(&args.templates).join(path);
         let dir = dir.to_str().with_context(|| format!("dir: {:?}", dir))?;
-        Tera::new(dir).with_context(|| format!("dir: {}", dir))?
+        let mut tera = Tera::new(dir).with_context(|| format!("dir: {}", dir))?;
+        tera.register_function("log_two", log2);
+        tera
     };
     let path = Path::new(&args.output);
     let targets_is_empty = args.targets.is_empty();

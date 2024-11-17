@@ -2,9 +2,16 @@
 {%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
+{%- if 64 < int_nbits+frac_nbits %}
+    {%- set const = 'static readonly' %}{%- else %}
+    {%- set const = 'const' %}
+{%- endif %}
 
 {#- 固定小数点数の定義 -#}
+{%- if 64 < int_nbits+frac_nbits -%}
+#if NET7_0_OR_GREATER
 
+{% endif -%}
 using System;
 using System.Runtime.CompilerServices;
 
@@ -17,14 +24,14 @@ namespace AgatePris.Intar {
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
-        internal const {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
-        internal const {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
+        internal {{ const }} {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
+        internal {{ const }} {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
         {%- if signed %}
-        internal const {{ self_bits_utype }} MaxReprUnsigned = MaxRepr;
+        internal {{ const }} {{ self_bits_utype }} MaxReprUnsigned = {% if int_nbits + frac_nbits > 64 %}({{ self_bits_utype }}){% endif %}MaxRepr;
         {%- endif %}
-        internal const {{ self_bits_type }} EpsilonRepr = 1;
+        internal {{ const }} {{ self_bits_type }} EpsilonRepr = 1;
 
-        internal const {{ self_bits_type }} OneRepr = {{
+        internal {{ const }} {{ self_bits_type }} OneRepr = {{
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
 
@@ -75,12 +82,10 @@ namespace AgatePris.Intar {
         // Properties
         //
 
-{%- if int_nbits + frac_nbits < 128 %}
-
-    {%- if int_nbits + frac_nbits > 32 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
-
     {%- endif %}
 
         internal {{
@@ -89,13 +94,10 @@ namespace AgatePris.Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
-
-    {%- if int_nbits + frac_nbits > 32 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
-
     {%- endif %}
-
 {%- endif %}
 
         // Arithmetic Operators
@@ -111,14 +113,14 @@ namespace AgatePris.Intar {
             return FromBits(left.Bits - right.Bits);
         }
 
-{%- if int_nbits + frac_nbits == 64 %}
+{%- if int_nbits+frac_nbits < 128 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
 
 #if NET7_0_OR_GREATER
-
-{%- endif %}
+    {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
@@ -130,10 +132,10 @@ namespace AgatePris.Intar {
             return FromBits(({{ self_bits_type }})(left.WideBits * OneRepr / right.Bits));
         }
 
-{%- if int_nbits + frac_nbits == 64 %}
+    {%- if int_nbits+frac_nbits > 32 %}
 
 #endif
-
+    {%- endif %}
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -198,16 +200,33 @@ namespace AgatePris.Intar {
 
         // Methods
         // ---------------------------------------
+{# 改行 #}
+{%- for m in ['Min', 'Max'] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
+        self_type }} {{ m }}({{ self_type
+        }} other) => FromBits({% if int_nbits+frac_nbits > 64
+        %}{{ self_bits_type }}{% else
+        %}Math{% endif %}.{{ m }}(Bits, other.Bits));
+{%- endfor %}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Min({{ self_type }} other) => FromBits(Math.Min(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Max({{ self_type }} other) => FromBits(Math.Max(Bits, other.Bits));
 {%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type }} Abs() => FromBits(Math.Abs(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type
+        }} Abs() => FromBits({% if int_nbits+frac_nbits > 64
+        %}{{ self_bits_type }}{% else
+        %}Math{% endif %}.Abs(Bits));
 {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
+{%- if int_nbits + frac_nbits > 64 %}
+            return FromBits({{ self_bits_type }}.Clamp(Bits, min.Bits, max.Bits));
+{%- else %}
+#if NET5_0_OR_GREATER
+            return FromBits(Math.Clamp(Bits, min.Bits, max.Bits));
+#else
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
+#endif
+{%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
@@ -228,29 +247,42 @@ namespace AgatePris.Intar {
             and frac_nbits + rhs[1] == output[1] %}
             {%- set   signed_big = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
             {%- set unsigned_big = macros::fixed_type(s=false, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+            {%- if output[0] + output[1] > 64 %}
+
+#if NET7_0_OR_GREATER
+            {%- endif %}
             {%- for s in [true, false] %}
                 {%- if signed == s %}
-                    {%- set t = macros::fixed_type(s=s,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+                    {%- set t = macros::fixed_type(s=s, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-            return {{ t }}.FromBits(WideBits * other.Bits);
+            return {{ t }}.FromBits(WideBits * other.WideBits);
         }
 
                 {%- else %}
                     {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+                    {%- set u = macros::inttype(signed=true,  bits=int_nbits+rhs[0]+frac_nbits+rhs[1]) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-            return {{ t }}.FromBits(Bits * other.Bits);
+                    {%- if int_nbits + frac_nbits > 32 %}
+                        {%- set c = '(' ~ u ~ ')' %}{% else %}
+                        {%- set c = '' %}
+                    {%- endif %}
+            return {{ t }}.FromBits({{ c }}Bits * {{ c }}other.Bits);
         }
 
                 {%- endif %}
             {%- endfor %}
+            {%- if output[0] + output[1] > 64 %}
+
+#endif // NET7_0_OR_GREATER
+            {%- endif %}
         {%- endif %}
     {%- endfor %}
 {%- endfor %}
@@ -572,7 +604,7 @@ namespace AgatePris.Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない。
             return FromBits(
                 {%- if method == 'strict' %}checked
-                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * OneRepr)));
+                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * ({{ from }})OneRepr)));
             {%- else %}
                 {%- if not lossy %}
             // より大きい型に変換して計算。
@@ -610,6 +642,11 @@ namespace AgatePris.Intar {
         {%- set i = target[0] %}
         {%- set f = target[1] %}
         {%- if s != signed or i != int_nbits or f != frac_nbits %}
+            {%- if i + f > 64 %}
+
+#if NET7_0_OR_GREATER
+            {%- endif %}
+
             {%- set from = macros::fixed_type(s=s, i=i, f=f) %}
             {%- set lossy = frac_nbits < f %}
             {%- set failable = not signed and s
@@ -679,59 +716,67 @@ namespace AgatePris.Intar {
                 {%- endif %})
             );
 
-            {%- else %}
+                {%- else %}
 
-                {%- if lossy %}
+                    {%- if lossy %}
             var tmp = from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }});
 
-                    {%- if signed == s %}
+                        {%- if signed == s %}
             if (tmp < MinRepr ||
                 tmp > MaxRepr) {
                 return null;
             }
-                    {%- elif signed %}
+                        {%- elif signed %}
             if (tmp > MaxReprUnsigned) {
                 return null;
             }
-                    {%- else %}
+                        {%- else %}
             if (tmp < 0) {
                 return null;
             } else if (({{ fu }})tmp > MaxRepr) {
                 return null;
             }
-                    {%- endif %}
+                        {%- endif %}
             return FromBits(({{ self_bits_type }})tmp);
 
-                {%- else %}
+                    {%- else %}
             const int shift = {{ frac_nbits-f }};
-            const {{ self_bits_type }} k = EpsilonRepr << shift;
-            const {{ self_bits_type }} max = MaxRepr / k;
+                        {%- if int_nbits + frac_nbits > 64 %}
+                            {%- set lc = 'var' %}{%- else %}
+                            {%- set lc = 'const ' ~ self_bits_type %}
+                        {%- endif %}
+            {{ lc }} k = EpsilonRepr << shift;
+            {{ lc }} max = MaxRepr / k;
 
-                    {%- if signed == s %}
-            const {{ self_bits_type }} min = MinRepr / k;
+                        {%- if signed == s %}
+            {{ lc }} min = MinRepr / k;
             if (from.Bits > max ||
                 from.Bits < min) {
                 return null;
             }
-                    {%- elif signed %}
+                        {%- elif signed %}
             if (from.Bits > ({{ tu }})max) {
                 return null;
             }
-                    {%- else %}
+                        {%- else %}
             if (from.Bits < 0) {
                 return null;
             } else if (({{ fu }})from.Bits > max) {
                 return null;
             }
-                    {%- endif %}
+                        {%- endif %}
             return FromBits(({{ self_bits_type }})from.Bits * k);
-                {%- endif %}
+                    {%- endif %}
 
-            {%- endif %}
+                {%- endif %}
         }
 
             {%- endfor %}
 
+            {%- if i + f > 64 %}
+
+#endif // NET7_0_OR_GREATER
+            {%- endif %}
         {%- endif %}
     {%- endfor %}
 {%- endfor %}
@@ -871,7 +916,7 @@ namespace AgatePris.Intar {
             bits <= int_nbits + frac_nbits
         %}Lossy{% endif %}To{% if
             bits == 32 %}Single{% elif
-            bits == 64 %}Double{% endif %}() => ({{ t }})Bits / OneRepr;
+            bits == 64 %}Double{% endif %}() => ({{ t }})Bits / ({{ t }})OneRepr;
 
 {%- endfor %}
 
@@ -884,3 +929,9 @@ namespace AgatePris.Intar {
 
     }
 } // namespace AgatePris.Intar
+
+{%- if 64 < int_nbits+frac_nbits %}
+
+#endif // NET7_0_OR_GREATER
+
+{%- endif %}

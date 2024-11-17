@@ -88,7 +88,8 @@ impl Measures {
                 (
                     sqr_sum + error.powi(2),
                     abs_sum + error.abs(),
-                    max, idx,
+                    max,
+                    idx,
                     sum + error,
                 )
             },

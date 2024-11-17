@@ -1,16 +1,23 @@
 {%- macro inttype(bits, signed) %}
-{%- if   bits ==  32 %}{% if signed %}int  {%- else %}uint  {%- endif %}
-{%- elif bits ==  64 %}{% if signed %}long {%- else %}ulong {%- endif %}
-{%- elif bits ==  16 %}{% if signed %}short{%- else %}ushort{%- endif %}
-{%- elif bits ==   8 %}{% if signed %}sbyte{%- else %}byte  {%- endif %}
-{%- else             %}{% if signed %}     {%- else %}U     {%- endif %}Int{{ bits }}
-{%- endif %}
+    {%- if signed %}
+        {%- set ofs = 0 %}{% else %}
+        {%- set ofs = 5 %}
+    {%- endif %}
+    {{- [
+        'sbyte', 'short', 'int', 'long', 'Int128',
+        'byte', 'ushort', 'uint', 'ulong', 'UInt128'
+    ] | nth(n = log_two(n = bits/8) + ofs) }}
 {%- endmacro %}
 
 {%- macro one(bits, signed) %}
-{%- if   bits == 32 %}{% if signed %}1 {%- else %}1U {%- endif %}
-{%- elif bits == 64 %}{% if signed %}1L{%- else %}1UL{%- endif %}
-{%- else %}{{ throw(message = "invalid arguments. bits: " ~ bits) }}{% endif %}
+    {%- if signed %}
+        {%- set ofs = 0 %}{% else %}
+        {%- set ofs = 3 %}
+    {%- endif %}
+    {{- [
+        '1', '1L', '(Int128)1',
+        '1U', '1UL', '(UInt128)1'
+    ] | nth(n = log_two(n = bits/32)+ofs) }}
 {%- endmacro %}
 
 {%- macro fixed_type(s, i, f) %}
@@ -26,4 +33,8 @@
 
 {%- macro vector_primitive(dim, signed, bits) -%}
     Vector{{ dim }}{% if not signed %}U{% endif %}Int{{ bits }}
+{%- endmacro -%}
+
+{%- macro vector_bool(dim) -%}
+    {{ self::vector_type(dim=dim, type='Bool') }}
 {%- endmacro -%}

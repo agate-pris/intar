@@ -5,6 +5,8 @@ namespace AgatePris.Intar {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
+        #region AbsDiff
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint AbsDiff(int x, int y) {
             unchecked {
@@ -64,6 +66,8 @@ namespace AgatePris.Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
         #region Asin / Acos
 
@@ -724,9 +728,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Clamp(int v, int min, int max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -740,9 +755,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Clamp(uint v, uint min, uint max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -756,9 +782,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Clamp(long v, long min, long max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -772,9 +809,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Clamp(ulong v, ulong min, ulong max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -788,9 +836,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short Clamp(short v, short min, short max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -804,9 +863,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Clamp(ushort v, ushort min, ushort max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -820,25 +890,20 @@ namespace AgatePris.Intar {
         /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
         /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Clamp(byte v, byte min, byte max) {
-#if NET6_0_OR_GREATER
-            return Math.Clamp(v, min, max);
-#else
-            if (min > max) {
-                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-            }
-            return Math.Min(Math.Max(v, min), max);
-#endif
-        }
 
-        /// <summary>
-        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
-        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
-        /// </summary>
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte Clamp(sbyte v, sbyte min, sbyte max) {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
             return Math.Clamp(v, min, max);
 #else
             if (min > max) {
@@ -847,14 +912,53 @@ namespace AgatePris.Intar {
             return Math.Min(Math.Max(v, min), max);
 #endif
         }
+
+        /// <summary>
+        /// この関数は <c>Unity.Mathematics.math.clamp</c> と異なり,
+        /// <c>min</c> が <c>max</c> より大きい場合, 例外を送出する.
+        /// </summary>
+
+#if NET5_0_OR_GREATER
+        [Obsolete(
+            "This method is obsolete. Use System.Math.Clamp instead.",
+#if NET6_0_OR_GREATER
+            true
+#else
+            false
+#endif
+        )]
+#endif
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Clamp(byte v, byte min, byte max) {
+#if NET5_0_OR_GREATER
+            return Math.Clamp(v, min, max);
+#else
+            if (min > max) {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+            return Math.Min(Math.Max(v, min), max);
+#endif
+        }
+
+        // 128 ビット整数値型については代わりに INumber.Clamp を使うこと
 
         #endregion
 
+        #region Half
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Half(int x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Half(uint x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Half(long x) => x / 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Half(ulong x) => x / 2;
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static Int128 Half(Int128 x) => x / 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static UInt128 Half(UInt128 x) => x / 2;
+
+#endif // NET7_0_OR_GREATER
+
+        #endregion
 
         #region Sin / Cos
 
@@ -1490,6 +1594,8 @@ namespace AgatePris.Intar {
 
         #endregion
 
+        #region Sqrt
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Sqrt(uint x) {
             if (x <= 1) {
@@ -1551,11 +1657,25 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
+        #endregion
+
+        #region Twice
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static int Twice(int x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static uint Twice(uint x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static long Twice(long x) => x * 2;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static ulong Twice(ulong x) => x * 2;
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static Int128 Twice(Int128 x) => x * 2;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal static UInt128 Twice(UInt128 x) => x * 2;
+
+#endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region UnsignedAbs
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint UnsignedAbs(int x) {
@@ -1575,6 +1695,8 @@ namespace AgatePris.Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
     }
 }
