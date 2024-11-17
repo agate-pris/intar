@@ -7,7 +7,7 @@ using System;
 #endif // NET7_0_OR_GREATER
 
 namespace AgatePris.Intar {
-    static class Overflowing {
+    public class Overflowing {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WrappingAdd(int x, int y) {
