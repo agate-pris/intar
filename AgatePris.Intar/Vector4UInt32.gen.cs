@@ -239,6 +239,30 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt32 WrappingAdd(Vector4UInt32 other) {
+            return new Vector4UInt32(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y), Overflowing.WrappingAdd(Z, other.Z), Overflowing.WrappingAdd(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt32 WrappingSub(Vector4UInt32 other) {
+            return new Vector4UInt32(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y), Overflowing.WrappingSub(Z, other.Z), Overflowing.WrappingSub(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt32 WrappingNeg() {
+            return new Vector4UInt32(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z), Overflowing.WrappingNeg(W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt32 WrappingAddSigned(Vector4Int32 other) {
+            return new Vector4UInt32(Overflowing.WrappingAddSigned(X, other.X), Overflowing.WrappingAddSigned(Y, other.Y), Overflowing.WrappingAddSigned(Z, other.Z), Overflowing.WrappingAddSigned(W, other.W));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //

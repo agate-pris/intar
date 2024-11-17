@@ -239,6 +239,30 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingAdd(Vector3UInt64 other) {
+            return new Vector3UInt64(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y), Overflowing.WrappingAdd(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingSub(Vector3UInt64 other) {
+            return new Vector3UInt64(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y), Overflowing.WrappingSub(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingNeg() {
+            return new Vector3UInt64(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt64 WrappingAddSigned(Vector3Int64 other) {
+            return new Vector3UInt64(Overflowing.WrappingAddSigned(X, other.X), Overflowing.WrappingAddSigned(Y, other.Y), Overflowing.WrappingAddSigned(Z, other.Z));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //

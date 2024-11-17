@@ -227,6 +227,40 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Twice() => new Vector4Int128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int128 WrappingAdd(Vector4Int128 other) {
+            return new Vector4Int128(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y), Overflowing.WrappingAdd(Z, other.Z), Overflowing.WrappingAdd(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int128 WrappingSub(Vector4Int128 other) {
+            return new Vector4Int128(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y), Overflowing.WrappingSub(Z, other.Z), Overflowing.WrappingSub(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int128 WrappingNeg() {
+            return new Vector4Int128(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z), Overflowing.WrappingNeg(W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int128 WrappingAddUnsigned(Vector4UInt128 other) {
+            return new Vector4Int128(Overflowing.WrappingAddUnsigned(X, other.X), Overflowing.WrappingAddUnsigned(Y, other.Y), Overflowing.WrappingAddUnsigned(Z, other.Z), Overflowing.WrappingAddUnsigned(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int128 WrappingSubUnsigned(Vector4UInt128 other) {
+            return new Vector4Int128(Overflowing.WrappingSubUnsigned(X, other.X), Overflowing.WrappingSubUnsigned(Y, other.Y), Overflowing.WrappingSubUnsigned(Z, other.Z), Overflowing.WrappingSubUnsigned(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int128 WrappingAbs() {
+            return new Vector4Int128(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y), Overflowing.WrappingAbs(Z), Overflowing.WrappingAbs(W));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //

@@ -206,6 +206,30 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt128 Twice() => new Vector3UInt128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt128 WrappingAdd(Vector3UInt128 other) {
+            return new Vector3UInt128(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y), Overflowing.WrappingAdd(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt128 WrappingSub(Vector3UInt128 other) {
+            return new Vector3UInt128(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y), Overflowing.WrappingSub(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt128 WrappingNeg() {
+            return new Vector3UInt128(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt128 WrappingAddSigned(Vector3Int128 other) {
+            return new Vector3UInt128(Overflowing.WrappingAddSigned(X, other.X), Overflowing.WrappingAddSigned(Y, other.Y), Overflowing.WrappingAddSigned(Z, other.Z));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //

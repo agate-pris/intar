@@ -231,6 +231,30 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2UInt32 WrappingAdd(Vector2UInt32 other) {
+            return new Vector2UInt32(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2UInt32 WrappingSub(Vector2UInt32 other) {
+            return new Vector2UInt32(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2UInt32 WrappingNeg() {
+            return new Vector2UInt32(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2UInt32 WrappingAddSigned(Vector2Int32 other) {
+            return new Vector2UInt32(Overflowing.WrappingAddSigned(X, other.X), Overflowing.WrappingAddSigned(Y, other.Y));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //

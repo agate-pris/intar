@@ -261,6 +261,40 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int64 WrappingAdd(Vector4Int64 other) {
+            return new Vector4Int64(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y), Overflowing.WrappingAdd(Z, other.Z), Overflowing.WrappingAdd(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int64 WrappingSub(Vector4Int64 other) {
+            return new Vector4Int64(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y), Overflowing.WrappingSub(Z, other.Z), Overflowing.WrappingSub(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int64 WrappingNeg() {
+            return new Vector4Int64(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z), Overflowing.WrappingNeg(W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int64 WrappingAddUnsigned(Vector4UInt64 other) {
+            return new Vector4Int64(Overflowing.WrappingAddUnsigned(X, other.X), Overflowing.WrappingAddUnsigned(Y, other.Y), Overflowing.WrappingAddUnsigned(Z, other.Z), Overflowing.WrappingAddUnsigned(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int64 WrappingSubUnsigned(Vector4UInt64 other) {
+            return new Vector4Int64(Overflowing.WrappingSubUnsigned(X, other.X), Overflowing.WrappingSubUnsigned(Y, other.Y), Overflowing.WrappingSubUnsigned(Z, other.Z), Overflowing.WrappingSubUnsigned(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Int64 WrappingAbs() {
+            return new Vector4Int64(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y), Overflowing.WrappingAbs(Z), Overflowing.WrappingAbs(W));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //
