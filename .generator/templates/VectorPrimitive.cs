@@ -20,7 +20,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace {{ namespace }} {
     public struct {{ vector }} : IEquatable<{{ vector }}> {
 
 #if NET5_0_OR_GREATER
@@ -490,7 +490,7 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-}
+} // namespace {{ namespace }}
 {%- if 64 < bits %}
 
 #endif // NET7_0_OR_GREATER

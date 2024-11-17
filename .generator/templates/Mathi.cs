@@ -26,7 +26,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace {{ namespace }} {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
@@ -822,4 +822,4 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-}
+} // namespace {{ namespace }}
