@@ -68,8 +68,8 @@ namespace AgatePris.Intar {
         //
         // IEqualityOperators
         //
-
 {%- for o in ['==', '!='] %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ macros::vector_bool(dim=dim) }} operator {{ o }}({{ vector }} left, {{ vector }} right) {
             return new {{ macros::vector_bool(dim=dim) }}(

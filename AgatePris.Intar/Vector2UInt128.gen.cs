@@ -44,10 +44,12 @@ namespace AgatePris.Intar {
         //
         // IEqualityOperators
         //
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator ==(Vector2UInt128 left, Vector2UInt128 right) {
             return new Vector2Bool(left.X == right.X, left.Y == right.Y);
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator !=(Vector2UInt128 left, Vector2UInt128 right) {
             return new Vector2Bool(left.X != right.X, left.Y != right.Y);
