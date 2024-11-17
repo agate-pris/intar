@@ -150,6 +150,12 @@ namespace AgatePris.Intar {
         public static Vector2Bool operator !=(Vector2I4F60 lhs, Vector2I4F60 rhs) => lhs.Repr != rhs.Repr;
 
         //
+        // Derived from INumberBase
+        //
+
+        public Vector2Bool IsNegative() => Repr.IsNegative();
+
+        //
         // Object
         //
 

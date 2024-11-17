@@ -203,6 +203,12 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         //
+        // Derived from INumberBase
+        //
+
+        public {{ macros::vector_bool(dim=dim) }} IsNegative() => Repr.IsNegative();
+
+        //
         // Object
         //
 
