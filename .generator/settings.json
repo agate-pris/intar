@@ -30,7 +30,7 @@
     vector_5,
     vector_6,
 ] %}
-{%- set namespace 'Intar1991' %}
+{%- set namespace = 'Intar1991' %}
 
 {
     "glob": "**/*.cs",
