@@ -81,6 +81,18 @@ namespace AgatePris.Intar {
 {%- endfor %}
 
         //
+        // Derived from INumberBase
+        //
+
+        public {{ macros::vector_bool(dim=dim) }} IsNegative() {
+            return new {{ macros::vector_bool(dim=dim) }}(
+{%- for c in components -%}
+    {{ c }} < 0{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
+        }
+
+        //
         // IEquatable
         //
 

@@ -58,6 +58,14 @@ namespace AgatePris.Intar {
         }
 
         //
+        // Derived from INumberBase
+        //
+
+        public Vector3Bool IsNegative() {
+            return new Vector3Bool(X < 0, Y < 0, Z < 0);
+        }
+
+        //
         // IEquatable
         //
 
