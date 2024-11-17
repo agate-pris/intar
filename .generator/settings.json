@@ -83,6 +83,16 @@
         },
         {
             "dir_path": "../AgatePris.Intar",
+            "template_name": "VectorBool.cs",
+            "files": [
+{%- for dim in range(start=2, end=5) %}
+                { "file_name": "Vector{{ dim }}Bool.gen.cs", "params": { "namespace": "AgatePris.Intar", "dim": {{ dim }} } }
+    {%- if not loop.last %},{% endif %}
+{%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../AgatePris.Intar",
             "template_name": "VectorPrimitive.cs",
             "files": [
 {%- for bits in [32, 64, 128] %}
