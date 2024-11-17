@@ -1,4 +1,4 @@
-namespace AgatePris.Intar.Rand {
+namespace Intar1991.Rand {
     public struct Xoroshiro128StarStar {
         ulong s0, s1;
 

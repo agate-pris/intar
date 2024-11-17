@@ -3,32 +3,32 @@ using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests.Mathi {
+namespace Intar1991.Tests.Mathi {
     public class SinTest {
         [Test]
         public static void TestConsts() {
             var actual = new ulong[] {
-                Intar.Mathi.SinInternal.P11I64A,
-                Intar.Mathi.SinInternal.P11I64B,
-                Intar.Mathi.SinInternal.P11I64C,
-                Intar.Mathi.SinInternal.P11I64D,
-                Intar.Mathi.SinInternal.P11I64E,
-                Intar.Mathi.SinInternal.P11I64F,
-                Intar.Mathi.SinInternal.P10I64A,
-                Intar.Mathi.SinInternal.P10I64B,
-                Intar.Mathi.SinInternal.P10I64C,
-                Intar.Mathi.SinInternal.P10I64D,
-                Intar.Mathi.SinInternal.P10I64E,
-                Intar.Mathi.SinInternal.P5I64A,
-                Intar.Mathi.SinInternal.P5I64B,
-                Intar.Mathi.SinInternal.P5I64C,
-                Intar.Mathi.SinInternal.P4I64A,
-                Intar.Mathi.SinInternal.P4I64B,
-                Intar.Mathi.SinInternal.P5I32A,
-                Intar.Mathi.SinInternal.P5I32B,
-                Intar.Mathi.SinInternal.P5I32C,
-                Intar.Mathi.SinInternal.P4I32A,
-                Intar.Mathi.SinInternal.P4I32B,
+                Intar1991.Mathi.SinInternal.P11I64A,
+                Intar1991.Mathi.SinInternal.P11I64B,
+                Intar1991.Mathi.SinInternal.P11I64C,
+                Intar1991.Mathi.SinInternal.P11I64D,
+                Intar1991.Mathi.SinInternal.P11I64E,
+                Intar1991.Mathi.SinInternal.P11I64F,
+                Intar1991.Mathi.SinInternal.P10I64A,
+                Intar1991.Mathi.SinInternal.P10I64B,
+                Intar1991.Mathi.SinInternal.P10I64C,
+                Intar1991.Mathi.SinInternal.P10I64D,
+                Intar1991.Mathi.SinInternal.P10I64E,
+                Intar1991.Mathi.SinInternal.P5I64A,
+                Intar1991.Mathi.SinInternal.P5I64B,
+                Intar1991.Mathi.SinInternal.P5I64C,
+                Intar1991.Mathi.SinInternal.P4I64A,
+                Intar1991.Mathi.SinInternal.P4I64B,
+                Intar1991.Mathi.SinInternal.P5I32A,
+                Intar1991.Mathi.SinInternal.P5I32B,
+                Intar1991.Mathi.SinInternal.P5I32C,
+                Intar1991.Mathi.SinInternal.P4I32A,
+                Intar1991.Mathi.SinInternal.P4I32B,
             };
             for (var i = 0; i < actual.Length; ++i) {
                 Console.WriteLine($"{actual[i]},");
@@ -154,7 +154,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 TestCos(-actual, cos, pi - x, delta);
                 TestCos(-actual, cos, x - pi, delta);
             }
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = 1 + rng.Next((pi / 2) - 1, int.MaxValue);
                 TestSin(sin(x & ((pi * 2) - 1)), sin, x, delta);
@@ -223,7 +223,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             TestCos(expectedSin[0], cos, -pi / 2, delta);
             TestCos(-expectedSin[0], cos, pi / 2, delta);
             TestSin(-expectedCos[0], sin, -pi / 2, delta);
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.NextInt64(0, (pi / 2) + 1);
                 TestSin(sin(x & ((pi * 2) - 1)), sin, x, delta);
@@ -253,7 +253,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1073741724, 1073741703, 1073741680, 1073741655, 1073741628,
                 1073741599, 1073741568, 1073741535, 1073741500, 1073741463,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP2, Intar.Mathi.CosP2, 0.06);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP2, Intar1991.Mathi.CosP2, 0.06);
         }
         [Test]
         public static void TestSinP3() {
@@ -271,7 +271,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1073741724, 1073741703, 1073741680, 1073741655, 1073741628,
                 1073741599, 1073741568, 1073741535, 1073741500, 1073741463,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP3, Intar.Mathi.CosP3, 0.03);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP3, Intar1991.Mathi.CosP3, 0.03);
         }
         [Test]
         public static void TestSinP4() {
@@ -287,7 +287,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1073741824, 1073741824, 1073741824, 1073741824, 1073741824,
                 1073741824, 1073741824, 1073741824, 1073741824, 1073741824,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP4, Intar.Mathi.CosP4, 0.0018);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP4, Intar1991.Mathi.CosP4, 0.0018);
         }
         [Test]
         public static void TestSinP5() {
@@ -303,7 +303,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1073741724, 1073741703, 1073741680, 1073741655, 1073741628,
                 1073708846, 1073741568, 1073741535, 1073708750, 1073741463,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP5, Intar.Mathi.CosP5, 0.0004);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP5, Intar1991.Mathi.CosP5, 0.0004);
         }
         [Test]
         public static void TestSinP2L() {
@@ -323,7 +323,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611686018427387868, 4611686018427387855, 4611686018427387840,
                 4611686018427387823, 4611686018427387804, 4611686018427387783,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP2, Intar.Mathi.CosP2, 0.06);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP2, Intar1991.Mathi.CosP2, 0.06);
         }
         [Test]
         public static void TestSinP3L() {
@@ -345,7 +345,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611686018427387868, 4611686018427387855, 4611686018427387840,
                 4611686018427387823, 4611686018427387804, 4611686018427387783,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP3, Intar.Mathi.CosP3, 0.03);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP3, Intar1991.Mathi.CosP3, 0.03);
         }
         [Test]
         public static void TestSinP4L() {
@@ -361,7 +361,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
                 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP4, Intar.Mathi.CosP4, 0.0018);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP4, Intar1991.Mathi.CosP4, 0.0018);
         }
         [Test]
         public static void TestSinP5L() {
@@ -382,7 +382,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611674961034115210, 4611674963181603987, 4611674963181609120,
                 4611674961034130612, 4611674963181619380, 4611674963181624507,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP5, Intar.Mathi.CosP5, 0.0004);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP5, Intar1991.Mathi.CosP5, 0.0004);
         }
         [Test]
         public static void TestSinP10() {
@@ -400,15 +400,15 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
                 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62, 1L << 62,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP10, Intar.Mathi.CosP10, 0.000002);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP10, Intar1991.Mathi.CosP10, 0.000002);
         }
         [Test]
         public static void TestSinP11() {
             for (var i = 0; i < 50; ++i) {
-                Console.WriteLine(Intar.Mathi.SinP11(i));
+                Console.WriteLine(Intar1991.Mathi.SinP11(i));
             }
             for (var i = 0; i < 100; ++i) {
-                Console.WriteLine(Intar.Mathi.CosP11(i));
+                Console.WriteLine(Intar1991.Mathi.CosP11(i));
             }
             var expectedSin = new long[] {
                 0,
@@ -427,7 +427,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611686005542486016, 4611686007689969650, 4611686007689969640,
                 4611686007689969628, 4611686007689969614, 4611686007689969598,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP11, Intar.Mathi.CosP11, 0.000002);
+            TestSin(expectedSin, expectedCos, Intar1991.Mathi.SinP11, Intar1991.Mathi.CosP11, 0.000002);
         }
     }
 }

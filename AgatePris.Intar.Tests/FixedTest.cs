@@ -2,7 +2,7 @@ using System;
 
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests {
+namespace Intar1991.Tests {
     public class FixedTest {
         [Test]
         public static void Test() {

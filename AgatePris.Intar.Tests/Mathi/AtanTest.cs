@@ -2,22 +2,22 @@ using System;
 
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests.Mathi {
+namespace Intar1991.Tests.Mathi {
     public class AtanTest {
         [Test]
         public static void TestConsts() {
             var actual = new ulong[] {
-                Intar.Mathi.AtanInternal.P9U64A,
-                Intar.Mathi.AtanInternal.P9U64B,
-                Intar.Mathi.AtanInternal.P9U64C,
-                Intar.Mathi.AtanInternal.P9U64D,
-                Intar.Mathi.AtanInternal.P9U64E,
-                Intar.Mathi.AtanInternal.P3U64B,
-                Intar.Mathi.AtanInternal.P3U64C,
-                Intar.Mathi.AtanInternal.P2U64B,
-                Intar.Mathi.AtanInternal.P3U32B,
-                Intar.Mathi.AtanInternal.P3U32C,
-                Intar.Mathi.AtanInternal.P2U32B,
+                Intar1991.Mathi.AtanInternal.P9U64A,
+                Intar1991.Mathi.AtanInternal.P9U64B,
+                Intar1991.Mathi.AtanInternal.P9U64C,
+                Intar1991.Mathi.AtanInternal.P9U64D,
+                Intar1991.Mathi.AtanInternal.P9U64E,
+                Intar1991.Mathi.AtanInternal.P3U64B,
+                Intar1991.Mathi.AtanInternal.P3U64C,
+                Intar1991.Mathi.AtanInternal.P2U64B,
+                Intar1991.Mathi.AtanInternal.P3U32B,
+                Intar1991.Mathi.AtanInternal.P3U32C,
+                Intar1991.Mathi.AtanInternal.P2U32B,
             };
             for (var i = 0; i < actual.Length; ++i) {
                 Console.WriteLine($"{actual[i]},");
@@ -45,61 +45,61 @@ namespace AgatePris.Intar.Tests.Mathi {
             //   = 2 ^ K / x + 0.5
             // x = 2 ^ K / (y - 0.5)
             // x = 2 * 2 ^ K / (2y - 1)
-            Utility.AssertAreEqual(1, Intar.Mathi.AtanInternal.Inv(int.MaxValue));
-            Utility.AssertAreEqual(-1, Intar.Mathi.AtanInternal.Inv(int.MinValue));
-            Utility.AssertAreEqual(102, Intar.Mathi.AtanInternal.Inv(10_578_737));
-            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(10_578_738));
-            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(10_683_998));
-            Utility.AssertAreEqual(100, Intar.Mathi.AtanInternal.Inv(10_683_999));
-            Utility.AssertAreEqual(-102, Intar.Mathi.AtanInternal.Inv(-10_578_737));
-            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-10_578_738));
-            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-10_683_998));
-            Utility.AssertAreEqual(-100, Intar.Mathi.AtanInternal.Inv(-10_683_999));
+            Utility.AssertAreEqual(1, Intar1991.Mathi.AtanInternal.Inv(int.MaxValue));
+            Utility.AssertAreEqual(-1, Intar1991.Mathi.AtanInternal.Inv(int.MinValue));
+            Utility.AssertAreEqual(102, Intar1991.Mathi.AtanInternal.Inv(10_578_737));
+            Utility.AssertAreEqual(101, Intar1991.Mathi.AtanInternal.Inv(10_578_738));
+            Utility.AssertAreEqual(101, Intar1991.Mathi.AtanInternal.Inv(10_683_998));
+            Utility.AssertAreEqual(100, Intar1991.Mathi.AtanInternal.Inv(10_683_999));
+            Utility.AssertAreEqual(-102, Intar1991.Mathi.AtanInternal.Inv(-10_578_737));
+            Utility.AssertAreEqual(-101, Intar1991.Mathi.AtanInternal.Inv(-10_578_738));
+            Utility.AssertAreEqual(-101, Intar1991.Mathi.AtanInternal.Inv(-10_683_998));
+            Utility.AssertAreEqual(-100, Intar1991.Mathi.AtanInternal.Inv(-10_683_999));
             for (var i = 2; i <= (1 << 15); i++) {
                 var p = (int)((1U << 31) / ((2 * (uint)i) - 1));
-                Utility.AssertAreEqual(i, Intar.Mathi.AtanInternal.Inv(p));
-                Utility.AssertAreEqual(i - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
-                Utility.AssertAreEqual(-i, Intar.Mathi.AtanInternal.Inv(-p));
-                Utility.AssertAreEqual(-i + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
+                Utility.AssertAreEqual(i, Intar1991.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(i - 1, Intar1991.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-i, Intar1991.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-i + 1, Intar1991.Mathi.AtanInternal.Inv(-p - 1));
             }
         }
         [Test]
         public static void TestInvLong() {
-            Utility.AssertAreEqual(1, Intar.Mathi.AtanInternal.Inv(long.MaxValue));
-            Utility.AssertAreEqual(-1, Intar.Mathi.AtanInternal.Inv(long.MinValue));
+            Utility.AssertAreEqual(1, Intar1991.Mathi.AtanInternal.Inv(long.MaxValue));
+            Utility.AssertAreEqual(-1, Intar1991.Mathi.AtanInternal.Inv(long.MinValue));
             Console.WriteLine((1L << 62) / 101.5m);
             Console.WriteLine((1L << 62) / 100.5m);
-            Utility.AssertAreEqual(102, Intar.Mathi.AtanInternal.Inv(45_435_330_230_811_703));
-            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(45_435_330_230_811_704));
-            Utility.AssertAreEqual(101, Intar.Mathi.AtanInternal.Inv(45_887_423_068_929_232));
-            Utility.AssertAreEqual(100, Intar.Mathi.AtanInternal.Inv(45_887_423_068_929_233));
-            Utility.AssertAreEqual(-102, Intar.Mathi.AtanInternal.Inv(-45_435_330_230_811_703));
-            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-45_435_330_230_811_704));
-            Utility.AssertAreEqual(-101, Intar.Mathi.AtanInternal.Inv(-45_887_423_068_929_232));
-            Utility.AssertAreEqual(-100, Intar.Mathi.AtanInternal.Inv(-45_887_423_068_929_233));
+            Utility.AssertAreEqual(102, Intar1991.Mathi.AtanInternal.Inv(45_435_330_230_811_703));
+            Utility.AssertAreEqual(101, Intar1991.Mathi.AtanInternal.Inv(45_435_330_230_811_704));
+            Utility.AssertAreEqual(101, Intar1991.Mathi.AtanInternal.Inv(45_887_423_068_929_232));
+            Utility.AssertAreEqual(100, Intar1991.Mathi.AtanInternal.Inv(45_887_423_068_929_233));
+            Utility.AssertAreEqual(-102, Intar1991.Mathi.AtanInternal.Inv(-45_435_330_230_811_703));
+            Utility.AssertAreEqual(-101, Intar1991.Mathi.AtanInternal.Inv(-45_435_330_230_811_704));
+            Utility.AssertAreEqual(-101, Intar1991.Mathi.AtanInternal.Inv(-45_887_423_068_929_232));
+            Utility.AssertAreEqual(-100, Intar1991.Mathi.AtanInternal.Inv(-45_887_423_068_929_233));
             for (var x = 2; x < 10; x++) {
                 var p = (long)((1UL << 63) / ((2 * (ulong)x) - 1));
-                Utility.AssertAreEqual(x, Intar.Mathi.AtanInternal.Inv(p));
-                Utility.AssertAreEqual(x - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
-                Utility.AssertAreEqual(-x, Intar.Mathi.AtanInternal.Inv(-p));
-                Utility.AssertAreEqual(-x + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
+                Utility.AssertAreEqual(x, Intar1991.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(x - 1, Intar1991.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-x, Intar1991.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-x + 1, Intar1991.Mathi.AtanInternal.Inv(-p - 1));
             }
             const long one = 1L << 31;
             for (var x = one - 9; x <= one; ++x) {
                 var p = (long)((1UL << 63) / ((2 * (ulong)x) - 1));
-                Utility.AssertAreEqual(x, Intar.Mathi.AtanInternal.Inv(p));
-                Utility.AssertAreEqual(x - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
-                Utility.AssertAreEqual(-x, Intar.Mathi.AtanInternal.Inv(-p));
-                Utility.AssertAreEqual(-x + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
+                Utility.AssertAreEqual(x, Intar1991.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(x - 1, Intar1991.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-x, Intar1991.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-x + 1, Intar1991.Mathi.AtanInternal.Inv(-p - 1));
             }
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.NextInt64(10, one - 9);
                 var p = (long)((1UL << 63) / ((2 * (ulong)x) - 1));
-                Utility.AssertAreEqual(x, Intar.Mathi.AtanInternal.Inv(p));
-                Utility.AssertAreEqual(x - 1, Intar.Mathi.AtanInternal.Inv(p + 1));
-                Utility.AssertAreEqual(-x, Intar.Mathi.AtanInternal.Inv(-p));
-                Utility.AssertAreEqual(-x + 1, Intar.Mathi.AtanInternal.Inv(-p - 1));
+                Utility.AssertAreEqual(x, Intar1991.Mathi.AtanInternal.Inv(p));
+                Utility.AssertAreEqual(x - 1, Intar1991.Mathi.AtanInternal.Inv(p + 1));
+                Utility.AssertAreEqual(-x, Intar1991.Mathi.AtanInternal.Inv(-p));
+                Utility.AssertAreEqual(-x + 1, Intar1991.Mathi.AtanInternal.Inv(-p - 1));
             }
         }
 
@@ -140,7 +140,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 var actual = atan(x);
                 Utility.AssertAreEqual(expectedReal, actual * toRad, error);
             }
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.Next(int.MinValue, -one);
                 Utility.AssertAreEqual(Math.Atan(x * toReal), atan(x) * toRad, error);
@@ -186,7 +186,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                     Utility.AssertAreEqual(Math.Atan(-x * toReal), actualNeg * toRad, error);
                 }
             }
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.NextInt64(one + 1);
                 Utility.AssertAreEqual(Math.Atan(x * toReal), atan(x) * toRad, error);
@@ -211,7 +211,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 268435456, 268427264, 268419072, 268410880, 268402688,
                 268394496, 268386304, 268378112, 268369920, 268361728,
             };
-            TestAtan(head, tail, 0.0039, Intar.Mathi.AtanP2);
+            TestAtan(head, tail, 0.0039, Intar1991.Mathi.AtanP2);
         }
 
         [Test]
@@ -226,7 +226,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 268435456, 268427264, 268419072, 268410880, 268402688,
                 268394496, 268386304, 268378112, 268369920, 268361728,
             };
-            TestAtan(head, tail, 0.0016, Intar.Mathi.AtanP3);
+            TestAtan(head, tail, 0.0016, Intar1991.Mathi.AtanP3);
         }
 
         [Test]
@@ -243,17 +243,17 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1152938290412734660, 1152938289875855930,
                 1152938289338977200, 1152938288802098470,
             };
-            TestAtan(head, tail, 0.00002, Intar.Mathi.AtanP9);
+            TestAtan(head, tail, 0.00002, Intar1991.Mathi.AtanP9);
         }
 
         [Test]
         public static void TestDiv() {
             const int k1 = 1 << 15;
             const int k2 = -k1;
-            Utility.AssertAreEqual(k1, Intar.Mathi.AtanInternal.Div(int.MinValue, int.MinValue));
-            Utility.AssertAreEqual(k2, Intar.Mathi.AtanInternal.Div(int.MinValue, int.MaxValue));
-            Utility.AssertAreEqual(k2, Intar.Mathi.AtanInternal.Div(int.MaxValue, int.MinValue));
-            Utility.AssertAreEqual(k1, Intar.Mathi.AtanInternal.Div(int.MaxValue, int.MaxValue));
+            Utility.AssertAreEqual(k1, Intar1991.Mathi.AtanInternal.Div(int.MinValue, int.MinValue));
+            Utility.AssertAreEqual(k2, Intar1991.Mathi.AtanInternal.Div(int.MinValue, int.MaxValue));
+            Utility.AssertAreEqual(k2, Intar1991.Mathi.AtanInternal.Div(int.MaxValue, int.MinValue));
+            Utility.AssertAreEqual(k1, Intar1991.Mathi.AtanInternal.Div(int.MaxValue, int.MaxValue));
             for (var i = 0; i < k1; ++i) {
                 var e1 = i;
                 var e2 = e1 + 1;
@@ -261,10 +261,10 @@ namespace AgatePris.Intar.Tests.Mathi {
                 var e4 = -e2;
                 var y2 = ((2 * i) + 1) << 15;
                 var y1 = y2 - 1;
-                Utility.AssertAreEqual(e1, Intar.Mathi.AtanInternal.Div(y1, int.MaxValue));
-                Utility.AssertAreEqual(e2, Intar.Mathi.AtanInternal.Div(y2, int.MaxValue));
-                Utility.AssertAreEqual(e3, Intar.Mathi.AtanInternal.Div(y1, int.MinValue));
-                Utility.AssertAreEqual(e4, Intar.Mathi.AtanInternal.Div(y2, int.MinValue));
+                Utility.AssertAreEqual(e1, Intar1991.Mathi.AtanInternal.Div(y1, int.MaxValue));
+                Utility.AssertAreEqual(e2, Intar1991.Mathi.AtanInternal.Div(y2, int.MaxValue));
+                Utility.AssertAreEqual(e3, Intar1991.Mathi.AtanInternal.Div(y1, int.MinValue));
+                Utility.AssertAreEqual(e4, Intar1991.Mathi.AtanInternal.Div(y2, int.MinValue));
             }
         }
 
@@ -307,7 +307,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             }
             const int pi = 1 << 30;
             const double toRad = Math.PI / pi;
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.Next();
                 var y = rng.Next();
@@ -354,7 +354,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 Utility.AssertAreEqual(expected7, atan2(k2, p42), i);
             }
             const double toRad = Math.PI / pi;
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.Next();
                 var y = rng.Next();
@@ -364,8 +364,8 @@ namespace AgatePris.Intar.Tests.Mathi {
             }
         }
 
-        [Test] public static void TestAtan2P2() => TestAtan2(Intar.Mathi.Atan2P2, Intar.Mathi.AtanP2, 0.0039);
-        [Test] public static void TestAtan2P3() => TestAtan2(Intar.Mathi.Atan2P3, Intar.Mathi.AtanP3, 0.0016);
-        [Test] public static void TestAtan2P9() => TestAtan2(Intar.Mathi.Atan2P9, a => Intar.Mathi.AtanP9((long)a << 16), 0.00003);
+        [Test] public static void TestAtan2P2() => TestAtan2(Intar1991.Mathi.Atan2P2, Intar1991.Mathi.AtanP2, 0.0039);
+        [Test] public static void TestAtan2P3() => TestAtan2(Intar1991.Mathi.Atan2P3, Intar1991.Mathi.AtanP3, 0.0016);
+        [Test] public static void TestAtan2P9() => TestAtan2(Intar1991.Mathi.Atan2P9, a => Intar1991.Mathi.AtanP9((long)a << 16), 0.00003);
     }
 }

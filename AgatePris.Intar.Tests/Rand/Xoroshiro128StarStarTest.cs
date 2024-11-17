@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests.Rand {
+namespace Intar1991.Tests.Rand {
     public class Xoroshiro128StarStarTest {
         [Test]
         public static void NextTest() {
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             var expected = new ulong[] {
                 5760, 97769243520, 9706862127477703552, 9223447511460779954, 8358291023205304566,
                 15695619998649302768, 8517900938696309774, 16586480348202605369,
@@ -20,7 +20,7 @@ namespace AgatePris.Intar.Tests.Rand {
 
         [Test]
         public static void JumpTest() {
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             rng.Jump();
             var expected = new ulong[] {
                 2464231652016875657, 11602794600843324846, 733764001042591551, 5324733124812429005,
@@ -34,7 +34,7 @@ namespace AgatePris.Intar.Tests.Rand {
 
         [Test]
         public static void LongJumpTest() {
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             rng.LongJump();
             var expected = new ulong[] {
                 1154914562721061336, 6059381922964790418, 15458620134926953352, 6449629845481199462,
@@ -48,7 +48,7 @@ namespace AgatePris.Intar.Tests.Rand {
 
         [Test]
         public static void TestMinMax() {
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             var Dictionary = new Dictionary<int, int>();
             for (var i = 0; i < 9999; ++i) {
                 var x = rng.Next(9);

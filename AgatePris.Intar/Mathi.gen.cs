@@ -436,7 +436,7 @@ namespace Intar1991 {
         /// const int k = 1 &lt;&lt; 15;
         /// const int toRad = System.Math.PI / (1 &lt;&lt; 30);
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP2(x);
+        /// var actual = Intar1991.Mathi.AtanP2(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, 0.0039);
         /// </code>
@@ -466,7 +466,7 @@ namespace Intar1991 {
         /// const int k = 1 &lt;&lt; 15;
         /// const int toRad = System.Math.PI / (1 &lt;&lt; 30);
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP3(x);
+        /// var actual = Intar1991.Mathi.AtanP3(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, 0.0016);
         /// </code>
@@ -496,7 +496,7 @@ namespace Intar1991 {
         /// const long k = 1L &lt;&lt; 31;
         /// const long toRad = System.Math.PI / (1L &lt;&lt; 62);
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP2(x);
+        /// var actual = Intar1991.Mathi.AtanP2(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, 0.0039);
         /// </code>
@@ -526,7 +526,7 @@ namespace Intar1991 {
         /// const long k = 1L &lt;&lt; 31;
         /// const long toRad = System.Math.PI / (1L &lt;&lt; 62);
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP3(x);
+        /// var actual = Intar1991.Mathi.AtanP3(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, 0.0016);
         /// </code>
@@ -556,7 +556,7 @@ namespace Intar1991 {
         /// const long k = 1L &lt;&lt; 31;
         /// const long toRad = System.Math.PI / (1L &lt;&lt; 62);
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP9(x);
+        /// var actual = Intar1991.Mathi.AtanP9(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, 0.00002);
         /// </code>
@@ -583,7 +583,7 @@ namespace Intar1991 {
         /// 2 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var actual = Intar.Mathi.Atan2P2(2, 3);
+        /// var actual = Intar1991.Mathi.Atan2P2(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
         /// Assert.AreEqual(expected, actual * toRad, 0.004);
         /// </code>
@@ -630,7 +630,7 @@ namespace Intar1991 {
         /// 3 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var actual = Intar.Mathi.Atan2P3(2, 3);
+        /// var actual = Intar1991.Mathi.Atan2P3(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
         /// Assert.AreEqual(expected, actual * toRad, 0.0017);
         /// </code>
@@ -677,7 +677,7 @@ namespace Intar1991 {
         /// 9 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var actual = Intar.Mathi.Atan2P9(2, 3);
+        /// var actual = Intar1991.Mathi.Atan2P9(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
         /// Assert.AreEqual(expected, actual * toRad, 0.00003);
         /// </code>
@@ -1143,7 +1143,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP2(x);
+        /// var actual = Intar1991.Mathi.CosP2(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1174,7 +1174,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP2(x);
+        /// var actual = Intar1991.Mathi.SinP2(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1193,7 +1193,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP2(x);
+        /// var actual = Intar1991.Mathi.CosP2(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1224,7 +1224,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP2(x);
+        /// var actual = Intar1991.Mathi.SinP2(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1243,7 +1243,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP4(x);
+        /// var actual = Intar1991.Mathi.CosP4(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1274,7 +1274,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP4(x);
+        /// var actual = Intar1991.Mathi.SinP4(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1293,7 +1293,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP4(x);
+        /// var actual = Intar1991.Mathi.CosP4(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1324,7 +1324,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP4(x);
+        /// var actual = Intar1991.Mathi.SinP4(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1343,7 +1343,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP10(x);
+        /// var actual = Intar1991.Mathi.CosP10(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1374,7 +1374,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP10(x);
+        /// var actual = Intar1991.Mathi.SinP10(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1393,7 +1393,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP3(x);
+        /// var actual = Intar1991.Mathi.SinP3(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1415,7 +1415,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP3(x);
+        /// var actual = Intar1991.Mathi.CosP3(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1434,7 +1434,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP3(x);
+        /// var actual = Intar1991.Mathi.SinP3(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1456,7 +1456,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP3(x);
+        /// var actual = Intar1991.Mathi.CosP3(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1475,7 +1475,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP5(x);
+        /// var actual = Intar1991.Mathi.SinP5(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1497,7 +1497,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP5(x);
+        /// var actual = Intar1991.Mathi.CosP5(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1516,7 +1516,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP5(x);
+        /// var actual = Intar1991.Mathi.SinP5(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1538,7 +1538,7 @@ namespace Intar1991 {
         /// <code>
         /// const int k = 1 &lt;&lt; 15;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP5(x);
+        /// var actual = Intar1991.Mathi.CosP5(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
@@ -1557,7 +1557,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.SinP11(x);
+        /// var actual = Intar1991.Mathi.SinP11(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
@@ -1579,7 +1579,7 @@ namespace Intar1991 {
         /// <code>
         /// const long k = 1L &lt;&lt; 31;
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.CosP11(x);
+        /// var actual = Intar1991.Mathi.CosP11(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);

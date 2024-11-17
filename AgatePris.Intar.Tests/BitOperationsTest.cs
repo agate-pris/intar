@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace AgatePris.Intar.Tests {
+namespace Intar1991.Tests {
     public class BitOperationsTest {
         static int PopCount(uint x) {
             var mask = 1U;
@@ -87,7 +87,7 @@ namespace AgatePris.Intar.Tests {
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
-                var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+                var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
                 for (var i = 0; i < n; ++i) {
                     rng.Jump();
                 }
@@ -141,7 +141,7 @@ namespace AgatePris.Intar.Tests {
 
             var processorCount = Environment.ProcessorCount;
             _ = Parallel.For(0, processorCount, n => {
-                var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+                var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
                 for (var i = 0; i < n; ++i) {
                     rng.Jump();
                 }

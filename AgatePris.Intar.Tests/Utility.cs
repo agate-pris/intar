@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests {
+namespace Intar1991.Tests {
     public class Utility {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(int expected, int actual) {

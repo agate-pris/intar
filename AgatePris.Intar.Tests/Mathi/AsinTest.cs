@@ -2,27 +2,27 @@ using System;
 
 using NUnit.Framework;
 
-namespace AgatePris.Intar.Tests.Mathi {
+namespace Intar1991.Tests.Mathi {
     public class AsinTest {
         [Test]
         public static void TestConsts() {
             var actual = new ulong[] {
-                Intar.Mathi.AsinInternal.P3U32A,
-                Intar.Mathi.AsinInternal.P3U32B,
-                Intar.Mathi.AsinInternal.P3U32C,
-                Intar.Mathi.AsinInternal.P3U32D,
-                Intar.Mathi.AsinInternal.P3U64A,
-                Intar.Mathi.AsinInternal.P3U64B,
-                Intar.Mathi.AsinInternal.P3U64C,
-                Intar.Mathi.AsinInternal.P3U64D,
-                Intar.Mathi.AsinInternal.P7U64A,
-                Intar.Mathi.AsinInternal.P7U64B,
-                Intar.Mathi.AsinInternal.P7U64C,
-                Intar.Mathi.AsinInternal.P7U64D,
-                Intar.Mathi.AsinInternal.P7U64E,
-                Intar.Mathi.AsinInternal.P7U64F,
-                Intar.Mathi.AsinInternal.P7U64G,
-                Intar.Mathi.AsinInternal.P7U64H,
+                Intar1991.Mathi.AsinInternal.P3U32A,
+                Intar1991.Mathi.AsinInternal.P3U32B,
+                Intar1991.Mathi.AsinInternal.P3U32C,
+                Intar1991.Mathi.AsinInternal.P3U32D,
+                Intar1991.Mathi.AsinInternal.P3U64A,
+                Intar1991.Mathi.AsinInternal.P3U64B,
+                Intar1991.Mathi.AsinInternal.P3U64C,
+                Intar1991.Mathi.AsinInternal.P3U64D,
+                Intar1991.Mathi.AsinInternal.P7U64A,
+                Intar1991.Mathi.AsinInternal.P7U64B,
+                Intar1991.Mathi.AsinInternal.P7U64C,
+                Intar1991.Mathi.AsinInternal.P7U64D,
+                Intar1991.Mathi.AsinInternal.P7U64E,
+                Intar1991.Mathi.AsinInternal.P7U64F,
+                Intar1991.Mathi.AsinInternal.P7U64G,
+                Intar1991.Mathi.AsinInternal.P7U64H,
             };
             for (var i = 0; i < 4; ++i) {
                 Assert.IsTrue(actual[i] > 1U << 31);
@@ -107,7 +107,7 @@ namespace AgatePris.Intar.Tests.Mathi {
             }
             const double toReal = 1.0 / one;
             const double toRad = Math.PI / (1UL << 63);
-            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             for (var i = 0; i < 32768; ++i) {
                 var xPos = rng.NextInt64(one + 1);
                 var xNeg = -xPos;
@@ -164,7 +164,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 1056867252, 1056041224, 1055244697, 1054507172, 1053769647,
                 1053061623, 1052383100, 1051734078, 1051085056, 1050465535,
             };
-            TestAsin(head, tail, Intar.Mathi.AsinP3, Intar.Mathi.AcosP3, 0.00017);
+            TestAsin(head, tail, Intar1991.Mathi.AsinP3, Intar1991.Mathi.AcosP3, 0.00017);
         }
         [Test]
         public static void TestAsinP3L() {
@@ -180,7 +180,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611466565075592697, 4611448981508937682, 4611432614002032640,
                 4611417244089453490, 4611402705505332708, 4611388876450648994,
             };
-            TestAsin(head, tail, Intar.Mathi.AsinP3, Intar.Mathi.AcosP3, 0.00007);
+            TestAsin(head, tail, Intar1991.Mathi.AsinP3, Intar1991.Mathi.AcosP3, 0.00007);
         }
         [Test]
         public static void TestAsinP7() {
@@ -198,7 +198,7 @@ namespace AgatePris.Intar.Tests.Mathi {
                 4611466554609878497, 4611448970204664482, 4611432601917063168,
                 4611417231271486068, 4611402691994306850, 4611388862279969994,
             };
-            TestAsin(head, tail, Intar.Mathi.AsinP7, Intar.Mathi.AcosP7, 0.00000003);
+            TestAsin(head, tail, Intar1991.Mathi.AsinP7, Intar1991.Mathi.AcosP7, 0.00000003);
         }
     }
 }
