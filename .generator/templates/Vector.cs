@@ -409,9 +409,7 @@ namespace AgatePris.Intar {
         {%- endfor %}
         {%- endif %}
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 {# 改行 #}
@@ -442,6 +440,8 @@ namespace AgatePris.Intar {
         {%- endfor %}
     {%- endfor %}
 {%- endfor %}
+
+        #endregion
 
     }
 } // namespace AgatePris.Intar

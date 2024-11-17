@@ -286,9 +286,7 @@ namespace AgatePris.Intar {
             X.CosP5(),
             Y.CosP5());
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -320,6 +318,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXY() => new Vector4I17F15(Repr.YYXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYX() => new Vector4I17F15(Repr.YYYX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYY() => new Vector4I17F15(Repr.YYYY());
+
+        #endregion
 
     }
 } // namespace AgatePris.Intar

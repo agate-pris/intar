@@ -171,9 +171,7 @@ namespace AgatePris.Intar {
             return new Vector2I8F120(Repr.Clamp(min.Repr, max.Repr));
         }
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -205,6 +203,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 YYXY() => new Vector4I8F120(Repr.YYXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 YYYX() => new Vector4I8F120(Repr.YYYX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 YYYY() => new Vector4I8F120(Repr.YYYY());
+
+        #endregion
 
     }
 } // namespace AgatePris.Intar

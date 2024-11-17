@@ -293,9 +293,7 @@ namespace AgatePris.Intar {
 
 #endif // NET7_0_OR_GREATER
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -416,6 +414,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I34F30 ZZZX() => new Vector4I34F30(Repr.ZZZX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I34F30 ZZZY() => new Vector4I34F30(Repr.ZZZY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I34F30 ZZZZ() => new Vector4I34F30(Repr.ZZZZ());
+
+        #endregion
 
     }
 } // namespace AgatePris.Intar
