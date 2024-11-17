@@ -44,13 +44,13 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector2Int32 left, Vector2Int32 right) {
-            return left.X == right.X && left.Y == right.Y;
+        public static Vector2Bool operator ==(Vector2Int32 left, Vector2Int32 right) {
+            return new Vector2Bool(left.X == right.X, left.Y == right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector2Int32 left, Vector2Int32 right) {
-            return left.X != right.X || left.Y != right.Y;
+        public static Vector2Bool operator !=(Vector2Int32 left, Vector2Int32 right) {
+            return new Vector2Bool(left.X != right.X, left.Y != right.Y);
         }
 
         //
@@ -58,7 +58,9 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector2Int32 other) => this == other;
+        public bool Equals(Vector2Int32 other) {
+            return X == other.X && Y == other.Y;
+        }
 
         //
         // Object

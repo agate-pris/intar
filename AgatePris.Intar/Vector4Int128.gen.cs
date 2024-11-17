@@ -54,13 +54,13 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector4Int128 left, Vector4Int128 right) {
-            return left.X == right.X && left.Y == right.Y && left.Z == right.Z && left.W == right.W;
+        public static Vector4Bool operator ==(Vector4Int128 left, Vector4Int128 right) {
+            return new Vector4Bool(left.X == right.X, left.Y == right.Y, left.Z == right.Z, left.W == right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector4Int128 left, Vector4Int128 right) {
-            return left.X != right.X || left.Y != right.Y || left.Z != right.Z || left.W != right.W;
+        public static Vector4Bool operator !=(Vector4Int128 left, Vector4Int128 right) {
+            return new Vector4Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z, left.W != right.W);
         }
 
         //
@@ -68,7 +68,9 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector4Int128 other) => this == other;
+        public bool Equals(Vector4Int128 other) {
+            return X == other.X && Y == other.Y && Z == other.Z && W == other.W;
+        }
 
         //
         // Object
