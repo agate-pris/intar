@@ -158,10 +158,10 @@ namespace AgatePris.Intar {
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector4I4F60 lhs, Vector4I4F60 rhs) => lhs.Repr == rhs.Repr;
+        public static Vector4Bool operator ==(Vector4I4F60 lhs, Vector4I4F60 rhs) => lhs.Repr == rhs.Repr;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector4I4F60 lhs, Vector4I4F60 rhs) => lhs.Repr != rhs.Repr;
+        public static Vector4Bool operator !=(Vector4I4F60 lhs, Vector4I4F60 rhs) => lhs.Repr != rhs.Repr;
 
         //
         // Object

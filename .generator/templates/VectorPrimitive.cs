@@ -69,28 +69,29 @@ namespace AgatePris.Intar {
         // IEqualityOperators
         //
 
+{%- for o in ['==', '!='] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==({{ vector }} left, {{ vector }} right) {
-            return
-{%- for c in components %}
-    {%- if not loop.first %} &&{% endif %} left.{{ c }} == right.{{ c }}
-{%- endfor %};
+        public static {{ macros::vector_bool(dim=dim) }} operator {{ o }}({{ vector }} left, {{ vector }} right) {
+            return new {{ macros::vector_bool(dim=dim) }}(
+{%- for c in components -%}
+    left.{{ c }} {{ o }} right.{{ c }}{% if not loop.last %}, {% endif %}
+{%- endfor -%}
+            );
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=({{ vector }} left, {{ vector }} right) {
-            return
-{%- for c in components %}
-    {%- if not loop.first %} ||{% endif %} left.{{ c }} != right.{{ c }}
-{%- endfor %};
-        }
+{%- endfor %}
 
         //
         // IEquatable
         //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals({{ vector }} other) => this == other;
+        public bool Equals({{ vector }} other) {
+            return
+{%- for c in components -%}
+    {% if not loop.first %} &&{% endif %} {{ c }} == other.{{ c }}
+{%- endfor -%}
+            ;
+        }
 
         //
         // Object

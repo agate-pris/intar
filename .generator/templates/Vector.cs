@@ -197,7 +197,7 @@ namespace AgatePris.Intar {
 {%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator {{ o
+        public static {{ macros::vector_bool(dim=dim) }} operator {{ o
         }}({{ vector }} lhs, {{ vector }} rhs) => lhs.Repr {{ o }} rhs.Repr;
 
 {%- endfor %}
