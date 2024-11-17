@@ -248,22 +248,17 @@ namespace AgatePris.Intar {
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var x0 = X.Bits;
-            var x1 = Y.Bits;
-            var x2 = Z.Bits;
-            var x3 = W.Bits;
-            var b0 = x0 < 0;
-            var b1 = x1 < 0;
-            var b2 = x2 < 0;
-            var b3 = x3 < 0;
-            var a0 = unchecked((uint)(b0 ? Overflowing.WrappingNeg(x0) : x0));
-            var a1 = unchecked((uint)(b1 ? Overflowing.WrappingNeg(x1) : x1));
-            var a2 = unchecked((uint)(b2 ? Overflowing.WrappingNeg(x2) : x2));
-            var a3 = unchecked((uint)(b3 ? Overflowing.WrappingNeg(x3) : x3));
+            var isNegative = IsNegative();
+            var abs = new Vector4UInt32(
+                unchecked((uint)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
+                unchecked((uint)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y)),
+                unchecked((uint)(isNegative.Z ? Overflowing.WrappingNeg(Repr.Z) : Repr.Z)),
+                unchecked((uint)(isNegative.W ? Overflowing.WrappingNeg(Repr.W) : Repr.W))
+            );
 
             // 各要素の最大値が 0 の場合は null を返す。
 
-            var max = Math.Max(Math.Max(a0, a1), Math.Max(a2, a3));
+            var max = Math.Max(Math.Max(abs.X, abs.Y), Math.Max(abs.Z, abs.W));
             if (max == 0) {
                 return null;
             }
@@ -271,34 +266,22 @@ namespace AgatePris.Intar {
             // ベクトルの大きさが小さい時の誤差を小さくするため、
             // 最大の要素が表現型の範囲に収まるように拡大する。
             // 最大の要素以外にも同じ値を乗算する。
+            // 剰余の回数を減らすため、
+            // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            ulong m = uint.MaxValue / max;
-            var l0 = m * a0;
-            var l1 = m * a1;
-            var l2 = m * a2;
-            var l3 = m * a3;
-            var sum =
-                (l0 * l0 / 4) +
-                (l1 * l1 / 4) +
-                (l2 * l2 / 4) +
-                (l3 * l3 / 4);
-            var ll = Mathi.Sqrt(sum);
+            var scaled = abs * (uint.MaxValue / max);
+            var sqrDiv4 = scaled.BigMul(scaled) / 4;
+            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y + sqrDiv4.Z + sqrDiv4.W);
 
-            // 小数部の桁をあわせる。
+            const uint fracOneTwo = I2F30.OneRepr / 2;
+            var absNormalized = (Vector4Int32)(scaled.BigMul(fracOneTwo) / halfLength);
 
-            const ulong k = 1UL << 29;
-            var y0 = (int)(l0 * k / ll);
-            var y1 = (int)(l1 * k / ll);
-            var y2 = (int)(l2 * k / ll);
-            var y3 = (int)(l3 * k / ll);
-
-            // 最後に符号をあわせて返す。
-
-            return new Vector4I2F30(
-                I2F30.FromBits(b0 ? -y0 : y0),
-                I2F30.FromBits(b1 ? -y1 : y1),
-                I2F30.FromBits(b2 ? -y2 : y2),
-                I2F30.FromBits(b3 ? -y3 : y3));
+            return new Vector4I2F30(new Vector4Int32(
+                isNegative.X ? -absNormalized.X : absNormalized.X,
+                isNegative.Y ? -absNormalized.Y : absNormalized.Y,
+                isNegative.Z ? -absNormalized.Z : absNormalized.Z,
+                isNegative.W ? -absNormalized.W : absNormalized.W
+            ));
         }
 
         //

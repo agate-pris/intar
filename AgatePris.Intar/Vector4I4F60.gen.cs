@@ -252,6 +252,48 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 UncheckedLength() => U4F60.FromBits(Repr.UncheckedLength());
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I4F60? Normalize() {
+
+            // 各要素の内部表現型を取り出し、
+            // その絶対値を得る。
+
+            var isNegative = IsNegative();
+            var abs = new Vector4UInt64(
+                unchecked((ulong)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
+                unchecked((ulong)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y)),
+                unchecked((ulong)(isNegative.Z ? Overflowing.WrappingNeg(Repr.Z) : Repr.Z)),
+                unchecked((ulong)(isNegative.W ? Overflowing.WrappingNeg(Repr.W) : Repr.W))
+            );
+
+            // 各要素の最大値が 0 の場合は null を返す。
+
+            var max = Math.Max(Math.Max(abs.X, abs.Y), Math.Max(abs.Z, abs.W));
+            if (max == 0) {
+                return null;
+            }
+
+            // ベクトルの大きさが小さい時の誤差を小さくするため、
+            // 最大の要素が表現型の範囲に収まるように拡大する。
+            // 最大の要素以外にも同じ値を乗算する。
+            // 剰余の回数を減らすため、
+            // 先に型の最大値を最大値で割っておき、それを乗算する。
+
+            var scaled = abs * (ulong.MaxValue / max);
+            var sqrDiv4 = scaled.BigMul(scaled) / 4;
+            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y + sqrDiv4.Z + sqrDiv4.W);
+
+            const ulong fracOneTwo = I4F60.OneRepr / 2;
+            var absNormalized = (Vector4Int64)(scaled.BigMul(fracOneTwo) / halfLength);
+
+            return new Vector4I4F60(new Vector4Int64(
+                isNegative.X ? -absNormalized.X : absNormalized.X,
+                isNegative.Y ? -absNormalized.Y : absNormalized.Y,
+                isNegative.Z ? -absNormalized.Z : absNormalized.Z,
+                isNegative.W ? -absNormalized.W : absNormalized.W
+            ));
+        }
+
 #endif // NET7_0_OR_GREATER
 
         //
