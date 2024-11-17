@@ -1,5 +1,6 @@
 {% import "macros.cs" as macros %}
 {%- set vector   = macros::vector_primitive(signed=signed, dim=dim, bits=bits) %}
+{%- set vector_s = macros::vector_primitive(signed=true,   dim=dim, bits=bits) %}
 {%- set vector_u = macros::vector_primitive(signed=false,  dim=dim, bits=bits) %}
 {%- set component   = macros::inttype(signed=signed, bits=bits) %}
 {%- set component_u = macros::inttype(signed=false,  bits=bits) %}
@@ -400,6 +401,62 @@ namespace AgatePris.Intar {
 #endif // NET7_0_OR_GREATER
     {%- endif %}
 {%- endif %}
+
+        #region Overflowing
+{%- for m in ['WrappingAdd', 'WrappingSub'] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} {{ m }}({{ vector }} other) {
+            return new {{ vector }}(
+    {%- for c in components -%}
+        Overflowing.{{ m }}({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+            );
+        }
+{%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} WrappingNeg() {
+            return new {{ vector }}(
+    {%- for c in components -%}
+        Overflowing.WrappingNeg({{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+            );
+        }
+{%- if signed %}
+    {%- for m in ['WrappingAddUnsigned', 'WrappingSubUnsigned'] %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} {{ m }}({{ vector_u }} other) {
+            return new {{ vector }}(
+        {%- for c in components -%}
+        Overflowing.{{ m }}({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+        {%- endfor -%}
+            );
+        }
+    {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} WrappingAbs() {
+            return new {{ vector }}(
+    {%- for c in components -%}
+        Overflowing.WrappingAbs({{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+            );
+        }
+{%- else %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} WrappingAddSigned({{ vector_s }} other) {
+            return new {{ vector }}(
+    {%- for c in components -%}
+        Overflowing.WrappingAddSigned({{ c }}, other.{{ c }}){% if not loop.last %}, {% endif %}
+    {%- endfor -%}
+            );
+        }
+{%- endif %}
+
+        #endregion
 
         //
         // Swizzling

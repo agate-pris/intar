@@ -219,6 +219,40 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Twice() => new Vector2Int128(Mathi.Twice(X), Mathi.Twice(Y));
 
+        #region Overflowing
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int128 WrappingAdd(Vector2Int128 other) {
+            return new Vector2Int128(Overflowing.WrappingAdd(X, other.X), Overflowing.WrappingAdd(Y, other.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int128 WrappingSub(Vector2Int128 other) {
+            return new Vector2Int128(Overflowing.WrappingSub(X, other.X), Overflowing.WrappingSub(Y, other.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int128 WrappingNeg() {
+            return new Vector2Int128(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int128 WrappingAddUnsigned(Vector2UInt128 other) {
+            return new Vector2Int128(Overflowing.WrappingAddUnsigned(X, other.X), Overflowing.WrappingAddUnsigned(Y, other.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int128 WrappingSubUnsigned(Vector2UInt128 other) {
+            return new Vector2Int128(Overflowing.WrappingSubUnsigned(X, other.X), Overflowing.WrappingSubUnsigned(Y, other.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int128 WrappingAbs() {
+            return new Vector2Int128(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y));
+        }
+
+        #endregion
+
         //
         // Swizzling
         //
