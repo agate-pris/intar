@@ -238,6 +238,44 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 Length() => U34F30.FromBits(Repr.Length());
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2I34F30? Normalize() {
+
+            // 各要素の内部表現型を取り出し、
+            // その絶対値を得る。
+
+            var isNegative = IsNegative();
+            var abs = new Vector2UInt64(
+                unchecked((ulong)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
+                unchecked((ulong)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y))
+            );
+
+            // 各要素の最大値が 0 の場合は null を返す。
+
+            var max = Math.Max(abs.X, abs.Y);
+            if (max == 0) {
+                return null;
+            }
+
+            // ベクトルの大きさが小さい時の誤差を小さくするため、
+            // 最大の要素が表現型の範囲に収まるように拡大する。
+            // 最大の要素以外にも同じ値を乗算する。
+            // 剰余の回数を減らすため、
+            // 先に型の最大値を最大値で割っておき、それを乗算する。
+
+            var scaled = abs * (ulong.MaxValue / max);
+            var sqrDiv4 = scaled.BigMul(scaled) / 4;
+            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y);
+
+            const ulong fracOneTwo = I34F30.OneRepr / 2;
+            var absNormalized = (Vector2Int64)(scaled.BigMul(fracOneTwo) / halfLength);
+
+            return new Vector2I34F30(new Vector2Int64(
+                isNegative.X ? -absNormalized.X : absNormalized.X,
+                isNegative.Y ? -absNormalized.Y : absNormalized.Y
+            ));
+        }
+
 #endif // NET7_0_OR_GREATER
 
         //

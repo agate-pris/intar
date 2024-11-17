@@ -4,7 +4,8 @@
 {%- set component   = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
 {%- set component_u = macros::fixed_type(s=false,  i=int_nbits, f=frac_nbits) %}
 {%- set vector = macros::vector_type(dim=dim, type=component) %}
-{%- set repr = macros::vector_primitive(dim=dim, signed=signed, bits = int_nbits+frac_nbits) %}
+{%- set repr   = macros::vector_primitive(dim=dim, signed=signed, bits = int_nbits+frac_nbits) %}
+{%- set repr_u = macros::vector_primitive(dim=dim, signed=false,  bits = int_nbits+frac_nbits) %}
 {%- if int_nbits+frac_nbits < 128 %}
     {%- set wide_bits_u = macros::inttype(bits= 2*int_nbits + 2*frac_nbits, signed=false) %}
     {%- set wide_component   = macros::fixed_type(s=signed, i = 2*int_nbits, f = 2*frac_nbits) %}
@@ -325,48 +326,38 @@ namespace AgatePris.Intar {
             if dim > 3 or not signed and dim > 1
         %}Unchecked{% endif %}Length());
 
-    {%- if int_nbits+frac_nbits > 32 %}
-
-#endif // NET7_0_OR_GREATER
-    {%- endif %}
-{%- endif %}
-{%- if int_nbits+frac_nbits < 64 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }}? Normalize() {
-            {%- if signed %}
+    {%- if signed %}
 
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var x0 = X.Bits;
-            var x1 = Y.Bits;{% if dim > 2 %}
-            var x2 = Z.Bits;{% if dim > 3 %}
-            var x3 = W.Bits;{% endif %}{% endif %}
+            var isNegative = IsNegative();
+            var abs = new {{ repr_u }}(
+        {%- for c in components %}
+                unchecked(({{
+                    bits_u
+                }})(isNegative.{{
+                    c
+                }} ? Overflowing.WrappingNeg(Repr.{{ c }}) : Repr.{{ c }})){%
+                    if not loop.last
+                %},{% endif %}
+        {%- endfor %}
+            );
 
-            {%- for i in range(end=dim) %}
-            var b{{ i }} = x{{ i }} < 0;
-            {%- endfor %}
+        {%- set abs = 'abs' %}
+    {%- else %}
 
-            {%- for i in range(end=dim) %}
-            var a{{ i }} = unchecked(({{ bits_u }})(b{{ i }} ? Overflowing.WrappingNeg(x{{ i }}) : x{{ i }}));
-            {%- endfor %}
-
-            {%- else -%}
-
-            var a0 = X.Bits;
-            var a1 = Y.Bits;{% if dim > 2 %}
-            var a2 = Z.Bits;{% if dim > 3 %}
-            var a3 = W.Bits;{% endif %}{% endif %}
-
-            {%- endif %}
+        {%- set abs = 'Repr' %}
+    {%- endif %}
 
             // 各要素の最大値が 0 の場合は null を返す。
 
             var max = {% if dim > 2 %}Math.Max({% endif -%}
-                Math.Max(a0, a1)
-                {%- if dim == 3 %}, a2{% endif %}
-                {%- if dim == 4 %}, Math.Max(a2, a3){% endif %}
+                Math.Max({{ abs }}.X, {{ abs }}.Y)
+                {%- if dim == 3 %}, {{ abs }}.Z{% endif %}
+                {%- if dim == 4 %}, Math.Max({{ abs }}.Z, {{ abs }}.W){% endif %}
                 {%- if dim > 2 %}){% endif %};
             if (max == 0) {
                 return null;
@@ -375,40 +366,31 @@ namespace AgatePris.Intar {
             // ベクトルの大きさが小さい時の誤差を小さくするため、
             // 最大の要素が表現型の範囲に収まるように拡大する。
             // 最大の要素以外にも同じ値を乗算する。
+            // 剰余の回数を減らすため、
+            // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            {{ wide_bits_u }} m = {{ bits_u }}.MaxValue / max;
+            var scaled = {{ abs }} * ({{ bits_u }}.MaxValue / max);
+            var sqrDiv4 = scaled.BigMul(scaled) / 4;
+            var halfLength = Mathi.Sqrt(
+    {%- for c in components -%}
+        sqrDiv4.{{ c }}{% if not loop.last %} + {% endif %} 
+    {%- endfor -%}
+            );
 
-            {%- for i in range(end=dim) %}
-            var l{{ i }} = m * a{{ i }};
-            {%- endfor %}
-            var sum =
-                (l0 * l0 / 4) +
-                (l1 * l1 / 4){% if dim > 2 %} +
-                (l2 * l2 / 4){% if dim > 3 %} +
-                (l3 * l3 / 4){% endif %}{% endif %};
-            var ll = Mathi.Sqrt(sum);
+            const {{ bits_u }} fracOneTwo = {{ component }}.OneRepr / 2;
+            var absNormalized = ({{ repr }})(scaled.BigMul(fracOneTwo) / halfLength);
 
-            // 小数部の桁をあわせる。
-
-            const {{ wide_bits_u }} k = {{
-                macros::one(signed=false, bits = 2*(int_nbits+frac_nbits))
-            }} << {{ frac_nbits - 1 }};
-
-            {%- for i in range(end=dim) %}
-            var y{{ i }} = ({{ bits }})(l{{ i }} * k / ll);
-            {%- endfor %}
-
-            // 最後に符号をあわせて返す。
-
-            return new {{ vector }}(
-                {{ component }}.FromBits({% if signed %}b0 ? -y0 : {% endif %}y0),
-                {{ component }}.FromBits({% if signed %}b1 ? -y1 : {% endif %}y1){% if dim > 2 %},
-                {{ component }}.FromBits({% if signed %}b2 ? -y2 : {% endif %}y2){% if dim > 3 %},
-                {{ component }}.FromBits({% if signed %}b3 ? -y3 : {% endif %}y3){% endif %}{% endif %});
+            return new {{ vector }}(new {{ repr }}(
+    {%- for c in components %}
+                {% if signed %}isNegative.{{ c }} ? -absNormalized.{{ c }} : {% endif %}absNormalized.{{ c }}{% if not loop.last %},{% endif %}
+    {%- endfor %}
+            ));
         }
+    {%- if int_nbits+frac_nbits > 32 %}
 
+#endif // NET7_0_OR_GREATER
     {%- endif %}
-
+{%- endif %}
         {%- if component == "I17F15" %}
         {%- for name in [
             "SinP4",
