@@ -1,4 +1,5 @@
-{%- set vector = 'Vector' ~ dim ~ 'Bool' %}
+{% import "macros.cs" as macros %}
+{%- set vector = macros::vector_bool(dim=dim) %}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) %}
 {#- -#}
 using System;

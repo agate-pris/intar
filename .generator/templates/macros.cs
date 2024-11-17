@@ -34,3 +34,7 @@
 {%- macro vector_primitive(dim, signed, bits) -%}
     Vector{{ dim }}{% if not signed %}U{% endif %}Int{{ bits }}
 {%- endmacro -%}
+
+{%- macro vector_bool(dim) -%}
+    {{ self::vector_type(dim=dim, type='Bool') }}
+{%- endmacro -%}
