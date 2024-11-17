@@ -47,9 +47,7 @@ namespace AgatePris.Intar {
             }
         }
 
-        //
-        // IEqualityOperators
-        //
+        #region IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator ==(Vector4UInt64 left, Vector4UInt64 right) {
@@ -61,38 +59,35 @@ namespace AgatePris.Intar {
             return new Vector4Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z, left.W != right.W);
         }
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
+
+        #region Dervied from INumberBase
 
         public Vector4Bool IsNegative() {
             return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
         }
 
-        //
-        // IEquatable
-        //
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4UInt64 other) {
             return X == other.X && Y == other.Y && Z == other.Z && W == other.W;
         }
 
-        //
-        // Object
-        //
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is Vector4UInt64 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4UInt64 operator +(Vector4UInt64 left, Vector4UInt64 right) {
@@ -134,14 +129,16 @@ namespace AgatePris.Intar {
             return new Vector4UInt64(left / right.X, left / right.Y, left / right.Z, left / right.W);
         }
 
-        //
-        // IUnaryPlusOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4UInt64 operator +(Vector4UInt64 x) {
             return new Vector4UInt64(+x.X, +x.Y, +x.Z, +x.W);
         }
+
+        #endregion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -267,9 +264,7 @@ namespace AgatePris.Intar {
 
         #endregion
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -609,6 +604,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt64 WWWY() => new Vector4UInt64(W, W, W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt64 WWWZ() => new Vector4UInt64(W, W, W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt64 WWWW() => new Vector4UInt64(W, W, W, W);
+
+        #endregion
 
     }
 }

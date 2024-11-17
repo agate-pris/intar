@@ -66,9 +66,8 @@ namespace AgatePris.Intar {
             }
         }
 
-        //
-        // IEqualityOperators
-        //
+        #region IEqualityOperators
+
 {%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,9 +80,9 @@ namespace AgatePris.Intar {
         }
 {%- endfor %}
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
+
+        #region Dervied from INumberBase
 
         public {{ macros::vector_bool(dim=dim) }} IsNegative() {
             return new {{ macros::vector_bool(dim=dim) }}(
@@ -93,9 +92,9 @@ namespace AgatePris.Intar {
             );
         }
 
-        //
-        // IEquatable
-        //
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals({{ vector }} other) {
@@ -106,9 +105,9 @@ namespace AgatePris.Intar {
             ;
         }
 
-        //
-        // Object
-        //
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is {{ vector }} o && Equals(o);
 
@@ -119,12 +118,9 @@ namespace AgatePris.Intar {
 {%- endfor -%}
         );
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
 {%- for o in ['+', '-', '*', '/'] %}
 
@@ -165,9 +161,9 @@ namespace AgatePris.Intar {
         }
 {%- endfor %}
 
-        //
-        // IUnaryPlusOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator +({{ vector }} x) {
@@ -179,11 +175,11 @@ namespace AgatePris.Intar {
             );
         }
 
+        #endregion
+
 {%- if signed %}
 
-        //
-        // IUnaryNegationOperators
-        //
+        #region IUnarryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator -({{ vector }} x) {
@@ -195,6 +191,7 @@ namespace AgatePris.Intar {
             );
         }
 
+        #endregion
 {%- endif %}
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
@@ -458,9 +455,7 @@ namespace AgatePris.Intar {
 
         #endregion
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 {# 改行 #}
@@ -491,6 +486,8 @@ namespace AgatePris.Intar {
         {%- endfor %}
     {%- endfor %}
 {%- endfor %}
+
+        #endregion
 
     }
 }

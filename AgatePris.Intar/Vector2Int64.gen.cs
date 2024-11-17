@@ -39,9 +39,7 @@ namespace AgatePris.Intar {
             }
         }
 
-        //
-        // IEqualityOperators
-        //
+        #region IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator ==(Vector2Int64 left, Vector2Int64 right) {
@@ -53,38 +51,35 @@ namespace AgatePris.Intar {
             return new Vector2Bool(left.X != right.X, left.Y != right.Y);
         }
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
+
+        #region Dervied from INumberBase
 
         public Vector2Bool IsNegative() {
             return new Vector2Bool(X < 0, Y < 0);
         }
 
-        //
-        // IEquatable
-        //
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector2Int64 other) {
             return X == other.X && Y == other.Y;
         }
 
-        //
-        // Object
-        //
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is Vector2Int64 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y);
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int64 operator +(Vector2Int64 left, Vector2Int64 right) {
@@ -126,23 +121,25 @@ namespace AgatePris.Intar {
             return new Vector2Int64(left / right.X, left / right.Y);
         }
 
-        //
-        // IUnaryPlusOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int64 operator +(Vector2Int64 x) {
             return new Vector2Int64(+x.X, +x.Y);
         }
 
-        //
-        // IUnaryNegationOperators
-        //
+        #endregion
+
+        #region IUnarryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int64 operator -(Vector2Int64 x) {
             return new Vector2Int64(-x.X, -x.Y);
         }
+
+        #endregion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -287,9 +284,7 @@ namespace AgatePris.Intar {
 
         #endregion
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -321,6 +316,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYXY() => new Vector4Int64(Y, Y, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYYX() => new Vector4Int64(Y, Y, Y, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 YYYY() => new Vector4Int64(Y, Y, Y, Y);
+
+        #endregion
 
     }
 }

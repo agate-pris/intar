@@ -43,9 +43,7 @@ namespace AgatePris.Intar {
             }
         }
 
-        //
-        // IEqualityOperators
-        //
+        #region IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator ==(Vector3Int32 left, Vector3Int32 right) {
@@ -57,38 +55,35 @@ namespace AgatePris.Intar {
             return new Vector3Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z);
         }
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
+
+        #region Dervied from INumberBase
 
         public Vector3Bool IsNegative() {
             return new Vector3Bool(X < 0, Y < 0, Z < 0);
         }
 
-        //
-        // IEquatable
-        //
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector3Int32 other) {
             return X == other.X && Y == other.Y && Z == other.Z;
         }
 
-        //
-        // Object
-        //
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is Vector3Int32 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int32 operator +(Vector3Int32 left, Vector3Int32 right) {
@@ -130,23 +125,25 @@ namespace AgatePris.Intar {
             return new Vector3Int32(left / right.X, left / right.Y, left / right.Z);
         }
 
-        //
-        // IUnaryPlusOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int32 operator +(Vector3Int32 x) {
             return new Vector3Int32(+x.X, +x.Y, +x.Z);
         }
 
-        //
-        // IUnaryNegationOperators
-        //
+        #endregion
+
+        #region IUnarryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int32 operator -(Vector3Int32 x) {
             return new Vector3Int32(-x.X, -x.Y, -x.Z);
         }
+
+        #endregion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -292,9 +289,7 @@ namespace AgatePris.Intar {
 
         #endregion
 
-        //
-        // Swizzling
-        //
+        #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
@@ -415,6 +410,8 @@ namespace AgatePris.Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 ZZZX() => new Vector4Int32(Z, Z, Z, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 ZZZY() => new Vector4Int32(Z, Z, Z, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 ZZZZ() => new Vector4Int32(Z, Z, Z, Z);
+
+        #endregion
 
     }
 }
