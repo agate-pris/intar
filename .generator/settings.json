@@ -36,14 +36,14 @@
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "BitOperations.cs",
             "files": [
                 { "file_name": "BitOperations.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Fixed.cs",
             "files": [
 {%- for signed in [true, false] %}
@@ -56,21 +56,21 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Mathi.cs",
             "files": [
                 { "file_name": "Mathi.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Overflowing.cs",
             "files": [
                 { "file_name": "Overflowing.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Vector.cs",
             "files": [
 {%- for v in vector_list %}
@@ -83,7 +83,7 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "VectorBool.cs",
             "files": [
 {%- for dim in range(start=2, end=5) %}
@@ -93,7 +93,7 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "VectorPrimitive.cs",
             "files": [
 {%- for bits in [32, 64, 128] %}
