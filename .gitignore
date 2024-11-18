@@ -463,9 +463,6 @@ $RECYCLE.BIN/
 .bin
 
 # Ignore not needed meta files
-/Intar.meta
-/Intar.sln.meta
-/Intar.Tests.meta
 /LICENSE.meta
 /package.json.meta
 /README.md.meta

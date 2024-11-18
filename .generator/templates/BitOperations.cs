@@ -2,7 +2,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace {{ namespace }} {
     public static class BitOperations {
 
 #if NET7_0_OR_GREATER
@@ -63,4 +63,4 @@ namespace AgatePris.Intar {
 #endif
 
     }
-}
+} // namespace {{ namespace }}

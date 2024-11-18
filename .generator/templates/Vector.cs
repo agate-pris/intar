@@ -22,7 +22,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace {{ namespace }} {
     [Serializable]
     public struct {{ vector }}
     : IEquatable<{{ vector }}>
@@ -444,7 +444,7 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-} // namespace AgatePris.Intar
+} // namespace {{ namespace }}
 
 {%- if int_nbits+frac_nbits > 64 %}
 

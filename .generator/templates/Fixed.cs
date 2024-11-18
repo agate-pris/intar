@@ -15,7 +15,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace {{ namespace }} {
     [Serializable]
     public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
         // Consts
@@ -928,7 +928,7 @@ namespace AgatePris.Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
-} // namespace AgatePris.Intar
+} // namespace {{ namespace }}
 
 {%- if 64 < int_nbits+frac_nbits %}
 

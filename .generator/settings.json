@@ -30,24 +30,25 @@
     vector_5,
     vector_6,
 ] %}
+{%- set namespace = 'Intar1991' %}
 
 {
     "glob": "**/*.cs",
     "output_dest": [
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "BitOperations.cs",
             "files": [
-                { "file_name": "BitOperations.gen.cs", "params": {} }
+                { "file_name": "BitOperations.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Fixed.cs",
             "files": [
 {%- for signed in [true, false] %}
     {%- for f in fixed_list %}
-                { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
+                { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "namespace": "{{ namespace }}", "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
         {%- if not loop.last %},{% endif %}
     {%- endfor %}
     {%- if not loop.last %},{% endif %}
@@ -55,26 +56,26 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Mathi.cs",
             "files": [
-                { "file_name": "Mathi.gen.cs", "params": {} }
+                { "file_name": "Mathi.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Overflowing.cs",
             "files": [
-                { "file_name": "Overflowing.gen.cs", "params": {} }
+                { "file_name": "Overflowing.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "Vector.cs",
             "files": [
 {%- for v in vector_list %}
     {%- for dim in range(end = 3) %}
-                { "file_name": "Vector{{ dim + 2 }}I{{ v[0] }}F{{ v[1] }}.gen.cs", "params": { "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ v[0] }}, "frac_nbits": {{ v[1] }}, "fixed": true } }
+                { "file_name": "Vector{{ dim + 2 }}I{{ v[0] }}F{{ v[1] }}.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ v[0] }}, "frac_nbits": {{ v[1] }}, "fixed": true } }
         {%- if not loop.last %},{% endif %}
     {%- endfor %}
     {%- if not loop.last %},{% endif %}
@@ -82,23 +83,23 @@
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "VectorBool.cs",
             "files": [
 {%- for dim in range(start=2, end=5) %}
-                { "file_name": "Vector{{ dim }}Bool.gen.cs", "params": { "namespace": "AgatePris.Intar", "dim": {{ dim }} } }
+                { "file_name": "Vector{{ dim }}Bool.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ dim }} } }
     {%- if not loop.last %},{% endif %}
 {%- endfor %}
             ]
         },
         {
-            "dir_path": "../AgatePris.Intar",
+            "dir_path": "../{{ namespace }}",
             "template_name": "VectorPrimitive.cs",
             "files": [
 {%- for bits in [32, 64, 128] %}
     {%- for s in [true, false] %}
         {%- for d in [2, 3, 4] %}
-                { "file_name": "Vector{{ d }}{% if not s %}U{% endif %}Int{{ bits }}.gen.cs", "params": { "dim": {{ d }}, "signed": {{ s }}, "bits": {{ bits }} } }
+                { "file_name": "Vector{{ d }}{% if not s %}U{% endif %}Int{{ bits }}.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ d }}, "signed": {{ s }}, "bits": {{ bits }} } }
             {%- if not loop.last %},{% endif %}
         {%- endfor %}
         {%- if not loop.last %},{% endif %}

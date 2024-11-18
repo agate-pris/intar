@@ -11,7 +11,7 @@
         /// <code>
         /// const {{ type }} k = {{ one }} &lt;&lt; {{ shift }};
         /// var x = k * 30 / 90;
-        /// var actual = Intar.Mathi.{{ prefix }}P{{ order }}(x);
+        /// var actual = Intar1991.Mathi.{{ prefix }}P{{ order }}(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.{{ prefix }}(rad);
         /// var a = (double)actual / ({{ one }} &lt;&lt; {{ 2 * shift }});
@@ -26,7 +26,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace AgatePris.Intar {
+namespace {{ namespace }} {
     public static class Mathi {
         const decimal Pi = 3.1415926535897932384626433833m;
 
@@ -341,7 +341,7 @@ namespace AgatePris.Intar {
         /// const {{ params[0] }} k = {{ one }} &lt;&lt; {{ shift }};
         /// const {{ params[0] }} toRad = System.Math.PI / ({{ one }} &lt;&lt; {{ shift * 2 }});
         /// var x = k * 2 / 3;
-        /// var actual = Intar.Mathi.AtanP{{ params[1] }}(x);
+        /// var actual = Intar1991.Mathi.AtanP{{ params[1] }}(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, {{ params[2] }});
         /// </code>
@@ -381,7 +381,7 @@ namespace AgatePris.Intar {
         /// {{ params[1] }} 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var actual = Intar.Mathi.Atan2P{{ params[1] }}(2, 3);
+        /// var actual = Intar1991.Mathi.Atan2P{{ params[1] }}(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
         /// Assert.AreEqual(expected, actual * toRad, {{ params[3] }});
         /// </code>
@@ -822,4 +822,4 @@ namespace AgatePris.Intar {
         #endregion
 
     }
-}
+} // namespace {{ namespace }}
