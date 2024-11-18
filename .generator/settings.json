@@ -71,6 +71,13 @@
         },
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "Quaternion.cs",
+            "files": [
+                { "file_name": "QuaternionI2F30.gen.cs", "params": { "namespace": "{{ namespace }}", "int_nbits": 2, "frac_nbits": 30 } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "Vector.cs",
             "files": [
 {%- for v in vector_list %}
