@@ -38,3 +38,7 @@
 {%- macro vector_bool(dim) -%}
     {{ self::vector_type(dim=dim, type='Bool') }}
 {%- endmacro -%}
+
+{%- macro quaternion(i, f) -%}
+    QuaternionI{{ i }}F{{ f }}
+{%- endmacro -%}
