@@ -387,29 +387,34 @@ namespace {{ namespace }} {
         #endregion
         {%- endif %}
 
-        {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
+        {%- if signed %}
+        {%- if int_nbits == 17 and frac_nbits == 15
+            or int_nbits == 33 and frac_nbits == 31 %}
 
         #region Sin, Cos
-        {%- for name in [
-            "SinP4",
-            "SinP5",
-            "CosP4",
-            "CosP5",
-        ] %}
-        {%- set sin = name is starting_with("Sin") %}
-        {%- set dim = name | trim_start_matches(pat="SinP") | trim_start_matches(pat="CosP") | truncate(length=1, end="") %}
+        {%- set sin = ['Sin', '正弦比'] %}
+        {%- set cos = ['Cos', '余弦比'] %}
+        {%- for m in [sin, cos] %}
+        {%- for o in [2, 3, 4, 5, 10, 11] %}
+        {%- if o > 5 and int_nbits + frac_nbits < 64 %}
+            {%- continue %}
+        {%- endif %}
+        {%- set f = m[0] ~ 'P' ~ o %}
+        {%- set t = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
 
         /// <summary>
-        /// {{ dim }} 次の多項式で{% if sin %}正弦比{% else %}余弦比{% endif %}を近似する。
+        /// {{ o }} 次の多項式で{{ m[1] }}を近似する。
         /// </summary>
         /// <param name="x">直角に対する角度の比</param>
-        /// <returns>{% if sin %}正弦比{% else %}余弦比{% endif %}</returns>
+        /// <returns>{{ m[1] }}</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
+        public {{ t }} {{ f }}() => {{ t }}.FromBits(Mathi.{{ f }}(Bits));
 
+        {%- endfor %}
         {%- endfor %}
 
         #endregion
+        {%- endif %}
         {%- endif %}
 
         // コード生成の簡単のため、冗長なキャストを許容する。
