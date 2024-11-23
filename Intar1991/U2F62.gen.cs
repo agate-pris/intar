@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     [Serializable]
     public struct U2F62 : IEquatable<U2F62>, IFormattable {
-        // Consts
-        // ------
+
+        #region Consts
 
         public const int IntNbits = 2;
         public const int FracNbits = 62;
@@ -16,8 +16,9 @@ namespace Intar1991 {
 
         internal const ulong OneRepr = 1UL << FracNbits;
 
-        // Fields
-        // ------
+        #endregion
+
+        #region Fields
 
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -29,8 +30,9 @@ namespace Intar1991 {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Constructors
-        // ------------
+        #endregion
+
+        #region Constructor, FromBits
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         U2F62(ulong bits) {
@@ -40,9 +42,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F62 FromBits(ulong bits) => new U2F62(bits);
 
-        //
-        // Static readonly fields
-        //
+        #endregion
+
+        #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -59,9 +61,9 @@ namespace Intar1991 {
         public static readonly U2F62 MaxValue = new U2F62(MaxRepr);
         internal static readonly U2F62 Epsilon = new U2F62(EpsilonRepr);
 
-        //
-        // Properties
-        //
+        #endregion
+
+        #region WideBits
 
 #if NET7_0_OR_GREATER
 
@@ -72,8 +74,9 @@ namespace Intar1991 {
 
 #endif // NET7_0_OR_GREATER
 
-        // Arithmetic Operators
-        // --------------------
+        #endregion
+
+        #region IAdditionOperatos, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F62 operator +(U2F62 left, U2F62 right) {
@@ -84,6 +87,10 @@ namespace Intar1991 {
         public static U2F62 operator -(U2F62 left, U2F62 right) {
             return FromBits(left.Bits - right.Bits);
         }
+
+        #endregion
+
+        #region IMultiplicationOperators, IDivisionOperators
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
@@ -100,13 +107,20 @@ namespace Intar1991 {
             return FromBits((ulong)(left.WideBits * OneRepr / right.Bits));
         }
 
-#endif
+#endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F62 operator +(U2F62 x) => FromBits(+x.Bits);
 
-        // Comparison operators
-        // --------------------
+        // 符号なし固定小数点数は単項マイナス演算子を持たない。
+
+        #endregion
+
+        #region IEqualityOperators, IComparisonOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U2F62 left, U2F62 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U2F62 left, U2F62 right) => left.Bits != right.Bits;
@@ -115,8 +129,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U2F62 left, U2F62 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U2F62 left, U2F62 right) => left.Bits >= right.Bits;
 
-        // Object
-        // ---------------------------------------
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is U2F62 o && Equals(o);
 
@@ -126,23 +141,25 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
 
-        // IEquatable<U2F62>
-        // ---------------------------------------
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(U2F62 other) => this == other;
 
-        // IFormattable
-        // ---------------------------------------
+        #endregion
+
+        #region IFormattable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return LossyToDouble().ToString(format, formatProvider);
         }
 
-        //
-        // IComparable
-        //
+        #endregion
+
+        #region IComparable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(U2F62 value) {
@@ -155,8 +172,9 @@ namespace Intar1991 {
             }
         }
 
-        // Methods
-        // ---------------------------------------
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 Min(U2F62 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U2F62 Max(U2F62 other) => FromBits(Math.Max(Bits, other.Bits));
@@ -170,17 +188,25 @@ namespace Intar1991 {
 #endif
         }
 
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsNegative() => Bits < 0;
+
+        #endregion
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U2F62 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U2F62 Twice() => FromBits(Mathi.Twice(Bits));
 
-        //
-        // Convert from
-        //
+        #region BigMul
+
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -1401,7 +1427,6 @@ namespace Intar1991 {
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
-
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }

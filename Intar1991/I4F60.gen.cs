@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     [Serializable]
     public struct I4F60 : IEquatable<I4F60>, IFormattable {
-        // Consts
-        // ------
+
+        #region Consts
 
         public const int IntNbits = 4;
         public const int FracNbits = 60;
@@ -17,8 +17,9 @@ namespace Intar1991 {
 
         internal const long OneRepr = 1L << FracNbits;
 
-        // Fields
-        // ------
+        #endregion
+
+        #region Fields
 
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -30,8 +31,9 @@ namespace Intar1991 {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Constructors
-        // ------------
+        #endregion
+
+        #region Constructor, FromBits
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         I4F60(long bits) {
@@ -41,9 +43,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 FromBits(long bits) => new I4F60(bits);
 
-        //
-        // Static readonly fields
-        //
+        #endregion
+
+        #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -60,9 +62,9 @@ namespace Intar1991 {
         public static readonly I4F60 MaxValue = new I4F60(MaxRepr);
         internal static readonly I4F60 Epsilon = new I4F60(EpsilonRepr);
 
-        //
-        // Properties
-        //
+        #endregion
+
+        #region WideBits
 
 #if NET7_0_OR_GREATER
 
@@ -73,8 +75,9 @@ namespace Intar1991 {
 
 #endif // NET7_0_OR_GREATER
 
-        // Arithmetic Operators
-        // --------------------
+        #endregion
+
+        #region IAdditionOperatos, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 operator +(I4F60 left, I4F60 right) {
@@ -85,6 +88,10 @@ namespace Intar1991 {
         public static I4F60 operator -(I4F60 left, I4F60 right) {
             return FromBits(left.Bits - right.Bits);
         }
+
+        #endregion
+
+        #region IMultiplicationOperators, IDivisionOperators
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
@@ -101,7 +108,11 @@ namespace Intar1991 {
             return FromBits((long)(left.WideBits * OneRepr / right.Bits));
         }
 
-#endif
+#endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 operator +(I4F60 x) => FromBits(+x.Bits);
@@ -109,8 +120,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 operator -(I4F60 x) => FromBits(-x.Bits);
 
-        // Comparison operators
-        // --------------------
+        #endregion
+
+        #region IEqualityOperators, IComparisonOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(I4F60 left, I4F60 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(I4F60 left, I4F60 right) => left.Bits != right.Bits;
@@ -119,8 +131,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I4F60 left, I4F60 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I4F60 left, I4F60 right) => left.Bits >= right.Bits;
 
-        // Object
-        // ---------------------------------------
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is I4F60 o && Equals(o);
 
@@ -130,23 +143,25 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
 
-        // IEquatable<I4F60>
-        // ---------------------------------------
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(I4F60 other) => this == other;
 
-        // IFormattable
-        // ---------------------------------------
+        #endregion
+
+        #region IFormattable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return LossyToDouble().ToString(format, formatProvider);
         }
 
-        //
-        // IComparable
-        //
+        #endregion
+
+        #region IComparable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(I4F60 value) {
@@ -159,12 +174,12 @@ namespace Intar1991 {
             }
         }
 
-        // Methods
-        // ---------------------------------------
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 Min(I4F60 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 Max(I4F60 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I4F60 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 Clamp(I4F60 min, I4F60 max) {
@@ -175,13 +190,27 @@ namespace Intar1991 {
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I4F60 Half() => FromBits(Mathi.Half(Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I4F60 Twice() => FromBits(Mathi.Twice(Bits));
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsNegative() => Bits < 0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I4F60 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 UnsignedAbs() {
             return U4F60.FromBits(Mathi.UnsignedAbs(Bits));
         }
+
+        #endregion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I4F60 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I4F60 Twice() => FromBits(Mathi.Twice(Bits));
+
+        #region BigMul
 
 #if NET7_0_OR_GREATER
 
@@ -197,18 +226,19 @@ namespace Intar1991 {
 
 #endif // NET7_0_OR_GREATER
 
+        #endregion
+
+        #region Atan2
+
         // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
         // 実装のために 128 ビット整数が必要なため、
         // 64 ビットの固定小数点数に対しては未実装。
 
-        //
-        // Convert from
-        //
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -1376,7 +1406,6 @@ namespace Intar1991 {
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
-
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }

@@ -18,8 +18,8 @@ using System.Runtime.CompilerServices;
 namespace {{ namespace }} {
     [Serializable]
     public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
-        // Consts
-        // ------
+
+        #region Consts
 
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
@@ -35,8 +35,9 @@ namespace {{ namespace }} {
             macros::one(bits=int_nbits+frac_nbits, signed=signed)
         }} << FracNbits;
 
-        // Fields
-        // ------
+        #endregion
+
+        #region Fields
 
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -48,8 +49,9 @@ namespace {{ namespace }} {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        // Constructors
-        // ------------
+        #endregion
+
+        #region Constructor, FromBits
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_type }}({{ self_bits_type }} bits) {
@@ -59,9 +61,9 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
 
-        //
-        // Static readonly fields
-        //
+        #endregion
+
+        #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -78,11 +80,11 @@ namespace {{ namespace }} {
         public static readonly {{ self_type }} MaxValue = new {{ self_type }}(MaxRepr);
         internal static readonly {{ self_type }} Epsilon = new {{ self_type }}(EpsilonRepr);
 
-        //
-        // Properties
-        //
+        #endregion
 
         {%- if int_nbits+frac_nbits < 128 %}
+
+        #region WideBits
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -98,10 +100,11 @@ namespace {{ namespace }} {
 
 #endif // NET7_0_OR_GREATER
         {%- endif %}
+
+        #endregion
         {%- endif %}
 
-        // Arithmetic Operators
-        // --------------------
+        #region IAdditionOperatos, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator +({{ self_type }} left, {{ self_type }} right) {
@@ -113,7 +116,11 @@ namespace {{ namespace }} {
             return FromBits(left.Bits - right.Bits);
         }
 
+        #endregion
+
         {%- if int_nbits+frac_nbits < 128 %}
+
+        #region IMultiplicationOperators, IDivisionOperators
         {%- if int_nbits+frac_nbits > 32 %}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
@@ -134,9 +141,13 @@ namespace {{ namespace }} {
 
         {%- if int_nbits+frac_nbits > 32 %}
 
-#endif
+#endif // NET7_0_OR_GREATER
         {%- endif %}
+
+        #endregion
         {%- endif %}
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator +({{ self_type }} x) => FromBits(+x.Bits);
@@ -145,17 +156,22 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator -({{ self_type }} x) => FromBits(-x.Bits);
+        {%- else %}
+
+        // 符号なし固定小数点数は単項マイナス演算子を持たない。
         {%- endif %}
 
-        // Comparison operators
-        // --------------------
+        #endregion
+
+        #region IEqualityOperators, IComparisonOperators
 {# 改行 #}
         {%- for op in ['==', '!=', '<', '>', '<=', '>='] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator {{ op }}({{ self_type }} left, {{ self_type }} right) => left.Bits {{ op }} right.Bits;
         {%- endfor %}
 
-        // Object
-        // ---------------------------------------
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
@@ -167,14 +183,16 @@ namespace {{ namespace }} {
             int_nbits + frac_nbits > 32
         %}Lossy{% endif %}ToDouble().ToString((IFormatProvider)null);
 
-        // IEquatable<{{ self_type }}>
-        // ---------------------------------------
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals({{ self_type }} other) => this == other;
 
-        // IFormattable
-        // ---------------------------------------
+        #endregion
+
+        #region IFormattable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
@@ -183,9 +201,9 @@ namespace {{ namespace }} {
             %}Lossy{% endif %}ToDouble().ToString(format, formatProvider);
         }
 
-        //
-        // IComparable
-        //
+        #endregion
+
+        #region IComparable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo({{ self_type }} value) {
@@ -198,8 +216,9 @@ namespace {{ namespace }} {
             }
         }
 
-        // Methods
-        // ---------------------------------------
+        #endregion
+
+        #region Min, Max, Clamp
 {# 改行 #}
         {%- for m in ['Min', 'Max'] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
@@ -208,13 +227,6 @@ namespace {{ namespace }} {
         %}{{ self_bits_type }}{% else
         %}Math{% endif %}.{{ m }}(Bits, other.Bits));
         {%- endfor %}
-
-        {%- if signed %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type
-        }} Abs() => FromBits({% if int_nbits+frac_nbits > 64
-        %}{{ self_bits_type }}{% else
-        %}Math{% endif %}.Abs(Bits));
-        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
@@ -229,10 +241,20 @@ namespace {{ namespace }} {
             {%- endif %}
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsNegative() => Bits < 0;
 
         {%- if signed %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ self_type
+        }} Abs() => FromBits({% if int_nbits+frac_nbits > 64
+        %}{{ self_bits_type }}{% else
+        %}Math{% endif %}.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} UnsignedAbs() {
@@ -240,6 +262,13 @@ namespace {{ namespace }} {
         }
 
         {%- endif %}
+
+        #endregion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
+
+        #region BigMul
 
         {%- for output in fixed_list %}
         {%- for rhs in fixed_list %}
@@ -288,12 +317,13 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
 
-        {%- if signed %}
+        #endregion
 
-        {#- Asin, Acos, Atan #}
+        {%- if signed %}
         {%- if int_nbits == 17 and frac_nbits == 15
             or int_nbits == 33 and frac_nbits == 31 %}
 
+        #region Asin, Acos, Atan
         {%- for order in [3, 7] %}
         {%- if order == 7 and int_nbits < 32 %}
             {%- continue %}
@@ -318,9 +348,12 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ atan }} AtanP{{ order }}() => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(Bits));
         {%- endfor %}
+
+        #endregion
         {%- endif %}
 
-        {#- Atan2 #}
+        #region Atan2
+
         {%- if int_nbits+frac_nbits > 32 %}
 
         // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
@@ -351,10 +384,12 @@ namespace {{ namespace }} {
 
         {%- endif %}
 
+        #endregion
         {%- endif %}
 
-        {#- Sin, Cos #}
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
+
+        #region Sin, Cos
         {%- for name in [
             "SinP4",
             "SinP5",
@@ -373,16 +408,13 @@ namespace {{ namespace }} {
         public I2F30 {{ name }}() => I2F30.FromBits(Mathi.{{ name }}(Bits));
 
         {%- endfor %}
-        {%- endif %}
 
-        //
-        // Convert from
-        //
+        #endregion
+        {%- endif %}
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -926,7 +958,6 @@ namespace {{ namespace }} {
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
-
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }
