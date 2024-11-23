@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector3Int64 : IEquatable<Vector3Int64> {
 
+        #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -15,6 +17,8 @@ namespace Intar1991 {
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
+        #endregion
 
         public Vector3Int64(long x, long y, long z) {
             X = x;
@@ -53,14 +57,6 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator !=(Vector3Int64 left, Vector3Int64 right) {
             return new Vector3Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z);
-        }
-
-        #endregion
-
-        #region Dervied from INumberBase
-
-        public Vector3Bool IsNegative() {
-            return new Vector3Bool(X < 0, Y < 0, Z < 0);
         }
 
         #endregion
@@ -145,6 +141,8 @@ namespace Intar1991 {
 
         #endregion
 
+        #region Conversion Operators
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -180,17 +178,31 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3Bool IsNegative() {
+            return new Vector3Bool(X < 0, Y < 0, Z < 0);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Abs() => new Vector3Int64(Math.Abs(X), Math.Abs(Y), Math.Abs(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 UnsignedAbs() {
-            return new Vector3UInt64(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z));
+            var isNegative = IsNegative();
+            return new Vector3UInt64(
+                unchecked((ulong)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((ulong)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
+                unchecked((ulong)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z))
+            );
         }
+
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Min(Vector3Int64 other) {
@@ -220,11 +232,19 @@ namespace Intar1991 {
 #endif
         }
 
+        #endregion
+
+        #region Half and Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Half() => new Vector3Int64(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Twice() => new Vector3Int64(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
+
+        #endregion
+
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
 
 #if NET7_0_OR_GREATER
 
@@ -238,6 +258,9 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Cross(Vector3Int64 other) {
+            // (a1)   (b1)   (a2b3 - a3b2)
+            // (a2) x (b2) = (a3b1 - a1b3)
+            // (a3)   (b3)   (a1b2 - a2b1)
             return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
 
@@ -258,6 +281,8 @@ namespace Intar1991 {
         public ulong Length() => (ulong)Mathi.Sqrt(LengthSquared());
 
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
         #region Overflowing
 

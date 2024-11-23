@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector4Int128 : IEquatable<Vector4Int128> {
 
+        #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -18,6 +20,8 @@ namespace Intar1991 {
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
+        #endregion
 
         public Vector4Int128(Int128 x, Int128 y, Int128 z, Int128 w) {
             X = x;
@@ -59,14 +63,6 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4Int128 left, Vector4Int128 right) {
             return new Vector4Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z, left.W != right.W);
-        }
-
-        #endregion
-
-        #region Dervied from INumberBase
-
-        public Vector4Bool IsNegative() {
-            return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
         }
 
         #endregion
@@ -151,6 +147,8 @@ namespace Intar1991 {
 
         #endregion
 
+        #region Conversion Operators
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -186,17 +184,32 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Bool IsNegative() {
+            return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Abs() => new Vector4Int128(Int128.Abs(X), Int128.Abs(Y), Int128.Abs(Z), Int128.Abs(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 UnsignedAbs() {
-            return new Vector4UInt128(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z), Mathi.UnsignedAbs(W));
+            var isNegative = IsNegative();
+            return new Vector4UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
+                unchecked((UInt128)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z)),
+                unchecked((UInt128)(isNegative.W ? Overflowing.WrappingNeg(W) : W))
+            );
         }
+
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Min(Vector4Int128 other) {
@@ -218,11 +231,17 @@ namespace Intar1991 {
             return new Vector4Int128(Int128.Clamp(X, min.X, max.X), Int128.Clamp(Y, min.Y, max.Y), Int128.Clamp(Z, min.Z, max.Z), Int128.Clamp(W, min.W, max.W));
         }
 
+        #endregion
+
+        #region Half and Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Half() => new Vector4Int128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Twice() => new Vector4Int128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
+
+        #endregion
 
         #region Overflowing
 

@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector3Int128 : IEquatable<Vector3Int128> {
 
+        #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -17,6 +19,8 @@ namespace Intar1991 {
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
+        #endregion
 
         public Vector3Int128(Int128 x, Int128 y, Int128 z) {
             X = x;
@@ -55,14 +59,6 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator !=(Vector3Int128 left, Vector3Int128 right) {
             return new Vector3Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z);
-        }
-
-        #endregion
-
-        #region Dervied from INumberBase
-
-        public Vector3Bool IsNegative() {
-            return new Vector3Bool(X < 0, Y < 0, Z < 0);
         }
 
         #endregion
@@ -147,6 +143,8 @@ namespace Intar1991 {
 
         #endregion
 
+        #region Conversion Operators
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -182,17 +180,31 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3Bool IsNegative() {
+            return new Vector3Bool(X < 0, Y < 0, Z < 0);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Abs() => new Vector3Int128(Int128.Abs(X), Int128.Abs(Y), Int128.Abs(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt128 UnsignedAbs() {
-            return new Vector3UInt128(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z));
+            var isNegative = IsNegative();
+            return new Vector3UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
+                unchecked((UInt128)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z))
+            );
         }
+
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Min(Vector3Int128 other) {
@@ -214,11 +226,17 @@ namespace Intar1991 {
             return new Vector3Int128(Int128.Clamp(X, min.X, max.X), Int128.Clamp(Y, min.Y, max.Y), Int128.Clamp(Z, min.Z, max.Z));
         }
 
+        #endregion
+
+        #region Half and Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Half() => new Vector3Int128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Twice() => new Vector3Int128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
+
+        #endregion
 
         #region Overflowing
 

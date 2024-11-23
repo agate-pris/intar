@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector4UInt32 : IEquatable<Vector4UInt32> {
 
+        #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -16,6 +18,8 @@ namespace Intar1991 {
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
+        #endregion
 
         public Vector4UInt32(uint x, uint y, uint z, uint w) {
             X = x;
@@ -57,14 +61,6 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4UInt32 left, Vector4UInt32 right) {
             return new Vector4Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z, left.W != right.W);
-        }
-
-        #endregion
-
-        #region Dervied from INumberBase
-
-        public Vector4Bool IsNegative() {
-            return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
         }
 
         #endregion
@@ -140,6 +136,8 @@ namespace Intar1991 {
 
         #endregion
 
+        #region Conversion Operators
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -175,9 +173,20 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Bool IsNegative() {
+            return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
+        }
+
+        // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
+
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt32 Min(Vector4UInt32 other) {
@@ -207,11 +216,19 @@ namespace Intar1991 {
 #endif
         }
 
+        #endregion
+
+        #region Half and Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt32 Half() => new Vector4UInt32(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt32 Twice() => new Vector4UInt32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
+
+        #endregion
+
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
 
         public Vector4UInt64 BigMul(uint other) {
             return (Vector4UInt64)this * other;
@@ -236,6 +253,8 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
 
+        #endregion
+
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -252,6 +271,10 @@ namespace Intar1991 {
         public Vector4UInt32 WrappingNeg() {
             return new Vector4UInt32(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z), Overflowing.WrappingNeg(W));
         }
+
+        // Rust に倣って WrappingAddSigned のみを定義し
+        // WrappingSubSigned は定義しない.
+        // https://doc.rust-lang.org/std/primitive.u32.html#method.wrapping_add_signed
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt32 WrappingAddSigned(Vector4Int32 other) {

@@ -23,6 +23,8 @@ using System.Runtime.CompilerServices;
 namespace {{ namespace }} {
     public struct {{ vector }} : IEquatable<{{ vector }}> {
 
+        #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -33,6 +35,8 @@ namespace {{ namespace }} {
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
+        #endregion
 
         public {{ vector }}(
             {%- for c in components %}
@@ -79,18 +83,6 @@ namespace {{ namespace }} {
             );
         }
         {%- endfor %}
-
-        #endregion
-
-        #region Dervied from INumberBase
-
-        public {{ macros::vector_bool(dim=dim) }} IsNegative() {
-            return new {{ macros::vector_bool(dim=dim) }}(
-                {%- for c in components -%}
-                {{ c }} < 0{% if not loop.last %}, {% endif %}
-                {%- endfor -%}
-            );
-        }
 
         #endregion
 
@@ -197,6 +189,8 @@ namespace {{ namespace }} {
         #endregion
         {%- endif %}
 
+        #region Conversion Operators
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -234,9 +228,18 @@ namespace {{ namespace }} {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ macros::vector_bool(dim=dim) }} IsNegative() {
+            return new {{ macros::vector_bool(dim=dim) }}(
+                {%- for c in components -%}
+                {{ c }} < 0{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
 
         {%- if signed %}
 
@@ -249,14 +252,24 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector_u }} UnsignedAbs() {
+            var isNegative = IsNegative();
             return new {{ vector_u }}(
-                {%- for c in components -%}
-                Mathi.UnsignedAbs({{ c }}){% if not loop.last %}, {% endif %}
-                {%- endfor -%}
+                {%- for c in components %}
+                unchecked(({{ component_u }})(isNegative.{{ c }} ? Overflowing.WrappingNeg({{ c }}) : {{ c }}))
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
             );
         }
 
+        {%- else %}
+
+        // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
+
         {%- endif %}
+
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Min({{ vector }} other) {
@@ -328,6 +341,10 @@ namespace {{ namespace }} {
             {%- endif %}
         }
 
+        #endregion
+
+        #region Half and Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Half() => new {{ vector }}(
             {%- for c in components -%}
@@ -342,7 +359,11 @@ namespace {{ namespace }} {
             {%- endfor -%}
         );
 
+        #endregion
+
         {%- if bits < 128 %}
+
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -359,6 +380,9 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
+            // (a1)   (b1)   (a2b3 - a3b2)
+            // (a2) x (b2) = (a3b1 - a1b3)
+            // (a3)   (b3)   (a1b2 - a2b1)
             return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
         {%- endif %}
@@ -400,6 +424,8 @@ namespace {{ namespace }} {
 
 #endif // NET7_0_OR_GREATER
         {%- endif %}
+
+        #endregion
         {%- endif %}
 
         #region Overflowing
@@ -445,6 +471,10 @@ namespace {{ namespace }} {
             );
         }
         {%- else %}
+
+        // Rust に倣って WrappingAddSigned のみを定義し
+        // WrappingSubSigned は定義しない.
+        // https://doc.rust-lang.org/std/primitive.u32.html#method.wrapping_add_signed
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} WrappingAddSigned({{ vector_s }} other) {

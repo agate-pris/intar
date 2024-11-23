@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector2UInt128 : IEquatable<Vector2UInt128> {
 
+        #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
@@ -16,6 +18,8 @@ namespace Intar1991 {
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
+        #endregion
 
         public Vector2UInt128(UInt128 x, UInt128 y) {
             X = x;
@@ -51,14 +55,6 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator !=(Vector2UInt128 left, Vector2UInt128 right) {
             return new Vector2Bool(left.X != right.X, left.Y != right.Y);
-        }
-
-        #endregion
-
-        #region Dervied from INumberBase
-
-        public Vector2Bool IsNegative() {
-            return new Vector2Bool(X < 0, Y < 0);
         }
 
         #endregion
@@ -134,6 +130,8 @@ namespace Intar1991 {
 
         #endregion
 
+        #region Conversion Operators
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -169,9 +167,20 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Bool IsNegative() {
+            return new Vector2Bool(X < 0, Y < 0);
+        }
+
+        // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
+
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt128 Min(Vector2UInt128 other) {
@@ -193,11 +202,17 @@ namespace Intar1991 {
             return new Vector2UInt128(UInt128.Clamp(X, min.X, max.X), UInt128.Clamp(Y, min.Y, max.Y));
         }
 
+        #endregion
+
+        #region Half and Twice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt128 Half() => new Vector2UInt128(Mathi.Half(X), Mathi.Half(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt128 Twice() => new Vector2UInt128(Mathi.Twice(X), Mathi.Twice(Y));
+
+        #endregion
 
         #region Overflowing
 
@@ -215,6 +230,10 @@ namespace Intar1991 {
         public Vector2UInt128 WrappingNeg() {
             return new Vector2UInt128(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y));
         }
+
+        // Rust に倣って WrappingAddSigned のみを定義し
+        // WrappingSubSigned は定義しない.
+        // https://doc.rust-lang.org/std/primitive.u32.html#method.wrapping_add_signed
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt128 WrappingAddSigned(Vector2Int128 other) {
