@@ -1,27 +1,4 @@
-{% import "macros.cs" as macros %}
-
-{%- macro sin_comment(sin, type, shift, one, order, error) %}
-{%- if sin %}{% set prefix='Sin' %}{% set jp='正弦比' %}
-{%- else   %}{% set prefix='Cos' %}{% set jp='余弦比' %}
-{%- endif %}
-
-        /// <summary>
-        /// {{ order }} 次の多項式で{{ jp }}を近似する。
-        /// <example>
-        /// <code>
-        /// const {{ type }} k = {{ one }} &lt;&lt; {{ shift }};
-        /// var x = k * 30 / 90;
-        /// var actual = Intar1991.Mathi.{{ prefix }}P{{ order }}(x);
-        /// var rad = 0.5 * System.Math.PI / k * x;
-        /// var expected = System.Math.{{ prefix }}(rad);
-        /// var a = (double)actual / ({{ one }} &lt;&lt; {{ 2 * shift }});
-        /// Assert.AreEqual(expected, a, {{ error }});
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="x">2 の {{ shift }} 乗を直角とする角度</param>
-        /// <returns>2 の {{ 2 * shift }} 乗を 1 とする{{ jp }}</returns>
-{%- endmacro -%}
+{% import "macros.cs" as macros -%}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -651,65 +628,79 @@ namespace {{ namespace }} {
             11, 0.000000004,
         ] %}
         {%- for i in range(end = parameters|length / 2) %}
-        {%- set o = parameters | nth(n=i * 2    ) %}
-        {%- set e = parameters | nth(n=i * 2 + 1) %}
+        {%- set o = parameters|nth(n = i * 2    ) %}
+        {%- set e = parameters|nth(n = i * 2 + 1) %}
         {%- for bits in [32, 64] %}
+
+        {#- 6 次以上の多項式による近似は
+            64 ビット以上の場合のみ定義する。#}
         {%- if o > 5 and bits < 64 %}
             {%- continue %}
         {%- endif %}
+
         {%- set shift = bits / 2 - 1 %}
         {%- set one   = macros::one(bits=bits, signed=true) %}
         {%- set type  = macros::inttype(bits=bits, signed=true ) %}
         {%- set utype = macros::inttype(bits=bits, signed=false) %}
-        {%- if o == 2 %}
-        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
+
+        {#- 多項式の次数が偶数の場合は Sin が Cos に、
+            奇数の場合は Cos が Sin に依存するので、
+            依存関係の順に定義する。#}
+        {%- if o is even %}{% set methods = ['Cos', 'Sin'] %}
+        {%- else         %}{% set methods = ['Sin', 'Cos'] %}
+        {%- endif %}
+
+        {%- for m in methods %}
+        {%- if m == 'Sin' %}{% set jp = '正弦比' %}
+        {%- else          %}{% set jp = '余弦比' %}
+        {%- endif %}
+
+        /// <summary>
+        /// {{ o }} 次の多項式で{{ jp }}を近似する。
+        /// <example>
+        /// <code>
+        /// const {{ type }} k = {{ one }} &lt;&lt; {{ shift }};
+        /// var x = k * 30 / 90;
+        /// var actual = Intar1991.Mathi.{{ m }}P{{ o }}(x);
+        /// var rad = 0.5 * System.Math.PI / k * x;
+        /// var expected = System.Math.{{ m }}(rad);
+        /// var a = (double)actual / ({{ one }} &lt;&lt; {{ 2 * shift }});
+        /// Assert.AreEqual(expected, a, {{ e }});
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="x">2 の {{ shift }} 乗を直角とする角度</param>
+        /// <returns>2 の {{ 2 * shift }} 乗を 1 とする{{ jp }}</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} CosP{{ o }}({{ type }} x) {
+        public static {{ type }} {{ m }}P{{ o }}({{ type }} x)
+        {%- if   o is even and m == 'Sin' %} => CosP{{ o }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        {%- elif o is odd  and m == 'Cos' %} => SinP{{ o }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
+        {%- elif o is odd %} {
+            x = SinInternal.MakeArgOdd(x);
+            return x * ({{ type }})(SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
+        }
+        {%- else %} {
             const {{ type }} fracPi2 = {{ one }} << {{ shift }};
             const {{ type }} one = {{ one }} << {{ 2 * shift }};
             var q = SinInternal.ToQuadrant(x);
             x &= fracPi2 - 1;
             switch (q) {
                 default:
+                {%- if o == 2 %}
                 case SinInternal.Quadrant.First: return one - (x * x);
                 case SinInternal.Quadrant.Third: return (x * x) - one;
                 case SinInternal.Quadrant.Fourth: return one - ((fracPi2 - x) * (fracPi2 - x));
                 case SinInternal.Quadrant.Second: return ((fracPi2 - x) * (fracPi2 - x)) - one;
-            }
-        }
-        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ o }}({{ type }} x) => CosP{{ o }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
-        {%- elif o % 2 == 0 %}
-        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} CosP{{ o }}({{ type }} x) {
-            const {{ type }} fracPi2 = {{ one }} << {{ shift }};
-            const {{ type }} one = {{ one }} << {{ 2 * shift }};
-            var q = SinInternal.ToQuadrant(x);
-            x &= fracPi2 - 1;
-            switch (q) {
-                default:
+                {%- else %}
                 case SinInternal.Quadrant.First: return one - ({{ type }})SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }});
                 case SinInternal.Quadrant.Third: return ({{ type }})SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }}) - one;
                 case SinInternal.Quadrant.Fourth: return one - ({{ type }})SinInternal.P{{ o }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }});
                 case SinInternal.Quadrant.Second: return ({{ type }})SinInternal.P{{ o }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }}) - one;
+                {%- endif %}
             }
         }
-        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ o }}({{ type }} x) => CosP{{ o }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
-        {%- else %}
-        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ o }}({{ type }} x) {
-            x = SinInternal.MakeArgOdd(x);
-            return x * ({{ type }})(SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
-        }
-        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} CosP{{ o }}({{ type }} x) => SinP{{ o }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
         {%- endif %}
+        {%- endfor %}
         {%- endfor %}
         {%- endfor %}
 
