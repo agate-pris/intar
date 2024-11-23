@@ -1247,7 +1247,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
-        /// Assert.AreEqual(expected, a, 0.0018);
+        /// Assert.AreEqual(expected, a, 0.0004);
         /// </code>
         /// </example>
         /// </summary>
@@ -1278,7 +1278,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
-        /// Assert.AreEqual(expected, a, 0.0018);
+        /// Assert.AreEqual(expected, a, 0.0004);
         /// </code>
         /// </example>
         /// </summary>
@@ -1297,7 +1297,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.0018);
+        /// Assert.AreEqual(expected, a, 0.0004);
         /// </code>
         /// </example>
         /// </summary>
@@ -1328,7 +1328,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.0018);
+        /// Assert.AreEqual(expected, a, 0.0004);
         /// </code>
         /// </example>
         /// </summary>
@@ -1397,7 +1397,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
-        /// Assert.AreEqual(expected, a, 0.0004);
+        /// Assert.AreEqual(expected, a, 0.0018);
         /// </code>
         /// </example>
         /// </summary>
@@ -1419,7 +1419,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1L &lt;&lt; 62);
-        /// Assert.AreEqual(expected, a, 0.0004);
+        /// Assert.AreEqual(expected, a, 0.0018);
         /// </code>
         /// </example>
         /// </summary>
@@ -1438,7 +1438,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Sin(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.0004);
+        /// Assert.AreEqual(expected, a, 0.0018);
         /// </code>
         /// </example>
         /// </summary>
@@ -1460,7 +1460,7 @@ namespace Intar1991 {
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.Cos(rad);
         /// var a = (double)actual / (1 &lt;&lt; 30);
-        /// Assert.AreEqual(expected, a, 0.0004);
+        /// Assert.AreEqual(expected, a, 0.0018);
         /// </code>
         /// </example>
         /// </summary>
