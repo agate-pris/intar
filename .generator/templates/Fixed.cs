@@ -82,11 +82,11 @@ namespace {{ namespace }} {
         // Properties
         //
 
-{%- if int_nbits+frac_nbits < 128 %}
-    {%- if int_nbits+frac_nbits > 32 %}
+        {%- if int_nbits+frac_nbits < 128 %}
+        {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
-    {%- endif %}
+        {%- endif %}
 
         internal {{
             macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed)
@@ -94,11 +94,11 @@ namespace {{ namespace }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
-    {%- if int_nbits+frac_nbits > 32 %}
+        {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
-    {%- endif %}
-{%- endif %}
+        {%- endif %}
+        {%- endif %}
 
         // Arithmetic Operators
         // --------------------
@@ -113,14 +113,14 @@ namespace {{ namespace }} {
             return FromBits(left.Bits - right.Bits);
         }
 
-{%- if int_nbits+frac_nbits < 128 %}
-    {%- if int_nbits+frac_nbits > 32 %}
+        {%- if int_nbits+frac_nbits < 128 %}
+        {%- if int_nbits+frac_nbits > 32 %}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
 
 #if NET7_0_OR_GREATER
-    {%- endif %}
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
@@ -132,27 +132,27 @@ namespace {{ namespace }} {
             return FromBits(({{ self_bits_type }})(left.WideBits * OneRepr / right.Bits));
         }
 
-    {%- if int_nbits+frac_nbits > 32 %}
+        {%- if int_nbits+frac_nbits > 32 %}
 
 #endif
-    {%- endif %}
-{%- endif %}
+        {%- endif %}
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator +({{ self_type }} x) => FromBits(+x.Bits);
 
-{%- if signed %}
+        {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator -({{ self_type }} x) => FromBits(-x.Bits);
-{%- endif %}
+        {%- endif %}
 
         // Comparison operators
         // --------------------
-{# これは改行を挿入するためのコメントです #}
-{%- for op in ['==', '!=', '<', '>', '<=', '>='] %}
+{# 改行 #}
+        {%- for op in ['==', '!=', '<', '>', '<=', '>='] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator {{ op }}({{ self_type }} left, {{ self_type }} right) => left.Bits {{ op }} right.Bits;
-{%- endfor %}
+        {%- endfor %}
 
         // Object
         // ---------------------------------------
@@ -201,32 +201,32 @@ namespace {{ namespace }} {
         // Methods
         // ---------------------------------------
 {# 改行 #}
-{%- for m in ['Min', 'Max'] %}
+        {%- for m in ['Min', 'Max'] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
         self_type }} {{ m }}({{ self_type
         }} other) => FromBits({% if int_nbits+frac_nbits > 64
         %}{{ self_bits_type }}{% else
         %}Math{% endif %}.{{ m }}(Bits, other.Bits));
-{%- endfor %}
+        {%- endfor %}
 
-{%- if signed %}
+        {%- if signed %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ self_type
         }} Abs() => FromBits({% if int_nbits+frac_nbits > 64
         %}{{ self_bits_type }}{% else
         %}Math{% endif %}.Abs(Bits));
-{%- endif %}
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
-{%- if int_nbits + frac_nbits > 64 %}
+            {%- if int_nbits + frac_nbits > 64 %}
             return FromBits({{ self_bits_type }}.Clamp(Bits, min.Bits, max.Bits));
-{%- else %}
+            {%- else %}
 #if NET5_0_OR_GREATER
             return FromBits(Math.Clamp(Bits, min.Bits, max.Bits));
 #else
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 #endif
-{%- endif %}
+            {%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
@@ -241,19 +241,21 @@ namespace {{ namespace }} {
 
         {%- endif %}
 
-{%- for output in fixed_list %}
-    {%- for rhs in fixed_list %}
-        {%- if int_nbits + rhs[0] == output[0]
-            and frac_nbits + rhs[1] == output[1] %}
-            {%- set   signed_big = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
-            {%- set unsigned_big = macros::fixed_type(s=false, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
-            {%- if output[0] + output[1] > 64 %}
+        {%- for output in fixed_list %}
+        {%- for rhs in fixed_list %}
+        {%- if  int_nbits + rhs[0] != output[0]
+            or frac_nbits + rhs[1] != output[1] %}
+            {%- continue %}
+        {%- endif %}
+        {%- set   signed_big = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+        {%- set unsigned_big = macros::fixed_type(s=false, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+        {%- if output[0] + output[1] > 64 %}
 
 #if NET7_0_OR_GREATER
-            {%- endif %}
-            {%- for s in [true, false] %}
-                {%- if signed == s %}
-                    {%- set t = macros::fixed_type(s=s, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+        {%- endif %}
+        {%- for s in [true, false] %}
+        {%- if signed == s %}
+        {%- set t = macros::fixed_type(s=s, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} BigMul({{
@@ -262,82 +264,81 @@ namespace {{ namespace }} {
             return {{ t }}.FromBits(WideBits * other.WideBits);
         }
 
-                {%- else %}
-                    {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
-                    {%- set u = macros::inttype(signed=true,  bits=int_nbits+rhs[0]+frac_nbits+rhs[1]) %}
+        {%- else %}
+        {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
+        {%- set u = macros::inttype(signed=true,  bits=int_nbits+rhs[0]+frac_nbits+rhs[1]) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-                    {%- if int_nbits + frac_nbits > 32 %}
-                        {%- set c = '(' ~ u ~ ')' %}{% else %}
-                        {%- set c = '' %}
-                    {%- endif %}
+            {%- if int_nbits + frac_nbits > 32 %}
+                {%- set c = '(' ~ u ~ ')' %}{% else %}
+                {%- set c = '' %}
+            {%- endif %}
             return {{ t }}.FromBits({{ c }}Bits * {{ c }}other.Bits);
         }
 
-                {%- endif %}
-            {%- endfor %}
-            {%- if output[0] + output[1] > 64 %}
+        {%- endif %}
+        {%- endfor %}
+        {%- if output[0] + output[1] > 64 %}
 
 #endif // NET7_0_OR_GREATER
-            {%- endif %}
         {%- endif %}
-    {%- endfor %}
-{%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
 
-{%- if signed %}
-    {%- if int_nbits == 17 and frac_nbits == 15
-        or int_nbits == 33 and frac_nbits == 31 %}
+        {%- if signed %}
+
+        {#- Asin, Acos, Atan #}
+        {%- if int_nbits == 17 and frac_nbits == 15
+            or int_nbits == 33 and frac_nbits == 31 %}
 
         {%- for order in [3, 7] %}
+        {%- if order == 7 and int_nbits < 32 %}
+            {%- continue %}
+        {%- endif %}
 
-            {%- if order == 7 and int_nbits < 32 %}
-                {%- continue %}
-            {%- endif %}
-
-            {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
-            {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
+        {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
+        {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ acos }} AcosP{{ order }}() => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ asin }} AsinP{{ order }}() => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(Bits));
-
         {%- endfor %}
 
         {%- for order in [2, 3, 9] %}
-            {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
-            {%- if order == 9 and int_nbits < 32 %}
-                {%- continue %}
-            {%- endif %}
+        {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
+        {%- if order == 9 and int_nbits < 32 %}
+            {%- continue %}
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ atan }} AtanP{{ order }}() => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(Bits));
         {%- endfor %}
+        {%- endif %}
 
-    {%- endif %}
-
-    {%- if int_nbits+frac_nbits > 32 %}
+        {#- Atan2 #}
+        {%- if int_nbits+frac_nbits > 32 %}
 
         // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
         // 実装のために 128 ビット整数が必要なため、
         // 64 ビットの固定小数点数に対しては未実装。
 
-    {%- else %}
+        {%- else %}
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
         {%- for order in [2, 3, 9] %}
-            {%- if order < 9 %}
-                {%- set f = 32-2 %}
-            {%- else %}
-                {%- set f = 64-2 %}
-            {%- endif %}
-            {%- set atan = macros::fixed_type(i=2, f=f, s=true) %}
+        {%- if order < 9 %}
+            {%- set f = 32-2 %}
+        {%- else %}
+            {%- set f = 64-2 %}
+        {%- endif %}
+        {%- set atan = macros::fixed_type(i=2, f=f, s=true) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
@@ -348,10 +349,11 @@ namespace {{ namespace }} {
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-    {%- endif %}
+        {%- endif %}
 
-{%- endif %}
+        {%- endif %}
 
+        {#- Sin, Cos #}
         {%- if signed and int_nbits == 17 and frac_nbits == 15 %}
         {%- for name in [
             "SinP4",
@@ -386,29 +388,29 @@ namespace {{ namespace }} {
 
         #region Convert from integer
 
-{%- for bits in [32, 64] %}
-    {%- for s in [true, false] %}
+        {%- for bits in [32, 64] %}
+        {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
 
         {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
-            {#- 自身の符号部を除いた整数部のビット数が
-                相手の符号部を除いたビット数以上の場合
-                暗黙に型変換可能. #}
-            {%- set implicitly_convertible
-                = signed == s and int_nbits >= bits
-                or signed and not s and int_nbits - 1 >= bits %}
+        {#- 自身の符号部を除いた整数部のビット数が
+            相手の符号部を除いたビット数以上の場合
+            暗黙に型変換可能. #}
+        {%- set implicitly_convertible
+            = signed == s and int_nbits >= bits
+            or signed and not s and int_nbits - 1 >= bits %}
 
-            {#- 暗黙に型変換可能な場合は From のみを定義する.
-                それ以外の場合 From 以外 (StrictFrom, CheckedFrom) を定義する. #}
-            {%- if implicitly_convertible %}
-                {%- if method != 'from' %}
-                    {%- continue %}
-                {%- endif %}
-            {%- else %}
-                {%- if method == 'from' %}
-                    {%- continue %}
-                {%- endif %}
+        {#- 暗黙に型変換可能な場合は From のみを定義する.
+            それ以外の場合 From 以外 (StrictFrom, CheckedFrom) を定義する. #}
+        {%- if implicitly_convertible %}
+            {%- if method != 'from' %}
+                {%- continue %}
             {%- endif %}
+        {%- else %}
+            {%- if method == 'from' %}
+                {%- continue %}
+            {%- endif %}
+        {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
@@ -474,7 +476,7 @@ namespace {{ namespace }} {
                 {%- if method == 'strict' %}){% endif -%}
             );
             {%- else %}
-                {%- if signed == s %}
+            {%- if signed == s %}
 
             // 自身と相手の符号が同じ場合、
             // 暗黙に大きい方の型にキャストされる。
@@ -483,7 +485,7 @@ namespace {{ namespace }} {
                 return null;
             }
 
-                {%- elif signed and not s %}
+            {%- elif signed and not s %}
 
             // 自身が符号あり、相手が符号なしであるから、
             // 相手が最小値未満であることはありえない。
@@ -508,15 +510,15 @@ namespace {{ namespace }} {
                 return null;
             }
 
-                {%- endif %}
+            {%- endif %}
 
             return FromBits(({{ self_bits_type }})num * OneRepr);
             {%- endif %}
         }
 
         {%- endfor %}
-    {%- endfor %}
-{%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
 
         #endregion
 
@@ -524,25 +526,25 @@ namespace {{ namespace }} {
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
-{%- for bits in [32, 64] %}
-    {%-   if bits == 32 %}{% set from='float'  %}{% set one='1.0f' %}
-    {%- elif bits == 64 %}{% set from='double' %}{% set one='1.0'  %}
-    {%- endif %}
+        {%- for bits in [32, 64] %}
+        {%-   if bits == 32 %}{% set from='float'  %}{% set one='1.0f' %}
+        {%- elif bits == 64 %}{% set from='double' %}{% set one='1.0'  %}
+        {%- endif %}
 
-    {%- set lossy = int_nbits + frac_nbits < bits %}
+        {%- set lossy = int_nbits + frac_nbits < bits %}
 
-    {%- for method in ['strict', 'unchecked', 'checked'] %}
+        {%- for method in ['strict', 'unchecked', 'checked'] %}
 
         {#- メソッドが checked の場合, 精度が double 以上の場合は定義しない. #}
         {%- if method == 'checked' %}
-            {%- if int_nbits + frac_nbits > 32 %}
+        {%- if int_nbits + frac_nbits > 32 %}
 
         // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
         // 現時点では未実装。
         // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
 
-                {%- continue %}
-            {%- endif %}
+        {%- continue %}
+        {%- endif %}
         {%- endif %}
 
         /// <summary>
@@ -606,10 +608,10 @@ namespace {{ namespace }} {
                 {%- if method == 'strict' %}checked
                 {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * ({{ from }})OneRepr)));
             {%- else %}
-                {%- if not lossy %}
+            {%- if not lossy %}
             // より大きい型に変換して計算。
             return CheckedLossyFrom(num);
-                {%- else %}
+            {%- else %}
             // OneRepr は 2 の自然数冪であるから、
             // その乗算によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない。
@@ -626,49 +628,49 @@ namespace {{ namespace }} {
                 return null;
             }
             return FromBits(({{ self_bits_type }})num);
-                {%- endif %}
+            {%- endif %}
             {%- endif %}
         }
 
-    {%- endfor %}
-{%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
 
         #endregion
 
         #region Convert from fixed-point number
 
-{%- for s in [true, false] %}
-    {%- for target in fixed_list %}
+        {%- for s in [true, false] %}
+        {%- for target in fixed_list %}
         {%- set i = target[0] %}
         {%- set f = target[1] %}
         {%- if s != signed or i != int_nbits or f != frac_nbits %}
-            {%- if i + f > 64 %}
+        {%- if i + f > 64 %}
 
 #if NET7_0_OR_GREATER
+        {%- endif %}
+
+        {%- set from = macros::fixed_type(s=s, i=i, f=f) %}
+        {%- set lossy = frac_nbits < f %}
+        {%- set failable = not signed and s
+            or signed == s and int_nbits < i
+            or signed and not s and int_nbits - 1 < i %}
+        {%- set fu = macros::inttype(signed=false, bits=i+f) %}
+        {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
+
+        {#- コメントなどを共通化するためにループ処理でまかなう #}
+        {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
+
+        {#- 失敗しうる場合 From は定義しない.
+            それ以外の場合 From 以外は定義しない. #}
+        {%- if failable %}
+            {%- if method == 'from' %}
+                {%- continue %}
             {%- endif %}
-
-            {%- set from = macros::fixed_type(s=s, i=i, f=f) %}
-            {%- set lossy = frac_nbits < f %}
-            {%- set failable = not signed and s
-                or signed == s and int_nbits < i
-                or signed and not s and int_nbits - 1 < i %}
-            {%- set fu = macros::inttype(signed=false, bits=i+f) %}
-            {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
-
-            {#- コメントなどを共通化するためにループ処理でまかなう #}
-            {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
-
-                {#- 失敗しうる場合 From は定義しない.
-                    それ以外の場合 From 以外は定義しない. #}
-                {%- if failable %}
-                    {%- if method == 'from' %}
-                        {%- continue %}
-                    {%- endif %}
-                {%- else %}
-                    {%- if method != 'from' %}
-                        {%- continue %}
-                    {%- endif %}
-                {%- endif %}
+        {%- else %}
+            {%- if method != 'from' %}
+                {%- continue %}
+            {%- endif %}
+        {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
@@ -716,70 +718,70 @@ namespace {{ namespace }} {
                 {%- endif %})
             );
 
-                {%- else %}
+            {%- else %}
 
-                    {%- if lossy %}
+            {%- if lossy %}
             var tmp = from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }});
 
-                        {%- if signed == s %}
+            {%- if signed == s %}
             if (tmp < MinRepr ||
                 tmp > MaxRepr) {
                 return null;
             }
-                        {%- elif signed %}
+            {%- elif signed %}
             if (tmp > MaxReprUnsigned) {
                 return null;
             }
-                        {%- else %}
+            {%- else %}
             if (tmp < 0) {
                 return null;
             } else if (({{ fu }})tmp > MaxRepr) {
                 return null;
             }
-                        {%- endif %}
+            {%- endif %}
             return FromBits(({{ self_bits_type }})tmp);
 
-                    {%- else %}
+            {%- else %}
             const int shift = {{ frac_nbits-f }};
-                        {%- if int_nbits + frac_nbits > 64 %}
-                            {%- set lc = 'var' %}{%- else %}
-                            {%- set lc = 'const ' ~ self_bits_type %}
-                        {%- endif %}
+            {%- if int_nbits + frac_nbits > 64 %}
+                {%- set lc = 'var' %}{%- else %}
+                {%- set lc = 'const ' ~ self_bits_type %}
+            {%- endif %}
             {{ lc }} k = EpsilonRepr << shift;
             {{ lc }} max = MaxRepr / k;
 
-                        {%- if signed == s %}
+            {%- if signed == s %}
             {{ lc }} min = MinRepr / k;
             if (from.Bits > max ||
                 from.Bits < min) {
                 return null;
             }
-                        {%- elif signed %}
+            {%- elif signed %}
             if (from.Bits > ({{ tu }})max) {
                 return null;
             }
-                        {%- else %}
+            {%- else %}
             if (from.Bits < 0) {
                 return null;
             } else if (({{ fu }})from.Bits > max) {
                 return null;
             }
-                        {%- endif %}
+            {%- endif %}
             return FromBits(({{ self_bits_type }})from.Bits * k);
-                    {%- endif %}
+            {%- endif %}
 
-                {%- endif %}
+            {%- endif %}
         }
 
-            {%- endfor %}
+        {%- endfor %}
 
-            {%- if i + f > 64 %}
+        {%- if i + f > 64 %}
 
 #endif // NET7_0_OR_GREATER
-            {%- endif %}
         {%- endif %}
-    {%- endfor %}
-{%- endfor %}
+        {%- endif %}
+        {%- endfor %}
+        {%- endfor %}
 
         #endregion
 
@@ -788,8 +790,8 @@ namespace {{ namespace }} {
         // 整数への変換で小数点以下の精度が失われるのは自明なので
         // わざわざ明記することはしない。
 
-{%- for bits in [32, 64] %}
-    {%- for s in [true, false] %}
+        {%- for bits in [32, 64] %}
+        {%- for s in [true, false] %}
         {%- set t = macros::inttype(bits=bits, signed=s) %}
 
         {#- 自身と相手の符号ありなしが同じか、
@@ -803,16 +805,16 @@ namespace {{ namespace }} {
 
         {%- for method in ['to', 'strict', 'unchecked', 'checked'] %}
 
-            {#- 暗黙に変換可能な場合 To 以外は定義しない. #}
-            {%- if implicitly_convertible %}
-                {%- if method != 'to' %}
-                    {%- continue %}
-                {%- endif %}
-            {%- else %}
-                {%- if method == 'to' %}
-                    {%- continue %}
-                {%- endif %}
+        {#- 暗黙に変換可能な場合 To 以外は定義しない. #}
+        {%- if implicitly_convertible %}
+            {%- if method != 'to' %}
+                {%- continue %}
             {%- endif %}
+        {%- else %}
+            {%- if method == 'to' %}
+                {%- continue %}
+            {%- endif %}
+        {%- endif %}
 
         /// <summary>
         /// <para><see cref="{{ t }}" /> への変換を行います。</para>
@@ -895,8 +897,8 @@ namespace {{ namespace }} {
 
         {%- endfor %}
 
-    {%- endfor %}
-{%- endfor %}
+        {%- endfor %}
+        {%- endfor %}
 
         #endregion
 
@@ -904,21 +906,21 @@ namespace {{ namespace }} {
 
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
-{# これは改行を挿入するためのコメントです #}
+{# 改行 #}
 
-{#- 浮動小数点数型への変換 #}
-{%- for bits in [32, 64] %}
-    {%- if   bits == 32 %}{% set t='float'  %}
-    {%- elif bits == 64 %}{% set t='double' %}{% endif %}
+        {#- 浮動小数点数型への変換 #}
+        {%- for bits in [32, 64] %}
+        {%- if   bits == 32 %}{% set t='float'  %}
+        {%- elif bits == 64 %}{% set t='double' %}{% endif %}
 
-    {#- 相手のビット数が自身以下の場合、精度を失う。 #}
+        {#- 相手のビット数が自身以下の場合、精度を失う。 #}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {% if
             bits <= int_nbits + frac_nbits
         %}Lossy{% endif %}To{% if
             bits == 32 %}Single{% elif
             bits == 64 %}Double{% endif %}() => ({{ t }})Bits / ({{ t }})OneRepr;
 
-{%- endfor %}
+        {%- endfor %}
 
         #endregion
 
@@ -933,5 +935,4 @@ namespace {{ namespace }} {
 {%- if 64 < int_nbits+frac_nbits %}
 
 #endif // NET7_0_OR_GREATER
-
 {%- endif %}
