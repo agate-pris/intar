@@ -640,16 +640,16 @@ namespace {{ namespace }} {
 
         {%- set parameters = [
              2, 0.06,
-             4, 0.0004,
-            10, 0.000000004,
              3, 0.0018,
+             4, 0.0004,
              5, 0.0004,
+            10, 0.000000004,
             11, 0.000000004,
         ] %}
         {%- for i in range(end = parameters|length / 2) %}
         {%- set o = parameters | nth(n=i * 2    ) %}
         {%- set e = parameters | nth(n=i * 2 + 1) %}
-        {%- for bits in [64, 32] %}
+        {%- for bits in [32, 64] %}
         {%- if o > 5 and bits < 64 %}
             {%- continue %}
         {%- endif %}
