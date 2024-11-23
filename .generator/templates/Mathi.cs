@@ -679,7 +679,7 @@ namespace {{ namespace }} {
         }
         {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ o }}({{ type }} x) => CosP{{ p2[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        public static {{ type }} SinP{{ o }}({{ type }} x) => CosP{{ o }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
         {%- elif o % 2 == 0 %}
         {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
