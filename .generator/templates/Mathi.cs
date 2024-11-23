@@ -638,24 +638,29 @@ namespace {{ namespace }} {
             {%- endfor %}
         }
 
-        {%- set bits_32 = [64, 32] %}
-        {%- set bits_64 = [64] %}
-        {%- set p2  = [bits_32,  2, 0.06       ] %}
-        {%- set p3  = [bits_32,  3, 0.0018     ] %}
-        {%- set p4  = [bits_32,  4, 0.0004     ] %}
-        {%- set p5  = [bits_32,  5, 0.0004     ] %}
-        {%- set p10 = [bits_64, 10, 0.000000004] %}
-        {%- set p11 = [bits_64, 11, 0.000000004] %}
-
-        {%- for bits in p2[0] %}
+        {%- set parameters = [
+             2, 0.06,
+             4, 0.0004,
+            10, 0.000000004,
+             3, 0.0018,
+             5, 0.0004,
+            11, 0.000000004,
+        ] %}
+        {%- for i in range(end = parameters|length / 2) %}
+        {%- set o = parameters | nth(n=i * 2    ) %}
+        {%- set e = parameters | nth(n=i * 2 + 1) %}
+        {%- for bits in [64, 32] %}
+        {%- if o > 5 and bits < 64 %}
+            {%- continue %}
+        {%- endif %}
         {%- set shift = bits / 2 - 1 %}
         {%- set one   = macros::one(bits=bits, signed=true) %}
         {%- set type  = macros::inttype(bits=bits, signed=true ) %}
         {%- set utype = macros::inttype(bits=bits, signed=false) %}
-
-        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=p2[1], error=p2[2]) }}
+        {%- if o == 2 %}
+        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} CosP{{ p2[1] }}({{ type }} x) {
+        public static {{ type }} CosP{{ o }}({{ type }} x) {
             const {{ type }} fracPi2 = {{ one }} << {{ shift }};
             const {{ type }} one = {{ one }} << {{ 2 * shift }};
             var q = SinInternal.ToQuadrant(x);
@@ -668,58 +673,39 @@ namespace {{ namespace }} {
                 case SinInternal.Quadrant.Second: return ((fracPi2 - x) * (fracPi2 - x)) - one;
             }
         }
-
-        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=p2[1], error=p2[2]) }}
+        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ p2[1] }}({{ type }} x) => CosP{{ p2[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
-        {%- endfor %}
-
-        {%- for params in [p4, p10] %}
-        {%- for bits in params[0] %}
-        {%- set shift = bits / 2 - 1 %}
-        {%- set one   = macros::one(bits=bits, signed=true) %}
-        {%- set type  = macros::inttype(bits=bits, signed=true ) %}
-        {%- set utype = macros::inttype(bits=bits, signed=false) %}
-
-        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
+        public static {{ type }} SinP{{ o }}({{ type }} x) => CosP{{ p2[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        {%- elif o % 2 == 0 %}
+        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} CosP{{ params[1] }}({{ type }} x) {
+        public static {{ type }} CosP{{ o }}({{ type }} x) {
             const {{ type }} fracPi2 = {{ one }} << {{ shift }};
             const {{ type }} one = {{ one }} << {{ 2 * shift }};
             var q = SinInternal.ToQuadrant(x);
             x &= fracPi2 - 1;
             switch (q) {
                 default:
-                case SinInternal.Quadrant.First: return one - ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }});
-                case SinInternal.Quadrant.Third: return ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }}) - one;
-                case SinInternal.Quadrant.Fourth: return one - ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }});
-                case SinInternal.Quadrant.Second: return ({{ type }})SinInternal.P{{ params[1] }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }}) - one;
+                case SinInternal.Quadrant.First: return one - ({{ type }})SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }});
+                case SinInternal.Quadrant.Third: return ({{ type }})SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }}) - one;
+                case SinInternal.Quadrant.Fourth: return one - ({{ type }})SinInternal.P{{ o }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }});
+                case SinInternal.Quadrant.Second: return ({{ type }})SinInternal.P{{ o }}(({{ utype }})((fracPi2 - x) * (fracPi2 - x)) >> {{ shift }}) - one;
             }
         }
-
-        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
+        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ params[1] }}({{ type }} x) => CosP{{ params[1] }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
-        {%- endfor %}
-        {%- endfor %}
-
-        {%- for params in [p3, p5, p11] %}
-        {%- for bits in params[0] %}
-        {%- set shift = bits / 2 - 1 %}
-        {%- set one   = macros::one(bits=bits, signed=true) %}
-        {%- set type  = macros::inttype(bits=bits, signed=true ) %}
-        {%- set utype = macros::inttype(bits=bits, signed=false) %}
-
-        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
+        public static {{ type }} SinP{{ o }}({{ type }} x) => CosP{{ o }}(Overflowing.WrappingSub(x, {{ one }} << {{ shift }}));
+        {%- else %}
+        {{- self::sin_comment(sin=true, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} SinP{{ params[1] }}({{ type }} x) {
+        public static {{ type }} SinP{{ o }}({{ type }} x) {
             x = SinInternal.MakeArgOdd(x);
-            return x * ({{ type }})(SinInternal.P{{ params[1] }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
+            return x * ({{ type }})(SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
         }
-
-        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=params[1], error=params[2]) }}
+        {{- self::sin_comment(sin=false, type=type, shift=shift, one=one, order=o, error=e) }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} CosP{{ params[1] }}({{ type }} x) => SinP{{ params[1] }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
+        public static {{ type }} CosP{{ o }}({{ type }} x) => SinP{{ o }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
+        {%- endif %}
         {%- endfor %}
         {%- endfor %}
 
