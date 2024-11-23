@@ -247,6 +247,106 @@ namespace Intar1991 {
 
         #endregion
 
+        #region Sin, Cos
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP2() => I2F62.FromBits(Mathi.SinP2(Bits));
+
+        /// <summary>
+        /// 3 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP3() => I2F62.FromBits(Mathi.SinP3(Bits));
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP4() => I2F62.FromBits(Mathi.SinP4(Bits));
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP5() => I2F62.FromBits(Mathi.SinP5(Bits));
+
+        /// <summary>
+        /// 10 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP10() => I2F62.FromBits(Mathi.SinP10(Bits));
+
+        /// <summary>
+        /// 11 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP11() => I2F62.FromBits(Mathi.SinP11(Bits));
+
+        /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP2() => I2F62.FromBits(Mathi.CosP2(Bits));
+
+        /// <summary>
+        /// 3 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP3() => I2F62.FromBits(Mathi.CosP3(Bits));
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP4() => I2F62.FromBits(Mathi.CosP4(Bits));
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP5() => I2F62.FromBits(Mathi.CosP5(Bits));
+
+        /// <summary>
+        /// 10 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP10() => I2F62.FromBits(Mathi.CosP10(Bits));
+
+        /// <summary>
+        /// 11 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP11() => I2F62.FromBits(Mathi.CosP11(Bits));
+
+        #endregion
+
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
