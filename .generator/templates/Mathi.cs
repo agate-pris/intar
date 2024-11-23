@@ -561,6 +561,10 @@ namespace {{ namespace }} {
             // 2631866036
             // 3875141568
 
+            // もっとも最初に計算に使う係数 (P11I64F など) は
+            // 0.5 に相当する値を別途加算するため、
+            // ここでは加算しない。
+
             internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z64));
             internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z64 * (1 << 1)));
             internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z64 * (1 << 4)));
