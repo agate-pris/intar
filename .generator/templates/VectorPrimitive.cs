@@ -2,6 +2,7 @@
 {%- set vector   = macros::vector_primitive(signed=signed, dim=dim, bits=bits) %}
 {%- set vector_s = macros::vector_primitive(signed=true,   dim=dim, bits=bits) %}
 {%- set vector_u = macros::vector_primitive(signed=false,  dim=dim, bits=bits) %}
+{%- set vector_b = macros::vector_bool(dim=dim) %}
 {%- set component   = macros::inttype(signed=signed, bits=bits) %}
 {%- set component_u = macros::inttype(signed=false,  bits=bits) %}
 {%- if bits < 128 %}
@@ -75,8 +76,8 @@ namespace {{ namespace }} {
         {%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ macros::vector_bool(dim=dim) }} operator {{ o }}({{ vector }} left, {{ vector }} right) {
-            return new {{ macros::vector_bool(dim=dim) }}(
+        public static {{ vector_b }} operator {{ o }}({{ vector }} left, {{ vector }} right) {
+            return new {{ vector_b }}(
                 {%- for c in components -%}
                 left.{{ c }} {{ o }} right.{{ c }}{% if not loop.last %}, {% endif %}
                 {%- endfor -%}
@@ -233,8 +234,8 @@ namespace {{ namespace }} {
         #region IsNegative, Abs, UnsignedAbs
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ macros::vector_bool(dim=dim) }} IsNegative() {
-            return new {{ macros::vector_bool(dim=dim) }}(
+        public {{ vector_b }} IsNegative() {
+            return new {{ vector_b }}(
                 {%- for c in components -%}
                 {{ c }} < 0{% if not loop.last %}, {% endif %}
                 {%- endfor -%}
