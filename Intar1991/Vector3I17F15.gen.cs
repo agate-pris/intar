@@ -89,7 +89,7 @@ namespace Intar1991 {
         }
 
         //
-        // IIMultiplyOperators
+        // IMultiplyOperators
         // IDivisionOperators
         //
 

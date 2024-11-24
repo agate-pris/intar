@@ -137,7 +137,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         //
-        // IIMultiplyOperators
+        // IMultiplyOperators
         // IDivisionOperators
         //
 

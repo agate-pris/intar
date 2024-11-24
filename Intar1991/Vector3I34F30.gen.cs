@@ -95,7 +95,7 @@ namespace Intar1991 {
 #if NET7_0_OR_GREATER
 
         //
-        // IIMultiplyOperators
+        // IMultiplyOperators
         // IDivisionOperators
         //
 
