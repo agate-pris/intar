@@ -175,7 +175,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Bool IsNegative() {

@@ -231,7 +231,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector_b }} IsNegative() {
@@ -260,6 +260,18 @@ namespace {{ namespace }} {
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
             );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal ({{ vector_b }} isNegative, {{ vector_u }} unsignedAbs) IsNegativeAndUnsignedAbs() {
+            var isNegative = IsNegative();
+            var unsignedAbs = new {{ vector_u }}(
+                {%- for c in components %}
+                unchecked(({{ component_u }})(isNegative.{{ c }} ? Overflowing.WrappingNeg({{ c }}) : {{ c }}))
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+            return (isNegative, unsignedAbs);
         }
 
         {%- else %}

@@ -182,7 +182,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Bool IsNegative() {
@@ -200,6 +200,17 @@ namespace Intar1991 {
                 unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
                 unchecked((UInt128)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z))
             );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal (Vector3Bool isNegative, Vector3UInt128 unsignedAbs) IsNegativeAndUnsignedAbs() {
+            var isNegative = IsNegative();
+            var unsignedAbs = new Vector3UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
+                unchecked((UInt128)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z))
+            );
+            return (isNegative, unsignedAbs);
         }
 
         #endregion
