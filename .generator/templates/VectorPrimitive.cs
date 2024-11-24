@@ -344,7 +344,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region Half and Twice
+        #region Half, Twice, UncheckedComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Half() => new {{ vector }}(
@@ -359,6 +359,11 @@ namespace {{ namespace }} {
             Mathi.Twice({{ c }}){% if not loop.last %}, {% endif %}
             {%- endfor -%}
         );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal {{ component }} UncheckedComponentsSum() => {% for c in components -%}
+            {{ c }}{% if not loop.last %} + {% endif %}
+        {%- endfor %};
 
         #endregion
 

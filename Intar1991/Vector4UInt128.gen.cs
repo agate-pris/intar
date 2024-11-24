@@ -212,13 +212,16 @@ namespace Intar1991 {
 
         #endregion
 
-        #region Half and Twice
+        #region Half, Twice, UncheckedComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Half() => new Vector4UInt128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Twice() => new Vector4UInt128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal UInt128 UncheckedComponentsSum() => X + Y + Z + W;
 
         #endregion
 
