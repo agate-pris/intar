@@ -260,7 +260,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
 
 #if NET7_0_OR_GREATER
 
@@ -294,6 +294,13 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong Length() => (ulong)Mathi.Sqrt(LengthSquared());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal ulong HalfLength() {
+            var abs = UnsignedAbs();
+            var sqr = abs.BigMul(abs);
+            return (ulong)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+        }
 
 #endif // NET7_0_OR_GREATER
 

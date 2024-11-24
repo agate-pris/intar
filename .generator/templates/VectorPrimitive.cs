@@ -398,7 +398,7 @@ namespace {{ namespace }} {
 
         {%- if bits < 128 %}
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -446,6 +446,17 @@ namespace {{ namespace }} {
         %}Unchecked{% endif %}Length() => ({{ component_u }})Mathi.Sqrt({%
             if dim > 3 or not signed and dim > 1
         %}Unchecked{% endif %}LengthSquared());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal {{ component_u }} HalfLength() {
+            {%- if signed %}
+            var abs = UnsignedAbs();
+            var sqr = abs.BigMul(abs);
+            {%- else %}
+            var sqr = BigMul(this);
+            {%- endif %}
+            return ({{ component_u }})Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+        }
         {%- if bits > 32 %}
 
 #endif // NET7_0_OR_GREATER

@@ -254,7 +254,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
 
         public Vector2Int64 BigMul(int other) {
             return (Vector2Int64)this * other;
@@ -278,6 +278,13 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Length() => (uint)Mathi.Sqrt(LengthSquared());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal uint HalfLength() {
+            var abs = UnsignedAbs();
+            var sqr = abs.BigMul(abs);
+            return (uint)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+        }
 
         #endregion
 
