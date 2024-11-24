@@ -219,7 +219,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region Min, Max, Clamp
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Min(Vector4Int64 other) {
@@ -230,6 +230,8 @@ namespace Intar1991 {
         public Vector4Int64 Max(Vector4Int64 other) {
             return new Vector4Int64(Math.Max(X, other.X), Math.Max(Y, other.Y), Math.Max(Z, other.Z), Math.Max(W, other.W));
         }
+
+        // MaxComponent は符号なしの場合のみ定義する。
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Clamp(long min, long max) {

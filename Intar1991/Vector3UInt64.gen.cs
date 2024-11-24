@@ -182,7 +182,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region Min, Max, Clamp
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Min(Vector3UInt64 other) {
@@ -192,6 +192,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 Max(Vector3UInt64 other) {
             return new Vector3UInt64(Math.Max(X, other.X), Math.Max(Y, other.Y), Math.Max(Z, other.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal ulong MaxComponent() {
+            return Math.Max(Math.Max(X, Y), Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

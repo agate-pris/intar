@@ -213,7 +213,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region Min, Max, Clamp
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int32 Min(Vector3Int32 other) {
@@ -224,6 +224,8 @@ namespace Intar1991 {
         public Vector3Int32 Max(Vector3Int32 other) {
             return new Vector3Int32(Math.Max(X, other.X), Math.Max(Y, other.Y), Math.Max(Z, other.Z));
         }
+
+        // MaxComponent は符号なしの場合のみ定義する。
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int32 Clamp(int min, int max) {

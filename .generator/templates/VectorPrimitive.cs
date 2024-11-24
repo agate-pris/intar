@@ -282,7 +282,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region Min, Max, Clamp
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Min({{ vector }} other) {
@@ -301,6 +301,23 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
+
+        {%- if signed %}
+
+        // MaxComponent は符号なしの場合のみ定義する。
+        {%- else %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal {{ component }} MaxComponent() {
+            {%- if dim == 2 %}
+            return {{ math }}.Max(X, Y);
+            {%- elif dim == 3 %}
+            return {{ math }}.Max({{ math }}.Max(X, Y), Z);
+            {%- elif dim == 4 %}
+            return {{ math }}.Max({{ math }}.Max(X, Y), {{ math }}.Max(Z, W));
+            {%- endif %}
+        }
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector

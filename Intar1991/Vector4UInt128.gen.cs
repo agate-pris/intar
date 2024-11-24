@@ -188,7 +188,7 @@ namespace Intar1991 {
 
         #endregion
 
-        #region Min, Max, Clamp
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Min(Vector4UInt128 other) {
@@ -198,6 +198,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Max(Vector4UInt128 other) {
             return new Vector4UInt128(UInt128.Max(X, other.X), UInt128.Max(Y, other.Y), UInt128.Max(Z, other.Z), UInt128.Max(W, other.W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal UInt128 MaxComponent() {
+            return UInt128.Max(UInt128.Max(X, Y), UInt128.Max(Z, W));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
