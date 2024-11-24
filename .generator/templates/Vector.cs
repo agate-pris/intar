@@ -30,8 +30,8 @@ namespace {{ namespace }} {
     public struct {{ vector }}
     : IEquatable<{{ vector }}>
     , IFormattable {
-        // Fields
-        // ---------------------------------------
+
+        #region Fields
 
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -43,7 +43,11 @@ namespace {{ namespace }} {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+        #endregion
+
         {%- if int_nbits+frac_nbits < 128 %}
+
+        #region WideRepr
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -57,8 +61,12 @@ namespace {{ namespace }} {
 
 #endif // NET7_0_OR_GREATER
         {%- endif %}
+
+        #endregion
         {%- endif %}
-{% for c in components %}
+
+        #region Components
+        {%- for c in components %}
         public {{ component }} {{ c }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => {{ component }}.FromBits(Repr.{{ c }});
@@ -66,6 +74,7 @@ namespace {{ namespace }} {
             set => Repr.{{ c }} = value.Bits;
         }
         {%- endfor %}
+        #endregion
 
         public {{ component }} this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -74,8 +83,7 @@ namespace {{ namespace }} {
             set => Repr[index] = value.Bits;
         }
 
-        // Constructors
-        // ---------------------------------------
+        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }}({{ repr }} repr) {
@@ -100,8 +108,9 @@ namespace {{ namespace }} {
             {%- endfor -%}
         ) { }
 
-        // Constants
-        // ---------------------------------------
+        #endregion
+
+        #region Zero, One, {% for c in components %}Unit{{ c }}{% if not loop.last %}, {% endif %}{% endfor %}
 
         public static readonly {{ vector }} Zero = new {{ vector }}({{ component }}.Zero);
         public static readonly {{ vector }} One = new {{ vector }}({{ component }}.One);
@@ -116,10 +125,9 @@ namespace {{ namespace }} {
         );
         {%- endfor %}
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators
 
         {%- for o in ['+', '-'] %}
 
@@ -130,16 +138,15 @@ namespace {{ namespace }} {
 
         {%- endfor %}
 
+        #endregion
+
         {%- if int_nbits+frac_nbits < 128 %}
+
+        #region IMultiplyOperators, IDivisionOperators
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
         {%- endif %}
-
-        //
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator *({{ vector }} a, {{ vector }} b) {
@@ -174,19 +181,21 @@ namespace {{ namespace }} {
 
 #endif // NET7_0_OR_GREATER
         {%- endif %}
+
+        #endregion
         {%- endif %}
 
-        //
-        // IUnaryPlusOperators
-        // IUnaryNegationOperators
-        //
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator +({{ vector }} x) {
             return new {{ vector }}(+x.Repr);
         }
 
-        {%- if signed %}
+        {%- if not signed %}
+
+        // 単項マイナス演算子は符号ありの場合のみ定義される
+        {%- else %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator -({{ vector }} x) {
@@ -195,27 +204,21 @@ namespace {{ namespace }} {
 
         {%- endif %}
 
-        //
-        // IEqualityOperators
-        //
+        #endregion
 
+        #region IEqualityOperators
         {%- for o in ['==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector_b }} operator {{ o
         }}({{ vector }} lhs, {{ vector }} rhs) => lhs.Repr {{ o }} rhs.Repr;
-
         {%- endfor %}
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
 
         public {{ vector_b }} IsNegative() => Repr.IsNegative();
 
-        //
-        // Object
-        //
+        #region Object
 
         public override bool Equals(object obj) => obj is {{ vector }} o && Equals(o);
 
@@ -229,18 +232,16 @@ namespace {{ namespace }} {
             {%- endfor -%}
         >";
 
-        //
-        // IEquatable
-        //
+        #endregion
 
+        #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals({{ vector }} other) {
             return Repr.Equals(other.Repr);
         }
+        #endregion
 
-        // IFormattable
-        // ---------------------------------------
-
+        #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<
@@ -249,19 +250,18 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             >";
         }
+        #endregion
 
-        //
-        // Methods
-        //
-
+        #region Min, Max
         {%- for m in ['Min', 'Max'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} {{ m }}({{ vector }} other) {
             return new {{ vector }}(Repr.{{ m }}(other.Repr));
         }
-
         {%- endfor %}
+
+        #endregion
 
         {%- if signed %}
 
@@ -270,12 +270,16 @@ namespace {{ namespace }} {
 
         {%- endif %}
 
+        #region Half, Twice
         {%- for m in ['Half', 'Twice'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal {{ vector }} {{ m }}() => new {{ vector }}(Repr.{{ m }}());
-
         {%- endfor %}
+
+        #endregion
+
+        #region Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Clamp({{ component }} min, {{ component }} max) {
@@ -287,11 +291,15 @@ namespace {{ namespace }} {
             return new {{ vector }}(Repr.Clamp(min.Repr, max.Repr));
         }
 
+        #endregion
+
         {%- if int_nbits+frac_nbits < 128 %}
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
         {%- endif %}
+
+        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -329,6 +337,8 @@ namespace {{ namespace }} {
         %}Unchecked{% endif %}Length() => {{ component_u }}.FromBits(Repr.{%
             if dim > 3 or not signed and dim > 1
         %}Unchecked{% endif %}Length());
+
+        #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }}? Normalize() {
@@ -396,6 +406,8 @@ namespace {{ namespace }} {
         {%- endif %}
         {%- endif %}
         {%- if component == "I17F15" %}
+
+        #region Sin/Cos
         {%- for name in [
             "SinP4",
             "SinP5",
@@ -411,6 +423,8 @@ namespace {{ namespace }} {
             W.{{ name }}(){% endif %}{% endif %});
 
         {%- endfor %}
+
+        #endregion
         {%- endif %}
 
         #region Swizzling

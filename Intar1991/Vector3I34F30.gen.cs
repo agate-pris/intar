@@ -6,8 +6,8 @@ namespace Intar1991 {
     public struct Vector3I34F30
     : IEquatable<Vector3I34F30>
     , IFormattable {
-        // Fields
-        // ---------------------------------------
+
+        #region Fields
 
 #if NET5_0_OR_GREATER
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
@@ -19,6 +19,10 @@ namespace Intar1991 {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
+        #endregion
+
+        #region WideRepr
+
 #if NET7_0_OR_GREATER
 
         internal Vector3Int128 WideRepr {
@@ -28,6 +32,9 @@ namespace Intar1991 {
 
 #endif // NET7_0_OR_GREATER
 
+        #endregion
+
+        #region Components
         public I34F30 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I34F30.FromBits(Repr.X);
@@ -46,6 +53,7 @@ namespace Intar1991 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr.Z = value.Bits;
         }
+        #endregion
 
         public I34F30 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,8 +62,7 @@ namespace Intar1991 {
             set => Repr[index] = value.Bits;
         }
 
-        // Constructors
-        // ---------------------------------------
+        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30(Vector3Int64 repr) {
@@ -68,8 +75,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30(I34F30 value) : this(value, value, value) { }
 
-        // Constants
-        // ---------------------------------------
+        #endregion
+
+        #region Zero, One, UnitX, UnitY, UnitZ
 
         public static readonly Vector3I34F30 Zero = new Vector3I34F30(I34F30.Zero);
         public static readonly Vector3I34F30 One = new Vector3I34F30(I34F30.One);
@@ -77,10 +85,9 @@ namespace Intar1991 {
         public static readonly Vector3I34F30 UnitY = new Vector3I34F30(I34F30.Zero, I34F30.One, I34F30.Zero);
         public static readonly Vector3I34F30 UnitZ = new Vector3I34F30(I34F30.Zero, I34F30.Zero, I34F30.One);
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I34F30 operator +(Vector3I34F30 a, Vector3I34F30 b) {
@@ -92,12 +99,11 @@ namespace Intar1991 {
             return new Vector3I34F30(a.Repr - b.Repr);
         }
 
-#if NET7_0_OR_GREATER
+        #endregion
 
-        //
-        // IMultiplyOperators
-        // IDivisionOperators
-        //
+        #region IMultiplyOperators, IDivisionOperators
+
+#if NET7_0_OR_GREATER
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I34F30 operator *(Vector3I34F30 a, Vector3I34F30 b) {
@@ -131,10 +137,9 @@ namespace Intar1991 {
 
 #endif // NET7_0_OR_GREATER
 
-        //
-        // IUnaryPlusOperators
-        // IUnaryNegationOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I34F30 operator +(Vector3I34F30 x) {
@@ -146,9 +151,9 @@ namespace Intar1991 {
             return new Vector3I34F30(-x.Repr);
         }
 
-        //
-        // IEqualityOperators
-        //
+        #endregion
+
+        #region IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator ==(Vector3I34F30 lhs, Vector3I34F30 rhs) => lhs.Repr == rhs.Repr;
@@ -156,15 +161,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator !=(Vector3I34F30 lhs, Vector3I34F30 rhs) => lhs.Repr != rhs.Repr;
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
 
         public Vector3Bool IsNegative() => Repr.IsNegative();
 
-        //
-        // Object
-        //
+        #region Object
 
         public override bool Equals(object obj) => obj is Vector3I34F30 o && Equals(o);
 
@@ -174,26 +175,23 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}, {Z}>";
 
-        //
-        // IEquatable
-        //
+        #endregion
 
+        #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector3I34F30 other) {
             return Repr.Equals(other.Repr);
         }
+        #endregion
 
-        // IFormattable
-        // ---------------------------------------
-
+        #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)}>";
         }
+        #endregion
 
-        //
-        // Methods
-        //
+        #region Min, Max
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30 Min(Vector3I34F30 other) {
@@ -205,14 +203,22 @@ namespace Intar1991 {
             return new Vector3I34F30(Repr.Max(other.Repr));
         }
 
+        #endregion
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30 Abs() => new Vector3I34F30(Repr.Abs());
+
+        #region Half, Twice
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector3I34F30 Half() => new Vector3I34F30(Repr.Half());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector3I34F30 Twice() => new Vector3I34F30(Repr.Twice());
+
+        #endregion
+
+        #region Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30 Clamp(I34F30 min, I34F30 max) {
@@ -224,7 +230,11 @@ namespace Intar1991 {
             return new Vector3I34F30(Repr.Clamp(min.Repr, max.Repr));
         }
 
+        #endregion
+
 #if NET7_0_OR_GREATER
+
+        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I68F60 Cross(Vector3I34F30 other) {
@@ -250,6 +260,8 @@ namespace Intar1991 {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 Length() => U34F30.FromBits(Repr.Length());
+
+        #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30? Normalize() {
