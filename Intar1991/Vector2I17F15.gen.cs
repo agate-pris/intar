@@ -237,21 +237,16 @@ namespace Intar1991 {
         #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I17F15? Normalize() {
+        internal static Vector2Int32? Normalize(Vector2Int32 v) {
 
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var isNegative = IsNegative();
-            var abs = new Vector2UInt32(
-                unchecked((uint)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
-                unchecked((uint)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y))
-            );
+            var (isNegative, abs) = v.IsNegativeAndUnsignedAbs();
+            var maxComponent = abs.MaxComponent();
 
             // 各要素の最大値が 0 の場合は null を返す。
-
-            var max = Math.Max(abs.X, abs.Y);
-            if (max == 0) {
+            if (maxComponent == 0) {
                 return null;
             }
 
@@ -261,17 +256,26 @@ namespace Intar1991 {
             // 剰余の回数を減らすため、
             // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            var scaled = abs * (uint.MaxValue / max);
-            var sqrDiv4 = scaled.BigMul(scaled) / 4;
-            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y);
+            var scaled = abs * (uint.MaxValue / maxComponent);
+
+            var halfLength = scaled.HalfLength();
 
             const uint fracOneTwo = I17F15.OneRepr / 2;
             var absNormalized = (Vector2Int32)(scaled.BigMul(fracOneTwo) / halfLength);
 
-            return new Vector2I17F15(new Vector2Int32(
+            return new Vector2Int32(
                 isNegative.X ? -absNormalized.X : absNormalized.X,
                 isNegative.Y ? -absNormalized.Y : absNormalized.Y
-            ));
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2I17F15? Normalize() {
+            var tmp = Normalize(Repr);
+            if (tmp == null) {
+                return null;
+            }
+            return new Vector2I17F15(tmp.Value);
         }
 
         #region Sin/Cos

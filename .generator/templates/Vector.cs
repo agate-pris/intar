@@ -337,39 +337,20 @@ namespace {{ namespace }} {
         #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ vector }}? Normalize() {
+        internal static {{ repr }}? Normalize({{ repr }} v) {
             {%- if signed %}
 
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var isNegative = IsNegative();
-            var abs = new {{ repr_u }}(
-                {%- for c in components %}
-                unchecked(({{
-                    bits_u
-                }})(isNegative.{{
-                    c
-                }} ? Overflowing.WrappingNeg(Repr.{{ c }}) : Repr.{{ c }})){%
-                    if not loop.last
-                %},{% endif %}
-                {%- endfor %}
-            );
-
-            {%- set abs = 'abs' %}
+            var (isNegative, abs) = v.IsNegativeAndUnsignedAbs();
+            var maxComponent = abs.MaxComponent();
             {%- else %}
-
-            {%- set abs = 'Repr' %}
+            var maxComponent = v.MaxComponent();
             {%- endif %}
 
             // 各要素の最大値が 0 の場合は null を返す。
-
-            var max = {% if dim > 2 %}Math.Max({% endif -%}
-                Math.Max({{ abs }}.X, {{ abs }}.Y)
-                {%- if dim == 3 %}, {{ abs }}.Z{% endif %}
-                {%- if dim == 4 %}, Math.Max({{ abs }}.Z, {{ abs }}.W){% endif %}
-                {%- if dim > 2 %}){% endif %};
-            if (max == 0) {
+            if (maxComponent == 0) {
                 return null;
             }
 
@@ -379,22 +360,32 @@ namespace {{ namespace }} {
             // 剰余の回数を減らすため、
             // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            var scaled = {{ abs }} * ({{ bits_u }}.MaxValue / max);
-            var sqrDiv4 = scaled.BigMul(scaled) / 4;
-            var halfLength = Mathi.Sqrt(
-                {%- for c in components -%}
-                    sqrDiv4.{{ c }}{% if not loop.last %} + {% endif %} 
-                {%- endfor -%}
-            );
+            var scaled = {% if signed %}abs
+            {%- else %}v
+            {%- endif %} * ({{ bits_u }}.MaxValue / maxComponent);
+
+            var halfLength = scaled.HalfLength();
 
             const {{ bits_u }} fracOneTwo = {{ component }}.OneRepr / 2;
             var absNormalized = ({{ repr }})(scaled.BigMul(fracOneTwo) / halfLength);
 
-            return new {{ vector }}(new {{ repr }}(
+            return new {{ repr }}(
                 {%- for c in components %}
-                {% if signed %}isNegative.{{ c }} ? -absNormalized.{{ c }} : {% endif %}absNormalized.{{ c }}{% if not loop.last %},{% endif %}
+                {% if signed       -%}     isNegative.{{ c }}
+                {#-  #} ? {#       -#} -absNormalized.{{ c }}
+                {#-  #} : {% endif -%}  absNormalized.{{ c }}
+                {%- if not loop.last %},{% endif %}
                 {%- endfor %}
-            ));
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }}? Normalize() {
+            var tmp = Normalize(Repr);
+            if (tmp == null) {
+                return null;
+            }
+            return new {{ vector }}(tmp.Value);
         }
         {%- if int_nbits+frac_nbits > 32 %}
 

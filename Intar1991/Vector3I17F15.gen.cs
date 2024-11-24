@@ -250,22 +250,16 @@ namespace Intar1991 {
         #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I17F15? Normalize() {
+        internal static Vector3Int32? Normalize(Vector3Int32 v) {
 
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var isNegative = IsNegative();
-            var abs = new Vector3UInt32(
-                unchecked((uint)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
-                unchecked((uint)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y)),
-                unchecked((uint)(isNegative.Z ? Overflowing.WrappingNeg(Repr.Z) : Repr.Z))
-            );
+            var (isNegative, abs) = v.IsNegativeAndUnsignedAbs();
+            var maxComponent = abs.MaxComponent();
 
             // 各要素の最大値が 0 の場合は null を返す。
-
-            var max = Math.Max(Math.Max(abs.X, abs.Y), abs.Z);
-            if (max == 0) {
+            if (maxComponent == 0) {
                 return null;
             }
 
@@ -275,18 +269,27 @@ namespace Intar1991 {
             // 剰余の回数を減らすため、
             // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            var scaled = abs * (uint.MaxValue / max);
-            var sqrDiv4 = scaled.BigMul(scaled) / 4;
-            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y + sqrDiv4.Z);
+            var scaled = abs * (uint.MaxValue / maxComponent);
+
+            var halfLength = scaled.HalfLength();
 
             const uint fracOneTwo = I17F15.OneRepr / 2;
             var absNormalized = (Vector3Int32)(scaled.BigMul(fracOneTwo) / halfLength);
 
-            return new Vector3I17F15(new Vector3Int32(
+            return new Vector3Int32(
                 isNegative.X ? -absNormalized.X : absNormalized.X,
                 isNegative.Y ? -absNormalized.Y : absNormalized.Y,
                 isNegative.Z ? -absNormalized.Z : absNormalized.Z
-            ));
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3I17F15? Normalize() {
+            var tmp = Normalize(Repr);
+            if (tmp == null) {
+                return null;
+            }
+            return new Vector3I17F15(tmp.Value);
         }
 
         #region Sin/Cos
