@@ -245,8 +245,7 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 UncheckedDot(Vector4UInt64 other) {
-            var mul = (Vector4UInt128)this * other;
-            return mul.X + mul.Y + mul.Z + mul.W;
+            return BigMul(other).UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

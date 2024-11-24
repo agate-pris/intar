@@ -395,12 +395,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} UncheckedDot({{ vector }} other) {
-            var mul = ({{ wide_vector }})this * other;
-            return
-            {%- for c in components -%}
-            {% if not loop.first %} +{% endif %} mul.{{ c }}
-            {%- endfor -%}
-            ;
+            return BigMul(other).UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

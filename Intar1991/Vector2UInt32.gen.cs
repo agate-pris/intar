@@ -235,8 +235,7 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong UncheckedDot(Vector2UInt32 other) {
-            var mul = (Vector2UInt64)this * other;
-            return mul.X + mul.Y;
+            return BigMul(other).UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
