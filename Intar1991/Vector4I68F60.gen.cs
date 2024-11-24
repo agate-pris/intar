@@ -149,7 +149,7 @@ namespace Intar1991 {
         }
         #endregion
 
-        #region Min, Max
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Min(Vector4I68F60 other) {
@@ -159,6 +159,16 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Max(Vector4I68F60 other) {
             return new Vector4I68F60(Repr.Max(other.Repr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I68F60 Clamp(I68F60 min, I68F60 max) {
+            return new Vector4I68F60(Repr.Clamp(min.Bits, max.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I68F60 Clamp(Vector4I68F60 min, Vector4I68F60 max) {
+            return new Vector4I68F60(Repr.Clamp(min.Repr, max.Repr));
         }
 
         #endregion
@@ -173,20 +183,6 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I68F60 Twice() => new Vector4I68F60(Repr.Twice());
-
-        #endregion
-
-        #region Clamp
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I68F60 Clamp(I68F60 min, I68F60 max) {
-            return new Vector4I68F60(Repr.Clamp(min.Bits, max.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I68F60 Clamp(Vector4I68F60 min, Vector4I68F60 max) {
-            return new Vector4I68F60(Repr.Clamp(min.Repr, max.Repr));
-        }
 
         #endregion
 

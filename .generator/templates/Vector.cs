@@ -252,7 +252,7 @@ namespace {{ namespace }} {
         }
         #endregion
 
-        #region Min, Max
+        #region Min, Max, Clamp
         {%- for m in ['Min', 'Max'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -260,6 +260,16 @@ namespace {{ namespace }} {
             return new {{ vector }}(Repr.{{ m }}(other.Repr));
         }
         {%- endfor %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} Clamp({{ component }} min, {{ component }} max) {
+            return new {{ vector }}(Repr.Clamp(min.Bits, max.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector }} Clamp({{ vector }} min, {{ vector }} max) {
+            return new {{ vector }}(Repr.Clamp(min.Repr, max.Repr));
+        }
 
         #endregion
 
@@ -276,20 +286,6 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal {{ vector }} {{ m }}() => new {{ vector }}(Repr.{{ m }}());
         {%- endfor %}
-
-        #endregion
-
-        #region Clamp
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ vector }} Clamp({{ component }} min, {{ component }} max) {
-            return new {{ vector }}(Repr.Clamp(min.Bits, max.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ vector }} Clamp({{ vector }} min, {{ vector }} max) {
-            return new {{ vector }}(Repr.Clamp(min.Repr, max.Repr));
-        }
 
         #endregion
 
