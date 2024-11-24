@@ -408,11 +408,7 @@ namespace {{ namespace }} {
             {%- else %}
             var sqr = BigMul(this);
             {%- endif %}
-            return
-            {%- for c in components -%}
-            {% if not loop.first %} +{% endif %} sqr.{{ c }}
-            {%- endfor -%}
-            ;
+            return sqr.UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

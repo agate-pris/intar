@@ -271,7 +271,7 @@ namespace Intar1991 {
         public ulong UncheckedLengthSquared() {
             var abs = UnsignedAbs();
             var sqr = abs.BigMul(abs);
-            return sqr.X + sqr.Y + sqr.Z + sqr.W;
+            return sqr.UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

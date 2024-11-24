@@ -247,7 +247,7 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 UncheckedLengthSquared() {
             var sqr = BigMul(this);
-            return sqr.X + sqr.Y + sqr.Z;
+            return sqr.UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
