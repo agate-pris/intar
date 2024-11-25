@@ -87,18 +87,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3UInt32 operator +(Vector3UInt32 left, uint right) {
+            return new Vector3UInt32(left.X + right, left.Y + right, left.Z + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3UInt32 operator +(uint left, Vector3UInt32 right) {
+            return new Vector3UInt32(left + right.X, left + right.Y, left + right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3UInt32 operator -(Vector3UInt32 left, Vector3UInt32 right) {
             return new Vector3UInt32(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3UInt32 operator *(Vector3UInt32 left, Vector3UInt32 right) {
-            return new Vector3UInt32(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+        public static Vector3UInt32 operator -(Vector3UInt32 left, uint right) {
+            return new Vector3UInt32(left.X - right, left.Y - right, left.Z - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3UInt32 operator /(Vector3UInt32 left, Vector3UInt32 right) {
-            return new Vector3UInt32(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
+        public static Vector3UInt32 operator -(uint left, Vector3UInt32 right) {
+            return new Vector3UInt32(left - right.X, left - right.Y, left - right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3UInt32 operator *(Vector3UInt32 left, Vector3UInt32 right) {
+            return new Vector3UInt32(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,6 +124,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3UInt32 operator *(uint left, Vector3UInt32 right) {
             return new Vector3UInt32(left * right.X, left * right.Y, left * right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3UInt32 operator /(Vector3UInt32 left, Vector3UInt32 right) {
+            return new Vector3UInt32(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

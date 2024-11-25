@@ -127,11 +127,7 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-        {%- endfor %}
 
-        {%- for o in ['*', '/'] %}
-
-        {# ベクトル型とその要素の型の乗算・除算 -#}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator {{ o
         }}({{ vector }} left, {{ component }} right) {
@@ -143,7 +139,6 @@ namespace {{ namespace }} {
             );
         }
 
-        {# ベクトル同士の乗算・除算 -#}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator {{ o
         }}({{ component }} left, {{ vector }} right) {

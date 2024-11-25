@@ -89,18 +89,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator +(Vector3Int128 left, Int128 right) {
+            return new Vector3Int128(left.X + right, left.Y + right, left.Z + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator +(Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left + right.X, left + right.Y, left + right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int128 operator -(Vector3Int128 left, Vector3Int128 right) {
             return new Vector3Int128(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3Int128 operator *(Vector3Int128 left, Vector3Int128 right) {
-            return new Vector3Int128(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+        public static Vector3Int128 operator -(Vector3Int128 left, Int128 right) {
+            return new Vector3Int128(left.X - right, left.Y - right, left.Z - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3Int128 operator /(Vector3Int128 left, Vector3Int128 right) {
-            return new Vector3Int128(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
+        public static Vector3Int128 operator -(Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left - right.X, left - right.Y, left - right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator *(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -111,6 +126,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int128 operator *(Int128 left, Vector3Int128 right) {
             return new Vector3Int128(left * right.X, left * right.Y, left * right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator /(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

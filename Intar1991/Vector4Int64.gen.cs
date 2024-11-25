@@ -91,18 +91,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator +(Vector4Int64 left, long right) {
+            return new Vector4Int64(left.X + right, left.Y + right, left.Z + right, left.W + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator +(long left, Vector4Int64 right) {
+            return new Vector4Int64(left + right.X, left + right.Y, left + right.Z, left + right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int64 operator -(Vector4Int64 left, Vector4Int64 right) {
             return new Vector4Int64(left.X - right.X, left.Y - right.Y, left.Z - right.Z, left.W - right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4Int64 operator *(Vector4Int64 left, Vector4Int64 right) {
-            return new Vector4Int64(left.X * right.X, left.Y * right.Y, left.Z * right.Z, left.W * right.W);
+        public static Vector4Int64 operator -(Vector4Int64 left, long right) {
+            return new Vector4Int64(left.X - right, left.Y - right, left.Z - right, left.W - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4Int64 operator /(Vector4Int64 left, Vector4Int64 right) {
-            return new Vector4Int64(left.X / right.X, left.Y / right.Y, left.Z / right.Z, left.W / right.W);
+        public static Vector4Int64 operator -(long left, Vector4Int64 right) {
+            return new Vector4Int64(left - right.X, left - right.Y, left - right.Z, left - right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator *(Vector4Int64 left, Vector4Int64 right) {
+            return new Vector4Int64(left.X * right.X, left.Y * right.Y, left.Z * right.Z, left.W * right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -113,6 +128,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int64 operator *(long left, Vector4Int64 right) {
             return new Vector4Int64(left * right.X, left * right.Y, left * right.Z, left * right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator /(Vector4Int64 left, Vector4Int64 right) {
+            return new Vector4Int64(left.X / right.X, left.Y / right.Y, left.Z / right.Z, left.W / right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

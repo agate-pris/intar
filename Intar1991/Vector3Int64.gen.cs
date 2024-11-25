@@ -87,18 +87,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int64 operator +(Vector3Int64 left, long right) {
+            return new Vector3Int64(left.X + right, left.Y + right, left.Z + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int64 operator +(long left, Vector3Int64 right) {
+            return new Vector3Int64(left + right.X, left + right.Y, left + right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int64 operator -(Vector3Int64 left, Vector3Int64 right) {
             return new Vector3Int64(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3Int64 operator *(Vector3Int64 left, Vector3Int64 right) {
-            return new Vector3Int64(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+        public static Vector3Int64 operator -(Vector3Int64 left, long right) {
+            return new Vector3Int64(left.X - right, left.Y - right, left.Z - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3Int64 operator /(Vector3Int64 left, Vector3Int64 right) {
-            return new Vector3Int64(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
+        public static Vector3Int64 operator -(long left, Vector3Int64 right) {
+            return new Vector3Int64(left - right.X, left - right.Y, left - right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int64 operator *(Vector3Int64 left, Vector3Int64 right) {
+            return new Vector3Int64(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,6 +124,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int64 operator *(long left, Vector3Int64 right) {
             return new Vector3Int64(left * right.X, left * right.Y, left * right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int64 operator /(Vector3Int64 left, Vector3Int64 right) {
+            return new Vector3Int64(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
