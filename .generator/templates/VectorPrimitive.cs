@@ -105,6 +105,29 @@ namespace {{ namespace }} {
 
         #endregion
 
+        #region IShiftOperators
+        {%- for o in ['<<', '>>', '>>>'] %}
+        {%- if o == '>>>' %}
+
+#if NET7_0_OR_GREATER
+        {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector }} operator {{ o }}({{ vector }} left, int right) {
+            return new {{ vector }}(
+                {%- for c in components -%}
+                left.{{ c }} {{ o }} right{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+        {%- if o == '>>>' %}
+
+#endif // NET7_0_OR_GREATER
+        {%- endif %}
+        {%- endfor %}
+
+        #endregion
+
         #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

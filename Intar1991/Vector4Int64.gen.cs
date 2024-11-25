@@ -145,6 +145,29 @@ namespace Intar1991 {
 
         #endregion
 
+        #region IShiftOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator <<(Vector4Int64 left, int right) {
+            return new Vector4Int64(left.X << right, left.Y << right, left.Z << right, left.W << right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator >>(Vector4Int64 left, int right) {
+            return new Vector4Int64(left.X >> right, left.Y >> right, left.Z >> right, left.W >> right);
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Int64 operator >>>(Vector4Int64 left, int right) {
+            return new Vector4Int64(left.X >>> right, left.Y >>> right, left.Z >>> right, left.W >>> right);
+        }
+
+#endif // NET7_0_OR_GREATER
+
+        #endregion
+
         #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
