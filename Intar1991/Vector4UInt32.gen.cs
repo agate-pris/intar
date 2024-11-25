@@ -51,7 +51,67 @@ namespace Intar1991 {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <(Vector4UInt32 left, Vector4UInt32 right) {
+            return new Vector4Bool(left.X < right.X, left.Y < right.Y, left.Z < right.Z, left.W < right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <(uint left, Vector4UInt32 right) {
+            return new Vector4Bool(left < right.X, left < right.Y, left < right.Z, left < right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <(Vector4UInt32 left, uint right) {
+            return new Vector4Bool(left.X < right, left.Y < right, left.Z < right, left.W < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >(Vector4UInt32 left, Vector4UInt32 right) {
+            return new Vector4Bool(left.X > right.X, left.Y > right.Y, left.Z > right.Z, left.W > right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >(uint left, Vector4UInt32 right) {
+            return new Vector4Bool(left > right.X, left > right.Y, left > right.Z, left > right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >(Vector4UInt32 left, uint right) {
+            return new Vector4Bool(left.X > right, left.Y > right, left.Z > right, left.W > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <=(Vector4UInt32 left, Vector4UInt32 right) {
+            return new Vector4Bool(left.X <= right.X, left.Y <= right.Y, left.Z <= right.Z, left.W <= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <=(uint left, Vector4UInt32 right) {
+            return new Vector4Bool(left <= right.X, left <= right.Y, left <= right.Z, left <= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <=(Vector4UInt32 left, uint right) {
+            return new Vector4Bool(left.X <= right, left.Y <= right, left.Z <= right, left.W <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >=(Vector4UInt32 left, Vector4UInt32 right) {
+            return new Vector4Bool(left.X >= right.X, left.Y >= right.Y, left.Z >= right.Z, left.W >= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >=(uint left, Vector4UInt32 right) {
+            return new Vector4Bool(left >= right.X, left >= right.Y, left >= right.Z, left >= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >=(Vector4UInt32 left, uint right) {
+            return new Vector4Bool(left.X >= right, left.Y >= right, left.Z >= right, left.W >= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator ==(Vector4UInt32 left, Vector4UInt32 right) {
@@ -59,8 +119,28 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator ==(uint left, Vector4UInt32 right) {
+            return new Vector4Bool(left == right.X, left == right.Y, left == right.Z, left == right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator ==(Vector4UInt32 left, uint right) {
+            return new Vector4Bool(left.X == right, left.Y == right, left.Z == right, left.W == right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4UInt32 left, Vector4UInt32 right) {
             return new Vector4Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z, left.W != right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator !=(uint left, Vector4UInt32 right) {
+            return new Vector4Bool(left != right.X, left != right.Y, left != right.Z, left != right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator !=(Vector4UInt32 left, uint right) {
+            return new Vector4Bool(left.X != right, left.Y != right, left.Z != right, left.W != right);
         }
 
         #endregion
