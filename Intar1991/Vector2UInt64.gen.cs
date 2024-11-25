@@ -43,7 +43,67 @@ namespace Intar1991 {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Vector2UInt64 left, Vector2UInt64 right) {
+            return new Vector2Bool(left.X < right.X, left.Y < right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(ulong left, Vector2UInt64 right) {
+            return new Vector2Bool(left < right.X, left < right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Vector2UInt64 left, ulong right) {
+            return new Vector2Bool(left.X < right, left.Y < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Vector2UInt64 left, Vector2UInt64 right) {
+            return new Vector2Bool(left.X > right.X, left.Y > right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(ulong left, Vector2UInt64 right) {
+            return new Vector2Bool(left > right.X, left > right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Vector2UInt64 left, ulong right) {
+            return new Vector2Bool(left.X > right, left.Y > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Vector2UInt64 left, Vector2UInt64 right) {
+            return new Vector2Bool(left.X <= right.X, left.Y <= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(ulong left, Vector2UInt64 right) {
+            return new Vector2Bool(left <= right.X, left <= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Vector2UInt64 left, ulong right) {
+            return new Vector2Bool(left.X <= right, left.Y <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Vector2UInt64 left, Vector2UInt64 right) {
+            return new Vector2Bool(left.X >= right.X, left.Y >= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(ulong left, Vector2UInt64 right) {
+            return new Vector2Bool(left >= right.X, left >= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Vector2UInt64 left, ulong right) {
+            return new Vector2Bool(left.X >= right, left.Y >= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator ==(Vector2UInt64 left, Vector2UInt64 right) {
@@ -51,8 +111,28 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator ==(ulong left, Vector2UInt64 right) {
+            return new Vector2Bool(left == right.X, left == right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator ==(Vector2UInt64 left, ulong right) {
+            return new Vector2Bool(left.X == right, left.Y == right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator !=(Vector2UInt64 left, Vector2UInt64 right) {
             return new Vector2Bool(left.X != right.X, left.Y != right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator !=(ulong left, Vector2UInt64 right) {
+            return new Vector2Bool(left != right.X, left != right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator !=(Vector2UInt64 left, ulong right) {
+            return new Vector2Bool(left.X != right, left.Y != right);
         }
 
         #endregion

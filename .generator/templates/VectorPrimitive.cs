@@ -71,15 +71,33 @@ namespace {{ namespace }} {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
 
-        {%- for o in ['==', '!='] %}
+        {%- for o in ['<', '>', '<=', '>=', '==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector_b }} operator {{ o }}({{ vector }} left, {{ vector }} right) {
             return new {{ vector_b }}(
                 {%- for c in components -%}
                 left.{{ c }} {{ o }} right.{{ c }}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector_b }} operator {{ o }}({{ component }} left, {{ vector }} right) {
+            return new {{ vector_b }}(
+                {%- for c in components -%}
+                left {{ o }} right.{{ c }}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector_b }} operator {{ o }}({{ vector }} left, {{ component }} right) {
+            return new {{ vector_b }}(
+                {%- for c in components -%}
+                left.{{ c }} {{ o }} right{% if not loop.last %}, {% endif %}
                 {%- endfor -%}
             );
         }
