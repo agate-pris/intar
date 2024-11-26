@@ -297,6 +297,20 @@ namespace Intar1991 {
         #region Sin/Cos
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 SinP2() => new Vector4I2F30(
+            X.SinP2(),
+            Y.SinP2(),
+            Z.SinP2(),
+            W.SinP2());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 SinP3() => new Vector4I2F30(
+            X.SinP3(),
+            Y.SinP3(),
+            Z.SinP3(),
+            W.SinP3());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 SinP4() => new Vector4I2F30(
             X.SinP4(),
             Y.SinP4(),
@@ -309,6 +323,20 @@ namespace Intar1991 {
             Y.SinP5(),
             Z.SinP5(),
             W.SinP5());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 CosP2() => new Vector4I2F30(
+            X.CosP2(),
+            Y.CosP2(),
+            Z.CosP2(),
+            W.CosP2());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 CosP3() => new Vector4I2F30(
+            X.CosP3(),
+            Y.CosP3(),
+            Z.CosP3(),
+            W.CosP3());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 CosP4() => new Vector4I2F30(
