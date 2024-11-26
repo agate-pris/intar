@@ -387,9 +387,9 @@ namespace {{ namespace }} {
         #endregion
         {%- endif %}
 
-        {%- if signed %}
-        {%- if int_nbits == 17 and frac_nbits == 15
-            or int_nbits == 33 and frac_nbits == 31 %}
+        {%- if signed
+            and int_nbits + frac_nbits < 128
+            and int_nbits - frac_nbits == 2 %}
 
         #region Sin, Cos
         {%- set sin = ['Sin', '正弦比'] %}
@@ -414,7 +414,6 @@ namespace {{ namespace }} {
         {%- endfor %}
 
         #endregion
-        {%- endif %}
         {%- endif %}
 
         // コード生成の簡単のため、冗長なキャストを許容する。
