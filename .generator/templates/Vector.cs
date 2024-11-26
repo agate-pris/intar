@@ -392,23 +392,26 @@ namespace {{ namespace }} {
 #endif // NET7_0_OR_GREATER
         {%- endif %}
         {%- endif %}
-        {%- if component == "I17F15" %}
+
+        {%- if signed
+            and int_nbits + frac_nbits < 128
+            and int_nbits - frac_nbits == 2 %}
 
         #region Sin/Cos
-        {%- for name in [
-            "SinP4",
-            "SinP5",
-            "CosP4",
-            "CosP5",
-        ] %}
+        {%- for m in ['Sin', 'Cos'] %}
+        {%- for o in [2, 3, 4, 5, 10, 11] %}
+        {%- if o > 5 and int_nbits + frac_nbits < 64 %}
+            {%- continue %}
+        {%- endif %}
+        {%- set f = m ~ 'P' ~ o %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ vector_i2 }} {{ name }}() => new {{ vector_i2 }}(
-            X.{{ name }}(),
-            Y.{{ name }}(){% if dim > 2 %},
-            Z.{{ name }}(){% if dim > 3 %},
-            W.{{ name }}(){% endif %}{% endif %});
+        public {{ vector_i2 }} {{ f }}() => new {{ vector_i2 }}(
+            {%- for c in components %}
+            {{ c }}.{{ f }}(){% if not loop.last %},{% endif %}
+            {%- endfor %});
 
+        {%- endfor %}
         {%- endfor %}
 
         #endregion
