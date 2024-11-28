@@ -216,16 +216,28 @@ namespace Intar1991 {
         #region Asin, Acos, Atan
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 AcosP3() => U2F30.FromBits(Mathi.AcosP3(Bits));
+        public static U2F30 AcosP3(int bits) => U2F30.FromBits(Mathi.AcosP3(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AsinP3() => I2F30.FromBits(Mathi.AsinP3(Bits));
+        public static I2F30 AsinP3(int bits) => I2F30.FromBits(Mathi.AsinP3(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AtanP2() => I2F30.FromBits(Mathi.AtanP2(Bits));
+        public U2F30 AcosP3() => AcosP3(Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AtanP3() => I2F30.FromBits(Mathi.AtanP3(Bits));
+        public I2F30 AsinP3() => AsinP3(Bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 AtanP2(int x) => I2F30.FromBits(Mathi.AtanP2(x));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 AtanP2() => AtanP2(Bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 AtanP3(int x) => I2F30.FromBits(Mathi.AtanP3(x));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 AtanP3() => AtanP3(Bits);
 
         #endregion
 
@@ -257,7 +269,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP2() => I2F30.FromBits(Mathi.SinP2(Bits));
+        public static I2F30 SinP2(int x) => I2F30.FromBits(Mathi.SinP2(x));
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 SinP2() => SinP2(Bits);
 
         /// <summary>
         /// 3 次の多項式で正弦比を近似する。
@@ -265,7 +285,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP3() => I2F30.FromBits(Mathi.SinP3(Bits));
+        public static I2F30 SinP3(int x) => I2F30.FromBits(Mathi.SinP3(x));
+
+        /// <summary>
+        /// 3 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 SinP3() => SinP3(Bits);
 
         /// <summary>
         /// 4 次の多項式で正弦比を近似する。
@@ -273,7 +301,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP4() => I2F30.FromBits(Mathi.SinP4(Bits));
+        public static I2F30 SinP4(int x) => I2F30.FromBits(Mathi.SinP4(x));
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 SinP4() => SinP4(Bits);
 
         /// <summary>
         /// 5 次の多項式で正弦比を近似する。
@@ -281,7 +317,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>正弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 SinP5() => I2F30.FromBits(Mathi.SinP5(Bits));
+        public static I2F30 SinP5(int x) => I2F30.FromBits(Mathi.SinP5(x));
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 SinP5() => SinP5(Bits);
 
         /// <summary>
         /// 2 次の多項式で余弦比を近似する。
@@ -289,7 +333,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP2() => I2F30.FromBits(Mathi.CosP2(Bits));
+        public static I2F30 CosP2(int x) => I2F30.FromBits(Mathi.CosP2(x));
+
+        /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 CosP2() => CosP2(Bits);
 
         /// <summary>
         /// 3 次の多項式で余弦比を近似する。
@@ -297,7 +349,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP3() => I2F30.FromBits(Mathi.CosP3(Bits));
+        public static I2F30 CosP3(int x) => I2F30.FromBits(Mathi.CosP3(x));
+
+        /// <summary>
+        /// 3 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 CosP3() => CosP3(Bits);
 
         /// <summary>
         /// 4 次の多項式で余弦比を近似する。
@@ -305,7 +365,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP4() => I2F30.FromBits(Mathi.CosP4(Bits));
+        public static I2F30 CosP4(int x) => I2F30.FromBits(Mathi.CosP4(x));
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 CosP4() => CosP4(Bits);
 
         /// <summary>
         /// 5 次の多項式で余弦比を近似する。
@@ -313,7 +381,15 @@ namespace Intar1991 {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 CosP5() => I2F30.FromBits(Mathi.CosP5(Bits));
+        public static I2F30 CosP5(int x) => I2F30.FromBits(Mathi.CosP5(x));
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 CosP5() => CosP5(Bits);
 
         #endregion
 

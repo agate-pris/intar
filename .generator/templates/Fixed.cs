@@ -333,10 +333,16 @@ namespace {{ namespace }} {
         {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ acos }} AcosP{{ order }}() => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(Bits));
+        public static {{ acos }} AcosP{{ order }}({{ self_bits_type }} bits) => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ asin }} AsinP{{ order }}() => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(Bits));
+        public static {{ asin }} AsinP{{ order }}({{ self_bits_type }} bits) => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ acos }} AcosP{{ order }}() => AcosP{{ order }}(Bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ asin }} AsinP{{ order }}() => AsinP{{ order }}(Bits);
         {%- endfor %}
 
         {%- for order in [2, 3, 9] %}
@@ -346,7 +352,10 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ atan }} AtanP{{ order }}() => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(Bits));
+        public static {{ atan }} AtanP{{ order }}({{ self_bits_type }} x) => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(x));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ atan }} AtanP{{ order }}() => AtanP{{ order }}(Bits);
         {%- endfor %}
 
         #endregion
@@ -404,8 +413,15 @@ namespace {{ namespace }} {
         /// <param name="x">直角に対する角度の比</param>
         /// <returns>{{ m[1] }}</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }} {{ f }}() => {{ t }}.FromBits(Mathi.{{ f }}(Bits));
+        public static {{ t }} {{ f }}({{ self_bits_type }} x) => {{ t }}.FromBits(Mathi.{{ f }}(x));
 
+        /// <summary>
+        /// {{ o }} 次の多項式で{{ m[1] }}を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>{{ m[1] }}</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ t }} {{ f }}() => {{ f }}(Bits);
         {%- endfor %}
         {%- endfor %}
 
