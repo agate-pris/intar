@@ -586,7 +586,7 @@ namespace Intar1991 {
         /// <code>
         /// var actual = Intar1991.Mathi.Atan2P2(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
-        /// Assert.AreEqual(expected, actual * toRad, 0.004);
+        /// Assert.AreEqual(expected, actual * toRad, 0.0039);
         /// </code>
         /// </example>
         /// </summary>
@@ -633,7 +633,7 @@ namespace Intar1991 {
         /// <code>
         /// var actual = Intar1991.Mathi.Atan2P3(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
-        /// Assert.AreEqual(expected, actual * toRad, 0.0017);
+        /// Assert.AreEqual(expected, actual * toRad, 0.0016);
         /// </code>
         /// </example>
         /// </summary>
@@ -666,53 +666,6 @@ namespace Intar1991 {
                     return y > x
                         ? right - AtanInternal.P3(AtanInternal.Div(x, y))
                         : AtanInternal.P3(AtanInternal.Div(y, x));
-                } else {
-                    return right;
-                }
-            } else {
-                return x < 0 ? straight : 0;
-            }
-        }
-
-        /// <summary>
-        /// 9 次の多項式で逆正接を近似する。
-        /// <example>
-        /// <code>
-        /// var actual = Intar1991.Mathi.Atan2P9(2, 3);
-        /// var expected = System.Math.Atan2(2, 3);
-        /// Assert.AreEqual(expected, actual * toRad, 0.00003);
-        /// </code>
-        /// </example>
-        /// </summary>
-        /// <param name="y">Y 座標</param>
-        /// <param name="x">X 座標</param>
-        /// <returns>2 の 62 乗を PI とする逆正接</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Atan2P9(int y, int x) {
-            const long straight = 1L << 62;
-            const long right = straight / 2;
-            const long rightNeg = -right;
-            if (y < 0) {
-                if (x < 0) {
-                    return y < x
-                        ? rightNeg - AtanInternal.P9((long)AtanInternal.Div(x, y) << 16)
-                        : AtanInternal.P9((long)AtanInternal.Div(y, x) << 16) - straight;
-                } else if (x > 0) {
-                    return y < -x
-                        ? rightNeg - AtanInternal.P9((long)AtanInternal.Div(x, y) << 16)
-                        : AtanInternal.P9((long)AtanInternal.Div(y, x) << 16);
-                } else {
-                    return rightNeg;
-                }
-            } else if (y > 0) {
-                if (x < 0) {
-                    return -y < x
-                        ? right - AtanInternal.P9((long)AtanInternal.Div(x, y) << 16)
-                        : straight + AtanInternal.P9((long)AtanInternal.Div(y, x) << 16);
-                } else if (x > 0) {
-                    return y > x
-                        ? right - AtanInternal.P9((long)AtanInternal.Div(x, y) << 16)
-                        : AtanInternal.P9((long)AtanInternal.Div(y, x) << 16);
                 } else {
                     return right;
                 }
