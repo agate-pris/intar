@@ -228,11 +228,6 @@ namespace Intar1991 {
             return I2F30.FromBits(Mathi.Atan2P3(Bits, other.Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 Atan2P9(I2F30 other) {
-            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
-        }
-
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 

@@ -319,13 +319,16 @@ namespace Intar1991.Tests.Mathi {
             }
             Console.WriteLine($"max error: {max}");
         }
+
+#if false
+
         static void TestAtan2(
-            Func<int, int, long> atan2,
-            Func<int, long> atan, double error) {
+            Func<long, long, long> atan2,
+            Func<long, long> atan, double error) {
             const long pi = 1L << 62;
-            for (var i = 1; i <= 32768; ++i) {
-                const int k1 = 1 << 16;
-                const int k2 = -k1;
+            for (var i = 1L; i <= 1L << 31; i += 1024) {
+                const long k1 = 1L << 32;
+                const long k2 = -k1;
                 const long k3 = pi / 2;
                 var expected1 = atan(i);
                 var expected4 = -expected1;
@@ -360,8 +363,8 @@ namespace Intar1991.Tests.Mathi {
             var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
             var max = 0.0;
             for (var i = 0; i < 32768; ++i) {
-                var x = rng.Next();
-                var y = rng.Next();
+                var x = rng.NextInt64();
+                var y = rng.NextInt64();
                 var expected = Math.Atan2(y, x);
                 var actual = atan2(y, x);
                 Utility.AssertAreEqual(expected, actual * toRad, error);
@@ -370,8 +373,18 @@ namespace Intar1991.Tests.Mathi {
             Console.WriteLine($"max error: {max}");
         }
 
+#endif
+
         [Test] public static void TestAtan2P2() => TestAtan2(Intar1991.Mathi.Atan2P2, Intar1991.Mathi.AtanP2, 0.0039);
         [Test] public static void TestAtan2P3() => TestAtan2(Intar1991.Mathi.Atan2P3, Intar1991.Mathi.AtanP3, 0.0016);
-        [Test] public static void TestAtan2P9() => TestAtan2(Intar1991.Mathi.Atan2P9, a => Intar1991.Mathi.AtanP9((long)a << 16), 0.00003);
+
+#if false
+
+        [Test] public static void TestAtan2P2L() => TestAtan2(Intar1991.Mathi.Atan2P2, Intar1991.Mathi.AtanP2, 0.0039);
+        [Test] public static void TestAtan2P3L() => TestAtan2(Intar1991.Mathi.Atan2P3, Intar1991.Mathi.AtanP3, 0.0016);
+        [Test] public static void TestAtan2P9L() => TestAtan2(Intar1991.Mathi.Atan2P9, Intar1991.Mathi.AtanP9, 0.00002);
+
+#endif
+
     }
 }

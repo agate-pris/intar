@@ -353,25 +353,19 @@ namespace {{ namespace }} {
         {%- endif %}
 
         #region Atan2
-
         {%- if int_nbits+frac_nbits > 32 %}
 
         // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
         // 実装のために 128 ビット整数が必要なため、
         // 64 ビットの固定小数点数に対しては未実装。
-
         {%- else %}
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
         {%- for order in [2, 3, 9] %}
-        {%- if order < 9 %}
-            {%- set f = 32-2 %}
-        {%- else %}
-            {%- set f = 64-2 %}
-        {%- endif %}
-        {%- set atan = macros::fixed_type(i=2, f=f, s=true) %}
+        {%- if order > 3 and int_nbits+frac_nbits < 64 %}{% continue %}{% endif %}
+        {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits - 2, s=true) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
