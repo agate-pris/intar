@@ -332,7 +332,8 @@ namespace Intar1991 {
             internal static int Div(int a, int b) {
                 var al = ((long)a) << 16;
                 var bl = (long)b;
-                return (int)((al + (Math.Sign(a) * Math.Abs(bl))) / (bl << 1));
+                var sign = ((a < 0) == (b < 0)) ? 1 : -1;
+                return (int)((al + (bl * sign)) / (bl << 1));
             }
 
             const decimal Z1 = (1UL << 31) / Pi;
