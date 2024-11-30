@@ -271,7 +271,7 @@ namespace Intar1991.Tests.Mathi {
         static void TestAtan2(
             Func<int, int, int> atan2,
             Func<int, int> atan, double error) {
-            for (var i = 1; i < 32768; ++i) {
+            for (var i = 1; i <= 32768; ++i) {
                 const int k1 = 1 << 16;
                 const int k2 = -k1;
                 const int k3 = 1 << 30;
@@ -320,7 +320,7 @@ namespace Intar1991.Tests.Mathi {
             Func<int, int, long> atan2,
             Func<int, long> atan, double error) {
             const long pi = 1L << 62;
-            for (var i = 1; i < 32768; ++i) {
+            for (var i = 1; i <= 32768; ++i) {
                 const int k1 = 1 << 16;
                 const int k2 = -k1;
                 const long k3 = pi / 2;
