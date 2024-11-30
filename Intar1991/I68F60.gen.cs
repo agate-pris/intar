@@ -178,14 +178,6 @@ namespace Intar1991 {
 
         #endregion
 
-        #region Atan2
-
-        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
-        // 実装のために 128 ビット整数が必要なため、
-        // 64 ビットの固定小数点数に対しては未実装。
-
-        #endregion
-
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します

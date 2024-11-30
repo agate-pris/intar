@@ -351,14 +351,13 @@ namespace {{ namespace }} {
 
         #endregion
         {%- endif %}
+        {%- if int_nbits+frac_nbits <= 64 %}
 
         #region Atan2
         {%- if int_nbits+frac_nbits > 32 %}
 
-        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
-        // 実装のために 128 ビット整数が必要なため、
-        // 64 ビットの固定小数点数に対しては未実装。
-        {%- else %}
+#if NET7_0_OR_GREATER
+        {%- endif %}
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
@@ -375,10 +374,13 @@ namespace {{ namespace }} {
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
 #pragma warning restore IDE0079 // 不要な抑制を削除します
+        {%- if int_nbits+frac_nbits > 32 %}
 
+#endif // NET7_0_OR_GREATER
         {%- endif %}
 
         #endregion
+        {%- endif %}
         {%- endif %}
 
         {%- if signed

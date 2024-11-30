@@ -336,6 +336,18 @@ namespace Intar1991 {
                 return (int)((al + (bl * sign)) / (bl << 1));
             }
 
+#if NET7_0_OR_GREATER
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static long Div(long a, long b) {
+                var al = ((Int128)a) << 32;
+                var bl = (Int128)b;
+                var sign = ((a < 0) == (b < 0)) ? 1 : -1;
+                return (long)((al + (bl * sign)) / (bl << 1));
+            }
+
+#endif // NET7_0_OR_GREATER
+
             const decimal Z1 = (1UL << 31) / Pi;
             const decimal Z2 = (1UL << 63) / Pi;
 
@@ -673,6 +685,151 @@ namespace Intar1991 {
                 return x < 0 ? straight : 0;
             }
         }
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// 2 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var actual = Intar1991.Mathi.Atan2P2(2, 3);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// Assert.AreEqual(expected, actual * toRad, 0.0039);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 62 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Atan2P2(long y, long x) {
+            const long straight = 1L << 62;
+            const long right = straight / 2;
+            const long rightNeg = -right;
+            if (y < 0) {
+                if (x < 0) {
+                    return y < x
+                        ? rightNeg - AtanInternal.P2(AtanInternal.Div(x, y))
+                        : AtanInternal.P2(AtanInternal.Div(y, x)) - straight;
+                } else if (x > 0) {
+                    return y < -x
+                        ? rightNeg - AtanInternal.P2(AtanInternal.Div(x, y))
+                        : AtanInternal.P2(AtanInternal.Div(y, x));
+                } else {
+                    return rightNeg;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    return -y < x
+                        ? right - AtanInternal.P2(AtanInternal.Div(x, y))
+                        : straight + AtanInternal.P2(AtanInternal.Div(y, x));
+                } else if (x > 0) {
+                    return y > x
+                        ? right - AtanInternal.P2(AtanInternal.Div(x, y))
+                        : AtanInternal.P2(AtanInternal.Div(y, x));
+                } else {
+                    return right;
+                }
+            } else {
+                return x < 0 ? straight : 0;
+            }
+        }
+
+        /// <summary>
+        /// 3 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var actual = Intar1991.Mathi.Atan2P3(2, 3);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// Assert.AreEqual(expected, actual * toRad, 0.0016);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 62 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Atan2P3(long y, long x) {
+            const long straight = 1L << 62;
+            const long right = straight / 2;
+            const long rightNeg = -right;
+            if (y < 0) {
+                if (x < 0) {
+                    return y < x
+                        ? rightNeg - AtanInternal.P3(AtanInternal.Div(x, y))
+                        : AtanInternal.P3(AtanInternal.Div(y, x)) - straight;
+                } else if (x > 0) {
+                    return y < -x
+                        ? rightNeg - AtanInternal.P3(AtanInternal.Div(x, y))
+                        : AtanInternal.P3(AtanInternal.Div(y, x));
+                } else {
+                    return rightNeg;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    return -y < x
+                        ? right - AtanInternal.P3(AtanInternal.Div(x, y))
+                        : straight + AtanInternal.P3(AtanInternal.Div(y, x));
+                } else if (x > 0) {
+                    return y > x
+                        ? right - AtanInternal.P3(AtanInternal.Div(x, y))
+                        : AtanInternal.P3(AtanInternal.Div(y, x));
+                } else {
+                    return right;
+                }
+            } else {
+                return x < 0 ? straight : 0;
+            }
+        }
+
+        /// <summary>
+        /// 9 次の多項式で逆正接を近似する。
+        /// <example>
+        /// <code>
+        /// var actual = Intar1991.Mathi.Atan2P9(2, 3);
+        /// var expected = System.Math.Atan2(2, 3);
+        /// Assert.AreEqual(expected, actual * toRad, 0.00002);
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="y">Y 座標</param>
+        /// <param name="x">X 座標</param>
+        /// <returns>2 の 62 乗を PI とする逆正接</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Atan2P9(long y, long x) {
+            const long straight = 1L << 62;
+            const long right = straight / 2;
+            const long rightNeg = -right;
+            if (y < 0) {
+                if (x < 0) {
+                    return y < x
+                        ? rightNeg - AtanInternal.P9(AtanInternal.Div(x, y))
+                        : AtanInternal.P9(AtanInternal.Div(y, x)) - straight;
+                } else if (x > 0) {
+                    return y < -x
+                        ? rightNeg - AtanInternal.P9(AtanInternal.Div(x, y))
+                        : AtanInternal.P9(AtanInternal.Div(y, x));
+                } else {
+                    return rightNeg;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    return -y < x
+                        ? right - AtanInternal.P9(AtanInternal.Div(x, y))
+                        : straight + AtanInternal.P9(AtanInternal.Div(y, x));
+                } else if (x > 0) {
+                    return y > x
+                        ? right - AtanInternal.P9(AtanInternal.Div(x, y))
+                        : AtanInternal.P9(AtanInternal.Div(y, x));
+                } else {
+                    return right;
+                }
+            } else {
+                return x < 0 ? straight : 0;
+            }
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
