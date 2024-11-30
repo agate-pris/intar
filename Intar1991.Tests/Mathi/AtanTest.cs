@@ -308,13 +308,16 @@ namespace Intar1991.Tests.Mathi {
             const int pi = 1 << 30;
             const double toRad = Math.PI / pi;
             var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
+            var max = 0.0;
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.Next();
                 var y = rng.Next();
                 var expected = Math.Atan2(y, x);
                 var actual = atan2(y, x);
                 Utility.AssertAreEqual(expected, actual * toRad, error);
+                max = Math.Max(max, Math.Abs(expected - (actual * toRad)));
             }
+            Console.WriteLine($"max error: {max}");
         }
         static void TestAtan2(
             Func<int, int, long> atan2,
@@ -355,13 +358,16 @@ namespace Intar1991.Tests.Mathi {
             }
             const double toRad = Math.PI / pi;
             var rng = new Intar1991.Rand.Xoroshiro128StarStar(1, 2);
+            var max = 0.0;
             for (var i = 0; i < 32768; ++i) {
                 var x = rng.Next();
                 var y = rng.Next();
                 var expected = Math.Atan2(y, x);
                 var actual = atan2(y, x);
                 Utility.AssertAreEqual(expected, actual * toRad, error);
+                max = Math.Max(max, Math.Abs(expected - (actual * toRad)));
             }
+            Console.WriteLine($"max error: {max}");
         }
 
         [Test] public static void TestAtan2P2() => TestAtan2(Intar1991.Mathi.Atan2P2, Intar1991.Mathi.AtanP2, 0.0039);
