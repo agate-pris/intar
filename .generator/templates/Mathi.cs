@@ -215,7 +215,7 @@ namespace {{ namespace }} {
                 const ulong k = 1UL << (1 + (2 * 31));
                 return (long)((k + abs) / (2 * abs)) * Math.Sign(x);
             }
-            {%- for bits in [32] %}
+            {%- for bits in [32, 64] %}
             {%- set i = macros::inttype(signed=true, bits=bits  ) %}
             {%- set l = macros::inttype(signed=true, bits=bits*2) %}
             {%- if bits > 32 %}
@@ -362,7 +362,7 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
 
-        {%- for bits in [32] %}
+        {%- for bits in [32, 64] %}
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER

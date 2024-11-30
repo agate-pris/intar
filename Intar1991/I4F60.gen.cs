@@ -230,9 +230,30 @@ namespace Intar1991 {
 
         #region Atan2
 
-        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
-        // 実装のために 128 ビット整数が必要なため、
-        // 64 ビットの固定小数点数に対しては未実装。
+#if NET7_0_OR_GREATER
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P2(I4F60 other) {
+            return I2F62.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P3(I4F60 other) {
+            return I2F62.FromBits(Mathi.Atan2P3(Bits, other.Bits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P9(I4F60 other) {
+            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+        }
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 

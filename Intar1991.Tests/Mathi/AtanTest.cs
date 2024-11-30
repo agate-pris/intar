@@ -320,7 +320,7 @@ namespace Intar1991.Tests.Mathi {
             Console.WriteLine($"max error: {max}");
         }
 
-#if false
+#if NET7_0_OR_GREATER
 
         static void TestAtan2(
             Func<long, long, long> atan2,
@@ -378,7 +378,7 @@ namespace Intar1991.Tests.Mathi {
         [Test] public static void TestAtan2P2() => TestAtan2(Intar1991.Mathi.Atan2P2, Intar1991.Mathi.AtanP2, 0.0039);
         [Test] public static void TestAtan2P3() => TestAtan2(Intar1991.Mathi.Atan2P3, Intar1991.Mathi.AtanP3, 0.0016);
 
-#if false
+#if NET7_0_OR_GREATER
 
         [Test] public static void TestAtan2P2L() => TestAtan2(Intar1991.Mathi.Atan2P2, Intar1991.Mathi.AtanP2, 0.0039);
         [Test] public static void TestAtan2P3L() => TestAtan2(Intar1991.Mathi.Atan2P3, Intar1991.Mathi.AtanP3, 0.0016);
