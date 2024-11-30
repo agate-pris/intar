@@ -320,8 +320,8 @@ namespace {{ namespace }} {
         #endregion
 
         {%- if signed %}
-        {%- if int_nbits == 17 and frac_nbits == 15
-            or int_nbits == 33 and frac_nbits == 31 %}
+        {%- if  int_nbits + frac_nbits <= 64
+            and int_nbits - frac_nbits ==  2 %}
 
         #region Asin, Acos, Atan
         {%- for order in [3, 7] %}
@@ -388,8 +388,8 @@ namespace {{ namespace }} {
         {%- endif %}
 
         {%- if signed
-            and int_nbits + frac_nbits < 128
-            and int_nbits - frac_nbits == 2 %}
+            and int_nbits + frac_nbits <= 64
+            and int_nbits - frac_nbits ==  2 %}
 
         #region Sin, Cos
         {%- set sin = ['Sin', '正弦比'] %}
