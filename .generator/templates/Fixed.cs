@@ -374,10 +374,17 @@ namespace {{ namespace }} {
         {%- for order in [2, 3, 9] %}
         {%- if order > 3 and int_nbits+frac_nbits < 64 %}{% continue %}{% endif %}
         {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits - 2, s=true) %}
+        {%- if int_nbits == 2 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ atan }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
+            return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
+        }
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
-            return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(Bits, other.Bits));
+            return {{ atan }}.Atan2P{{ order }}(Bits, other.Bits);
         }
         {%- endfor %}
 

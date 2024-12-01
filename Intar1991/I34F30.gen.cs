@@ -237,17 +237,17 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 Atan2P2(I34F30 other) {
-            return I2F62.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+            return I2F62.Atan2P2(Bits, other.Bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 Atan2P3(I34F30 other) {
-            return I2F62.FromBits(Mathi.Atan2P3(Bits, other.Bits));
+            return I2F62.Atan2P3(Bits, other.Bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 Atan2P9(I34F30 other) {
-            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+            return I2F62.Atan2P9(Bits, other.Bits);
         }
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
