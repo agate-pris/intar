@@ -222,18 +222,33 @@ namespace Intar1991 {
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 Atan2P2(long y, long x) {
+            return I2F62.FromBits(Mathi.Atan2P2(y, x));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 Atan2P2(I2F62 other) {
-            return I2F62.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+            return I2F62.Atan2P2(Bits, other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 Atan2P3(long y, long x) {
+            return I2F62.FromBits(Mathi.Atan2P3(y, x));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 Atan2P3(I2F62 other) {
-            return I2F62.FromBits(Mathi.Atan2P3(Bits, other.Bits));
+            return I2F62.Atan2P3(Bits, other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 Atan2P9(long y, long x) {
+            return I2F62.FromBits(Mathi.Atan2P9(y, x));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 Atan2P9(I2F62 other) {
-            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+            return I2F62.Atan2P9(Bits, other.Bits);
         }
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
