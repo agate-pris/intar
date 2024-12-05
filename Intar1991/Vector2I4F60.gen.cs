@@ -56,6 +56,22 @@ namespace Intar1991 {
             set => Repr[index] = value.Bits;
         }
 
+        public static explicit operator System.Numerics.Vector2(Vector2I4F60 a) {
+            return (System.Numerics.Vector2)a.Repr / I4F60.OneRepr;
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector2(Vector2I4F60 a) {
+            return (UnityEngine.Vector2)a.Repr / I4F60.OneRepr;
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float2(Vector2I4F60 a) {
+            return (Unity.Mathematics.float2)a.Repr / I4F60.OneRepr;
+        }
+#endif
+
         #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

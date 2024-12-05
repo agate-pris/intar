@@ -83,6 +83,33 @@ namespace {{ namespace }} {
             set => Repr[index] = value.Bits;
         }
 
+        public static explicit operator System.Numerics.Vector{{ dim }}({{ vector }} a) {
+            return (System.Numerics.Vector{{ dim }})a.Repr / {%
+                if int_nbits+frac_nbits > 64 %}(float){%
+                endif
+            %}{{ component }}.OneRepr;
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector{{
+            dim }}({{ vector }} a) {
+            return (UnityEngine.Vector{{ dim }})a.Repr / {%
+                if int_nbits+frac_nbits > 64 %}(float){%
+                endif
+            %}{{ component }}.OneRepr;
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float{{
+            dim }}({{ vector }} a) {
+            return (Unity.Mathematics.float{{ dim }})a.Repr / {%
+                if int_nbits+frac_nbits > 64 %}(float){%
+                endif
+            %}{{ component }}.OneRepr;
+        }
+#endif
+
         #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
