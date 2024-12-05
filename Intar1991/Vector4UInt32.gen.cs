@@ -21,6 +21,22 @@ namespace Intar1991 {
 
         #endregion
 
+        public static explicit operator System.Numerics.Vector4(Vector4UInt32 a) {
+            return new System.Numerics.Vector4(a.X, a.Y, a.Z, a.W);
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector4(Vector4UInt32 a) {
+            return new UnityEngine.Vector4(a.X, a.Y, a.Z, a.W);
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float4(Vector4UInt32 a) {
+            return new Unity.Mathematics.float4(a.X, a.Y, a.Z, a.W);
+        }
+#endif
+
         public Vector4UInt32(uint x, uint y, uint z, uint w) {
             X = x;
             Y = y;

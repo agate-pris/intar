@@ -39,6 +39,40 @@ namespace {{ namespace }} {
 
         #endregion
 
+        public static explicit operator System.Numerics.Vector{{
+            dim }}({{ vector }} a) {
+            return new System.Numerics.Vector{{ dim }}(
+                {%- for c in components %}
+                {%- if bits > 64 %}(float){% endif -%}
+                a.{{ c }}{%- if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector{{
+            dim }}({{ vector }} a) {
+            return new UnityEngine.Vector{{ dim }}(
+                {%- for c in components %}
+                {%- if bits > 64 %}(float){% endif -%}
+                a.{{ c }}{%- if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float{{
+            dim }}({{ vector }} a) {
+            return new Unity.Mathematics.float{{ dim }}(
+                {%- for c in components %}
+                {%- if bits > 64 %}(float){% endif -%}
+                a.{{ c }}{%- if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+#endif
+
         public {{ vector }}(
             {%- for c in components %}
             {{- component }} {{ c | lower }}
