@@ -7,23 +7,16 @@ namespace Intar1991 {
     public struct Vector4Bool : IEquatable<Vector4Bool> {
 
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
-        [MarshalAs(UnmanagedType.U1)]
-        public bool X;
-
-        [MarshalAs(UnmanagedType.U1)]
-        public bool Y;
-
-        [MarshalAs(UnmanagedType.U1)]
-        public bool Z;
-
-        [MarshalAs(UnmanagedType.U1)]
-        public bool W;
-
+        [MarshalAs(UnmanagedType.U1)] public bool X;
+        [MarshalAs(UnmanagedType.U1)] public bool Y;
+        [MarshalAs(UnmanagedType.U1)] public bool Z;
+        [MarshalAs(UnmanagedType.U1)] public bool W;
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
