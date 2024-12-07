@@ -5,20 +5,18 @@ namespace Intar1991 {
     public struct Vector4Int64 : IEquatable<Vector4Int64> {
 
         #region Fields
-
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public long X;
         public long Y;
         public long Z;
         public long W;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-
         #endregion
 
         public static explicit operator System.Numerics.Vector4(Vector4Int64 a) {
