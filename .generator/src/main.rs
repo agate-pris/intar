@@ -1,9 +1,9 @@
 use std::{collections::HashMap, path::Path};
 
 use anyhow::{Context, Result};
-use clap::{arg, Parser};
+use clap::{Parser, arg};
 use serde::Deserialize;
-use tera::{from_value, to_value, Tera, Value};
+use tera::{Tera, Value, from_value, to_value};
 
 #[derive(Debug, Parser)]
 struct Args {
