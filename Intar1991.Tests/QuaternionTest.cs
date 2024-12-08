@@ -6,14 +6,14 @@ using NUnit.Framework;
 namespace Intar1991.Tests {
     public class QuaternionTest {
         #region
-        static void Log(string message) {
+        public static void Log(string message) {
 #if UNITY_5_3_OR_NEWER
             UnityEngine.Debug.Log(message);
 #else
             Console.WriteLine(message);
 #endif
         }
-        static void LogError(string s) {
+        public static void LogError(string s) {
 #if UNITY_5_3_OR_NEWER
             UnityEngine.Debug.LogError(s);
 #else
