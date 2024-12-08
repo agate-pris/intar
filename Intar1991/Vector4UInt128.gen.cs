@@ -6,17 +6,35 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector4UInt128 : IEquatable<Vector4UInt128> {
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public UInt128 X;
         public UInt128 Y;
         public UInt128 Z;
         public UInt128 W;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#endif
+        #endregion
+
+        public static explicit operator System.Numerics.Vector4(Vector4UInt128 a) {
+            return new System.Numerics.Vector4((float)a.X, (float)a.Y, (float)a.Z, (float)a.W);
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector4(Vector4UInt128 a) {
+            return new UnityEngine.Vector4((float)a.X, (float)a.Y, (float)a.Z, (float)a.W);
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float4(Vector4UInt128 a) {
+            return new Unity.Mathematics.float4((float)a.X, (float)a.Y, (float)a.Z, (float)a.W);
+        }
 #endif
 
         public Vector4UInt128(UInt128 x, UInt128 y, UInt128 z, UInt128 w) {
@@ -49,7 +67,67 @@ namespace Intar1991 {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <(Vector4UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left.X < right.X, left.Y < right.Y, left.Z < right.Z, left.W < right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <(UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left < right.X, left < right.Y, left < right.Z, left < right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <(Vector4UInt128 left, UInt128 right) {
+            return new Vector4Bool(left.X < right, left.Y < right, left.Z < right, left.W < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >(Vector4UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left.X > right.X, left.Y > right.Y, left.Z > right.Z, left.W > right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >(UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left > right.X, left > right.Y, left > right.Z, left > right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >(Vector4UInt128 left, UInt128 right) {
+            return new Vector4Bool(left.X > right, left.Y > right, left.Z > right, left.W > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <=(Vector4UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left.X <= right.X, left.Y <= right.Y, left.Z <= right.Z, left.W <= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <=(UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left <= right.X, left <= right.Y, left <= right.Z, left <= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator <=(Vector4UInt128 left, UInt128 right) {
+            return new Vector4Bool(left.X <= right, left.Y <= right, left.Z <= right, left.W <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >=(Vector4UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left.X >= right.X, left.Y >= right.Y, left.Z >= right.Z, left.W >= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >=(UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left >= right.X, left >= right.Y, left >= right.Z, left >= right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator >=(Vector4UInt128 left, UInt128 right) {
+            return new Vector4Bool(left.X >= right, left.Y >= right, left.Z >= right, left.W >= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator ==(Vector4UInt128 left, Vector4UInt128 right) {
@@ -57,17 +135,52 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator ==(UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left == right.X, left == right.Y, left == right.Z, left == right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator ==(Vector4UInt128 left, UInt128 right) {
+            return new Vector4Bool(left.X == right, left.Y == right, left.Z == right, left.W == right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4UInt128 left, Vector4UInt128 right) {
             return new Vector4Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z, left.W != right.W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator !=(UInt128 left, Vector4UInt128 right) {
+            return new Vector4Bool(left != right.X, left != right.Y, left != right.Z, left != right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4Bool operator !=(Vector4UInt128 left, UInt128 right) {
+            return new Vector4Bool(left.X != right, left.Y != right, left.Z != right, left.W != right);
+        }
+
         #endregion
 
-        #region Dervied from INumberBase
+        #region IShiftOperators
 
-        public Vector4Bool IsNegative() {
-            return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator <<(Vector4UInt128 left, int right) {
+            return new Vector4UInt128(left.X << right, left.Y << right, left.Z << right, left.W << right);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator >>(Vector4UInt128 left, int right) {
+            return new Vector4UInt128(left.X >> right, left.Y >> right, left.Z >> right, left.W >> right);
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator >>>(Vector4UInt128 left, int right) {
+            return new Vector4UInt128(left.X >>> right, left.Y >>> right, left.Z >>> right, left.W >>> right);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
@@ -97,18 +210,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator +(Vector4UInt128 left, UInt128 right) {
+            return new Vector4UInt128(left.X + right, left.Y + right, left.Z + right, left.W + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator +(UInt128 left, Vector4UInt128 right) {
+            return new Vector4UInt128(left + right.X, left + right.Y, left + right.Z, left + right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4UInt128 operator -(Vector4UInt128 left, Vector4UInt128 right) {
             return new Vector4UInt128(left.X - right.X, left.Y - right.Y, left.Z - right.Z, left.W - right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4UInt128 operator *(Vector4UInt128 left, Vector4UInt128 right) {
-            return new Vector4UInt128(left.X * right.X, left.Y * right.Y, left.Z * right.Z, left.W * right.W);
+        public static Vector4UInt128 operator -(Vector4UInt128 left, UInt128 right) {
+            return new Vector4UInt128(left.X - right, left.Y - right, left.Z - right, left.W - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4UInt128 operator /(Vector4UInt128 left, Vector4UInt128 right) {
-            return new Vector4UInt128(left.X / right.X, left.Y / right.Y, left.Z / right.Z, left.W / right.W);
+        public static Vector4UInt128 operator -(UInt128 left, Vector4UInt128 right) {
+            return new Vector4UInt128(left - right.X, left - right.Y, left - right.Z, left - right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator *(Vector4UInt128 left, Vector4UInt128 right) {
+            return new Vector4UInt128(left.X * right.X, left.Y * right.Y, left.Z * right.Z, left.W * right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -119,6 +247,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4UInt128 operator *(UInt128 left, Vector4UInt128 right) {
             return new Vector4UInt128(left * right.X, left * right.Y, left * right.Z, left * right.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4UInt128 operator /(Vector4UInt128 left, Vector4UInt128 right) {
+            return new Vector4UInt128(left.X / right.X, left.Y / right.Y, left.Z / right.Z, left.W / right.W);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -141,6 +274,8 @@ namespace Intar1991 {
         }
 
         #endregion
+
+        #region Conversion Operators
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -177,9 +312,20 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4Bool IsNegative() {
+            return new Vector4Bool(X < 0, Y < 0, Z < 0, W < 0);
+        }
+
+        // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
+
+        #endregion
+
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Min(Vector4UInt128 other) {
@@ -192,6 +338,11 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal UInt128 MaxComponent() {
+            return UInt128.Max(UInt128.Max(X, Y), UInt128.Max(Z, W));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Clamp(UInt128 min, UInt128 max) {
             return new Vector4UInt128(UInt128.Clamp(X, min, max), UInt128.Clamp(Y, min, max), UInt128.Clamp(Z, min, max), UInt128.Clamp(W, min, max));
         }
@@ -201,11 +352,20 @@ namespace Intar1991 {
             return new Vector4UInt128(UInt128.Clamp(X, min.X, max.X), UInt128.Clamp(Y, min.Y, max.Y), UInt128.Clamp(Z, min.Z, max.Z), UInt128.Clamp(W, min.W, max.W));
         }
 
+        #endregion
+
+        #region Half, Twice, UncheckedComponentsSum
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Half() => new Vector4UInt128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Twice() => new Vector4UInt128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal UInt128 UncheckedComponentsSum() => X + Y + Z + W;
+
+        #endregion
 
         #region Overflowing
 
@@ -223,6 +383,10 @@ namespace Intar1991 {
         public Vector4UInt128 WrappingNeg() {
             return new Vector4UInt128(Overflowing.WrappingNeg(X), Overflowing.WrappingNeg(Y), Overflowing.WrappingNeg(Z), Overflowing.WrappingNeg(W));
         }
+
+        // Rust に倣って WrappingAddSigned のみを定義し
+        // WrappingSubSigned は定義しない.
+        // https://doc.rust-lang.org/std/primitive.u32.html#method.wrapping_add_signed
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 WrappingAddSigned(Vector4Int128 other) {

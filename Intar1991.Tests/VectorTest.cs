@@ -1,7 +1,7 @@
 using Intar1991.Rand;
 using NUnit.Framework;
 
-namespace Intar1991.Tests.Numerics {
+namespace Intar1991.Tests {
     public class VectorTest {
         static void Test(I17F15 x, I17F15 y, I17F15 z, I17F15 w) {
             var p = new System.Numerics.Vector4(

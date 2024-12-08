@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     [Serializable]
     public struct I2F30 : IEquatable<I2F30>, IFormattable {
-        // Consts
-        // ------
+
+        #region Consts
 
         public const int IntNbits = 2;
         public const int FracNbits = 30;
@@ -17,21 +17,21 @@ namespace Intar1991 {
 
         internal const int OneRepr = 1 << FracNbits;
 
-        // Fields
-        // ------
+        #endregion
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public int Bits;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+        #endregion
 
-        // Constructors
-        // ------------
+        #region Constructor, FromBits
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         I2F30(int bits) {
@@ -41,9 +41,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 FromBits(int bits) => new I2F30(bits);
 
-        //
-        // Static readonly fields
-        //
+        #endregion
+
+        #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -60,17 +60,18 @@ namespace Intar1991 {
         public static readonly I2F30 MaxValue = new I2F30(MaxRepr);
         internal static readonly I2F30 Epsilon = new I2F30(EpsilonRepr);
 
-        //
-        // Properties
-        //
+        #endregion
+
+        #region WideBits
 
         internal long WideBits {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
 
-        // Arithmetic Operators
-        // --------------------
+        #endregion
+
+        #region IAdditionOperatos, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 operator +(I2F30 left, I2F30 right) {
@@ -82,6 +83,10 @@ namespace Intar1991 {
             return FromBits(left.Bits - right.Bits);
         }
 
+        #endregion
+
+        #region IMultiplicationOperators, IDivisionOperators
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 operator *(I2F30 left, I2F30 right) {
             return FromBits((int)(left.WideBits * right.Bits / OneRepr));
@@ -92,14 +97,19 @@ namespace Intar1991 {
             return FromBits((int)(left.WideBits * OneRepr / right.Bits));
         }
 
+        #endregion
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 operator +(I2F30 x) => FromBits(+x.Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 operator -(I2F30 x) => FromBits(-x.Bits);
 
-        // Comparison operators
-        // --------------------
+        #endregion
+
+        #region IEqualityOperators, IComparisonOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(I2F30 left, I2F30 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(I2F30 left, I2F30 right) => left.Bits != right.Bits;
@@ -108,8 +118,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I2F30 left, I2F30 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I2F30 left, I2F30 right) => left.Bits >= right.Bits;
 
-        // Object
-        // ---------------------------------------
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is I2F30 o && Equals(o);
 
@@ -119,23 +130,25 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ToDouble().ToString((IFormatProvider)null);
 
-        // IEquatable<I2F30>
-        // ---------------------------------------
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(I2F30 other) => this == other;
 
-        // IFormattable
-        // ---------------------------------------
+        #endregion
+
+        #region IFormattable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ToDouble().ToString(format, formatProvider);
         }
 
-        //
-        // IComparable
-        //
+        #endregion
+
+        #region IComparable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(I2F30 value) {
@@ -148,12 +161,12 @@ namespace Intar1991 {
             }
         }
 
-        // Methods
-        // ---------------------------------------
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Min(I2F30 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Max(I2F30 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F30 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 Clamp(I2F30 min, I2F30 max) {
@@ -164,13 +177,27 @@ namespace Intar1991 {
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Half() => FromBits(Mathi.Half(Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Twice() => FromBits(Mathi.Twice(Bits));
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsNegative() => Bits < 0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F30 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F30 UnsignedAbs() {
             return U2F30.FromBits(Mathi.UnsignedAbs(Bits));
         }
+
+        #endregion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Twice() => FromBits(Mathi.Twice(Bits));
+
+        #region BigMul
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 BigMul(I2F30 other) {
@@ -182,35 +209,41 @@ namespace Intar1991 {
             return I4F60.FromBits(Bits * other.Bits);
         }
 
+        #endregion
+
+        #region Atan2
+
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P2(int y, int x) {
+            return I2F30.FromBits(Mathi.Atan2P2(y, x));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 Atan2P2(I2F30 other) {
-            return I2F30.FromBits(Mathi.Atan2P2(Bits, other.Bits));
+            return I2F30.Atan2P2(Bits, other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P3(int y, int x) {
+            return I2F30.FromBits(Mathi.Atan2P3(y, x));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 Atan2P3(I2F30 other) {
-            return I2F30.FromBits(Mathi.Atan2P3(Bits, other.Bits));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 Atan2P9(I2F30 other) {
-            return I2F62.FromBits(Mathi.Atan2P9(Bits, other.Bits));
+            return I2F30.Atan2P3(Bits, other.Bits);
         }
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Convert from
-        //
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -1540,7 +1573,6 @@ namespace Intar1991 {
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
-
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }

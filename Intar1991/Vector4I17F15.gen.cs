@@ -6,24 +6,29 @@ namespace Intar1991 {
     public struct Vector4I17F15
     : IEquatable<Vector4I17F15>
     , IFormattable {
-        // Fields
-        // ---------------------------------------
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public Vector4Int32 Repr;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+        #endregion
+
+        #region WideRepr
 
         internal Vector4Int64 WideRepr {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Repr;
         }
 
+        #endregion
+
+        #region Components
         public I17F15 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I17F15.FromBits(Repr.X);
@@ -48,6 +53,7 @@ namespace Intar1991 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr.W = value.Bits;
         }
+        #endregion
 
         public I17F15 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -56,8 +62,23 @@ namespace Intar1991 {
             set => Repr[index] = value.Bits;
         }
 
-        // Constructors
-        // ---------------------------------------
+        public static explicit operator System.Numerics.Vector4(Vector4I17F15 a) {
+            return (System.Numerics.Vector4)a.Repr / I17F15.OneRepr;
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector4(Vector4I17F15 a) {
+            return (UnityEngine.Vector4)a.Repr / I17F15.OneRepr;
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float4(Vector4I17F15 a) {
+            return (Unity.Mathematics.float4)a.Repr / I17F15.OneRepr;
+        }
+#endif
+
+        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I17F15(Vector4Int32 repr) {
@@ -70,8 +91,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I17F15(I17F15 value) : this(value, value, value, value) { }
 
-        // Constants
-        // ---------------------------------------
+        #endregion
+
+        #region Zero, One, UnitX, UnitY, UnitZ, UnitW
 
         public static readonly Vector4I17F15 Zero = new Vector4I17F15(I17F15.Zero);
         public static readonly Vector4I17F15 One = new Vector4I17F15(I17F15.One);
@@ -80,10 +102,9 @@ namespace Intar1991 {
         public static readonly Vector4I17F15 UnitZ = new Vector4I17F15(I17F15.Zero, I17F15.Zero, I17F15.One, I17F15.Zero);
         public static readonly Vector4I17F15 UnitW = new Vector4I17F15(I17F15.Zero, I17F15.Zero, I17F15.Zero, I17F15.One);
 
-        //
-        // IAdditionOperators
-        // ISubtractionOperators
-        //
+        #endregion
+
+        #region IAdditionOperators, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I17F15 operator +(Vector4I17F15 a, Vector4I17F15 b) {
@@ -95,10 +116,9 @@ namespace Intar1991 {
             return new Vector4I17F15(a.Repr - b.Repr);
         }
 
-        //
-        // IIMultiplyOperators
-        // IDivisionOperators
-        //
+        #endregion
+
+        #region IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I17F15 operator *(Vector4I17F15 a, Vector4I17F15 b) {
@@ -130,10 +150,9 @@ namespace Intar1991 {
             return new Vector4I17F15((Vector4Int32)(a.WideBits * I17F15.OneRepr / b.WideRepr));
         }
 
-        //
-        // IUnaryPlusOperators
-        // IUnaryNegationOperators
-        //
+        #endregion
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I17F15 operator +(Vector4I17F15 x) {
@@ -145,9 +164,9 @@ namespace Intar1991 {
             return new Vector4I17F15(-x.Repr);
         }
 
-        //
-        // IEqualityOperators
-        //
+        #endregion
+
+        #region IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator ==(Vector4I17F15 lhs, Vector4I17F15 rhs) => lhs.Repr == rhs.Repr;
@@ -155,15 +174,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4I17F15 lhs, Vector4I17F15 rhs) => lhs.Repr != rhs.Repr;
 
-        //
-        // Derived from INumberBase
-        //
+        #endregion
 
         public Vector4Bool IsNegative() => Repr.IsNegative();
 
-        //
-        // Object
-        //
+        #region Object
 
         public override bool Equals(object obj) => obj is Vector4I17F15 o && Equals(o);
 
@@ -173,26 +188,23 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}, {Z}, {W}>";
 
-        //
-        // IEquatable
-        //
+        #endregion
 
+        #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4I17F15 other) {
             return Repr.Equals(other.Repr);
         }
+        #endregion
 
-        // IFormattable
-        // ---------------------------------------
-
+        #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)}, {W.ToString(format, formatProvider)}>";
         }
+        #endregion
 
-        //
-        // Methods
-        //
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I17F15 Min(Vector4I17F15 other) {
@@ -205,15 +217,6 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15 Abs() => new Vector4I17F15(Repr.Abs());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Vector4I17F15 Half() => new Vector4I17F15(Repr.Half());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Vector4I17F15 Twice() => new Vector4I17F15(Repr.Twice());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I17F15 Clamp(I17F15 min, I17F15 max) {
             return new Vector4I17F15(Repr.Clamp(min.Bits, max.Bits));
         }
@@ -222,6 +225,23 @@ namespace Intar1991 {
         public Vector4I17F15 Clamp(Vector4I17F15 min, Vector4I17F15 max) {
             return new Vector4I17F15(Repr.Clamp(min.Repr, max.Repr));
         }
+
+        #endregion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I17F15 Abs() => new Vector4I17F15(Repr.Abs());
+
+        #region Half, Twice
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Vector4I17F15 Half() => new Vector4I17F15(Repr.Half());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Vector4I17F15 Twice() => new Vector4I17F15(Repr.Twice());
+
+        #endregion
+
+        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 UncheckedDot(Vector4I17F15 other) {
@@ -242,24 +262,19 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U17F15 UncheckedLength() => U17F15.FromBits(Repr.UncheckedLength());
 
+        #endregion
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4I17F15? Normalize() {
+        internal static Vector4Int32? Normalize(Vector4Int32 v) {
 
             // 各要素の内部表現型を取り出し、
             // その絶対値を得る。
 
-            var isNegative = IsNegative();
-            var abs = new Vector4UInt32(
-                unchecked((uint)(isNegative.X ? Overflowing.WrappingNeg(Repr.X) : Repr.X)),
-                unchecked((uint)(isNegative.Y ? Overflowing.WrappingNeg(Repr.Y) : Repr.Y)),
-                unchecked((uint)(isNegative.Z ? Overflowing.WrappingNeg(Repr.Z) : Repr.Z)),
-                unchecked((uint)(isNegative.W ? Overflowing.WrappingNeg(Repr.W) : Repr.W))
-            );
+            var (isNegative, abs) = v.IsNegativeAndUnsignedAbs();
+            var maxComponent = abs.MaxComponent();
 
             // 各要素の最大値が 0 の場合は null を返す。
-
-            var max = Math.Max(Math.Max(abs.X, abs.Y), Math.Max(abs.Z, abs.W));
-            if (max == 0) {
+            if (maxComponent == 0) {
                 return null;
             }
 
@@ -269,20 +284,45 @@ namespace Intar1991 {
             // 剰余の回数を減らすため、
             // 先に型の最大値を最大値で割っておき、それを乗算する。
 
-            var scaled = abs * (uint.MaxValue / max);
-            var sqrDiv4 = scaled.BigMul(scaled) / 4;
-            var halfLength = Mathi.Sqrt(sqrDiv4.X + sqrDiv4.Y + sqrDiv4.Z + sqrDiv4.W);
+            var scaled = abs * (uint.MaxValue / maxComponent);
+
+            var halfLength = scaled.HalfLength();
 
             const uint fracOneTwo = I17F15.OneRepr / 2;
             var absNormalized = (Vector4Int32)(scaled.BigMul(fracOneTwo) / halfLength);
 
-            return new Vector4I17F15(new Vector4Int32(
+            return new Vector4Int32(
                 isNegative.X ? -absNormalized.X : absNormalized.X,
                 isNegative.Y ? -absNormalized.Y : absNormalized.Y,
                 isNegative.Z ? -absNormalized.Z : absNormalized.Z,
                 isNegative.W ? -absNormalized.W : absNormalized.W
-            ));
+            );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I17F15? Normalize() {
+            var tmp = Normalize(Repr);
+            if (tmp == null) {
+                return null;
+            }
+            return new Vector4I17F15(tmp.Value);
+        }
+
+        #region Sin/Cos
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 SinP2() => new Vector4I2F30(
+            X.SinP2(),
+            Y.SinP2(),
+            Z.SinP2(),
+            W.SinP2());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 SinP3() => new Vector4I2F30(
+            X.SinP3(),
+            Y.SinP3(),
+            Z.SinP3(),
+            W.SinP3());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 SinP4() => new Vector4I2F30(
@@ -299,6 +339,20 @@ namespace Intar1991 {
             W.SinP5());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 CosP2() => new Vector4I2F30(
+            X.CosP2(),
+            Y.CosP2(),
+            Z.CosP2(),
+            W.CosP2());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4I2F30 CosP3() => new Vector4I2F30(
+            X.CosP3(),
+            Y.CosP3(),
+            Z.CosP3(),
+            W.CosP3());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 CosP4() => new Vector4I2F30(
             X.CosP4(),
             Y.CosP4(),
@@ -311,6 +365,8 @@ namespace Intar1991 {
             Y.CosP5(),
             Z.CosP5(),
             W.CosP5());
+
+        #endregion
 
         #region Swizzling
 

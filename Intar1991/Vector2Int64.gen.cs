@@ -4,15 +4,33 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector2Int64 : IEquatable<Vector2Int64> {
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public long X;
         public long Y;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#endif
+        #endregion
+
+        public static explicit operator System.Numerics.Vector2(Vector2Int64 a) {
+            return new System.Numerics.Vector2(a.X, a.Y);
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector2(Vector2Int64 a) {
+            return new UnityEngine.Vector2(a.X, a.Y);
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float2(Vector2Int64 a) {
+            return new Unity.Mathematics.float2(a.X, a.Y);
+        }
 #endif
 
         public Vector2Int64(long x, long y) {
@@ -39,7 +57,67 @@ namespace Intar1991 {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Vector2Int64 left, Vector2Int64 right) {
+            return new Vector2Bool(left.X < right.X, left.Y < right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(long left, Vector2Int64 right) {
+            return new Vector2Bool(left < right.X, left < right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Vector2Int64 left, long right) {
+            return new Vector2Bool(left.X < right, left.Y < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Vector2Int64 left, Vector2Int64 right) {
+            return new Vector2Bool(left.X > right.X, left.Y > right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(long left, Vector2Int64 right) {
+            return new Vector2Bool(left > right.X, left > right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Vector2Int64 left, long right) {
+            return new Vector2Bool(left.X > right, left.Y > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Vector2Int64 left, Vector2Int64 right) {
+            return new Vector2Bool(left.X <= right.X, left.Y <= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(long left, Vector2Int64 right) {
+            return new Vector2Bool(left <= right.X, left <= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Vector2Int64 left, long right) {
+            return new Vector2Bool(left.X <= right, left.Y <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Vector2Int64 left, Vector2Int64 right) {
+            return new Vector2Bool(left.X >= right.X, left.Y >= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(long left, Vector2Int64 right) {
+            return new Vector2Bool(left >= right.X, left >= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Vector2Int64 left, long right) {
+            return new Vector2Bool(left.X >= right, left.Y >= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator ==(Vector2Int64 left, Vector2Int64 right) {
@@ -47,17 +125,52 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator ==(long left, Vector2Int64 right) {
+            return new Vector2Bool(left == right.X, left == right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator ==(Vector2Int64 left, long right) {
+            return new Vector2Bool(left.X == right, left.Y == right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator !=(Vector2Int64 left, Vector2Int64 right) {
             return new Vector2Bool(left.X != right.X, left.Y != right.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator !=(long left, Vector2Int64 right) {
+            return new Vector2Bool(left != right.X, left != right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator !=(Vector2Int64 left, long right) {
+            return new Vector2Bool(left.X != right, left.Y != right);
+        }
+
         #endregion
 
-        #region Dervied from INumberBase
+        #region IShiftOperators
 
-        public Vector2Bool IsNegative() {
-            return new Vector2Bool(X < 0, Y < 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator <<(Vector2Int64 left, int right) {
+            return new Vector2Int64(left.X << right, left.Y << right);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator >>(Vector2Int64 left, int right) {
+            return new Vector2Int64(left.X >> right, left.Y >> right);
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator >>>(Vector2Int64 left, int right) {
+            return new Vector2Int64(left.X >>> right, left.Y >>> right);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
@@ -87,18 +200,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator +(Vector2Int64 left, long right) {
+            return new Vector2Int64(left.X + right, left.Y + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator +(long left, Vector2Int64 right) {
+            return new Vector2Int64(left + right.X, left + right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int64 operator -(Vector2Int64 left, Vector2Int64 right) {
             return new Vector2Int64(left.X - right.X, left.Y - right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2Int64 operator *(Vector2Int64 left, Vector2Int64 right) {
-            return new Vector2Int64(left.X * right.X, left.Y * right.Y);
+        public static Vector2Int64 operator -(Vector2Int64 left, long right) {
+            return new Vector2Int64(left.X - right, left.Y - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2Int64 operator /(Vector2Int64 left, Vector2Int64 right) {
-            return new Vector2Int64(left.X / right.X, left.Y / right.Y);
+        public static Vector2Int64 operator -(long left, Vector2Int64 right) {
+            return new Vector2Int64(left - right.X, left - right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator *(Vector2Int64 left, Vector2Int64 right) {
+            return new Vector2Int64(left.X * right.X, left.Y * right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,6 +237,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int64 operator *(long left, Vector2Int64 right) {
             return new Vector2Int64(left * right.X, left * right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int64 operator /(Vector2Int64 left, Vector2Int64 right) {
+            return new Vector2Int64(left.X / right.X, left.Y / right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -140,6 +273,8 @@ namespace Intar1991 {
         }
 
         #endregion
+
+        #region Conversion Operators
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -176,17 +311,40 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Bool IsNegative() {
+            return new Vector2Bool(X < 0, Y < 0);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Abs() => new Vector2Int64(Math.Abs(X), Math.Abs(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt64 UnsignedAbs() {
-            return new Vector2UInt64(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y));
+            var isNegative = IsNegative();
+            return new Vector2UInt64(
+                unchecked((ulong)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((ulong)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y))
+            );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal (Vector2Bool isNegative, Vector2UInt64 unsignedAbs) IsNegativeAndUnsignedAbs() {
+            var isNegative = IsNegative();
+            var unsignedAbs = new Vector2UInt64(
+                unchecked((ulong)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((ulong)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y))
+            );
+            return (isNegative, unsignedAbs);
+        }
+
+        #endregion
+
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Min(Vector2Int64 other) {
@@ -197,6 +355,8 @@ namespace Intar1991 {
         public Vector2Int64 Max(Vector2Int64 other) {
             return new Vector2Int64(Math.Max(X, other.X), Math.Max(Y, other.Y));
         }
+
+        // MaxComponent は符号なしの場合のみ定義する。
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Clamp(long min, long max) {
@@ -216,11 +376,22 @@ namespace Intar1991 {
 #endif
         }
 
+        #endregion
+
+        #region Half, Twice, UncheckedComponentsSum
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Half() => new Vector2Int64(Mathi.Half(X), Mathi.Half(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 Twice() => new Vector2Int64(Mathi.Twice(X), Mathi.Twice(Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal long UncheckedComponentsSum() => X + Y;
+
+        #endregion
+
+        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
 
 #if NET7_0_OR_GREATER
 
@@ -234,21 +405,29 @@ namespace Intar1991 {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Int128 UncheckedDot(Vector2Int64 other) {
-            var mul = (Vector2Int128)this * other;
-            return mul.X + mul.Y;
+            return BigMul(other).UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 LengthSquared() {
             var abs = UnsignedAbs();
             var sqr = abs.BigMul(abs);
-            return sqr.X + sqr.Y;
+            return sqr.UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong Length() => (ulong)Mathi.Sqrt(LengthSquared());
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal ulong HalfLength() {
+            var abs = UnsignedAbs();
+            var sqr = abs.BigMul(abs);
+            return (ulong)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+        }
+
 #endif // NET7_0_OR_GREATER
+
+        #endregion
 
         #region Overflowing
 

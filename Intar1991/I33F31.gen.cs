@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     [Serializable]
     public struct I33F31 : IEquatable<I33F31>, IFormattable {
-        // Consts
-        // ------
+
+        #region Consts
 
         public const int IntNbits = 33;
         public const int FracNbits = 31;
@@ -17,21 +17,21 @@ namespace Intar1991 {
 
         internal const long OneRepr = 1L << FracNbits;
 
-        // Fields
-        // ------
+        #endregion
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public long Bits;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+        #endregion
 
-        // Constructors
-        // ------------
+        #region Constructor, FromBits
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         I33F31(long bits) {
@@ -41,9 +41,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 FromBits(long bits) => new I33F31(bits);
 
-        //
-        // Static readonly fields
-        //
+        #endregion
+
+        #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -60,9 +60,9 @@ namespace Intar1991 {
         public static readonly I33F31 MaxValue = new I33F31(MaxRepr);
         internal static readonly I33F31 Epsilon = new I33F31(EpsilonRepr);
 
-        //
-        // Properties
-        //
+        #endregion
+
+        #region WideBits
 
 #if NET7_0_OR_GREATER
 
@@ -73,8 +73,9 @@ namespace Intar1991 {
 
 #endif // NET7_0_OR_GREATER
 
-        // Arithmetic Operators
-        // --------------------
+        #endregion
+
+        #region IAdditionOperatos, ISubtractionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 operator +(I33F31 left, I33F31 right) {
@@ -85,6 +86,10 @@ namespace Intar1991 {
         public static I33F31 operator -(I33F31 left, I33F31 right) {
             return FromBits(left.Bits - right.Bits);
         }
+
+        #endregion
+
+        #region IMultiplicationOperators, IDivisionOperators
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
@@ -101,7 +106,11 @@ namespace Intar1991 {
             return FromBits((long)(left.WideBits * OneRepr / right.Bits));
         }
 
-#endif
+#endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region IUnaryPlusOperators, IUnaryNegationOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 operator +(I33F31 x) => FromBits(+x.Bits);
@@ -109,8 +118,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 operator -(I33F31 x) => FromBits(-x.Bits);
 
-        // Comparison operators
-        // --------------------
+        #endregion
+
+        #region IEqualityOperators, IComparisonOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(I33F31 left, I33F31 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(I33F31 left, I33F31 right) => left.Bits != right.Bits;
@@ -119,8 +129,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I33F31 left, I33F31 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I33F31 left, I33F31 right) => left.Bits >= right.Bits;
 
-        // Object
-        // ---------------------------------------
+        #endregion
+
+        #region Object
 
         public override bool Equals(object obj) => obj is I33F31 o && Equals(o);
 
@@ -130,23 +141,25 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
 
-        // IEquatable<I33F31>
-        // ---------------------------------------
+        #endregion
+
+        #region IEquatable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(I33F31 other) => this == other;
 
-        // IFormattable
-        // ---------------------------------------
+        #endregion
+
+        #region IFormattable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return LossyToDouble().ToString(format, formatProvider);
         }
 
-        //
-        // IComparable
-        //
+        #endregion
+
+        #region IComparable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(I33F31 value) {
@@ -159,12 +172,12 @@ namespace Intar1991 {
             }
         }
 
-        // Methods
-        // ---------------------------------------
+        #endregion
+
+        #region Min, Max, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Min(I33F31 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Max(I33F31 other) => FromBits(Math.Max(Bits, other.Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I33F31 Clamp(I33F31 min, I33F31 max) {
@@ -175,47 +188,304 @@ namespace Intar1991 {
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Half() => FromBits(Mathi.Half(Bits));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Twice() => FromBits(Mathi.Twice(Bits));
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsNegative() => Bits < 0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I33F31 Abs() => FromBits(Math.Abs(Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U33F31 UnsignedAbs() {
             return U33F31.FromBits(Mathi.UnsignedAbs(Bits));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62 AcosP3() => U2F62.FromBits(Mathi.AcosP3(Bits));
+        #endregion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Half() => FromBits(Mathi.Half(Bits));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Twice() => FromBits(Mathi.Twice(Bits));
+
+        #region BigMul
+
+        #endregion
+
+        #region Asin, Acos, Atan
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AsinP3() => I2F62.FromBits(Mathi.AsinP3(Bits));
+        public static U2F62 AcosP3(long bits) => U2F62.FromBits(Mathi.AcosP3(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62 AcosP7() => U2F62.FromBits(Mathi.AcosP7(Bits));
+        public static I2F62 AsinP3(long bits) => I2F62.FromBits(Mathi.AsinP3(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AsinP7() => I2F62.FromBits(Mathi.AsinP7(Bits));
+        public U2F62 AcosP3() => AcosP3(Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AtanP2() => I2F62.FromBits(Mathi.AtanP2(Bits));
+        public I2F62 AsinP3() => AsinP3(Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AtanP3() => I2F62.FromBits(Mathi.AtanP3(Bits));
+        public static U2F62 AcosP7(long bits) => U2F62.FromBits(Mathi.AcosP7(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AtanP9() => I2F62.FromBits(Mathi.AtanP9(Bits));
+        public static I2F62 AsinP7(long bits) => I2F62.FromBits(Mathi.AsinP7(bits));
 
-        // Atan2 は 32 ビットの固定小数点数に対してのみ定義されている。
-        // 実装のために 128 ビット整数が必要なため、
-        // 64 ビットの固定小数点数に対しては未実装。
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F62 AcosP7() => AcosP7(Bits);
 
-        //
-        // Convert from
-        //
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AsinP7() => AsinP7(Bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AtanP2(long x) => I2F62.FromBits(Mathi.AtanP2(x));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP2() => AtanP2(Bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AtanP3(long x) => I2F62.FromBits(Mathi.AtanP3(x));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP3() => AtanP3(Bits);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AtanP9(long x) => I2F62.FromBits(Mathi.AtanP9(x));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 AtanP9() => AtanP9(Bits);
+
+        #endregion
+
+        #region Atan2
+
+#if NET7_0_OR_GREATER
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P2(I33F31 other) {
+            return I2F62.Atan2P2(Bits, other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P3(I33F31 other) {
+            return I2F62.Atan2P3(Bits, other.Bits);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 Atan2P9(I33F31 other) {
+            return I2F62.Atan2P9(Bits, other.Bits);
+        }
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+#endif // NET7_0_OR_GREATER
+
+        #endregion
+
+        #region Sin, Cos
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 SinP2(long x) => I2F62.FromBits(Mathi.SinP2(x));
+
+        /// <summary>
+        /// 2 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP2() => SinP2(Bits);
+
+        /// <summary>
+        /// 3 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 SinP3(long x) => I2F62.FromBits(Mathi.SinP3(x));
+
+        /// <summary>
+        /// 3 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP3() => SinP3(Bits);
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 SinP4(long x) => I2F62.FromBits(Mathi.SinP4(x));
+
+        /// <summary>
+        /// 4 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP4() => SinP4(Bits);
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 SinP5(long x) => I2F62.FromBits(Mathi.SinP5(x));
+
+        /// <summary>
+        /// 5 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP5() => SinP5(Bits);
+
+        /// <summary>
+        /// 10 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 SinP10(long x) => I2F62.FromBits(Mathi.SinP10(x));
+
+        /// <summary>
+        /// 10 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP10() => SinP10(Bits);
+
+        /// <summary>
+        /// 11 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 SinP11(long x) => I2F62.FromBits(Mathi.SinP11(x));
+
+        /// <summary>
+        /// 11 次の多項式で正弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>正弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 SinP11() => SinP11(Bits);
+
+        /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 CosP2(long x) => I2F62.FromBits(Mathi.CosP2(x));
+
+        /// <summary>
+        /// 2 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP2() => CosP2(Bits);
+
+        /// <summary>
+        /// 3 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 CosP3(long x) => I2F62.FromBits(Mathi.CosP3(x));
+
+        /// <summary>
+        /// 3 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP3() => CosP3(Bits);
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 CosP4(long x) => I2F62.FromBits(Mathi.CosP4(x));
+
+        /// <summary>
+        /// 4 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP4() => CosP4(Bits);
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 CosP5(long x) => I2F62.FromBits(Mathi.CosP5(x));
+
+        /// <summary>
+        /// 5 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP5() => CosP5(Bits);
+
+        /// <summary>
+        /// 10 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 CosP10(long x) => I2F62.FromBits(Mathi.CosP10(x));
+
+        /// <summary>
+        /// 10 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP10() => CosP10(Bits);
+
+        /// <summary>
+        /// 11 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 CosP11(long x) => I2F62.FromBits(Mathi.CosP11(x));
+
+        /// <summary>
+        /// 11 次の多項式で余弦比を近似する。
+        /// </summary>
+        /// <param name="x">直角に対する角度の比</param>
+        /// <returns>余弦比</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I2F62 CosP11() => CosP11(Bits);
+
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
-
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
@@ -1063,7 +1333,6 @@ namespace Intar1991 {
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning restore IDE0004 // 不要なキャストの削除
-
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
     }

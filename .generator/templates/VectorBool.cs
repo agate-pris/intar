@@ -11,16 +11,15 @@ namespace {{ namespace }} {
     public struct {{ vector }} : IEquatable<{{ vector }}> {
 
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-{%- for c in components %}
-
-        [MarshalAs(UnmanagedType.U1)]
-        public bool {{ c }};
-{%- endfor %}
-
+        {%- for c in components %}
+        [MarshalAs(UnmanagedType.U1)] public bool {{ c }};
+        {%- endfor %}
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

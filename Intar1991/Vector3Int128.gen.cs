@@ -6,16 +6,34 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector3Int128 : IEquatable<Vector3Int128> {
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public Int128 X;
         public Int128 Y;
         public Int128 Z;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#endif
+        #endregion
+
+        public static explicit operator System.Numerics.Vector3(Vector3Int128 a) {
+            return new System.Numerics.Vector3((float)a.X, (float)a.Y, (float)a.Z);
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector3(Vector3Int128 a) {
+            return new UnityEngine.Vector3((float)a.X, (float)a.Y, (float)a.Z);
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float3(Vector3Int128 a) {
+            return new Unity.Mathematics.float3((float)a.X, (float)a.Y, (float)a.Z);
+        }
 #endif
 
         public Vector3Int128(Int128 x, Int128 y, Int128 z) {
@@ -45,7 +63,67 @@ namespace Intar1991 {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator <(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left.X < right.X, left.Y < right.Y, left.Z < right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator <(Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left < right.X, left < right.Y, left < right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator <(Vector3Int128 left, Int128 right) {
+            return new Vector3Bool(left.X < right, left.Y < right, left.Z < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator >(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left.X > right.X, left.Y > right.Y, left.Z > right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator >(Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left > right.X, left > right.Y, left > right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator >(Vector3Int128 left, Int128 right) {
+            return new Vector3Bool(left.X > right, left.Y > right, left.Z > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator <=(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left.X <= right.X, left.Y <= right.Y, left.Z <= right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator <=(Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left <= right.X, left <= right.Y, left <= right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator <=(Vector3Int128 left, Int128 right) {
+            return new Vector3Bool(left.X <= right, left.Y <= right, left.Z <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator >=(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left.X >= right.X, left.Y >= right.Y, left.Z >= right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator >=(Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left >= right.X, left >= right.Y, left >= right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator >=(Vector3Int128 left, Int128 right) {
+            return new Vector3Bool(left.X >= right, left.Y >= right, left.Z >= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator ==(Vector3Int128 left, Vector3Int128 right) {
@@ -53,17 +131,52 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator ==(Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left == right.X, left == right.Y, left == right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator ==(Vector3Int128 left, Int128 right) {
+            return new Vector3Bool(left.X == right, left.Y == right, left.Z == right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator !=(Vector3Int128 left, Vector3Int128 right) {
             return new Vector3Bool(left.X != right.X, left.Y != right.Y, left.Z != right.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator !=(Int128 left, Vector3Int128 right) {
+            return new Vector3Bool(left != right.X, left != right.Y, left != right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Bool operator !=(Vector3Int128 left, Int128 right) {
+            return new Vector3Bool(left.X != right, left.Y != right, left.Z != right);
+        }
+
         #endregion
 
-        #region Dervied from INumberBase
+        #region IShiftOperators
 
-        public Vector3Bool IsNegative() {
-            return new Vector3Bool(X < 0, Y < 0, Z < 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator <<(Vector3Int128 left, int right) {
+            return new Vector3Int128(left.X << right, left.Y << right, left.Z << right);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator >>(Vector3Int128 left, int right) {
+            return new Vector3Int128(left.X >> right, left.Y >> right, left.Z >> right);
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator >>>(Vector3Int128 left, int right) {
+            return new Vector3Int128(left.X >>> right, left.Y >>> right, left.Z >>> right);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
@@ -93,18 +206,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator +(Vector3Int128 left, Int128 right) {
+            return new Vector3Int128(left.X + right, left.Y + right, left.Z + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator +(Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left + right.X, left + right.Y, left + right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int128 operator -(Vector3Int128 left, Vector3Int128 right) {
             return new Vector3Int128(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3Int128 operator *(Vector3Int128 left, Vector3Int128 right) {
-            return new Vector3Int128(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+        public static Vector3Int128 operator -(Vector3Int128 left, Int128 right) {
+            return new Vector3Int128(left.X - right, left.Y - right, left.Z - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3Int128 operator /(Vector3Int128 left, Vector3Int128 right) {
-            return new Vector3Int128(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
+        public static Vector3Int128 operator -(Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left - right.X, left - right.Y, left - right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator *(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -115,6 +243,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Int128 operator *(Int128 left, Vector3Int128 right) {
             return new Vector3Int128(left * right.X, left * right.Y, left * right.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3Int128 operator /(Vector3Int128 left, Vector3Int128 right) {
+            return new Vector3Int128(left.X / right.X, left.Y / right.Y, left.Z / right.Z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -146,6 +279,8 @@ namespace Intar1991 {
         }
 
         #endregion
+
+        #region Conversion Operators
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -182,17 +317,42 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3Bool IsNegative() {
+            return new Vector3Bool(X < 0, Y < 0, Z < 0);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Abs() => new Vector3Int128(Int128.Abs(X), Int128.Abs(Y), Int128.Abs(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt128 UnsignedAbs() {
-            return new Vector3UInt128(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y), Mathi.UnsignedAbs(Z));
+            var isNegative = IsNegative();
+            return new Vector3UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
+                unchecked((UInt128)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z))
+            );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal (Vector3Bool isNegative, Vector3UInt128 unsignedAbs) IsNegativeAndUnsignedAbs() {
+            var isNegative = IsNegative();
+            var unsignedAbs = new Vector3UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y)),
+                unchecked((UInt128)(isNegative.Z ? Overflowing.WrappingNeg(Z) : Z))
+            );
+            return (isNegative, unsignedAbs);
+        }
+
+        #endregion
+
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Min(Vector3Int128 other) {
@@ -204,6 +364,8 @@ namespace Intar1991 {
             return new Vector3Int128(Int128.Max(X, other.X), Int128.Max(Y, other.Y), Int128.Max(Z, other.Z));
         }
 
+        // MaxComponent は符号なしの場合のみ定義する。
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Clamp(Int128 min, Int128 max) {
             return new Vector3Int128(Int128.Clamp(X, min, max), Int128.Clamp(Y, min, max), Int128.Clamp(Z, min, max));
@@ -214,11 +376,20 @@ namespace Intar1991 {
             return new Vector3Int128(Int128.Clamp(X, min.X, max.X), Int128.Clamp(Y, min.Y, max.Y), Int128.Clamp(Z, min.Z, max.Z));
         }
 
+        #endregion
+
+        #region Half, Twice, UncheckedComponentsSum
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Half() => new Vector3Int128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 Twice() => new Vector3Int128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Int128 UncheckedComponentsSum() => X + Y + Z;
+
+        #endregion
 
         #region Overflowing
 

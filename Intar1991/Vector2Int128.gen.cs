@@ -6,15 +6,33 @@ using System.Runtime.CompilerServices;
 namespace Intar1991 {
     public struct Vector2Int128 : IEquatable<Vector2Int128> {
 
+        #region Fields
 #if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
-
         public Int128 X;
         public Int128 Y;
-
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#endif
+        #endregion
+
+        public static explicit operator System.Numerics.Vector2(Vector2Int128 a) {
+            return new System.Numerics.Vector2((float)a.X, (float)a.Y);
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static explicit operator UnityEngine.Vector2(Vector2Int128 a) {
+            return new UnityEngine.Vector2((float)a.X, (float)a.Y);
+        }
+#endif
+
+#if UNITY_2018_1_OR_NEWER
+        public static explicit operator Unity.Mathematics.float2(Vector2Int128 a) {
+            return new Unity.Mathematics.float2((float)a.X, (float)a.Y);
+        }
 #endif
 
         public Vector2Int128(Int128 x, Int128 y) {
@@ -41,7 +59,67 @@ namespace Intar1991 {
             }
         }
 
-        #region IEqualityOperators
+        #region IComparisonOperators, IEqualityOperators
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Vector2Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left.X < right.X, left.Y < right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left < right.X, left < right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <(Vector2Int128 left, Int128 right) {
+            return new Vector2Bool(left.X < right, left.Y < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Vector2Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left.X > right.X, left.Y > right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left > right.X, left > right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >(Vector2Int128 left, Int128 right) {
+            return new Vector2Bool(left.X > right, left.Y > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Vector2Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left.X <= right.X, left.Y <= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left <= right.X, left <= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator <=(Vector2Int128 left, Int128 right) {
+            return new Vector2Bool(left.X <= right, left.Y <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Vector2Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left.X >= right.X, left.Y >= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left >= right.X, left >= right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator >=(Vector2Int128 left, Int128 right) {
+            return new Vector2Bool(left.X >= right, left.Y >= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator ==(Vector2Int128 left, Vector2Int128 right) {
@@ -49,17 +127,52 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator ==(Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left == right.X, left == right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator ==(Vector2Int128 left, Int128 right) {
+            return new Vector2Bool(left.X == right, left.Y == right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator !=(Vector2Int128 left, Vector2Int128 right) {
             return new Vector2Bool(left.X != right.X, left.Y != right.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator !=(Int128 left, Vector2Int128 right) {
+            return new Vector2Bool(left != right.X, left != right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Bool operator !=(Vector2Int128 left, Int128 right) {
+            return new Vector2Bool(left.X != right, left.Y != right);
+        }
+
         #endregion
 
-        #region Dervied from INumberBase
+        #region IShiftOperators
 
-        public Vector2Bool IsNegative() {
-            return new Vector2Bool(X < 0, Y < 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator <<(Vector2Int128 left, int right) {
+            return new Vector2Int128(left.X << right, left.Y << right);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator >>(Vector2Int128 left, int right) {
+            return new Vector2Int128(left.X >> right, left.Y >> right);
+        }
+
+#if NET7_0_OR_GREATER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator >>>(Vector2Int128 left, int right) {
+            return new Vector2Int128(left.X >>> right, left.Y >>> right);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
@@ -89,18 +202,33 @@ namespace Intar1991 {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator +(Vector2Int128 left, Int128 right) {
+            return new Vector2Int128(left.X + right, left.Y + right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator +(Int128 left, Vector2Int128 right) {
+            return new Vector2Int128(left + right.X, left + right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int128 operator -(Vector2Int128 left, Vector2Int128 right) {
             return new Vector2Int128(left.X - right.X, left.Y - right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2Int128 operator *(Vector2Int128 left, Vector2Int128 right) {
-            return new Vector2Int128(left.X * right.X, left.Y * right.Y);
+        public static Vector2Int128 operator -(Vector2Int128 left, Int128 right) {
+            return new Vector2Int128(left.X - right, left.Y - right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2Int128 operator /(Vector2Int128 left, Vector2Int128 right) {
-            return new Vector2Int128(left.X / right.X, left.Y / right.Y);
+        public static Vector2Int128 operator -(Int128 left, Vector2Int128 right) {
+            return new Vector2Int128(left - right.X, left - right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator *(Vector2Int128 left, Vector2Int128 right) {
+            return new Vector2Int128(left.X * right.X, left.Y * right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -111,6 +239,11 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int128 operator *(Int128 left, Vector2Int128 right) {
             return new Vector2Int128(left * right.X, left * right.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2Int128 operator /(Vector2Int128 left, Vector2Int128 right) {
+            return new Vector2Int128(left.X / right.X, left.Y / right.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -142,6 +275,8 @@ namespace Intar1991 {
         }
 
         #endregion
+
+        #region Conversion Operators
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -178,17 +313,40 @@ namespace Intar1991 {
 #pragma warning restore IDE0004 // 不要なキャストの削除
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
-        //
-        // Other methods
-        //
+        #endregion
+
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Bool IsNegative() {
+            return new Vector2Bool(X < 0, Y < 0);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Abs() => new Vector2Int128(Int128.Abs(X), Int128.Abs(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt128 UnsignedAbs() {
-            return new Vector2UInt128(Mathi.UnsignedAbs(X), Mathi.UnsignedAbs(Y));
+            var isNegative = IsNegative();
+            return new Vector2UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y))
+            );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal (Vector2Bool isNegative, Vector2UInt128 unsignedAbs) IsNegativeAndUnsignedAbs() {
+            var isNegative = IsNegative();
+            var unsignedAbs = new Vector2UInt128(
+                unchecked((UInt128)(isNegative.X ? Overflowing.WrappingNeg(X) : X)),
+                unchecked((UInt128)(isNegative.Y ? Overflowing.WrappingNeg(Y) : Y))
+            );
+            return (isNegative, unsignedAbs);
+        }
+
+        #endregion
+
+        #region Min, Max, MaxComponent, Clamp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Min(Vector2Int128 other) {
@@ -200,6 +358,8 @@ namespace Intar1991 {
             return new Vector2Int128(Int128.Max(X, other.X), Int128.Max(Y, other.Y));
         }
 
+        // MaxComponent は符号なしの場合のみ定義する。
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Clamp(Int128 min, Int128 max) {
             return new Vector2Int128(Int128.Clamp(X, min, max), Int128.Clamp(Y, min, max));
@@ -210,11 +370,20 @@ namespace Intar1991 {
             return new Vector2Int128(Int128.Clamp(X, min.X, max.X), Int128.Clamp(Y, min.Y, max.Y));
         }
 
+        #endregion
+
+        #region Half, Twice, UncheckedComponentsSum
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Half() => new Vector2Int128(Mathi.Half(X), Mathi.Half(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Twice() => new Vector2Int128(Mathi.Twice(X), Mathi.Twice(Y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Int128 UncheckedComponentsSum() => X + Y;
+
+        #endregion
 
         #region Overflowing
 
