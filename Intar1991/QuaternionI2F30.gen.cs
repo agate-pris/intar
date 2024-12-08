@@ -102,6 +102,47 @@ namespace Intar1991 {
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
+
+        public static explicit operator QuaternionI2F30(Matrix3x3I2F30 matrix) {
+            var trace = matrix.C0Repr.X + matrix.C1Repr.Y + matrix.C2Repr.Z;
+
+            if (trace > 0) {
+                var sqrt = (int)Mathi.Sqrt(((ulong)trace << 30) + (1L << 60));
+                var w = Mathi.Half(sqrt);
+                sqrt = (int)((1L << 59) / sqrt);
+                var x = (int)((matrix.C1Repr.Z - matrix.C2Repr.Y) * (long)sqrt / (1 << 30));
+                var y = (int)((matrix.C2Repr.X - matrix.C0Repr.Z) * (long)sqrt / (1 << 30));
+                var z = (int)((matrix.C0Repr.Y - matrix.C1Repr.X) * (long)sqrt / (1 << 30));
+                return new QuaternionI2F30(new Vector4Int32(x, y, z, w));
+            } else {
+#if true
+                throw new NotImplementedException();
+#else
+                if (matrix.M11 >= matrix.M22 && matrix.M11 >= matrix.M33) {
+                    float s = float.Sqrt(1.0f + matrix.M11 - matrix.M22 - matrix.M33);
+                    float invS = 0.5f / s;
+                    q.X = 0.5f * s;
+                    q.Y = (matrix.M12 + matrix.M21) * invS;
+                    q.Z = (matrix.M13 + matrix.M31) * invS;
+                    q.W = (matrix.M23 - matrix.M32) * invS;
+                } else if (matrix.M22 > matrix.M33) {
+                    float s = float.Sqrt(1.0f + matrix.M22 - matrix.M11 - matrix.M33);
+                    float invS = 0.5f / s;
+                    q.X = (matrix.M21 + matrix.M12) * invS;
+                    q.Y = 0.5f * s;
+                    q.Z = (matrix.M32 + matrix.M23) * invS;
+                    q.W = (matrix.M31 - matrix.M13) * invS;
+                } else {
+                    float s = float.Sqrt(1.0f + matrix.M33 - matrix.M11 - matrix.M22);
+                    float invS = 0.5f / s;
+                    q.X = (matrix.M31 + matrix.M13) * invS;
+                    q.Y = (matrix.M32 + matrix.M23) * invS;
+                    q.Z = 0.5f * s;
+                    q.W = (matrix.M12 - matrix.M21) * invS;
+                }
+#endif
+            }
+        }
         #endregion
         #region Vector, Imaginary
 
