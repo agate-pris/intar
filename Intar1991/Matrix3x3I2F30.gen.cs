@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Runtime.CompilerServices;
 
@@ -97,6 +95,20 @@ namespace Intar1991 {
             C0Repr.Equals(other.C0Repr) &&
             C1Repr.Equals(other.C1Repr) &&
             C2Repr.Equals(other.C2Repr);
+        #endregion
+        #region Conversion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Matrix3x3I2F30(QuaternionI2F30 q) {
+            var pnn = new Vector3Int32(+2, -2, -2);
+            var npn = new Vector3Int32(-2, +2, -2);
+            var nnp = new Vector3Int32(-2, -2, +2);
+            return new Matrix3x3I2F30(
+                (Vector3Int32)((((q.Repr.YXW().BigMul(q.Repr.Y) * npn) - (q.Repr.ZWX().BigMul(q.Repr.Z) * pnn)) / I2F30.OneRepr) + Vector3I2F30.UnitX.Repr),
+                (Vector3Int32)((((q.Repr.WZY().BigMul(q.Repr.Z) * nnp) - (q.Repr.YXW().BigMul(q.Repr.X) * npn)) / I2F30.OneRepr) + Vector3I2F30.UnitY.Repr),
+                (Vector3Int32)((((q.Repr.ZWX().BigMul(q.Repr.X) * pnn) - (q.Repr.WZY().BigMul(q.Repr.Y) * nnp)) / I2F30.OneRepr) + Vector3I2F30.UnitZ.Repr)
+            );
+        }
         #endregion
         #region AxisAngle
 
