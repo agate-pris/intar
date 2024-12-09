@@ -121,7 +121,7 @@ namespace Intar1991.Tests {
         }
 
         [Test]
-        public void TestConversionFromQuaternionToMatrix() {
+        public void TestConversionFromQuaternion() {
             const double delta = 0.0000003;
             var rng = new Xoroshiro128StarStar(1, 2);
             var dm1 = 0.0;
