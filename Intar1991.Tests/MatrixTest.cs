@@ -54,7 +54,7 @@ namespace Intar1991.Tests {
         }
 
         [Test]
-        public void TestLookRotation() {
+        public void TestAxisAngle() {
             const double delta = 0.0002;
             var rng = new Xoroshiro128StarStar(1, 2);
             var axis = QuaternionTest.RandomAxis(ref rng);
