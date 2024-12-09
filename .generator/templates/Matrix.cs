@@ -1,9 +1,12 @@
 {% import "macros.cs" as macros %}
 {%- set bits = int_nbits + frac_nbits %}
+{%- set      component_repr = macros::inttype(bits=  bits, signed=signed) %}
+{%- set wide_component_repr = macros::inttype(bits=2*bits, signed=signed) %}
 {%- set repr   = macros::vector_primitive(signed=true, dim=rows, bits=bits) %}
 {%- set repr_3 = macros::vector_primitive(signed=true, dim=3,    bits=bits) %}
 {%- set repr_4 = macros::vector_primitive(signed=true, dim=4,    bits=bits) %}
-{%- set component = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
+{%- set      component = macros::fixed_type(s=signed, i=  int_nbits, f=  frac_nbits) %}
+{%- set wide_component = macros::fixed_type(s=signed, i=2*int_nbits, f=2*frac_nbits) %}
 {%- set col = macros::vector_type(dim=rows, type=component) %}
 {%- set row = macros::vector_type(dim=cols, type=component) %}
 {%- set col_repr = macros::vector_primitive(signed=true, dim=rows, bits=bits) %}
@@ -107,19 +110,19 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static operator {{ type }}({{ quaternion}} q) {
-            var xx = ({{ wide_bits }})q.Repr.X * q.Repr.X;
-            var yy = ({{ wide_bits }})q.Repr.Y * q.Repr.Y;
-            var zz = ({{ wide_bits }})q.Repr.Z * q.Repr.Z;
+            var xx = ({{ wide_component_repr }})q.Repr.X * q.Repr.X;
+            var yy = ({{ wide_component_repr }})q.Repr.Y * q.Repr.Y;
+            var zz = ({{ wide_component_repr }})q.Repr.Z * q.Repr.Z;
 
-            var xy = ({{ wide_bits }})q.Repr.X * q.Repr.Y;
-            var wz = ({{ wide_bits }})q.Repr.Z * q.Repr.W;
-            var xz = ({{ wide_bits }})q.Repr.Z * q.Repr.X;
-            var wy = ({{ wide_bits }})q.Repr.Y * q.Repr.W;
-            var yz = ({{ wide_bits }})q.Repr.Y * q.Repr.Z;
-            var wx = ({{ wide_bits }})q.Repr.X * q.Repr.W;
+            var xy = ({{ wide_component_repr }})q.Repr.X * q.Repr.Y;
+            var wz = ({{ wide_component_repr }})q.Repr.Z * q.Repr.W;
+            var xz = ({{ wide_component_repr }})q.Repr.Z * q.Repr.X;
+            var wy = ({{ wide_component_repr }})q.Repr.Y * q.Repr.W;
+            var yz = ({{ wide_component_repr }})q.Repr.Y * q.Repr.Z;
+            var wx = ({{ wide_component_repr }})q.Repr.X * q.Repr.W;
 
             result.X = new {{ repr }}(
-                ({{ bits }})(({{ wide_component }}.OneRepr - 2 * (yy + zz)) / ({{ component }}.OneRepr)),
+                ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (yy + zz)) / ({{ component }}.OneRepr)),
                 1.0f - 2.0f * (yy + zz),
                 2.0f * (xy + wz),
                 2.0f * (xz - wy),
