@@ -123,19 +123,18 @@ namespace {{ namespace }} {
 
             result.X = new {{ repr }}(
                 ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (yy + zz)) / ({{ component }}.OneRepr)),
-                1.0f - 2.0f * (yy + zz),
-                2.0f * (xy + wz),
-                2.0f * (xz - wy),
+                ({{ component_repr }})(2 * (xy + wz) / {{ component }}.OneRepr),
+                ({{ component_repr }})(2 * (xz - wy) / {{ component }}.OneRepr)
             );
-            result.Y = Vector4.Create(
-                2.0f * (xy - wz),
-                1.0f - 2.0f * (zz + xx),
-                2.0f * (yz + wx),
+            result.Y = new {{ repr }}(
+                ({{ component_repr }})(2 * (xy - wz) / {{ component }}.OneRepr),
+                ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (zz + xx)) / ({{ component }}.OneRepr)),
+                ({{ component_repr }})(2 * (yz + wx) / {{ component }}.OneRepr)
             );
-            result.Z = Vector4.Create(
-                2.0f * (xz + wy),
-                2.0f * (yz - wx),
-                1.0f - 2.0f * (yy + xx),
+            result.Z = new {{ repr }}(
+                ({{ component_repr }})(2 * (xz + wy) / {{ component }}.OneRepr),
+                ({{ component_repr }})(2 * (yz - wx) / {{ component }}.OneRepr),
+                ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (yy + xx)) / ({{ component }}.OneRepr))
             );
 
             return result;
