@@ -109,35 +109,15 @@ namespace {{ namespace }} {
         #region Conversion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static operator {{ type }}({{ quaternion}} q) {
-            var xx = ({{ wide_component_repr }})q.Repr.X * q.Repr.X;
-            var yy = ({{ wide_component_repr }})q.Repr.Y * q.Repr.Y;
-            var zz = ({{ wide_component_repr }})q.Repr.Z * q.Repr.Z;
-
-            var xy = ({{ wide_component_repr }})q.Repr.X * q.Repr.Y;
-            var wz = ({{ wide_component_repr }})q.Repr.Z * q.Repr.W;
-            var xz = ({{ wide_component_repr }})q.Repr.Z * q.Repr.X;
-            var wy = ({{ wide_component_repr }})q.Repr.Y * q.Repr.W;
-            var yz = ({{ wide_component_repr }})q.Repr.Y * q.Repr.Z;
-            var wx = ({{ wide_component_repr }})q.Repr.X * q.Repr.W;
-
-            result.X = new {{ repr }}(
-                ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (yy + zz)) / ({{ component }}.OneRepr)),
-                ({{ component_repr }})(2 * (xy + wz) / {{ component }}.OneRepr),
-                ({{ component_repr }})(2 * (xz - wy) / {{ component }}.OneRepr)
+        public static explicit operator {{ type }}({{ quaternion}} q) {
+            var pnn = new {{ repr_3 }}(+2, -2, -2);
+            var npn = new {{ repr_3 }}(-2, +2, -2);
+            var nnp = new {{ repr_3 }}(-2, -2, +2);
+            return new {{ type }}(
+                ({{ repr_3 }})((((q.Repr.YXW().BigMul(q.Repr.Y) * npn) - (q.Repr.ZWX().BigMul(q.Repr.Z) * pnn)) / {{ component }}.OneRepr) + {{ vector_3 }}.UnitX.Repr),
+                ({{ repr_3 }})((((q.Repr.WZY().BigMul(q.Repr.Z) * nnp) - (q.Repr.YXW().BigMul(q.Repr.X) * npn)) / {{ component }}.OneRepr) + {{ vector_3 }}.UnitY.Repr),
+                ({{ repr_3 }})((((q.Repr.ZWX().BigMul(q.Repr.X) * pnn) - (q.Repr.WZY().BigMul(q.Repr.Y) * nnp)) / {{ component }}.OneRepr) + {{ vector_3 }}.UnitZ.Repr)
             );
-            result.Y = new {{ repr }}(
-                ({{ component_repr }})(2 * (xy - wz) / {{ component }}.OneRepr),
-                ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (zz + xx)) / ({{ component }}.OneRepr)),
-                ({{ component_repr }})(2 * (yz + wx) / {{ component }}.OneRepr)
-            );
-            result.Z = new {{ repr }}(
-                ({{ component_repr }})(2 * (xz + wy) / {{ component }}.OneRepr),
-                ({{ component_repr }})(2 * (yz - wx) / {{ component }}.OneRepr),
-                ({{ component_repr }})(({{ wide_component }}.OneRepr - 2 * (yy + xx)) / ({{ component }}.OneRepr))
-            );
-
-            return result;
         }
         #endregion
         #region AxisAngle
