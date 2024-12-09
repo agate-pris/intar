@@ -16,6 +16,9 @@
 {%- set vector_4 = macros::vector_type(dim=4, type=component) %}
 {%- set angle = macros::fixed_type(s=true, i=bits/2 + 1, f=bits/2 - 1) %}
 {%- set one = macros::one(signed=signed, bits=bits) %}
+{%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
+    {%- set quaternion = macros::quaternion(i=int_nbits, f=frac_nbits) %}
+{%- endif -%}
 
 using System;
 using System.Runtime.CompilerServices;
@@ -100,6 +103,41 @@ namespace {{ namespace }} {
             {%- endfor %};
         #endregion
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
+        #region Conversion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static operator {{ type }}({{ quaternion}} q) {
+            var xx = ({{ wide_bits }})q.Repr.X * q.Repr.X;
+            var yy = ({{ wide_bits }})q.Repr.Y * q.Repr.Y;
+            var zz = ({{ wide_bits }})q.Repr.Z * q.Repr.Z;
+
+            var xy = ({{ wide_bits }})q.Repr.X * q.Repr.Y;
+            var wz = ({{ wide_bits }})q.Repr.Z * q.Repr.W;
+            var xz = ({{ wide_bits }})q.Repr.Z * q.Repr.X;
+            var wy = ({{ wide_bits }})q.Repr.Y * q.Repr.W;
+            var yz = ({{ wide_bits }})q.Repr.Y * q.Repr.Z;
+            var wx = ({{ wide_bits }})q.Repr.X * q.Repr.W;
+
+            result.X = new {{ repr }}(
+                ({{ bits }})(({{ wide_component }}.OneRepr - 2 * (yy + zz)) / ({{ component }}.OneRepr)),
+                1.0f - 2.0f * (yy + zz),
+                2.0f * (xy + wz),
+                2.0f * (xz - wy),
+            );
+            result.Y = Vector4.Create(
+                2.0f * (xy - wz),
+                1.0f - 2.0f * (zz + xx),
+                2.0f * (yz + wx),
+            );
+            result.Z = Vector4.Create(
+                2.0f * (xz + wy),
+                2.0f * (yz - wx),
+                1.0f - 2.0f * (yy + xx),
+            );
+
+            return result;
+        }
+        #endregion
         #region AxisAngle
         {%- for o in [2, 3, 4, 5] %}
 
