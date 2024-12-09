@@ -32,6 +32,8 @@ namespace Intar1991.Tests {
             d = Math.Max(d, Math.Abs(e.M44 - 1.0));
             return d;
         }
+
+#if UNITY_2018_1_OR_NEWER
         static double Delta(Unity.Mathematics.float4x4 e, Matrix3x3I2F30 a) {
             var d = 0.0;
             d = Math.Max(d, Math.Abs(e.c0.x - a.C0.X.LossyToSingle()));
@@ -52,6 +54,7 @@ namespace Intar1991.Tests {
             d = Math.Max(d, Math.Abs(e.c3.w - 1.0));
             return d;
         }
+#endif
 
         [Test]
         public void TestAxisAngle() {
@@ -115,6 +118,29 @@ namespace Intar1991.Tests {
             QuaternionTest.Log($"dm1:{dm1}");
             QuaternionTest.Log($"dm2:{dm2}");
             QuaternionTest.Log($"dm3:{dm3}");
+        }
+
+        [Test]
+        public void TestConversionFromQuaternionToMatrix() {
+            const double delta = 0.0000003;
+            var rng = new Xoroshiro128StarStar(1, 2);
+            var dm1 = 0.0;
+            for (var i = 0; i < 32786; i++) {
+                var q = QuaternionTest.RandomQuaternion(ref rng);
+                var a = (Matrix3x3I2F30)q;
+
+                {
+                    var qf = (System.Numerics.Quaternion)q;
+                    var e = System.Numerics.Matrix4x4.CreateFromQuaternion(qf);
+                    var d = Delta(e, a);
+                    if (d > delta) {
+                        QuaternionTest.Log($"d:{d} q:{q} e:{e} a:{a}");
+                    }
+                    dm1 = Math.Max(dm1, d);
+                }
+            }
+            Assert.Less(dm1, delta);
+            QuaternionTest.Log($"dm1:{dm1}");
         }
     }
 } // namespace Intar1991.Tests
