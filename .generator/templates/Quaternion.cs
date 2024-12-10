@@ -49,7 +49,7 @@ namespace {{ namespace }} {
         #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ quaternion }}({{ repr }} repr) => Repr = repr;
+        {{ quaternion }}({{ repr }} repr) => Repr = repr;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ quaternion }}(

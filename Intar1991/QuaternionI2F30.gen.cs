@@ -26,7 +26,7 @@ namespace Intar1991 {
         #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI2F30(Vector4Int32 repr) => Repr = repr;
+        QuaternionI2F30(Vector4Int32 repr) => Repr = repr;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI2F30(I2F30 x, I2F30 y, I2F30 z, I2F30 w)
