@@ -105,6 +105,18 @@ namespace {{ namespace }} {
             C{{ i }}Repr.Equals(other.C{{ i }}Repr){%- if not loop.last %} &&{% endif %}
             {%- endfor %};
         #endregion
+        #region IAdditionOperators, ISubtractionOperators
+        {%- for o in ['+', '-'] %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} operator {{ o }}({{ type }} left, {{ type }} right) {
+            return new {{ type }}(
+                {%- for i in range(end=cols) %}
+                left.C{{ i }}Repr + right.C{{ i }}Repr{%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
+        {%- endfor %}
+        #endregion
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
 
