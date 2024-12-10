@@ -75,6 +75,17 @@ namespace {{ namespace }} {
         );
         #endregion
         {%- endif %}
+        #region Zero
+        public static readonly {{ type }} Zero = new {{ type }}(
+            {%- for i in range(end=cols) %}
+            new {{ repr }}(
+                {%- for j in range(end=rows) -%}
+                0{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            ){% if not loop.last %},{% endif %}
+            {%- endfor %}
+        )
+        #endregion
         #region Properties
         {%- for i in range(end=cols) %}
         public {{ col }} C{{ i }} {
