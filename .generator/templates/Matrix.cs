@@ -62,6 +62,19 @@ namespace {{ namespace }} {
             {%- endfor %}
         }
         #endregion
+        {%- if rows == cols %}
+        #region Identity
+        public static readonly {{ type }} Identity = new {{ type }}(
+            {%- for i in range(end=cols) %}
+            new {{ repr }}(
+                {%- for j in range(end=rows) -%}
+                {% if i == j %}{{ component }}.OneRepr{% else %}0{% endif %}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            ){% if not loop.last %},{% endif %}
+            {%- endfor %}
+        );
+        #endregion
+        {%- endif %}
         #region Properties
         {%- for i in range(end=cols) %}
         public {{ col }} C{{ i }} {
