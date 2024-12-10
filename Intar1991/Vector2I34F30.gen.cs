@@ -73,7 +73,7 @@ namespace Intar1991 {
         #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2I34F30(Vector2Int64 repr) {
+        internal Vector2I34F30(Vector2Int64 repr) {
             Repr = repr;
         }
 
