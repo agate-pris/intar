@@ -84,7 +84,7 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             ){% if not loop.last %},{% endif %}
             {%- endfor %}
-        )
+        );
         #endregion
         #region Properties
         {%- for i in range(end=cols) %}
