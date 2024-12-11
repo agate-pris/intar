@@ -5,6 +5,11 @@ using NUnit.Framework;
 
 namespace Intar1991.Tests {
     public class MatrixTest {
+        static Matrix3x3I2F30 RandomMatrix(ref Xoroshiro128StarStar rng) {
+            var q = QuaternionTest.RandomQuaternion(ref rng);
+            return (Matrix3x3I2F30)q;
+        }
+
         static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I2F30 a) {
             // Remarks
             //
@@ -190,6 +195,37 @@ namespace Intar1991.Tests {
             QuaternionTest.Log($"dm1:{dm1}");
             QuaternionTest.Log($"dm2:{dm2}");
             QuaternionTest.Log($"dm3:{dm3}");
+        }
+
+        [Test]
+        public void TestMultiply() {
+            const double delta = 0.1;
+            var rng = new Xoroshiro128StarStar(1, 2);
+            var dm1 = 0.0;
+            for (var i = 0; i < 32768; i++) {
+                var m1 = RandomMatrix(ref rng);
+                var m2 = RandomMatrix(ref rng);
+                var a = m1 * m2;
+
+                {
+                    var mf1 = new System.Numerics.Matrix4x4(
+                        m1.C0.X.LossyToSingle(), m1.C1.X.LossyToSingle(), m1.C2.X.LossyToSingle(), 0,
+                        m1.C0.Y.LossyToSingle(), m1.C1.Y.LossyToSingle(), m1.C2.Y.LossyToSingle(), 0,
+                        m1.C0.Z.LossyToSingle(), m1.C1.Z.LossyToSingle(), m1.C2.Z.LossyToSingle(), 0,
+                        0, 0, 0, 1
+                    );
+                    var mf2 = new System.Numerics.Matrix4x4(
+                        m2.C0.X.LossyToSingle(), m2.C1.X.LossyToSingle(), m2.C2.X.LossyToSingle(), 0,
+                        m2.C0.Y.LossyToSingle(), m2.C1.Y.LossyToSingle(), m2.C2.Y.LossyToSingle(), 0,
+                        m2.C0.Z.LossyToSingle(), m2.C1.Z.LossyToSingle(), m2.C2.Z.LossyToSingle(), 0,
+                        0, 0, 0, 1
+                    );
+                    var e = mf1 * mf2;
+                    var d = Delta(e, a);
+                    dm1 = Math.Max(dm1, d);
+                }
+            }
+            QuaternionTest.Log($"dm1:{dm1,1}");
         }
     }
 } // namespace Intar1991.Tests
