@@ -52,7 +52,7 @@ namespace {{ namespace }} {
         #endregion
         #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }}(
+        {{ type }}(
             {%- for i in range(end=cols) -%}
             {{ repr }} c{{ i }}Repr{%- if not loop.last %}, {% endif %}
             {%- endfor -%}
@@ -61,6 +61,18 @@ namespace {{ namespace }} {
             C{{ i }}Repr = c{{ i }}Repr;
             {%- endfor %}
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }}(
+            {%- for i in range(end=cols) -%}
+            {{ col }} c{{ i }}{%- if not loop.last %}, {% endif %}
+            {%- endfor -%}
+        )
+            : this(
+            {%- for i in range(end=cols) -%}
+            c{{ i }}.Repr{%- if not loop.last %}, {% endif %}
+            {%- endfor -%}
+        ) { }
         #endregion
         {%- if rows == cols %}
         #region Identity
@@ -141,6 +153,20 @@ namespace {{ namespace }} {
         }
         {%- endfor %}
         #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} operator *({{ type }} left, {{ type }} right) {
+            return new {{ type }}(
+                {%- for i in range(end=cols) %}
+                new {{ col }}(
+                    {%- for j in range(end=rows) %}
+                    {{ component }}.UncheckedLossyFrom({# -#}
+                        left.R{{ j }}.UncheckedDot(right.C{{ j }})
+                    {#- #}){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ){%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
 
