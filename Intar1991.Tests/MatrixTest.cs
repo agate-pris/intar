@@ -11,24 +11,17 @@ namespace Intar1991.Tests {
         }
 
         static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I2F30 a) {
-            // Remarks
-            //
-            // For matrix transformations, the Vector2, Vector3, and Vector4
-            // instances are represented as rows: a vector v is transformed by
-            // a matrix M with vM multiplication.
-            //
-            // https://learn.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4
             var d = 0.0;
             d = Math.Max(d, Math.Abs(e.M11 - a.C0.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M12 - a.C0.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M13 - a.C0.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M12 - a.C1.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M13 - a.C2.X.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.M14 - 0.0));
-            d = Math.Max(d, Math.Abs(e.M21 - a.C1.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M21 - a.C0.Y.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.M22 - a.C1.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M23 - a.C1.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M23 - a.C2.Y.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.M24 - 0.0));
-            d = Math.Max(d, Math.Abs(e.M31 - a.C2.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M32 - a.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M31 - a.C0.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M32 - a.C1.Z.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.M33 - a.C2.Z.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.M34 - 0.0));
             d = Math.Max(d, Math.Abs(e.M41 - 0.0));
@@ -90,9 +83,18 @@ namespace Intar1991.Tests {
                 var a = Matrix3x3I2F30.AxisAngleP5(axis, angle);
 
                 {
-                    var e = System.Numerics.Matrix4x4.CreateFromAxisAngle(
-                        (System.Numerics.Vector3)axis,
-                        (float)(angle.LossyToSingle() * Math.PI / 2)
+                    // Remarks
+                    //
+                    // For matrix transformations, the Vector2, Vector3, and Vector4
+                    // instances are represented as rows: a vector v is transformed by
+                    // a matrix M with vM multiplication.
+                    //
+                    // https://learn.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4
+                    var e = System.Numerics.Matrix4x4.Transpose(
+                        System.Numerics.Matrix4x4.CreateFromAxisAngle(
+                            (System.Numerics.Vector3)axis,
+                            (float)(angle.LossyToSingle() * Math.PI / 2)
+                        )
                     );
                     var d = Delta(e, a);
                     if (d > delta) {
@@ -152,8 +154,10 @@ namespace Intar1991.Tests {
                 var a = (Matrix3x3I2F30)q;
 
                 {
-                    var e = System.Numerics.Matrix4x4.CreateFromQuaternion(
-                        (System.Numerics.Quaternion)q
+                    var e = System.Numerics.Matrix4x4.Transpose(
+                        System.Numerics.Matrix4x4.CreateFromQuaternion(
+                            (System.Numerics.Quaternion)q
+                        )
                     );
                     var d = Delta(e, a);
                     if (d > delta) {
