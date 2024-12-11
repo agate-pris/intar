@@ -183,13 +183,33 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Scale
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Scale({{ macros::vector_type(dim=cols-1, type=component) }} s) {
             return new {{ type }}(
                 {%- for i in range(end=cols) %}
                 new {{ repr }}(
                     {%- for j in range(end=rows) -%}
-                    {% if i == j %}s.{{ components[j] }}{% else %}0{% endif %}{% if not loop.last %}, {% endif %}
+                    {% if i == j %}
+                        {%- if loop.last %}{{ component }}.OneRepr
+                        {%- else %}s.{{ components[j] }}.Bits{% endif %}
+                    {%- else %}0{% endif %}
+                    {%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                ){%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale({{ macros::vector_type(dim=cols, type=component) }} s) {
+            return new {{ type }}(
+                {%- for i in range(end=cols) %}
+                new {{ repr }}(
+                    {%- for j in range(end=rows) -%}
+                    {%- if i == j %}s.{{ components[j] }}.Bits
+                    {%- else %}0{% endif %}
+                    {%- if not loop.last %}, {% endif %}
                     {%- endfor -%}
                 ){%- if not loop.last %},{% endif %}
                 {%- endfor %}
