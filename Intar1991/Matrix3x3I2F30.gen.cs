@@ -166,6 +166,26 @@ namespace Intar1991 {
             );
         }
         #endregion
+        #region Scale
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I2F30 Scale(Vector2I2F30 s) {
+            return new Matrix3x3I2F30(
+                new Vector3Int32(s.X.Bits, 0, 0),
+                new Vector3Int32(0, s.Y.Bits, 0),
+                new Vector3Int32(0, 0, I2F30.OneRepr)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I2F30 Scale(Vector3I2F30 s) {
+            return new Matrix3x3I2F30(
+                new Vector3Int32(s.X.Bits, 0, 0),
+                new Vector3Int32(0, s.Y.Bits, 0),
+                new Vector3Int32(0, 0, s.Z.Bits)
+            );
+        }
+        #endregion
         #region AxisAngle
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
