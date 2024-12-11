@@ -152,5 +152,25 @@ namespace Intar1991 {
                 )
             );
         }
+        #region Scale
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 Scale(Vector2I17F15 s) {
+            return new Matrix3x3I17F15(
+                new Vector3Int32(s.X.Bits, 0, 0),
+                new Vector3Int32(0, s.Y.Bits, 0),
+                new Vector3Int32(0, 0, I17F15.OneRepr)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 Scale(Vector3I17F15 s) {
+            return new Matrix3x3I17F15(
+                new Vector3Int32(s.X.Bits, 0, 0),
+                new Vector3Int32(0, s.Y.Bits, 0),
+                new Vector3Int32(0, 0, s.Z.Bits)
+            );
+        }
+        #endregion
     }
 } // namespace Intar1991
