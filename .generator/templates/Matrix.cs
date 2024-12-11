@@ -182,6 +182,7 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        {%- endif %}
         #region Scale
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -216,6 +217,7 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region AxisAngle
         {%- for o in [2, 3, 4, 5] %}
 
