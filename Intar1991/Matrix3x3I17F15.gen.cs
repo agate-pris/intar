@@ -27,11 +27,15 @@ namespace Intar1991 {
         #endregion
         #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix3x3I17F15(Vector3Int32 c0Repr, Vector3Int32 c1Repr, Vector3Int32 c2Repr) {
+        Matrix3x3I17F15(Vector3Int32 c0Repr, Vector3Int32 c1Repr, Vector3Int32 c2Repr) {
             C0Repr = c0Repr;
             C1Repr = c1Repr;
             C2Repr = c2Repr;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3x3I17F15(Vector3I17F15 c0, Vector3I17F15 c1, Vector3I17F15 c2)
+            : this(c0.Repr, c1.Repr, c2.Repr) { }
         #endregion
         #region Identity
         public static readonly Matrix3x3I17F15 Identity = new Matrix3x3I17F15(
@@ -45,7 +49,7 @@ namespace Intar1991 {
             new Vector3Int32(0, 0, 0),
             new Vector3Int32(0, 0, 0),
             new Vector3Int32(0, 0, 0)
-        )
+        );
         #endregion
         #region Properties
         public Vector3I17F15 C0 {
@@ -128,5 +132,25 @@ namespace Intar1991 {
             );
         }
         #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 operator *(Matrix3x3I17F15 left, Matrix3x3I17F15 right) {
+            return new Matrix3x3I17F15(
+                new Vector3I17F15(
+                    I17F15.UncheckedLossyFrom(left.R0.UncheckedDot(right.C0)),
+                    I17F15.UncheckedLossyFrom(left.R1.UncheckedDot(right.C0)),
+                    I17F15.UncheckedLossyFrom(left.R2.UncheckedDot(right.C0))
+                ),
+                new Vector3I17F15(
+                    I17F15.UncheckedLossyFrom(left.R0.UncheckedDot(right.C1)),
+                    I17F15.UncheckedLossyFrom(left.R1.UncheckedDot(right.C1)),
+                    I17F15.UncheckedLossyFrom(left.R2.UncheckedDot(right.C1))
+                ),
+                new Vector3I17F15(
+                    I17F15.UncheckedLossyFrom(left.R0.UncheckedDot(right.C2)),
+                    I17F15.UncheckedLossyFrom(left.R1.UncheckedDot(right.C2)),
+                    I17F15.UncheckedLossyFrom(left.R2.UncheckedDot(right.C2))
+                )
+            );
+        }
     }
 } // namespace Intar1991
