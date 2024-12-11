@@ -160,7 +160,7 @@ namespace {{ namespace }} {
                 new {{ col }}(
                     {%- for j in range(end=rows) %}
                     {{ component }}.UncheckedLossyFrom({# -#}
-                        left.R{{ j }}.UncheckedDot(right.C{{ j }})
+                        left.R{{ j }}.UncheckedDot(right.C{{ i }})
                     {#- #}){% if not loop.last %},{% endif %}
                     {%- endfor %}
                 ){%- if not loop.last %},{% endif %}
