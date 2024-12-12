@@ -132,6 +132,7 @@ namespace Intar1991 {
             );
         }
         #endregion
+        #region IMultiplyOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I17F15 operator *(Matrix3x3I17F15 left, Matrix3x3I17F15 right) {
             return new Matrix3x3I17F15(
@@ -152,6 +153,7 @@ namespace Intar1991 {
                 )
             );
         }
+        #endregion
         #region Scale
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
