@@ -153,6 +153,7 @@ namespace {{ namespace }} {
         }
         {%- endfor %}
         #endregion
+        #region IMultiplyOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} operator *({{ type }} left, {{ type }} right) {
             return new {{ type }}(
@@ -167,6 +168,7 @@ namespace {{ namespace }} {
                 {%- endfor %}
             );
         }
+        #endregion
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
 
