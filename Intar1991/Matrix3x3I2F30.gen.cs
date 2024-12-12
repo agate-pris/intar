@@ -132,6 +132,7 @@ namespace Intar1991 {
             );
         }
         #endregion
+        #region IMultiplyOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 operator *(Matrix3x3I2F30 left, Matrix3x3I2F30 right) {
             return new Matrix3x3I2F30(
@@ -152,6 +153,7 @@ namespace Intar1991 {
                 )
             );
         }
+        #endregion
         #region Conversion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
