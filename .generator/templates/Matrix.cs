@@ -169,6 +169,23 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        {%- if rows == cols %}
+        #region Transpose
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Transpose() {
+            return new {{ type }}(
+                {%- for i in range(end=cols) %}
+                new {{ col }}(
+                {%- for j in range(end=rows) -%}
+                C{{ j }}Repr.{{ components[i] }}
+                {%- if not loop.last %}, {% endif %}
+                {%- endfor -%}
+                ){%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
+        #endregion
+        {%- endif %}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
 
