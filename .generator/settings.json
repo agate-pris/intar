@@ -84,6 +84,13 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}.Tests",
+            "template_name": "MatrixTest.cs",
+            "files": [
+                { "file_name": "MatrixTest.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Overflowing.cs",
             "files": [
