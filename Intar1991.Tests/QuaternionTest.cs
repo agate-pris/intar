@@ -552,7 +552,7 @@ namespace Intar1991.Tests {
             Console.WriteLine(dm);
         }
         #endregion
-        #region TestRotation, TestEuler, TestAxisAngle, TestFromMatrix
+        #region TestRotation, TestEuler, TestAxisAngle
 
         [Test]
         public static void TestRotation() {
@@ -746,11 +746,6 @@ namespace Intar1991.Tests {
             }
             Assert.Less(dm, delta);
             Log($"{dm}");
-        }
-
-        [Test]
-        public static void TestFromMatrix() {
-            throw new NotImplementedException();
         }
         #endregion
     }
