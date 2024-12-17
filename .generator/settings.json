@@ -37,6 +37,13 @@
     "output_dest": [
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "AffineTransform.cs",
+            "files": [
+                { "file_name": "AffineTransformI17F15.gen.cs", "params": { "namespace": "{{ namespace }}", "int_nbits": 17, "frac_nbits": 15 } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "BitOperations.cs",
             "files": [
                 { "file_name": "BitOperations.gen.cs", "params": { "namespace": "{{ namespace }}" } }
