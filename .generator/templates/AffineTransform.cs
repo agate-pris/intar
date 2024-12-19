@@ -100,7 +100,7 @@ namespace {{ namespace }} {
         public static explicit operator Unity.Mathematics.float4x4({{ type }} a) {
             return new Unity.Mathematics.float4x4(
                 {%- for i in range(end=3) %}
-                {%- for j in range(end=3) -%}
+                {% for j in range(end=3) -%}
                 a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
                 {%- endfor -%}
                 a.Translation.{{ components[i] }}.LossyToSingle(),
