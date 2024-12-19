@@ -104,11 +104,10 @@ namespace {{ namespace }} {
                 {%- for i in range(end=3) %}
                 {% for j in range(end=3) -%}
                 a.RotationScale.C{{ j }}.{{ components[i] }}.LossyToSingle(), {# #}
-                {%- endfor -%}0,
+                {%- endfor -%}
+                a.Translation.{{ components[i] }}.LossyToSingle(),
                 {%- endfor %}
-                {% for i in range(end=3) -%}
-                a.Translation.{{ components[i] }}.LossyToSingle(), {# #}
-                {%- endfor %}1
+                0, 0, 0, 1
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
