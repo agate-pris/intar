@@ -55,6 +55,17 @@ namespace Intar1991 {
             return $"{{RotationScale:{RotationScale.ToString(format, formatProvider)} Translation:{Translation.ToString(format, formatProvider)}}}";
         }
         #endregion
+        #region Conversions
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator System.Numerics.Matrix4x4(AffineTransformI17F15 a) {
+            return new System.Numerics.Matrix4x4(
+                a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C0.Z.LossyToSingle(), a.Translation.X.LossyToSingle(),
+                a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), a.Translation.Y.LossyToSingle(),
+                a.RotationScale.C2.X.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), a.Translation.Z.LossyToSingle(),
+                0, 0, 0, 1
+            );
+        }
+        #endregion
         #region IMultiplicationOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AffineTransformI17F15 operator *(AffineTransformI17F15 left, AffineTransformI17F15 right) {
@@ -87,7 +98,16 @@ namespace Intar1991 {
         #region Trs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AffineTransformI17F15 Trs(Vector3I17F15 translation, QuaternionI2F30 rotation, Vector3I17F15 scale) {
-            throw new NotImplementedException();
+            // クォータニオンから行列への変換時
+            // 内部的に long を経由するが,
+            // 小数部の精度が大きいまま更にスケールを乗算すると
+            // オーバーフローを引き起こすため,
+            // 素直に一度小数部の精度を減らしてから乗算する.
+            var r = (Matrix3x3I2F30)rotation;
+            var c0 = new Vector3I17F15((Vector3Int32)(r.C0.Repr.BigMul(scale.Repr.X) / (1 << 30)));
+            var c1 = new Vector3I17F15((Vector3Int32)(r.C1.Repr.BigMul(scale.Repr.Y) / (1 << 30)));
+            var c2 = new Vector3I17F15((Vector3Int32)(r.C2.Repr.BigMul(scale.Repr.Z) / (1 << 30)));
+            return new AffineTransformI17F15(new Matrix3x3I17F15(c0, c1, c2), translation);
         }
         #endregion
     }
