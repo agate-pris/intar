@@ -94,7 +94,16 @@ namespace {{ namespace }} {
         #region Trs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Trs({{ translation }} translation, {{ rotation }} rotation, {{ translation }} scale) {
-            throw new NotImplementedException();
+            // クォータニオンから行列への変換時
+            // 内部的に long を経由するが,
+            // 小数部の精度が大きいまま更にスケールを乗算すると
+            // オーバーフローを引き起こすため,
+            // 素直に一度小数部の精度を減らしてから乗算する.
+            var r = (MatrixI{{ int_nbits-frac_nbits }}F{{ 2*frac_nbits}})rotation;
+            {%- for i in range(end=3) %}
+            var c{{ i }} = new {{ translation }}((Vector3Int{{ bits }})(r.C{{ i }}.Repr.BigMul(scale.Repr) / (1 << {{ 2 * frac_nbits }})));
+            {%- endfor %}
+            return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
         }
         #endregion
     }
