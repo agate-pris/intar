@@ -84,9 +84,9 @@ namespace Intar1991 {
             return left.RotationScale * right + left.Translation;
         }
         #endregion
-        #region TRS
+        #region Trs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AffineTransformI17F15 TRS(Vector3I17F15 translation, QuaternionI2F30 rotation, Vector3I17F15 scale) {
+        public static AffineTransformI17F15 Trs(Vector3I17F15 translation, QuaternionI2F30 rotation, Vector3I17F15 scale) {
             throw new NotImplementedException();
         }
         #endregion
