@@ -70,10 +70,10 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4(AffineTransformI17F15 a) {
             return new UnityEngine.Matrix4x4(
-                new UnityEngine.Vector4(a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C0.Z.LossyToSingle(), a.Translation.X.LossyToSingle()),
-                new UnityEngine.Vector4(a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), a.Translation.Y.LossyToSingle()),
-                new UnityEngine.Vector4(a.RotationScale.C2.X.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), a.Translation.Z.LossyToSingle()),
-                new UnityEngine.Vector4(0, 0, 0, 1)
+                new UnityEngine.Vector4(a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C0.Z.LossyToSingle(), 0),
+                new UnityEngine.Vector4(a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), 0),
+                new UnityEngine.Vector4(a.RotationScale.C2.X.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), 0),
+                new UnityEngine.Vector4(a.Translation.X.LossyToSingle(), a.Translation.Y.LossyToSingle(), a.Translation.Z.LossyToSingle(), 1)
             );
         }
 #endif // UNITY_5_3_OR_NEWER
@@ -82,9 +82,9 @@ namespace Intar1991 {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float4x4(AffineTransformI17F15 a) {
             return new Unity.Mathematics.float4x4(
-                a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C0.Z.LossyToSingle(), a.Translation.X.LossyToSingle(),
-                a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), a.Translation.Y.LossyToSingle(),
-                a.RotationScale.C2.X.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), a.Translation.Z.LossyToSingle(),
+                a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C2.X.LossyToSingle(), a.Translation.X.LossyToSingle(),
+                a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.Translation.Y.LossyToSingle(),
+                a.RotationScale.C0.Z.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), a.Translation.Z.LossyToSingle(),
                 0, 0, 0, 1
             );
         }
