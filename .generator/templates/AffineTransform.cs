@@ -91,9 +91,9 @@ namespace {{ namespace }} {
             return left.RotationScale * right + left.Translation;
         }
         #endregion
-        #region TRS
+        #region Trs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} TRS({{ translation }} translation, {{ rotation }} rotation, {{ translation }} scale) {
+        public static {{ type }} Trs({{ translation }} translation, {{ rotation }} rotation, {{ translation }} scale) {
             throw new NotImplementedException();
         }
         #endregion
