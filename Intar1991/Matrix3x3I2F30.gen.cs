@@ -147,7 +147,14 @@ namespace Intar1991 {
             );
         }
         public static Vector3I2F30 operator *(Matrix3x3I2F30 left, Vector3I2F30 right) {
-            throw new NotImplementedException();
+            var x = left.R0 * right;
+            var y = left.R1 * right;
+            var z = left.R2 * right;
+            return new Vector3I2F30(
+                x.X + x.Y + x.Z,
+                y.X + y.Y + y.Z,
+                z.X + z.Y + z.Z
+            );
         }
         #endregion
         #region Transpose
