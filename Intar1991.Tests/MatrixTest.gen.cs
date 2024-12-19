@@ -10,6 +10,27 @@ namespace Intar1991.Tests {
             return (Matrix3x3I2F30)q;
         }
 
+        public static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I17F15 a) {
+            var d = 0.0;
+            d = Math.Max(d, Math.Abs(e.M11 - a.C0.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M12 - a.C1.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M13 - a.C2.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M14));
+            d = Math.Max(d, Math.Abs(e.M21 - a.C0.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M22 - a.C1.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M23 - a.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M24));
+            d = Math.Max(d, Math.Abs(e.M31 - a.C0.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M32 - a.C1.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M33 - a.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M34));
+            d = Math.Max(d, Math.Abs(e.M41));
+            d = Math.Max(d, Math.Abs(e.M42));
+            d = Math.Max(d, Math.Abs(e.M43));
+            d = Math.Max(d, Math.Abs(e.M44 - 1));
+            return d;
+        }
+
         public static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I2F30 a) {
             var d = 0.0;
             d = Math.Max(d, Math.Abs(e.M11 - a.C0.X.LossyToSingle()));
@@ -87,7 +108,7 @@ namespace Intar1991.Tests {
                         )
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -97,7 +118,7 @@ namespace Intar1991.Tests {
                         (UnityEngine.Quaternion)q
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -108,11 +129,10 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.quaternion)q
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
-
             }
             const double delta = 0.0000003;
             Assert.Less(dm1, delta);
@@ -149,7 +169,7 @@ namespace Intar1991.Tests {
                     );
                     var e = mf1 * mf2;
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -169,7 +189,7 @@ namespace Intar1991.Tests {
                     );
                     var e = mf1 * mf2;
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -188,7 +208,7 @@ namespace Intar1991.Tests {
                     );
                     var e = Unity.Mathematics.math.mul(mf1, mf2);
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -216,7 +236,7 @@ namespace Intar1991.Tests {
                 {
                     var e = System.Numerics.Matrix4x4.Transpose(System.Numerics.Matrix4x4.CreateRotationX(rad));
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -225,7 +245,7 @@ namespace Intar1991.Tests {
                     var deg = (float)(angle.LossyToSingle() * 90);
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(deg, 0, 0));
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -234,7 +254,7 @@ namespace Intar1991.Tests {
                 {
                     var e = Unity.Mathematics.float3x3.RotateX(rad);
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -262,7 +282,7 @@ namespace Intar1991.Tests {
                 {
                     var e = System.Numerics.Matrix4x4.Transpose(System.Numerics.Matrix4x4.CreateRotationY(rad));
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -271,7 +291,7 @@ namespace Intar1991.Tests {
                     var deg = (float)(angle.LossyToSingle() * 90);
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(0, deg, 0));
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -280,7 +300,7 @@ namespace Intar1991.Tests {
                 {
                     var e = Unity.Mathematics.float3x3.RotateY(rad);
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -308,7 +328,7 @@ namespace Intar1991.Tests {
                 {
                     var e = System.Numerics.Matrix4x4.Transpose(System.Numerics.Matrix4x4.CreateRotationZ(rad));
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -317,7 +337,7 @@ namespace Intar1991.Tests {
                     var deg = (float)(angle.LossyToSingle() * 90);
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(0, 0, deg));
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -326,7 +346,7 @@ namespace Intar1991.Tests {
                 {
                     var e = Unity.Mathematics.float3x3.RotateZ(rad);
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -355,7 +375,7 @@ namespace Intar1991.Tests {
                         * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2)
                         * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2);
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -365,7 +385,7 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)angles * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -392,7 +412,7 @@ namespace Intar1991.Tests {
                         * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2)
                         * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2);
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -402,7 +422,7 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)angles * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -429,7 +449,7 @@ namespace Intar1991.Tests {
                         * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2)
                         * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2);
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -439,7 +459,7 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)angles * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -466,7 +486,7 @@ namespace Intar1991.Tests {
                         * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2)
                         * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2);
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -476,7 +496,7 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)angles * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -504,7 +524,7 @@ namespace Intar1991.Tests {
                         * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2)
                         * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2);
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 #if UNITY_5_3_OR_NEWER
@@ -515,7 +535,7 @@ namespace Intar1991.Tests {
                         )
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -526,7 +546,7 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)angles * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -555,7 +575,7 @@ namespace Intar1991.Tests {
                         * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2)
                         * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2);
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -565,7 +585,7 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)angles * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
@@ -603,7 +623,7 @@ namespace Intar1991.Tests {
                         )
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
                 }
 
@@ -616,7 +636,7 @@ namespace Intar1991.Tests {
                         )
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
@@ -628,11 +648,10 @@ namespace Intar1991.Tests {
                         (float)(angle.LossyToSingle() * Math.PI / 2)
                     );
                     var d = Delta(e, a);
-                    Assert.Less(d, 0.1);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
-
             }
             const double delta = 0.0002;
             Assert.Less(dm1, delta);
@@ -669,8 +688,8 @@ namespace Intar1991.Tests {
                         (System.Numerics.Vector3)up
                     );
                     var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
-                    Assert.Less(d, 0.1);
                 }
 
 #if UNITY_5_3_OR_NEWER
@@ -681,8 +700,8 @@ namespace Intar1991.Tests {
                         (UnityEngine.Vector3)up
                     );
                     var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
-                    Assert.Less(d, 0.1);
                 }
 #endif // UNITY_5_3_OR_NEWER
 
@@ -693,8 +712,8 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)up
                     );
                     var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
-                    Assert.Less(d, 0.1);
                 }
 #endif // UNITY_2018_1_OR_NEWER
             }
@@ -734,8 +753,8 @@ namespace Intar1991.Tests {
                         (System.Numerics.Vector3)up
                     );
                     var d = Delta(e, a.Value);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
-                    Assert.Less(d, 0.1);
                 }
 
 #if UNITY_5_3_OR_NEWER
@@ -746,8 +765,8 @@ namespace Intar1991.Tests {
                         (UnityEngine.Vector3)up
                     );
                     var d = Delta(e, a.Value);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm2 = Math.Max(dm2, d);
-                    Assert.Less(d, 0.1);
                 }
 #endif // UNITY_5_3_OR_NEWER
 
@@ -758,8 +777,8 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)up
                     );
                     var d = Delta(e, a.Value);
+                    if (d > 0.1) { Assert.Fail(); };
                     dm3 = Math.Max(dm3, d);
-                    Assert.Less(d, 0.1);
                 }
 #endif // UNITY_2018_1_OR_NEWER
             }
