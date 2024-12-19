@@ -70,13 +70,45 @@ namespace {{ namespace }} {
             return new System.Numerics.Matrix4x4(
                 {%- for i in range(end=3) %}
                 {% for j in range(end=3) -%}
-                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(){% if not loop.last %}, {% endif %}
+                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
+                {%- endfor -%}0,
+                {%- endfor %}
+                {% for i in range(end=3) -%}
+                a.Translation.{{ components[i] }}.LossyToSingle(), {# #}
+                {%- endfor %}1
+            );
+        }
+
+#if UNITY_5_3_OR_NEWER
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
+            return new UnityEngine.Matrix4x4(
+                {%- for i in range(end=3) %}
+                new UnityEngine.Vector4(
+                {%- for j in range(end=3) -%}
+                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
                 {%- endfor -%}
-                , a.Translation.{{ components[i] }}.LossyToSingle(){% if not loop.last %},{% endif %}
-                {%- endfor %},
+                a.Translation.{{ components[i] }}.LossyToSingle()),
+                {%- endfor %}
+                new UnityEngine.Vector4(0, 0, 0, 1)
+            );
+        }
+#endif // UNITY_5_3_OR_NEWER
+
+#if UNITY_2018_1_OR_NEWER
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.float4x4({{ type }} a) {
+            return new Unity.Mathematics.float4x4(
+                {%- for i in range(end=3) %}
+                {%- for j in range(end=3) -%}
+                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
+                {%- endfor -%}
+                a.Translation.{{ components[i] }}.LossyToSingle(),
+                {%- endfor %}
                 0, 0, 0, 1
             );
         }
+#endif // UNITY_2018_1_OR_NEWER
         #endregion
         #region IMultiplicationOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
