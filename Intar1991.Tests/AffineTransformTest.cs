@@ -146,9 +146,13 @@ namespace Intar1991.Tests {
                 }
 #endif
             }
+            const double delta = 0.0002;
             QuaternionTest.Log($"dm1:{dm1}");
             QuaternionTest.Log($"dm2:{dm2}");
             QuaternionTest.Log($"dm3:{dm3}");
+            Assert.Less(dm1, delta);
+            Assert.Less(dm2, delta);
+            Assert.Less(dm3, delta);
         }
     }
 }
