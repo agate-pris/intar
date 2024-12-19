@@ -4,6 +4,8 @@
 {%- set rotation = macros::quaternion(i=int_nbits-frac_nbits, f=2*frac_nbits) %}
 {%- set rotation_scale = 'Matrix3x3I' ~ int_nbits ~ 'F' ~ frac_nbits %}
 {%- set translation = macros::vector_type(dim=3, type=component) %}
+{%- set bits = int_nbits + frac_nbits %}
+{%- set components = ['X', 'Y', 'Z', 'W'] %}
 {#- -#}
 using System;
 using System.Runtime.CompilerServices;
@@ -62,6 +64,20 @@ namespace {{ namespace }} {
             return $"{{ '{{' }}RotationScale:{RotationScale.ToString(format, formatProvider)} Translation:{Translation.ToString(format, formatProvider)}{{ '}}' }}";
         }
         #endregion
+        #region Conversions
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator System.Numerics.Matrix4x4({{ type }} a) {
+            return new System.Numerics.Matrix4x4(
+                {%- for i in range(end=3) %}
+                {% for j in range(end=3) -%}
+                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(){% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+                , a.Translation.{{ components[i] }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                {%- endfor %},
+                0, 0, 0, 1
+            );
+        }
+        #endregion
         #region IMultiplicationOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} operator *({{ type }} left, {{ type }} right) {
@@ -99,9 +115,9 @@ namespace {{ namespace }} {
             // 小数部の精度が大きいまま更にスケールを乗算すると
             // オーバーフローを引き起こすため,
             // 素直に一度小数部の精度を減らしてから乗算する.
-            var r = (MatrixI{{ int_nbits-frac_nbits }}F{{ 2*frac_nbits}})rotation;
+            var r = (Matrix3x3I{{ int_nbits-frac_nbits }}F{{ 2*frac_nbits}})rotation;
             {%- for i in range(end=3) %}
-            var c{{ i }} = new {{ translation }}((Vector3Int{{ bits }})(r.C{{ i }}.Repr.BigMul(scale.Repr) / (1 << {{ 2 * frac_nbits }})));
+            var c{{ i }} = new {{ translation }}((Vector3Int{{ bits }})(r.C{{ i }}.Repr.BigMul(scale.Repr.{{ components[i] }}) / (1 << {{ 2 * frac_nbits }})));
             {%- endfor %}
             return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
         }
