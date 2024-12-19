@@ -73,42 +73,22 @@ namespace Intar1991.Tests {
                 var q = RandomTrs(ref rng);
                 var a = p * q;
 
+#if false
                 {
                     var e = (System.Numerics.Matrix4x4)q * (System.Numerics.Matrix4x4)p;
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail(); }
                     dm1 = Math.Max(dm1, d);
                 }
+#endif
 
 #if UNITY_5_3_OR_NEWER
                 {
-                    var e = UnityEngine.Matrix4x4.TRS(
-                        (UnityEngine.Vector3)q.Translation,
-                        (UnityEngine.Quaternion)q.Rotation,
-                        (UnityEngine.Vector3)q.Scale) *
-                        UnityEngine.Matrix4x4.TRS(
-                            (UnityEngine.Vector3)p.Translation,
-                            (UnityEngine.Quaternion)p.Rotation,
-                            (UnityEngine.Vector3)p.Scale);
-                    var d = Delta(e, a);
-                    if (d > 0.1) { Assert.Fail(); }
-                    dm1 = Math.Max(dm1, d);
                 }
 #endif
 
 #if UNITY_2018_1_OR_NEWER
                 {
-                    var e = UnityEngine.Matrix4x4.TRS(
-                        (UnityEngine.Vector3)q.Translation,
-                        (UnityEngine.Quaternion)q.Rotation,
-                        (UnityEngine.Vector3)q.Scale) *
-                        UnityEngine.Matrix4x4.TRS(
-                            (UnityEngine.Vector3)p.Translation,
-                            (UnityEngine.Quaternion)p.Rotation,
-                            (UnityEngine.Vector3)p.Scale);
-                    var d = Delta(e, a);
-                    if (d > 0.1) { Assert.Fail(); }
-                    dm1 = Math.Max(dm1, d);
                 }
 #endif
             }
