@@ -37,6 +37,46 @@ namespace Intar1991.Tests {
             d = Math.Max(d, Math.Abs(e.M44 - 1.0));
             return d;
         }
+        public static double Delta(UnityEngine.Matrix4x4 e, AffineTransformI17F15 a) {
+            var d = 0.0;
+            d = Math.Max(d, Math.Abs(e.m00 - a.RotationScale.C0.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m10 - a.RotationScale.C0.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m20 - a.RotationScale.C0.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m30));
+            d = Math.Max(d, Math.Abs(e.m01 - a.RotationScale.C1.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m11 - a.RotationScale.C1.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m21 - a.RotationScale.C1.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m31));
+            d = Math.Max(d, Math.Abs(e.m02 - a.RotationScale.C2.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m12 - a.RotationScale.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m22 - a.RotationScale.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m32));
+            d = Math.Max(d, Math.Abs(e.m03 - a.Translation.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m13 - a.Translation.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m23 - a.Translation.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m33 - 1.0));
+            return d;
+        }
+        public static double Delta(Unity.Mathematics.float4x4 e, AffineTransformI17F15 a) {
+            var d = 0.0;
+            d = Math.Max(d, Math.Abs(e.c0.x - a.RotationScale.C0.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c0.y - a.RotationScale.C0.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c0.z - a.RotationScale.C0.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c0.w));
+            d = Math.Max(d, Math.Abs(e.c1.x - a.RotationScale.C1.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c1.y - a.RotationScale.C1.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c1.z - a.RotationScale.C1.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c1.w));
+            d = Math.Max(d, Math.Abs(e.c2.x - a.RotationScale.C2.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c2.y - a.RotationScale.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c2.z - a.RotationScale.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c2.w));
+            d = Math.Max(d, Math.Abs(e.c3.x - a.Translation.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c3.y - a.Translation.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c3.z - a.Translation.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c3.w - 1.0));
+            return d;
+        }
 
         [Test]
         public static void TestTrs() {
@@ -68,31 +108,47 @@ namespace Intar1991.Tests {
         public static void TestMulAffineTransform() {
             var rng = new Xoroshiro128StarStar(1, 2);
             var dm1 = 0.0;
+            var dm2 = 0.0;
+            var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var p = RandomTrs(ref rng);
                 var q = RandomTrs(ref rng);
                 var a = p * q;
 
-#if false
                 {
                     var e = (System.Numerics.Matrix4x4)q * (System.Numerics.Matrix4x4)p;
                     var d = Delta(e, a);
-                    if (d > 0.1) { Assert.Fail(); }
+                    if (d > 0.1) { Assert.Fail($"e:{e}\n a:{a}"); }
                     dm1 = Math.Max(dm1, d);
                 }
-#endif
 
 #if UNITY_5_3_OR_NEWER
                 {
+                    var e = (UnityEngine.Matrix4x4)p * (UnityEngine.Matrix4x4)q;
+                    var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail($"e:{e}\n a:{a}"); }
+                    dm2 = Math.Max(dm2, d);
                 }
 #endif
 
 #if UNITY_2018_1_OR_NEWER
                 {
+                    var foo = (Unity.Mathematics.float4x4)p;
+                    var bar = (Unity.Mathematics.float4x4)q;
+                    var e = Unity.Mathematics.math.mul(
+                        (Unity.Mathematics.float4x4)p,
+                        (Unity.Mathematics.float4x4)q
+                    );
+                    var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail($"e:{e}\n a:{a}"); }
+                    dm3 = Math.Max(dm3, d);
+
                 }
 #endif
             }
             QuaternionTest.Log($"dm1:{dm1}");
+            QuaternionTest.Log($"dm2:{dm2}");
+            QuaternionTest.Log($"dm3:{dm3}");
         }
     }
 }
