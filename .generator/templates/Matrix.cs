@@ -191,7 +191,17 @@ namespace {{ namespace }} {
             );
         }
         public static {{ row }} operator *({{ type }} left, {{ row }} right) {
-            throw new NotImplementedException();
+            {%- for i in range(end=rows) %}
+            var {{ components[i]|lower }} = left.R{{ i }} * right;
+            {%- endfor %}
+            return new {{ row }}(
+                {%- for r in range(end=rows) %}
+                {% for c in range(end=cols) -%}
+                {{ components[r]|lower }}.{{ components[c] }}{% if not loop.last %} + {% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
         }
         #endregion
         {%- if rows == cols %}
