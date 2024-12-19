@@ -5,16 +5,16 @@ using NUnit.Framework;
 
 namespace Intar1991.Tests {
     public class AffineTransformTest {
-        public static AffineTransformI17F15 RandomTrs(ref Xoroshiro128StarStar rng) {
+        public static QuaternionI2F30 RandomRotation(ref Xoroshiro128StarStar rng) {
             var axis = QuaternionTest.RandomAxis(ref rng);
             var angle = QuaternionTest.RandomI17F15(ref rng);
-            var t = QuaternionTest.RandomPosition(ref rng);
-            var r = QuaternionI2F30.AxisAngleP5(axis, angle);
-            var s = new Vector3I17F15(
+            return QuaternionI2F30.AxisAngleP5(axis, angle);
+        }
+        public static Vector3I17F15 RandomScale(ref Xoroshiro128StarStar rng) {
+            return new Vector3I17F15(
                 I17F15.FromBits(rng.Next(16384, 65536)),
                 I17F15.FromBits(rng.Next(16384, 65536)),
                 I17F15.FromBits(rng.Next(16384, 65536)));
-            return AffineTransformI17F15.Trs(t, r, s);
         }
 
         public static double Delta(System.Numerics.Matrix4x4 e, AffineTransformI17F15 a) {
@@ -111,10 +111,28 @@ namespace Intar1991.Tests {
             var dm2 = 0.0;
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
-                var p = RandomTrs(ref rng);
-                var q = RandomTrs(ref rng);
+                var t1 = QuaternionTest.RandomPosition(ref rng);
+                var t2 = QuaternionTest.RandomPosition(ref rng);
+                var r1 = RandomRotation(ref rng);
+                var r2 = RandomRotation(ref rng);
+                var s1 = RandomScale(ref rng);
+                var s2 = RandomScale(ref rng);
+                var p = AffineTransformI17F15.Trs(t1, r1, s1);
+                var q = AffineTransformI17F15.Trs(t2, r2, s2);
                 var a = p * q;
 
+                {
+                    var e
+                        = System.Numerics.Matrix4x4.CreateScale((System.Numerics.Vector3)s2)
+                        * System.Numerics.Matrix4x4.CreateFromQuaternion((System.Numerics.Quaternion)r2)
+                        * System.Numerics.Matrix4x4.CreateTranslation((System.Numerics.Vector3)t2)
+                        * System.Numerics.Matrix4x4.CreateScale((System.Numerics.Vector3)s1)
+                        * System.Numerics.Matrix4x4.CreateFromQuaternion((System.Numerics.Quaternion)r1)
+                        * System.Numerics.Matrix4x4.CreateTranslation((System.Numerics.Vector3)t1);
+                    var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail($"e:{e}\n a:{a}"); }
+                    dm1 = Math.Max(dm1, d);
+                }
                 {
                     var e = (System.Numerics.Matrix4x4)q * (System.Numerics.Matrix4x4)p;
                     var d = Delta(e, a);
@@ -123,6 +141,20 @@ namespace Intar1991.Tests {
                 }
 
 #if UNITY_5_3_OR_NEWER
+                {
+                    var l = UnityEngine.Matrix4x4.TRS(
+                        (UnityEngine.Vector3)t1,
+                        ((UnityEngine.Quaternion)r1).normalized,
+                        (UnityEngine.Vector3)s1);
+                    var r = UnityEngine.Matrix4x4.TRS(
+                        (UnityEngine.Vector3)t2,
+                        ((UnityEngine.Quaternion)r2).normalized,
+                        (UnityEngine.Vector3)s2);
+                    var e = l * r;
+                    var d = Delta(e, a);
+                    if (d > 0.4) { Assert.Fail($"e:{e}\n a:{a}"); }
+                    dm2 = Math.Max(dm2, d);
+                }
                 {
                     var e = (UnityEngine.Matrix4x4)p * (UnityEngine.Matrix4x4)q;
                     var d = Delta(e, a);
@@ -133,16 +165,26 @@ namespace Intar1991.Tests {
 
 #if UNITY_2018_1_OR_NEWER
                 {
-                    var foo = (Unity.Mathematics.float4x4)p;
-                    var bar = (Unity.Mathematics.float4x4)q;
-                    var e = Unity.Mathematics.math.mul(
-                        (Unity.Mathematics.float4x4)p,
-                        (Unity.Mathematics.float4x4)q
-                    );
+                    var l = Unity.Mathematics.float4x4.TRS(
+                        (Unity.Mathematics.float3)t1,
+                        (Unity.Mathematics.quaternion)r1,
+                        (Unity.Mathematics.float3)s1);
+                    var r = Unity.Mathematics.float4x4.TRS(
+                        (Unity.Mathematics.float3)t2,
+                        (Unity.Mathematics.quaternion)r2,
+                        (Unity.Mathematics.float3)s2);
+                    var e = Unity.Mathematics.math.mul(l, r);
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail($"e:{e}\n a:{a}"); }
                     dm3 = Math.Max(dm3, d);
-
+                }
+                {
+                    var l = (Unity.Mathematics.float4x4)p;
+                    var r = (Unity.Mathematics.float4x4)q;
+                    var e = Unity.Mathematics.math.mul(l, r);
+                    var d = Delta(e, a);
+                    if (d > 0.1) { Assert.Fail($"e:{e}\n a:{a}"); }
+                    dm3 = Math.Max(dm3, d);
                 }
 #endif
             }
