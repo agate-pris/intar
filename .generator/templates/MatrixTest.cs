@@ -13,7 +13,9 @@ namespace Intar1991.Tests {
             return (Matrix3x3I2F30)q;
         }
 
-        public static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I2F30 a) {
+        {%- for f in [15, 30] %}
+
+        public static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I{{ 32 - f }}F{{ f }} a) {
             var d = 0.0;
             {%- for r in range(end=4) %}
             {%- for c in range(end=4) %}
@@ -24,6 +26,7 @@ namespace Intar1991.Tests {
             {%- endfor %}
             return d;
         }
+        {%- endfor %}
 
 #if UNITY_5_3_OR_NEWER
         public static double Delta(UnityEngine.Matrix4x4 e, Matrix3x3I2F30 a) {
@@ -94,7 +97,6 @@ namespace Intar1991.Tests {
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
-
             }
             const double delta = 0.0000003;
             Assert.Less(dm1, delta);
@@ -361,7 +363,6 @@ namespace Intar1991.Tests {
                     dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
-
             }
             const double delta = 0.0002;
             Assert.Less(dm1, delta);
@@ -398,8 +399,8 @@ namespace Intar1991.Tests {
                         (System.Numerics.Vector3)up
                     );
                     var d = Delta(e, a);
-                    dm1 = Math.Max(dm1, d);
                     if (d > 0.1) { Assert.Fail(); };
+                    dm1 = Math.Max(dm1, d);
                 }
 
 #if UNITY_5_3_OR_NEWER
@@ -410,8 +411,8 @@ namespace Intar1991.Tests {
                         (UnityEngine.Vector3)up
                     );
                     var d = Delta(e, a);
-                    dm2 = Math.Max(dm2, d);
                     if (d > 0.1) { Assert.Fail(); };
+                    dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
 
@@ -422,8 +423,8 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)up
                     );
                     var d = Delta(e, a);
-                    dm3 = Math.Max(dm3, d);
                     if (d > 0.1) { Assert.Fail(); };
+                    dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
             }
@@ -463,8 +464,8 @@ namespace Intar1991.Tests {
                         (System.Numerics.Vector3)up
                     );
                     var d = Delta(e, a.Value);
-                    dm1 = Math.Max(dm1, d);
                     if (d > 0.1) { Assert.Fail(); };
+                    dm1 = Math.Max(dm1, d);
                 }
 
 #if UNITY_5_3_OR_NEWER
@@ -475,8 +476,8 @@ namespace Intar1991.Tests {
                         (UnityEngine.Vector3)up
                     );
                     var d = Delta(e, a.Value);
-                    dm2 = Math.Max(dm2, d);
                     if (d > 0.1) { Assert.Fail(); };
+                    dm2 = Math.Max(dm2, d);
                 }
 #endif // UNITY_5_3_OR_NEWER
 
@@ -487,8 +488,8 @@ namespace Intar1991.Tests {
                         (Unity.Mathematics.float3)up
                     );
                     var d = Delta(e, a.Value);
-                    dm3 = Math.Max(dm3, d);
                     if (d > 0.1) { Assert.Fail(); };
+                    dm3 = Math.Max(dm3, d);
                 }
 #endif // UNITY_2018_1_OR_NEWER
             }
