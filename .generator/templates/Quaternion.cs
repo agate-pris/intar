@@ -96,6 +96,13 @@ namespace {{ namespace }} {
                 {%- endfor %}
             );
         }
+        public static explicit operator {{ quaternion }}(System.Numerics.Quaternion q) {
+            return new {{ quaternion }}(
+                {%- for c in components %}
+                {{ component }}.StrictFrom(q.{{ c }}){% if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
 
 #if UNITY_5_6_OR_NEWER
         public static explicit operator UnityEngine.Quaternion({{ quaternion }} q) {
