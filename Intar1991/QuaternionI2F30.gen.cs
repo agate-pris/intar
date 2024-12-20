@@ -80,6 +80,14 @@ namespace Intar1991 {
                 q.W.LossyToSingle()
             );
         }
+        public static explicit operator QuaternionI2F30(System.Numerics.Quaternion q) {
+            return new QuaternionI2F30(
+                I2F30.StrictFrom(q.X),
+                I2F30.StrictFrom(q.Y),
+                I2F30.StrictFrom(q.Z),
+                I2F30.StrictFrom(q.W)
+            );
+        }
 
 #if UNITY_5_6_OR_NEWER
         public static explicit operator UnityEngine.Quaternion(QuaternionI2F30 q) {
