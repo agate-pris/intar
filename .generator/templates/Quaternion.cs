@@ -96,6 +96,8 @@ namespace {{ namespace }} {
                 {%- endfor %}
             );
         }
+
+#if false
         public static explicit operator {{ quaternion }}(System.Numerics.Quaternion q) {
             return new {{ quaternion }}(
                 {%- for c in components %}
@@ -103,6 +105,7 @@ namespace {{ namespace }} {
                 {%- endfor %}
             );
         }
+#endif
 
 #if UNITY_5_6_OR_NEWER
         public static explicit operator UnityEngine.Quaternion({{ quaternion }} q) {
