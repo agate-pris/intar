@@ -78,7 +78,7 @@ namespace Intar1991.Tests {
             }
         }
         #endregion
-
+        #region RandomInt, RandomPosition, RandomAxis, RandomI17F15, Random01I17F15, Random01Single
         /// <summary>
         /// <c>float</c> で正確に表現可能な <c>int</c> の乱数を返す
         /// </summary>
@@ -126,7 +126,8 @@ namespace Intar1991.Tests {
             const int k = 1 << 23;
             return (float)rng.Next(0, k + 1) / k;
         }
-
+        #endregion
+        #region Delta
         public static double Delta(System.Numerics.Vector3 v, Vector3I17F15 a) {
             var x = Math.Abs(a.X.ToDouble() - v.X);
             var y = Math.Abs(a.Y.ToDouble() - v.Y);
@@ -151,6 +152,7 @@ namespace Intar1991.Tests {
             return Math.Max(Math.Max(x, y), z);
         }
 #endif // UNITY_2018_1_OR_NEWER
+        #endregion
 
         public class ErrorAccumulation {
             int count;
