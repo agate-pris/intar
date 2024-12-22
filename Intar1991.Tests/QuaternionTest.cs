@@ -112,7 +112,7 @@ namespace Intar1991.Tests {
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var q = RandomQuaternion(ref rng);
-                var v = Utility.RandomPosition(ref rng);
+                var v = Utility.RandomVector3(ref rng);
                 var a = q.Rotate(v);
 
                 {

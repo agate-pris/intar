@@ -78,7 +78,7 @@ namespace Intar1991.Tests {
             }
         }
         #endregion
-        #region RandomInt, RandomPosition, RandomAxis, RandomI17F15, Random01I17F15, Random01Single
+        #region RandomInt, RandomAxis, RandomI17F15, Random01I17F15, Random01Single, RandomPosition
         /// <summary>
         /// <c>float</c> で正確に表現可能な <c>int</c> の乱数を返す
         /// </summary>
@@ -88,20 +88,6 @@ namespace Intar1991.Tests {
         public static int RandomInt(ref Xoroshiro128StarStar rng) {
             const int k = 1 << 23;
             return rng.Next(-k, k + 1);
-        }
-
-        /// <summary>
-        /// <c>float</c> で正確に表現可能な乱数の座標を返す
-        /// </summary>
-        /// <param name="rng"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3I17F15 RandomPosition(ref Xoroshiro128StarStar rng) {
-            return new Vector3I17F15(
-                I17F15.FromBits(RandomInt(ref rng)),
-                I17F15.FromBits(RandomInt(ref rng)),
-                I17F15.FromBits(RandomInt(ref rng))
-            );
         }
 
         public static Vector3I2F30 RandomAxis(ref Xoroshiro128StarStar rng) {
@@ -125,6 +111,20 @@ namespace Intar1991.Tests {
         public static float Random01Single(ref Xoroshiro128StarStar rng) {
             const int k = 1 << 23;
             return (float)rng.Next(0, k + 1) / k;
+        }
+
+        /// <summary>
+        /// <c>float</c> で正確に表現可能な乱数の座標を返す
+        /// </summary>
+        /// <param name="rng"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 RandomVector3(ref Xoroshiro128StarStar rng) {
+            return new Vector3I17F15(
+                RandomI17F15(ref rng),
+                RandomI17F15(ref rng),
+                RandomI17F15(ref rng)
+            );
         }
         #endregion
         #region Delta
