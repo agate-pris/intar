@@ -78,7 +78,7 @@ namespace Intar1991.Tests {
             }
         }
         #endregion
-        #region RandomInt, RandomAxis, RandomI17F15, Random01I17F15, Random01Single, RandomPosition
+        #region RandomInt, RandomAxis, RandomI17F15, Random01I17F15, Random01Single, RandomPosition, RandomScale
         /// <summary>
         /// <c>float</c> で正確に表現可能な <c>int</c> の乱数を返す
         /// </summary>
@@ -125,6 +125,14 @@ namespace Intar1991.Tests {
                 RandomI17F15(ref rng),
                 RandomI17F15(ref rng)
             );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 RandomScale(ref Xoroshiro128StarStar rng) {
+            return new Vector3I17F15(
+                I17F15.FromBits(rng.Next(16384, 65536)),
+                I17F15.FromBits(rng.Next(16384, 65536)),
+                I17F15.FromBits(rng.Next(16384, 65536)));
         }
         #endregion
         #region Delta
