@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0;net6.0;net7.0</TargetFrameworks>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
     <Version>0.26.0</Version>
 
@@ -15,6 +16,10 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
