@@ -64,6 +64,34 @@
         },
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "Matrix.cs",
+            "files": [
+                {%- for r in [3] %}
+                {%- for c in [3] %}
+                {%- for if in [1715, 230] %}
+                {%- for s in [true] %}
+                {%- set f = if % 100 %}
+                {%- set i = (if - f) / 100 %}
+                { "file_name": "Matrix{{ r }}x{{ c }}{% if s %}I{% else %}U{% endif %}{{ i }}F{{ f }}.gen.cs", "params": { "namespace": "{{ namespace }}", "rows": {{ r }}, "cols": {{ c }}, "signed": {{ s }}, "int_nbits": {{ i }}, "frac_nbits": {{ f }} } }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}.Tests",
+            "template_name": "MatrixTest.cs",
+            "files": [
+                { "file_name": "MatrixTest.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "Overflowing.cs",
             "files": [
                 { "file_name": "Overflowing.gen.cs", "params": { "namespace": "{{ namespace }}" } }
