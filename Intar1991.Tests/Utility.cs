@@ -21,7 +21,7 @@ namespace Intar1991.Tests {
 #endif
         }
         #endregion
-
+        #region AssertAreEqual
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(int expected, int actual) {
             if (expected != actual) {
@@ -76,6 +76,7 @@ namespace Intar1991.Tests {
                 Assert.AreEqual(expected, actual, delta, $"x: {x}");
             }
         }
+        #endregion
 
         public class ErrorAccumulation {
             int count;
