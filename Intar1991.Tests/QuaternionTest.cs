@@ -9,58 +9,11 @@ namespace Intar1991.Tests {
 
         const float toRad = (float)Math.PI / 2;
 
-        public static Vector3I2F30 RandomAxis(ref Xoroshiro128StarStar rng) {
-            Vector3I2F30? v;
-            do {
-                v = new Vector3I2F30(new Vector3Int32(
-                    Utility.RandomInt(ref rng),
-                    Utility.RandomInt(ref rng),
-                    Utility.RandomInt(ref rng)
-                )).Normalize();
-            } while (v == null);
-            return v.Value;
-        }
-        public static I17F15 RandomI17F15(ref Xoroshiro128StarStar rng) {
-            return I17F15.FromBits(Utility.RandomInt(ref rng));
-        }
-        public static I17F15 Random01I17F15(ref Xoroshiro128StarStar rng) {
-            const int k = 1 << 15;
-            return I17F15.FromBits(rng.Next(0, k + 1));
-        }
-        public static float Random01Single(ref Xoroshiro128StarStar rng) {
-            const int k = 1 << 23;
-            return (float)rng.Next(0, k + 1) / k;
-        }
         public static QuaternionI2F30 RandomQuaternion(ref Xoroshiro128StarStar rng) {
-            var axis = RandomAxis(ref rng);
-            var angle = RandomI17F15(ref rng);
+            var axis = Utility.RandomAxis(ref rng);
+            var angle = Utility.RandomI17F15(ref rng);
             return QuaternionI2F30.AxisAngleP5(axis, angle);
         }
-
-        public static double Delta(System.Numerics.Vector3 v, Vector3I17F15 a) {
-            var x = Math.Abs(a.X.ToDouble() - v.X);
-            var y = Math.Abs(a.Y.ToDouble() - v.Y);
-            var z = Math.Abs(a.Z.ToDouble() - v.Z);
-            return Math.Max(Math.Max(x, y), z);
-        }
-
-#if UNITY_5_3_OR_NEWER
-        public static double Delta(UnityEngine.Vector3 v, Vector3I17F15 a) {
-            var x = Math.Abs(a.X.ToDouble() - v.x);
-            var y = Math.Abs(a.Y.ToDouble() - v.y);
-            var z = Math.Abs(a.Z.ToDouble() - v.z);
-            return Math.Max(Math.Max(x, y), z);
-        }
-#endif // UNITY_5_3_OR_NEWER
-
-#if UNITY_2018_1_OR_NEWER
-        public static double Delta(Unity.Mathematics.float3 v, Vector3I17F15 a) {
-            var x = Math.Abs(a.X.ToDouble() - v.x);
-            var y = Math.Abs(a.Y.ToDouble() - v.y);
-            var z = Math.Abs(a.Z.ToDouble() - v.z);
-            return Math.Max(Math.Max(x, y), z);
-        }
-#endif // UNITY_2018_1_OR_NEWER
 
         public static double Delta(System.Numerics.Quaternion e, QuaternionI2F30 a) {
             var x = Math.Abs(a.X.ToDouble() - e.X);
@@ -167,7 +120,7 @@ namespace Intar1991.Tests {
                         (System.Numerics.Vector3)v,
                         (System.Numerics.Quaternion)q
                     );
-                    var d = Delta(e, a);
+                    var d = Utility.Delta(e, a);
                     if (d > delta) {
                         Utility.LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
                     }
@@ -177,7 +130,7 @@ namespace Intar1991.Tests {
 #if UNITY_5_3_OR_NEWER
                 {
                     var e = ((UnityEngine.Quaternion)q) * ((UnityEngine.Vector3)v);
-                    var d = Delta(e, a);
+                    var d = Utility.Delta(e, a);
                     if (d > delta) {
                         Utility.LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
                     }
@@ -190,7 +143,7 @@ namespace Intar1991.Tests {
                     var qf = (Unity.Mathematics.quaternion)q;
                     var vf = (Unity.Mathematics.float3)v;
                     var e = Unity.Mathematics.math.rotate(qf, vf);
-                    var d = Delta(e, a);
+                    var d = Utility.Delta(e, a);
                     if (d > delta) {
                         Utility.LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
                     }
@@ -278,7 +231,7 @@ namespace Intar1991.Tests {
             for (var i = 0; i < 32768; i++) {
                 var a = RandomQuaternion(ref rng);
                 var b = RandomQuaternion(ref rng);
-                var t = Random01I17F15(ref rng);
+                var t = Utility.Random01I17F15(ref rng);
                 var actual = a.UncheckedLerp(b, t);
 
                 {
@@ -368,7 +321,7 @@ namespace Intar1991.Tests {
                 var q2 = new System.Numerics.Quaternion(rng.Next(), rng.Next(), rng.Next(), rng.Next());
                 q1 = System.Numerics.Quaternion.Normalize(q1);
                 q2 = System.Numerics.Quaternion.Normalize(q2);
-                var t = Random01Single(ref rng);
+                var t = Utility.Random01Single(ref rng);
                 var dot = System.Numerics.Quaternion.Dot(q1, q2);
                 dotMin = Math.Min(dotMin, dot);
                 dotMax = Math.Max(dotMax, dot);
@@ -475,7 +428,7 @@ namespace Intar1991.Tests {
             for (var i = 0; i < 32768; i++) {
                 var a = RandomQuaternion(ref rng);
                 var b = RandomQuaternion(ref rng);
-                var t = Random01I17F15(ref rng);
+                var t = Utility.Random01I17F15(ref rng);
                 var actual = a.UncheckedSlerp(b, t);
 
                 {
@@ -534,7 +487,7 @@ namespace Intar1991.Tests {
             var rng = new Xoroshiro128StarStar(1, 2);
             var d = 0.0;
             for (var i = 0; i < 32768; i++) {
-                var angle = RandomI17F15(ref rng);
+                var angle = Utility.RandomI17F15(ref rng);
                 var actualX = QuaternionI2F30.RotateXP5(angle);
                 var actualY = QuaternionI2F30.RotateYP5(angle);
                 var actualZ = QuaternionI2F30.RotateZP5(angle);
@@ -595,9 +548,9 @@ namespace Intar1991.Tests {
             var rng = new Xoroshiro128StarStar(1, 2);
             var dm = 0.0;
             for (var i = 0; i < 32768; i++) {
-                var x = RandomI17F15(ref rng);
-                var y = RandomI17F15(ref rng);
-                var z = RandomI17F15(ref rng);
+                var x = Utility.RandomI17F15(ref rng);
+                var y = Utility.RandomI17F15(ref rng);
+                var z = Utility.RandomI17F15(ref rng);
                 var actual = QuaternionI2F30.EulerZxyP5(x, y, z);
 
                 {
@@ -655,8 +608,8 @@ namespace Intar1991.Tests {
             var rng = new Xoroshiro128StarStar(1, 2);
             var dm = 0.0;
             for (var i = 0; i < 32768; i++) {
-                var axis = RandomAxis(ref rng);
-                var angle = RandomI17F15(ref rng);
+                var axis = Utility.RandomAxis(ref rng);
+                var angle = Utility.RandomI17F15(ref rng);
                 var actual = QuaternionI2F30.AxisAngleP5(axis, angle);
 
                 {

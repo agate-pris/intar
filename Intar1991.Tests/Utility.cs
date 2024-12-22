@@ -104,6 +104,54 @@ namespace Intar1991.Tests {
             );
         }
 
+        public static Vector3I2F30 RandomAxis(ref Xoroshiro128StarStar rng) {
+            Vector3I2F30? v;
+            do {
+                v = new Vector3I2F30(new Vector3Int32(
+                    RandomInt(ref rng),
+                    RandomInt(ref rng),
+                    RandomInt(ref rng)
+                )).Normalize();
+            } while (v == null);
+            return v.Value;
+        }
+        public static I17F15 RandomI17F15(ref Xoroshiro128StarStar rng) {
+            return I17F15.FromBits(RandomInt(ref rng));
+        }
+        public static I17F15 Random01I17F15(ref Xoroshiro128StarStar rng) {
+            const int k = 1 << 15;
+            return I17F15.FromBits(rng.Next(0, k + 1));
+        }
+        public static float Random01Single(ref Xoroshiro128StarStar rng) {
+            const int k = 1 << 23;
+            return (float)rng.Next(0, k + 1) / k;
+        }
+
+        public static double Delta(System.Numerics.Vector3 v, Vector3I17F15 a) {
+            var x = Math.Abs(a.X.ToDouble() - v.X);
+            var y = Math.Abs(a.Y.ToDouble() - v.Y);
+            var z = Math.Abs(a.Z.ToDouble() - v.Z);
+            return Math.Max(Math.Max(x, y), z);
+        }
+
+#if UNITY_5_3_OR_NEWER
+        public static double Delta(UnityEngine.Vector3 v, Vector3I17F15 a) {
+            var x = Math.Abs(a.X.ToDouble() - v.x);
+            var y = Math.Abs(a.Y.ToDouble() - v.y);
+            var z = Math.Abs(a.Z.ToDouble() - v.z);
+            return Math.Max(Math.Max(x, y), z);
+        }
+#endif // UNITY_5_3_OR_NEWER
+
+#if UNITY_2018_1_OR_NEWER
+        public static double Delta(Unity.Mathematics.float3 v, Vector3I17F15 a) {
+            var x = Math.Abs(a.X.ToDouble() - v.x);
+            var y = Math.Abs(a.Y.ToDouble() - v.y);
+            var z = Math.Abs(a.Z.ToDouble() - v.z);
+            return Math.Max(Math.Max(x, y), z);
+        }
+#endif // UNITY_2018_1_OR_NEWER
+
         public class ErrorAccumulation {
             int count;
             double sqrSum;
