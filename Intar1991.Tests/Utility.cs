@@ -90,6 +90,20 @@ namespace Intar1991.Tests {
             return rng.Next(-k, k + 1);
         }
 
+        /// <summary>
+        /// <c>float</c> で正確に表現可能な乱数の座標を返す
+        /// </summary>
+        /// <param name="rng"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 RandomPosition(ref Xoroshiro128StarStar rng) {
+            return new Vector3I17F15(
+                I17F15.FromBits(RandomInt(ref rng)),
+                I17F15.FromBits(RandomInt(ref rng)),
+                I17F15.FromBits(RandomInt(ref rng))
+            );
+        }
+
         public class ErrorAccumulation {
             int count;
             double sqrSum;

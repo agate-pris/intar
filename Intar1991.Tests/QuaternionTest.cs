@@ -9,13 +9,6 @@ namespace Intar1991.Tests {
 
         const float toRad = (float)Math.PI / 2;
 
-        public static Vector3I17F15 RandomPosition(ref Xoroshiro128StarStar rng) {
-            return new Vector3I17F15(
-                I17F15.FromBits(Utility.RandomInt(ref rng)),
-                I17F15.FromBits(Utility.RandomInt(ref rng)),
-                I17F15.FromBits(Utility.RandomInt(ref rng))
-            );
-        }
         public static Vector3I2F30 RandomAxis(ref Xoroshiro128StarStar rng) {
             Vector3I2F30? v;
             do {
@@ -166,7 +159,7 @@ namespace Intar1991.Tests {
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var q = RandomQuaternion(ref rng);
-                var v = RandomPosition(ref rng);
+                var v = Utility.RandomPosition(ref rng);
                 var a = q.Rotate(v);
 
                 {
