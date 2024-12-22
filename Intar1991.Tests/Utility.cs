@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
+using Intar1991.Rand;
 using NUnit.Framework;
 
 namespace Intar1991.Tests {
@@ -77,6 +78,17 @@ namespace Intar1991.Tests {
             }
         }
         #endregion
+
+        /// <summary>
+        /// <c>float</c> で正確に表現可能な <c>int</c> の乱数を返す
+        /// </summary>
+        /// <param name="rng"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int RandomInt(ref Xoroshiro128StarStar rng) {
+            const int k = 1 << 23;
+            return rng.Next(-k, k + 1);
+        }
 
         public class ErrorAccumulation {
             int count;

@@ -9,31 +9,26 @@ namespace Intar1991.Tests {
 
         const float toRad = (float)Math.PI / 2;
 
-        public static int RandomInt(ref Xoroshiro128StarStar rng) {
-            // float で正確に表現可能
-            const int k = 1 << 23;
-            return rng.Next(-k, k + 1);
-        }
         public static Vector3I17F15 RandomPosition(ref Xoroshiro128StarStar rng) {
             return new Vector3I17F15(
-                I17F15.FromBits(RandomInt(ref rng)),
-                I17F15.FromBits(RandomInt(ref rng)),
-                I17F15.FromBits(RandomInt(ref rng))
+                I17F15.FromBits(Utility.RandomInt(ref rng)),
+                I17F15.FromBits(Utility.RandomInt(ref rng)),
+                I17F15.FromBits(Utility.RandomInt(ref rng))
             );
         }
         public static Vector3I2F30 RandomAxis(ref Xoroshiro128StarStar rng) {
             Vector3I2F30? v;
             do {
                 v = new Vector3I2F30(new Vector3Int32(
-                    RandomInt(ref rng),
-                    RandomInt(ref rng),
-                    RandomInt(ref rng)
+                    Utility.RandomInt(ref rng),
+                    Utility.RandomInt(ref rng),
+                    Utility.RandomInt(ref rng)
                 )).Normalize();
             } while (v == null);
             return v.Value;
         }
         public static I17F15 RandomI17F15(ref Xoroshiro128StarStar rng) {
-            return I17F15.FromBits(RandomInt(ref rng));
+            return I17F15.FromBits(Utility.RandomInt(ref rng));
         }
         public static I17F15 Random01I17F15(ref Xoroshiro128StarStar rng) {
             const int k = 1 << 15;
