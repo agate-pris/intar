@@ -6,20 +6,6 @@ using NUnit.Framework;
 namespace Intar1991.Tests {
     public class QuaternionTest {
         #region
-        static void Log(string message) {
-#if UNITY_5_3_OR_NEWER
-            UnityEngine.Debug.Log(message);
-#else
-            Console.WriteLine(message);
-#endif
-        }
-        static void LogError(string s) {
-#if UNITY_5_3_OR_NEWER
-            UnityEngine.Debug.LogError(s);
-#else
-            Assert.Warn(s);
-#endif
-        }
 
         const float toRad = (float)Math.PI / 2;
 
@@ -136,10 +122,10 @@ namespace Intar1991.Tests {
                     var d1 = Delta(e1, a1);
                     var d2 = Delta(e2, a2);
                     if (d1 > delta) {
-                        LogError($"d1:{d1} a:{a} b:{b} e1:{e1} a1:{a1}");
+                        Utility.LogError($"d1:{d1} a:{a} b:{b} e1:{e1} a1:{a1}");
                     }
                     if (d2 > delta) {
-                        LogError($"d2:{d2} a:{a} b:{b} e2:{e2} a2:{a2}");
+                        Utility.LogError($"d2:{d2} a:{a} b:{b} e2:{e2} a2:{a2}");
                     }
                     dm = Math.Max(dm, d1);
                     dm = Math.Max(dm, d2);
@@ -150,7 +136,7 @@ namespace Intar1991.Tests {
                     var e = (UnityEngine.Quaternion)a * (UnityEngine.Quaternion)b;
                     var d = Delta(e, a1);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} e:{e} a1:{a1}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} e:{e} a1:{a1}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -164,7 +150,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, a1);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} e:{e} a1:{a1}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} e:{e} a1:{a1}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -173,7 +159,7 @@ namespace Intar1991.Tests {
             }
 
             Assert.Less(dm, delta);
-            Log($"{dm}");
+            Utility.Log($"{dm}");
         }
 
         [Test]
@@ -195,7 +181,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, a);
                     if (d > delta) {
-                        LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
+                        Utility.LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
                     }
                     dm1 = Math.Max(dm1, d);
                 }
@@ -205,7 +191,7 @@ namespace Intar1991.Tests {
                     var e = ((UnityEngine.Quaternion)q) * ((UnityEngine.Vector3)v);
                     var d = Delta(e, a);
                     if (d > delta) {
-                        LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
+                        Utility.LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
                     }
                     dm2 = Math.Max(dm2, d);
                 }
@@ -218,7 +204,7 @@ namespace Intar1991.Tests {
                     var e = Unity.Mathematics.math.rotate(qf, vf);
                     var d = Delta(e, a);
                     if (d > delta) {
-                        LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
+                        Utility.LogError($"d:{d} q:{q} v:{v} e:{e} a:{a}");
                     }
                     dm3 = Math.Max(dm3, d);
                 }
@@ -227,9 +213,9 @@ namespace Intar1991.Tests {
             Assert.Less(dm1, delta);
             Assert.Less(dm2, delta);
             Assert.Less(dm3, delta);
-            Log($"{dm1}");
-            Log($"{dm2}");
-            Log($"{dm3}");
+            Utility.Log($"{dm1}");
+            Utility.Log($"{dm2}");
+            Utility.Log($"{dm3}");
         }
         #endregion
         #region TestInverse
@@ -255,7 +241,7 @@ namespace Intar1991.Tests {
                     var e = System.Numerics.Quaternion.Inverse((System.Numerics.Quaternion)q);
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} q:{q} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} q:{q} e:{e} actual:{actual}");
                     }
                     dm1 = Math.Max(dm1, d);
                 }
@@ -265,7 +251,7 @@ namespace Intar1991.Tests {
                     var e = UnityEngine.Quaternion.Inverse((UnityEngine.Quaternion)q);
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} q:{q} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} q:{q} e:{e} actual:{actual}");
                     }
                     dm2 = Math.Max(dm2, d);
                 }
@@ -276,7 +262,7 @@ namespace Intar1991.Tests {
                     var e = Unity.Mathematics.math.inverse((Unity.Mathematics.quaternion)q);
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} q:{q} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} q:{q} e:{e} actual:{actual}");
                     }
                     dm3 = Math.Max(dm3, d);
                 }
@@ -285,9 +271,9 @@ namespace Intar1991.Tests {
             Assert.Less(dm1, delta);
             Assert.Less(dm2, delta);
             Assert.Less(dm3, delta);
-            Log($"{dm1}");
-            Log($"{dm2}");
-            Log($"{dm3}");
+            Utility.Log($"{dm1}");
+            Utility.Log($"{dm2}");
+            Utility.Log($"{dm3}");
         }
         #endregion
         #region TestLerp
@@ -315,7 +301,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -329,7 +315,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -344,7 +330,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -512,7 +498,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -526,7 +512,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -541,7 +527,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} a:{a} b:{b} t:{t} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -574,15 +560,9 @@ namespace Intar1991.Tests {
                     var dX = Delta(eX, actualX);
                     var dY = Delta(eY, actualY);
                     var dZ = Delta(eZ, actualZ);
-                    if (dX > delta) {
-                        LogError($"dX > delta dx:{dX} angle:{angle} eX:{eX} actualX:{actualX}");
-                    }
-                    if (dY > delta) {
-                        LogError($"dY > delta dy:{dY} angle:{angle} eY:{eY} actualY:{actualY}");
-                    }
-                    if (dZ > delta) {
-                        LogError($"dZ > delta dz:{dZ} angle:{angle} eZ:{eZ} actualZ:{actualZ}");
-                    }
+                    if (dX > delta) { Utility.LogError($"dX > delta dx:{dX} angle:{angle} eX:{eX} actualX:{actualX}"); }
+                    if (dY > delta) { Utility.LogError($"dY > delta dy:{dY} angle:{angle} eY:{eY} actualY:{actualY}"); }
+                    if (dZ > delta) { Utility.LogError($"dZ > delta dz:{dZ} angle:{angle} eZ:{eZ} actualZ:{actualZ}"); }
                     d = Math.Max(d, Math.Max(dX, Math.Max(dY, dZ)));
                 }
 
@@ -594,15 +574,9 @@ namespace Intar1991.Tests {
                     var dX = Delta(eX, actualX);
                     var dY = Delta(eY, actualY);
                     var dZ = Delta(eZ, actualZ);
-                    if (dX > delta) {
-                        LogError($"dX > delta dx:{dX} angle:{angle} eX:{eX} actualX:{actualX}");
-                    }
-                    if (dY > delta) {
-                        LogError($"dY > delta dy:{dY} angle:{angle} eY:{eY} actualY:{actualY}");
-                    }
-                    if (dZ > delta) {
-                        LogError($"dZ > delta dz:{dZ} angle:{angle} eZ:{eZ} actualZ:{actualZ}");
-                    }
+                    if (dX > delta) { Utility.LogError($"dX > delta dx:{dX} angle:{angle} eX:{eX} actualX:{actualX}"); }
+                    if (dY > delta) { Utility.LogError($"dY > delta dy:{dY} angle:{angle} eY:{eY} actualY:{actualY}"); }
+                    if (dZ > delta) { Utility.LogError($"dZ > delta dz:{dZ} angle:{angle} eZ:{eZ} actualZ:{actualZ}"); }
                     d = Math.Max(d, Math.Max(dX, Math.Max(dY, dZ)));
                 }
 #endif
@@ -615,15 +589,9 @@ namespace Intar1991.Tests {
                     var dX = Delta(eX, actualX);
                     var dY = Delta(eY, actualY);
                     var dZ = Delta(eZ, actualZ);
-                    if (dX > delta) {
-                        LogError($"dX > delta dx:{dX} angle:{angle} eX:{eX} actualX:{actualX}");
-                    }
-                    if (dY > delta) {
-                        LogError($"dY > delta dy:{dY} angle:{angle} eY:{eY} actualY:{actualY}");
-                    }
-                    if (dZ > delta) {
-                        LogError($"dZ > delta dz:{dZ} angle:{angle} eZ:{eZ} actualZ:{actualZ}");
-                    }
+                    if (dX > delta) { Utility.LogError($"dX > delta dx:{dX} angle:{angle} eX:{eX} actualX:{actualX}"); }
+                    if (dY > delta) { Utility.LogError($"dY > delta dy:{dY} angle:{angle} eY:{eY} actualY:{actualY}"); }
+                    if (dZ > delta) { Utility.LogError($"dZ > delta dz:{dZ} angle:{angle} eZ:{eZ} actualZ:{actualZ}"); }
                     d = Math.Max(d, Math.Max(dX, Math.Max(dY, dZ)));
                 }
 #endif
@@ -652,7 +620,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} x:{x} y:{y} z:{z} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} x:{x} y:{y} z:{z} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -666,7 +634,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} x:{x} y:{y} z:{z} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} x:{x} y:{y} z:{z} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -682,7 +650,7 @@ namespace Intar1991.Tests {
 
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} x:{x} y:{y} z:{z} e:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} x:{x} y:{y} z:{z} e:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -710,7 +678,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} axis:{axis} angle:{angle} expected:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} axis:{axis} angle:{angle} expected:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -723,7 +691,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} axis:{axis} angle:{angle} expected:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} axis:{axis} angle:{angle} expected:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -737,7 +705,7 @@ namespace Intar1991.Tests {
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
-                        LogError($"d:{d} axis:{axis} angle:{angle} expected:{e} actual:{actual}");
+                        Utility.LogError($"d:{d} axis:{axis} angle:{angle} expected:{e} actual:{actual}");
                     }
                     dm = Math.Max(dm, d);
                 }
@@ -745,7 +713,7 @@ namespace Intar1991.Tests {
 
             }
             Assert.Less(dm, delta);
-            Log($"{dm}");
+            Utility.Log($"{dm}");
         }
         #endregion
     }
