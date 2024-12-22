@@ -37,6 +37,13 @@
     "output_dest": [
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "AffineTransform.cs",
+            "files": [
+                { "file_name": "AffineTransformI17F15.gen.cs", "params": { "namespace": "{{ namespace }}", "int_nbits": 17, "frac_nbits": 15 } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "BitOperations.cs",
             "files": [
                 { "file_name": "BitOperations.gen.cs", "params": { "namespace": "{{ namespace }}" } }
@@ -64,9 +71,44 @@
         },
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "Matrix.cs",
+            "files": [
+                {%- for r in [3] %}
+                {%- for c in [3] %}
+                {%- for if in [1715, 230] %}
+                {%- for s in [true] %}
+                {%- set f = if % 100 %}
+                {%- set i = (if - f) / 100 %}
+                { "file_name": "Matrix{{ r }}x{{ c }}{% if s %}I{% else %}U{% endif %}{{ i }}F{{ f }}.gen.cs", "params": { "namespace": "{{ namespace }}", "rows": {{ r }}, "cols": {{ c }}, "signed": {{ s }}, "int_nbits": {{ i }}, "frac_nbits": {{ f }} } }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}.Tests",
+            "template_name": "MatrixTest.cs",
+            "files": [
+                { "file_name": "MatrixTest.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "Overflowing.cs",
             "files": [
                 { "file_name": "Overflowing.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
+            "template_name": "Quaternion.cs",
+            "files": [
+                { "file_name": "QuaternionI2F30.gen.cs", "params": { "namespace": "{{ namespace }}", "int_nbits": 2, "frac_nbits": 30 } }
             ]
         },
         {

@@ -111,7 +111,7 @@ namespace {{ namespace }} {
         #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ vector }}({{ repr }} repr) {
+        internal {{ vector }}({{ repr }} repr) {
             Repr = repr;
         }
 
