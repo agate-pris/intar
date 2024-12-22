@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0;net6.0;net7.0</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <Version>0.26.0</Version>
 
@@ -19,6 +20,7 @@
 
   <ItemGroup>
     <None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
