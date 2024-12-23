@@ -1,15 +1,37 @@
 # Intar
 
-ドキュメントは https://agate-pris.github.io/intar/ を参照｡
+Intar is integer arithmetic library for .NET / [Unity](https://unity.com)
 
-## Development
+## Coordinate Transformations
 
-Install .net 4.6.2 from Visual Studio Installer.
+```cs
+var position = Vector3I17F15.One;
+var t = Vector3I17F15.UnitX;
+var r = QuaternionI2F30.RotateXP5(I17F15.One);
+var s = Vector3I17F15.One;
+var matrix = AffineTransformI17F15.Trs(t, r, s);
+position = matrix * position;
+```
 
-The following extensions are required.
+The above code has the same meaning as the following code.
 
-- NUnit 3 Test Adapter
+```cs
+var position = System.Numerics.Vector3.One;
+var t = System.Numerics.Vector3.UnitX;
+var r = System.Numerics.Quaternion.CreateFromYawPitchRoll(
+    0.0f, (float)(0.5 * Math.PI), 0.0f
+);
+var s = System.Numerics.Vector3.One;
+var matrix
+    = System.Numerics.Matrix4x4.CreateScale(s)
+    * System.Numerics.Matrix4x4.CreateFromQuaternion(r)
+    * System.Numerics.Matrix4x4.CreateTranslation(t);
+position = System.Numerics.Vector3.Transform(position, matrix);
+```
 
-NugGet Package Manager is required. See below.
+## Links
 
-https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources
+- [Documentation](https://agate-pris.github.io/intar/)
+- [Nuget Package](https://www.nuget.org/packages/Intar)
+- [Release Notes](https://github.com/agate-pris/intar/releases)
+- [License](https://github.com/agate-pris/intar/blob/master/LICENSE.md)
