@@ -6,7 +6,11 @@ Intar は整数演算のみを使って実装された座標システムを提�
 
 ## ライセンス
 
-[CC0 1.0 でご利用いただけます](https://github.com/agate-pris/intar/blob/main/LICENSE) ｡
+[MIT License でご利用いただけます](https://github.com/agate-pris/intar/blob/main/LICENSE.md) ｡
+
+> [!IMPORTANT]
+>
+> v0.27.0 から CC0 1.0 から MIT License に変更しました。
 
 ## 機能
 
