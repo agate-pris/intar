@@ -5,7 +5,7 @@
         {
           "src": "..",
           "files": [
-            "Intar1991/Intar1991.csproj"
+            "Intar/Intar.csproj"
           ]
         }
       ],
