@@ -5,6 +5,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://agate-pris.github.io/intar/</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/agate-pris/intar</RepositoryUrl>
 
     <Version>0.26.0</Version>
 
