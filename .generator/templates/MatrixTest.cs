@@ -3,10 +3,10 @@
 
 using System;
 
-using Intar1991.Rand;
+using {{ namespace }}.Rand;
 using NUnit.Framework;
 
-namespace Intar1991.Tests {
+namespace {{ namespace }}.Tests {
     public class MatrixTest {
         public static Matrix3x3I2F30 RandomMatrix(ref Xoroshiro128StarStar rng) {
             var q = QuaternionTest.RandomQuaternion(ref rng);
@@ -502,4 +502,4 @@ namespace Intar1991.Tests {
             Utility.Log($"dm3:{dm3}");
         }
     }
-} // namespace Intar1991.Tests
+} // namespace {{ namespace }}.Tests
