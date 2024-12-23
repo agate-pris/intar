@@ -3,6 +3,8 @@
   "version": "0.26.0",
   "displayName": "Intar",
   "description": "An arithmetic library that uses integer arithmetic for most calculations to guarantee reproducibility, without emphasis on performance or accuracy",
+  "license": "MIT",
+  "licensesUrl": "https://github.com/agate-pris/intar/blob/main/LICENSE.md",
   "unity": "2018.3",
   "dependencies": {
   },
