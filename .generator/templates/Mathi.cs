@@ -337,7 +337,7 @@ namespace {{ namespace }} {
         /// const {{ t }} k = {{ one }} &lt;&lt; {{ shift }};
         /// const {{ t }} toRad = System.Math.PI / ({{ one }} &lt;&lt; {{ shift * 2 }});
         /// var x = k * 2 / 3;
-        /// var actual = Intar1991.Mathi.AtanP{{ o }}(x);
+        /// var actual = {{ namespace }}.Mathi.AtanP{{ o }}(x);
         /// var expected = System.Math.Atan((double)x / k);
         /// Assert.AreEqual(expected, actual * toRad, {{ e }});
         /// </code>
@@ -381,7 +381,7 @@ namespace {{ namespace }} {
         /// {{ o }} 次の多項式で逆正接を近似する。
         /// <example>
         /// <code>
-        /// var actual = Intar1991.Mathi.Atan2P{{ o }}(2, 3);
+        /// var actual = {{ namespace }}.Mathi.Atan2P{{ o }}(2, 3);
         /// var expected = System.Math.Atan2(2, 3);
         /// Assert.AreEqual(expected, actual * toRad, {{ e }});
         /// </code>
@@ -688,7 +688,7 @@ namespace {{ namespace }} {
         /// <code>
         /// const {{ type }} k = {{ one }} &lt;&lt; {{ shift }};
         /// var x = k * 30 / 90;
-        /// var actual = Intar1991.Mathi.{{ m }}P{{ o }}(x);
+        /// var actual = {{ namespace }}.Mathi.{{ m }}P{{ o }}(x);
         /// var rad = 0.5 * System.Math.PI / k * x;
         /// var expected = System.Math.{{ m }}(rad);
         /// var a = (double)actual / ({{ one }} &lt;&lt; {{ 2 * shift }});

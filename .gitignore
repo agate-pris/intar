@@ -463,7 +463,7 @@ $RECYCLE.BIN/
 .bin
 
 # Ignore not needed meta files
-/LICENSE.meta
+/LICENSE.md.meta
 /package.json.meta
 /README.md.meta
 
