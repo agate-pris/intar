@@ -6,6 +6,7 @@
     <PackageProjectUrl>https://agate-pris.github.io/intar/</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/agate-pris/intar</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
     <Version>0.26.0</Version>
 
