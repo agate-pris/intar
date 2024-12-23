@@ -9,7 +9,7 @@
     <Authors>Agate Pris</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
-    <Version>0.26.0</Version>
+    <Version>0.27.0</Version>
 
     <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
     <BaseOutputPath>.bin\</BaseOutputPath>
