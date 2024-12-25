@@ -163,6 +163,32 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}.Editor",
+            "template_name": "VectorDrawer.cs",
+            "files": [
+                {%- for v in [
+                    vector_1,
+                    vector_2,
+                    vector_3,
+                    vector_4
+                ] %}
+                {%- for dim in range(start=2, end=5) %}
+                {
+                    "file_name": "Vector{{ dim }}I{{ v[0] }}F{{ v[1] }}Drawer.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "dim": {{ dim }},
+                        "int_nbits": {{ v[0] }},
+                        "frac_nbits": {{ v[1] }}
+                    }
+                }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "VectorPrimitive.cs",
             "files": [
