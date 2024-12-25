@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace Intar {
+    [Serializable]
     public struct Vector2Int64 : IEquatable<Vector2Int64> {
 
         #region Fields
