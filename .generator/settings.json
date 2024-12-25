@@ -63,6 +63,34 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}.Editor",
+            "template_name": "FixedDrawer.cs",
+            "files": [
+                {%- for signed in [true, false] %}
+                {%- for f in [
+                    fixed_1,
+                    fixed_2,
+                    fixed_3,
+                    fixed_4,
+                    fixed_5,
+                    fixed_6
+                ] %}
+                {
+                    "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}Drawer.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "signed": {{ signed }},
+                        "int_nbits": {{ f[0] }},
+                        "frac_nbits": {{ f[1] }}
+                    }
+                }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Mathi.cs",
             "files": [
