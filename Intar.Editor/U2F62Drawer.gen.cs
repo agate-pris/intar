@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Intar {
+namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(U2F62))]
     public class U2F62Drawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {

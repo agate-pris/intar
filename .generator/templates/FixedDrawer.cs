@@ -5,7 +5,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace {{ namespace }} {
+namespace {{ namespace }}.Editor {
     [CustomPropertyDrawer(typeof({{ type }}))]
     public class {{ type }}Drawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
