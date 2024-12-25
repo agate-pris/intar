@@ -22,6 +22,7 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace {{ namespace }} {
+    [Serializable]
     public struct {{ vector }} : IEquatable<{{ vector }}> {
 
         #region Fields
