@@ -1,6 +1,6 @@
 {
   "name": "dev.agate-pris.intar",
-  "version": "0.27.0",
+  "version": "0.27.1",
   "displayName": "Intar",
   "description": "An arithmetic library that uses integer arithmetic for most calculations to guarantee reproducibility, without emphasis on performance or accuracy",
   "license": "MIT",
