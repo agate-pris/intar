@@ -4,6 +4,7 @@ using System;
 using System.Runtime.CompilerServices;
 
 namespace Intar {
+    [Serializable]
     public struct Vector4UInt128 : IEquatable<Vector4UInt128> {
 
         #region Fields

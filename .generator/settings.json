@@ -63,6 +63,34 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}.Editor",
+            "template_name": "FixedDrawer.cs",
+            "files": [
+                {%- for signed in [true, false] %}
+                {%- for f in [
+                    fixed_1,
+                    fixed_2,
+                    fixed_3,
+                    fixed_4,
+                    fixed_5,
+                    fixed_6
+                ] %}
+                {
+                    "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}Drawer.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "signed": {{ signed }},
+                        "int_nbits": {{ f[0] }},
+                        "frac_nbits": {{ f[1] }}
+                    }
+                }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Mathi.cs",
             "files": [
@@ -112,6 +140,20 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}.Editor",
+            "template_name": "QuaternionDrawer.cs",
+            "files": [
+                {
+                    "file_name": "QuaternionI2F30Drawer.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "int_nbits": 2,
+                        "frac_nbits": 30
+                    }
+                }
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Vector.cs",
             "files": [
@@ -132,6 +174,32 @@
                 { "file_name": "Vector{{ dim }}Bool.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ dim }} } }
     {%- if not loop.last %},{% endif %}
 {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}.Editor",
+            "template_name": "VectorDrawer.cs",
+            "files": [
+                {%- for v in [
+                    vector_1,
+                    vector_2,
+                    vector_3,
+                    vector_4
+                ] %}
+                {%- for dim in range(start=2, end=5) %}
+                {
+                    "file_name": "Vector{{ dim }}I{{ v[0] }}F{{ v[1] }}Drawer.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "dim": {{ dim }},
+                        "int_nbits": {{ v[0] }},
+                        "frac_nbits": {{ v[1] }}
+                    }
+                }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         },
         {
