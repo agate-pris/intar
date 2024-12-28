@@ -156,5 +156,13 @@ namespace {{ namespace }} {
             return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
         }
         #endregion
+        #region DecomposeScale
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ translation }} DecomposeScale() => new {{ translation }}(
+            {%- for i in range(end=3) %}
+            {{ component }}.UncheckedFrom(RotationScale.C{{ i }}.Length()){% if not loop.last %},{% endif %}
+            {%- endfor %}
+        );
+        #endregion
     }
 } // namespace {{ namespace }}
