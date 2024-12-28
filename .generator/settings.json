@@ -60,6 +60,13 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}/Geometry",
+            "template_name": "Circle.cs",
+            "files": [
+                { "file_name": "Circle2I17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Fixed.cs",
             "files": [
