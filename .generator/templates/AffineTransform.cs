@@ -1,12 +1,11 @@
 {% import "macros.cs" as macros %}
-{%- set type = 'AffineTransformI' ~ int_nbits ~ 'F' ~ frac_nbits %}
 {%- set component = macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) %}
 {%- set rotation = macros::quaternion(i=int_nbits-frac_nbits, f=2*frac_nbits) %}
-{%- set rotation_scale = macros::matrix_type(r=3, c=3, type=component) %}
-{%- set translation = macros::vector_type(dim=3, type=component) %}
+{%- set rotation_scale = macros::matrix_type(r=dim, c=dim, type=component) %}
+{%- set translation = macros::vector_type(dim=dim, type=component) %}
 {%- set bits = int_nbits + frac_nbits %}
 {%- set components = ['X', 'Y', 'Z', 'W'] %}
-{#- -#}
+{%- set type = 'AffineTransform' ~ dim ~ component -%}
 using System;
 using System.Runtime.CompilerServices;
 
@@ -68,12 +67,12 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Matrix4x4({{ type }} a) {
             return new System.Numerics.Matrix4x4(
-                {%- for i in range(end=3) %}
-                {% for j in range(end=3) -%}
+                {%- for i in range(end=dim) %}
+                {% for j in range(end=dim) -%}
                 a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
                 {%- endfor -%}0,
                 {%- endfor %}
-                {% for i in range(end=3) -%}
+                {% for i in range(end=dim) -%}
                 a.Translation.{{ components[i] }}.LossyToSingle(), {# #}
                 {%- endfor %}1
             );
@@ -83,14 +82,14 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
             return new UnityEngine.Matrix4x4(
-                {%- for i in range(end=3) %}
+                {%- for i in range(end=dim) %}
                 new UnityEngine.Vector4(
-                {%- for j in range(end=3) -%}
+                {%- for j in range(end=dim) -%}
                 a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
                 {%- endfor -%}0),
                 {%- endfor %}
                 new UnityEngine.Vector4(
-                {%- for i in range(end=3) -%}
+                {%- for i in range(end=dim) -%}
                 a.Translation.{{ components[i] }}.LossyToSingle(), {# #}
                 {%- endfor %}1)
             );
@@ -101,8 +100,8 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float4x4({{ type }} a) {
             return new Unity.Mathematics.float4x4(
-                {%- for i in range(end=3) %}
-                {% for j in range(end=3) -%}
+                {%- for i in range(end=dim) %}
+                {% for j in range(end=dim) -%}
                 a.RotationScale.C{{ j }}.{{ components[i] }}.LossyToSingle(), {# #}
                 {%- endfor -%}
                 a.Translation.{{ components[i] }}.LossyToSingle(),
@@ -149,8 +148,8 @@ namespace {{ namespace }} {
             // 小数部の精度が大きいまま更にスケールを乗算すると
             // オーバーフローを引き起こすため,
             // 素直に一度小数部の精度を減らしてから乗算する.
-            var r = ({{ macros::matrix_type(r=3, c=3, type=macros::fixed_type(s=true, i=2, f=2*frac_nbits)) }})rotation;
-            {%- for i in range(end=3) %}
+            var r = ({{ macros::matrix_type(r=dim, c=dim, type=macros::fixed_type(s=true, i=2, f=2*frac_nbits)) }})rotation;
+            {%- for i in range(end=dim) %}
             var c{{ i }} = new {{ translation }}((Vector3Int{{ bits }})(r.C{{ i }}.Repr.BigMul(scale.Repr.{{ components[i] }}) / (1 << {{ 2 * frac_nbits }})));
             {%- endfor %}
             return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
@@ -159,7 +158,7 @@ namespace {{ namespace }} {
         #region DecomposeScale
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ translation }} DecomposeScale() => new {{ translation }}(
-            {%- for i in range(end=3) %}
+            {%- for i in range(end=dim) %}
             {{ component }}.UncheckedFrom(RotationScale.C{{ i }}.Length()){% if not loop.last %},{% endif %}
             {%- endfor %}
         );
