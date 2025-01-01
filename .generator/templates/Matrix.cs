@@ -162,11 +162,38 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Conversions
-        {%- if rows == 3 and cols == 3 %}
+        {%- if rows == 3 and cols == 2 or rows == 2 and cols == 3 %}
+
+        // System.Numerics.Matrix3x2 への変換は
+        // 行優先・列優先の違いによる混乱を防ぐため定義しない.
+        {%- endif %}
+        {%- if rows == 4 and cols == 4 %}
+
+        // System.Numerics.Matrix4x4 への変換は
+        // 行優先・列優先の違いによる混乱を防ぐため定義しない.
+
+#if UNITY_5_3_OR_NEWER
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
+            return new UnityEngine.Matrix4x4(
+                {%- for i in range(end=3) %}
+                new UnityEngine.Vector4(
+                {%- for j in range(end=3) -%}
+                a.C{{ j }}.{{ components[i] }}.LossyToSingle(), {# #}
+                {%- endfor -%}0),
+                {%- endfor %}
+                new UnityEngine.Vector4(
+                {%- for i in range(end=3) -%}
+                a.C3.{{ components[i] }}.LossyToSingle(), {# #}
+                {%- endfor %}1)
+            );
+        }
+#endif // UNITY_5_3_OR_NEWER
+        {%- endif %}
 #if UNITY_2018_1_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Unity.Mathematics.float3x3({{ type }} a) {
-            return new Unity.Mathematics.float3x3(
+        public static explicit operator Unity.Mathematics.float{{ rows }}x{{ cols }}({{ type }} a) {
+            return new Unity.Mathematics.float{{ rows }}x{{ cols }}(
                 {%- for i in range(end=rows) %}
                 {% for j in range(end=cols) -%}
                 a.C{{ j }}.{{ components[i] }}.LossyToSingle(){% if not loop.last %}, {% endif %}
@@ -176,7 +203,6 @@ namespace {{ namespace }} {
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
-        {%- endif %}
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         {%- for o in ['+', '-'] %}
@@ -191,6 +217,9 @@ namespace {{ namespace }} {
         {%- endfor %}
         #endregion
         #region IMultiplyOperators
+        {%- if rows != cols %}
+        {{ throw(message='Matrix product for rows != cols is not implemented.') }}
+        {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} operator *({{ type }} left, {{ type }} right) {
             return new {{ type }}(
@@ -235,6 +264,8 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        {%- else %}
+        {{ throw(message='Transpose for rows != cols is not implemented.') }}
         {%- endif %}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
