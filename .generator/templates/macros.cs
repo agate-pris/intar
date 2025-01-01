@@ -42,3 +42,7 @@
 {%- macro quaternion(i, f) -%}
     QuaternionI{{ i }}F{{ f }}
 {%- endmacro -%}
+
+{%- macro matrix_type(r, c, type) -%}
+    Matrix{{ r }}x{{ c }}{{ type }}
+{%- endmacro -%}
