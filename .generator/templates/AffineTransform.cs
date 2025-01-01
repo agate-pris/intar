@@ -2,7 +2,7 @@
 {%- set type = 'AffineTransformI' ~ int_nbits ~ 'F' ~ frac_nbits %}
 {%- set component = macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) %}
 {%- set rotation = macros::quaternion(i=int_nbits-frac_nbits, f=2*frac_nbits) %}
-{%- set rotation_scale = 'Matrix3x3I' ~ int_nbits ~ 'F' ~ frac_nbits %}
+{%- set rotation_scale = macros::matrix_type(r=3, c=3, type=component) %}
 {%- set translation = macros::vector_type(dim=3, type=component) %}
 {%- set bits = int_nbits + frac_nbits %}
 {%- set components = ['X', 'Y', 'Z', 'W'] %}
@@ -149,7 +149,7 @@ namespace {{ namespace }} {
             // 小数部の精度が大きいまま更にスケールを乗算すると
             // オーバーフローを引き起こすため,
             // 素直に一度小数部の精度を減らしてから乗算する.
-            var r = (Matrix3x3I{{ int_nbits-frac_nbits }}F{{ 2*frac_nbits}})rotation;
+            var r = ({{ macros::matrix_type(r=3, c=3, type=macros::fixed_type(s=true, i=2, f=2*frac_nbits)) }})rotation;
             {%- for i in range(end=3) %}
             var c{{ i }} = new {{ translation }}((Vector3Int{{ bits }})(r.C{{ i }}.Repr.BigMul(scale.Repr.{{ components[i] }}) / (1 << {{ 2 * frac_nbits }})));
             {%- endfor %}
