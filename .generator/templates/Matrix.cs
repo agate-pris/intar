@@ -16,9 +16,7 @@
 {%- set angle_3  = macros::vector_type(dim=3,    type=angle    ) %}
 {%- set col_repr = macros::vector_primitive(signed=true, dim=rows, bits=bits) %}
 {%- set row_repr = macros::vector_primitive(signed=true, dim=cols, bits=bits) %}
-{%- if signed %}{%- set type = 'Matrix' ~ rows ~ 'x' ~ cols ~ 'I' ~ int_nbits ~ 'F' ~ frac_nbits %}
-{%- else %}     {%- set type = 'Matrix' ~ rows ~ 'x' ~ cols ~ 'U' ~ int_nbits ~ 'F' ~ frac_nbits %}
-{%- endif %}
+{%- set type = macros::matrix_type(r=rows, c=cols, type=component) %}
 {%- set components = ['X', 'Y', 'Z', 'W'] %}
 {%- set one = macros::one(signed=signed, bits=bits) %}
 {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
