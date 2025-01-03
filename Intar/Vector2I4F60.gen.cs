@@ -237,10 +237,10 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I8F120 UncheckedDot(Vector2I4F60 other) {
+        public I8F120 Dot(Vector2I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));
         }
 

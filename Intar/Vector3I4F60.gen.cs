@@ -244,7 +244,7 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I8F120 Cross(Vector3I4F60 other) {
@@ -253,7 +253,7 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I8F120 UncheckedDot(Vector3I4F60 other) {
+        public I8F120 Dot(Vector3I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));
         }
 

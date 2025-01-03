@@ -142,19 +142,19 @@ namespace Intar {
         public static Matrix3x3I17F15 operator *(Matrix3x3I17F15 left, Matrix3x3I17F15 right) {
             return new Matrix3x3I17F15(
                 new Vector3I17F15(
-                    I17F15.UncheckedLossyFrom(left.R0.UncheckedDot(right.C0)),
-                    I17F15.UncheckedLossyFrom(left.R1.UncheckedDot(right.C0)),
-                    I17F15.UncheckedLossyFrom(left.R2.UncheckedDot(right.C0))
+                    I17F15.UncheckedLossyFrom(left.R0.Dot(right.C0)),
+                    I17F15.UncheckedLossyFrom(left.R1.Dot(right.C0)),
+                    I17F15.UncheckedLossyFrom(left.R2.Dot(right.C0))
                 ),
                 new Vector3I17F15(
-                    I17F15.UncheckedLossyFrom(left.R0.UncheckedDot(right.C1)),
-                    I17F15.UncheckedLossyFrom(left.R1.UncheckedDot(right.C1)),
-                    I17F15.UncheckedLossyFrom(left.R2.UncheckedDot(right.C1))
+                    I17F15.UncheckedLossyFrom(left.R0.Dot(right.C1)),
+                    I17F15.UncheckedLossyFrom(left.R1.Dot(right.C1)),
+                    I17F15.UncheckedLossyFrom(left.R2.Dot(right.C1))
                 ),
                 new Vector3I17F15(
-                    I17F15.UncheckedLossyFrom(left.R0.UncheckedDot(right.C2)),
-                    I17F15.UncheckedLossyFrom(left.R1.UncheckedDot(right.C2)),
-                    I17F15.UncheckedLossyFrom(left.R2.UncheckedDot(right.C2))
+                    I17F15.UncheckedLossyFrom(left.R0.Dot(right.C2)),
+                    I17F15.UncheckedLossyFrom(left.R1.Dot(right.C2)),
+                    I17F15.UncheckedLossyFrom(left.R2.Dot(right.C2))
                 )
             );
         }

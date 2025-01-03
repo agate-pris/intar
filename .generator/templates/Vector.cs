@@ -320,7 +320,7 @@ namespace {{ namespace }} {
 #if NET7_0_OR_GREATER
         {%- endif %}
 
-        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -331,7 +331,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ vector }} other) {
+        public {{ wide_component }} Dot({{ vector }} other) {
             return {{ wide_component }}.FromBits(Repr.Dot(other.Repr));
         }
 
