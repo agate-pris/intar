@@ -134,13 +134,13 @@ namespace Intar {
             return new AffineTransform3I17F15(new Matrix3x3I17F15(c0, c1, c2), translation);
         }
         #endregion
-        #region DecomposeScale
+        #region DecomposeScaleX, DecomposeScaleY, DecomposeScaleZ
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3I17F15 DecomposeScale() => new Vector3I17F15(
-            I17F15.UncheckedFrom(RotationScale.C0.Length()),
-            I17F15.UncheckedFrom(RotationScale.C1.Length()),
-            I17F15.UncheckedFrom(RotationScale.C2.Length())
-        );
+        public U17F15 DecomposeScaleX() => RotationScale.C0.Length();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 DecomposeScaleY() => RotationScale.C1.Length();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 DecomposeScaleZ() => RotationScale.C2.Length();
         #endregion
     }
 } // namespace Intar
