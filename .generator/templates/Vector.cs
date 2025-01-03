@@ -340,9 +340,7 @@ namespace {{ namespace }} {
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component_u }} {%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}LengthSquared() => {{
+        public {{ wide_component_u }} LengthSquared() => {{
             wide_component_u
         }}.FromBits(Repr.LengthSquared());
 
