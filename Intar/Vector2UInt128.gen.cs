@@ -307,7 +307,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Bool IsNegative() {
@@ -316,6 +316,13 @@ namespace Intar {
 
         // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2UInt128 AbsDiff(Vector2UInt128 other) {
+            return new Vector2UInt128(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp

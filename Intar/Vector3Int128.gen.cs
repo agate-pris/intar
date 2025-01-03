@@ -320,7 +320,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Bool IsNegative() {
@@ -351,6 +351,14 @@ namespace Intar {
             return (isNegative, unsignedAbs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt128 AbsDiff(Vector3Int128 other) {
+            return new Vector3UInt128(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y),
+                Mathi.AbsDiff(Z, other.Z)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp

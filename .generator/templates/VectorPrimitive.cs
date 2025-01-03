@@ -301,7 +301,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative{% if signed %}, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs{% endif %}, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector_b }} IsNegative() {
@@ -350,6 +350,14 @@ namespace {{ namespace }} {
 
         {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector_u }} AbsDiff({{ vector }} other) {
+            return new {{ vector_u }}(
+                {%- for c in components %}
+                Mathi.AbsDiff({{ c }}, other.{{ c }}){% if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
