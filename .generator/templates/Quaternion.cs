@@ -226,7 +226,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ quaternion }}? Inverse() {
-            var lengthSquared = UncheckedLengthSquared();
+            var lengthSquared = LengthSquared();
             if (lengthSquared == {{ wide_component_u }}.Zero) {
                 return null;
             }
@@ -240,7 +240,7 @@ namespace {{ namespace }} {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component_u }} UncheckedLengthSquared() {
+        public {{ wide_component_u }} LengthSquared() {
             return {{ wide_component_u }}.FromBits(Repr.LengthSquared());
         }
 
