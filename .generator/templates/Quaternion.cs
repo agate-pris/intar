@@ -235,7 +235,7 @@ namespace {{ namespace }} {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ quaternion }} other) {
+        public {{ wide_component }} Dot({{ quaternion }} other) {
             return {{ wide_component }}.FromBits(Repr.Dot(other.Repr));
         }
 
@@ -264,14 +264,14 @@ namespace {{ namespace }} {
         public {{ quaternion }} UncheckedLerp({{ quaternion }} other, {{ time }} t) {
             var a = Repr.BigMul(({{ time }}.One - t).Bits);
             var b = other.Repr.BigMul(t.Bits);
-            var dot = UncheckedDot(other);
+            var dot = Dot(other);
             a = (dot.Bits < 0) ? (a - b) : (a + b);
             var q = new {{ quaternion }}(({{ repr }})(a / {{ time }}.OneRepr));
             return q.Normalize().Value;
         }
 
         public {{ quaternion }} UncheckedSlerp({{ quaternion }} other, {{ time }} t) {
-            var dot = UncheckedDot(other);
+            var dot = Dot(other);
             if (dot.Bits < 0) {
                 dot = -dot;
                 other.Repr = -other.Repr;
