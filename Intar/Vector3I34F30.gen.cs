@@ -244,7 +244,7 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, Dot, LengthSquared, (Unchecked)Length
+        #region Cross, Dot, LengthSquared, Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I68F60 Cross(Vector3I34F30 other) {

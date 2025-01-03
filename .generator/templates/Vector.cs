@@ -320,7 +320,7 @@ namespace {{ namespace }} {
 #if NET7_0_OR_GREATER
         {%- endif %}
 
-        #region Cross, Dot, LengthSquared, (Unchecked)Length
+        #region Cross, Dot, LengthSquared, Length
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -349,9 +349,7 @@ namespace {{ namespace }} {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component_u }} {%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}Length() => {{ component_u }}.FromBits(Repr.Length());
+        public {{ component_u }} Length() => {{ component_u }}.FromBits(Repr.Length());
 
         #endregion
 
