@@ -468,7 +468,7 @@ namespace {{ namespace }} {
 
         {%- if bits < 128 %}
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -493,7 +493,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ vector }} other) {
+        public {{ wide_component }} Dot({{ vector }} other) {
             return BigMul(other).ComponentsSum();
         }
 

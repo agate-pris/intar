@@ -392,7 +392,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
 
 #if NET7_0_OR_GREATER
 
@@ -405,7 +405,7 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Int128 UncheckedDot(Vector2Int64 other) {
+        public Int128 Dot(Vector2Int64 other) {
             return BigMul(other).ComponentsSum();
         }
 

@@ -245,7 +245,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 UncheckedDot(Vector4I17F15 other) {
-            return I34F30.FromBits(Repr.UncheckedDot(other.Repr));
+            return I34F30.FromBits(Repr.Dot(other.Repr));
         }
 
         /// <summary>
