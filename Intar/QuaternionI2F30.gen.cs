@@ -206,7 +206,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI2F30? Inverse() {
-            var lengthSquared = UncheckedLengthSquared();
+            var lengthSquared = LengthSquared();
             if (lengthSquared == U4F60.Zero) {
                 return null;
             }
@@ -220,7 +220,7 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60 UncheckedLengthSquared() {
+        public U4F60 LengthSquared() {
             return U4F60.FromBits(Repr.LengthSquared());
         }
 
