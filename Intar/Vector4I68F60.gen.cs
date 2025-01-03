@@ -8,19 +8,21 @@ namespace Intar {
     public struct Vector4I68F60
     : IEquatable<Vector4I68F60>
     , IFormattable {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector4Int128 Repr;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #endregion
 
+        #endregion
         #region Components
         public I68F60 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -47,14 +49,15 @@ namespace Intar {
             set => Repr.W = value.Bits;
         }
         #endregion
-
+        #region Indexer
         public I68F60 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I68F60.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr[index] = value.Bits;
         }
-
+        #endregion
+        #region Conversion
         public static explicit operator System.Numerics.Vector4(Vector4I68F60 a) {
             return (System.Numerics.Vector4)a.Repr / (float)I68F60.OneRepr;
         }
@@ -71,8 +74,8 @@ namespace Intar {
         }
 #endif
 
-        #region Constructors
-
+        #endregion
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I68F60(Vector4Int128 repr) {
             Repr = repr;
@@ -83,123 +86,89 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60(I68F60 value) : this(value, value, value, value) { }
-
         #endregion
-
         #region Zero, One, UnitX, UnitY, UnitZ, UnitW
-
         public static readonly Vector4I68F60 Zero = new Vector4I68F60(I68F60.Zero);
         public static readonly Vector4I68F60 One = new Vector4I68F60(I68F60.One);
         public static readonly Vector4I68F60 UnitX = new Vector4I68F60(I68F60.One, I68F60.Zero, I68F60.Zero, I68F60.Zero);
         public static readonly Vector4I68F60 UnitY = new Vector4I68F60(I68F60.Zero, I68F60.One, I68F60.Zero, I68F60.Zero);
         public static readonly Vector4I68F60 UnitZ = new Vector4I68F60(I68F60.Zero, I68F60.Zero, I68F60.One, I68F60.Zero);
         public static readonly Vector4I68F60 UnitW = new Vector4I68F60(I68F60.Zero, I68F60.Zero, I68F60.Zero, I68F60.One);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I68F60 operator +(Vector4I68F60 a, Vector4I68F60 b) {
             return new Vector4I68F60(a.Repr + b.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I68F60 operator -(Vector4I68F60 a, Vector4I68F60 b) {
             return new Vector4I68F60(a.Repr - b.Repr);
         }
-
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I68F60 operator +(Vector4I68F60 x) {
             return new Vector4I68F60(+x.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I68F60 operator -(Vector4I68F60 x) {
             return new Vector4I68F60(-x.Repr);
         }
-
         #endregion
-
         #region IEqualityOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator ==(Vector4I68F60 lhs, Vector4I68F60 rhs) => lhs.Repr == rhs.Repr;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4I68F60 lhs, Vector4I68F60 rhs) => lhs.Repr != rhs.Repr;
-
         #endregion
-
-        public Vector4Bool IsNegative() => Repr.IsNegative();
-
         #region Object
-
         public override bool Equals(object obj) => obj is Vector4I68F60 o && Equals(o);
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Repr.GetHashCode();
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}, {Z}, {W}>";
-
         #endregion
-
         #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4I68F60 other) {
             return Repr.Equals(other.Repr);
         }
         #endregion
-
         #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)}, {W.ToString(format, formatProvider)}>";
         }
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Min(Vector4I68F60 other) {
             return new Vector4I68F60(Repr.Min(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Max(Vector4I68F60 other) {
             return new Vector4I68F60(Repr.Max(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Clamp(I68F60 min, I68F60 max) {
             return new Vector4I68F60(Repr.Clamp(min.Bits, max.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Clamp(Vector4I68F60 min, Vector4I68F60 max) {
             return new Vector4I68F60(Repr.Clamp(min.Repr, max.Repr));
         }
-
         #endregion
-
+        #region IsNegative, Abs
+        public Vector4Bool IsNegative() => Repr.IsNegative();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I68F60 Abs() => new Vector4I68F60(Repr.Abs());
-
+        #endregion
         #region Half, Twice
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I68F60 Half() => new Vector4I68F60(Repr.Half());
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I68F60 Twice() => new Vector4I68F60(Repr.Twice());
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -540,9 +509,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I68F60 WWWY() => new Vector4I68F60(Repr.WWWY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I68F60 WWWZ() => new Vector4I68F60(Repr.WWWZ());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I68F60 WWWW() => new Vector4I68F60(Repr.WWWW());
-
         #endregion
-
     }
 } // namespace Intar
 

@@ -6,28 +6,27 @@ namespace Intar {
     public struct Vector4I2F30
     : IEquatable<Vector4I2F30>
     , IFormattable {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector4Int32 Repr;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
         #region WideRepr
-
         internal Vector4Int64 WideRepr {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Repr;
         }
-
         #endregion
-
         #region Components
         public I2F30 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,14 +53,15 @@ namespace Intar {
             set => Repr.W = value.Bits;
         }
         #endregion
-
+        #region Indexer
         public I2F30 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I2F30.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr[index] = value.Bits;
         }
-
+        #endregion
+        #region Conversion
         public static explicit operator System.Numerics.Vector4(Vector4I2F30 a) {
             return (System.Numerics.Vector4)a.Repr / I2F30.OneRepr;
         }
@@ -78,8 +78,8 @@ namespace Intar {
         }
 #endif
 
-        #region Constructors
-
+        #endregion
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I2F30(Vector4Int32 repr) {
             Repr = repr;
@@ -90,159 +90,116 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30(I2F30 value) : this(value, value, value, value) { }
-
         #endregion
-
         #region Zero, One, UnitX, UnitY, UnitZ, UnitW
-
         public static readonly Vector4I2F30 Zero = new Vector4I2F30(I2F30.Zero);
         public static readonly Vector4I2F30 One = new Vector4I2F30(I2F30.One);
         public static readonly Vector4I2F30 UnitX = new Vector4I2F30(I2F30.One, I2F30.Zero, I2F30.Zero, I2F30.Zero);
         public static readonly Vector4I2F30 UnitY = new Vector4I2F30(I2F30.Zero, I2F30.One, I2F30.Zero, I2F30.Zero);
         public static readonly Vector4I2F30 UnitZ = new Vector4I2F30(I2F30.Zero, I2F30.Zero, I2F30.One, I2F30.Zero);
         public static readonly Vector4I2F30 UnitW = new Vector4I2F30(I2F30.Zero, I2F30.Zero, I2F30.Zero, I2F30.One);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator +(Vector4I2F30 a, Vector4I2F30 b) {
             return new Vector4I2F30(a.Repr + b.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator -(Vector4I2F30 a, Vector4I2F30 b) {
             return new Vector4I2F30(a.Repr - b.Repr);
         }
-
         #endregion
-
         #region IMultiplyOperators, IDivisionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator *(Vector4I2F30 a, Vector4I2F30 b) {
             return new Vector4I2F30((Vector4Int32)(a.WideRepr * b.WideRepr / I2F30.OneRepr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator *(Vector4I2F30 a, I2F30 b) {
             return new Vector4I2F30((Vector4Int32)(a.WideRepr * b.Bits / I2F30.OneRepr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator *(I2F30 a, Vector4I2F30 b) {
             return b * a;
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator /(Vector4I2F30 a, Vector4I2F30 b) {
             return new Vector4I2F30((Vector4Int32)(a.WideRepr * I2F30.OneRepr / b.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator /(Vector4I2F30 a, I2F30 b) {
             return new Vector4I2F30((Vector4Int32)(a.WideRepr * I2F30.OneRepr / b.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator /(I2F30 a, Vector4I2F30 b) {
             return new Vector4I2F30((Vector4Int32)(a.WideBits * I2F30.OneRepr / b.WideRepr));
         }
-
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator +(Vector4I2F30 x) {
             return new Vector4I2F30(+x.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I2F30 operator -(Vector4I2F30 x) {
             return new Vector4I2F30(-x.Repr);
         }
-
         #endregion
-
         #region IEqualityOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator ==(Vector4I2F30 lhs, Vector4I2F30 rhs) => lhs.Repr == rhs.Repr;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Bool operator !=(Vector4I2F30 lhs, Vector4I2F30 rhs) => lhs.Repr != rhs.Repr;
-
         #endregion
-
-        public Vector4Bool IsNegative() => Repr.IsNegative();
-
         #region Object
-
         public override bool Equals(object obj) => obj is Vector4I2F30 o && Equals(o);
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Repr.GetHashCode();
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}, {Z}, {W}>";
-
         #endregion
-
         #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4I2F30 other) {
             return Repr.Equals(other.Repr);
         }
         #endregion
-
         #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)}, {W.ToString(format, formatProvider)}>";
         }
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Min(Vector4I2F30 other) {
             return new Vector4I2F30(Repr.Min(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Max(Vector4I2F30 other) {
             return new Vector4I2F30(Repr.Max(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Clamp(I2F30 min, I2F30 max) {
             return new Vector4I2F30(Repr.Clamp(min.Bits, max.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Clamp(Vector4I2F30 min, Vector4I2F30 max) {
             return new Vector4I2F30(Repr.Clamp(min.Repr, max.Repr));
         }
-
         #endregion
-
+        #region IsNegative, Abs
+        public Vector4Bool IsNegative() => Repr.IsNegative();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4I2F30 Abs() => new Vector4I2F30(Repr.Abs());
-
+        #endregion
         #region Half, Twice
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I2F30 Half() => new Vector4I2F30(Repr.Half());
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I2F30 Twice() => new Vector4I2F30(Repr.Twice());
-
         #endregion
-
         #region Cross, Dot, LengthSquared, Length
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 Dot(Vector4I2F30 other) {
             return I4F60.FromBits(Repr.Dot(other.Repr));
@@ -261,9 +218,8 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U2F30 Length() => U2F30.FromBits(Repr.Length());
-
         #endregion
-
+        #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector4Int32? Normalize(Vector4Int32 v) {
 
@@ -307,7 +263,7 @@ namespace Intar {
             }
             return new Vector4I2F30(tmp.Value);
         }
-
+        #endregion
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -648,8 +604,6 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I2F30 WWWY() => new Vector4I2F30(Repr.WWWY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I2F30 WWWZ() => new Vector4I2F30(Repr.WWWZ());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I2F30 WWWW() => new Vector4I2F30(Repr.WWWW());
-
         #endregion
-
     }
 } // namespace Intar

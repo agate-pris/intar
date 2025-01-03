@@ -30,27 +30,27 @@ namespace {{ namespace }} {
     public struct {{ vector }}
     : IEquatable<{{ vector }}>
     , IFormattable {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public {{ repr }} Repr;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
         {%- if int_nbits+frac_nbits < 128 %}
-
         #region WideRepr
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         internal {{ wide_repr }} WideRepr {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Repr;
@@ -58,11 +58,9 @@ namespace {{ namespace }} {
         {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         #endregion
         {%- endif %}
-
         #region Components
         {%- for c in components %}
         public {{ component }} {{ c }} {
@@ -73,14 +71,15 @@ namespace {{ namespace }} {
         }
         {%- endfor %}
         #endregion
-
+        #region Indexer
         public {{ component }} this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => {{ component }}.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr[index] = value.Bits;
         }
-
+        #endregion
+        #region Conversion
         public static explicit operator System.Numerics.Vector{{ dim }}({{ vector }} a) {
             return (System.Numerics.Vector{{ dim }})a.Repr / {%
                 if int_nbits+frac_nbits > 64 %}(float){%
@@ -108,8 +107,8 @@ namespace {{ namespace }} {
         }
 #endif
 
-        #region Constructors
-
+        #endregion
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal {{ vector }}({{ repr }} repr) {
             Repr = repr;
@@ -132,11 +131,8 @@ namespace {{ namespace }} {
             value{% if not loop.last %}, {% endif %}
             {%- endfor -%}
         ) { }
-
         #endregion
-
         #region Zero, One, {% for c in components %}Unit{{ c }}{% if not loop.last %}, {% endif %}{% endfor %}
-
         public static readonly {{ vector }} Zero = new {{ vector }}({{ component }}.Zero);
         public static readonly {{ vector }} One = new {{ vector }}({{ component }}.One);
         {%- for i in range(end=dim) %}
@@ -149,55 +145,41 @@ namespace {{ namespace }} {
             {%- endfor -%}
         );
         {%- endfor %}
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators
-
         {%- for o in ['+', '-'] %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator {{ o }}({{ vector }} a, {{ vector }} b) {
             return new {{ vector }}(a.Repr {{ o }} b.Repr);
         }
-
         {%- endfor %}
-
         #endregion
-
         {%- if int_nbits+frac_nbits < 128 %}
-
         #region IMultiplyOperators, IDivisionOperators
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator *({{ vector }} a, {{ vector }} b) {
             return new {{ vector }}(({{ repr }})(a.WideRepr * b.WideRepr / {{ component }}.OneRepr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator *({{ vector }} a, {{component}} b) {
             return new {{ vector }}(({{ repr }})(a.WideRepr * b.Bits / {{ component }}.OneRepr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator *({{ component }} a, {{ vector }} b) {
             return b * a;
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator /({{ vector }} a, {{ vector }} b) {
             return new {{ vector }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator /({{ vector }} a, {{ component }} b) {
             return new {{ vector }}(({{ repr }})(a.WideRepr * {{ component }}.OneRepr / b.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator /({{ component }} a, {{ vector }} b) {
             return new {{ vector }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
@@ -205,67 +187,49 @@ namespace {{ namespace }} {
         {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         #endregion
         {%- endif %}
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator +({{ vector }} x) {
             return new {{ vector }}(+x.Repr);
         }
-
         {%- if not signed %}
 
         // 単項マイナス演算子は符号ありの場合のみ定義される
-        {%- else %}
 
+        {% else %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator -({{ vector }} x) {
             return new {{ vector }}(-x.Repr);
         }
-
-        {%- endif %}
-
+        {% endif -%}
         #endregion
-
         #region IEqualityOperators
         {%- for o in ['==', '!='] %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector_b }} operator {{ o
         }}({{ vector }} lhs, {{ vector }} rhs) => lhs.Repr {{ o }} rhs.Repr;
         {%- endfor %}
-
         #endregion
-
-        public {{ vector_b }} IsNegative() => Repr.IsNegative();
-
         #region Object
-
         public override bool Equals(object obj) => obj is {{ vector }} o && Equals(o);
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Repr.GetHashCode();
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<
             {%- for c in components -%}
                 { {{- c -}} } {%- if not loop.last %}, {% endif %}
             {%- endfor -%}
         >";
-
         #endregion
-
         #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals({{ vector }} other) {
             return Repr.Equals(other.Repr);
         }
         #endregion
-
         #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
@@ -276,60 +240,48 @@ namespace {{ namespace }} {
             >";
         }
         #endregion
-
         #region Min, Max, Clamp
         {%- for m in ['Min', 'Max'] %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} {{ m }}({{ vector }} other) {
             return new {{ vector }}(Repr.{{ m }}(other.Repr));
         }
         {%- endfor %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Clamp({{ component }} min, {{ component }} max) {
             return new {{ vector }}(Repr.Clamp(min.Bits, max.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Clamp({{ vector }} min, {{ vector }} max) {
             return new {{ vector }}(Repr.Clamp(min.Repr, max.Repr));
         }
-
         #endregion
-
+        #region IsNegative{% if signed %}, Abs{% endif %}
+        public {{ vector_b }} IsNegative() => Repr.IsNegative();
         {%- if signed %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Abs() => new {{ vector }}(Repr.Abs());
-
         {%- endif %}
-
+        #endregion
         #region Half, Twice
         {%- for m in ['Half', 'Twice'] %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal {{ vector }} {{ m }}() => new {{ vector }}(Repr.{{ m }}());
         {%- endfor %}
-
         #endregion
-
         {%- if int_nbits+frac_nbits < 128 %}
         {%- if int_nbits+frac_nbits > 32 %}
 
 #if NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         #region Cross, Dot, LengthSquared, Length
         {%- if signed and dim == 3 %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
             var tmp = Repr.Cross(other.Repr);
             return new {{ wide_vector }}(tmp);
         }
         {%- endif %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} Dot({{ vector }} other) {
             return {{ wide_component }}.FromBits(Repr.Dot(other.Repr));
@@ -350,9 +302,8 @@ namespace {{ namespace }} {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ component_u }} Length() => {{ component_u }}.FromBits(Repr.Length());
-
         #endregion
-
+        #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static {{ repr }}? Normalize({{ repr }} v) {
             {%- if signed %}
@@ -404,16 +355,15 @@ namespace {{ namespace }} {
             }
             return new {{ vector }}(tmp.Value);
         }
+        #endregion
         {%- if int_nbits+frac_nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
+{% endif %}
         {%- endif %}
-        {%- endif %}
-
         {%- if signed
             and int_nbits + frac_nbits < 128
             and int_nbits - frac_nbits == 2 %}
-
         #region Sin/Cos
         {%- for m in ['Sin', 'Cos'] %}
         {%- for o in [2, 3, 4, 5, 10, 11] %}
@@ -433,7 +383,6 @@ namespace {{ namespace }} {
 
         #endregion
         {%- endif %}
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -465,9 +414,7 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
-
         #endregion
-
     }
 } // namespace {{ namespace }}
 

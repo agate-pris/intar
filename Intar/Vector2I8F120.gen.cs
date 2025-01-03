@@ -8,19 +8,21 @@ namespace Intar {
     public struct Vector2I8F120
     : IEquatable<Vector2I8F120>
     , IFormattable {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector2Int128 Repr;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #endregion
 
+        #endregion
         #region Components
         public I8F120 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -35,14 +37,15 @@ namespace Intar {
             set => Repr.Y = value.Bits;
         }
         #endregion
-
+        #region Indexer
         public I8F120 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I8F120.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr[index] = value.Bits;
         }
-
+        #endregion
+        #region Conversion
         public static explicit operator System.Numerics.Vector2(Vector2I8F120 a) {
             return (System.Numerics.Vector2)a.Repr / (float)I8F120.OneRepr;
         }
@@ -59,8 +62,8 @@ namespace Intar {
         }
 #endif
 
-        #region Constructors
-
+        #endregion
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector2I8F120(Vector2Int128 repr) {
             Repr = repr;
@@ -71,121 +74,87 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I8F120(I8F120 value) : this(value, value) { }
-
         #endregion
-
         #region Zero, One, UnitX, UnitY
-
         public static readonly Vector2I8F120 Zero = new Vector2I8F120(I8F120.Zero);
         public static readonly Vector2I8F120 One = new Vector2I8F120(I8F120.One);
         public static readonly Vector2I8F120 UnitX = new Vector2I8F120(I8F120.One, I8F120.Zero);
         public static readonly Vector2I8F120 UnitY = new Vector2I8F120(I8F120.Zero, I8F120.One);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I8F120 operator +(Vector2I8F120 a, Vector2I8F120 b) {
             return new Vector2I8F120(a.Repr + b.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I8F120 operator -(Vector2I8F120 a, Vector2I8F120 b) {
             return new Vector2I8F120(a.Repr - b.Repr);
         }
-
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I8F120 operator +(Vector2I8F120 x) {
             return new Vector2I8F120(+x.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I8F120 operator -(Vector2I8F120 x) {
             return new Vector2I8F120(-x.Repr);
         }
-
         #endregion
-
         #region IEqualityOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator ==(Vector2I8F120 lhs, Vector2I8F120 rhs) => lhs.Repr == rhs.Repr;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Bool operator !=(Vector2I8F120 lhs, Vector2I8F120 rhs) => lhs.Repr != rhs.Repr;
-
         #endregion
-
-        public Vector2Bool IsNegative() => Repr.IsNegative();
-
         #region Object
-
         public override bool Equals(object obj) => obj is Vector2I8F120 o && Equals(o);
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Repr.GetHashCode();
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}>";
-
         #endregion
-
         #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector2I8F120 other) {
             return Repr.Equals(other.Repr);
         }
         #endregion
-
         #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}>";
         }
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I8F120 Min(Vector2I8F120 other) {
             return new Vector2I8F120(Repr.Min(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I8F120 Max(Vector2I8F120 other) {
             return new Vector2I8F120(Repr.Max(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I8F120 Clamp(I8F120 min, I8F120 max) {
             return new Vector2I8F120(Repr.Clamp(min.Bits, max.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I8F120 Clamp(Vector2I8F120 min, Vector2I8F120 max) {
             return new Vector2I8F120(Repr.Clamp(min.Repr, max.Repr));
         }
-
         #endregion
-
+        #region IsNegative, Abs
+        public Vector2Bool IsNegative() => Repr.IsNegative();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I8F120 Abs() => new Vector2I8F120(Repr.Abs());
-
+        #endregion
         #region Half, Twice
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector2I8F120 Half() => new Vector2I8F120(Repr.Half());
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector2I8F120 Twice() => new Vector2I8F120(Repr.Twice());
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -218,9 +187,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 YYXY() => new Vector4I8F120(Repr.YYXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 YYYX() => new Vector4I8F120(Repr.YYYX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 YYYY() => new Vector4I8F120(Repr.YYYY());
-
         #endregion
-
     }
 } // namespace Intar
 
