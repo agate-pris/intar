@@ -1,5 +1,6 @@
 {% import "macros.cs" as macros %}
-{%- set component = macros::fixed_type(s=true, i=int_nbits, f=frac_nbits) %}
+{%- set component   = macros::fixed_type(s=true,  i=int_nbits, f=frac_nbits) %}
+{%- set component_u = macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) %}
 {%- set rotation = macros::quaternion(i=int_nbits-frac_nbits, f=2*frac_nbits) %}
 {%- set rotation_scale = macros::matrix_type(r=dim, c=dim, type=component) %}
 {%- set translation = macros::vector_type(dim=dim, type=component) %}
@@ -155,13 +156,11 @@ namespace {{ namespace }} {
             return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
         }
         #endregion
-        #region DecomposeScale
+        #region {% for i in range(end=dim) %}DecomposeScale{{ components[i] }}{% if not loop.last %}, {% endif %}{% endfor %}
+        {%- for i in range(end=dim) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ translation }} DecomposeScale() => new {{ translation }}(
-            {%- for i in range(end=dim) %}
-            {{ component }}.UncheckedFrom(RotationScale.C{{ i }}.Length()){% if not loop.last %},{% endif %}
-            {%- endfor %}
-        );
+        public {{ component_u }} DecomposeScale{{ components[i] }}() => RotationScale.C{{ i }}.Length();
+        {%- endfor %}
         #endregion
     }
 } // namespace {{ namespace }}
