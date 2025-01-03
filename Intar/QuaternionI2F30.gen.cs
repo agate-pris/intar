@@ -215,7 +215,7 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60 UncheckedDot(QuaternionI2F30 other) {
+        public I4F60 Dot(QuaternionI2F30 other) {
             return I4F60.FromBits(Repr.Dot(other.Repr));
         }
 
@@ -244,14 +244,14 @@ namespace Intar {
         public QuaternionI2F30 UncheckedLerp(QuaternionI2F30 other, I17F15 t) {
             var a = Repr.BigMul((I17F15.One - t).Bits);
             var b = other.Repr.BigMul(t.Bits);
-            var dot = UncheckedDot(other);
+            var dot = Dot(other);
             a = (dot.Bits < 0) ? (a - b) : (a + b);
             var q = new QuaternionI2F30((Vector4Int32)(a / I17F15.OneRepr));
             return q.Normalize().Value;
         }
 
         public QuaternionI2F30 UncheckedSlerp(QuaternionI2F30 other, I17F15 t) {
-            var dot = UncheckedDot(other);
+            var dot = Dot(other);
             if (dot.Bits < 0) {
                 dot = -dot;
                 other.Repr = -other.Repr;
