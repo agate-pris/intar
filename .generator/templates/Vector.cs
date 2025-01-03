@@ -351,9 +351,7 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ component_u }} {%
             if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}Length() => {{ component_u }}.FromBits(Repr.{%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}Length());
+        %}Unchecked{% endif %}Length() => {{ component_u }}.FromBits(Repr.Length());
 
         #endregion
 

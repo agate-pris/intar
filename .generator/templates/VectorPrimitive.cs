@@ -468,7 +468,7 @@ namespace {{ namespace }} {
 
         {%- if bits < 128 %}
 
-        #region BigMul, Cross, Dot, LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -509,9 +509,7 @@ namespace {{ namespace }} {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component_u }} {%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}Length() => ({{ component_u }})Mathi.Sqrt(LengthSquared());
+        public {{ component_u }} Length() => ({{ component_u }})Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal {{ component_u }} HalfLength() {

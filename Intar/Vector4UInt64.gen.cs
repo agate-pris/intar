@@ -374,7 +374,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength
 
 #if NET7_0_OR_GREATER
 
@@ -398,7 +398,7 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong UncheckedLength() => (ulong)Mathi.Sqrt(LengthSquared());
+        public ulong Length() => (ulong)Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ulong HalfLength() {

@@ -392,7 +392,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength
 
         public Vector2Int64 BigMul(int other) {
             return (Vector2Int64)this * other;
