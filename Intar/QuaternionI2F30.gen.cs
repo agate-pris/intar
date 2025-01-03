@@ -225,7 +225,7 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 UncheckedLength() {
+        public U2F30 Length() {
             return U2F30.FromBits(Repr.Length());
         }
 

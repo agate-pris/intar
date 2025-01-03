@@ -245,7 +245,7 @@ namespace {{ namespace }} {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component_u }} UncheckedLength() {
+        public {{ component_u }} Length() {
             return {{ component_u }}.FromBits(Repr.Length());
         }
 
