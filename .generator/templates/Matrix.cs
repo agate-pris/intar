@@ -227,7 +227,7 @@ namespace {{ namespace }} {
                 new {{ col }}(
                     {%- for j in range(end=rows) %}
                     {{ component }}.UncheckedLossyFrom({# -#}
-                        left.R{{ j }}.UncheckedDot(right.C{{ i }})
+                        left.R{{ j }}.Dot(right.C{{ i }})
                     {#- #}){% if not loop.last %},{% endif %}
                     {%- endfor %}
                 ){%- if not loop.last %},{% endif %}

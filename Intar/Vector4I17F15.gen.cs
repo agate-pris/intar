@@ -241,10 +241,10 @@ namespace Intar {
 
         #endregion
 
-        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I34F30 UncheckedDot(Vector4I17F15 other) {
+        public I34F30 Dot(Vector4I17F15 other) {
             return I34F30.FromBits(Repr.Dot(other.Repr));
         }
 
