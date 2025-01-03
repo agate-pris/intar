@@ -373,7 +373,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Half() => new Vector2Int128(Mathi.Half(X), Mathi.Half(Y));
@@ -382,7 +382,7 @@ namespace Intar {
         public Vector2Int128 Twice() => new Vector2Int128(Mathi.Twice(X), Mathi.Twice(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Int128 UncheckedComponentsSum() => X + Y;
+        internal Int128 ComponentsSum() => X + Y;
 
         #endregion
 

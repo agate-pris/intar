@@ -355,7 +355,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 Half() => new Vector4UInt128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
@@ -364,7 +364,7 @@ namespace Intar {
         public Vector4UInt128 Twice() => new Vector4UInt128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal UInt128 UncheckedComponentsSum() => X + Y + Z + W;
+        internal UInt128 ComponentsSum() => X + Y + Z + W;
 
         #endregion
 

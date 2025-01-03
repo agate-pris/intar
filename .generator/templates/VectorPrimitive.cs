@@ -443,7 +443,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Half() => new {{ vector }}(
@@ -460,7 +460,7 @@ namespace {{ namespace }} {
         );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal {{ component }} UncheckedComponentsSum() => {% for c in components -%}
+        internal {{ component }} ComponentsSum() => {% for c in components -%}
             {{ c }}{% if not loop.last %} + {% endif %}
         {%- endfor %};
 
@@ -494,7 +494,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} UncheckedDot({{ vector }} other) {
-            return BigMul(other).UncheckedComponentsSum();
+            return BigMul(other).ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -507,7 +507,7 @@ namespace {{ namespace }} {
             {%- else %}
             var sqr = BigMul(this);
             {%- endif %}
-            return sqr.UncheckedComponentsSum();
+            return sqr.ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -525,7 +525,7 @@ namespace {{ namespace }} {
             {%- else %}
             var sqr = BigMul(this);
             {%- endif %}
-            return ({{ component_u }})Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+            return ({{ component_u }})Mathi.Sqrt((sqr / 4).ComponentsSum());
         }
         {%- if bits > 32 %}
 

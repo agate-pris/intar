@@ -353,7 +353,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2UInt64 Half() => new Vector2UInt64(Mathi.Half(X), Mathi.Half(Y));
@@ -362,7 +362,7 @@ namespace Intar {
         public Vector2UInt64 Twice() => new Vector2UInt64(Mathi.Twice(X), Mathi.Twice(Y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal ulong UncheckedComponentsSum() => X + Y;
+        internal ulong ComponentsSum() => X + Y;
 
         #endregion
 
@@ -380,13 +380,13 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 UncheckedDot(Vector2UInt64 other) {
-            return BigMul(other).UncheckedComponentsSum();
+            return BigMul(other).ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 UncheckedLengthSquared() {
             var sqr = BigMul(this);
-            return sqr.UncheckedComponentsSum();
+            return sqr.ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -395,7 +395,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ulong HalfLength() {
             var sqr = BigMul(this);
-            return (ulong)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+            return (ulong)Mathi.Sqrt((sqr / 4).ComponentsSum());
         }
 
 #endif // NET7_0_OR_GREATER
