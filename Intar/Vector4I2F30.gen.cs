@@ -241,7 +241,7 @@ namespace Intar {
 
         #endregion
 
-        #region Cross, Dot, LengthSquared, (Unchecked)Length
+        #region Cross, Dot, LengthSquared, Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 Dot(Vector4I2F30 other) {
@@ -260,7 +260,7 @@ namespace Intar {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 UncheckedLength() => U2F30.FromBits(Repr.Length());
+        public U2F30 Length() => U2F30.FromBits(Repr.Length());
 
         #endregion
 
