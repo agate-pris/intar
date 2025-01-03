@@ -374,7 +374,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, (Unchecked)Length, HalfLength
 
         public Vector4UInt64 BigMul(uint other) {
             return (Vector4UInt64)this * other;
@@ -390,13 +390,13 @@ namespace Intar {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong UncheckedLengthSquared() {
+        public ulong LengthSquared() {
             var sqr = BigMul(this);
             return sqr.ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
+        public uint UncheckedLength() => (uint)Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal uint HalfLength() {

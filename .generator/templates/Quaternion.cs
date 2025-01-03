@@ -241,7 +241,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component_u }} UncheckedLengthSquared() {
-            return {{ wide_component_u }}.FromBits(Repr.UncheckedLengthSquared());
+            return {{ wide_component_u }}.FromBits(Repr.LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

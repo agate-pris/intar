@@ -253,7 +253,7 @@ namespace Intar {
         /// <para>ベクトルの長さの 2 乗を返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U34F30 UncheckedLengthSquared() => U34F30.FromBits(Repr.UncheckedLengthSquared());
+        public U34F30 UncheckedLengthSquared() => U34F30.FromBits(Repr.LengthSquared());
 
         /// <summary>
         /// <para>Returns the length of the vector.</para>

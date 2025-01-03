@@ -392,7 +392,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, (Unchecked)Length, HalfLength
 
 #if NET7_0_OR_GREATER
 
