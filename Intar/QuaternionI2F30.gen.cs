@@ -221,7 +221,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 UncheckedLengthSquared() {
-            return U4F60.FromBits(Repr.UncheckedLengthSquared());
+            return U4F60.FromBits(Repr.LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

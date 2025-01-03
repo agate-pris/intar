@@ -344,9 +344,7 @@ namespace {{ namespace }} {
             if dim > 3 or not signed and dim > 1
         %}Unchecked{% endif %}LengthSquared() => {{
             wide_component_u
-        }}.FromBits(Repr.{%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}LengthSquared());
+        }}.FromBits(Repr.LengthSquared());
 
         /// <summary>
         /// <para>Returns the length of the vector.</para>
