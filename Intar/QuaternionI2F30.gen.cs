@@ -216,7 +216,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 UncheckedDot(QuaternionI2F30 other) {
-            return I4F60.FromBits(Repr.UncheckedDot(other.Repr));
+            return I4F60.FromBits(Repr.Dot(other.Repr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

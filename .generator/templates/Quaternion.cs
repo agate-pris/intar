@@ -236,7 +236,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} UncheckedDot({{ quaternion }} other) {
-            return {{ wide_component }}.FromBits(Repr.UncheckedDot(other.Repr));
+            return {{ wide_component }}.FromBits(Repr.Dot(other.Repr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
