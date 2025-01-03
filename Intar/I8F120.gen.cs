@@ -168,7 +168,12 @@ namespace Intar {
         }
 
         #endregion
-
+        #region AbsDiff
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U8F120 AbsDiff(I8F120 other) {
+            return U8F120.FromBits(Mathi.AbsDiff(Bits, other.Bits));
+        }
+        #endregion
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I8F120 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I8F120 Twice() => FromBits(Mathi.Twice(Bits));
 

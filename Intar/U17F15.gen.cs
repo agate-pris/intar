@@ -183,7 +183,6 @@ namespace Intar {
         public bool IsNegative() => Bits < 0;
 
         #endregion
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U17F15 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U17F15 Twice() => FromBits(Mathi.Twice(Bits));
 

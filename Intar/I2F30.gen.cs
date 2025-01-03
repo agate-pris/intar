@@ -193,7 +193,12 @@ namespace Intar {
         }
 
         #endregion
-
+        #region AbsDiff
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U2F30 AbsDiff(I2F30 other) {
+            return U2F30.FromBits(Mathi.AbsDiff(Bits, other.Bits));
+        }
+        #endregion
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F30 Twice() => FromBits(Mathi.Twice(Bits));
 
