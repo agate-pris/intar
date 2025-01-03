@@ -270,7 +270,7 @@ namespace Intar {
         /// <para>ベクトルの長さを返します｡</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60 UncheckedLength() => U4F60.FromBits(Repr.UncheckedLength());
+        public U4F60 UncheckedLength() => U4F60.FromBits(Repr.Length());
 
         #endregion
 
