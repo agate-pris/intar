@@ -194,7 +194,6 @@ namespace Intar {
         public bool IsNegative() => Bits < 0;
 
         #endregion
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U4F60 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U4F60 Twice() => FromBits(Mathi.Twice(Bits));
 

@@ -1,5 +1,6 @@
 {% import "macros.cs" as macros %}
-{%- set self_type = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
+{%- set self_type = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
+{%- set type_u    = macros::fixed_type(s=false,  i=int_nbits, f=frac_nbits) %}
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
 {%- if 64 < int_nbits+frac_nbits %}
@@ -262,7 +263,14 @@ namespace {{ namespace }} {
         {%- endif %}
 
         #endregion
-
+        {%- if signed %}
+        #region AbsDiff
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type_u }} AbsDiff({{ self_type }} other) {
+            return {{ type_u }}.FromBits(Mathi.AbsDiff(Bits, other.Bits));
+        }
+        #endregion
+        {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
 
