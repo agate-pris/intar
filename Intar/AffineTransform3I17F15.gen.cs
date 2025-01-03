@@ -95,13 +95,13 @@ namespace Intar {
         public static AffineTransform3I17F15 operator *(AffineTransform3I17F15 left, AffineTransform3I17F15 right) {
             return new AffineTransform3I17F15(
                 left.RotationScale * right.RotationScale,
-                left.RotationScale * right.Translation + left.Translation
+                (left.RotationScale * right.Translation) + left.Translation
             );
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I17F15 operator *(AffineTransform3I17F15 left, Vector3I17F15 right) {
-            return left.RotationScale * right + left.Translation;
+            return (left.RotationScale * right) + left.Translation;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

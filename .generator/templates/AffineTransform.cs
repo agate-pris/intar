@@ -117,13 +117,13 @@ namespace {{ namespace }} {
         public static {{ type }} operator *({{ type }} left, {{ type }} right) {
             return new {{ type }}(
                 left.RotationScale * right.RotationScale,
-                left.RotationScale * right.Translation + left.Translation
+                (left.RotationScale * right.Translation) + left.Translation
             );
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ translation }} operator *({{ type }} left, {{ translation }} right) {
-            return left.RotationScale * right + left.Translation;
+            return (left.RotationScale * right) + left.Translation;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
