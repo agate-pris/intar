@@ -251,7 +251,7 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I68F60 Dot(Vector4I34F30 other) {

@@ -320,7 +320,7 @@ namespace {{ namespace }} {
 #if NET7_0_OR_GREATER
         {%- endif %}
 
-        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, LengthSquared, (Unchecked)Length
         {%- if signed and dim == 3 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

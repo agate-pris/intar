@@ -234,7 +234,7 @@ namespace Intar {
 
         #endregion
 
-        #region Cross, Dot, (Unchecked)LengthSquared, (Unchecked)Length
+        #region Cross, Dot, LengthSquared, (Unchecked)Length
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60 Cross(Vector3I2F30 other) {
