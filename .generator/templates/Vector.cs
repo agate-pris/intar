@@ -282,7 +282,7 @@ namespace {{ namespace }} {
 
 #if NET7_0_OR_GREATER
 {% endif %}
-        #region Cross, Dot, LengthSquared, Length
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared
         {%- if signed and dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
@@ -310,6 +310,11 @@ namespace {{ namespace }} {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ component_u }} Length() => {{ component_u }}.FromBits(Repr.Length());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component_u }} DistanceSquared({{ vector }} other) {
+            return {{ wide_component_u }}.FromBits(Repr.DistanceSquared(other.Repr));
+        }
         #endregion
         #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
