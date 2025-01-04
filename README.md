@@ -9,7 +9,7 @@ var position = Vector3I17F15.One;
 var t = Vector3I17F15.UnitX;
 var r = QuaternionI2F30.RotateXP5(I17F15.One);
 var s = Vector3I17F15.One;
-var matrix = AffineTransformI17F15.Trs(t, r, s);
+var matrix = AffineTransform3I17F15.Trs(t, r, s);
 position = matrix * position;
 ```
 
