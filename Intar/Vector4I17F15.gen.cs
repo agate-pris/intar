@@ -207,7 +207,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector4I17F15 Twice() => new Vector4I17F15(Repr.Twice());
         #endregion
-        #region Cross, Dot, LengthSquared, Length, DistanceSquared
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 Dot(Vector4I17F15 other) {
             return I34F30.FromBits(Repr.Dot(other.Repr));
@@ -230,6 +230,11 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 DistanceSquared(Vector4I17F15 other) {
             return U34F30.FromBits(Repr.DistanceSquared(other.Repr));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U17F15 Distance(Vector4I17F15 other) {
+            return U17F15.FromBits(Repr.Distance(other.Repr));
         }
         #endregion
         #region Normalize
