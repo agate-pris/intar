@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Intar.Tests {
     public class AffineTransformTest {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Delta(System.Numerics.Matrix4x4 e, AffineTransformI17F15 a) {
+        public static double Delta(System.Numerics.Matrix4x4 e, AffineTransform3I17F15 a) {
             var d = 0.0;
             d = Math.Max(d, Math.Abs(e.M11 - a.RotationScale.C0.X.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.M12 - a.RotationScale.C0.Y.LossyToSingle()));
@@ -30,7 +30,7 @@ namespace Intar.Tests {
 
 #if UNITY_5_3_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Delta(UnityEngine.Matrix4x4 e, AffineTransformI17F15 a) {
+        public static double Delta(UnityEngine.Matrix4x4 e, AffineTransform3I17F15 a) {
             var d = 0.0;
             d = Math.Max(d, Math.Abs(e.m00 - a.RotationScale.C0.X.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.m10 - a.RotationScale.C0.Y.LossyToSingle()));
@@ -54,7 +54,7 @@ namespace Intar.Tests {
 
 #if UNITY_2018_1_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Delta(Unity.Mathematics.float4x4 e, AffineTransformI17F15 a) {
+        public static double Delta(Unity.Mathematics.float4x4 e, AffineTransform3I17F15 a) {
             var d = 0.0;
             d = Math.Max(d, Math.Abs(e.c0.x - a.RotationScale.C0.X.LossyToSingle()));
             d = Math.Max(d, Math.Abs(e.c0.y - a.RotationScale.C0.Y.LossyToSingle()));
@@ -76,7 +76,7 @@ namespace Intar.Tests {
         }
 #endif // UNITY_2018_1_OR_NEWER
 
-        static readonly AffineTransformI17F15 sample = new AffineTransformI17F15(
+        static readonly AffineTransform3I17F15 sample = new AffineTransform3I17F15(
             new Matrix3x3I17F15(
                 new Vector3I17F15(I17F15.StrictFrom(1), I17F15.StrictFrom(2), I17F15.StrictFrom(3)),
                 new Vector3I17F15(I17F15.StrictFrom(4), I17F15.StrictFrom(5), I17F15.StrictFrom(6)),
@@ -117,8 +117,8 @@ namespace Intar.Tests {
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static AffineTransformI17F15 Trs(Vector3I17F15 translation, System.Numerics.Quaternion rotation, Vector3I17F15 scale) {
-            return AffineTransformI17F15.Trs(translation, new QuaternionI2F30(
+        static AffineTransform3I17F15 Trs(Vector3I17F15 translation, System.Numerics.Quaternion rotation, Vector3I17F15 scale) {
+            return AffineTransform3I17F15.Trs(translation, new QuaternionI2F30(
                 I2F30.StrictFrom(rotation.X),
                 I2F30.StrictFrom(rotation.Y),
                 I2F30.StrictFrom(rotation.Z),
