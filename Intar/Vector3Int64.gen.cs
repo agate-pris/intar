@@ -410,10 +410,12 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 BigMul(long other) {
             return (Vector3Int128)this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int128 BigMul(Vector3Int64 other) {
             return (Vector3Int128)this * other;
         }

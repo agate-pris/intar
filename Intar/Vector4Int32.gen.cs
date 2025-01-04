@@ -415,10 +415,12 @@ namespace Intar {
 
         #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 BigMul(int other) {
             return (Vector4Int64)this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 BigMul(Vector4Int32 other) {
             return (Vector4Int64)this * other;
         }

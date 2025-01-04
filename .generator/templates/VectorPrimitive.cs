@@ -482,10 +482,12 @@ namespace {{ namespace }} {
 #if NET7_0_OR_GREATER
         {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} BigMul({{ component }} other) {
             return ({{ wide_vector }})this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} BigMul({{ vector }} other) {
             return ({{ wide_vector }})this * other;
         }
