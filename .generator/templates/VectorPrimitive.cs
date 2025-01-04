@@ -511,11 +511,11 @@ namespace {{ namespace }} {
         public {{ wide_component_u }} LengthSquared() {
             {%- if signed %}
             var abs = UnsignedAbs();
-            var sqr = abs.BigMul(abs);
+            return abs.LengthSquared();
             {%- else %}
             var sqr = BigMul(this);
-            {%- endif %}
             return sqr.ComponentsSum();
+            {%- endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -419,8 +419,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong LengthSquared() {
             var abs = UnsignedAbs();
-            var sqr = abs.BigMul(abs);
-            return sqr.ComponentsSum();
+            return abs.LengthSquared();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
