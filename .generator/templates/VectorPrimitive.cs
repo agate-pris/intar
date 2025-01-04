@@ -476,7 +476,7 @@ namespace {{ namespace }} {
 
         {%- if bits < 128 %}
 
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -530,6 +530,11 @@ namespace {{ namespace }} {
             var sqr = BigMul(this);
             {%- endif %}
             return ({{ component_u }})Mathi.Sqrt((sqr / 4).ComponentsSum());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component_u }} DistanceSquared({{ vector }} other) {
+            return AbsDiff(other).LengthSquared();
         }
         {%- if bits > 32 %}
 

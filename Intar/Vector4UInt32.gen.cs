@@ -383,7 +383,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt64 BigMul(uint other) {
@@ -413,6 +413,11 @@ namespace Intar {
         internal uint HalfLength() {
             var sqr = BigMul(this);
             return (uint)Mathi.Sqrt((sqr / 4).ComponentsSum());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong DistanceSquared(Vector4UInt32 other) {
+            return AbsDiff(other).LengthSquared();
         }
 
         #endregion
