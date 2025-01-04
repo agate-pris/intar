@@ -178,6 +178,9 @@ namespace Intar {
         public Vector2Bool IsNegative() => Repr.IsNegative();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2I17F15 Abs() => new Vector2I17F15(Repr.Abs());
+
+        // 符号なし固定小数点数ベクトル型は定義されていないため
+        // UnsignedAbs と AbsDiff は定義されない.
         #endregion
         #region Half, Twice
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

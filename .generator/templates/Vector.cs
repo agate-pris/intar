@@ -261,6 +261,9 @@ namespace {{ namespace }} {
         {%- if signed %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Abs() => new {{ vector }}(Repr.Abs());
+
+        // 符号なし固定小数点数ベクトル型は定義されていないため
+        // UnsignedAbs と AbsDiff は定義されない.
         {%- endif %}
         #endregion
         #region Half, Twice
