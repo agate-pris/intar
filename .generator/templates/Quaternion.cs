@@ -226,12 +226,13 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ quaternion }}? Inverse() {
-            var lengthSquared = LengthSquared();
-            if (lengthSquared == {{ wide_component_u }}.Zero) {
+            var lengthSquared = LengthSquared().Bits / {{ component_u }}.OneRepr;
+            if (lengthSquared == 0) {
                 return null;
             }
             var conjugate = Conjugate();
-            return new QuaternionI2F30(conjugate.Vector / I2F30.UncheckedLossyFrom(lengthSquared));
+            var bits = conjugate.Repr.BigMul({{ component }}.OneRepr) / ({{ wide_bits }})lengthSquared;
+            return new QuaternionI2F30(({{ repr }})bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
