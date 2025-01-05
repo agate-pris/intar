@@ -206,12 +206,13 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI2F30? Inverse() {
-            var lengthSquared = LengthSquared();
-            if (lengthSquared == U4F60.Zero) {
+            var lengthSquared = LengthSquared().Bits / U2F30.OneRepr;
+            if (lengthSquared == 0) {
                 return null;
             }
             var conjugate = Conjugate();
-            return new QuaternionI2F30(conjugate.Vector / I2F30.UncheckedLossyFrom(lengthSquared));
+            var bits = conjugate.Repr.BigMul(I2F30.OneRepr) / (long)lengthSquared;
+            return new QuaternionI2F30((Vector4Int32)bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
