@@ -232,7 +232,7 @@ namespace {{ namespace }} {
             }
             var conjugate = Conjugate();
             var bits = conjugate.Repr.BigMul({{ component }}.OneRepr) / ({{ wide_bits }})lengthSquared;
-            return new QuaternionI2F30(({{ repr }})bits);
+            return new {{ quaternion }}(({{ repr }})bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
