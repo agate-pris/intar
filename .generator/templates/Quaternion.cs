@@ -297,15 +297,15 @@ namespace {{ namespace }} {
                 // その後, 後の計算のために小数部の精度を {{ (int_nbits+frac_nbits-2)/2 }} ビットにする.
                 {#- 32 ビットのクォータニオンには AcosP3(long) を,
                     64 ビットのクォータニオンには AcosP7(Int128) を使用する. #}
-                var angle = {{
+                var angle = ({{
                     macros::fixed_type(s=true, i=(int_nbits+frac_nbits)/2 + 1, f=(int_nbits+frac_nbits)/2 - 1)
-                }}.LossyFrom({{
+                }}){{
                     macros::fixed_type(s=true, i=int_nbits+frac_nbits+1, f=int_nbits+frac_nbits-1)
                 }}.AcosP{%
                     if   int_nbits + frac_nbits == 32 %}3{%
                     elif int_nbits + frac_nbits == 64 %}7{%
                     else %}{{ throw(message='unimplemented') }}{%
-                    endif %}(({{ wide_bits }})d.Bits));
+                    endif %}(({{ wide_bits }})d.Bits);
 
                 // 閾値が 0.0005 の場合 invSin の最大値は
                 // (1 - (1-0.0005)^2)^(-0.5)=31.6267301900746 となる.

@@ -350,102 +350,50 @@ namespace Intar {
 
         #endregion
 
-        #region Convert from fixed-point number
+        #region Conversion from fixed-point number
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I17F15" /> value.</para>
-        /// <para><see cref="I17F15" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 From(I17F15 from) {
-            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 15))
-            );
+        public static explicit operator I34F30(I17F15 from) {
+            return FromBits((long)from.Bits * (EpsilonRepr << 15));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I2F30" /> value.</para>
-        /// <para><see cref="I2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 From(I2F30 from) {
-            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 0))
-            );
+        public static explicit operator I34F30(I2F30 from) {
+            return FromBits((long)from.Bits);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I33F31" /> value.</para>
-        /// <para><see cref="I33F31" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(I33F31 from) {
-            return FromBits(unchecked((long)(from.Bits / (I33F31.EpsilonRepr << 1)))
-            );
+        public static explicit operator I34F30(I33F31 from) {
+            return FromBits((long)(from.Bits / (I33F31.EpsilonRepr << 1)));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I4F60" /> value.</para>
-        /// <para><see cref="I4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(I4F60 from) {
-            return FromBits(unchecked((long)(from.Bits / (I4F60.EpsilonRepr << 30)))
-            );
+        public static explicit operator I34F30(I4F60 from) {
+            return FromBits((long)(from.Bits / (I4F60.EpsilonRepr << 30)));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I2F62" /> value.</para>
-        /// <para><see cref="I2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(I2F62 from) {
-            return FromBits(unchecked((long)(from.Bits / (I2F62.EpsilonRepr << 32)))
-            );
+        public static explicit operator I34F30(I2F62 from) {
+            return FromBits((long)(from.Bits / (I2F62.EpsilonRepr << 32)));
         }
 
 #if NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I68F60" /> value.</para>
-        /// <para><see cref="I68F60" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedLossyFrom(I68F60)"/>
-        /// <seealso cref="CheckedLossyFrom(I68F60)"/>
-        public static I34F30 StrictLossyFrom(I68F60 from) {
-            return FromBits(checked((long)(from.Bits / (I68F60.EpsilonRepr << 30)))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="I68F60" /> value.</para>
-        /// <para><see cref="I68F60" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(I68F60)"/>
-        /// <seealso cref="CheckedLossyFrom(I68F60)"/>
-        public static I34F30 UncheckedLossyFrom(I68F60 from) {
-            return FromBits(unchecked((long)(from.Bits / (I68F60.EpsilonRepr << 30)))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="I68F60" /> value.</para>
-        /// <para><see cref="I68F60" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(I68F60)"/>
-        /// <seealso cref="UncheckedLossyFrom(I68F60)"/>
-        public static I34F30? CheckedLossyFrom(I68F60 from) {
-            var tmp = from.Bits / (I68F60.EpsilonRepr << 30);
-            if (tmp < MinRepr ||
-                tmp > MaxRepr) {
-                return null;
-            }
-            return FromBits((long)tmp);
+        public static explicit operator I34F30(I68F60 from) {
+            return FromBits((long)(from.Bits / (I68F60.EpsilonRepr << 30)));
         }
 
 #endif // NET7_0_OR_GREATER
@@ -454,158 +402,62 @@ namespace Intar {
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="I8F120" /> value.</para>
-        /// <para><see cref="I8F120" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(I8F120 from) {
-            return FromBits(unchecked((long)(from.Bits / (I8F120.EpsilonRepr << 90)))
-            );
+        public static explicit operator I34F30(I8F120 from) {
+            return FromBits((long)(from.Bits / (I8F120.EpsilonRepr << 90)));
         }
 
 #endif // NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U17F15" /> value.</para>
-        /// <para><see cref="U17F15" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 From(U17F15 from) {
-            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 15))
-            );
+        public static explicit operator I34F30(U17F15 from) {
+            return FromBits((long)from.Bits * (EpsilonRepr << 15));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U2F30" /> value.</para>
-        /// <para><see cref="U2F30" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 From(U2F30 from) {
-            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 0))
-            );
+        public static explicit operator I34F30(U2F30 from) {
+            return FromBits((long)from.Bits);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
-        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(U34F30)"/>
-        /// <seealso cref="CheckedFrom(U34F30)"/>
-        public static I34F30 StrictFrom(U34F30 from) {
-            return FromBits(checked((long)from.Bits * (EpsilonRepr << 0))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
-        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(U34F30)"/>
-        /// <seealso cref="CheckedFrom(U34F30)"/>
-        public static I34F30 UncheckedFrom(U34F30 from) {
-            return FromBits(unchecked((long)from.Bits * (EpsilonRepr << 0))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U34F30" /> value.</para>
-        /// <para><see cref="U34F30" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(U34F30)"/>
-        /// <seealso cref="UncheckedFrom(U34F30)"/>
-        public static I34F30? CheckedFrom(U34F30 from) {
-            const int shift = 0;
-            const long k = EpsilonRepr << shift;
-            const long max = MaxRepr / k;
-            if (from.Bits > (ulong)max) {
-                return null;
-            }
-            return FromBits((long)from.Bits * k);
+        public static explicit operator I34F30(U34F30 from) {
+            return FromBits((long)from.Bits);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U33F31" /> value.</para>
-        /// <para><see cref="U33F31" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(U33F31 from) {
-            return FromBits(unchecked((long)(from.Bits / (U33F31.EpsilonRepr << 1)))
-            );
+        public static explicit operator I34F30(U33F31 from) {
+            return FromBits((long)(from.Bits / (U33F31.EpsilonRepr << 1)));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U4F60" /> value.</para>
-        /// <para><see cref="U4F60" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(U4F60 from) {
-            return FromBits(unchecked((long)(from.Bits / (U4F60.EpsilonRepr << 30)))
-            );
+        public static explicit operator I34F30(U4F60 from) {
+            return FromBits((long)(from.Bits / (U4F60.EpsilonRepr << 30)));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U2F62" /> value.</para>
-        /// <para><see cref="U2F62" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(U2F62 from) {
-            return FromBits(unchecked((long)(from.Bits / (U2F62.EpsilonRepr << 32)))
-            );
+        public static explicit operator I34F30(U2F62 from) {
+            return FromBits((long)(from.Bits / (U2F62.EpsilonRepr << 32)));
         }
 
 #if NET7_0_OR_GREATER
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U68F60" /> value.</para>
-        /// <para><see cref="U68F60" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedLossyFrom(U68F60)"/>
-        /// <seealso cref="CheckedLossyFrom(U68F60)"/>
-        public static I34F30 StrictLossyFrom(U68F60 from) {
-            return FromBits(checked((long)(from.Bits / (U68F60.EpsilonRepr << 30)))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U68F60" /> value.</para>
-        /// <para><see cref="U68F60" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(U68F60)"/>
-        /// <seealso cref="CheckedLossyFrom(U68F60)"/>
-        public static I34F30 UncheckedLossyFrom(U68F60 from) {
-            return FromBits(unchecked((long)(from.Bits / (U68F60.EpsilonRepr << 30)))
-            );
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="U68F60" /> value.</para>
-        /// <para><see cref="U68F60" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(U68F60)"/>
-        /// <seealso cref="UncheckedLossyFrom(U68F60)"/>
-        public static I34F30? CheckedLossyFrom(U68F60 from) {
-            var tmp = from.Bits / (U68F60.EpsilonRepr << 30);
-            if (tmp > MaxReprUnsigned) {
-                return null;
-            }
-            return FromBits((long)tmp);
+        public static explicit operator I34F30(U68F60 from) {
+            return FromBits((long)(from.Bits / (U68F60.EpsilonRepr << 30)));
         }
 
 #endif // NET7_0_OR_GREATER
@@ -614,11 +466,9 @@ namespace Intar {
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="U8F120" /> value.</para>
-        /// <para><see cref="U8F120" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        public static I34F30 LossyFrom(U8F120 from) {
-            return FromBits(unchecked((long)(from.Bits / (U8F120.EpsilonRepr << 90)))
-            );
+        public static explicit operator I34F30(U8F120 from) {
+            return FromBits((long)(from.Bits / (U8F120.EpsilonRepr << 90)));
         }
 
 #endif // NET7_0_OR_GREATER
