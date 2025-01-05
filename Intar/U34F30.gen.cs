@@ -289,7 +289,7 @@ namespace Intar {
             // OneRepr は 2 の自然数冪であるから,
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない.
-            return FromBits(((ulong)(num * (float)OneRepr)));
+            return FromBits((ulong)(num * (float)OneRepr));
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Intar {
             // OneRepr は 2 の自然数冪であるから,
             // その乗算および型変換によって精度が失われることは
             // 基数 (Radix) が 2 の自然数冪でない限りない.
-            return FromBits(((ulong)(num * (double)OneRepr)));
+            return FromBits((ulong)(num * (double)OneRepr));
         }
 
         #endregion
