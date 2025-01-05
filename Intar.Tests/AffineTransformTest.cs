@@ -78,14 +78,12 @@ namespace Intar.Tests {
 
         static readonly AffineTransform3I17F15 sample = new AffineTransform3I17F15(
             new Matrix3x3I17F15(
-                new Vector3I17F15(I17F15.StrictFrom(1), I17F15.StrictFrom(2), I17F15.StrictFrom(3)),
-                new Vector3I17F15(I17F15.StrictFrom(4), I17F15.StrictFrom(5), I17F15.StrictFrom(6)),
-                new Vector3I17F15(I17F15.StrictFrom(7), I17F15.StrictFrom(8), I17F15.StrictFrom(9))),
-            new Vector3I17F15(I17F15.StrictFrom(10), I17F15.StrictFrom(11), I17F15.StrictFrom(12)));
+                new Vector3I17F15((I17F15)1, (I17F15)2, (I17F15)3),
+                new Vector3I17F15((I17F15)4, (I17F15)5, (I17F15)6),
+                new Vector3I17F15((I17F15)7, (I17F15)8, (I17F15)9)),
+            new Vector3I17F15((I17F15)10, (I17F15)11, (I17F15)12));
         static readonly Vector3I17F15 samplePosition = new Vector3I17F15(
-            I17F15.StrictFrom(13),
-            I17F15.StrictFrom(14),
-            I17F15.StrictFrom(15));
+            (I17F15)13, (I17F15)14, (I17F15)15);
         static readonly Vector3I17F15 sampleTransformedPosition = sample * samplePosition;
 
         [Test]
@@ -119,10 +117,10 @@ namespace Intar.Tests {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static AffineTransform3I17F15 Trs(Vector3I17F15 translation, System.Numerics.Quaternion rotation, Vector3I17F15 scale) {
             return AffineTransform3I17F15.Trs(translation, new QuaternionI2F30(
-                I2F30.StrictFrom(rotation.X),
-                I2F30.StrictFrom(rotation.Y),
-                I2F30.StrictFrom(rotation.Z),
-                I2F30.StrictFrom(rotation.W)), scale);
+                (I2F30)rotation.X,
+                (I2F30)rotation.Y,
+                (I2F30)rotation.Z,
+                (I2F30)rotation.W), scale);
         }
 
         [Test]

@@ -262,165 +262,30 @@ namespace Intar {
 
         #endregion
 
-        #region Convert from floating-point number
+        #region Conversion from floating-point number
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
-        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(float)"/>
-        /// <seealso cref="CheckedFrom(float)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U17F15.StrictFrom(1.0f);
-        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 StrictFrom(float num) {
-            // OneRepr は 2 の自然数冪であるから、
+        public static explicit operator U17F15(float num) {
+            // OneRepr は 2 の自然数冪であるから,
             // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked((uint)(num * (float)OneRepr)));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
-        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(float)"/>
-        /// <seealso cref="CheckedFrom(float)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U17F15.UncheckedFrom(1.0f);
-        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 UncheckedFrom(float num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(unchecked((uint)(num * (float)OneRepr)));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="float" /> value.</para>
-        /// <para> <see cref="float" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(float)"/>
-        /// <seealso cref="UncheckedFrom(float)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U17F15.CheckedFrom(1.0f);
-        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15? CheckedFrom(float num) {
-            // より大きい型に変換して計算。
-            return CheckedLossyFrom(num);
+            // 基数 (Radix) が 2 の自然数冪でない限りない.
+            return FromBits(((uint)(num * (float)OneRepr)));
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
-        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedLossyFrom(double)"/>
-        /// <seealso cref="CheckedLossyFrom(double)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U17F15.StrictLossyFrom(1.0);
-        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 StrictLossyFrom(double num) {
-            // OneRepr は 2 の自然数冪であるから、
+        public static explicit operator U17F15(double num) {
+            // OneRepr は 2 の自然数冪であるから,
             // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(checked((uint)(num * (double)OneRepr)));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
-        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(double)"/>
-        /// <seealso cref="CheckedLossyFrom(double)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U17F15.UncheckedLossyFrom(1.0);
-        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15 UncheckedLossyFrom(double num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(unchecked((uint)(num * (double)OneRepr)));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="double" /> value.</para>
-        /// <para> <see cref="double" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictLossyFrom(double)"/>
-        /// <seealso cref="UncheckedLossyFrom(double)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = U17F15.CheckedLossyFrom(1.0);
-        /// System.Assert.AreEqual(1U &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U17F15? CheckedLossyFrom(double num) {
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            // また、整数の基数は 2 であるから、
-            // 自身のビット数よりも相手の仮数部の方が大きい限り、
-            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
-            num *= OneRepr;
-            if (double.IsNaN(num) ||
-                double.IsInfinity(num) ||
-                num >= uint.MaxValue + 1.0) {
-                return null;
-            }
-            return FromBits((uint)num);
+            // 基数 (Radix) が 2 の自然数冪でない限りない.
+            return FromBits(((uint)(num * (double)OneRepr)));
         }
 
         #endregion

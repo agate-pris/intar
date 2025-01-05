@@ -473,117 +473,25 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region Convert from floating-point number
+        #region Conversion from floating-point number
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
 
         {%- for bits in [32, 64] %}
-        {%-   if bits == 32 %}{% set from='float'  %}{% set one='1.0f' %}
-        {%- elif bits == 64 %}{% set from='double' %}{% set one='1.0'  %}
-        {%- endif %}
-
-        {%- set lossy = int_nbits + frac_nbits < bits %}
-
-        {%- for method in ['strict', 'unchecked', 'checked'] %}
-
-        {#- メソッドが checked の場合, 精度が double 以上の場合は定義しない. #}
-        {%- if method == 'checked' %}
-        {%- if int_nbits + frac_nbits > 32 %}
-
-        // 自身が 64 ビットの場合､ BitConverter を使用する必要がある。
-        // 現時点では未実装。
-        // https://learn.microsoft.com/ja-jp/dotnet/api/system.bitconverter
-
-        {%- continue %}
-        {%- endif %}
+        {%-   if bits == 32 %}{% set from='float'  %}
+        {%- elif bits == 64 %}{% set from='double' %}
         {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
-        /// <para> <see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        {%- if method == 'strict' %}
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- if int_nbits + frac_nbits < 64 %}
-        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- endif %}
-        {%- elif method == 'unchecked' %}
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- if int_nbits + frac_nbits < 64 %}
-        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-            {%- endif %}
-        {%- elif method == 'checked' %}
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        {%- else %}
-        /// </summary>
-        {%- endif %}
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'unchecked' %}Unchecked{% endif %}
-        {%- if method == 'checked' %}Checked{% endif %}
-        {%- if lossy %}Lossy{% endif %}From({{ one }});
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}
-        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'unchecked' %}Unchecked{% endif %}
-        {%- if lossy %}Lossy{% endif %}From({{ from }} num) {
-            {%- if method != 'checked' %}
-            // OneRepr は 2 の自然数冪であるから、
+        public static explicit operator {{ self_type }}({{ from }} num) {
+            // OneRepr は 2 の自然数冪であるから,
             // その乗算および型変換によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            return FromBits(
-                {%- if method == 'strict' %}checked
-                {%- else %}unchecked{% endif %}(({{ self_bits_type }})(num * ({{ from }})OneRepr)));
-            {%- else %}
-            {%- if not lossy %}
-            // より大きい型に変換して計算。
-            return CheckedLossyFrom(num);
-            {%- else %}
-            // OneRepr は 2 の自然数冪であるから、
-            // その乗算によって精度が失われることは
-            // 基数 (Radix) が 2 の自然数冪でない限りない。
-            // また、整数の基数は 2 であるから、
-            // 自身のビット数よりも相手の仮数部の方が大きい限り、
-            // 最大値に 1 足した数と最小値から 1 引いた数は厳密に表現可能である。
-            num *= OneRepr;
-            if ({{ from }}.IsNaN(num) ||
-                {{ from }}.IsInfinity(num) ||
-                num >= {{ self_bits_type }}.MaxValue + {{ one }}
-            {%- if signed %} ||
-                num <= {{ self_bits_type }}.MinValue - {{ one }}
-            {%- endif %}) {
-                return null;
-            }
-            return FromBits(({{ self_bits_type }})num);
-            {%- endif %}
-            {%- endif %}
+            // 基数 (Radix) が 2 の自然数冪でない限りない.
+            return FromBits((({{ self_bits_type }})(num * ({{ from }})OneRepr)));
         }
-
-        {%- endfor %}
         {%- endfor %}
 
         #endregion
