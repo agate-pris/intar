@@ -447,138 +447,28 @@ namespace {{ namespace }} {
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-        #region Convert from integer
+        #region Conversion from integer
 
-        {%- for bits in [32, 64] %}
+        {%- for bits in [32, 64, 128] %}
+        {%- if bits > 64 %}
+
+#if NET7_0_OR_GREATER
+        {%- endif %}
         {%- for s in [true, false] %}
         {%- set from = macros::inttype(bits=bits, signed=s) %}
 
-        {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
-        {#- 自身の符号部を除いた整数部のビット数が
-            相手の符号部を除いたビット数以上の場合
-            暗黙に型変換可能. #}
-        {%- set implicitly_convertible
-            = signed == s and int_nbits >= bits
-            or signed and not s and int_nbits - 1 >= bits %}
-
-        {#- 暗黙に型変換可能な場合は From のみを定義する.
-            それ以外の場合 From 以外 (StrictFrom, CheckedFrom) を定義する. #}
-        {%- if implicitly_convertible %}
-            {%- if method != 'from' %}
-                {%- continue %}
-            {%- endif %}
-        {%- else %}
-            {%- if method == 'from' %}
-                {%- continue %}
-            {%- endif %}
-        {%- endif %}
-
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        {%- if method == 'strict' %}
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom({{ from }})"/>
-        /// <seealso cref="CheckedFrom({{ from }})"/>
-        {%- elif method == 'unchecked' %}
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom({{ from }})"/>
-        /// <seealso cref="CheckedFrom({{ from }})"/>
-        {%- elif method == 'checked' %}
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom({{ from }})"/>
-        /// <seealso cref="UncheckedFrom({{ from }})"/>
-        {%- else %}
-        /// </summary>
-        {%- endif %}
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = {{ self_type }}.
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'unchecked' %}Unchecked{% endif %}
-        {%- if method == 'checked' %}Checked{% endif %}From(1);
-        /// System.Assert.AreEqual({{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
-        }} &lt;&lt; {{ frac_nbits }}, a{% if method == 'checked' %}?{% endif %}.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }}
-        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'unchecked' %}Unchecked{% endif %}From({{ from }} num) {
-
-            {%- if method == 'from' %}
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            {%- endif %}
-
-            {%- if method != 'checked' %}
-            return FromBits(
-                {%- if method == 'from' or method == 'unchecked' %}unchecked({% endif %}
-                {%- if method == 'strict' %}checked({% endif %}
-                {%- if method == 'strict' or method == 'unchecked' %}({{ self_bits_type }}){% endif -%}
-                num * OneRepr
-                {%- if method == 'from' or method == 'unchecked' %}){% endif %}
-                {%- if method == 'strict' %}){% endif -%}
-            );
-            {%- else %}
-            {%- if signed == s %}
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxRepr / OneRepr ||
-                num < MinRepr / OneRepr) {
-                return null;
-            }
-
-            {%- elif signed and not s %}
-
-            // 自身が符号あり、相手が符号なしであるから、
-            // 相手が最小値未満であることはありえない。
-            // よって、自身の最大値を符号なしの型に変換して比較する。
-            // この際、大きい方の型に暗黙に変換される。
-            if (num > ({{
-                macros::inttype(bits=int_nbits+frac_nbits, signed=false)
-            }})(MaxRepr / OneRepr)) {
-                return null;
-            }
-
-            {%- else %}
-
-            // 自身が符号なしで、相手が符号ありの場合、
-            // 相手が 0 未満、または
-            // 相手が自身の最大値よりも大きければ null
-            if (num < 0) {
-                return null;
-            } else if (({{
-                macros::inttype(bits=bits, signed=false)
-            }})num > MaxRepr / OneRepr) {
-                return null;
-            }
-
-            {%- endif %}
-
+        public static explicit operator {{ self_type }}({{ macros::inttype(bits=bits, signed=s) }} num) {
             return FromBits(({{ self_bits_type }})num * OneRepr);
-            {%- endif %}
         }
+        {%- endfor %}
+        {%- if bits > 64 %}
 
-        {%- endfor %}
-        {%- endfor %}
+#endif // NET7_0_OR_GREATER
+        {%- endif %}
         {%- endfor %}
 
         #endregion

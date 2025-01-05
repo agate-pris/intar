@@ -402,305 +402,59 @@ namespace Intar {
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-        #region Convert from integer
+        #region Conversion from integer
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
-        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(int)"/>
-        /// <seealso cref="CheckedFrom(int)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 StrictFrom(int num) {
-            return FromBits(checked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
-        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(int)"/>
-        /// <seealso cref="CheckedFrom(int)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 UncheckedFrom(int num) {
-            return FromBits(unchecked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
-        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(int)"/>
-        /// <seealso cref="UncheckedFrom(int)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15? CheckedFrom(int num) {
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxRepr / OneRepr ||
-                num < MinRepr / OneRepr) {
-                return null;
-            }
-
+        public static explicit operator I17F15(int num) {
             return FromBits((int)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
-        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(uint)"/>
-        /// <seealso cref="CheckedFrom(uint)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 StrictFrom(uint num) {
-            return FromBits(checked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
-        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(uint)"/>
-        /// <seealso cref="CheckedFrom(uint)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 UncheckedFrom(uint num) {
-            return FromBits(unchecked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
-        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(uint)"/>
-        /// <seealso cref="UncheckedFrom(uint)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15? CheckedFrom(uint num) {
-
-            // 自身が符号あり、相手が符号なしであるから、
-            // 相手が最小値未満であることはありえない。
-            // よって、自身の最大値を符号なしの型に変換して比較する。
-            // この際、大きい方の型に暗黙に変換される。
-            if (num > (uint)(MaxRepr / OneRepr)) {
-                return null;
-            }
-
+        public static explicit operator I17F15(uint num) {
             return FromBits((int)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(long)"/>
-        /// <seealso cref="CheckedFrom(long)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 StrictFrom(long num) {
-            return FromBits(checked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(long)"/>
-        /// <seealso cref="CheckedFrom(long)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 UncheckedFrom(long num) {
-            return FromBits(unchecked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(long)"/>
-        /// <seealso cref="UncheckedFrom(long)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15? CheckedFrom(long num) {
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxRepr / OneRepr ||
-                num < MinRepr / OneRepr) {
-                return null;
-            }
-
+        public static explicit operator I17F15(long num) {
             return FromBits((int)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(ulong)"/>
-        /// <seealso cref="CheckedFrom(ulong)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.StrictFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 StrictFrom(ulong num) {
-            return FromBits(checked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(ulong)"/>
-        /// <seealso cref="CheckedFrom(ulong)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15 UncheckedFrom(ulong num) {
-            return FromBits(unchecked((int)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(ulong)"/>
-        /// <seealso cref="UncheckedFrom(ulong)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I17F15.CheckedFrom(1);
-        /// System.Assert.AreEqual(1 &lt;&lt; 15, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I17F15? CheckedFrom(ulong num) {
-
-            // 自身が符号あり、相手が符号なしであるから、
-            // 相手が最小値未満であることはありえない。
-            // よって、自身の最大値を符号なしの型に変換して比較する。
-            // この際、大きい方の型に暗黙に変換される。
-            if (num > (uint)(MaxRepr / OneRepr)) {
-                return null;
-            }
-
+        public static explicit operator I17F15(ulong num) {
             return FromBits((int)num * OneRepr);
         }
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="Int128" /> value.</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator I17F15(Int128 num) {
+            return FromBits((int)num * OneRepr);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="UInt128" /> value.</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator I17F15(UInt128 num) {
+            return FromBits((int)num * OneRepr);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 

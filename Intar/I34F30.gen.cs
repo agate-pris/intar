@@ -266,194 +266,59 @@ namespace Intar {
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-        #region Convert from integer
+        #region Conversion from integer
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
-        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.From(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30 From(int num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(unchecked(num * OneRepr));
+        public static explicit operator I34F30(int num) {
+            return FromBits((long)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
-        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.From(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30 From(uint num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(unchecked(num * OneRepr));
+        public static explicit operator I34F30(uint num) {
+            return FromBits((long)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(long)"/>
-        /// <seealso cref="CheckedFrom(long)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.StrictFrom(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30 StrictFrom(long num) {
-            return FromBits(checked((long)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(long)"/>
-        /// <seealso cref="CheckedFrom(long)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30 UncheckedFrom(long num) {
-            return FromBits(unchecked((long)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(long)"/>
-        /// <seealso cref="UncheckedFrom(long)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.CheckedFrom(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30? CheckedFrom(long num) {
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (num > MaxRepr / OneRepr ||
-                num < MinRepr / OneRepr) {
-                return null;
-            }
-
+        public static explicit operator I34F30(long num) {
             return FromBits((long)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedFrom(ulong)"/>
-        /// <seealso cref="CheckedFrom(ulong)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.StrictFrom(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30 StrictFrom(ulong num) {
-            return FromBits(checked((long)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(ulong)"/>
-        /// <seealso cref="CheckedFrom(ulong)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.UncheckedFrom(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30 UncheckedFrom(ulong num) {
-            return FromBits(unchecked((long)num * OneRepr));
-        }
-
-        /// <summary>
-        /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictFrom(ulong)"/>
-        /// <seealso cref="UncheckedFrom(ulong)"/>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I34F30.CheckedFrom(1);
-        /// System.Assert.AreEqual(1L &lt;&lt; 30, a?.Bits);
-        /// </code>
-        /// </example>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I34F30? CheckedFrom(ulong num) {
-
-            // 自身が符号あり、相手が符号なしであるから、
-            // 相手が最小値未満であることはありえない。
-            // よって、自身の最大値を符号なしの型に変換して比較する。
-            // この際、大きい方の型に暗黙に変換される。
-            if (num > (ulong)(MaxRepr / OneRepr)) {
-                return null;
-            }
-
+        public static explicit operator I34F30(ulong num) {
             return FromBits((long)num * OneRepr);
         }
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="Int128" /> value.</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator I34F30(Int128 num) {
+            return FromBits((long)num * OneRepr);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="UInt128" /> value.</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator I34F30(UInt128 num) {
+            return FromBits((long)num * OneRepr);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 

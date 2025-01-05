@@ -187,83 +187,59 @@ namespace Intar {
 #pragma warning disable CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
-        #region Convert from integer
+        #region Conversion from integer
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="int" /> value.</para>
-        /// <para><see cref="int" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I68F60.From(1);
-        /// System.Assert.AreEqual((Int128)1 &lt;&lt; 60, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I68F60 From(int num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(unchecked(num * OneRepr));
+        public static explicit operator I68F60(int num) {
+            return FromBits((Int128)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="uint" /> value.</para>
-        /// <para><see cref="uint" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I68F60.From(1);
-        /// System.Assert.AreEqual((Int128)1 &lt;&lt; 60, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I68F60 From(uint num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(unchecked(num * OneRepr));
+        public static explicit operator I68F60(uint num) {
+            return FromBits((Int128)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="long" /> value.</para>
-        /// <para><see cref="long" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I68F60.From(1);
-        /// System.Assert.AreEqual((Int128)1 &lt;&lt; 60, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I68F60 From(long num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(unchecked(num * OneRepr));
+        public static explicit operator I68F60(long num) {
+            return FromBits((Int128)num * OneRepr);
         }
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="ulong" /> value.</para>
-        /// <para><see cref="ulong" /> から新しく固定小数点数を構築します。</para>
         /// </summary>
-        /// <example>
-        /// Basic usage:
-        /// <code>
-        /// var a = I68F60.From(1);
-        /// System.Assert.AreEqual((Int128)1 &lt;&lt; 60, a.Bits);
-        /// </code>
-        /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I68F60 From(ulong num) {
-            // 自身と相手の符号が同じ場合、整数部が相手以上であるから乗算は必ず成功する。
-            // 自身が符号あり、相手が符号なしの場合、
-            // 自身の符号部分を除いた整数部について同様である。
-            return FromBits(unchecked(num * OneRepr));
+        public static explicit operator I68F60(ulong num) {
+            return FromBits((Int128)num * OneRepr);
         }
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="Int128" /> value.</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator I68F60(Int128 num) {
+            return FromBits((Int128)num * OneRepr);
+        }
+
+        /// <summary>
+        /// <para>Constructs a new fixed-point number from <see cref="UInt128" /> value.</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator I68F60(UInt128 num) {
+            return FromBits((Int128)num * OneRepr);
+        }
+
+#endif // NET7_0_OR_GREATER
 
         #endregion
 
