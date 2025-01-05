@@ -496,7 +496,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region Convert from fixed-point number
+        #region Conversion from fixed-point number
 
         {%- for s in [true, false] %}
         {%- for target in fixed_list %}
@@ -509,131 +509,21 @@ namespace {{ namespace }} {
         {%- endif %}
 
         {%- set from = macros::fixed_type(s=s, i=i, f=f) %}
-        {%- set lossy = frac_nbits < f %}
-        {%- set failable = not signed and s
-            or signed == s and int_nbits < i
-            or signed and not s and int_nbits - 1 < i %}
-        {%- set fu = macros::inttype(signed=false, bits=i+f) %}
-        {%- set tu = macros::inttype(signed=false, bits=int_nbits+frac_nbits) %}
-
-        {#- コメントなどを共通化するためにループ処理でまかなう #}
-        {%- for method in ['from', 'strict', 'unchecked', 'checked'] %}
-
-        {#- 失敗しうる場合 From は定義しない.
-            それ以外の場合 From 以外は定義しない. #}
-        {%- if failable %}
-            {%- if method == 'from' %}
-                {%- continue %}
-            {%- endif %}
-        {%- else %}
-            {%- if method != 'from' %}
-                {%- continue %}
-            {%- endif %}
-        {%- endif %}
 
         /// <summary>
         /// <para>Constructs a new fixed-point number from <see cref="{{ from }}" /> value.</para>
-        /// <para><see cref="{{ from }}" /> から新しく固定小数点数を構築します。</para>
-        {%- if method == 'strict' %}
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        {%- elif method == 'unchecked' %}
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        /// <seealso cref="Checked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        {%- elif method == 'checked' %}
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="Strict{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        /// <seealso cref="Unchecked{% if lossy %}Lossy{% endif %}From({{ from }})"/>
-        {%- else %}
-        /// </summary>
-        {%- endif %}
-        public static {{ self_type }}
-        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'unchecked' %}Unchecked{% endif %}
-        {%- if lossy %}Lossy{% endif %}From({{ from }} from) {
-            {%- if method != 'checked' %}
-            return FromBits(
-                {%- if method == 'strict' %}checked
-                {%- else %}unchecked{% endif %}(({{ self_bits_type }})
-                {%- if lossy -%}
-                    (from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }}))
+        public static explicit operator {{ self_type }}({{ from }} from) {
+            return FromBits(({{ self_bits_type }})
+                {%- if frac_nbits < f -%}
+                (from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }}))
+                {%- elif frac_nbits > f -%}
+                from.Bits * (EpsilonRepr << {{ frac_nbits-f }})
                 {%- else -%}
-                    from.Bits * (EpsilonRepr << {{ frac_nbits-f }})
-                {%- endif %})
+                from.Bits
+                {%- endif -%}
             );
-
-            {%- else %}
-
-            {%- if lossy %}
-            var tmp = from.Bits / ({{ from }}.EpsilonRepr << {{ f-frac_nbits }});
-
-            {%- if signed == s %}
-            if (tmp < MinRepr ||
-                tmp > MaxRepr) {
-                return null;
-            }
-            {%- elif signed %}
-            if (tmp > MaxReprUnsigned) {
-                return null;
-            }
-            {%- else %}
-            if (tmp < 0) {
-                return null;
-            } else if (({{ fu }})tmp > MaxRepr) {
-                return null;
-            }
-            {%- endif %}
-            return FromBits(({{ self_bits_type }})tmp);
-
-            {%- else %}
-            const int shift = {{ frac_nbits-f }};
-            {%- if int_nbits + frac_nbits > 64 %}
-                {%- set lc = 'var' %}{%- else %}
-                {%- set lc = 'const ' ~ self_bits_type %}
-            {%- endif %}
-            {{ lc }} k = EpsilonRepr << shift;
-            {{ lc }} max = MaxRepr / k;
-
-            {%- if signed == s %}
-            {{ lc }} min = MinRepr / k;
-            if (from.Bits > max ||
-                from.Bits < min) {
-                return null;
-            }
-            {%- elif signed %}
-            if (from.Bits > ({{ tu }})max) {
-                return null;
-            }
-            {%- else %}
-            if (from.Bits < 0) {
-                return null;
-            } else if (({{ fu }})from.Bits > max) {
-                return null;
-            }
-            {%- endif %}
-            return FromBits(({{ self_bits_type }})from.Bits * k);
-            {%- endif %}
-
-            {%- endif %}
         }
-
-        {%- endfor %}
-
         {%- if i + f > 64 %}
 
 #endif // NET7_0_OR_GREATER

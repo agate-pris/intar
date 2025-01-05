@@ -269,7 +269,7 @@ namespace Intar {
 
                 // ドット積の Arccos を計算する.
                 // その後, 後の計算のために小数部の精度を 15 ビットにする.
-                var angle = I17F15.LossyFrom(I33F31.AcosP3((long)d.Bits));
+                var angle = (I17F15)I33F31.AcosP3((long)d.Bits);
 
                 // 閾値が 0.0005 の場合 invSin の最大値は
                 // (1 - (1-0.0005)^2)^(-0.5)=31.6267301900746 となる.
