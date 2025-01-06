@@ -36,6 +36,21 @@ namespace {{ namespace }}.Geometry {
             return Center.Equals(other.Center) && Radius.Equals(other.Radius);
         }
         #endregion
+        #region IEqualityOperators
+        {%- for cond in [true, false] %}
+        {%- if cond -%}
+        {%- set combine = '&&' %}{% set compare = '==' %}{% else %}
+        {%- set combine = '||' %}{% set compare = '!=' %}{% endif %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator {{ compare }}({{ type }} left, {{ type }} right) {
+            return
+                {%- for c in components -%}
+                {#- #} left.Center.{{ c }} {{ compare }} right.Center.{{ c }} {{ combine }}
+                {%- endfor %}
+                {#- #} left.Radius {{ compare }} right.Radius;
+        }
+        {%- endfor %}
+        #endregion
         #region Object
         public override bool Equals(object obj) {
             return obj is {{ type }} o && Equals(o);
