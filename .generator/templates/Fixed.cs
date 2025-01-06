@@ -533,122 +533,28 @@ namespace {{ namespace }} {
         {%- endfor %}
 
         #endregion
-
         #region Convert to integer
+        {%- for bits in [32, 64, 128] %}
+        {%- if bits > 64 %}
 
-        // 整数への変換で小数点以下の精度が失われるのは自明なので
-        // わざわざ明記することはしない。
-
-        {%- for bits in [32, 64] %}
+#if NET7_0_OR_GREATER
+        {%- endif %}
         {%- for s in [true, false] %}
         {%- set t = macros::inttype(bits=bits, signed=s) %}
 
-        {#- 自身と相手の符号ありなしが同じか、
-            自身が符号なしで相手が符号ありの場合、
-            符号部を除いたビット数について、
-            自身の整数部のそれよりも相手のそれの方が大きければ
-            変換は必ず成功する。 #}
-        {%- set implicitly_convertible
-            = signed == s and int_nbits <= bits
-            or not signed and s and int_nbits <= bits - 1 %}
-
-        {%- for method in ['to', 'strict', 'unchecked', 'checked'] %}
-
-        {#- 暗黙に変換可能な場合 To 以外は定義しない. #}
-        {%- if implicitly_convertible %}
-            {%- if method != 'to' %}
-                {%- continue %}
-            {%- endif %}
-        {%- else %}
-            {%- if method == 'to' %}
-                {%- continue %}
-            {%- endif %}
-        {%- endif %}
-
         /// <summary>
         /// <para><see cref="{{ t }}" /> への変換を行います。</para>
-        {%- if method == 'strict' %}
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        {%- elif method == 'unchecked' %}
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        /// <seealso cref="CheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        {%- elif method == 'checked' %}
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        /// <seealso cref="UncheckedTo{% if not s %}U{% endif %}Int{{ bits }}"/>
-        {%- else %}
-        /// </summary>
-        {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ t }}
-        {%- if method == 'checked' %}? Checked{% else %} {% endif %}
-        {%- if method == 'strict' %}Strict{% endif %}
-        {%- if method == 'unchecked' %}Unchecked{% endif -%}
-        To{% if not s %}U{% endif %}Int{{ bits }}() {
-            {%- if method != 'checked' %}
-            return {% if method == 'strict' %}checked
-            {%- else %}unchecked{% endif %}(({{ t }})(Bits / OneRepr));
-
-            {%- else %}
-            var tmp = Bits / OneRepr;
-
-            {%- if signed == s %}
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (tmp < {{ t }}.MinValue ||
-                tmp > {{ t }}.MaxValue) {
-                return null;
-            }
-
-            {%- elif signed and not s %}
-
-            // 自身が符号ありで、相手が符号なしの場合、
-            // 自身が 0 未満、または
-            // 自身が相手の最大値よりも大きければ null
-            if (tmp < 0) {
-                return null;
-            } else if (({{
-                macros::inttype(signed=false, bits=int_nbits+frac_nbits)
-            }})tmp > {{ t }}.MaxValue) {
-                return null;
-            }
-
-            {%- else %}
-
-            // 自身が符号なしで、相手が符号ありの場合、
-            // 自身が相手の最大値よりも大きければ null
-            if (tmp > {{ t }}.MaxValue) {
-                return null;
-            }
-
-            {%- endif %}
-
-            return ({{ t }})tmp;
-
-            {%- endif %}
+        public static explicit operator {{ t }}({{ self_type }} v) {
+            return ({{ t }})(v.Bits / OneRepr);
         }
-
         {%- endfor %}
+        {%- if bits > 64 %}
 
+#endif // NET7_0_OR_GREATER
+        {%- endif %}
         {%- endfor %}
-        {%- endfor %}
-
         #endregion
 
         #region Convert to floating-point number

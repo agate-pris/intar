@@ -429,129 +429,59 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region Convert to integer
 
-        // 整数への変換で小数点以下の精度が失われるのは自明なので
-        // わざわざ明記することはしない。
-
         /// <summary>
         /// <para><see cref="int" /> への変換を行います。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedToInt32"/>
-        /// <seealso cref="CheckedToInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int StrictToInt32() {
-            return checked((int)(Bits / OneRepr));
-        }
-
-        /// <summary>
-        /// <para><see cref="int" /> への変換を行います。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToInt32"/>
-        /// <seealso cref="CheckedToInt32"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int UncheckedToInt32() {
-            return unchecked((int)(Bits / OneRepr));
-        }
-
-        /// <summary>
-        /// <para><see cref="int" /> への変換を行います。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToInt32"/>
-        /// <seealso cref="UncheckedToInt32"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int? CheckedToInt32() {
-            var tmp = Bits / OneRepr;
-
-            // 自身が符号なしで、相手が符号ありの場合、
-            // 自身が相手の最大値よりも大きければ null
-            if (tmp > int.MaxValue) {
-                return null;
-            }
-
-            return (int)tmp;
+        public static explicit operator int(U34F30 v) {
+            return (int)(v.Bits / OneRepr);
         }
 
         /// <summary>
         /// <para><see cref="uint" /> への変換を行います。</para>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>Warning</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは例外を送出します。</para>
-        /// </div>
         /// </summary>
-        /// <seealso cref="UncheckedToUInt32"/>
-        /// <seealso cref="CheckedToUInt32"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint StrictToUInt32() {
-            return checked((uint)(Bits / OneRepr));
-        }
-
-        /// <summary>
-        /// <para><see cref="uint" /> への変換を行います。</para>
-        /// <div class="CAUTION alert alert-info">
-        /// <h5>Caution</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは誤った値を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToUInt32"/>
-        /// <seealso cref="CheckedToUInt32"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint UncheckedToUInt32() {
-            return unchecked((uint)(Bits / OneRepr));
-        }
-
-        /// <summary>
-        /// <para><see cref="uint" /> への変換を行います。</para>
-        /// <div class="NOTE alert alert-info">
-        /// <h5>Note</h5>
-        /// <para>結果が表現できる値の範囲外の場合、このメソッドは <c>null</c> を返します。</para>
-        /// </div>
-        /// </summary>
-        /// <seealso cref="StrictToUInt32"/>
-        /// <seealso cref="UncheckedToUInt32"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint? CheckedToUInt32() {
-            var tmp = Bits / OneRepr;
-
-            // 自身と相手の符号が同じ場合、
-            // 暗黙に大きい方の型にキャストされる。
-            if (tmp < uint.MinValue ||
-                tmp > uint.MaxValue) {
-                return null;
-            }
-
-            return (uint)tmp;
+        public static explicit operator uint(U34F30 v) {
+            return (uint)(v.Bits / OneRepr);
         }
 
         /// <summary>
         /// <para><see cref="long" /> への変換を行います。</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public long ToInt64() {
-            return unchecked((long)(Bits / OneRepr));
+        public static explicit operator long(U34F30 v) {
+            return (long)(v.Bits / OneRepr);
         }
 
         /// <summary>
         /// <para><see cref="ulong" /> への変換を行います。</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong ToUInt64() {
-            return unchecked((ulong)(Bits / OneRepr));
+        public static explicit operator ulong(U34F30 v) {
+            return (ulong)(v.Bits / OneRepr);
         }
 
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para><see cref="Int128" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Int128(U34F30 v) {
+            return (Int128)(v.Bits / OneRepr);
+        }
+
+        /// <summary>
+        /// <para><see cref="UInt128" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UInt128(U34F30 v) {
+            return (UInt128)(v.Bits / OneRepr);
+        }
+
+#endif // NET7_0_OR_GREATER
         #endregion
 
         #region Convert to floating-point number
