@@ -282,7 +282,7 @@ namespace {{ namespace }} {
 
 #if NET7_0_OR_GREATER
 {% endif %}
-        #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region {% if signed and dim == 3 %}Cross, {% endif %}Dot, LengthSquared, Length, DistanceSquared, Distance
         {%- if signed and dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
