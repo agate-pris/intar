@@ -79,6 +79,34 @@ namespace {{ namespace }} {
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ type }}(System.Numerics.Matrix4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                {%- for i in range(end=dim) %}
+                a.M{{ i+1 }}4 == 0 &&
+                {%- endfor %}
+                a.M44 == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new {{ type }}(
+                new {{ rotation_scale }}(
+                    {%- for i in range(end=dim) %}
+                    new {{ translation }}(
+                        {%- for j in range(end=dim) -%}
+                        ({{ component }})a.M{{ i+1 }}{{ j+1 }}{% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    ){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ),
+                new {{ translation }}(
+                    {%- for i in range(end=dim) -%}
+                    ({{ component }})a.M4{{ i+1 }}{%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )
+            );
+        }
+
 #if UNITY_5_3_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
@@ -95,6 +123,34 @@ namespace {{ namespace }} {
                 {%- endfor %}1)
             );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ type }}(UnityEngine.Matrix4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                {%- for i in range(end=dim) %}
+                a.m3{{ i }} == 0 &&
+                {%- endfor %}
+                a.m33 == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new {{ type }}(
+                new {{ rotation_scale }}(
+                    {%- for i in range(end=dim) %}
+                    new {{ translation }}(
+                        {%- for j in range(end=dim) -%}
+                        ({{ component }})a.m{{ j }}{{ i }}{% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    ){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ),
+                new {{ translation }}(
+                    {%- for i in range(end=dim) -%}
+                    ({{ component }})a.m{{ i }}3{%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )
+            );
+        }
 #endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
@@ -108,6 +164,34 @@ namespace {{ namespace }} {
                 (float)a.Translation.{{ components[i] }},
                 {%- endfor %}
                 0, 0, 0, 1
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ type }}(Unity.Mathematics.float4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                {%- for i in range(end=dim) %}
+                a.c{{ i }}.w == 0 &&
+                {%- endfor %}
+                a.c3.w == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new {{ type }}(
+                new {{ rotation_scale }}(
+                    {%- for i in range(end=dim) %}
+                    new {{ translation }}(
+                        {%- for j in range(end=dim) -%}
+                        ({{ component }})a.c{{ i }}.{{ components[j]|lower }}{% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    ){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ),
+                new {{ translation }}(
+                    {%- for i in range(end=dim) -%}
+                    ({{ component }})a.c3.{{ components[i]|lower }}{%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
