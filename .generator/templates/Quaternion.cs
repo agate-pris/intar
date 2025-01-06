@@ -259,7 +259,7 @@ namespace {{ namespace }} {
             return new {{ quaternion }}(tmp.Value);
         }
         #endregion
-        #region Lerp, UncheckedSlerp
+        #region Lerp, Slerp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ quaternion }} Lerp({{ quaternion }} other, {{ time }} t) {
@@ -271,7 +271,7 @@ namespace {{ namespace }} {
             return q.Normalize().Value;
         }
 
-        public {{ quaternion }} UncheckedSlerp({{ quaternion }} other, {{ time }} t) {
+        public {{ quaternion }} Slerp({{ quaternion }} other, {{ time }} t) {
             var dot = Dot(other);
             if (dot.Bits < 0) {
                 dot = -dot;
