@@ -4,8 +4,20 @@ using System.Runtime.CompilerServices;
 namespace Intar.Geometry {
     [Serializable]
     public struct Circle2I17F15 : IEquatable<Circle2I17F15>, IFormattable {
+
+#if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
+
         public Vector2I17F15 Center;
         public U17F15 Radius;
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#endif
+
         #region Construction
         public Circle2I17F15(Vector2I17F15 center, U17F15 radius) {
             Center = center;

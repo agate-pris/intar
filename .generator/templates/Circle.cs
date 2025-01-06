@@ -10,8 +10,20 @@ using System.Runtime.CompilerServices;
 namespace {{ namespace }}.Geometry {
     [Serializable]
     public struct {{ type }} : IEquatable<{{ type }}>, IFormattable {
+
+#if NET5_0_OR_GREATER
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#endif
+
         public {{ macros::vector_type(dim=2, type=component) }} Center;
         public {{ component_u }} Radius;
+
+#if NET5_0_OR_GREATER
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#endif
+
         #region Construction
         public {{ type }}({{ macros::vector_type(dim=2, type=component) }} center, {{ component_u }} radius) {
             Center = center;
