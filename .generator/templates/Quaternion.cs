@@ -121,14 +121,14 @@ namespace {{ namespace }} {
 
         public {{ vector_4 }} Vector {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ vector_4 }}(Repr);
+            get => {{ vector_4 }}.FromRepr(Repr);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr = value.Repr;
         }
 
         public {{ vector_3 }} Imaginary {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ vector_3 }}(Repr.XYZ());
+            get => {{ vector_3 }}.FromRepr(Repr.XYZ());
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 {%- for c in components|slice(end=3) %}
@@ -193,7 +193,7 @@ namespace {{ namespace }} {
             var imaginary = Imaginary.Repr;
             var tmp = ({{ repr_3 }})(2 * imaginary.Cross(v.Repr) / {{ component }}.OneRepr);
             tmp = ({{ repr_3 }})((tmp.BigMul(Repr.W) + imaginary.Cross(tmp)) / {{ component }}.OneRepr);
-            return new {{ v }}(tmp + v.Repr);
+            return {{ v }}.FromRepr(tmp + v.Repr);
         }
         {%- endfor %}
         #endregion

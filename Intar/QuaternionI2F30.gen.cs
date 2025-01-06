@@ -107,14 +107,14 @@ namespace Intar {
 
         public Vector4I2F30 Vector {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector4I2F30(Repr);
+            get => Vector4I2F30.FromRepr(Repr);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr = value.Repr;
         }
 
         public Vector3I2F30 Imaginary {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I2F30(Repr.XYZ());
+            get => Vector3I2F30.FromRepr(Repr.XYZ());
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 Repr.X = value.X.Bits;
@@ -171,7 +171,7 @@ namespace Intar {
             var imaginary = Imaginary.Repr;
             var tmp = (Vector3Int32)(2 * imaginary.Cross(v.Repr) / I2F30.OneRepr);
             tmp = (Vector3Int32)((tmp.BigMul(Repr.W) + imaginary.Cross(tmp)) / I2F30.OneRepr);
-            return new Vector3I17F15(tmp + v.Repr);
+            return Vector3I17F15.FromRepr(tmp + v.Repr);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,7 +179,7 @@ namespace Intar {
             var imaginary = Imaginary.Repr;
             var tmp = (Vector3Int32)(2 * imaginary.Cross(v.Repr) / I2F30.OneRepr);
             tmp = (Vector3Int32)((tmp.BigMul(Repr.W) + imaginary.Cross(tmp)) / I2F30.OneRepr);
-            return new Vector3I2F30(tmp + v.Repr);
+            return Vector3I2F30.FromRepr(tmp + v.Repr);
         }
         #endregion
         #region Conjugate, Inverse, Dot, Length, LengthSquared, Normalize

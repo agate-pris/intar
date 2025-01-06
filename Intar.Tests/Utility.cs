@@ -93,7 +93,7 @@ namespace Intar.Tests {
         public static Vector3I2F30 RandomAxis(ref Xoroshiro128StarStar rng) {
             Vector3I2F30? v;
             do {
-                v = new Vector3I2F30(new Vector3Int32(
+                v = Vector3I2F30.FromRepr(new Vector3Int32(
                     RandomInt(ref rng),
                     RandomInt(ref rng),
                     RandomInt(ref rng)

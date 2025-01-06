@@ -28,9 +28,9 @@ namespace Intar {
         #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         Matrix3x3I17F15(Vector3Int32 c0Repr, Vector3Int32 c1Repr, Vector3Int32 c2Repr) {
-            C0 = new Vector3I17F15(c0Repr);
-            C1 = new Vector3I17F15(c1Repr);
-            C2 = new Vector3I17F15(c2Repr);
+            C0 = Vector3I17F15.FromRepr(c0Repr);
+            C1 = Vector3I17F15.FromRepr(c1Repr);
+            C2 = Vector3I17F15.FromRepr(c2Repr);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,7 +54,7 @@ namespace Intar {
         #region Properties
         public Vector3I17F15 R0 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(new Vector3Int32(C0.Repr.X, C1.Repr.X, C2.Repr.X));
+            get => Vector3I17F15.FromRepr(new Vector3Int32(C0.Repr.X, C1.Repr.X, C2.Repr.X));
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 C0.Repr.X = value.Repr.X;
@@ -64,7 +64,7 @@ namespace Intar {
         }
         public Vector3I17F15 R1 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(new Vector3Int32(C0.Repr.Y, C1.Repr.Y, C2.Repr.Y));
+            get => Vector3I17F15.FromRepr(new Vector3Int32(C0.Repr.Y, C1.Repr.Y, C2.Repr.Y));
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 C0.Repr.Y = value.Repr.X;
@@ -74,7 +74,7 @@ namespace Intar {
         }
         public Vector3I17F15 R2 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I17F15(new Vector3Int32(C0.Repr.Z, C1.Repr.Z, C2.Repr.Z));
+            get => Vector3I17F15.FromRepr(new Vector3Int32(C0.Repr.Z, C1.Repr.Z, C2.Repr.Z));
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 C0.Repr.Z = value.Repr.X;

@@ -128,9 +128,9 @@ namespace Intar {
             // オーバーフローを引き起こすため,
             // 素直に一度小数部の精度を減らしてから乗算する.
             var r = (Matrix3x3I2F30)rotation;
-            var c0 = new Vector3I17F15((Vector3Int32)(r.C0.Repr.BigMul(scale.Repr.X) / (1 << 30)));
-            var c1 = new Vector3I17F15((Vector3Int32)(r.C1.Repr.BigMul(scale.Repr.Y) / (1 << 30)));
-            var c2 = new Vector3I17F15((Vector3Int32)(r.C2.Repr.BigMul(scale.Repr.Z) / (1 << 30)));
+            var c0 = Vector3I17F15.FromRepr((Vector3Int32)(r.C0.Repr.BigMul(scale.Repr.X) / (1 << 30)));
+            var c1 = Vector3I17F15.FromRepr((Vector3Int32)(r.C1.Repr.BigMul(scale.Repr.Y) / (1 << 30)));
+            var c2 = Vector3I17F15.FromRepr((Vector3Int32)(r.C2.Repr.BigMul(scale.Repr.Z) / (1 << 30)));
             return new AffineTransform3I17F15(new Matrix3x3I17F15(c0, c1, c2), translation);
         }
         #endregion

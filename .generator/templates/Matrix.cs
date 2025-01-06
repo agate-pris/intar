@@ -59,7 +59,7 @@ namespace {{ namespace }} {
             {%- endfor -%}
         ) {
             {%- for i in range(end=cols) %}
-            C{{ i }} = new {{ col }}(c{{ i }}Repr);
+            C{{ i }} = {{ col }}.FromRepr(c{{ i }}Repr);
             {%- endfor %}
         }
 
@@ -103,7 +103,7 @@ namespace {{ namespace }} {
         {%- for i in range(end=rows) %}
         public {{ row }} R{{ i }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ row }}(new {{ row_repr }}(
+            get => {{ row }}.FromRepr(new {{ row_repr }}(
                 {%- for j in range(end=cols) -%}
                 C{{ j }}.Repr.{{ components[i] }}{%- if not loop.last %}, {% endif %}
                 {%- endfor -%}
@@ -448,8 +448,8 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} LookRotation(
             {{- vector_3 }} forward, {{ vector_3 }} up) {
-            var c0 = new {{ vector_3 }}(({{ repr }})(up.Cross(forward).Repr / {{ component }}.OneRepr)).Normalize().Value;
-            var c1 = new {{ vector_3 }}(({{ repr }})(forward.Cross(c0).Repr / {{ component }}.OneRepr));
+            var c0 = {{ vector_3 }}.FromRepr(({{ repr }})(up.Cross(forward).Repr / {{ component }}.OneRepr)).Normalize().Value;
+            var c1 = {{ vector_3 }}.FromRepr(({{ repr }})(forward.Cross(c0).Repr / {{ component }}.OneRepr));
             return new {{ type }}(c0.Repr, c1.Repr, forward.Repr);
         }
 
@@ -461,12 +461,12 @@ namespace {{ namespace }} {
             if (!f.HasValue || !u.HasValue) {
                 return null;
             }
-            var c0 = new {{ vector_3 }}(({{ repr }})(u.Value.Cross(f.Value).Repr / {{ component }}.OneRepr)).Normalize();
+            var c0 = {{ vector_3 }}.FromRepr(({{ repr }})(u.Value.Cross(f.Value).Repr / {{ component }}.OneRepr)).Normalize();
             if (!c0.HasValue) {
                 return null;
             }
 
-            var c1 = new {{ vector_3 }}(({{ repr }})(f.Value.Cross(c0.Value).Repr / {{ component }}.OneRepr));
+            var c1 = {{ vector_3 }}.FromRepr(({{ repr }})(f.Value.Cross(c0.Value).Repr / {{ component }}.OneRepr));
             return new {{ type }}(c0.Value.Repr, c1.Repr, f.Value.Repr);
         }
         #endregion
