@@ -166,6 +166,34 @@ namespace {{ namespace }} {
                 0, 0, 0, 1
             );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ type }}(Unity.Mathematics.float4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                {%- for i in range(end=dim) %}
+                a.c{{ i }}.w == 0 &&
+                {%- endfor %}
+                a.c3.w == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new {{ type }}(
+                new {{ rotation_scale }}(
+                    {%- for i in range(end=dim) %}
+                    new {{ translation }}(
+                        {%- for j in range(end=dim) -%}
+                        ({{ component }})a.c{{ i }}.{{ components[j]|lower }}{% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    ){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ),
+                new {{ translation }}(
+                    {%- for i in range(end=dim) -%}
+                    ({{ component }})a.c3.{{ components[i]|lower }}{%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )
+            );
+        }
 #endif // UNITY_2018_1_OR_NEWER
         #endregion
         #region IMultiplicationOperators

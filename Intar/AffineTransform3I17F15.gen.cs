@@ -128,6 +128,26 @@ namespace Intar {
                 0, 0, 0, 1
             );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator AffineTransform3I17F15(Unity.Mathematics.float4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                a.c0.w == 0 &&
+                a.c1.w == 0 &&
+                a.c2.w == 0 &&
+                a.c3.w == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new AffineTransform3I17F15(
+                new Matrix3x3I17F15(
+                    new Vector3I17F15((I17F15)a.c0.x, (I17F15)a.c0.y, (I17F15)a.c0.z),
+                    new Vector3I17F15((I17F15)a.c1.x, (I17F15)a.c1.y, (I17F15)a.c1.z),
+                    new Vector3I17F15((I17F15)a.c2.x, (I17F15)a.c2.y, (I17F15)a.c2.z)
+                ),
+                new Vector3I17F15((I17F15)a.c3.x, (I17F15)a.c3.y, (I17F15)a.c3.z)
+            );
+        }
 #endif // UNITY_2018_1_OR_NEWER
         #endregion
         #region IMultiplicationOperators
