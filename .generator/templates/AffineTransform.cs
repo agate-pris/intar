@@ -79,6 +79,34 @@ namespace {{ namespace }} {
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ type }}(System.Numerics.Matrix4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                {%- for i in range(end=dim) %}
+                a.M{{ i+1 }}4 == 0 &&
+                {%- endfor %}
+                a.M44 == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new {{ type }}(
+                new {{ rotation_scale }}(
+                    {%- for i in range(end=dim) %}
+                    new {{ translation }}(
+                        {%- for j in range(end=dim) -%}
+                        ({{ component }})a.M{{ i+1 }}{{ j+1 }}{% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    ){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ),
+                new {{ translation }}(
+                    {%- for i in range(end=dim) -%}
+                    ({{ component }})a.M4{{ i+1 }}{%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )
+            );
+        }
+
 #if UNITY_5_3_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {

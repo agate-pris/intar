@@ -66,6 +66,26 @@ namespace Intar {
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator AffineTransform3I17F15(System.Numerics.Matrix4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                a.M14 == 0 &&
+                a.M24 == 0 &&
+                a.M34 == 0 &&
+                a.M44 == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new AffineTransform3I17F15(
+                new Matrix3x3I17F15(
+                    new Vector3I17F15((I17F15)a.M11, (I17F15)a.M12, (I17F15)a.M13),
+                    new Vector3I17F15((I17F15)a.M21, (I17F15)a.M22, (I17F15)a.M23),
+                    new Vector3I17F15((I17F15)a.M31, (I17F15)a.M32, (I17F15)a.M33)
+                ),
+                new Vector3I17F15((I17F15)a.M41, (I17F15)a.M42, (I17F15)a.M43)
+            );
+        }
+
 #if UNITY_5_3_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4(AffineTransform3I17F15 a) {
