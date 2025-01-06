@@ -96,6 +96,26 @@ namespace Intar {
                 new UnityEngine.Vector4((float)a.Translation.X, (float)a.Translation.Y, (float)a.Translation.Z, 1)
             );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator AffineTransform3I17F15(UnityEngine.Matrix4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                a.m30 == 0 &&
+                a.m31 == 0 &&
+                a.m32 == 0 &&
+                a.m33 == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new AffineTransform3I17F15(
+                new Matrix3x3I17F15(
+                    new Vector3I17F15((I17F15)a.m00, (I17F15)a.m10, (I17F15)a.m20),
+                    new Vector3I17F15((I17F15)a.m01, (I17F15)a.m11, (I17F15)a.m21),
+                    new Vector3I17F15((I17F15)a.m02, (I17F15)a.m12, (I17F15)a.m22)
+                ),
+                new Vector3I17F15((I17F15)a.m03, (I17F15)a.m13, (I17F15)a.m23)
+            );
+        }
 #endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER

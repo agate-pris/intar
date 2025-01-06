@@ -123,6 +123,34 @@ namespace {{ namespace }} {
                 {%- endfor %}1)
             );
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ type }}(UnityEngine.Matrix4x4 a) {
+#if UNITY_ASSERTIONS
+            UnityEngine.Assertions.Assert.IsTrue(
+                {%- for i in range(end=dim) %}
+                a.m3{{ i }} == 0 &&
+                {%- endfor %}
+                a.m33 == 1
+            );
+#endif // UNITY_ASSERTIONS
+            return new {{ type }}(
+                new {{ rotation_scale }}(
+                    {%- for i in range(end=dim) %}
+                    new {{ translation }}(
+                        {%- for j in range(end=dim) -%}
+                        ({{ component }})a.m{{ j }}{{ i }}{% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    ){% if not loop.last %},{% endif %}
+                    {%- endfor %}
+                ),
+                new {{ translation }}(
+                    {%- for i in range(end=dim) -%}
+                    ({{ component }})a.m{{ i }}3{%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )
+            );
+        }
 #endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
