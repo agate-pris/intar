@@ -110,7 +110,7 @@ namespace {{ namespace }} {
         #endregion
         #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal {{ vector }}({{ repr }} repr) {
+        {{ vector }}({{ repr }} repr) {
             Repr = repr;
         }
 
@@ -131,6 +131,11 @@ namespace {{ namespace }} {
             value{% if not loop.last %}, {% endif %}
             {%- endfor -%}
         ) { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector }} FromRepr({{ repr }} repr) {
+            return new {{ vector }}(repr);
+        }
         #endregion
         #region Zero, One, {% for c in components %}Unit{{ c }}{% if not loop.last %}, {% endif %}{% endfor %}
         public static readonly {{ vector }} Zero = new {{ vector }}({{ component }}.Zero);
@@ -282,7 +287,7 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
             var tmp = Repr.Cross(other.Repr);
-            return new {{ wide_vector }}(tmp);
+            return {{ wide_vector }}.FromRepr(tmp);
         }
         {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -394,7 +399,7 @@ namespace {{ namespace }} {
         {%- for x in components %}
         {%- for y in components %}
         {%- set t = macros::vector_type(dim=2, type=component) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => new {{ t }}(Repr.{{ x }}{{ y }}());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => {{ t }}.FromRepr(Repr.{{ x }}{{ y }}());
         {%- endfor %}
         {%- endfor %}
 
@@ -402,7 +407,7 @@ namespace {{ namespace }} {
         {%- for y in components %}
         {%- for z in components %}
         {%- set t = macros::vector_type(dim=3, type=component) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}() => new {{ t }}(Repr.{{ x }}{{ y }}{{ z }}());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}() => {{ t }}.FromRepr(Repr.{{ x }}{{ y }}{{ z }}());
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -412,7 +417,7 @@ namespace {{ namespace }} {
         {%- for z in components %}
         {%- for w in components %}
         {%- set t = macros::vector_type(dim=4, type=component) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}{{ w }}() => new {{ t }}(Repr.{{ x }}{{ y }}{{ z }}{{ w }}());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}{{ w }}() => {{ t }}.FromRepr(Repr.{{ x }}{{ y }}{{ z }}{{ w }}());
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}

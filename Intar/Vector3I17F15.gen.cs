@@ -75,7 +75,7 @@ namespace Intar {
         #endregion
         #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Vector3I17F15(Vector3Int32 repr) {
+        Vector3I17F15(Vector3Int32 repr) {
             Repr = repr;
         }
 
@@ -84,6 +84,11 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I17F15(I17F15 value) : this(value, value, value) { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 FromRepr(Vector3Int32 repr) {
+            return new Vector3I17F15(repr);
+        }
         #endregion
         #region Zero, One, UnitX, UnitY, UnitZ
         public static readonly Vector3I17F15 Zero = new Vector3I17F15(I17F15.Zero);
@@ -199,7 +204,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30 Cross(Vector3I17F15 other) {
             var tmp = Repr.Cross(other.Repr);
-            return new Vector3I34F30(tmp);
+            return Vector3I34F30.FromRepr(tmp);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 Dot(Vector3I17F15 other) {
@@ -319,123 +324,123 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XX() => new Vector2I17F15(Repr.XX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XY() => new Vector2I17F15(Repr.XY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XZ() => new Vector2I17F15(Repr.XZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YX() => new Vector2I17F15(Repr.YX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YY() => new Vector2I17F15(Repr.YY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YZ() => new Vector2I17F15(Repr.YZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 ZX() => new Vector2I17F15(Repr.ZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 ZY() => new Vector2I17F15(Repr.ZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 ZZ() => new Vector2I17F15(Repr.ZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXX() => new Vector3I17F15(Repr.XXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXY() => new Vector3I17F15(Repr.XXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXZ() => new Vector3I17F15(Repr.XXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYX() => new Vector3I17F15(Repr.XYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYY() => new Vector3I17F15(Repr.XYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYZ() => new Vector3I17F15(Repr.XYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XZX() => new Vector3I17F15(Repr.XZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XZY() => new Vector3I17F15(Repr.XZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XZZ() => new Vector3I17F15(Repr.XZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YXX() => new Vector3I17F15(Repr.YXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YXY() => new Vector3I17F15(Repr.YXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YXZ() => new Vector3I17F15(Repr.YXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YYX() => new Vector3I17F15(Repr.YYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YYY() => new Vector3I17F15(Repr.YYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YYZ() => new Vector3I17F15(Repr.YYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YZX() => new Vector3I17F15(Repr.YZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YZY() => new Vector3I17F15(Repr.YZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YZZ() => new Vector3I17F15(Repr.YZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZXX() => new Vector3I17F15(Repr.ZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZXY() => new Vector3I17F15(Repr.ZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZXZ() => new Vector3I17F15(Repr.ZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZYX() => new Vector3I17F15(Repr.ZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZYY() => new Vector3I17F15(Repr.ZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZYZ() => new Vector3I17F15(Repr.ZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZZX() => new Vector3I17F15(Repr.ZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZZY() => new Vector3I17F15(Repr.ZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZZZ() => new Vector3I17F15(Repr.ZZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXXX() => new Vector4I17F15(Repr.XXXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXXY() => new Vector4I17F15(Repr.XXXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXXZ() => new Vector4I17F15(Repr.XXXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXYX() => new Vector4I17F15(Repr.XXYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXYY() => new Vector4I17F15(Repr.XXYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXYZ() => new Vector4I17F15(Repr.XXYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXZX() => new Vector4I17F15(Repr.XXZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXZY() => new Vector4I17F15(Repr.XXZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXZZ() => new Vector4I17F15(Repr.XXZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYXX() => new Vector4I17F15(Repr.XYXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYXY() => new Vector4I17F15(Repr.XYXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYXZ() => new Vector4I17F15(Repr.XYXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYYX() => new Vector4I17F15(Repr.XYYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYYY() => new Vector4I17F15(Repr.XYYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYYZ() => new Vector4I17F15(Repr.XYYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYZX() => new Vector4I17F15(Repr.XYZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYZY() => new Vector4I17F15(Repr.XYZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYZZ() => new Vector4I17F15(Repr.XYZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZXX() => new Vector4I17F15(Repr.XZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZXY() => new Vector4I17F15(Repr.XZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZXZ() => new Vector4I17F15(Repr.XZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZYX() => new Vector4I17F15(Repr.XZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZYY() => new Vector4I17F15(Repr.XZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZYZ() => new Vector4I17F15(Repr.XZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZZX() => new Vector4I17F15(Repr.XZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZZY() => new Vector4I17F15(Repr.XZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZZZ() => new Vector4I17F15(Repr.XZZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXXX() => new Vector4I17F15(Repr.YXXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXXY() => new Vector4I17F15(Repr.YXXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXXZ() => new Vector4I17F15(Repr.YXXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXYX() => new Vector4I17F15(Repr.YXYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXYY() => new Vector4I17F15(Repr.YXYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXYZ() => new Vector4I17F15(Repr.YXYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXZX() => new Vector4I17F15(Repr.YXZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXZY() => new Vector4I17F15(Repr.YXZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXZZ() => new Vector4I17F15(Repr.YXZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXX() => new Vector4I17F15(Repr.YYXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXY() => new Vector4I17F15(Repr.YYXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXZ() => new Vector4I17F15(Repr.YYXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYX() => new Vector4I17F15(Repr.YYYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYY() => new Vector4I17F15(Repr.YYYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYZ() => new Vector4I17F15(Repr.YYYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYZX() => new Vector4I17F15(Repr.YYZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYZY() => new Vector4I17F15(Repr.YYZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYZZ() => new Vector4I17F15(Repr.YYZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZXX() => new Vector4I17F15(Repr.YZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZXY() => new Vector4I17F15(Repr.YZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZXZ() => new Vector4I17F15(Repr.YZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZYX() => new Vector4I17F15(Repr.YZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZYY() => new Vector4I17F15(Repr.YZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZYZ() => new Vector4I17F15(Repr.YZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZZX() => new Vector4I17F15(Repr.YZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZZY() => new Vector4I17F15(Repr.YZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZZZ() => new Vector4I17F15(Repr.YZZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXXX() => new Vector4I17F15(Repr.ZXXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXXY() => new Vector4I17F15(Repr.ZXXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXXZ() => new Vector4I17F15(Repr.ZXXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXYX() => new Vector4I17F15(Repr.ZXYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXYY() => new Vector4I17F15(Repr.ZXYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXYZ() => new Vector4I17F15(Repr.ZXYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXZX() => new Vector4I17F15(Repr.ZXZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXZY() => new Vector4I17F15(Repr.ZXZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXZZ() => new Vector4I17F15(Repr.ZXZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYXX() => new Vector4I17F15(Repr.ZYXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYXY() => new Vector4I17F15(Repr.ZYXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYXZ() => new Vector4I17F15(Repr.ZYXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYYX() => new Vector4I17F15(Repr.ZYYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYYY() => new Vector4I17F15(Repr.ZYYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYYZ() => new Vector4I17F15(Repr.ZYYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYZX() => new Vector4I17F15(Repr.ZYZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYZY() => new Vector4I17F15(Repr.ZYZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYZZ() => new Vector4I17F15(Repr.ZYZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZXX() => new Vector4I17F15(Repr.ZZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZXY() => new Vector4I17F15(Repr.ZZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZXZ() => new Vector4I17F15(Repr.ZZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZYX() => new Vector4I17F15(Repr.ZZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZYY() => new Vector4I17F15(Repr.ZZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZYZ() => new Vector4I17F15(Repr.ZZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZZX() => new Vector4I17F15(Repr.ZZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZZY() => new Vector4I17F15(Repr.ZZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZZZ() => new Vector4I17F15(Repr.ZZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XX() => Vector2I17F15.FromRepr(Repr.XX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XY() => Vector2I17F15.FromRepr(Repr.XY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XZ() => Vector2I17F15.FromRepr(Repr.XZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YX() => Vector2I17F15.FromRepr(Repr.YX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YY() => Vector2I17F15.FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YZ() => Vector2I17F15.FromRepr(Repr.YZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 ZX() => Vector2I17F15.FromRepr(Repr.ZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 ZY() => Vector2I17F15.FromRepr(Repr.ZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 ZZ() => Vector2I17F15.FromRepr(Repr.ZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXX() => Vector3I17F15.FromRepr(Repr.XXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXY() => Vector3I17F15.FromRepr(Repr.XXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXZ() => Vector3I17F15.FromRepr(Repr.XXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYX() => Vector3I17F15.FromRepr(Repr.XYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYY() => Vector3I17F15.FromRepr(Repr.XYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYZ() => Vector3I17F15.FromRepr(Repr.XYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XZX() => Vector3I17F15.FromRepr(Repr.XZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XZY() => Vector3I17F15.FromRepr(Repr.XZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XZZ() => Vector3I17F15.FromRepr(Repr.XZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YXX() => Vector3I17F15.FromRepr(Repr.YXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YXY() => Vector3I17F15.FromRepr(Repr.YXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YXZ() => Vector3I17F15.FromRepr(Repr.YXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YYX() => Vector3I17F15.FromRepr(Repr.YYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YYY() => Vector3I17F15.FromRepr(Repr.YYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YYZ() => Vector3I17F15.FromRepr(Repr.YYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YZX() => Vector3I17F15.FromRepr(Repr.YZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YZY() => Vector3I17F15.FromRepr(Repr.YZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 YZZ() => Vector3I17F15.FromRepr(Repr.YZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZXX() => Vector3I17F15.FromRepr(Repr.ZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZXY() => Vector3I17F15.FromRepr(Repr.ZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZXZ() => Vector3I17F15.FromRepr(Repr.ZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZYX() => Vector3I17F15.FromRepr(Repr.ZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZYY() => Vector3I17F15.FromRepr(Repr.ZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZYZ() => Vector3I17F15.FromRepr(Repr.ZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZZX() => Vector3I17F15.FromRepr(Repr.ZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZZY() => Vector3I17F15.FromRepr(Repr.ZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 ZZZ() => Vector3I17F15.FromRepr(Repr.ZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXXX() => Vector4I17F15.FromRepr(Repr.XXXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXXY() => Vector4I17F15.FromRepr(Repr.XXXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXXZ() => Vector4I17F15.FromRepr(Repr.XXXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXYX() => Vector4I17F15.FromRepr(Repr.XXYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXYY() => Vector4I17F15.FromRepr(Repr.XXYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXYZ() => Vector4I17F15.FromRepr(Repr.XXYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXZX() => Vector4I17F15.FromRepr(Repr.XXZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXZY() => Vector4I17F15.FromRepr(Repr.XXZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XXZZ() => Vector4I17F15.FromRepr(Repr.XXZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYXX() => Vector4I17F15.FromRepr(Repr.XYXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYXY() => Vector4I17F15.FromRepr(Repr.XYXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYXZ() => Vector4I17F15.FromRepr(Repr.XYXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYYX() => Vector4I17F15.FromRepr(Repr.XYYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYYY() => Vector4I17F15.FromRepr(Repr.XYYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYYZ() => Vector4I17F15.FromRepr(Repr.XYYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYZX() => Vector4I17F15.FromRepr(Repr.XYZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYZY() => Vector4I17F15.FromRepr(Repr.XYZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XYZZ() => Vector4I17F15.FromRepr(Repr.XYZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZXX() => Vector4I17F15.FromRepr(Repr.XZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZXY() => Vector4I17F15.FromRepr(Repr.XZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZXZ() => Vector4I17F15.FromRepr(Repr.XZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZYX() => Vector4I17F15.FromRepr(Repr.XZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZYY() => Vector4I17F15.FromRepr(Repr.XZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZYZ() => Vector4I17F15.FromRepr(Repr.XZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZZX() => Vector4I17F15.FromRepr(Repr.XZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZZY() => Vector4I17F15.FromRepr(Repr.XZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 XZZZ() => Vector4I17F15.FromRepr(Repr.XZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXXX() => Vector4I17F15.FromRepr(Repr.YXXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXXY() => Vector4I17F15.FromRepr(Repr.YXXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXXZ() => Vector4I17F15.FromRepr(Repr.YXXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXYX() => Vector4I17F15.FromRepr(Repr.YXYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXYY() => Vector4I17F15.FromRepr(Repr.YXYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXYZ() => Vector4I17F15.FromRepr(Repr.YXYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXZX() => Vector4I17F15.FromRepr(Repr.YXZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXZY() => Vector4I17F15.FromRepr(Repr.YXZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YXZZ() => Vector4I17F15.FromRepr(Repr.YXZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXX() => Vector4I17F15.FromRepr(Repr.YYXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXY() => Vector4I17F15.FromRepr(Repr.YYXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYXZ() => Vector4I17F15.FromRepr(Repr.YYXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYX() => Vector4I17F15.FromRepr(Repr.YYYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYY() => Vector4I17F15.FromRepr(Repr.YYYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYYZ() => Vector4I17F15.FromRepr(Repr.YYYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYZX() => Vector4I17F15.FromRepr(Repr.YYZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYZY() => Vector4I17F15.FromRepr(Repr.YYZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YYZZ() => Vector4I17F15.FromRepr(Repr.YYZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZXX() => Vector4I17F15.FromRepr(Repr.YZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZXY() => Vector4I17F15.FromRepr(Repr.YZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZXZ() => Vector4I17F15.FromRepr(Repr.YZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZYX() => Vector4I17F15.FromRepr(Repr.YZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZYY() => Vector4I17F15.FromRepr(Repr.YZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZYZ() => Vector4I17F15.FromRepr(Repr.YZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZZX() => Vector4I17F15.FromRepr(Repr.YZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZZY() => Vector4I17F15.FromRepr(Repr.YZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 YZZZ() => Vector4I17F15.FromRepr(Repr.YZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXXX() => Vector4I17F15.FromRepr(Repr.ZXXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXXY() => Vector4I17F15.FromRepr(Repr.ZXXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXXZ() => Vector4I17F15.FromRepr(Repr.ZXXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXYX() => Vector4I17F15.FromRepr(Repr.ZXYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXYY() => Vector4I17F15.FromRepr(Repr.ZXYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXYZ() => Vector4I17F15.FromRepr(Repr.ZXYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXZX() => Vector4I17F15.FromRepr(Repr.ZXZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXZY() => Vector4I17F15.FromRepr(Repr.ZXZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZXZZ() => Vector4I17F15.FromRepr(Repr.ZXZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYXX() => Vector4I17F15.FromRepr(Repr.ZYXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYXY() => Vector4I17F15.FromRepr(Repr.ZYXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYXZ() => Vector4I17F15.FromRepr(Repr.ZYXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYYX() => Vector4I17F15.FromRepr(Repr.ZYYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYYY() => Vector4I17F15.FromRepr(Repr.ZYYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYYZ() => Vector4I17F15.FromRepr(Repr.ZYYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYZX() => Vector4I17F15.FromRepr(Repr.ZYZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYZY() => Vector4I17F15.FromRepr(Repr.ZYZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZYZZ() => Vector4I17F15.FromRepr(Repr.ZYZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZXX() => Vector4I17F15.FromRepr(Repr.ZZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZXY() => Vector4I17F15.FromRepr(Repr.ZZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZXZ() => Vector4I17F15.FromRepr(Repr.ZZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZYX() => Vector4I17F15.FromRepr(Repr.ZZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZYY() => Vector4I17F15.FromRepr(Repr.ZZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZYZ() => Vector4I17F15.FromRepr(Repr.ZZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZZX() => Vector4I17F15.FromRepr(Repr.ZZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZZY() => Vector4I17F15.FromRepr(Repr.ZZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I17F15 ZZZZ() => Vector4I17F15.FromRepr(Repr.ZZZZ());
         #endregion
     }
 } // namespace Intar
