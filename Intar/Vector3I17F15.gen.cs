@@ -200,7 +200,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector3I17F15 Twice() => new Vector3I17F15(Repr.Twice());
         #endregion
-        #region Cross, Dot, LengthSquared, Length
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I34F30 Cross(Vector3I17F15 other) {
             var tmp = Repr.Cross(other.Repr);
@@ -224,6 +224,11 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U17F15 Length() => U17F15.FromBits(Repr.Length());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U34F30 DistanceSquared(Vector3I17F15 other) {
+            return U34F30.FromBits(Repr.DistanceSquared(other.Repr));
+        }
         #endregion
         #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

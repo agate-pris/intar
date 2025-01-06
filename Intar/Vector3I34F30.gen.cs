@@ -215,7 +215,7 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, Dot, LengthSquared, Length
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I68F60 Cross(Vector3I34F30 other) {
             var tmp = Repr.Cross(other.Repr);
@@ -239,6 +239,11 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U34F30 Length() => U34F30.FromBits(Repr.Length());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U68F60 DistanceSquared(Vector3I34F30 other) {
+            return U68F60.FromBits(Repr.DistanceSquared(other.Repr));
+        }
         #endregion
         #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

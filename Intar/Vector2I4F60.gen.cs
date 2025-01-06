@@ -208,7 +208,7 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, Dot, LengthSquared, Length
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 Dot(Vector2I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));
@@ -227,6 +227,11 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 Length() => U4F60.FromBits(Repr.Length());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U8F120 DistanceSquared(Vector2I4F60 other) {
+            return U8F120.FromBits(Repr.DistanceSquared(other.Repr));
+        }
         #endregion
         #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
