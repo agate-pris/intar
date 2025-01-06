@@ -74,20 +74,20 @@ namespace Intar {
 
         public static explicit operator System.Numerics.Quaternion(QuaternionI2F30 q) {
             return new System.Numerics.Quaternion(
-                q.X.LossyToSingle(),
-                q.Y.LossyToSingle(),
-                q.Z.LossyToSingle(),
-                q.W.LossyToSingle()
+                (float)q.X,
+                (float)q.Y,
+                (float)q.Z,
+                (float)q.W
             );
         }
 
 #if UNITY_5_6_OR_NEWER
         public static explicit operator UnityEngine.Quaternion(QuaternionI2F30 q) {
             return new UnityEngine.Quaternion(
-                q.X.LossyToSingle(),
-                q.Y.LossyToSingle(),
-                q.Z.LossyToSingle(),
-                q.W.LossyToSingle()
+                (float)q.X,
+                (float)q.Y,
+                (float)q.Z,
+                (float)q.W
             );
         }
 #endif // UNITY_5_6_OR_NEWER
@@ -95,10 +95,10 @@ namespace Intar {
 #if UNITY_2018_1_OR_NEWER
         public static explicit operator Unity.Mathematics.quaternion(QuaternionI2F30 q) {
             return new Unity.Mathematics.quaternion(
-                q.X.LossyToSingle(),
-                q.Y.LossyToSingle(),
-                q.Z.LossyToSingle(),
-                q.W.LossyToSingle()
+                (float)q.X,
+                (float)q.Y,
+                (float)q.Z,
+                (float)q.W
             );
         }
 #endif // UNITY_2018_1_OR_NEWER

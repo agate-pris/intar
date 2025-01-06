@@ -105,7 +105,7 @@ namespace Intar {
         public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => LossyToDouble().ToString((IFormatProvider)null);
+        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         #endregion
 
@@ -120,7 +120,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            return LossyToDouble().ToString(format, formatProvider);
+            return ((double)this).ToString(format, formatProvider);
         }
 
         #endregion
@@ -226,7 +226,6 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region Conversion from floating-point number
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
@@ -254,7 +253,6 @@ namespace Intar {
         }
 
         #endregion
-
         #region Conversion from fixed-point number
 
         /// <summary>
@@ -375,7 +373,7 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-        #region Convert to integer
+        #region Conversion to integer
 
         /// <summary>
         /// <para><see cref="int" /> への変換を行います。</para>
@@ -429,14 +427,16 @@ namespace Intar {
 
 #endif // NET7_0_OR_GREATER
         #endregion
-
-        #region Convert to floating-point number
+        #region Conversion to floating-point number
 
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public float LossyToSingle() => (float)Bits / (float)OneRepr;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public double LossyToDouble() => (double)Bits / (double)OneRepr;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float(U68F60 v) => (float)v.Bits / (float)OneRepr;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator double(U68F60 v) => (double)v.Bits / (double)OneRepr;
 
         #endregion
 

@@ -12,17 +12,17 @@ namespace Intar.Tests {
 
         public static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I17F15 a) {
             var d = 0.0;
-            d = Math.Max(d, Math.Abs(e.M11 - a.C0.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M12 - a.C1.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M13 - a.C2.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M11 - (float)a.C0.X));
+            d = Math.Max(d, Math.Abs(e.M12 - (float)a.C1.X));
+            d = Math.Max(d, Math.Abs(e.M13 - (float)a.C2.X));
             d = Math.Max(d, Math.Abs(e.M14));
-            d = Math.Max(d, Math.Abs(e.M21 - a.C0.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M22 - a.C1.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M23 - a.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M21 - (float)a.C0.Y));
+            d = Math.Max(d, Math.Abs(e.M22 - (float)a.C1.Y));
+            d = Math.Max(d, Math.Abs(e.M23 - (float)a.C2.Y));
             d = Math.Max(d, Math.Abs(e.M24));
-            d = Math.Max(d, Math.Abs(e.M31 - a.C0.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M32 - a.C1.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M33 - a.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M31 - (float)a.C0.Z));
+            d = Math.Max(d, Math.Abs(e.M32 - (float)a.C1.Z));
+            d = Math.Max(d, Math.Abs(e.M33 - (float)a.C2.Z));
             d = Math.Max(d, Math.Abs(e.M34));
             d = Math.Max(d, Math.Abs(e.M41));
             d = Math.Max(d, Math.Abs(e.M42));
@@ -33,17 +33,17 @@ namespace Intar.Tests {
 
         public static double Delta(System.Numerics.Matrix4x4 e, Matrix3x3I2F30 a) {
             var d = 0.0;
-            d = Math.Max(d, Math.Abs(e.M11 - a.C0.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M12 - a.C1.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M13 - a.C2.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M11 - (float)a.C0.X));
+            d = Math.Max(d, Math.Abs(e.M12 - (float)a.C1.X));
+            d = Math.Max(d, Math.Abs(e.M13 - (float)a.C2.X));
             d = Math.Max(d, Math.Abs(e.M14));
-            d = Math.Max(d, Math.Abs(e.M21 - a.C0.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M22 - a.C1.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M23 - a.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M21 - (float)a.C0.Y));
+            d = Math.Max(d, Math.Abs(e.M22 - (float)a.C1.Y));
+            d = Math.Max(d, Math.Abs(e.M23 - (float)a.C2.Y));
             d = Math.Max(d, Math.Abs(e.M24));
-            d = Math.Max(d, Math.Abs(e.M31 - a.C0.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M32 - a.C1.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.M33 - a.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.M31 - (float)a.C0.Z));
+            d = Math.Max(d, Math.Abs(e.M32 - (float)a.C1.Z));
+            d = Math.Max(d, Math.Abs(e.M33 - (float)a.C2.Z));
             d = Math.Max(d, Math.Abs(e.M34));
             d = Math.Max(d, Math.Abs(e.M41));
             d = Math.Max(d, Math.Abs(e.M42));
@@ -55,17 +55,17 @@ namespace Intar.Tests {
 #if UNITY_5_3_OR_NEWER
         public static double Delta(UnityEngine.Matrix4x4 e, Matrix3x3I2F30 a) {
             var d = 0.0;
-            d = Math.Max(d, Math.Abs(e.m00 - a.C0.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.m01 - a.C1.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.m02 - a.C2.X.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m00 - (float)a.C0.X));
+            d = Math.Max(d, Math.Abs(e.m01 - (float)a.C1.X));
+            d = Math.Max(d, Math.Abs(e.m02 - (float)a.C2.X));
             d = Math.Max(d, Math.Abs(e.m03));
-            d = Math.Max(d, Math.Abs(e.m10 - a.C0.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.m11 - a.C1.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.m12 - a.C2.Y.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m10 - (float)a.C0.Y));
+            d = Math.Max(d, Math.Abs(e.m11 - (float)a.C1.Y));
+            d = Math.Max(d, Math.Abs(e.m12 - (float)a.C2.Y));
             d = Math.Max(d, Math.Abs(e.m13));
-            d = Math.Max(d, Math.Abs(e.m20 - a.C0.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.m21 - a.C1.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.m22 - a.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.m20 - (float)a.C0.Z));
+            d = Math.Max(d, Math.Abs(e.m21 - (float)a.C1.Z));
+            d = Math.Max(d, Math.Abs(e.m22 - (float)a.C2.Z));
             d = Math.Max(d, Math.Abs(e.m23));
             d = Math.Max(d, Math.Abs(e.m30));
             d = Math.Max(d, Math.Abs(e.m31));
@@ -78,15 +78,15 @@ namespace Intar.Tests {
 #if UNITY_2018_1_OR_NEWER
         public static double Delta(Unity.Mathematics.float3x3 e, Matrix3x3I2F30 a) {
             var d = 0.0;
-            d = Math.Max(d, Math.Abs(e.c0.x - a.C0.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c1.x - a.C1.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c2.x - a.C2.X.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c0.y - a.C0.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c1.y - a.C1.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c2.y - a.C2.Y.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c0.z - a.C0.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c1.z - a.C1.Z.LossyToSingle()));
-            d = Math.Max(d, Math.Abs(e.c2.z - a.C2.Z.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c0.x - (float)a.C0.X));
+            d = Math.Max(d, Math.Abs(e.c1.x - (float)a.C1.X));
+            d = Math.Max(d, Math.Abs(e.c2.x - (float)a.C2.X));
+            d = Math.Max(d, Math.Abs(e.c0.y - (float)a.C0.Y));
+            d = Math.Max(d, Math.Abs(e.c1.y - (float)a.C1.Y));
+            d = Math.Max(d, Math.Abs(e.c2.y - (float)a.C2.Y));
+            d = Math.Max(d, Math.Abs(e.c0.z - (float)a.C0.Z));
+            d = Math.Max(d, Math.Abs(e.c1.z - (float)a.C1.Z));
+            d = Math.Max(d, Math.Abs(e.c2.z - (float)a.C2.Z));
             return d;
         }
 #endif // UNITY_2018_1_OR_NEWER
@@ -156,15 +156,15 @@ namespace Intar.Tests {
 
                 {
                     var mf1 = new System.Numerics.Matrix4x4(
-                        m1.C0.X.LossyToSingle(), m1.C1.X.LossyToSingle(), m1.C2.X.LossyToSingle(), 0,
-                        m1.C0.Y.LossyToSingle(), m1.C1.Y.LossyToSingle(), m1.C2.Y.LossyToSingle(), 0,
-                        m1.C0.Z.LossyToSingle(), m1.C1.Z.LossyToSingle(), m1.C2.Z.LossyToSingle(), 0,
+                        (float)m1.C0.X, (float)m1.C1.X, (float)m1.C2.X, 0,
+                        (float)m1.C0.Y, (float)m1.C1.Y, (float)m1.C2.Y, 0,
+                        (float)m1.C0.Z, (float)m1.C1.Z, (float)m1.C2.Z, 0,
                         0, 0, 0, 1
                     );
                     var mf2 = new System.Numerics.Matrix4x4(
-                        m2.C0.X.LossyToSingle(), m2.C1.X.LossyToSingle(), m2.C2.X.LossyToSingle(), 0,
-                        m2.C0.Y.LossyToSingle(), m2.C1.Y.LossyToSingle(), m2.C2.Y.LossyToSingle(), 0,
-                        m2.C0.Z.LossyToSingle(), m2.C1.Z.LossyToSingle(), m2.C2.Z.LossyToSingle(), 0,
+                        (float)m2.C0.X, (float)m2.C1.X, (float)m2.C2.X, 0,
+                        (float)m2.C0.Y, (float)m2.C1.Y, (float)m2.C2.Y, 0,
+                        (float)m2.C0.Z, (float)m2.C1.Z, (float)m2.C2.Z, 0,
                         0, 0, 0, 1
                     );
                     var e = mf1 * mf2;
@@ -230,7 +230,7 @@ namespace Intar.Tests {
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var angle = Utility.RandomI17F15(ref rng);
-                var rad = (float)(angle.LossyToSingle() * Math.PI / 2);
+                var rad = (float)angle * (float)(Math.PI / 2);
                 var a = Matrix3x3I2F30.RotateXP5(angle);
 
                 {
@@ -242,7 +242,7 @@ namespace Intar.Tests {
 
 #if UNITY_5_3_OR_NEWER
                 {
-                    var deg = (float)(angle.LossyToSingle() * 90);
+                    var deg = (float)angle * 90;
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(deg, 0, 0));
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail(); };
@@ -276,7 +276,7 @@ namespace Intar.Tests {
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var angle = Utility.RandomI17F15(ref rng);
-                var rad = (float)(angle.LossyToSingle() * Math.PI / 2);
+                var rad = (float)angle * (float)(Math.PI / 2);
                 var a = Matrix3x3I2F30.RotateYP5(angle);
 
                 {
@@ -288,7 +288,7 @@ namespace Intar.Tests {
 
 #if UNITY_5_3_OR_NEWER
                 {
-                    var deg = (float)(angle.LossyToSingle() * 90);
+                    var deg = (float)angle * 90;
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(0, deg, 0));
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail(); };
@@ -322,7 +322,7 @@ namespace Intar.Tests {
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var angle = Utility.RandomI17F15(ref rng);
-                var rad = (float)(angle.LossyToSingle() * Math.PI / 2);
+                var rad = (float)angle * (float)(Math.PI / 2);
                 var a = Matrix3x3I2F30.RotateZP5(angle);
 
                 {
@@ -334,7 +334,7 @@ namespace Intar.Tests {
 
 #if UNITY_5_3_OR_NEWER
                 {
-                    var deg = (float)(angle.LossyToSingle() * 90);
+                    var deg = (float)angle * 90;
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(0, 0, deg));
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail(); };
@@ -371,9 +371,9 @@ namespace Intar.Tests {
 
                 {
                     var e
-                        = System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2);
+                        = System.Numerics.Matrix4x4.CreateRotationX((float)angles.X * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationY((float)angles.Y * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationZ((float)angles.Z * (float)(Math.PI / 2));
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
@@ -408,9 +408,9 @@ namespace Intar.Tests {
 
                 {
                     var e
-                        = System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2);
+                        = System.Numerics.Matrix4x4.CreateRotationX((float)angles.X * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationZ((float)angles.Z * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationY((float)angles.Y * (float)(Math.PI / 2));
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
@@ -445,9 +445,9 @@ namespace Intar.Tests {
 
                 {
                     var e
-                        = System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2);
+                        = System.Numerics.Matrix4x4.CreateRotationY((float)angles.Y * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationX((float)angles.X * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationZ((float)angles.Z * (float)(Math.PI / 2));
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
@@ -482,9 +482,9 @@ namespace Intar.Tests {
 
                 {
                     var e
-                        = System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2);
+                        = System.Numerics.Matrix4x4.CreateRotationY((float)angles.Y * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationZ((float)angles.Z * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationX((float)angles.X * (float)(Math.PI / 2));
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
@@ -520,9 +520,9 @@ namespace Intar.Tests {
 
                 {
                     var e
-                        = System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2);
+                        = System.Numerics.Matrix4x4.CreateRotationZ((float)angles.Z * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationX((float)angles.X * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationY((float)angles.Y * (float)(Math.PI / 2));
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
@@ -571,9 +571,9 @@ namespace Intar.Tests {
 
                 {
                     var e
-                        = System.Numerics.Matrix4x4.CreateRotationZ(angles.Z.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationY(angles.Y.LossyToSingle() * (float)Math.PI / 2)
-                        * System.Numerics.Matrix4x4.CreateRotationX(angles.X.LossyToSingle() * (float)Math.PI / 2);
+                        = System.Numerics.Matrix4x4.CreateRotationZ((float)angles.Z * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationY((float)angles.Y * (float)(Math.PI / 2))
+                        * System.Numerics.Matrix4x4.CreateRotationX((float)angles.X * (float)(Math.PI / 2));
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
                     dm1 = Math.Max(dm1, d);
@@ -619,7 +619,7 @@ namespace Intar.Tests {
                     var e = System.Numerics.Matrix4x4.Transpose(
                         System.Numerics.Matrix4x4.CreateFromAxisAngle(
                             (System.Numerics.Vector3)axis,
-                            (float)(angle.LossyToSingle() * Math.PI / 2)
+                            (float)angle * (float)(Math.PI / 2)
                         )
                     );
                     var d = Delta(e, a);
@@ -631,7 +631,7 @@ namespace Intar.Tests {
                 {
                     var e = UnityEngine.Matrix4x4.Rotate(
                         UnityEngine.Quaternion.AngleAxis(
-                            (float)(angle.LossyToSingle() * 90),
+                            (float)angle * 90,
                             (UnityEngine.Vector3)axis
                         )
                     );
@@ -645,7 +645,7 @@ namespace Intar.Tests {
                 {
                     var e = Unity.Mathematics.float3x3.AxisAngle(
                         (Unity.Mathematics.float3)axis,
-                        (float)(angle.LossyToSingle() * Math.PI / 2)
+                        (float)angle * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail(); };

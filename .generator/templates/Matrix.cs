@@ -179,12 +179,12 @@ namespace {{ namespace }} {
                 {%- for i in range(end=3) %}
                 new UnityEngine.Vector4(
                 {%- for j in range(end=3) -%}
-                a.C{{ j }}.{{ components[i] }}.LossyToSingle(), {# #}
+                (float)a.C{{ j }}.{{ components[i] }}, {# #}
                 {%- endfor -%}0),
                 {%- endfor %}
                 new UnityEngine.Vector4(
                 {%- for i in range(end=3) -%}
-                a.C3.{{ components[i] }}.LossyToSingle(), {# #}
+                (float)a.C3.{{ components[i] }}, {# #}
                 {%- endfor %}1)
             );
         }
@@ -196,7 +196,7 @@ namespace {{ namespace }} {
             return new Unity.Mathematics.float{{ rows }}x{{ cols }}(
                 {%- for i in range(end=rows) %}
                 {% for j in range(end=cols) -%}
-                a.C{{ j }}.{{ components[i] }}.LossyToSingle(){% if not loop.last %}, {% endif %}
+                (float)a.C{{ j }}.{{ components[i] }}{% if not loop.last %}, {% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}

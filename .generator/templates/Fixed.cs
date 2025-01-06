@@ -178,9 +178,7 @@ namespace {{ namespace }} {
         public override int GetHashCode() => Bits.GetHashCode();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => {% if
-            int_nbits + frac_nbits > 32
-        %}Lossy{% endif %}ToDouble().ToString((IFormatProvider)null);
+        public override string ToString() => ((double)this).ToString((IFormatProvider)null);
 
         #endregion
 
@@ -195,9 +193,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
-            return {% if
-                int_nbits + frac_nbits > 32
-            %}Lossy{% endif %}ToDouble().ToString(format, formatProvider);
+            return ((double)this).ToString(format, formatProvider);
         }
 
         #endregion
@@ -472,7 +468,6 @@ namespace {{ namespace }} {
         {%- endfor %}
 
         #endregion
-
         #region Conversion from floating-point number
 
         // decimal からの型変換は基数 (Radix) が 2 のべき乗でないため実装しない。
@@ -495,7 +490,6 @@ namespace {{ namespace }} {
         {%- endfor %}
 
         #endregion
-
         #region Conversion from fixed-point number
 
         {%- for s in [true, false] %}
@@ -533,7 +527,7 @@ namespace {{ namespace }} {
         {%- endfor %}
 
         #endregion
-        #region Convert to integer
+        #region Conversion to integer
         {%- for bits in [32, 64, 128] %}
         {%- if bits > 64 %}
 
@@ -556,25 +550,16 @@ namespace {{ namespace }} {
         {%- endif %}
         {%- endfor %}
         #endregion
-
-        #region Convert to floating-point number
+        #region Conversion to floating-point number
 
         // 浮動小数点数への変換は必ず成功する。
         // 除算は最適化によって乗算に置き換えられることを期待する。
-{# 改行 #}
-
-        {#- 浮動小数点数型への変換 #}
         {%- for bits in [32, 64] %}
         {%- if   bits == 32 %}{% set t='float'  %}
         {%- elif bits == 64 %}{% set t='double' %}{% endif %}
 
-        {#- 相手のビット数が自身以下の場合、精度を失う。 #}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {% if
-            bits <= int_nbits + frac_nbits
-        %}Lossy{% endif %}To{% if
-            bits == 32 %}Single{% elif
-            bits == 64 %}Double{% endif %}() => ({{ t }})Bits / ({{ t }})OneRepr;
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator {{ t }}({{ self_type }} v) => ({{ t }})v.Bits / ({{ t }})OneRepr;
         {%- endfor %}
 
         #endregion

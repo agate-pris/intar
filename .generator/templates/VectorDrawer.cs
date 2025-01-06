@@ -12,8 +12,8 @@ namespace {{ namespace }}.Editor {
     public class {{ type }}Drawer : PropertyDrawer {
         /// フィールドに表示する値を最大値・最小値で制限する
         static float Clamp(float value) {
-            var min = {{ component }}.MinValue.LossyToSingle();
-            var max = {{ component }}.MaxValue.LossyToSingle();
+            var min = (float){{ component }}.MinValue;
+            var max = (float){{ component }}.MaxValue;
             return Mathf.Clamp(value, min, max);
         }
 

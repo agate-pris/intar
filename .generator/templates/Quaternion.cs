@@ -92,7 +92,7 @@ namespace {{ namespace }} {
         public static explicit operator System.Numerics.Quaternion({{ quaternion }} q) {
             return new System.Numerics.Quaternion(
                 {%- for c in components %}
-                q.{{ c }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                (float)q.{{ c }}{% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
@@ -101,7 +101,7 @@ namespace {{ namespace }} {
         public static explicit operator UnityEngine.Quaternion({{ quaternion }} q) {
             return new UnityEngine.Quaternion(
                 {%- for c in components %}
-                q.{{ c }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                (float)q.{{ c }}{% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
@@ -111,7 +111,7 @@ namespace {{ namespace }} {
         public static explicit operator Unity.Mathematics.quaternion({{ quaternion }} q) {
             return new Unity.Mathematics.quaternion(
                 {%- for c in components %}
-                q.{{ c }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                (float)q.{{ c }}{% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
