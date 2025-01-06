@@ -239,10 +239,10 @@ namespace Intar {
             return new QuaternionI2F30(tmp.Value);
         }
         #endregion
-        #region UncheckedLerp, UncheckedSlerp
+        #region Lerp, UncheckedSlerp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI2F30 UncheckedLerp(QuaternionI2F30 other, I17F15 t) {
+        public QuaternionI2F30 Lerp(QuaternionI2F30 other, I17F15 t) {
             var a = Repr.BigMul((I17F15.One - t).Bits);
             var b = other.Repr.BigMul(t.Bits);
             var dot = Dot(other);
@@ -300,7 +300,7 @@ namespace Intar {
                     ));
                 }
             }
-            return UncheckedLerp(other, t);
+            return Lerp(other, t);
         }
         #endregion
         #region AxisAngle

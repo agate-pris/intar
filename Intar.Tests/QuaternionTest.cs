@@ -232,7 +232,7 @@ namespace Intar.Tests {
                 var a = RandomQuaternion(ref rng);
                 var b = RandomQuaternion(ref rng);
                 var t = Utility.Random01I17F15(ref rng);
-                var actual = a.UncheckedLerp(b, t);
+                var actual = a.Lerp(b, t);
 
                 {
                     var e = System.Numerics.Quaternion.Lerp(

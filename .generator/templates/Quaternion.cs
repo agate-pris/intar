@@ -259,10 +259,10 @@ namespace {{ namespace }} {
             return new {{ quaternion }}(tmp.Value);
         }
         #endregion
-        #region UncheckedLerp, UncheckedSlerp
+        #region Lerp, UncheckedSlerp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ quaternion }} UncheckedLerp({{ quaternion }} other, {{ time }} t) {
+        public {{ quaternion }} Lerp({{ quaternion }} other, {{ time }} t) {
             var a = Repr.BigMul(({{ time }}.One - t).Bits);
             var b = other.Repr.BigMul(t.Bits);
             var dot = Dot(other);
@@ -338,7 +338,7 @@ namespace {{ namespace }} {
                     ));
                 }
             }
-            return UncheckedLerp(other, t);
+            return Lerp(other, t);
         }
         #endregion
         #region AxisAngle
