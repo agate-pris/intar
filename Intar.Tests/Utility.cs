@@ -137,26 +137,26 @@ namespace Intar.Tests {
         #endregion
         #region Delta
         public static double Delta(System.Numerics.Vector3 v, Vector3I17F15 a) {
-            var x = Math.Abs(a.X.ToDouble() - v.X);
-            var y = Math.Abs(a.Y.ToDouble() - v.Y);
-            var z = Math.Abs(a.Z.ToDouble() - v.Z);
+            var x = Math.Abs((double)a.X - v.X);
+            var y = Math.Abs((double)a.Y - v.Y);
+            var z = Math.Abs((double)a.Z - v.Z);
             return Math.Max(Math.Max(x, y), z);
         }
 
 #if UNITY_5_3_OR_NEWER
         public static double Delta(UnityEngine.Vector3 v, Vector3I17F15 a) {
-            var x = Math.Abs(a.X.ToDouble() - v.x);
-            var y = Math.Abs(a.Y.ToDouble() - v.y);
-            var z = Math.Abs(a.Z.ToDouble() - v.z);
+            var x = Math.Abs((double)a.X - v.x);
+            var y = Math.Abs((double)a.Y - v.y);
+            var z = Math.Abs((double)a.Z - v.z);
             return Math.Max(Math.Max(x, y), z);
         }
 #endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
         public static double Delta(Unity.Mathematics.float3 v, Vector3I17F15 a) {
-            var x = Math.Abs(a.X.ToDouble() - v.x);
-            var y = Math.Abs(a.Y.ToDouble() - v.y);
-            var z = Math.Abs(a.Z.ToDouble() - v.z);
+            var x = Math.Abs((double)a.X - v.x);
+            var y = Math.Abs((double)a.Y - v.y);
+            var z = Math.Abs((double)a.Z - v.z);
             return Math.Max(Math.Max(x, y), z);
         }
 #endif // UNITY_2018_1_OR_NEWER

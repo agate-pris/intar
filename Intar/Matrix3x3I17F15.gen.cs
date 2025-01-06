@@ -112,9 +112,9 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float3x3(Matrix3x3I17F15 a) {
             return new Unity.Mathematics.float3x3(
-                a.C0.X.LossyToSingle(), a.C1.X.LossyToSingle(), a.C2.X.LossyToSingle(),
-                a.C0.Y.LossyToSingle(), a.C1.Y.LossyToSingle(), a.C2.Y.LossyToSingle(),
-                a.C0.Z.LossyToSingle(), a.C1.Z.LossyToSingle(), a.C2.Z.LossyToSingle()
+                (float)a.C0.X, (float)a.C1.X, (float)a.C2.X,
+                (float)a.C0.Y, (float)a.C1.Y, (float)a.C2.Y,
+                (float)a.C0.Z, (float)a.C1.Z, (float)a.C2.Z
             );
         }
 #endif // UNITY_2018_1_OR_NEWER

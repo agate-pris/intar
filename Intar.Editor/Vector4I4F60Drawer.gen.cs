@@ -6,8 +6,8 @@ namespace Intar.Editor {
     public class Vector4I4F60Drawer : PropertyDrawer {
         /// フィールドに表示する値を最大値・最小値で制限する
         static float Clamp(float value) {
-            var min = I4F60.MinValue.LossyToSingle();
-            var max = I4F60.MaxValue.LossyToSingle();
+            var min = (float)I4F60.MinValue;
+            var max = (float)I4F60.MaxValue;
             return Mathf.Clamp(value, min, max);
         }
 

@@ -70,11 +70,11 @@ namespace {{ namespace }} {
             return new System.Numerics.Matrix4x4(
                 {%- for i in range(end=dim) %}
                 {% for j in range(end=dim) -%}
-                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
+                (float)a.RotationScale.C{{ i }}.{{ components[j] }}, {# #}
                 {%- endfor -%}0,
                 {%- endfor %}
                 {% for i in range(end=dim) -%}
-                a.Translation.{{ components[i] }}.LossyToSingle(), {# #}
+                (float)a.Translation.{{ components[i] }}, {# #}
                 {%- endfor %}1
             );
         }
@@ -86,12 +86,12 @@ namespace {{ namespace }} {
                 {%- for i in range(end=dim) %}
                 new UnityEngine.Vector4(
                 {%- for j in range(end=dim) -%}
-                a.RotationScale.C{{ i }}.{{ components[j] }}.LossyToSingle(), {# #}
+                (float)a.RotationScale.C{{ i }}.{{ components[j] }}, {# #}
                 {%- endfor -%}0),
                 {%- endfor %}
                 new UnityEngine.Vector4(
                 {%- for i in range(end=dim) -%}
-                a.Translation.{{ components[i] }}.LossyToSingle(), {# #}
+                (float)a.Translation.{{ components[i] }}, {# #}
                 {%- endfor %}1)
             );
         }
@@ -103,9 +103,9 @@ namespace {{ namespace }} {
             return new Unity.Mathematics.float4x4(
                 {%- for i in range(end=dim) %}
                 {% for j in range(end=dim) -%}
-                a.RotationScale.C{{ j }}.{{ components[i] }}.LossyToSingle(), {# #}
+                (float)a.RotationScale.C{{ j }}.{{ components[i] }}, {# #}
                 {%- endfor -%}
-                a.Translation.{{ components[i] }}.LossyToSingle(),
+                (float)a.Translation.{{ components[i] }},
                 {%- endfor %}
                 0, 0, 0, 1
             );

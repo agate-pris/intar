@@ -9,6 +9,12 @@ namespace {{ namespace }}.Editor {
     [CustomPropertyDrawer(typeof({{ type }}))]
     public class {{ type }}Drawer : PropertyDrawer {
         float? cache;
+        /// フィールドに表示する値を最大値・最小値で制限する
+        static float Clamp(float value) {
+            var min = (float){{ type }}.MinValue;
+            var max = (float){{ type }}.MaxValue;
+            return Mathf.Clamp(value, min, max);
+        }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
             // prefab override logic works on the entire property.
@@ -25,10 +31,7 @@ namespace {{ namespace }}.Editor {
             value = EditorGUI.FloatField(position, label, value);
 
             // 値を正規化してキャッシュを更新
-            cache = Mathf.Clamp(
-                value,
-                {{ type }}.MinValue.LossyToSingle(),
-                {{ type }}.MaxValue.LossyToSingle());
+            cache = Clamp(value);
 
             if (EditorGUI.EndChangeCheck()) {
                 value *= {{ type }}.OneRepr;

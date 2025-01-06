@@ -59,10 +59,10 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Matrix4x4(AffineTransform3I17F15 a) {
             return new System.Numerics.Matrix4x4(
-                a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C0.Z.LossyToSingle(), 0,
-                a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), 0,
-                a.RotationScale.C2.X.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), 0,
-                a.Translation.X.LossyToSingle(), a.Translation.Y.LossyToSingle(), a.Translation.Z.LossyToSingle(), 1
+                (float)a.RotationScale.C0.X, (float)a.RotationScale.C0.Y, (float)a.RotationScale.C0.Z, 0,
+                (float)a.RotationScale.C1.X, (float)a.RotationScale.C1.Y, (float)a.RotationScale.C1.Z, 0,
+                (float)a.RotationScale.C2.X, (float)a.RotationScale.C2.Y, (float)a.RotationScale.C2.Z, 0,
+                (float)a.Translation.X, (float)a.Translation.Y, (float)a.Translation.Z, 1
             );
         }
 
@@ -70,10 +70,10 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4(AffineTransform3I17F15 a) {
             return new UnityEngine.Matrix4x4(
-                new UnityEngine.Vector4(a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C0.Z.LossyToSingle(), 0),
-                new UnityEngine.Vector4(a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), 0),
-                new UnityEngine.Vector4(a.RotationScale.C2.X.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), 0),
-                new UnityEngine.Vector4(a.Translation.X.LossyToSingle(), a.Translation.Y.LossyToSingle(), a.Translation.Z.LossyToSingle(), 1)
+                new UnityEngine.Vector4((float)a.RotationScale.C0.X, (float)a.RotationScale.C0.Y, (float)a.RotationScale.C0.Z, 0),
+                new UnityEngine.Vector4((float)a.RotationScale.C1.X, (float)a.RotationScale.C1.Y, (float)a.RotationScale.C1.Z, 0),
+                new UnityEngine.Vector4((float)a.RotationScale.C2.X, (float)a.RotationScale.C2.Y, (float)a.RotationScale.C2.Z, 0),
+                new UnityEngine.Vector4((float)a.Translation.X, (float)a.Translation.Y, (float)a.Translation.Z, 1)
             );
         }
 #endif // UNITY_5_3_OR_NEWER
@@ -82,9 +82,9 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float4x4(AffineTransform3I17F15 a) {
             return new Unity.Mathematics.float4x4(
-                a.RotationScale.C0.X.LossyToSingle(), a.RotationScale.C1.X.LossyToSingle(), a.RotationScale.C2.X.LossyToSingle(), a.Translation.X.LossyToSingle(),
-                a.RotationScale.C0.Y.LossyToSingle(), a.RotationScale.C1.Y.LossyToSingle(), a.RotationScale.C2.Y.LossyToSingle(), a.Translation.Y.LossyToSingle(),
-                a.RotationScale.C0.Z.LossyToSingle(), a.RotationScale.C1.Z.LossyToSingle(), a.RotationScale.C2.Z.LossyToSingle(), a.Translation.Z.LossyToSingle(),
+                (float)a.RotationScale.C0.X, (float)a.RotationScale.C1.X, (float)a.RotationScale.C2.X, (float)a.Translation.X,
+                (float)a.RotationScale.C0.Y, (float)a.RotationScale.C1.Y, (float)a.RotationScale.C2.Y, (float)a.Translation.Y,
+                (float)a.RotationScale.C0.Z, (float)a.RotationScale.C1.Z, (float)a.RotationScale.C2.Z, (float)a.Translation.Z,
                 0, 0, 0, 1
             );
         }
