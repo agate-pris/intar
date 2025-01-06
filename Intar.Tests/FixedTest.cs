@@ -7,7 +7,7 @@ namespace Intar.Tests {
             var a = (I17F15)1;
             var b = (I17F15)2;
             a += b;
-            Utility.AssertAreEqual(3, a.ToInt32());
+            Utility.AssertAreEqual(3, (int)a);
         }
 
         [Test]
