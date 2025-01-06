@@ -239,7 +239,7 @@ namespace Intar {
             return new QuaternionI2F30(tmp.Value);
         }
         #endregion
-        #region Lerp, UncheckedSlerp
+        #region Lerp, Slerp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI2F30 Lerp(QuaternionI2F30 other, I17F15 t) {
@@ -251,7 +251,7 @@ namespace Intar {
             return q.Normalize().Value;
         }
 
-        public QuaternionI2F30 UncheckedSlerp(QuaternionI2F30 other, I17F15 t) {
+        public QuaternionI2F30 Slerp(QuaternionI2F30 other, I17F15 t) {
             var dot = Dot(other);
             if (dot.Bits < 0) {
                 dot = -dot;
