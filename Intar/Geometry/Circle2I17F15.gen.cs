@@ -30,6 +30,16 @@ namespace Intar.Geometry {
             return Center.Equals(other.Center) && Radius.Equals(other.Radius);
         }
         #endregion
+        #region IEqualityOperators
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Circle2I17F15 left, Circle2I17F15 right) {
+            return left.Center.X == right.Center.X && left.Center.Y == right.Center.Y && left.Radius == right.Radius;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Circle2I17F15 left, Circle2I17F15 right) {
+            return left.Center.X != right.Center.X || left.Center.Y != right.Center.Y || left.Radius != right.Radius;
+        }
+        #endregion
         #region Object
         public override bool Equals(object obj) {
             return obj is Circle2I17F15 o && Equals(o);
