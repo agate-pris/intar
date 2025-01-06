@@ -383,7 +383,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
 #if NET7_0_OR_GREATER
 
@@ -420,6 +420,11 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 DistanceSquared(Vector4UInt64 other) {
             return AbsDiff(other).LengthSquared();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong Distance(Vector4UInt64 other) {
+            return AbsDiff(other).Length();
         }
 
 #endif // NET7_0_OR_GREATER

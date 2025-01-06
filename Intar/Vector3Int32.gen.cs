@@ -406,7 +406,7 @@ namespace Intar {
 
         #endregion
 
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 BigMul(int other) {
@@ -450,6 +450,11 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong DistanceSquared(Vector3Int32 other) {
             return AbsDiff(other).LengthSquared();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint Distance(Vector3Int32 other) {
+            return AbsDiff(other).Length();
         }
 
         #endregion
