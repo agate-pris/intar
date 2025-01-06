@@ -414,44 +414,59 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region Convert to integer
-
-        // 整数への変換で小数点以下の精度が失われるのは自明なので
-        // わざわざ明記することはしない。
 
         /// <summary>
         /// <para><see cref="int" /> への変換を行います。</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int ToInt32() {
-            return unchecked((int)(Bits / OneRepr));
+        public static explicit operator int(U17F15 v) {
+            return (int)(v.Bits / OneRepr);
         }
 
         /// <summary>
         /// <para><see cref="uint" /> への変換を行います。</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint ToUInt32() {
-            return unchecked((uint)(Bits / OneRepr));
+        public static explicit operator uint(U17F15 v) {
+            return (uint)(v.Bits / OneRepr);
         }
 
         /// <summary>
         /// <para><see cref="long" /> への変換を行います。</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public long ToInt64() {
-            return unchecked((long)(Bits / OneRepr));
+        public static explicit operator long(U17F15 v) {
+            return (long)(v.Bits / OneRepr);
         }
 
         /// <summary>
         /// <para><see cref="ulong" /> への変換を行います。</para>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong ToUInt64() {
-            return unchecked((ulong)(Bits / OneRepr));
+        public static explicit operator ulong(U17F15 v) {
+            return (ulong)(v.Bits / OneRepr);
         }
 
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// <para><see cref="Int128" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Int128(U17F15 v) {
+            return (Int128)(v.Bits / OneRepr);
+        }
+
+        /// <summary>
+        /// <para><see cref="UInt128" /> への変換を行います。</para>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UInt128(U17F15 v) {
+            return (UInt128)(v.Bits / OneRepr);
+        }
+
+#endif // NET7_0_OR_GREATER
         #endregion
 
         #region Convert to floating-point number
