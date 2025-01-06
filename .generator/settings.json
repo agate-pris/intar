@@ -39,7 +39,17 @@
             "dir_path": "../{{ namespace }}",
             "template_name": "AffineTransform.cs",
             "files": [
-                { "file_name": "AffineTransformI17F15.gen.cs", "params": { "namespace": "{{ namespace }}", "int_nbits": 17, "frac_nbits": 15 } }
+                {%- for d in [3] %}
+                {
+                    "file_name": "AffineTransform{{ d }}I17F15.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "int_nbits": 17,
+                        "frac_nbits": 15,
+                        "dim": {{ d }}
+                    }
+                }{% if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         },
         {
@@ -50,16 +60,23 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}/Geometry",
+            "template_name": "Circle.cs",
+            "files": [
+                { "file_name": "Circle2I17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Fixed.cs",
             "files": [
-{%- for signed in [true, false] %}
-    {%- for f in fixed_list %}
+                {%- for signed in [true, false] %}
+                {%- for f in fixed_list %}
                 { "file_name": "{% if signed %}I{% else %}U{% endif %}{{ f[0] }}F{{ f[1] }}.gen.cs", "params": { "namespace": "{{ namespace }}", "signed": {{ signed }}, "int_nbits": {{ f[0] }}, "frac_nbits": {{ f[1] }}, "fixed_list": {{ fixed_list | json_encode() }}, "vector_list": {{ vector_list | json_encode() }} } }
-        {%- if not loop.last %},{% endif %}
-    {%- endfor %}
-    {%- if not loop.last %},{% endif %}
-{%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         },
         {
@@ -157,23 +174,23 @@
             "dir_path": "../{{ namespace }}",
             "template_name": "Vector.cs",
             "files": [
-{%- for v in vector_list %}
-    {%- for dim in range(end = 3) %}
+                {%- for v in vector_list %}
+                {%- for dim in range(end = 3) %}
                 { "file_name": "Vector{{ dim + 2 }}I{{ v[0] }}F{{ v[1] }}.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ dim + 2 }}, "signed": true, "int_nbits": {{ v[0] }}, "frac_nbits": {{ v[1] }}, "fixed": true } }
-        {%- if not loop.last %},{% endif %}
-    {%- endfor %}
-    {%- if not loop.last %},{% endif %}
-{%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         },
         {
             "dir_path": "../{{ namespace }}",
             "template_name": "VectorBool.cs",
             "files": [
-{%- for dim in range(start=2, end=5) %}
+                {%- for dim in range(start=2, end=5) %}
                 { "file_name": "Vector{{ dim }}Bool.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ dim }} } }
-    {%- if not loop.last %},{% endif %}
-{%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         },
         {
@@ -206,16 +223,16 @@
             "dir_path": "../{{ namespace }}",
             "template_name": "VectorPrimitive.cs",
             "files": [
-{%- for bits in [32, 64, 128] %}
-    {%- for s in [true, false] %}
-        {%- for d in [2, 3, 4] %}
+                {%- for bits in [32, 64, 128] %}
+                {%- for s in [true, false] %}
+                {%- for d in [2, 3, 4] %}
                 { "file_name": "Vector{{ d }}{% if not s %}U{% endif %}Int{{ bits }}.gen.cs", "params": { "namespace": "{{ namespace }}", "dim": {{ d }}, "signed": {{ s }}, "bits": {{ bits }} } }
-            {%- if not loop.last %},{% endif %}
-        {%- endfor %}
-        {%- if not loop.last %},{% endif %}
-    {%- endfor %}
-    {%- if not loop.last %},{% endif %}
-{%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
             ]
         }
     ]

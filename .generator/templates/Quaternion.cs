@@ -92,7 +92,7 @@ namespace {{ namespace }} {
         public static explicit operator System.Numerics.Quaternion({{ quaternion }} q) {
             return new System.Numerics.Quaternion(
                 {%- for c in components %}
-                q.{{ c }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                (float)q.{{ c }}{% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
@@ -101,7 +101,7 @@ namespace {{ namespace }} {
         public static explicit operator UnityEngine.Quaternion({{ quaternion }} q) {
             return new UnityEngine.Quaternion(
                 {%- for c in components %}
-                q.{{ c }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                (float)q.{{ c }}{% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
@@ -111,7 +111,7 @@ namespace {{ namespace }} {
         public static explicit operator Unity.Mathematics.quaternion({{ quaternion }} q) {
             return new Unity.Mathematics.quaternion(
                 {%- for c in components %}
-                q.{{ c }}.LossyToSingle(){% if not loop.last %},{% endif %}
+                (float)q.{{ c }}{% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
@@ -121,14 +121,14 @@ namespace {{ namespace }} {
 
         public {{ vector_4 }} Vector {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ vector_4 }}(Repr);
+            get => {{ vector_4 }}.FromRepr(Repr);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr = value.Repr;
         }
 
         public {{ vector_3 }} Imaginary {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ vector_3 }}(Repr.XYZ());
+            get => {{ vector_3 }}.FromRepr(Repr.XYZ());
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 {%- for c in components|slice(end=3) %}
@@ -193,7 +193,7 @@ namespace {{ namespace }} {
             var imaginary = Imaginary.Repr;
             var tmp = ({{ repr_3 }})(2 * imaginary.Cross(v.Repr) / {{ component }}.OneRepr);
             tmp = ({{ repr_3 }})((tmp.BigMul(Repr.W) + imaginary.Cross(tmp)) / {{ component }}.OneRepr);
-            return new {{ v }}(tmp + v.Repr);
+            return {{ v }}.FromRepr(tmp + v.Repr);
         }
         {%- endfor %}
         #endregion
@@ -226,27 +226,28 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ quaternion }}? Inverse() {
-            var lengthSquared = UncheckedLengthSquared();
-            if (lengthSquared == {{ wide_component_u }}.Zero) {
+            var lengthSquared = LengthSquared().Bits / {{ component_u }}.OneRepr;
+            if (lengthSquared == 0) {
                 return null;
             }
             var conjugate = Conjugate();
-            return new QuaternionI2F30(conjugate.Vector / I2F30.UncheckedLossyFrom(lengthSquared));
+            var bits = conjugate.Repr.BigMul({{ component }}.OneRepr) / ({{ wide_bits }})lengthSquared;
+            return new {{ quaternion }}(({{ repr }})bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ quaternion }} other) {
-            return {{ wide_component }}.FromBits(Repr.UncheckedDot(other.Repr));
+        public {{ wide_component }} Dot({{ quaternion }} other) {
+            return {{ wide_component }}.FromBits(Repr.Dot(other.Repr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component_u }} UncheckedLengthSquared() {
-            return {{ wide_component_u }}.FromBits(Repr.UncheckedLengthSquared());
+        public {{ wide_component_u }} LengthSquared() {
+            return {{ wide_component_u }}.FromBits(Repr.LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component_u }} UncheckedLength() {
-            return {{ component_u }}.FromBits(Repr.UncheckedLength());
+        public {{ component_u }} Length() {
+            return {{ component_u }}.FromBits(Repr.Length());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -258,20 +259,20 @@ namespace {{ namespace }} {
             return new {{ quaternion }}(tmp.Value);
         }
         #endregion
-        #region UncheckedLerp, UncheckedSlerp
+        #region Lerp, Slerp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ quaternion }} UncheckedLerp({{ quaternion }} other, {{ time }} t) {
+        public {{ quaternion }} Lerp({{ quaternion }} other, {{ time }} t) {
             var a = Repr.BigMul(({{ time }}.One - t).Bits);
             var b = other.Repr.BigMul(t.Bits);
-            var dot = UncheckedDot(other);
+            var dot = Dot(other);
             a = (dot.Bits < 0) ? (a - b) : (a + b);
             var q = new {{ quaternion }}(({{ repr }})(a / {{ time }}.OneRepr));
             return q.Normalize().Value;
         }
 
-        public {{ quaternion }} UncheckedSlerp({{ quaternion }} other, {{ time }} t) {
-            var dot = UncheckedDot(other);
+        public {{ quaternion }} Slerp({{ quaternion }} other, {{ time }} t) {
+            var dot = Dot(other);
             if (dot.Bits < 0) {
                 dot = -dot;
                 other.Repr = -other.Repr;
@@ -296,15 +297,15 @@ namespace {{ namespace }} {
                 // その後, 後の計算のために小数部の精度を {{ (int_nbits+frac_nbits-2)/2 }} ビットにする.
                 {#- 32 ビットのクォータニオンには AcosP3(long) を,
                     64 ビットのクォータニオンには AcosP7(Int128) を使用する. #}
-                var angle = {{
+                var angle = ({{
                     macros::fixed_type(s=true, i=(int_nbits+frac_nbits)/2 + 1, f=(int_nbits+frac_nbits)/2 - 1)
-                }}.LossyFrom({{
+                }}){{
                     macros::fixed_type(s=true, i=int_nbits+frac_nbits+1, f=int_nbits+frac_nbits-1)
                 }}.AcosP{%
                     if   int_nbits + frac_nbits == 32 %}3{%
                     elif int_nbits + frac_nbits == 64 %}7{%
                     else %}{{ throw(message='unimplemented') }}{%
-                    endif %}(({{ wide_bits }})d.Bits));
+                    endif %}(({{ wide_bits }})d.Bits);
 
                 // 閾値が 0.0005 の場合 invSin の最大値は
                 // (1 - (1-0.0005)^2)^(-0.5)=31.6267301900746 となる.
@@ -337,7 +338,7 @@ namespace {{ namespace }} {
                     ));
                 }
             }
-            return UncheckedLerp(other, t);
+            return Lerp(other, t);
         }
         #endregion
         #region AxisAngle

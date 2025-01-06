@@ -301,7 +301,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative{% if signed %}, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs{% endif %}, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector_b }} IsNegative() {
@@ -350,6 +350,14 @@ namespace {{ namespace }} {
 
         {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ vector_u }} AbsDiff({{ vector }} other) {
+            return new {{ vector_u }}(
+                {%- for c in components %}
+                Mathi.AbsDiff({{ c }}, other.{{ c }}){% if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
@@ -443,7 +451,7 @@ namespace {{ namespace }} {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Half() => new {{ vector }}(
@@ -460,7 +468,7 @@ namespace {{ namespace }} {
         );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal {{ component }} UncheckedComponentsSum() => {% for c in components -%}
+        internal {{ component }} ComponentsSum() => {% for c in components -%}
             {{ c }}{% if not loop.last %} + {% endif %}
         {%- endfor %};
 
@@ -468,16 +476,18 @@ namespace {{ namespace }} {
 
         {%- if bits < 128 %}
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
         {%- endif %}
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} BigMul({{ component }} other) {
             return ({{ wide_vector }})this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} BigMul({{ vector }} other) {
             return ({{ wide_vector }})this * other;
         }
@@ -493,29 +503,23 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} UncheckedDot({{ vector }} other) {
-            return BigMul(other).UncheckedComponentsSum();
+        public {{ wide_component }} Dot({{ vector }} other) {
+            return BigMul(other).ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component_u }} {%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}LengthSquared() {
+        public {{ wide_component_u }} LengthSquared() {
             {%- if signed %}
             var abs = UnsignedAbs();
-            var sqr = abs.BigMul(abs);
+            return abs.LengthSquared();
             {%- else %}
             var sqr = BigMul(this);
+            return sqr.ComponentsSum();
             {%- endif %}
-            return sqr.UncheckedComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ component_u }} {%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}Length() => ({{ component_u }})Mathi.Sqrt({%
-            if dim > 3 or not signed and dim > 1
-        %}Unchecked{% endif %}LengthSquared());
+        public {{ component_u }} Length() => ({{ component_u }})Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal {{ component_u }} HalfLength() {
@@ -525,7 +529,17 @@ namespace {{ namespace }} {
             {%- else %}
             var sqr = BigMul(this);
             {%- endif %}
-            return ({{ component_u }})Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+            return ({{ component_u }})Mathi.Sqrt((sqr / 4).ComponentsSum());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component_u }} DistanceSquared({{ vector }} other) {
+            return AbsDiff(other).LengthSquared();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ component_u }} Distance({{ vector }} other) {
+            return AbsDiff(other).Length();
         }
         {%- if bits > 32 %}
 

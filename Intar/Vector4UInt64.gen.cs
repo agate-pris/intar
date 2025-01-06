@@ -313,7 +313,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Bool IsNegative() {
@@ -322,6 +322,15 @@ namespace Intar {
 
         // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt64 AbsDiff(Vector4UInt64 other) {
+            return new Vector4UInt64(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y),
+                Mathi.AbsDiff(Z, other.Z),
+                Mathi.AbsDiff(W, other.W)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
@@ -361,7 +370,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt64 Half() => new Vector4UInt64(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
@@ -370,40 +379,52 @@ namespace Intar {
         public Vector4UInt64 Twice() => new Vector4UInt64(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal ulong UncheckedComponentsSum() => X + Y + Z + W;
+        internal ulong ComponentsSum() => X + Y + Z + W;
 
         #endregion
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
 #if NET7_0_OR_GREATER
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 BigMul(ulong other) {
             return (Vector4UInt128)this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4UInt128 BigMul(Vector4UInt64 other) {
             return (Vector4UInt128)this * other;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UInt128 UncheckedDot(Vector4UInt64 other) {
-            return BigMul(other).UncheckedComponentsSum();
+        public UInt128 Dot(Vector4UInt64 other) {
+            return BigMul(other).ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UInt128 UncheckedLengthSquared() {
+        public UInt128 LengthSquared() {
             var sqr = BigMul(this);
-            return sqr.UncheckedComponentsSum();
+            return sqr.ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong UncheckedLength() => (ulong)Mathi.Sqrt(UncheckedLengthSquared());
+        public ulong Length() => (ulong)Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal ulong HalfLength() {
             var sqr = BigMul(this);
-            return (ulong)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+            return (ulong)Mathi.Sqrt((sqr / 4).ComponentsSum());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt128 DistanceSquared(Vector4UInt64 other) {
+            return AbsDiff(other).LengthSquared();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong Distance(Vector4UInt64 other) {
+            return AbsDiff(other).Length();
         }
 
 #endif // NET7_0_OR_GREATER

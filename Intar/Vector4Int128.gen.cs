@@ -324,7 +324,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Bool IsNegative() {
@@ -357,6 +357,15 @@ namespace Intar {
             return (isNegative, unsignedAbs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt128 AbsDiff(Vector4Int128 other) {
+            return new Vector4UInt128(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y),
+                Mathi.AbsDiff(Z, other.Z),
+                Mathi.AbsDiff(W, other.W)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
@@ -385,7 +394,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Half() => new Vector4Int128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
@@ -394,7 +403,7 @@ namespace Intar {
         public Vector4Int128 Twice() => new Vector4Int128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Int128 UncheckedComponentsSum() => X + Y + Z + W;
+        internal Int128 ComponentsSum() => X + Y + Z + W;
 
         #endregion
 

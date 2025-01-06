@@ -28,9 +28,9 @@ namespace Intar {
         #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         Matrix3x3I2F30(Vector3Int32 c0Repr, Vector3Int32 c1Repr, Vector3Int32 c2Repr) {
-            C0 = new Vector3I2F30(c0Repr);
-            C1 = new Vector3I2F30(c1Repr);
-            C2 = new Vector3I2F30(c2Repr);
+            C0 = Vector3I2F30.FromRepr(c0Repr);
+            C1 = Vector3I2F30.FromRepr(c1Repr);
+            C2 = Vector3I2F30.FromRepr(c2Repr);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,7 +54,7 @@ namespace Intar {
         #region Properties
         public Vector3I2F30 R0 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I2F30(new Vector3Int32(C0.Repr.X, C1.Repr.X, C2.Repr.X));
+            get => Vector3I2F30.FromRepr(new Vector3Int32(C0.Repr.X, C1.Repr.X, C2.Repr.X));
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 C0.Repr.X = value.Repr.X;
@@ -64,7 +64,7 @@ namespace Intar {
         }
         public Vector3I2F30 R1 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I2F30(new Vector3Int32(C0.Repr.Y, C1.Repr.Y, C2.Repr.Y));
+            get => Vector3I2F30.FromRepr(new Vector3Int32(C0.Repr.Y, C1.Repr.Y, C2.Repr.Y));
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 C0.Repr.Y = value.Repr.X;
@@ -74,7 +74,7 @@ namespace Intar {
         }
         public Vector3I2F30 R2 {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I2F30(new Vector3Int32(C0.Repr.Z, C1.Repr.Z, C2.Repr.Z));
+            get => Vector3I2F30.FromRepr(new Vector3Int32(C0.Repr.Z, C1.Repr.Z, C2.Repr.Z));
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 C0.Repr.Z = value.Repr.X;
@@ -112,9 +112,9 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float3x3(Matrix3x3I2F30 a) {
             return new Unity.Mathematics.float3x3(
-                a.C0.X.LossyToSingle(), a.C1.X.LossyToSingle(), a.C2.X.LossyToSingle(),
-                a.C0.Y.LossyToSingle(), a.C1.Y.LossyToSingle(), a.C2.Y.LossyToSingle(),
-                a.C0.Z.LossyToSingle(), a.C1.Z.LossyToSingle(), a.C2.Z.LossyToSingle()
+                (float)a.C0.X, (float)a.C1.X, (float)a.C2.X,
+                (float)a.C0.Y, (float)a.C1.Y, (float)a.C2.Y,
+                (float)a.C0.Z, (float)a.C1.Z, (float)a.C2.Z
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
@@ -142,19 +142,19 @@ namespace Intar {
         public static Matrix3x3I2F30 operator *(Matrix3x3I2F30 left, Matrix3x3I2F30 right) {
             return new Matrix3x3I2F30(
                 new Vector3I2F30(
-                    I2F30.UncheckedLossyFrom(left.R0.UncheckedDot(right.C0)),
-                    I2F30.UncheckedLossyFrom(left.R1.UncheckedDot(right.C0)),
-                    I2F30.UncheckedLossyFrom(left.R2.UncheckedDot(right.C0))
+                    (I2F30)left.R0.Dot(right.C0),
+                    (I2F30)left.R1.Dot(right.C0),
+                    (I2F30)left.R2.Dot(right.C0)
                 ),
                 new Vector3I2F30(
-                    I2F30.UncheckedLossyFrom(left.R0.UncheckedDot(right.C1)),
-                    I2F30.UncheckedLossyFrom(left.R1.UncheckedDot(right.C1)),
-                    I2F30.UncheckedLossyFrom(left.R2.UncheckedDot(right.C1))
+                    (I2F30)left.R0.Dot(right.C1),
+                    (I2F30)left.R1.Dot(right.C1),
+                    (I2F30)left.R2.Dot(right.C1)
                 ),
                 new Vector3I2F30(
-                    I2F30.UncheckedLossyFrom(left.R0.UncheckedDot(right.C2)),
-                    I2F30.UncheckedLossyFrom(left.R1.UncheckedDot(right.C2)),
-                    I2F30.UncheckedLossyFrom(left.R2.UncheckedDot(right.C2))
+                    (I2F30)left.R0.Dot(right.C2),
+                    (I2F30)left.R1.Dot(right.C2),
+                    (I2F30)left.R2.Dot(right.C2)
                 )
             );
         }
@@ -1018,8 +1018,8 @@ namespace Intar {
         #region LookRotation, LookRotationSafe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 LookRotation(Vector3I2F30 forward, Vector3I2F30 up) {
-            var c0 = new Vector3I2F30((Vector3Int32)(up.Cross(forward).Repr / I2F30.OneRepr)).Normalize().Value;
-            var c1 = new Vector3I2F30((Vector3Int32)(forward.Cross(c0).Repr / I2F30.OneRepr));
+            var c0 = Vector3I2F30.FromRepr((Vector3Int32)(up.Cross(forward).Repr / I2F30.OneRepr)).Normalize().Value;
+            var c1 = Vector3I2F30.FromRepr((Vector3Int32)(forward.Cross(c0).Repr / I2F30.OneRepr));
             return new Matrix3x3I2F30(c0.Repr, c1.Repr, forward.Repr);
         }
 
@@ -1030,12 +1030,12 @@ namespace Intar {
             if (!f.HasValue || !u.HasValue) {
                 return null;
             }
-            var c0 = new Vector3I2F30((Vector3Int32)(u.Value.Cross(f.Value).Repr / I2F30.OneRepr)).Normalize();
+            var c0 = Vector3I2F30.FromRepr((Vector3Int32)(u.Value.Cross(f.Value).Repr / I2F30.OneRepr)).Normalize();
             if (!c0.HasValue) {
                 return null;
             }
 
-            var c1 = new Vector3I2F30((Vector3Int32)(f.Value.Cross(c0.Value).Repr / I2F30.OneRepr));
+            var c1 = Vector3I2F30.FromRepr((Vector3Int32)(f.Value.Cross(c0.Value).Repr / I2F30.OneRepr));
             return new Matrix3x3I2F30(c0.Value.Repr, c1.Repr, f.Value.Repr);
         }
         #endregion

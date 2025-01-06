@@ -16,29 +16,29 @@ namespace Intar.Tests {
         }
 
         public static double Delta(System.Numerics.Quaternion e, QuaternionI2F30 a) {
-            var x = Math.Abs(a.X.ToDouble() - e.X);
-            var y = Math.Abs(a.Y.ToDouble() - e.Y);
-            var z = Math.Abs(a.Z.ToDouble() - e.Z);
-            var w = Math.Abs(a.W.ToDouble() - e.W);
+            var x = Math.Abs((double)a.X - e.X);
+            var y = Math.Abs((double)a.Y - e.Y);
+            var z = Math.Abs((double)a.Z - e.Z);
+            var w = Math.Abs((double)a.W - e.W);
             return Math.Max(Math.Max(x, y), Math.Max(z, w));
         }
 
 #if UNITY_5_6_OR_NEWER
         public static double Delta(UnityEngine.Quaternion e, QuaternionI2F30 a) {
-            var x = Math.Abs(a.X.ToDouble() - e.x);
-            var y = Math.Abs(a.Y.ToDouble() - e.y);
-            var z = Math.Abs(a.Z.ToDouble() - e.z);
-            var w = Math.Abs(a.W.ToDouble() - e.w);
+            var x = Math.Abs((double)a.X - e.x);
+            var y = Math.Abs((double)a.Y - e.y);
+            var z = Math.Abs((double)a.Z - e.z);
+            var w = Math.Abs((double)a.W - e.w);
             return Math.Max(Math.Max(x, y), Math.Max(z, w));
         }
 #endif // UNITY_5_6_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
         public static double Delta(Unity.Mathematics.quaternion e, QuaternionI2F30 a) {
-            var x = Math.Abs(a.X.ToDouble() - e.value.x);
-            var y = Math.Abs(a.Y.ToDouble() - e.value.y);
-            var z = Math.Abs(a.Z.ToDouble() - e.value.z);
-            var w = Math.Abs(a.W.ToDouble() - e.value.w);
+            var x = Math.Abs((double)a.X - e.value.x);
+            var y = Math.Abs((double)a.Y - e.value.y);
+            var z = Math.Abs((double)a.Z - e.value.z);
+            var w = Math.Abs((double)a.W - e.value.w);
             return Math.Max(Math.Max(x, y), Math.Max(z, w));
         }
 #endif // UNITY_2018_1_OR_NEWER
@@ -232,13 +232,13 @@ namespace Intar.Tests {
                 var a = RandomQuaternion(ref rng);
                 var b = RandomQuaternion(ref rng);
                 var t = Utility.Random01I17F15(ref rng);
-                var actual = a.UncheckedLerp(b, t);
+                var actual = a.Lerp(b, t);
 
                 {
                     var e = System.Numerics.Quaternion.Lerp(
                         (System.Numerics.Quaternion)a,
                         (System.Numerics.Quaternion)b,
-                        t.LossyToSingle()
+                        (float)t
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -252,7 +252,7 @@ namespace Intar.Tests {
                     var e = UnityEngine.Quaternion.Lerp(
                         (UnityEngine.Quaternion)a,
                         (UnityEngine.Quaternion)b,
-                        t.LossyToSingle()
+                        (float)t
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -267,7 +267,7 @@ namespace Intar.Tests {
                     var e = Unity.Mathematics.math.nlerp(
                         (Unity.Mathematics.quaternion)a,
                         (Unity.Mathematics.quaternion)b,
-                        t.LossyToSingle()
+                        (float)t
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -429,13 +429,13 @@ namespace Intar.Tests {
                 var a = RandomQuaternion(ref rng);
                 var b = RandomQuaternion(ref rng);
                 var t = Utility.Random01I17F15(ref rng);
-                var actual = a.UncheckedSlerp(b, t);
+                var actual = a.Slerp(b, t);
 
                 {
                     var e = System.Numerics.Quaternion.Slerp(
                         (System.Numerics.Quaternion)a,
                         (System.Numerics.Quaternion)b,
-                        t.LossyToSingle()
+                        (float)t
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -449,7 +449,7 @@ namespace Intar.Tests {
                     var e = UnityEngine.Quaternion.Slerp(
                         (UnityEngine.Quaternion)a,
                         (UnityEngine.Quaternion)b,
-                        t.LossyToSingle()
+                        (float)t
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -464,7 +464,7 @@ namespace Intar.Tests {
                     var e = Unity.Mathematics.math.slerp(
                         (Unity.Mathematics.quaternion)a,
                         (Unity.Mathematics.quaternion)b,
-                        t.LossyToSingle()
+                        (float)t
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -491,8 +491,8 @@ namespace Intar.Tests {
                 var actualX = QuaternionI2F30.RotateXP5(angle);
                 var actualY = QuaternionI2F30.RotateYP5(angle);
                 var actualZ = QuaternionI2F30.RotateZP5(angle);
-                var rad = angle.LossyToSingle() * toRad;
-                var deg = angle.LossyToSingle() * 90;
+                var rad = (float)angle * toRad;
+                var deg = (float)angle * 90;
 
                 {
                     var eX = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitX, rad);
@@ -555,9 +555,9 @@ namespace Intar.Tests {
 
                 {
                     var e = System.Numerics.Quaternion.CreateFromYawPitchRoll(
-                        y.LossyToSingle() * toRad,
-                        x.LossyToSingle() * toRad,
-                        z.LossyToSingle() * toRad
+                        (float)y * toRad,
+                        (float)x * toRad,
+                        (float)z * toRad
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -569,9 +569,9 @@ namespace Intar.Tests {
 #if UNITY_5_3_OR_NEWER
                 {
                     var e = UnityEngine.Quaternion.Euler(
-                        x.LossyToSingle() * 90,
-                        y.LossyToSingle() * 90,
-                        z.LossyToSingle() * 90
+                        (float)x * 90,
+                        (float)y * 90,
+                        (float)z * 90
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -584,9 +584,9 @@ namespace Intar.Tests {
 #if UNITY_2018_1_OR_NEWER
                 {
                     var e = Unity.Mathematics.quaternion.EulerZXY(
-                        x.LossyToSingle() * toRad,
-                        y.LossyToSingle() * toRad,
-                        z.LossyToSingle() * toRad
+                        (float)x * toRad,
+                        (float)y * toRad,
+                        (float)z * toRad
                     );
 
                     var d = Delta(e, actual);
@@ -615,7 +615,7 @@ namespace Intar.Tests {
                 {
                     var e = System.Numerics.Quaternion.CreateFromAxisAngle(
                         (System.Numerics.Vector3)axis,
-                        angle.LossyToSingle() * toRad
+                        (float)angle * toRad
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {
@@ -627,7 +627,7 @@ namespace Intar.Tests {
 #if UNITY_5_3_OR_NEWER
                 {
                     var e = UnityEngine.Quaternion.AngleAxis(
-                        angle.LossyToSingle() * 90,
+                        (float)angle * 90,
                         (UnityEngine.Vector3)axis
                     );
                     var d = Delta(e, actual);
@@ -642,7 +642,7 @@ namespace Intar.Tests {
                 {
                     var e = Unity.Mathematics.quaternion.AxisAngle(
                         (Unity.Mathematics.float3)axis,
-                        angle.LossyToSingle() * toRad
+                        (float)angle * toRad
                     );
                     var d = Delta(e, actual);
                     if (d > delta) {

@@ -16,9 +16,7 @@
 {%- set angle_3  = macros::vector_type(dim=3,    type=angle    ) %}
 {%- set col_repr = macros::vector_primitive(signed=true, dim=rows, bits=bits) %}
 {%- set row_repr = macros::vector_primitive(signed=true, dim=cols, bits=bits) %}
-{%- if signed %}{%- set type = 'Matrix' ~ rows ~ 'x' ~ cols ~ 'I' ~ int_nbits ~ 'F' ~ frac_nbits %}
-{%- else %}     {%- set type = 'Matrix' ~ rows ~ 'x' ~ cols ~ 'U' ~ int_nbits ~ 'F' ~ frac_nbits %}
-{%- endif %}
+{%- set type = macros::matrix_type(r=rows, c=cols, type=component) %}
 {%- set components = ['X', 'Y', 'Z', 'W'] %}
 {%- set one = macros::one(signed=signed, bits=bits) %}
 {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
@@ -61,7 +59,7 @@ namespace {{ namespace }} {
             {%- endfor -%}
         ) {
             {%- for i in range(end=cols) %}
-            C{{ i }} = new {{ col }}(c{{ i }}Repr);
+            C{{ i }} = {{ col }}.FromRepr(c{{ i }}Repr);
             {%- endfor %}
         }
 
@@ -105,7 +103,7 @@ namespace {{ namespace }} {
         {%- for i in range(end=rows) %}
         public {{ row }} R{{ i }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new {{ row }}(new {{ row_repr }}(
+            get => {{ row }}.FromRepr(new {{ row_repr }}(
                 {%- for j in range(end=cols) -%}
                 C{{ j }}.Repr.{{ components[i] }}{%- if not loop.last %}, {% endif %}
                 {%- endfor -%}
@@ -164,21 +162,47 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Conversions
-        {%- if rows == 3 and cols == 3 %}
+        {%- if rows == 3 and cols == 2 or rows == 2 and cols == 3 %}
+
+        // System.Numerics.Matrix3x2 への変換は
+        // 行優先・列優先の違いによる混乱を防ぐため定義しない.
+        {%- endif %}
+        {%- if rows == 4 and cols == 4 %}
+
+        // System.Numerics.Matrix4x4 への変換は
+        // 行優先・列優先の違いによる混乱を防ぐため定義しない.
+
+#if UNITY_5_3_OR_NEWER
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
+            return new UnityEngine.Matrix4x4(
+                {%- for i in range(end=3) %}
+                new UnityEngine.Vector4(
+                {%- for j in range(end=3) -%}
+                (float)a.C{{ j }}.{{ components[i] }}, {# #}
+                {%- endfor -%}0),
+                {%- endfor %}
+                new UnityEngine.Vector4(
+                {%- for i in range(end=3) -%}
+                (float)a.C3.{{ components[i] }}, {# #}
+                {%- endfor %}1)
+            );
+        }
+#endif // UNITY_5_3_OR_NEWER
+        {%- endif %}
 #if UNITY_2018_1_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Unity.Mathematics.float3x3({{ type }} a) {
-            return new Unity.Mathematics.float3x3(
+        public static explicit operator Unity.Mathematics.float{{ rows }}x{{ cols }}({{ type }} a) {
+            return new Unity.Mathematics.float{{ rows }}x{{ cols }}(
                 {%- for i in range(end=rows) %}
                 {% for j in range(end=cols) -%}
-                a.C{{ j }}.{{ components[i] }}.LossyToSingle(){% if not loop.last %}, {% endif %}
+                (float)a.C{{ j }}.{{ components[i] }}{% if not loop.last %}, {% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
-        {%- endif %}
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         {%- for o in ['+', '-'] %}
@@ -193,15 +217,17 @@ namespace {{ namespace }} {
         {%- endfor %}
         #endregion
         #region IMultiplyOperators
+        {%- if rows != cols %}
+        {{ throw(message='Matrix product for rows != cols is not implemented.') }}
+        {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} operator *({{ type }} left, {{ type }} right) {
             return new {{ type }}(
                 {%- for i in range(end=cols) %}
                 new {{ col }}(
                     {%- for j in range(end=rows) %}
-                    {{ component }}.UncheckedLossyFrom({# -#}
-                        left.R{{ j }}.UncheckedDot(right.C{{ i }})
-                    {#- #}){% if not loop.last %},{% endif %}
+                    ({{ component }})left.R{{ j }}.Dot(right.C{{ i }})
+                    {%- if not loop.last %},{% endif %}
                     {%- endfor %}
                 ){%- if not loop.last %},{% endif %}
                 {%- endfor %}
@@ -237,6 +263,8 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        {%- else %}
+        {{ throw(message='Transpose for rows != cols is not implemented.') }}
         {%- endif %}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
@@ -420,8 +448,8 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} LookRotation(
             {{- vector_3 }} forward, {{ vector_3 }} up) {
-            var c0 = new {{ vector_3 }}(({{ repr }})(up.Cross(forward).Repr / {{ component }}.OneRepr)).Normalize().Value;
-            var c1 = new {{ vector_3 }}(({{ repr }})(forward.Cross(c0).Repr / {{ component }}.OneRepr));
+            var c0 = {{ vector_3 }}.FromRepr(({{ repr }})(up.Cross(forward).Repr / {{ component }}.OneRepr)).Normalize().Value;
+            var c1 = {{ vector_3 }}.FromRepr(({{ repr }})(forward.Cross(c0).Repr / {{ component }}.OneRepr));
             return new {{ type }}(c0.Repr, c1.Repr, forward.Repr);
         }
 
@@ -433,12 +461,12 @@ namespace {{ namespace }} {
             if (!f.HasValue || !u.HasValue) {
                 return null;
             }
-            var c0 = new {{ vector_3 }}(({{ repr }})(u.Value.Cross(f.Value).Repr / {{ component }}.OneRepr)).Normalize();
+            var c0 = {{ vector_3 }}.FromRepr(({{ repr }})(u.Value.Cross(f.Value).Repr / {{ component }}.OneRepr)).Normalize();
             if (!c0.HasValue) {
                 return null;
             }
 
-            var c1 = new {{ vector_3 }}(({{ repr }})(f.Value.Cross(c0.Value).Repr / {{ component }}.OneRepr));
+            var c1 = {{ vector_3 }}.FromRepr(({{ repr }})(f.Value.Cross(c0.Value).Repr / {{ component }}.OneRepr));
             return new {{ type }}(c0.Value.Repr, c1.Repr, f.Value.Repr);
         }
         #endregion

@@ -6,19 +6,21 @@ namespace Intar {
     public struct Vector3I4F60
     : IEquatable<Vector3I4F60>
     , IFormattable {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector3Int64 Repr;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #endregion
 
+        #endregion
         #region WideRepr
 
 #if NET7_0_OR_GREATER
@@ -31,7 +33,6 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region Components
         public I4F60 X {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,14 +53,15 @@ namespace Intar {
             set => Repr.Z = value.Bits;
         }
         #endregion
-
+        #region Indexer
         public I4F60 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => I4F60.FromBits(Repr[index]);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr[index] = value.Bits;
         }
-
+        #endregion
+        #region Conversion
         public static explicit operator System.Numerics.Vector3(Vector3I4F60 a) {
             return (System.Numerics.Vector3)a.Repr / I4F60.OneRepr;
         }
@@ -76,10 +78,10 @@ namespace Intar {
         }
 #endif
 
-        #region Constructors
-
+        #endregion
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Vector3I4F60(Vector3Int64 repr) {
+        Vector3I4F60(Vector3Int64 repr) {
             Repr = repr;
         }
 
@@ -89,32 +91,28 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60(I4F60 value) : this(value, value, value) { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I4F60 FromRepr(Vector3Int64 repr) {
+            return new Vector3I4F60(repr);
+        }
         #endregion
-
         #region Zero, One, UnitX, UnitY, UnitZ
-
         public static readonly Vector3I4F60 Zero = new Vector3I4F60(I4F60.Zero);
         public static readonly Vector3I4F60 One = new Vector3I4F60(I4F60.One);
         public static readonly Vector3I4F60 UnitX = new Vector3I4F60(I4F60.One, I4F60.Zero, I4F60.Zero);
         public static readonly Vector3I4F60 UnitY = new Vector3I4F60(I4F60.Zero, I4F60.One, I4F60.Zero);
         public static readonly Vector3I4F60 UnitZ = new Vector3I4F60(I4F60.Zero, I4F60.Zero, I4F60.One);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator +(Vector3I4F60 a, Vector3I4F60 b) {
             return new Vector3I4F60(a.Repr + b.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator -(Vector3I4F60 a, Vector3I4F60 b) {
             return new Vector3I4F60(a.Repr - b.Repr);
         }
-
         #endregion
-
         #region IMultiplyOperators, IDivisionOperators
 
 #if NET7_0_OR_GREATER
@@ -123,27 +121,22 @@ namespace Intar {
         public static Vector3I4F60 operator *(Vector3I4F60 a, Vector3I4F60 b) {
             return new Vector3I4F60((Vector3Int64)(a.WideRepr * b.WideRepr / I4F60.OneRepr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator *(Vector3I4F60 a, I4F60 b) {
             return new Vector3I4F60((Vector3Int64)(a.WideRepr * b.Bits / I4F60.OneRepr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator *(I4F60 a, Vector3I4F60 b) {
             return b * a;
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator /(Vector3I4F60 a, Vector3I4F60 b) {
             return new Vector3I4F60((Vector3Int64)(a.WideRepr * I4F60.OneRepr / b.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator /(Vector3I4F60 a, I4F60 b) {
             return new Vector3I4F60((Vector3Int64)(a.WideRepr * I4F60.OneRepr / b.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator /(I4F60 a, Vector3I4F60 b) {
             return new Vector3I4F60((Vector3Int64)(a.WideBits * I4F60.OneRepr / b.WideRepr));
@@ -152,109 +145,85 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator +(Vector3I4F60 x) {
             return new Vector3I4F60(+x.Repr);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I4F60 operator -(Vector3I4F60 x) {
             return new Vector3I4F60(-x.Repr);
         }
-
         #endregion
-
         #region IEqualityOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator ==(Vector3I4F60 lhs, Vector3I4F60 rhs) => lhs.Repr == rhs.Repr;
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3Bool operator !=(Vector3I4F60 lhs, Vector3I4F60 rhs) => lhs.Repr != rhs.Repr;
-
         #endregion
-
-        public Vector3Bool IsNegative() => Repr.IsNegative();
-
         #region Object
-
         public override bool Equals(object obj) => obj is Vector3I4F60 o && Equals(o);
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => Repr.GetHashCode();
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => $"<{X}, {Y}, {Z}>";
-
         #endregion
-
         #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector3I4F60 other) {
             return Repr.Equals(other.Repr);
         }
         #endregion
-
         #region IFormattable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"<{X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)}>";
         }
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60 Min(Vector3I4F60 other) {
             return new Vector3I4F60(Repr.Min(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60 Max(Vector3I4F60 other) {
             return new Vector3I4F60(Repr.Max(other.Repr));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60 Clamp(I4F60 min, I4F60 max) {
             return new Vector3I4F60(Repr.Clamp(min.Bits, max.Bits));
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60 Clamp(Vector3I4F60 min, Vector3I4F60 max) {
             return new Vector3I4F60(Repr.Clamp(min.Repr, max.Repr));
         }
-
         #endregion
-
+        #region IsNegative, Abs
+        public Vector3Bool IsNegative() => Repr.IsNegative();
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I4F60 Abs() => new Vector3I4F60(Repr.Abs());
 
+        // 符号なし固定小数点数ベクトル型は定義されていないため
+        // UnsignedAbs と AbsDiff は定義されない.
+        #endregion
         #region Half, Twice
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector3I4F60 Half() => new Vector3I4F60(Repr.Half());
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector3I4F60 Twice() => new Vector3I4F60(Repr.Twice());
-
         #endregion
 
 #if NET7_0_OR_GREATER
 
-        #region Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length
-
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3I8F120 Cross(Vector3I4F60 other) {
             var tmp = Repr.Cross(other.Repr);
-            return new Vector3I8F120(tmp);
+            return Vector3I8F120.FromRepr(tmp);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I8F120 UncheckedDot(Vector3I4F60 other) {
-            return I8F120.FromBits(Repr.UncheckedDot(other.Repr));
+        public I8F120 Dot(Vector3I4F60 other) {
+            return I8F120.FromBits(Repr.Dot(other.Repr));
         }
 
         /// <summary>
@@ -271,8 +240,17 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public U4F60 Length() => U4F60.FromBits(Repr.Length());
 
-        #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U8F120 DistanceSquared(Vector3I4F60 other) {
+            return U8F120.FromBits(Repr.DistanceSquared(other.Repr));
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public U4F60 Distance(Vector3I4F60 other) {
+            return U4F60.FromBits(Repr.Distance(other.Repr));
+        }
+        #endregion
+        #region Normalize
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector3Int64? Normalize(Vector3Int64 v) {
 
@@ -315,6 +293,7 @@ namespace Intar {
             }
             return new Vector3I4F60(tmp.Value);
         }
+        #endregion
 
 #endif // NET7_0_OR_GREATER
 
@@ -322,125 +301,123 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XX() => new Vector2I4F60(Repr.XX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XY() => new Vector2I4F60(Repr.XY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XZ() => new Vector2I4F60(Repr.XZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YX() => new Vector2I4F60(Repr.YX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YY() => new Vector2I4F60(Repr.YY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YZ() => new Vector2I4F60(Repr.YZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 ZX() => new Vector2I4F60(Repr.ZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 ZY() => new Vector2I4F60(Repr.ZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 ZZ() => new Vector2I4F60(Repr.ZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXX() => new Vector3I4F60(Repr.XXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXY() => new Vector3I4F60(Repr.XXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXZ() => new Vector3I4F60(Repr.XXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYX() => new Vector3I4F60(Repr.XYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYY() => new Vector3I4F60(Repr.XYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYZ() => new Vector3I4F60(Repr.XYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XZX() => new Vector3I4F60(Repr.XZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XZY() => new Vector3I4F60(Repr.XZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XZZ() => new Vector3I4F60(Repr.XZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YXX() => new Vector3I4F60(Repr.YXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YXY() => new Vector3I4F60(Repr.YXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YXZ() => new Vector3I4F60(Repr.YXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YYX() => new Vector3I4F60(Repr.YYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YYY() => new Vector3I4F60(Repr.YYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YYZ() => new Vector3I4F60(Repr.YYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YZX() => new Vector3I4F60(Repr.YZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YZY() => new Vector3I4F60(Repr.YZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YZZ() => new Vector3I4F60(Repr.YZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZXX() => new Vector3I4F60(Repr.ZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZXY() => new Vector3I4F60(Repr.ZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZXZ() => new Vector3I4F60(Repr.ZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZYX() => new Vector3I4F60(Repr.ZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZYY() => new Vector3I4F60(Repr.ZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZYZ() => new Vector3I4F60(Repr.ZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZZX() => new Vector3I4F60(Repr.ZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZZY() => new Vector3I4F60(Repr.ZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZZZ() => new Vector3I4F60(Repr.ZZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXXX() => new Vector4I4F60(Repr.XXXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXXY() => new Vector4I4F60(Repr.XXXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXXZ() => new Vector4I4F60(Repr.XXXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXYX() => new Vector4I4F60(Repr.XXYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXYY() => new Vector4I4F60(Repr.XXYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXYZ() => new Vector4I4F60(Repr.XXYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXZX() => new Vector4I4F60(Repr.XXZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXZY() => new Vector4I4F60(Repr.XXZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXZZ() => new Vector4I4F60(Repr.XXZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYXX() => new Vector4I4F60(Repr.XYXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYXY() => new Vector4I4F60(Repr.XYXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYXZ() => new Vector4I4F60(Repr.XYXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYYX() => new Vector4I4F60(Repr.XYYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYYY() => new Vector4I4F60(Repr.XYYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYYZ() => new Vector4I4F60(Repr.XYYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYZX() => new Vector4I4F60(Repr.XYZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYZY() => new Vector4I4F60(Repr.XYZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYZZ() => new Vector4I4F60(Repr.XYZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZXX() => new Vector4I4F60(Repr.XZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZXY() => new Vector4I4F60(Repr.XZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZXZ() => new Vector4I4F60(Repr.XZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZYX() => new Vector4I4F60(Repr.XZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZYY() => new Vector4I4F60(Repr.XZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZYZ() => new Vector4I4F60(Repr.XZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZZX() => new Vector4I4F60(Repr.XZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZZY() => new Vector4I4F60(Repr.XZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZZZ() => new Vector4I4F60(Repr.XZZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXXX() => new Vector4I4F60(Repr.YXXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXXY() => new Vector4I4F60(Repr.YXXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXXZ() => new Vector4I4F60(Repr.YXXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXYX() => new Vector4I4F60(Repr.YXYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXYY() => new Vector4I4F60(Repr.YXYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXYZ() => new Vector4I4F60(Repr.YXYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXZX() => new Vector4I4F60(Repr.YXZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXZY() => new Vector4I4F60(Repr.YXZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXZZ() => new Vector4I4F60(Repr.YXZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYXX() => new Vector4I4F60(Repr.YYXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYXY() => new Vector4I4F60(Repr.YYXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYXZ() => new Vector4I4F60(Repr.YYXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYYX() => new Vector4I4F60(Repr.YYYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYYY() => new Vector4I4F60(Repr.YYYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYYZ() => new Vector4I4F60(Repr.YYYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYZX() => new Vector4I4F60(Repr.YYZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYZY() => new Vector4I4F60(Repr.YYZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYZZ() => new Vector4I4F60(Repr.YYZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZXX() => new Vector4I4F60(Repr.YZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZXY() => new Vector4I4F60(Repr.YZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZXZ() => new Vector4I4F60(Repr.YZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZYX() => new Vector4I4F60(Repr.YZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZYY() => new Vector4I4F60(Repr.YZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZYZ() => new Vector4I4F60(Repr.YZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZZX() => new Vector4I4F60(Repr.YZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZZY() => new Vector4I4F60(Repr.YZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZZZ() => new Vector4I4F60(Repr.YZZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXXX() => new Vector4I4F60(Repr.ZXXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXXY() => new Vector4I4F60(Repr.ZXXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXXZ() => new Vector4I4F60(Repr.ZXXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXYX() => new Vector4I4F60(Repr.ZXYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXYY() => new Vector4I4F60(Repr.ZXYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXYZ() => new Vector4I4F60(Repr.ZXYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXZX() => new Vector4I4F60(Repr.ZXZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXZY() => new Vector4I4F60(Repr.ZXZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXZZ() => new Vector4I4F60(Repr.ZXZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYXX() => new Vector4I4F60(Repr.ZYXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYXY() => new Vector4I4F60(Repr.ZYXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYXZ() => new Vector4I4F60(Repr.ZYXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYYX() => new Vector4I4F60(Repr.ZYYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYYY() => new Vector4I4F60(Repr.ZYYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYYZ() => new Vector4I4F60(Repr.ZYYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYZX() => new Vector4I4F60(Repr.ZYZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYZY() => new Vector4I4F60(Repr.ZYZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYZZ() => new Vector4I4F60(Repr.ZYZZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZXX() => new Vector4I4F60(Repr.ZZXX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZXY() => new Vector4I4F60(Repr.ZZXY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZXZ() => new Vector4I4F60(Repr.ZZXZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZYX() => new Vector4I4F60(Repr.ZZYX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZYY() => new Vector4I4F60(Repr.ZZYY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZYZ() => new Vector4I4F60(Repr.ZZYZ());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZZX() => new Vector4I4F60(Repr.ZZZX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZZY() => new Vector4I4F60(Repr.ZZZY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZZZ() => new Vector4I4F60(Repr.ZZZZ());
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XX() => Vector2I4F60.FromRepr(Repr.XX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XY() => Vector2I4F60.FromRepr(Repr.XY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XZ() => Vector2I4F60.FromRepr(Repr.XZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YX() => Vector2I4F60.FromRepr(Repr.YX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YY() => Vector2I4F60.FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YZ() => Vector2I4F60.FromRepr(Repr.YZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 ZX() => Vector2I4F60.FromRepr(Repr.ZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 ZY() => Vector2I4F60.FromRepr(Repr.ZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 ZZ() => Vector2I4F60.FromRepr(Repr.ZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXX() => Vector3I4F60.FromRepr(Repr.XXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXY() => Vector3I4F60.FromRepr(Repr.XXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXZ() => Vector3I4F60.FromRepr(Repr.XXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYX() => Vector3I4F60.FromRepr(Repr.XYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYY() => Vector3I4F60.FromRepr(Repr.XYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYZ() => Vector3I4F60.FromRepr(Repr.XYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XZX() => Vector3I4F60.FromRepr(Repr.XZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XZY() => Vector3I4F60.FromRepr(Repr.XZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XZZ() => Vector3I4F60.FromRepr(Repr.XZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YXX() => Vector3I4F60.FromRepr(Repr.YXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YXY() => Vector3I4F60.FromRepr(Repr.YXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YXZ() => Vector3I4F60.FromRepr(Repr.YXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YYX() => Vector3I4F60.FromRepr(Repr.YYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YYY() => Vector3I4F60.FromRepr(Repr.YYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YYZ() => Vector3I4F60.FromRepr(Repr.YYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YZX() => Vector3I4F60.FromRepr(Repr.YZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YZY() => Vector3I4F60.FromRepr(Repr.YZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 YZZ() => Vector3I4F60.FromRepr(Repr.YZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZXX() => Vector3I4F60.FromRepr(Repr.ZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZXY() => Vector3I4F60.FromRepr(Repr.ZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZXZ() => Vector3I4F60.FromRepr(Repr.ZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZYX() => Vector3I4F60.FromRepr(Repr.ZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZYY() => Vector3I4F60.FromRepr(Repr.ZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZYZ() => Vector3I4F60.FromRepr(Repr.ZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZZX() => Vector3I4F60.FromRepr(Repr.ZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZZY() => Vector3I4F60.FromRepr(Repr.ZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 ZZZ() => Vector3I4F60.FromRepr(Repr.ZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXXX() => Vector4I4F60.FromRepr(Repr.XXXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXXY() => Vector4I4F60.FromRepr(Repr.XXXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXXZ() => Vector4I4F60.FromRepr(Repr.XXXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXYX() => Vector4I4F60.FromRepr(Repr.XXYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXYY() => Vector4I4F60.FromRepr(Repr.XXYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXYZ() => Vector4I4F60.FromRepr(Repr.XXYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXZX() => Vector4I4F60.FromRepr(Repr.XXZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXZY() => Vector4I4F60.FromRepr(Repr.XXZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XXZZ() => Vector4I4F60.FromRepr(Repr.XXZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYXX() => Vector4I4F60.FromRepr(Repr.XYXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYXY() => Vector4I4F60.FromRepr(Repr.XYXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYXZ() => Vector4I4F60.FromRepr(Repr.XYXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYYX() => Vector4I4F60.FromRepr(Repr.XYYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYYY() => Vector4I4F60.FromRepr(Repr.XYYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYYZ() => Vector4I4F60.FromRepr(Repr.XYYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYZX() => Vector4I4F60.FromRepr(Repr.XYZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYZY() => Vector4I4F60.FromRepr(Repr.XYZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XYZZ() => Vector4I4F60.FromRepr(Repr.XYZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZXX() => Vector4I4F60.FromRepr(Repr.XZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZXY() => Vector4I4F60.FromRepr(Repr.XZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZXZ() => Vector4I4F60.FromRepr(Repr.XZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZYX() => Vector4I4F60.FromRepr(Repr.XZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZYY() => Vector4I4F60.FromRepr(Repr.XZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZYZ() => Vector4I4F60.FromRepr(Repr.XZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZZX() => Vector4I4F60.FromRepr(Repr.XZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZZY() => Vector4I4F60.FromRepr(Repr.XZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 XZZZ() => Vector4I4F60.FromRepr(Repr.XZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXXX() => Vector4I4F60.FromRepr(Repr.YXXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXXY() => Vector4I4F60.FromRepr(Repr.YXXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXXZ() => Vector4I4F60.FromRepr(Repr.YXXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXYX() => Vector4I4F60.FromRepr(Repr.YXYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXYY() => Vector4I4F60.FromRepr(Repr.YXYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXYZ() => Vector4I4F60.FromRepr(Repr.YXYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXZX() => Vector4I4F60.FromRepr(Repr.YXZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXZY() => Vector4I4F60.FromRepr(Repr.YXZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YXZZ() => Vector4I4F60.FromRepr(Repr.YXZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYXX() => Vector4I4F60.FromRepr(Repr.YYXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYXY() => Vector4I4F60.FromRepr(Repr.YYXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYXZ() => Vector4I4F60.FromRepr(Repr.YYXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYYX() => Vector4I4F60.FromRepr(Repr.YYYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYYY() => Vector4I4F60.FromRepr(Repr.YYYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYYZ() => Vector4I4F60.FromRepr(Repr.YYYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYZX() => Vector4I4F60.FromRepr(Repr.YYZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYZY() => Vector4I4F60.FromRepr(Repr.YYZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YYZZ() => Vector4I4F60.FromRepr(Repr.YYZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZXX() => Vector4I4F60.FromRepr(Repr.YZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZXY() => Vector4I4F60.FromRepr(Repr.YZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZXZ() => Vector4I4F60.FromRepr(Repr.YZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZYX() => Vector4I4F60.FromRepr(Repr.YZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZYY() => Vector4I4F60.FromRepr(Repr.YZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZYZ() => Vector4I4F60.FromRepr(Repr.YZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZZX() => Vector4I4F60.FromRepr(Repr.YZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZZY() => Vector4I4F60.FromRepr(Repr.YZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 YZZZ() => Vector4I4F60.FromRepr(Repr.YZZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXXX() => Vector4I4F60.FromRepr(Repr.ZXXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXXY() => Vector4I4F60.FromRepr(Repr.ZXXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXXZ() => Vector4I4F60.FromRepr(Repr.ZXXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXYX() => Vector4I4F60.FromRepr(Repr.ZXYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXYY() => Vector4I4F60.FromRepr(Repr.ZXYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXYZ() => Vector4I4F60.FromRepr(Repr.ZXYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXZX() => Vector4I4F60.FromRepr(Repr.ZXZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXZY() => Vector4I4F60.FromRepr(Repr.ZXZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZXZZ() => Vector4I4F60.FromRepr(Repr.ZXZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYXX() => Vector4I4F60.FromRepr(Repr.ZYXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYXY() => Vector4I4F60.FromRepr(Repr.ZYXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYXZ() => Vector4I4F60.FromRepr(Repr.ZYXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYYX() => Vector4I4F60.FromRepr(Repr.ZYYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYYY() => Vector4I4F60.FromRepr(Repr.ZYYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYYZ() => Vector4I4F60.FromRepr(Repr.ZYYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYZX() => Vector4I4F60.FromRepr(Repr.ZYZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYZY() => Vector4I4F60.FromRepr(Repr.ZYZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZYZZ() => Vector4I4F60.FromRepr(Repr.ZYZZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZXX() => Vector4I4F60.FromRepr(Repr.ZZXX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZXY() => Vector4I4F60.FromRepr(Repr.ZZXY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZXZ() => Vector4I4F60.FromRepr(Repr.ZZXZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZYX() => Vector4I4F60.FromRepr(Repr.ZZYX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZYY() => Vector4I4F60.FromRepr(Repr.ZZYY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZYZ() => Vector4I4F60.FromRepr(Repr.ZZYZ());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZZX() => Vector4I4F60.FromRepr(Repr.ZZZX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZZY() => Vector4I4F60.FromRepr(Repr.ZZZY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I4F60 ZZZZ() => Vector4I4F60.FromRepr(Repr.ZZZZ());
         #endregion
-
     }
 } // namespace Intar

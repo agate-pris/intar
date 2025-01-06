@@ -311,7 +311,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Bool IsNegative() {
@@ -320,6 +320,14 @@ namespace Intar {
 
         // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt128 AbsDiff(Vector3UInt128 other) {
+            return new Vector3UInt128(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y),
+                Mathi.AbsDiff(Z, other.Z)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
@@ -351,7 +359,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt128 Half() => new Vector3UInt128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z));
@@ -360,7 +368,7 @@ namespace Intar {
         public Vector3UInt128 Twice() => new Vector3UInt128(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal UInt128 UncheckedComponentsSum() => X + Y + Z;
+        internal UInt128 ComponentsSum() => X + Y + Z;
 
         #endregion
 

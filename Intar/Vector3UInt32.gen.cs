@@ -309,7 +309,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Bool IsNegative() {
@@ -318,6 +318,14 @@ namespace Intar {
 
         // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3UInt32 AbsDiff(Vector3UInt32 other) {
+            return new Vector3UInt32(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y),
+                Mathi.AbsDiff(Z, other.Z)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
@@ -357,7 +365,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt32 Half() => new Vector3UInt32(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z));
@@ -366,38 +374,50 @@ namespace Intar {
         public Vector3UInt32 Twice() => new Vector3UInt32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal uint UncheckedComponentsSum() => X + Y + Z;
+        internal uint ComponentsSum() => X + Y + Z;
 
         #endregion
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 BigMul(uint other) {
             return (Vector3UInt64)this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3UInt64 BigMul(Vector3UInt32 other) {
             return (Vector3UInt64)this * other;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong UncheckedDot(Vector3UInt32 other) {
-            return BigMul(other).UncheckedComponentsSum();
+        public ulong Dot(Vector3UInt32 other) {
+            return BigMul(other).ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong UncheckedLengthSquared() {
+        public ulong LengthSquared() {
             var sqr = BigMul(this);
-            return sqr.UncheckedComponentsSum();
+            return sqr.ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
+        public uint Length() => (uint)Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal uint HalfLength() {
             var sqr = BigMul(this);
-            return (uint)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+            return (uint)Mathi.Sqrt((sqr / 4).ComponentsSum());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong DistanceSquared(Vector3UInt32 other) {
+            return AbsDiff(other).LengthSquared();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint Distance(Vector3UInt32 other) {
+            return AbsDiff(other).Length();
         }
 
         #endregion

@@ -322,7 +322,7 @@ namespace Intar {
 
         #endregion
 
-        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs
+        #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Bool IsNegative() {
@@ -355,6 +355,15 @@ namespace Intar {
             return (isNegative, unsignedAbs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector4UInt32 AbsDiff(Vector4Int32 other) {
+            return new Vector4UInt32(
+                Mathi.AbsDiff(X, other.X),
+                Mathi.AbsDiff(Y, other.Y),
+                Mathi.AbsDiff(Z, other.Z),
+                Mathi.AbsDiff(W, other.W)
+            );
+        }
         #endregion
 
         #region Min, Max, MaxComponent, Clamp
@@ -391,7 +400,7 @@ namespace Intar {
 
         #endregion
 
-        #region Half, Twice, UncheckedComponentsSum
+        #region Half, Twice, ComponentsSum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int32 Half() => new Vector4Int32(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
@@ -400,40 +409,51 @@ namespace Intar {
         public Vector4Int32 Twice() => new Vector4Int32(Mathi.Twice(X), Mathi.Twice(Y), Mathi.Twice(Z), Mathi.Twice(W));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal int UncheckedComponentsSum() => X + Y + Z + W;
+        internal int ComponentsSum() => X + Y + Z + W;
 
         #endregion
 
-        #region BigMul, Cross, UncheckedDot, (Unchecked)LengthSquared, (Unchecked)Length, HalfLength
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 BigMul(int other) {
             return (Vector4Int64)this * other;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 BigMul(Vector4Int32 other) {
             return (Vector4Int64)this * other;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public long UncheckedDot(Vector4Int32 other) {
-            return BigMul(other).UncheckedComponentsSum();
+        public long Dot(Vector4Int32 other) {
+            return BigMul(other).ComponentsSum();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong UncheckedLengthSquared() {
+        public ulong LengthSquared() {
             var abs = UnsignedAbs();
-            var sqr = abs.BigMul(abs);
-            return sqr.UncheckedComponentsSum();
+            return abs.LengthSquared();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint UncheckedLength() => (uint)Mathi.Sqrt(UncheckedLengthSquared());
+        public uint Length() => (uint)Mathi.Sqrt(LengthSquared());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal uint HalfLength() {
             var abs = UnsignedAbs();
             var sqr = abs.BigMul(abs);
-            return (uint)Mathi.Sqrt((sqr / 4).UncheckedComponentsSum());
+            return (uint)Mathi.Sqrt((sqr / 4).ComponentsSum());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong DistanceSquared(Vector4Int32 other) {
+            return AbsDiff(other).LengthSquared();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint Distance(Vector4Int32 other) {
+            return AbsDiff(other).Length();
         }
 
         #endregion

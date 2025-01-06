@@ -74,20 +74,20 @@ namespace Intar {
 
         public static explicit operator System.Numerics.Quaternion(QuaternionI2F30 q) {
             return new System.Numerics.Quaternion(
-                q.X.LossyToSingle(),
-                q.Y.LossyToSingle(),
-                q.Z.LossyToSingle(),
-                q.W.LossyToSingle()
+                (float)q.X,
+                (float)q.Y,
+                (float)q.Z,
+                (float)q.W
             );
         }
 
 #if UNITY_5_6_OR_NEWER
         public static explicit operator UnityEngine.Quaternion(QuaternionI2F30 q) {
             return new UnityEngine.Quaternion(
-                q.X.LossyToSingle(),
-                q.Y.LossyToSingle(),
-                q.Z.LossyToSingle(),
-                q.W.LossyToSingle()
+                (float)q.X,
+                (float)q.Y,
+                (float)q.Z,
+                (float)q.W
             );
         }
 #endif // UNITY_5_6_OR_NEWER
@@ -95,10 +95,10 @@ namespace Intar {
 #if UNITY_2018_1_OR_NEWER
         public static explicit operator Unity.Mathematics.quaternion(QuaternionI2F30 q) {
             return new Unity.Mathematics.quaternion(
-                q.X.LossyToSingle(),
-                q.Y.LossyToSingle(),
-                q.Z.LossyToSingle(),
-                q.W.LossyToSingle()
+                (float)q.X,
+                (float)q.Y,
+                (float)q.Z,
+                (float)q.W
             );
         }
 #endif // UNITY_2018_1_OR_NEWER
@@ -107,14 +107,14 @@ namespace Intar {
 
         public Vector4I2F30 Vector {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector4I2F30(Repr);
+            get => Vector4I2F30.FromRepr(Repr);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Repr = value.Repr;
         }
 
         public Vector3I2F30 Imaginary {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new Vector3I2F30(Repr.XYZ());
+            get => Vector3I2F30.FromRepr(Repr.XYZ());
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
                 Repr.X = value.X.Bits;
@@ -171,7 +171,7 @@ namespace Intar {
             var imaginary = Imaginary.Repr;
             var tmp = (Vector3Int32)(2 * imaginary.Cross(v.Repr) / I2F30.OneRepr);
             tmp = (Vector3Int32)((tmp.BigMul(Repr.W) + imaginary.Cross(tmp)) / I2F30.OneRepr);
-            return new Vector3I17F15(tmp + v.Repr);
+            return Vector3I17F15.FromRepr(tmp + v.Repr);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,7 +179,7 @@ namespace Intar {
             var imaginary = Imaginary.Repr;
             var tmp = (Vector3Int32)(2 * imaginary.Cross(v.Repr) / I2F30.OneRepr);
             tmp = (Vector3Int32)((tmp.BigMul(Repr.W) + imaginary.Cross(tmp)) / I2F30.OneRepr);
-            return new Vector3I2F30(tmp + v.Repr);
+            return Vector3I2F30.FromRepr(tmp + v.Repr);
         }
         #endregion
         #region Conjugate, Inverse, Dot, Length, LengthSquared, Normalize
@@ -206,27 +206,28 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public QuaternionI2F30? Inverse() {
-            var lengthSquared = UncheckedLengthSquared();
-            if (lengthSquared == U4F60.Zero) {
+            var lengthSquared = LengthSquared().Bits / U2F30.OneRepr;
+            if (lengthSquared == 0) {
                 return null;
             }
             var conjugate = Conjugate();
-            return new QuaternionI2F30(conjugate.Vector / I2F30.UncheckedLossyFrom(lengthSquared));
+            var bits = conjugate.Repr.BigMul(I2F30.OneRepr) / (long)lengthSquared;
+            return new QuaternionI2F30((Vector4Int32)bits);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I4F60 UncheckedDot(QuaternionI2F30 other) {
-            return I4F60.FromBits(Repr.UncheckedDot(other.Repr));
+        public I4F60 Dot(QuaternionI2F30 other) {
+            return I4F60.FromBits(Repr.Dot(other.Repr));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U4F60 UncheckedLengthSquared() {
-            return U4F60.FromBits(Repr.UncheckedLengthSquared());
+        public U4F60 LengthSquared() {
+            return U4F60.FromBits(Repr.LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 UncheckedLength() {
-            return U2F30.FromBits(Repr.UncheckedLength());
+        public U2F30 Length() {
+            return U2F30.FromBits(Repr.Length());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -238,20 +239,20 @@ namespace Intar {
             return new QuaternionI2F30(tmp.Value);
         }
         #endregion
-        #region UncheckedLerp, UncheckedSlerp
+        #region Lerp, Slerp
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public QuaternionI2F30 UncheckedLerp(QuaternionI2F30 other, I17F15 t) {
+        public QuaternionI2F30 Lerp(QuaternionI2F30 other, I17F15 t) {
             var a = Repr.BigMul((I17F15.One - t).Bits);
             var b = other.Repr.BigMul(t.Bits);
-            var dot = UncheckedDot(other);
+            var dot = Dot(other);
             a = (dot.Bits < 0) ? (a - b) : (a + b);
             var q = new QuaternionI2F30((Vector4Int32)(a / I17F15.OneRepr));
             return q.Normalize().Value;
         }
 
-        public QuaternionI2F30 UncheckedSlerp(QuaternionI2F30 other, I17F15 t) {
-            var dot = UncheckedDot(other);
+        public QuaternionI2F30 Slerp(QuaternionI2F30 other, I17F15 t) {
+            var dot = Dot(other);
             if (dot.Bits < 0) {
                 dot = -dot;
                 other.Repr = -other.Repr;
@@ -268,7 +269,7 @@ namespace Intar {
 
                 // ドット積の Arccos を計算する.
                 // その後, 後の計算のために小数部の精度を 15 ビットにする.
-                var angle = I17F15.LossyFrom(I33F31.AcosP3((long)d.Bits));
+                var angle = (I17F15)I33F31.AcosP3((long)d.Bits);
 
                 // 閾値が 0.0005 の場合 invSin の最大値は
                 // (1 - (1-0.0005)^2)^(-0.5)=31.6267301900746 となる.
@@ -299,7 +300,7 @@ namespace Intar {
                     ));
                 }
             }
-            return UncheckedLerp(other, t);
+            return Lerp(other, t);
         }
         #endregion
         #region AxisAngle

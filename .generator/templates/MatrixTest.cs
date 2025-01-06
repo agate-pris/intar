@@ -21,7 +21,7 @@ namespace {{ namespace }}.Tests {
             {%- for c in range(end=4) %}
             d = Math.Max(d, Math.Abs(e.M{{ r + 1 }}{{ c + 1 }}
             {%- if   r == 3 and c == 3 %} - 1
-            {%- elif r != 3 and c != 3 %} - a.C{{ c }}.{{ components[r] }}.LossyToSingle(){%- endif %}));
+            {%- elif r != 3 and c != 3 %} - (float)a.C{{ c }}.{{ components[r] }}{%- endif %}));
             {%- endfor %}
             {%- endfor %}
             return d;
@@ -35,7 +35,7 @@ namespace {{ namespace }}.Tests {
             {%- for c in range(end=4) %}
             d = Math.Max(d, Math.Abs(e.m{{ r }}{{ c }}
             {%- if   r == 3 and c == 3 %} - 1
-            {%- elif r != 3 and c != 3 %} - a.C{{ c }}.{{ components[r] }}.LossyToSingle()
+            {%- elif r != 3 and c != 3 %} - (float)a.C{{ c }}.{{ components[r] }}
             {%- endif %}));
             {%- endfor %}
             {%- endfor %}
@@ -48,7 +48,7 @@ namespace {{ namespace }}.Tests {
             var d = 0.0;
             {%- for r in range(end=3) %}
             {%- for c in range(end=3) %}
-            d = Math.Max(d, Math.Abs(e.c{{ c }}.{{ components[r]|lower }} - a.C{{ c }}.{{ components[r] }}.LossyToSingle()));
+            d = Math.Max(d, Math.Abs(e.c{{ c }}.{{ components[r]|lower }} - (float)a.C{{ c }}.{{ components[r] }}));
             {%- endfor %}
             {%- endfor %}
             return d;
@@ -120,15 +120,15 @@ namespace {{ namespace }}.Tests {
 
                 {
                     var mf1 = new System.Numerics.Matrix4x4(
-                        m1.C0.X.LossyToSingle(), m1.C1.X.LossyToSingle(), m1.C2.X.LossyToSingle(), 0,
-                        m1.C0.Y.LossyToSingle(), m1.C1.Y.LossyToSingle(), m1.C2.Y.LossyToSingle(), 0,
-                        m1.C0.Z.LossyToSingle(), m1.C1.Z.LossyToSingle(), m1.C2.Z.LossyToSingle(), 0,
+                        (float)m1.C0.X, (float)m1.C1.X, (float)m1.C2.X, 0,
+                        (float)m1.C0.Y, (float)m1.C1.Y, (float)m1.C2.Y, 0,
+                        (float)m1.C0.Z, (float)m1.C1.Z, (float)m1.C2.Z, 0,
                         0, 0, 0, 1
                     );
                     var mf2 = new System.Numerics.Matrix4x4(
-                        m2.C0.X.LossyToSingle(), m2.C1.X.LossyToSingle(), m2.C2.X.LossyToSingle(), 0,
-                        m2.C0.Y.LossyToSingle(), m2.C1.Y.LossyToSingle(), m2.C2.Y.LossyToSingle(), 0,
-                        m2.C0.Z.LossyToSingle(), m2.C1.Z.LossyToSingle(), m2.C2.Z.LossyToSingle(), 0,
+                        (float)m2.C0.X, (float)m2.C1.X, (float)m2.C2.X, 0,
+                        (float)m2.C0.Y, (float)m2.C1.Y, (float)m2.C2.Y, 0,
+                        (float)m2.C0.Z, (float)m2.C1.Z, (float)m2.C2.Z, 0,
                         0, 0, 0, 1
                     );
                     var e = mf1 * mf2;
@@ -196,7 +196,7 @@ namespace {{ namespace }}.Tests {
             var dm3 = 0.0;
             for (var i = 0; i < 32768; i++) {
                 var angle = Utility.RandomI17F15(ref rng);
-                var rad = (float)(angle.LossyToSingle() * Math.PI / 2);
+                var rad = (float)angle * (float)(Math.PI / 2);
                 var a = Matrix3x3I2F30.Rotate{{ a|upper }}P5(angle);
 
                 {
@@ -208,7 +208,7 @@ namespace {{ namespace }}.Tests {
 
 #if UNITY_5_3_OR_NEWER
                 {
-                    var deg = (float)(angle.LossyToSingle() * 90);
+                    var deg = (float)angle * 90;
                     var e = UnityEngine.Matrix4x4.Rotate(UnityEngine.Quaternion.Euler(
                         {%- for i in range(end=3) %}
                         {%- if index == i %}deg{% else %}0{% endif %}
@@ -260,8 +260,8 @@ namespace {{ namespace }}.Tests {
                         {% if loop.first %}=
                         {%- else %}*
                         {%- endif %} System.Numerics.Matrix4x4.CreateRotation
-                        {{- i | upper }}(angles.
-                        {{- i | upper }}.LossyToSingle() * (float)Math.PI / 2)
+                        {{- i | upper }}((float)angles.
+                        {{- i | upper }} * (float)(Math.PI / 2))
                     {%- endfor %};
                     var d = Delta(System.Numerics.Matrix4x4.Transpose(e), a);
                     if (d > 0.1) { Assert.Fail(); };
@@ -330,7 +330,7 @@ namespace {{ namespace }}.Tests {
                     var e = System.Numerics.Matrix4x4.Transpose(
                         System.Numerics.Matrix4x4.CreateFromAxisAngle(
                             (System.Numerics.Vector3)axis,
-                            (float)(angle.LossyToSingle() * Math.PI / 2)
+                            (float)angle * (float)(Math.PI / 2)
                         )
                     );
                     var d = Delta(e, a);
@@ -342,7 +342,7 @@ namespace {{ namespace }}.Tests {
                 {
                     var e = UnityEngine.Matrix4x4.Rotate(
                         UnityEngine.Quaternion.AngleAxis(
-                            (float)(angle.LossyToSingle() * 90),
+                            (float)angle * 90,
                             (UnityEngine.Vector3)axis
                         )
                     );
@@ -356,7 +356,7 @@ namespace {{ namespace }}.Tests {
                 {
                     var e = Unity.Mathematics.float3x3.AxisAngle(
                         (Unity.Mathematics.float3)axis,
-                        (float)(angle.LossyToSingle() * Math.PI / 2)
+                        (float)angle * (float)(Math.PI / 2)
                     );
                     var d = Delta(e, a);
                     if (d > 0.1) { Assert.Fail(); };
