@@ -267,6 +267,36 @@ namespace {{ namespace }} {
             var r = ({{ macros::matrix_type(r=dim, c=dim, type=macros::fixed_type(s=true, i=2, f=2*frac_nbits)) }})rotation;
             return Trs(translation, r, scale);
         }
+        {%- elif dim == 2 %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static {{ type }} Trs({{
+            translation }} translation, {{
+            macros::fixed_type(s=true, i=int_nbits-frac_nbits, f=2*frac_nbits) }} s, {{
+            macros::fixed_type(s=true, i=int_nbits-frac_nbits, f=2*frac_nbits) }} c, {{
+            translation }} scale) {
+            var c0 = new Vector2Int{{ bits }}(c.Bits, s.Bits);
+            var c1 = new Vector2Int{{ bits }}(-s.Bits, c.Bits);
+            var rotationScale = new {{ rotation_scale }}(
+                {%- for i in range(end=2) %}
+                {{ translation }}.FromRepr((Vector2Int{{ bits }})(c{{ i }}.BigMul(scale.Repr.{{ components[i] }}) / (1 << {{ 2 * frac_nbits }})))
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+            return new {{ type }}(rotationScale, translation);
+        }
+        {%- for deg in [2, 3, 4, 5, 10, 11] %}
+        {%- if bits < 64 and deg > 5 %}{% continue %}{% endif %}
+
+        /// <summary>
+        /// Create a new <see cref="{{ type }}"/> instance with the specified translation, rotation, and scale.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} TrsP{{ deg }}({{ translation }} translation, {{ component }} rotation, {{ translation }} scale) {
+            var s = rotation.SinP{{ deg }}();
+            var c = rotation.CosP{{ deg }}();
+            return Trs(translation, s, c, scale);
+        }
+        {%- endfor %}
         {%- else %}
         {{ throw(message='not implemented') }}
         {%- endif %}
