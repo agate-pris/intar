@@ -215,6 +215,11 @@ namespace Intar {
         }
         #endregion
         #region Rotate X/Y/Z
+
+        /// <summary>
+        /// Create a rotation matrix around the x-axis.
+        /// Sine and cosine are approximated by polynomials of degree 2.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateXP2(I17F15 angle) {
             var s = Mathi.SinP2(angle.Bits);
@@ -225,6 +230,11 @@ namespace Intar {
                 new Vector3Int32(0, -s, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the y-axis.
+        /// Sine and cosine are approximated by polynomials of degree 2.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateYP2(I17F15 angle) {
             var s = Mathi.SinP2(angle.Bits);
@@ -235,6 +245,11 @@ namespace Intar {
                 new Vector3Int32(s, 0, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the z-axis.
+        /// Sine and cosine are approximated by polynomials of degree 2.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateZP2(I17F15 angle) {
             var s = Mathi.SinP2(angle.Bits);
@@ -245,6 +260,11 @@ namespace Intar {
                 new Vector3Int32(0, 0, I2F30.OneRepr)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the x-axis.
+        /// Sine and cosine are approximated by polynomials of degree 3.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateXP3(I17F15 angle) {
             var s = Mathi.SinP3(angle.Bits);
@@ -255,6 +275,11 @@ namespace Intar {
                 new Vector3Int32(0, -s, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the y-axis.
+        /// Sine and cosine are approximated by polynomials of degree 3.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateYP3(I17F15 angle) {
             var s = Mathi.SinP3(angle.Bits);
@@ -265,6 +290,11 @@ namespace Intar {
                 new Vector3Int32(s, 0, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the z-axis.
+        /// Sine and cosine are approximated by polynomials of degree 3.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateZP3(I17F15 angle) {
             var s = Mathi.SinP3(angle.Bits);
@@ -275,6 +305,11 @@ namespace Intar {
                 new Vector3Int32(0, 0, I2F30.OneRepr)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the x-axis.
+        /// Sine and cosine are approximated by polynomials of degree 4.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateXP4(I17F15 angle) {
             var s = Mathi.SinP4(angle.Bits);
@@ -285,6 +320,11 @@ namespace Intar {
                 new Vector3Int32(0, -s, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the y-axis.
+        /// Sine and cosine are approximated by polynomials of degree 4.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateYP4(I17F15 angle) {
             var s = Mathi.SinP4(angle.Bits);
@@ -295,6 +335,11 @@ namespace Intar {
                 new Vector3Int32(s, 0, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the z-axis.
+        /// Sine and cosine are approximated by polynomials of degree 4.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateZP4(I17F15 angle) {
             var s = Mathi.SinP4(angle.Bits);
@@ -305,6 +350,11 @@ namespace Intar {
                 new Vector3Int32(0, 0, I2F30.OneRepr)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the x-axis.
+        /// Sine and cosine are approximated by polynomials of degree 5.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateXP5(I17F15 angle) {
             var s = Mathi.SinP5(angle.Bits);
@@ -315,6 +365,11 @@ namespace Intar {
                 new Vector3Int32(0, -s, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the y-axis.
+        /// Sine and cosine are approximated by polynomials of degree 5.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateYP5(I17F15 angle) {
             var s = Mathi.SinP5(angle.Bits);
@@ -325,6 +380,11 @@ namespace Intar {
                 new Vector3Int32(s, 0, c)
             );
         }
+
+        /// <summary>
+        /// Create a rotation matrix around the z-axis.
+        /// Sine and cosine are approximated by polynomials of degree 5.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix3x3I2F30 RotateZP5(I17F15 angle) {
             var s = Mathi.SinP5(angle.Bits);

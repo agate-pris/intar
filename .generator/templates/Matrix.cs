@@ -323,6 +323,11 @@ namespace {{ namespace }} {
         #region Rotate X/Y/Z
         {%- for o in sin %}
         {%- for i in range(end=3) %}
+
+        /// <summary>
+        /// Create a rotation matrix around the {{ components[i]|lower }}-axis.
+        /// Sine and cosine are approximated by polynomials of degree {{ o }}.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Rotate{{ components[i] }}P{{ o }}({{ angle }} angle) {
             var s = Mathi.SinP{{ o }}(angle.Bits);
