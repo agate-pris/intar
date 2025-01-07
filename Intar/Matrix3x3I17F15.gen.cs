@@ -25,7 +25,7 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #endregion
-        #region Constructors
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         Matrix3x3I17F15(Vector3Int32 c0Repr, Vector3Int32 c1Repr, Vector3Int32 c2Repr) {
             C0 = Vector3I17F15.FromRepr(c0Repr);

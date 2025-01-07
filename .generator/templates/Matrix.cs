@@ -51,7 +51,7 @@ namespace {{ namespace }} {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #endregion
-        #region Constructors
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ type }}(
             {%- for i in range(end=cols) -%}
