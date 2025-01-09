@@ -179,5 +179,26 @@ namespace Intar {
             );
         }
         #endregion
+        #region Scale
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 Scale(I17F15 x, I17F15 y, I17F15 z) {
+            return new Matrix3x3I17F15(
+                Vector3I17F15.FromRepr(new Vector3Int32(x.Bits, I17F15.Zero.Bits, I17F15.Zero.Bits)),
+                Vector3I17F15.FromRepr(new Vector3Int32(I17F15.Zero.Bits, y.Bits, I17F15.Zero.Bits)),
+                Vector3I17F15.FromRepr(new Vector3Int32(I17F15.Zero.Bits, I17F15.Zero.Bits, z.Bits))
+            );
+        }
+
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 Scale(Vector3I17F15 scale) {
+            return Scale(scale.X, scale.Y, scale.Z);
+        }
+        #endregion
     }
 } // namespace Intar
