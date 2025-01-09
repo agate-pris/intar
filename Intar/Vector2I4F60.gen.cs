@@ -288,10 +288,14 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 X0() => FromRepr(Repr.X0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 X1() => FromRepr(Repr.X1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XX() => FromRepr(Repr.XX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XY() => FromRepr(Repr.XY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YX() => FromRepr(Repr.YX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YY() => FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XY0() => Vector3I4F60.FromRepr(Repr.XY0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XY1() => Vector3I4F60.FromRepr(Repr.XY1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXX() => Vector3I4F60.FromRepr(Repr.XXX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXY() => Vector3I4F60.FromRepr(Repr.XXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYX() => Vector3I4F60.FromRepr(Repr.XYX());
