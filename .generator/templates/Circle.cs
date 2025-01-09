@@ -7,6 +7,12 @@
 using System;
 using System.Runtime.CompilerServices;
 
+#if UNITY_EDITOR
+
+using UnityEngine;
+
+#endif // UNITY_EDITOR
+
 namespace {{ namespace }}.Geometry {
     [Serializable]
     public struct {{ type }} : IEquatable<{{ type }}>, IFormattable {
@@ -105,5 +111,47 @@ namespace {{ namespace }}.Geometry {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects({{ type }} other) => !Disjoint(other);
         #endregion
+
+#if UNITY_EDITOR
+
+        #region Draw
+        {%- if dim == 2 %}
+        public void Draw(float z) {
+            var x = (float)Center.X;
+            var y = (float)Center.Y;
+            var radius = (float)Radius;
+            Gizmos.DrawLine(
+                new Vector3(x, y, z),
+                new Vector3(x + radius, y, z));
+            const int div = 60;
+            for (var i = 0; i < div; i++) {
+                const float toRad = 2 * Mathf.PI / div;
+                var th1 = i * toRad;
+                var th2 = (i + 1) * toRad;
+                var px = (Mathf.Cos(th1) * radius) + x;
+                var py = (Mathf.Sin(th1) * radius) + y;
+                var qx = (Mathf.Cos(th2) * radius) + x;
+                var qy = (Mathf.Sin(th2) * radius) + y;
+                Gizmos.DrawLine(
+                    new Vector3(px, py, z),
+                    new Vector3(qx, qy, z));
+            }
+        }
+        {%- else %}
+        {{ throw(message='not implemented') }}
+        {%- endif %}
+        public void Draw(AffineTransform3{{ component }} transform) {
+            (transform * this).Draw({% if dim == 2 %}(float)transform.Translation.Z{% endif %});
+        }
+        public void Draw(Matrix4x4 matrix) {
+            Draw((AffineTransform3I17F15)matrix);
+        }
+        public void Draw(Transform transform) {
+            Draw(transform.localToWorldMatrix);
+        }
+        #endregion
+
+#endif // UNITY_EDITOR
+
     }
 }
