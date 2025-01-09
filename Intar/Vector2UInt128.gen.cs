@@ -399,10 +399,14 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 X0() => new Vector2UInt128(X, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 X1() => new Vector2UInt128(X, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XX() => new Vector2UInt128(X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XY() => new Vector2UInt128(X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 YX() => new Vector2UInt128(Y, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 YY() => new Vector2UInt128(Y, Y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XY0() => new Vector3UInt128(X, Y, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XY1() => new Vector3UInt128(X, Y, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XXX() => new Vector3UInt128(X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XXY() => new Vector3UInt128(X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XYX() => new Vector3UInt128(X, Y, X);

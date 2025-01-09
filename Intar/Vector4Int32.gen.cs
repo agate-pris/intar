@@ -496,6 +496,8 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 X0() => new Vector2Int32(X, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 X1() => new Vector2Int32(X, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 XX() => new Vector2Int32(X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 XY() => new Vector2Int32(X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 XZ() => new Vector2Int32(X, Z);
@@ -512,6 +514,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 WY() => new Vector2Int32(W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 WZ() => new Vector2Int32(W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int32 WW() => new Vector2Int32(W, W);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 XY0() => new Vector3Int32(X, Y, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 XY1() => new Vector3Int32(X, Y, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 XXX() => new Vector3Int32(X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 XXY() => new Vector3Int32(X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 XXZ() => new Vector3Int32(X, X, Z);
@@ -576,6 +580,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 WWY() => new Vector3Int32(W, W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 WWZ() => new Vector3Int32(W, W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int32 WWW() => new Vector3Int32(W, W, W);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 XYZ0() => new Vector4Int32(X, Y, Z, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 XYZ1() => new Vector4Int32(X, Y, Z, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 XXXX() => new Vector4Int32(X, X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 XXXY() => new Vector4Int32(X, X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 XXXZ() => new Vector4Int32(X, X, X, Z);
