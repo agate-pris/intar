@@ -16,7 +16,7 @@ namespace {{ namespace }}.Geometry {
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
 
-        public {{ macros::vector_type(dim=2, type=component) }} Center;
+        public {{ macros::vector_type(dim=dim, type=component) }} Center;
         public {{ component_u }} Radius;
 
 #if NET5_0_OR_GREATER
@@ -25,7 +25,7 @@ namespace {{ namespace }}.Geometry {
 #endif
 
         #region Construction
-        public {{ type }}({{ macros::vector_type(dim=2, type=component) }} center, {{ component_u }} radius) {
+        public {{ type }}({{ macros::vector_type(dim=dim, type=component) }} center, {{ component_u }} radius) {
             Center = center;
             Radius = radius;
         }
@@ -37,17 +37,17 @@ namespace {{ namespace }}.Geometry {
         }
         #endregion
         #region IEqualityOperators
-        {%- for cond in [true, false] %}
-        {%- if cond -%}
-        {%- set combine = '&&' %}{% set compare = '==' %}{% else %}
-        {%- set combine = '||' %}{% set compare = '!=' %}{% endif %}
+        {%- for op in ['==', '!='] %}
+        {%- if op == '==' -%}
+        {%- set combine = '&&' %}{% else %}
+        {%- set combine = '||' %}{% endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator {{ compare }}({{ type }} left, {{ type }} right) {
+        public static bool operator {{ op }}({{ type }} left, {{ type }} right) {
             return
                 {%- for c in components -%}
-                {#- #} left.Center.{{ c }} {{ compare }} right.Center.{{ c }} {{ combine }}
+                {#- #} left.Center.{{ c }} {{ op }} right.Center.{{ c }} {{ combine }}
                 {%- endfor %}
-                {#- #} left.Radius {{ compare }} right.Radius;
+                {#- #} left.Radius {{ op }} right.Radius;
         }
         {%- endfor %}
         #endregion
