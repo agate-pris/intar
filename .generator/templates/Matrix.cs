@@ -263,6 +263,43 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        #region Scale
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale(
+            {%- for i in range(end=cols) %}
+            {{- component }} {{ components[i]|lower }}
+            {%- if not loop.last %}, {% endif %}
+            {%- endfor -%}
+        ) {
+            return new {{ type }}(
+                {%- for i in range(end=cols) %}
+                {{ col }}.FromRepr(new {{ repr }}(
+                    {%- for j in range(end=rows) %}
+                    {%- if i == j -%}
+                    {{ components[i]|lower }}.Bits{%- else -%}
+                    {{ component }}.Zero.Bits{% endif %}
+                    {%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )){%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
+
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale({{ col }} scale) {
+            return Scale(
+                {%- for i in range(end=cols) -%}
+                scale.{{ components[i] }}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+        #endregion
         {%- else %}
         {{ throw(message='Transpose for rows != cols is not implemented.') }}
         {%- endif %}
