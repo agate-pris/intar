@@ -180,6 +180,17 @@ namespace Intar {
         #region BigMul
 
         #endregion
+        #region Swizzling
+        public Vector2I8F120 X0() => Vector2I8F120.FromRepr(new Vector2Int128(Bits, 0));
+        public Vector2I8F120 X1() => Vector2I8F120.FromRepr(new Vector2Int128(Bits, OneRepr));
+        public Vector2I8F120 XX() => Vector2I8F120.FromRepr(new Vector2Int128(Bits, Bits));
+        public Vector3I8F120 XX0() => Vector3I8F120.FromRepr(new Vector3Int128(Bits, Bits, 0));
+        public Vector3I8F120 XX1() => Vector3I8F120.FromRepr(new Vector3Int128(Bits, Bits, OneRepr));
+        public Vector3I8F120 XXX() => Vector3I8F120.FromRepr(new Vector3Int128(Bits, Bits, Bits));
+        public Vector4I8F120 XXX0() => Vector4I8F120.FromRepr(new Vector4Int128(Bits, Bits, Bits, 0));
+        public Vector4I8F120 XXX1() => Vector4I8F120.FromRepr(new Vector4Int128(Bits, Bits, Bits, OneRepr));
+        public Vector4I8F120 XXXX() => Vector4I8F120.FromRepr(new Vector4Int128(Bits, Bits, Bits, Bits));
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 

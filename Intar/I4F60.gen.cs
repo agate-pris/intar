@@ -259,6 +259,17 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
+        #region Swizzling
+        public Vector2I4F60 X0() => Vector2I4F60.FromRepr(new Vector2Int64(Bits, 0));
+        public Vector2I4F60 X1() => Vector2I4F60.FromRepr(new Vector2Int64(Bits, OneRepr));
+        public Vector2I4F60 XX() => Vector2I4F60.FromRepr(new Vector2Int64(Bits, Bits));
+        public Vector3I4F60 XX0() => Vector3I4F60.FromRepr(new Vector3Int64(Bits, Bits, 0));
+        public Vector3I4F60 XX1() => Vector3I4F60.FromRepr(new Vector3Int64(Bits, Bits, OneRepr));
+        public Vector3I4F60 XXX() => Vector3I4F60.FromRepr(new Vector3Int64(Bits, Bits, Bits));
+        public Vector4I4F60 XXX0() => Vector4I4F60.FromRepr(new Vector4Int64(Bits, Bits, Bits, 0));
+        public Vector4I4F60 XXX1() => Vector4I4F60.FromRepr(new Vector4Int64(Bits, Bits, Bits, OneRepr));
+        public Vector4I4F60 XXXX() => Vector4I4F60.FromRepr(new Vector4Int64(Bits, Bits, Bits, Bits));
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 

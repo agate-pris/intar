@@ -395,6 +395,17 @@ namespace Intar {
         public I2F30 CosP5() => CosP5(Bits);
 
         #endregion
+        #region Swizzling
+        public Vector2I17F15 X0() => Vector2I17F15.FromRepr(new Vector2Int32(Bits, 0));
+        public Vector2I17F15 X1() => Vector2I17F15.FromRepr(new Vector2Int32(Bits, OneRepr));
+        public Vector2I17F15 XX() => Vector2I17F15.FromRepr(new Vector2Int32(Bits, Bits));
+        public Vector3I17F15 XX0() => Vector3I17F15.FromRepr(new Vector3Int32(Bits, Bits, 0));
+        public Vector3I17F15 XX1() => Vector3I17F15.FromRepr(new Vector3Int32(Bits, Bits, OneRepr));
+        public Vector3I17F15 XXX() => Vector3I17F15.FromRepr(new Vector3Int32(Bits, Bits, Bits));
+        public Vector4I17F15 XXX0() => Vector4I17F15.FromRepr(new Vector4Int32(Bits, Bits, Bits, 0));
+        public Vector4I17F15 XXX1() => Vector4I17F15.FromRepr(new Vector4Int32(Bits, Bits, Bits, OneRepr));
+        public Vector4I17F15 XXXX() => Vector4I17F15.FromRepr(new Vector4Int32(Bits, Bits, Bits, Bits));
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 
