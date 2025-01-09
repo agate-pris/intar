@@ -409,7 +409,7 @@ namespace {{ namespace }} {
         {%- for x in components %}
         {%- for y in components %}
         {%- set t = macros::vector_type(dim=2, type=component) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => {{ t }}.FromRepr(Repr.{{ x }}{{ y }}());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => {% if dim != 2 %}{{ t }}.{% endif %}FromRepr(Repr.{{ x }}{{ y }}());
         {%- endfor %}
         {%- endfor %}
 
@@ -417,7 +417,7 @@ namespace {{ namespace }} {
         {%- for y in components %}
         {%- for z in components %}
         {%- set t = macros::vector_type(dim=3, type=component) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}() => {{ t }}.FromRepr(Repr.{{ x }}{{ y }}{{ z }}());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}() => {% if dim != 3 %}{{ t }}.{% endif %}FromRepr(Repr.{{ x }}{{ y }}{{ z }}());
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
@@ -427,7 +427,7 @@ namespace {{ namespace }} {
         {%- for z in components %}
         {%- for w in components %}
         {%- set t = macros::vector_type(dim=4, type=component) %}
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}{{ w }}() => {{ t }}.FromRepr(Repr.{{ x }}{{ y }}{{ z }}{{ w }}());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}{{ z }}{{ w }}() => {% if dim != 4 %}{{ t }}.{% endif %}FromRepr(Repr.{{ x }}{{ y }}{{ z }}{{ w }}());
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
