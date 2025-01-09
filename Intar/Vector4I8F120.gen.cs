@@ -181,6 +181,8 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 X0() => Vector2I8F120.FromRepr(Repr.X0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 X1() => Vector2I8F120.FromRepr(Repr.X1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 XX() => Vector2I8F120.FromRepr(Repr.XX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 XY() => Vector2I8F120.FromRepr(Repr.XY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 XZ() => Vector2I8F120.FromRepr(Repr.XZ());
@@ -197,6 +199,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 WY() => Vector2I8F120.FromRepr(Repr.WY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 WZ() => Vector2I8F120.FromRepr(Repr.WZ());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I8F120 WW() => Vector2I8F120.FromRepr(Repr.WW());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 XY0() => Vector3I8F120.FromRepr(Repr.XY0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 XY1() => Vector3I8F120.FromRepr(Repr.XY1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 XXX() => Vector3I8F120.FromRepr(Repr.XXX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 XXY() => Vector3I8F120.FromRepr(Repr.XXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 XXZ() => Vector3I8F120.FromRepr(Repr.XXZ());
@@ -261,6 +265,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 WWY() => Vector3I8F120.FromRepr(Repr.WWY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 WWZ() => Vector3I8F120.FromRepr(Repr.WWZ());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I8F120 WWW() => Vector3I8F120.FromRepr(Repr.WWW());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 XYZ0() => FromRepr(Repr.XYZ0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 XYZ1() => FromRepr(Repr.XYZ1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 XXXX() => FromRepr(Repr.XXXX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 XXXY() => FromRepr(Repr.XXXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4I8F120 XXXZ() => FromRepr(Repr.XXXZ());

@@ -406,11 +406,21 @@ namespace {{ namespace }} {
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 {# 改行 #}
 
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_type(dim=2, type=component) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} X{{ e }}() => {% if dim != 2 %}{{ t }}.{% endif %}FromRepr(Repr.X{{ e }}());
+        {%- endfor %}
+
         {%- for x in components %}
         {%- for y in components %}
         {%- set t = macros::vector_type(dim=2, type=component) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => {% if dim != 2 %}{{ t }}.{% endif %}FromRepr(Repr.{{ x }}{{ y }}());
         {%- endfor %}
+        {%- endfor %}
+
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_type(dim=3, type=component) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} XY{{ e }}() => {% if dim != 3 %}{{ t }}.{% endif %}FromRepr(Repr.XY{{ e }}());
         {%- endfor %}
 
         {%- for x in components %}
@@ -421,6 +431,13 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
+
+        {%- if dim > 2 %}
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_type(dim=4, type=component) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} XYZ{{ e }}() => {% if dim != 4 %}{{ t }}.{% endif %}FromRepr(Repr.XYZ{{ e }}());
+        {%- endfor %}
+        {%- endif %}
 
         {%- for x in components %}
         {%- for y in components %}
