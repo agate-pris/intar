@@ -614,12 +614,24 @@ namespace {{ namespace }} {
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 {# 改行 #}
 
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_primitive(dim=2, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} X{{ e }}() => new {{ t }}(X, {{ e }});
+        {%- endfor %}
+
         {%- for x in components %}
         {%- for y in components %}
         {%- set t = macros::vector_primitive(dim=2, signed=signed, bits=bits) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => new {{ t }}({{ x }}, {{ y }});
         {%- endfor %}
         {%- endfor %}
+
+        {%- if dim > 2 %}
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_primitive(dim=3, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} XY{{ e }}() => new {{ t }}(X, Y, {{ e }});
+        {%- endfor %}
+        {%- endif %}
 
         {%- for x in components %}
         {%- for y in components %}
@@ -629,6 +641,13 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
+
+        {%- if dim > 3 %}
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_primitive(dim=3, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} XYZ{{ e }}() => new {{ t }}(X, Y, Z, {{ e }});
+        {%- endfor %}
+        {%- endif %}
 
         {%- for x in components %}
         {%- for y in components %}

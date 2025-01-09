@@ -399,6 +399,8 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 X0() => new Vector2UInt128(X, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 X1() => new Vector2UInt128(X, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XX() => new Vector2UInt128(X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XY() => new Vector2UInt128(X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 YX() => new Vector2UInt128(Y, X);

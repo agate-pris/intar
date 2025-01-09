@@ -409,6 +409,8 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 X0() => new Vector2UInt128(X, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 X1() => new Vector2UInt128(X, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XX() => new Vector2UInt128(X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XY() => new Vector2UInt128(X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 XZ() => new Vector2UInt128(X, Z);
@@ -425,6 +427,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 WY() => new Vector2UInt128(W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 WZ() => new Vector2UInt128(W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2UInt128 WW() => new Vector2UInt128(W, W);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XY0() => new Vector3UInt128(X, Y, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XY1() => new Vector3UInt128(X, Y, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XXX() => new Vector3UInt128(X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XXY() => new Vector3UInt128(X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XXZ() => new Vector3UInt128(X, X, Z);
@@ -489,6 +493,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 WWY() => new Vector3UInt128(W, W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 WWZ() => new Vector3UInt128(W, W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 WWW() => new Vector3UInt128(W, W, W);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XYZ0() => new Vector3UInt128(X, Y, Z, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3UInt128 XYZ1() => new Vector3UInt128(X, Y, Z, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt128 XXXX() => new Vector4UInt128(X, X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt128 XXXY() => new Vector4UInt128(X, X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4UInt128 XXXZ() => new Vector4UInt128(X, X, X, Z);
