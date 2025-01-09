@@ -245,6 +245,17 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         #endregion
+        #region Swizzling
+        public Vector2I2F30 X0() => Vector2I2F30.FromRepr(new Vector2Int32(Bits, 0));
+        public Vector2I2F30 X1() => Vector2I2F30.FromRepr(new Vector2Int32(Bits, OneRepr));
+        public Vector2I2F30 XX() => Vector2I2F30.FromRepr(new Vector2Int32(Bits, Bits));
+        public Vector3I2F30 XX0() => Vector3I2F30.FromRepr(new Vector3Int32(Bits, Bits, 0));
+        public Vector3I2F30 XX1() => Vector3I2F30.FromRepr(new Vector3Int32(Bits, Bits, OneRepr));
+        public Vector3I2F30 XXX() => Vector3I2F30.FromRepr(new Vector3Int32(Bits, Bits, Bits));
+        public Vector4I2F30 XXX0() => Vector4I2F30.FromRepr(new Vector4Int32(Bits, Bits, Bits, 0));
+        public Vector4I2F30 XXX1() => Vector4I2F30.FromRepr(new Vector4Int32(Bits, Bits, Bits, OneRepr));
+        public Vector4I2F30 XXXX() => Vector4I2F30.FromRepr(new Vector4Int32(Bits, Bits, Bits, Bits));
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 

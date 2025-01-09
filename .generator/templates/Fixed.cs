@@ -3,6 +3,7 @@
 {%- set type_u    = macros::fixed_type(s=false,  i=int_nbits, f=frac_nbits) %}
 {%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
 {%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
+{%- set bits = int_nbits+frac_nbits %}
 {%- if 64 < int_nbits+frac_nbits %}
     {%- set const = 'static readonly' %}{%- else %}
     {%- set const = 'const' %}
@@ -434,6 +435,18 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
 
+        #endregion
+        {%- endif %}
+        {%- if signed and frac_nbits%15 == 0 %}
+        #region Swizzling
+        {%- for d in range(start=2, end=5) %}
+        {%- for e in ['0', '1', 'X'] %}
+        public {{ macros::vector_type(dim=d, type=self_type)
+        }} {% for i in range(end=d-1) %}X{% endfor %}{{ e }}() => {{ macros::vector_type(dim=d, type=self_type)
+        }}.FromRepr(new {{ macros::vector_primitive(dim=d, signed=signed, bits=bits)
+        }}({% for i in range(end=d-1) %}Bits, {% endfor %}{% if e == 'X' %}Bits{% elif e == '1' %}OneRepr{% else %}{{ e }}{% endif %}));
+        {%- endfor %}
+        {%- endfor %}
         #endregion
         {%- endif %}
 
