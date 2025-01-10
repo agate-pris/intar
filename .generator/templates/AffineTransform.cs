@@ -65,6 +65,7 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Conversions
+        {%- if dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Matrix4x4({{ type }} a) {
             return new System.Numerics.Matrix4x4(
@@ -152,29 +153,30 @@ namespace {{ namespace }} {
             );
         }
 #endif // UNITY_5_3_OR_NEWER
+        {%- endif %}
 
 #if UNITY_2018_1_OR_NEWER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Unity.Mathematics.float4x4({{ type }} a) {
-            return new Unity.Mathematics.float4x4(
+        public static explicit operator Unity.Mathematics.float{{ dim+1 }}x{{ dim+1 }}({{ type }} a) {
+            return new Unity.Mathematics.float{{ dim+1 }}x{{ dim+1 }}(
                 {%- for i in range(end=dim) %}
                 {% for j in range(end=dim) -%}
                 (float)a.RotationScale.C{{ j }}.{{ components[i] }}, {# #}
                 {%- endfor -%}
                 (float)a.Translation.{{ components[i] }},
                 {%- endfor %}
-                0, 0, 0, 1
+                {% for i in range(end=dim) %}0, {% endfor %}1
             );
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator {{ type }}(Unity.Mathematics.float4x4 a) {
+        public static explicit operator {{ type }}(Unity.Mathematics.float{{ dim+1 }}x{{ dim+1 }} a) {
 #if UNITY_ASSERTIONS
             UnityEngine.Assertions.Assert.IsTrue(
                 {%- for i in range(end=dim) %}
-                a.c{{ i }}.w == 0 &&
+                a.c{{ i }}.{{ components[dim]|lower }} == 0 &&
                 {%- endfor %}
-                a.c3.w == 1
+                a.c{{ dim }}.{{ components[dim]|lower }} == 1
             );
 #endif // UNITY_ASSERTIONS
             return new {{ type }}(
@@ -189,7 +191,7 @@ namespace {{ namespace }} {
                 ),
                 new {{ translation }}(
                     {%- for i in range(end=dim) -%}
-                    ({{ component }})a.c3.{{ components[i]|lower }}{%- if not loop.last %}, {% endif %}
+                    ({{ component }})a.c{{ dim }}.{{ components[i]|lower }}{%- if not loop.last %}, {% endif %}
                     {%- endfor -%}
                 )
             );
@@ -226,6 +228,7 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Trs
+        {%- if dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Trs({{ translation }} translation, {{ rotation }} rotation, {{ translation }} scale) {
             // クォータニオンから行列への変換時
@@ -239,6 +242,9 @@ namespace {{ namespace }} {
             {%- endfor %}
             return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
         }
+        {%- else %}
+        {{ throw(message='not implemented') }}
+        {%- endif %}
         #endregion
         #region {% for i in range(end=dim) %}DecomposeScale{{ components[i] }}{% if not loop.last %}, {% endif %}{% endfor %}
         {%- for i in range(end=dim) %}
