@@ -319,6 +319,7 @@ namespace {{ namespace }} {
         }
         #endregion
         {%- endif %}
+        {#- 3 次元の回転行列 #}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Rotate X/Y/Z
         {%- for o in sin %}
@@ -511,6 +512,26 @@ namespace {{ namespace }} {
             var c1 = {{ vector_3 }}.FromRepr(({{ repr }})(f.Value.Cross(c0.Value).Repr / {{ component }}.OneRepr));
             return new {{ type }}(c0.Value.Repr, c1.Repr, f.Value.Repr);
         }
+        #endregion
+        {%- endif %}
+        {#- 2 次元の回転行列 #}
+        {%- if rows == 2 and cols == 2 and signed and int_nbits == 2 %}
+        #region Rotate
+        {%- for o in sin %}
+
+        /// <summary>
+        /// Create a rotation matrix.
+        /// Sine and cosine are approximated by polynomials of degree {{ o }}.
+        /// </summary>
+        public static {{ type }} RotateP{{ o }}({{ angle }} angle) {
+            var s = angle.SinP{{ o }}();
+            var c = angle.CosP{{ o }}();
+            return new {{ type }}(
+                new {{ col }}(c, s),
+                new {{ col }}(-s, c)
+            );
+        }
+        {%- endfor %}
         #endregion
         {%- endif %}
     }
