@@ -33,9 +33,9 @@ namespace Intar.Editor {
             // すでに値がキャッシュされている場合はそれを使う
             // それ以外の場合, プロパティから値を取得してキャッシュする
             var value = cache ?? new Vector3(
-                (float)x.intValue / I2F30.OneRepr,
-                (float)y.intValue / I2F30.OneRepr,
-                (float)z.intValue / I2F30.OneRepr
+                I2F30Drawer.Restore(x.intValue),
+                I2F30Drawer.Restore(y.intValue),
+                I2F30Drawer.Restore(z.intValue)
             );
 
             // UI を表示 & 入力を取得

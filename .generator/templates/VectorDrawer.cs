@@ -40,7 +40,7 @@ namespace {{ namespace }}.Editor {
             // それ以外の場合, プロパティから値を取得してキャッシュする
             var value = cache ?? new Vector{{ dim }}(
                 {%- for c in components %}
-                (float){{ c|lower }}.{{ bits_type }}Value / {{ component }}.OneRepr{% if not loop.last %},{% endif %}
+                {{ component }}Drawer.Restore({{ c|lower }}.{{ bits_type }}Value){% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
 
