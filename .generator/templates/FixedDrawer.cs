@@ -9,12 +9,24 @@ namespace {{ namespace }}.Editor {
     [CustomPropertyDrawer(typeof({{ type }}))]
     public class {{ type }}Drawer : PropertyDrawer {
         float? cache;
+
         /// フィールドに表示する値を最大値・最小値で制限する
-        static float Clamp(float value) {
+        internal static float Clamp(float value) {
             var min = (float){{ type }}.MinValue;
             var max = (float){{ type }}.MaxValue;
             return Mathf.Clamp(value, min, max);
         }
+
+        /// 値をシリアライズ時に保存する値に変換する
+        internal static {{ bits_type }} ToBits(float value) {
+            value *= {{ type }}.OneRepr;
+
+            // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
+            return value <= {{ bits_type }}.MinValue ? {{ bits_type }}.MinValue :
+                   value >= {{ bits_type }}.MaxValue ? {{ bits_type }}.MaxValue :
+                   ({{ bits_type }})value;
+        }
+
         internal static float Restore({{ bits_type }} bits) {
             if (bits == 0) {
                 return 0;
@@ -91,13 +103,7 @@ namespace {{ namespace }}.Editor {
             cache = Clamp(value);
 
             if (EditorGUI.EndChangeCheck()) {
-                value *= {{ type }}.OneRepr;
-
-                // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
-                bits.{{ bits_type }}Value
-                    = value <= {{ bits_type }}.MinValue ? {{ bits_type }}.MinValue
-                    : value >= {{ bits_type }}.MaxValue ? {{ bits_type }}.MaxValue
-                    : ({{ bits_type }})value;
+                bits.{{ bits_type }}Value = ToBits(value);
             }
 
             EditorGUI.EndProperty();

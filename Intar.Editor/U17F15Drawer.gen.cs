@@ -5,12 +5,24 @@ namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(U17F15))]
     public class U17F15Drawer : PropertyDrawer {
         float? cache;
+
         /// フィールドに表示する値を最大値・最小値で制限する
-        static float Clamp(float value) {
+        internal static float Clamp(float value) {
             var min = (float)U17F15.MinValue;
             var max = (float)U17F15.MaxValue;
             return Mathf.Clamp(value, min, max);
         }
+
+        /// 値をシリアライズ時に保存する値に変換する
+        internal static uint ToBits(float value) {
+            value *= U17F15.OneRepr;
+
+            // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
+            return value <= uint.MinValue ? uint.MinValue :
+                   value >= uint.MaxValue ? uint.MaxValue :
+                   (uint)value;
+        }
+
         internal static float Restore(uint bits) {
             if (bits == 0) {
                 return 0;
@@ -79,13 +91,7 @@ namespace Intar.Editor {
             cache = Clamp(value);
 
             if (EditorGUI.EndChangeCheck()) {
-                value *= U17F15.OneRepr;
-
-                // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
-                bits.uintValue
-                    = value <= uint.MinValue ? uint.MinValue
-                    : value >= uint.MaxValue ? uint.MaxValue
-                    : (uint)value;
+                bits.uintValue = ToBits(value);
             }
 
             EditorGUI.EndProperty();

@@ -5,12 +5,24 @@ namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(U2F62))]
     public class U2F62Drawer : PropertyDrawer {
         float? cache;
+
         /// フィールドに表示する値を最大値・最小値で制限する
-        static float Clamp(float value) {
+        internal static float Clamp(float value) {
             var min = (float)U2F62.MinValue;
             var max = (float)U2F62.MaxValue;
             return Mathf.Clamp(value, min, max);
         }
+
+        /// 値をシリアライズ時に保存する値に変換する
+        internal static ulong ToBits(float value) {
+            value *= U2F62.OneRepr;
+
+            // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
+            return value <= ulong.MinValue ? ulong.MinValue :
+                   value >= ulong.MaxValue ? ulong.MaxValue :
+                   (ulong)value;
+        }
+
         internal static float Restore(ulong bits) {
             if (bits == 0) {
                 return 0;
@@ -79,13 +91,7 @@ namespace Intar.Editor {
             cache = Clamp(value);
 
             if (EditorGUI.EndChangeCheck()) {
-                value *= U2F62.OneRepr;
-
-                // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
-                bits.ulongValue
-                    = value <= ulong.MinValue ? ulong.MinValue
-                    : value >= ulong.MaxValue ? ulong.MaxValue
-                    : (ulong)value;
+                bits.ulongValue = ToBits(value);
             }
 
             EditorGUI.EndProperty();

@@ -5,12 +5,24 @@ namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(I34F30))]
     public class I34F30Drawer : PropertyDrawer {
         float? cache;
+
         /// フィールドに表示する値を最大値・最小値で制限する
-        static float Clamp(float value) {
+        internal static float Clamp(float value) {
             var min = (float)I34F30.MinValue;
             var max = (float)I34F30.MaxValue;
             return Mathf.Clamp(value, min, max);
         }
+
+        /// 値をシリアライズ時に保存する値に変換する
+        internal static long ToBits(float value) {
+            value *= I34F30.OneRepr;
+
+            // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
+            return value <= long.MinValue ? long.MinValue :
+                   value >= long.MaxValue ? long.MaxValue :
+                   (long)value;
+        }
+
         internal static float Restore(long bits) {
             if (bits == 0) {
                 return 0;
@@ -77,13 +89,7 @@ namespace Intar.Editor {
             cache = Clamp(value);
 
             if (EditorGUI.EndChangeCheck()) {
-                value *= I34F30.OneRepr;
-
-                // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
-                bits.longValue
-                    = value <= long.MinValue ? long.MinValue
-                    : value >= long.MaxValue ? long.MaxValue
-                    : (long)value;
+                bits.longValue = ToBits(value);
             }
 
             EditorGUI.EndProperty();
