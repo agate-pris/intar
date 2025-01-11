@@ -10,21 +10,6 @@ using UnityEngine;
 namespace {{ namespace }}.Editor {
     [CustomPropertyDrawer(typeof({{ type }}))]
     public class {{ type }}Drawer : PropertyDrawer {
-        /// フィールドに表示する値を最大値・最小値で制限する
-        static float Clamp(float value) {
-            var min = (float){{ component }}.MinValue;
-            var max = (float){{ component }}.MaxValue;
-            return Mathf.Clamp(value, min, max);
-        }
-
-        /// 値をシリアライズ時に保存する値に変換する
-        static {{ bits_type }} ToBits(float value) {
-            value *= {{ component }}.OneRepr;
-            return value <= {{ bits_type }}.MinValue ? {{ bits_type }}.MinValue :
-                   value >= {{ bits_type }}.MaxValue ? {{ bits_type }}.MaxValue :
-                   ({{ bits_type }})value;
-        }
-
         Vector{{ dim }}? cache;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
@@ -51,13 +36,13 @@ namespace {{ namespace }}.Editor {
             // 値を正規化してキャッシュを更新
             cache = new Vector{{ dim }}(
                 {%- for c in components -%}
-                Clamp(value.{{ c|lower }}){% if not loop.last %}, {% endif %}
+                {{ component }}Drawer.Clamp(value.{{ c|lower }}){% if not loop.last %}, {% endif %}
                 {%- endfor -%}
             );
 
             if (EditorGUI.EndChangeCheck()) {
                 {%- for c in components %}
-                {{ c|lower }}.{{ bits_type }}Value = ToBits(cache.Value.{{ c|lower }});
+                {{ c|lower }}.{{ bits_type }}Value = {{ component }}Drawer.ToBits(cache.Value.{{ c|lower }});
                 {%- endfor %}
             }
 
