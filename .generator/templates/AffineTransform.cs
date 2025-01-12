@@ -230,6 +230,13 @@ namespace {{ namespace }} {
         #region Trs
         {%- if dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Trs({{ translation }} translation, {{ macros::matrix_type(r=dim, c=dim, type=macros::fixed_type(s=true, i=2, f=2*frac_nbits)) }} rotation, {{ translation }} scale) {
+            {%- for i in range(end=dim) %}
+            var c{{ i }} = {{ translation }}.FromRepr((Vector3Int{{ bits }})(rotation.C{{ i }}.Repr.BigMul(scale.Repr.{{ components[i] }}) / (1 << {{ 2 * frac_nbits }})));
+            {%- endfor %}
+            return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Trs({{ translation }} translation, {{ rotation }} rotation, {{ translation }} scale) {
             // クォータニオンから行列への変換時
             // 内部的に long を経由するが,
@@ -237,10 +244,7 @@ namespace {{ namespace }} {
             // オーバーフローを引き起こすため,
             // 素直に一度小数部の精度を減らしてから乗算する.
             var r = ({{ macros::matrix_type(r=dim, c=dim, type=macros::fixed_type(s=true, i=2, f=2*frac_nbits)) }})rotation;
-            {%- for i in range(end=dim) %}
-            var c{{ i }} = {{ translation }}.FromRepr((Vector3Int{{ bits }})(r.C{{ i }}.Repr.BigMul(scale.Repr.{{ components[i] }}) / (1 << {{ 2 * frac_nbits }})));
-            {%- endfor %}
-            return new {{ type }}(new {{ rotation_scale }}(c0, c1, c2), translation);
+            return Trs(translation, r, scale);
         }
         {%- else %}
         {{ throw(message='not implemented') }}

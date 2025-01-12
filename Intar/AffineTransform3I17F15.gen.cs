@@ -181,6 +181,13 @@ namespace Intar {
         #endregion
         #region Trs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static AffineTransform3I17F15 Trs(Vector3I17F15 translation, Matrix3x3I2F30 rotation, Vector3I17F15 scale) {
+            var c0 = Vector3I17F15.FromRepr((Vector3Int32)(rotation.C0.Repr.BigMul(scale.Repr.X) / (1 << 30)));
+            var c1 = Vector3I17F15.FromRepr((Vector3Int32)(rotation.C1.Repr.BigMul(scale.Repr.Y) / (1 << 30)));
+            var c2 = Vector3I17F15.FromRepr((Vector3Int32)(rotation.C2.Repr.BigMul(scale.Repr.Z) / (1 << 30)));
+            return new AffineTransform3I17F15(new Matrix3x3I17F15(c0, c1, c2), translation);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AffineTransform3I17F15 Trs(Vector3I17F15 translation, QuaternionI2F30 rotation, Vector3I17F15 scale) {
             // クォータニオンから行列への変換時
             // 内部的に long を経由するが,
@@ -188,10 +195,7 @@ namespace Intar {
             // オーバーフローを引き起こすため,
             // 素直に一度小数部の精度を減らしてから乗算する.
             var r = (Matrix3x3I2F30)rotation;
-            var c0 = Vector3I17F15.FromRepr((Vector3Int32)(r.C0.Repr.BigMul(scale.Repr.X) / (1 << 30)));
-            var c1 = Vector3I17F15.FromRepr((Vector3Int32)(r.C1.Repr.BigMul(scale.Repr.Y) / (1 << 30)));
-            var c2 = Vector3I17F15.FromRepr((Vector3Int32)(r.C2.Repr.BigMul(scale.Repr.Z) / (1 << 30)));
-            return new AffineTransform3I17F15(new Matrix3x3I17F15(c0, c1, c2), translation);
+            return Trs(translation, r, scale);
         }
         #endregion
         #region DecomposeScaleX, DecomposeScaleY, DecomposeScaleZ
