@@ -25,6 +25,7 @@ namespace Intar.Geometry {
 #endif
 
         #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Circle2I17F15(Vector2I17F15 center, U17F15 radius) {
             Center = center;
             Radius = radius;

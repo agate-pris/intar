@@ -31,6 +31,7 @@ namespace {{ namespace }}.Geometry {
 #endif
 
         #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}({{ macros::vector_type(dim=dim, type=component) }} center, {{ component_u }} radius) {
             Center = center;
             Radius = radius;
