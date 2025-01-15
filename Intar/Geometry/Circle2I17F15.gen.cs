@@ -78,6 +78,13 @@ namespace Intar.Geometry {
         #endregion
         #region Disjoint, Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Disjoint(Vector2I17F15 other) {
+            return Center.DistanceSquared(other) > Radius.BigMul(Radius);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects(Vector2I17F15 other) => !Disjoint(other);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Disjoint(Circle2I17F15 other) {
             var r = Radius + other.Radius;
             return Center.DistanceSquared(other.Center) > r.BigMul(r);

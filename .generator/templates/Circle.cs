@@ -104,6 +104,13 @@ namespace {{ namespace }}.Geometry {
         #endregion
         #region Disjoint, Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Disjoint({{ macros::vector_type(dim=dim, type=component) }} other) {
+            return Center.DistanceSquared(other) > Radius.BigMul(Radius);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects({{ macros::vector_type(dim=dim, type=component) }} other) => !Disjoint(other);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Disjoint({{ type }} other) {
             var r = Radius + other.Radius;
             return Center.DistanceSquared(other.Center) > r.BigMul(r);
