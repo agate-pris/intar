@@ -3,7 +3,10 @@
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) %}
 {%- set component   = 'I17F15' %}
 {%- set component_u = 'U17F15' %}
-{%- set type = 'Circle' ~ dim ~ component -%}
+{%- if dim == 2 %}
+{%- set type = 'Circle' ~ component %}{% else %}
+{{- throw(message='not implemented') }}
+{%- endif -%}
 using System;
 using System.Runtime.CompilerServices;
 
