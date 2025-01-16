@@ -52,15 +52,18 @@ namespace Intar.Geometry {
             return obj is CircleI17F15 o && Equals(o);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(
             Center, Radius
         );
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() {
             return $"{{Center:{Center} Radius:{Radius}}}";
         }
         #endregion
         #region IFormattable
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return $"{{Center:{Center.ToString(format, formatProvider)} Radius:{Radius.ToString(format, formatProvider)}}}";
         }
