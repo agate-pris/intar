@@ -24,19 +24,22 @@ using System.Runtime.CompilerServices;
 namespace {{ namespace }} {
     [Serializable]
     public struct {{ vector }} : IEquatable<{{ vector }}> {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+{# lf #}
         {%- for c in components %}
         public {{ component }} {{ c }};
         {%- endfor %}
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
 
         public static explicit operator System.Numerics.Vector{{

@@ -4,19 +4,22 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct Vector3Int32 : IEquatable<Vector3Int32> {
-
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public int X;
         public int Y;
         public int Z;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
 
         public static explicit operator System.Numerics.Vector3(Vector3Int32 a) {
