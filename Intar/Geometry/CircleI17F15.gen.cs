@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Intar.Geometry {
     [Serializable]
-    public struct Circle2I17F15 : IEquatable<Circle2I17F15>, IFormattable {
+    public struct CircleI17F15 : IEquatable<CircleI17F15>, IFormattable {
 
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
@@ -26,30 +26,30 @@ namespace Intar.Geometry {
 
         #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Circle2I17F15(Vector2I17F15 center, U17F15 radius) {
+        public CircleI17F15(Vector2I17F15 center, U17F15 radius) {
             Center = center;
             Radius = radius;
         }
         #endregion
         #region IEquatable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Circle2I17F15 other) {
+        public bool Equals(CircleI17F15 other) {
             return Center.Equals(other.Center) && Radius.Equals(other.Radius);
         }
         #endregion
         #region IEqualityOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Circle2I17F15 left, Circle2I17F15 right) {
+        public static bool operator ==(CircleI17F15 left, CircleI17F15 right) {
             return left.Center.X == right.Center.X && left.Center.Y == right.Center.Y && left.Radius == right.Radius;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Circle2I17F15 left, Circle2I17F15 right) {
+        public static bool operator !=(CircleI17F15 left, CircleI17F15 right) {
             return left.Center.X != right.Center.X || left.Center.Y != right.Center.Y || left.Radius != right.Radius;
         }
         #endregion
         #region Object
         public override bool Equals(object obj) {
-            return obj is Circle2I17F15 o && Equals(o);
+            return obj is CircleI17F15 o && Equals(o);
         }
 
         public override int GetHashCode() => HashCode.Combine(
@@ -67,11 +67,11 @@ namespace Intar.Geometry {
         #endregion
         #region IMultiplyOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Circle2I17F15 operator *(AffineTransform3I17F15 left, Circle2I17F15 right) {
+        public static CircleI17F15 operator *(AffineTransform3I17F15 left, CircleI17F15 right) {
             var sX = left.DecomposeScaleX();
             var sY = left.DecomposeScaleY();
             var center = new Vector3I17F15(right.Center.X, right.Center.Y, I17F15.Zero);
-            return new Circle2I17F15(
+            return new CircleI17F15(
                 (left * center).XY(),
                 right.Radius * sX.Max(sY)
             );
@@ -86,12 +86,12 @@ namespace Intar.Geometry {
         public bool Intersects(Vector2I17F15 other) => !Disjoint(other);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint(Circle2I17F15 other) {
+        public bool Disjoint(CircleI17F15 other) {
             var r = Radius + other.Radius;
             return Center.DistanceSquared(other.Center) > r.BigMul(r);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Intersects(Circle2I17F15 other) => !Disjoint(other);
+        public bool Intersects(CircleI17F15 other) => !Disjoint(other);
         #endregion
 
 #if UNITY_EDITOR
