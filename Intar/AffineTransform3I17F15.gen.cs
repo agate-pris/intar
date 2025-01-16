@@ -12,17 +12,21 @@ namespace Intar {
 #pragma warning restore CA2231 // 値型 Equals のオーバーライドで、演算子 equals をオーバーロードします
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #region Fields
+        #region RotationScale, Translation
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Matrix3x3I17F15 RotationScale;
         public Vector3I17F15 Translation;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
         #region Constructors
         public AffineTransform3I17F15(Matrix3x3I17F15 rotationScale, Vector3I17F15 translation) {
@@ -68,14 +72,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator AffineTransform3I17F15(System.Numerics.Matrix4x4 a) {
+
 #if UNITY_ASSERTIONS
+
             UnityEngine.Assertions.Assert.IsTrue(
                 a.M14 == 0 &&
                 a.M24 == 0 &&
                 a.M34 == 0 &&
                 a.M44 == 1
             );
+
 #endif // UNITY_ASSERTIONS
+
             return new AffineTransform3I17F15(
                 new Matrix3x3I17F15(
                     new Vector3I17F15((I17F15)a.M11, (I17F15)a.M12, (I17F15)a.M13),
@@ -87,6 +95,7 @@ namespace Intar {
         }
 
 #if UNITY_5_3_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4(AffineTransform3I17F15 a) {
             return new UnityEngine.Matrix4x4(
@@ -99,14 +108,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator AffineTransform3I17F15(UnityEngine.Matrix4x4 a) {
+
 #if UNITY_ASSERTIONS
+
             UnityEngine.Assertions.Assert.IsTrue(
                 a.m30 == 0 &&
                 a.m31 == 0 &&
                 a.m32 == 0 &&
                 a.m33 == 1
             );
+
 #endif // UNITY_ASSERTIONS
+
             return new AffineTransform3I17F15(
                 new Matrix3x3I17F15(
                     new Vector3I17F15((I17F15)a.m00, (I17F15)a.m10, (I17F15)a.m20),
@@ -116,9 +129,11 @@ namespace Intar {
                 new Vector3I17F15((I17F15)a.m03, (I17F15)a.m13, (I17F15)a.m23)
             );
         }
+
 #endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float4x4(AffineTransform3I17F15 a) {
             return new Unity.Mathematics.float4x4(
@@ -131,14 +146,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator AffineTransform3I17F15(Unity.Mathematics.float4x4 a) {
+
 #if UNITY_ASSERTIONS
+
             UnityEngine.Assertions.Assert.IsTrue(
                 a.c0.w == 0 &&
                 a.c1.w == 0 &&
                 a.c2.w == 0 &&
                 a.c3.w == 1
             );
+
 #endif // UNITY_ASSERTIONS
+
             return new AffineTransform3I17F15(
                 new Matrix3x3I17F15(
                     new Vector3I17F15((I17F15)a.c0.x, (I17F15)a.c0.y, (I17F15)a.c0.z),
@@ -148,7 +167,9 @@ namespace Intar {
                 new Vector3I17F15((I17F15)a.c3.x, (I17F15)a.c3.y, (I17F15)a.c3.z)
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IMultiplicationOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

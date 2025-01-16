@@ -21,17 +21,21 @@ namespace {{ namespace }} {
 #pragma warning restore CA2231 // 値型 Equals のオーバーライドで、演算子 equals をオーバーロードします
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #region Fields
+        #region RotationScale, Translation
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public {{ rotation_scale }} RotationScale;
         public {{ translation }} Translation;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
         #region Constructors
         public {{ type }}({{ rotation_scale }} rotationScale, {{ translation }} translation) {
@@ -82,14 +86,18 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator {{ type }}(System.Numerics.Matrix4x4 a) {
+
 #if UNITY_ASSERTIONS
+
             UnityEngine.Assertions.Assert.IsTrue(
                 {%- for i in range(end=dim) %}
                 a.M{{ i+1 }}4 == 0 &&
                 {%- endfor %}
                 a.M44 == 1
             );
+
 #endif // UNITY_ASSERTIONS
+
             return new {{ type }}(
                 new {{ rotation_scale }}(
                     {%- for i in range(end=dim) %}
@@ -109,6 +117,7 @@ namespace {{ namespace }} {
         }
 
 #if UNITY_5_3_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
             return new UnityEngine.Matrix4x4(
@@ -127,14 +136,18 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator {{ type }}(UnityEngine.Matrix4x4 a) {
+
 #if UNITY_ASSERTIONS
+
             UnityEngine.Assertions.Assert.IsTrue(
                 {%- for i in range(end=dim) %}
                 a.m3{{ i }} == 0 &&
                 {%- endfor %}
                 a.m33 == 1
             );
+
 #endif // UNITY_ASSERTIONS
+
             return new {{ type }}(
                 new {{ rotation_scale }}(
                     {%- for i in range(end=dim) %}
@@ -152,10 +165,12 @@ namespace {{ namespace }} {
                 )
             );
         }
+
 #endif // UNITY_5_3_OR_NEWER
         {%- endif %}
 
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float{{ dim+1 }}x{{ dim+1 }}({{ type }} a) {
             return new Unity.Mathematics.float{{ dim+1 }}x{{ dim+1 }}(
@@ -171,14 +186,18 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator {{ type }}(Unity.Mathematics.float{{ dim+1 }}x{{ dim+1 }} a) {
+
 #if UNITY_ASSERTIONS
+
             UnityEngine.Assertions.Assert.IsTrue(
                 {%- for i in range(end=dim) %}
                 a.c{{ i }}.{{ components[dim]|lower }} == 0 &&
                 {%- endfor %}
                 a.c{{ dim }}.{{ components[dim]|lower }} == 1
             );
+
 #endif // UNITY_ASSERTIONS
+
             return new {{ type }}(
                 new {{ rotation_scale }}(
                     {%- for i in range(end=dim) %}
@@ -196,7 +215,9 @@ namespace {{ namespace }} {
                 )
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IMultiplicationOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
