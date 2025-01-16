@@ -13,17 +13,21 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector3I2F30 C0;
         public Vector3I2F30 C1;
         public Vector3I2F30 C2;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
         #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -108,7 +112,9 @@ namespace Intar {
         }
         #endregion
         #region Conversions
+
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float3x3(Matrix3x3I2F30 a) {
             return new Unity.Mathematics.float3x3(
@@ -117,7 +123,9 @@ namespace Intar {
                 (float)a.C0.Z, (float)a.C1.Z, (float)a.C2.Z
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -180,6 +188,7 @@ namespace Intar {
         }
         #endregion
         #region Scale
+
         /// <summary>
         /// Creates a scaling matrix.
         /// </summary>
@@ -201,7 +210,6 @@ namespace Intar {
         }
         #endregion
         #region Conversion
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Matrix3x3I2F30(QuaternionI2F30 q) {
             var pnn = new Vector3Int32(+2, -2, -2);

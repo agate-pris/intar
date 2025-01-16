@@ -13,16 +13,20 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector2I2F30 C0;
         public Vector2I2F30 C1;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
         #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,7 +95,9 @@ namespace Intar {
         }
         #endregion
         #region Conversions
+
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float2x2(Matrix2x2I2F30 a) {
             return new Unity.Mathematics.float2x2(
@@ -99,7 +105,9 @@ namespace Intar {
                 (float)a.C0.Y, (float)a.C1.Y
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -150,6 +158,7 @@ namespace Intar {
         }
         #endregion
         #region Scale
+
         /// <summary>
         /// Creates a scaling matrix.
         /// </summary>

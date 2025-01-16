@@ -39,17 +39,21 @@ namespace {{ namespace }} {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+{# lf #}
         {%- for i in range(end=cols) %}
         public {{ col }} C{{ i }};
         {%- endfor %}
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
         #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -173,6 +177,7 @@ namespace {{ namespace }} {
         // 行優先・列優先の違いによる混乱を防ぐため定義しない.
 
 #if UNITY_5_3_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
             return new UnityEngine.Matrix4x4(
@@ -188,9 +193,12 @@ namespace {{ namespace }} {
                 {%- endfor %}1)
             );
         }
+
 #endif // UNITY_5_3_OR_NEWER
         {%- endif %}
+
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float{{ rows }}x{{ cols }}({{ type }} a) {
             return new Unity.Mathematics.float{{ rows }}x{{ cols }}(
@@ -202,7 +210,9 @@ namespace {{ namespace }} {
                 {%- endfor %}
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         {%- for o in ['+', '-'] %}
@@ -264,6 +274,7 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Scale
+
         /// <summary>
         /// Creates a scaling matrix.
         /// </summary>
@@ -305,7 +316,6 @@ namespace {{ namespace }} {
         {%- endif %}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator {{ type }}({{ quaternion }} q) {
             var pnn = new {{ repr_3 }}(+2, -2, -2);
