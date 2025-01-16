@@ -67,14 +67,22 @@ namespace Intar.Geometry {
         #endregion
         #region IMultiplyOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static CircleI17F15 operator *(AffineTransform3I17F15 left, CircleI17F15 right) {
+        public static CircleI17F15 operator *(AffineTransform2I17F15 left, CircleI17F15 right) {
             var sX = left.DecomposeScaleX();
             var sY = left.DecomposeScaleY();
-            var center = new Vector3I17F15(right.Center.X, right.Center.Y, I17F15.Zero);
             return new CircleI17F15(
-                (left * center).XY(),
+                left * right.Center,
                 right.Radius * sX.Max(sY)
             );
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CircleI17F15 operator *(AffineTransform3I17F15 left, CircleI17F15 right) {
+            return new AffineTransform2I17F15(
+                new Matrix2x2I17F15(
+                    left.RotationScale.C0.XY(),
+                    left.RotationScale.C1.XY()
+                ), left.Translation.XY()
+            ) * right;
         }
         #endregion
         #region Disjoint, Intersects

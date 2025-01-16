@@ -81,30 +81,29 @@ namespace {{ namespace }}.Geometry {
         #endregion
         #region IMultiplyOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ type }} operator *(AffineTransform3{{ component }} left, {{ type }} right) {
+        public static {{ type }} operator *(AffineTransform{{ dim }}{{ component }} left, {{ type }} right) {
             {%- for c in components %}
             var s{{ c }} = left.DecomposeScale{{ c }}();
             {%- endfor %}
-            var center = new Vector3{{ component }}(
-                {%- for i in range(end=3) %}
-                {%- if i < dim -%}
-                right.Center.{{ components[i] }}
-                {%- else -%}
-                {{ component }}.Zero
-                {%- endif %}
-                {%- if not loop.last -%}, {% endif %}
-                {%- endfor %});
             return new {{ type }}(
-                (left * center).
-                {%- for i in range(end=dim) -%}
-                {{ components[i] }}
-                {%- endfor %}(),
+                left * right.Center,
                 right.Radius * sX
                 {%- for i in range(start=1, end=dim) -%}
                 .Max(s{{ components[i] }})
                 {%- endfor %}
             );
         }
+        {%- if dim == 2 %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} operator *(AffineTransform3{{ component }} left, {{ type }} right) {
+            return new AffineTransform2{{ component }}(
+                new Matrix2x2{{ component }}(
+                    left.RotationScale.C0.XY(),
+                    left.RotationScale.C1.XY()
+                ), left.Translation.XY()
+            ) * right;
+        }
+        {%- endif %}
         #endregion
         #region Disjoint, Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
