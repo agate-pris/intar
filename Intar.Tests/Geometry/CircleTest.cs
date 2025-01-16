@@ -5,11 +5,11 @@ namespace Intar.Tests.Geometry {
     public class CircleTest {
         [Test]
         public static void TestIntersectsCircle() {
-            var a = new Circle2I17F15(
+            var a = new CircleI17F15(
                 new Vector2I17F15(I17F15.FromBits(10000), I17F15.FromBits(10000)),
                 U17F15.FromBits(10000)
             );
-            var b = new Circle2I17F15(
+            var b = new CircleI17F15(
                 new Vector2I17F15(I17F15.FromBits(5000), I17F15.FromBits(5000)),
                 U17F15.FromBits(2000)
             );
@@ -33,7 +33,7 @@ namespace Intar.Tests.Geometry {
         }
         [Test]
         public static void TestIntersectsPoint() {
-            var a = new Circle2I17F15(
+            var a = new CircleI17F15(
                 new Vector2I17F15(I17F15.FromBits(10000), I17F15.FromBits(10000)),
                 U17F15.FromBits(10000)
             );
