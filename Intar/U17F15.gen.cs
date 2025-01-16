@@ -4,9 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct U17F15 : IEquatable<U17F15>, IFormattable {
-
         #region Consts
-
         public const int IntNbits = 17;
         public const int FracNbits = 15;
 
@@ -15,23 +13,23 @@ namespace Intar {
         internal const uint EpsilonRepr = 1;
 
         internal const uint OneRepr = 1U << FracNbits;
-
         #endregion
+        #region Bits
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public uint Bits;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
-        #region Constructor, FromBits
-
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         U17F15(uint bits) {
             Bits = bits;
@@ -39,9 +37,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 FromBits(uint bits) => new U17F15(bits);
-
         #endregion
-
         #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
@@ -58,20 +54,14 @@ namespace Intar {
         public static readonly U17F15 MinValue = new U17F15(MinRepr);
         public static readonly U17F15 MaxValue = new U17F15(MaxRepr);
         internal static readonly U17F15 Epsilon = new U17F15(EpsilonRepr);
-
         #endregion
-
         #region WideBits
-
         internal ulong WideBits {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
-
         #endregion
-
         #region IAdditionOperatos, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 operator +(U17F15 left, U17F15 right) {
             return FromBits(left.Bits + right.Bits);
@@ -81,11 +71,8 @@ namespace Intar {
         public static U17F15 operator -(U17F15 left, U17F15 right) {
             return FromBits(left.Bits - right.Bits);
         }
-
         #endregion
-
         #region IMultiplicationOperators, IDivisionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 operator *(U17F15 left, U17F15 right) {
             return FromBits((uint)(left.WideBits * right.Bits / OneRepr));
@@ -95,31 +82,23 @@ namespace Intar {
         public static U17F15 operator /(U17F15 left, U17F15 right) {
             return FromBits((uint)(left.WideBits * OneRepr / right.Bits));
         }
-
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U17F15 operator +(U17F15 x) => FromBits(+x.Bits);
 
         // 符号なし固定小数点数は単項マイナス演算子を持たない。
 
         #endregion
-
         #region IEqualityOperators, IComparisonOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(U17F15 left, U17F15 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(U17F15 left, U17F15 right) => left.Bits != right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(U17F15 left, U17F15 right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(U17F15 left, U17F15 right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(U17F15 left, U17F15 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(U17F15 left, U17F15 right) => left.Bits >= right.Bits;
-
         #endregion
-
         #region Object
-
         public override bool Equals(object obj) => obj is U17F15 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -127,27 +106,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ((double)this).ToString((IFormatProvider)null);
-
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(U17F15 other) => this == other;
-
         #endregion
-
         #region IFormattable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
-
         #endregion
-
         #region IComparable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(U17F15 value) {
             if (this < value) {
@@ -158,11 +128,8 @@ namespace Intar {
                 return 0;
             }
         }
-
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Min(U17F15 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public U17F15 Max(U17F15 other) => FromBits(Math.Max(Bits, other.Bits));
 
@@ -174,18 +141,15 @@ namespace Intar {
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 #endif
         }
-
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsNegative() => Bits < 0;
-
         #endregion
+        #region Half, Twice
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U17F15 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal U17F15 Twice() => FromBits(Mathi.Twice(Bits));
-
+        #endregion
         #region BigMul
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -197,7 +161,6 @@ namespace Intar {
         public U34F30 BigMul(U17F15 other) {
             return U34F30.FromBits(WideBits * other.WideBits);
         }
-
         #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
@@ -286,7 +249,6 @@ namespace Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない.
             return FromBits((uint)(num * (double)OneRepr));
         }
-
         #endregion
         #region Conversion from fixed-point number
 
@@ -465,6 +427,7 @@ namespace Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
         #endregion
         #region Conversion to floating-point number
 
@@ -476,7 +439,6 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(U17F15 v) => (double)v.Bits / (double)OneRepr;
-
         #endregion
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です

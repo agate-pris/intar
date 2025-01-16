@@ -4,9 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct I2F62 : IEquatable<I2F62>, IFormattable {
-
         #region Consts
-
         public const int IntNbits = 2;
         public const int FracNbits = 62;
 
@@ -16,23 +14,23 @@ namespace Intar {
         internal const long EpsilonRepr = 1;
 
         internal const long OneRepr = 1L << FracNbits;
-
         #endregion
+        #region Bits
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public long Bits;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
-        #region Constructor, FromBits
-
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         I2F62(long bits) {
             Bits = bits;
@@ -40,9 +38,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 FromBits(long bits) => new I2F62(bits);
-
         #endregion
-
         #region Zero, One, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
@@ -59,9 +55,7 @@ namespace Intar {
         public static readonly I2F62 MinValue = new I2F62(MinRepr);
         public static readonly I2F62 MaxValue = new I2F62(MaxRepr);
         internal static readonly I2F62 Epsilon = new I2F62(EpsilonRepr);
-
         #endregion
-
         #region WideBits
 
 #if NET7_0_OR_GREATER
@@ -74,9 +68,7 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IAdditionOperatos, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 operator +(I2F62 left, I2F62 right) {
             return FromBits(left.Bits + right.Bits);
@@ -86,9 +78,7 @@ namespace Intar {
         public static I2F62 operator -(I2F62 left, I2F62 right) {
             return FromBits(left.Bits - right.Bits);
         }
-
         #endregion
-
         #region IMultiplicationOperators, IDivisionOperators
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
@@ -109,30 +99,22 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 operator +(I2F62 x) => FromBits(+x.Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 operator -(I2F62 x) => FromBits(-x.Bits);
-
         #endregion
-
         #region IEqualityOperators, IComparisonOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(I2F62 left, I2F62 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(I2F62 left, I2F62 right) => left.Bits != right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(I2F62 left, I2F62 right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(I2F62 left, I2F62 right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I2F62 left, I2F62 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I2F62 left, I2F62 right) => left.Bits >= right.Bits;
-
         #endregion
-
         #region Object
-
         public override bool Equals(object obj) => obj is I2F62 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -140,27 +122,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ((double)this).ToString((IFormatProvider)null);
-
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(I2F62 other) => this == other;
-
         #endregion
-
         #region IFormattable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
-
         #endregion
-
         #region IComparable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(I2F62 value) {
             if (this < value) {
@@ -171,11 +144,8 @@ namespace Intar {
                 return 0;
             }
         }
-
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 Min(I2F62 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I2F62 Max(I2F62 other) => FromBits(Math.Max(Bits, other.Bits));
 
@@ -187,11 +157,8 @@ namespace Intar {
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 #endif
         }
-
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsNegative() => Bits < 0;
 
@@ -202,7 +169,6 @@ namespace Intar {
         public U2F62 UnsignedAbs() {
             return U2F62.FromBits(Mathi.UnsignedAbs(Bits));
         }
-
         #endregion
         #region AbsDiff
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -210,13 +176,12 @@ namespace Intar {
             return U2F62.FromBits(Mathi.AbsDiff(Bits, other.Bits));
         }
         #endregion
+        #region Half, Twice
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F62 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I2F62 Twice() => FromBits(Mathi.Twice(Bits));
-
-        #region BigMul
-
         #endregion
-
+        #region BigMul
+        #endregion
         #region Atan2
 
 #if NET7_0_OR_GREATER
@@ -347,7 +312,6 @@ namespace Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない.
             return FromBits((long)(num * (double)OneRepr));
         }
-
         #endregion
         #region Conversion from fixed-point number
 
@@ -526,6 +490,7 @@ namespace Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
         #endregion
         #region Conversion to floating-point number
 
@@ -537,7 +502,6 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(I2F62 v) => (double)v.Bits / (double)OneRepr;
-
         #endregion
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
