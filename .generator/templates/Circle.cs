@@ -108,6 +108,12 @@ namespace {{ namespace }}.Geometry {
         }
         {%- endif %}
         #endregion
+        #region Envelope
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Aabb{{ dim }}{{ component }} Envelope() {
+            return new Aabb{{ dim }}{{ component }}(this);
+        }
+        #endregion
         #region Disjoint, Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Disjoint({{ macros::vector_type(dim=dim, type=component) }} other) {
