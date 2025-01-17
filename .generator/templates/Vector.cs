@@ -157,6 +157,14 @@ namespace {{ namespace }} {
         public static {{ vector }} operator {{ o }}({{ vector }} a, {{ vector }} b) {
             return new {{ vector }}(a.Repr {{ o }} b.Repr);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector }} operator {{ o }}({{ component }} a, {{ vector }} b) {
+            return new {{ vector }}(a.Bits {{ o }} b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ vector }} operator {{ o }}({{ vector }} a, {{ component }} b) {
+            return new {{ vector }}(a.Repr {{ o }} b.Bits);
+        }
         {%- endfor %}
         #endregion
         {%- if int_nbits+frac_nbits < 128 %}

@@ -103,8 +103,24 @@ namespace Intar {
             return new Vector3I17F15(a.Repr + b.Repr);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 operator +(I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15(a.Bits + b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 operator +(Vector3I17F15 a, I17F15 b) {
+            return new Vector3I17F15(a.Repr + b.Bits);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3I17F15 operator -(Vector3I17F15 a, Vector3I17F15 b) {
             return new Vector3I17F15(a.Repr - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 operator -(I17F15 a, Vector3I17F15 b) {
+            return new Vector3I17F15(a.Bits - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3I17F15 operator -(Vector3I17F15 a, I17F15 b) {
+            return new Vector3I17F15(a.Repr - b.Bits);
         }
         #endregion
         #region IMultiplyOperators, IDivisionOperators

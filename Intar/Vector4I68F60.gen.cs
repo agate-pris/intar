@@ -106,8 +106,24 @@ namespace Intar {
             return new Vector4I68F60(a.Repr + b.Repr);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I68F60 operator +(I68F60 a, Vector4I68F60 b) {
+            return new Vector4I68F60(a.Bits + b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I68F60 operator +(Vector4I68F60 a, I68F60 b) {
+            return new Vector4I68F60(a.Repr + b.Bits);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4I68F60 operator -(Vector4I68F60 a, Vector4I68F60 b) {
             return new Vector4I68F60(a.Repr - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I68F60 operator -(I68F60 a, Vector4I68F60 b) {
+            return new Vector4I68F60(a.Bits - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4I68F60 operator -(Vector4I68F60 a, I68F60 b) {
+            return new Vector4I68F60(a.Repr - b.Bits);
         }
         #endregion
         #region IUnaryPlusOperators, IUnaryNegationOperators
