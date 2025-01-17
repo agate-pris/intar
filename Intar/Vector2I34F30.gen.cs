@@ -102,8 +102,24 @@ namespace Intar {
             return new Vector2I34F30(a.Repr + b.Repr);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I34F30 operator +(I34F30 a, Vector2I34F30 b) {
+            return new Vector2I34F30(a.Bits + b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I34F30 operator +(Vector2I34F30 a, I34F30 b) {
+            return new Vector2I34F30(a.Repr + b.Bits);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I34F30 operator -(Vector2I34F30 a, Vector2I34F30 b) {
             return new Vector2I34F30(a.Repr - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I34F30 operator -(I34F30 a, Vector2I34F30 b) {
+            return new Vector2I34F30(a.Bits - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I34F30 operator -(Vector2I34F30 a, I34F30 b) {
+            return new Vector2I34F30(a.Repr - b.Bits);
         }
         #endregion
         #region IMultiplyOperators, IDivisionOperators
