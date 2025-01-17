@@ -88,6 +88,12 @@ namespace Intar.Geometry {
             ) * right;
         }
         #endregion
+        #region Envelope
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Aabb2I17F15 Envelope() {
+            return new Aabb2I17F15(this);
+        }
+        #endregion
         #region Disjoint, Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Disjoint(Vector2I17F15 other) {
