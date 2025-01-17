@@ -37,6 +37,18 @@
     "output_dest": [
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "Aabb.cs",
+            "files": [
+                {
+                    "file_name": "Aabb2I17F15.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}"
+                    }
+                }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "AffineTransform.cs",
             "files": [
                 {%- for d in [2, 3] %}
