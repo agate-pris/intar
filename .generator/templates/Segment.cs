@@ -12,6 +12,7 @@
 {%- set circle_type = 'Sphere' ~ component %}{% else %}
 {{- throw(message='not implemented') }}
 {%- endif %}
+{%- set aabb_type = 'Aabb' ~ dim ~ component %}
 {%- set type = 'Segment' ~ dim ~ component -%}
 using System;
 using System.Runtime.CompilerServices;
@@ -99,6 +100,12 @@ namespace {{ namespace }}.Geometry {
             ) * right;
         }
         {%- endif %}
+        #endregion
+        #region Envelope
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ aabb_type }} Envelope() {
+            return new {{ aabb_type }}(this);
+        }
         #endregion
         {%- if dim == 2 %}
         #region ClosestPoint
