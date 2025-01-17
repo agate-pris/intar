@@ -81,6 +81,12 @@ namespace Intar.Geometry {
             ) * right;
         }
         #endregion
+        #region Envelope
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Aabb2I17F15 Envelope() {
+            return new Aabb2I17F15(this);
+        }
+        #endregion
         #region ClosestPoint
         /// <summary>
         /// 線分上で最も点 p に近い点を求める。
