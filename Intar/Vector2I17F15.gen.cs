@@ -209,7 +209,12 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector2I17F15 Twice() => new Vector2I17F15(Repr.Twice());
         #endregion
-        #region Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I34F30 Cross(Vector2I17F15 other) {
+            var tmp = Repr.Cross(other.Repr);
+            return I34F30.FromBits(tmp);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 Dot(Vector2I17F15 other) {
             return I34F30.FromBits(Repr.Dot(other.Repr));

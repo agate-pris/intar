@@ -224,7 +224,12 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I8F120 Cross(Vector2I4F60 other) {
+            var tmp = Repr.Cross(other.Repr);
+            return I8F120.FromBits(tmp);
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 Dot(Vector2I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));

@@ -291,13 +291,21 @@ namespace {{ namespace }} {
 
 #if NET7_0_OR_GREATER
 {% endif %}
-        #region {% if signed and dim == 3 %}Cross, {% endif %}Dot, LengthSquared, Length, DistanceSquared, Distance
-        {%- if signed and dim == 3 %}
+        #region {% if signed and (dim == 3 or dim == 2) %}Cross, {% endif %}Dot, LengthSquared, Length, DistanceSquared, Distance
+        {%- if signed %}
+        {%- if dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
             var tmp = Repr.Cross(other.Repr);
             return {{ wide_vector }}.FromRepr(tmp);
         }
+        {%- elif dim == 2 %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component }} Cross({{ vector }} other) {
+            var tmp = Repr.Cross(other.Repr);
+            return {{ wide_component }}.FromBits(tmp);
+        }
+        {%- endif %}
         {%- endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} Dot({{ vector }} other) {
