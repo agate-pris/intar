@@ -529,12 +529,14 @@ namespace {{ namespace }} {
         #endregion
         {%- endif %}
         {%- if signed and bits < 128 %}
-        {%- if dim == 3 %}
+        {%- if dim == 3 or dim == 2 %}
         #region Cross
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
-{% endif %}
+        {%- endif %}
+        {%- if dim == 3 %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} Cross({{ vector }} other) {
             // (a1)   (b1)   (a2b3 - a3b2)
@@ -542,6 +544,40 @@ namespace {{ namespace }} {
             // (a3)   (b3)   (a1b2 - a2b1)
             return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
+        {%- elif dim == 2 %}
+
+        /// <summary>
+        /// Calculates the cross product of two vectors.
+        /// </summary>
+        /// <remarks>
+        /// <div class="TIP alert alert-info">
+        /// <h5>Tip</h5>
+        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
+        /// </div>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2Int32(1, 2);
+        /// var b = new Vector2Int32(3, 4);
+        /// var c = a.Cross(b);
+        /// Assert.AreEqual(-2L, c);
+        /// </code>
+        /// </example>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component }} Cross({{ vector }} other) {
+
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            var l = ({{ wide_component }})X * ({{ wide_component }})other.Y;
+            var r = ({{ wide_component }})Y * ({{ wide_component }})other.X;
+            return l - r;
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
+        }
+        {%- else %}
+        {{- throw(message='not implemented') }}
+        {%- endif %}
         {%- if bits > 32 %}
 
 #endif // NET7_0_OR_GREATER

@@ -449,6 +449,43 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
+        #region Cross
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Calculates the cross product of two vectors.
+        /// </summary>
+        /// <remarks>
+        /// <div class="TIP alert alert-info">
+        /// <h5>Tip</h5>
+        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
+        /// </div>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2Int32(1, 2);
+        /// var b = new Vector2Int32(3, 4);
+        /// var c = a.Cross(b);
+        /// Assert.AreEqual(-2L, c);
+        /// </code>
+        /// </example>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128 Cross(Vector2Int64 other) {
+
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            var l = (Int128)X * (Int128)other.Y;
+            var r = (Int128)Y * (Int128)other.X;
+            return l - r;
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
+        }
+
+#endif // NET7_0_OR_GREATER
+
+        #endregion
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -443,6 +443,38 @@ namespace Intar {
             return AbsDiff(other).Length();
         }
         #endregion
+        #region Cross
+
+        /// <summary>
+        /// Calculates the cross product of two vectors.
+        /// </summary>
+        /// <remarks>
+        /// <div class="TIP alert alert-info">
+        /// <h5>Tip</h5>
+        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
+        /// </div>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2Int32(1, 2);
+        /// var b = new Vector2Int32(3, 4);
+        /// var c = a.Cross(b);
+        /// Assert.AreEqual(-2L, c);
+        /// </code>
+        /// </example>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long Cross(Vector2Int32 other) {
+
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            var l = (long)X * (long)other.Y;
+            var r = (long)Y * (long)other.X;
+            return l - r;
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
+        }
+        #endregion
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
