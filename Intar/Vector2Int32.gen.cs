@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct Vector2Int32 : IEquatable<Vector2Int32> {
-        #region Fields
+        #region X, Y
 
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
@@ -20,28 +20,39 @@ namespace Intar {
 #endif
 
         #endregion
-
+        #region Conversion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Vector2(Vector2Int32 a) {
             return new System.Numerics.Vector2(a.X, a.Y);
         }
 
 #if UNITY_5_3_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Vector2(Vector2Int32 a) {
             return new UnityEngine.Vector2(a.X, a.Y);
         }
-#endif
+
+#endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float2(Vector2Int32 a) {
             return new Unity.Mathematics.float2(a.X, a.Y);
         }
-#endif
 
+#endif // UNITY_2018_1_OR_NEWER
+
+        #endregion
+        #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int32(int x, int y) {
             X = x;
             Y = y;
         }
-
+        #endregion
+        #region Indexer
         public int this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
@@ -60,7 +71,7 @@ namespace Intar {
                 }
             }
         }
-
+        #endregion
         #region IComparisonOperators, IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -152,9 +163,7 @@ namespace Intar {
         public static Vector2Bool operator !=(Vector2Int32 left, int right) {
             return new Vector2Bool(left.X != right, left.Y != right);
         }
-
         #endregion
-
         #region IShiftOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -177,25 +186,19 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector2Int32 other) {
             return X == other.X && Y == other.Y;
         }
-
         #endregion
-
         #region Object
 
         public override bool Equals(object obj) => obj is Vector2Int32 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -257,28 +260,20 @@ namespace Intar {
         public static Vector2Int32 operator /(int left, Vector2Int32 right) {
             return new Vector2Int32(left / right.X, left / right.Y);
         }
-
         #endregion
-
         #region IUnaryPlusOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int32 operator +(Vector2Int32 x) {
             return new Vector2Int32(+x.X, +x.Y);
         }
-
         #endregion
-
         #region IUnarryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int32 operator -(Vector2Int32 x) {
             return new Vector2Int32(-x.X, -x.Y);
         }
-
         #endregion
-
-        #region Conversion Operators
+        #region Conversion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -316,7 +311,6 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -354,9 +348,7 @@ namespace Intar {
             );
         }
         #endregion
-
         #region Min, Max, MaxComponent, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int32 Min(Vector2Int32 other) {
             return new Vector2Int32(Math.Min(X, other.X), Math.Min(Y, other.Y));
@@ -371,26 +363,35 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int32 Clamp(int min, int max) {
+
 #if NET5_0_OR_GREATER
+
             return new Vector2Int32(Math.Clamp(X, min, max), Math.Clamp(Y, min, max));
+
 #else
+
             return new Vector2Int32(Mathi.Clamp(X, min, max), Mathi.Clamp(Y, min, max));
+
 #endif
+
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int32 Clamp(Vector2Int32 min, Vector2Int32 max) {
+
 #if NET5_0_OR_GREATER
+
             return new Vector2Int32(Math.Clamp(X, min.X, max.X), Math.Clamp(Y, min.Y, max.Y));
+
 #else
+
             return new Vector2Int32(Mathi.Clamp(X, min.X, max.X), Mathi.Clamp(Y, min.Y, max.Y));
+
 #endif
+
         }
-
         #endregion
-
         #region Half, Twice, ComponentsSum
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int32 Half() => new Vector2Int32(Mathi.Half(X), Mathi.Half(Y));
 
@@ -399,11 +400,8 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int ComponentsSum() => X + Y;
-
         #endregion
-
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
-
+        #region BigMul, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int64 BigMul(int other) {
             return (Vector2Int64)this * other;
@@ -444,9 +442,7 @@ namespace Intar {
         public uint Distance(Vector2Int32 other) {
             return AbsDiff(other).Length();
         }
-
         #endregion
-
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -478,9 +474,7 @@ namespace Intar {
         public Vector2Int32 WrappingAbs() {
             return new Vector2Int32(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y));
         }
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -517,8 +511,6 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 YYXY() => new Vector4Int32(Y, Y, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 YYYX() => new Vector4Int32(Y, Y, Y, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int32 YYYY() => new Vector4Int32(Y, Y, Y, Y);
-
         #endregion
-
     }
 } // namespace Intar

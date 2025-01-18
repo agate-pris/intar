@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct Vector2Int128 : IEquatable<Vector2Int128> {
-        #region Fields
+        #region X, Y
 
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
@@ -22,28 +22,39 @@ namespace Intar {
 #endif
 
         #endregion
-
+        #region Conversion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Vector2(Vector2Int128 a) {
             return new System.Numerics.Vector2((float)a.X, (float)a.Y);
         }
 
 #if UNITY_5_3_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Vector2(Vector2Int128 a) {
             return new UnityEngine.Vector2((float)a.X, (float)a.Y);
         }
-#endif
+
+#endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float2(Vector2Int128 a) {
             return new Unity.Mathematics.float2((float)a.X, (float)a.Y);
         }
-#endif
 
+#endif // UNITY_2018_1_OR_NEWER
+
+        #endregion
+        #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128(Int128 x, Int128 y) {
             X = x;
             Y = y;
         }
-
+        #endregion
+        #region Indexer
         public Int128 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
@@ -62,7 +73,7 @@ namespace Intar {
                 }
             }
         }
-
+        #endregion
         #region IComparisonOperators, IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -154,9 +165,7 @@ namespace Intar {
         public static Vector2Bool operator !=(Vector2Int128 left, Int128 right) {
             return new Vector2Bool(left.X != right, left.Y != right);
         }
-
         #endregion
-
         #region IShiftOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,25 +188,19 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector2Int128 other) {
             return X == other.X && Y == other.Y;
         }
-
         #endregion
-
         #region Object
 
         public override bool Equals(object obj) => obj is Vector2Int128 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -259,28 +262,20 @@ namespace Intar {
         public static Vector2Int128 operator /(Int128 left, Vector2Int128 right) {
             return new Vector2Int128(left / right.X, left / right.Y);
         }
-
         #endregion
-
         #region IUnaryPlusOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int128 operator +(Vector2Int128 x) {
             return new Vector2Int128(+x.X, +x.Y);
         }
-
         #endregion
-
         #region IUnarryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int128 operator -(Vector2Int128 x) {
             return new Vector2Int128(-x.X, -x.Y);
         }
-
         #endregion
-
-        #region Conversion Operators
+        #region Conversion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -318,7 +313,6 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -356,9 +350,7 @@ namespace Intar {
             );
         }
         #endregion
-
         #region Min, Max, MaxComponent, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Min(Vector2Int128 other) {
             return new Vector2Int128(Int128.Min(X, other.X), Int128.Min(Y, other.Y));
@@ -380,11 +372,8 @@ namespace Intar {
         public Vector2Int128 Clamp(Vector2Int128 min, Vector2Int128 max) {
             return new Vector2Int128(Int128.Clamp(X, min.X, max.X), Int128.Clamp(Y, min.Y, max.Y));
         }
-
         #endregion
-
         #region Half, Twice, ComponentsSum
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 Half() => new Vector2Int128(Mathi.Half(X), Mathi.Half(Y));
 
@@ -393,9 +382,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Int128 ComponentsSum() => X + Y;
-
         #endregion
-
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -427,9 +414,7 @@ namespace Intar {
         public Vector2Int128 WrappingAbs() {
             return new Vector2Int128(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y));
         }
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -466,9 +451,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int128 YYXY() => new Vector4Int128(Y, Y, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int128 YYYX() => new Vector4Int128(Y, Y, Y, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int128 YYYY() => new Vector4Int128(Y, Y, Y, Y);
-
         #endregion
-
     }
 } // namespace Intar
 

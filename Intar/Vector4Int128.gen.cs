@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct Vector4Int128 : IEquatable<Vector4Int128> {
-        #region Fields
+        #region X, Y, Z, W
 
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
@@ -24,30 +24,41 @@ namespace Intar {
 #endif
 
         #endregion
-
+        #region Conversion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Vector4(Vector4Int128 a) {
             return new System.Numerics.Vector4((float)a.X, (float)a.Y, (float)a.Z, (float)a.W);
         }
 
 #if UNITY_5_3_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Vector4(Vector4Int128 a) {
             return new UnityEngine.Vector4((float)a.X, (float)a.Y, (float)a.Z, (float)a.W);
         }
-#endif
+
+#endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float4(Vector4Int128 a) {
             return new Unity.Mathematics.float4((float)a.X, (float)a.Y, (float)a.Z, (float)a.W);
         }
-#endif
 
+#endif // UNITY_2018_1_OR_NEWER
+
+        #endregion
+        #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128(Int128 x, Int128 y, Int128 z, Int128 w) {
             X = x;
             Y = y;
             Z = z;
             W = w;
         }
-
+        #endregion
+        #region Indexer
         public Int128 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
@@ -70,7 +81,7 @@ namespace Intar {
                 }
             }
         }
-
+        #endregion
         #region IComparisonOperators, IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -162,9 +173,7 @@ namespace Intar {
         public static Vector4Bool operator !=(Vector4Int128 left, Int128 right) {
             return new Vector4Bool(left.X != right, left.Y != right, left.Z != right, left.W != right);
         }
-
         #endregion
-
         #region IShiftOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -187,25 +196,19 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4Int128 other) {
             return X == other.X && Y == other.Y && Z == other.Z && W == other.W;
         }
-
         #endregion
-
         #region Object
 
         public override bool Equals(object obj) => obj is Vector4Int128 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -267,28 +270,20 @@ namespace Intar {
         public static Vector4Int128 operator /(Int128 left, Vector4Int128 right) {
             return new Vector4Int128(left / right.X, left / right.Y, left / right.Z, left / right.W);
         }
-
         #endregion
-
         #region IUnaryPlusOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int128 operator +(Vector4Int128 x) {
             return new Vector4Int128(+x.X, +x.Y, +x.Z, +x.W);
         }
-
         #endregion
-
         #region IUnarryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int128 operator -(Vector4Int128 x) {
             return new Vector4Int128(-x.X, -x.Y, -x.Z, -x.W);
         }
-
         #endregion
-
-        #region Conversion Operators
+        #region Conversion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -326,7 +321,6 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -370,9 +364,7 @@ namespace Intar {
             );
         }
         #endregion
-
         #region Min, Max, MaxComponent, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Min(Vector4Int128 other) {
             return new Vector4Int128(Int128.Min(X, other.X), Int128.Min(Y, other.Y), Int128.Min(Z, other.Z), Int128.Min(W, other.W));
@@ -394,11 +386,8 @@ namespace Intar {
         public Vector4Int128 Clamp(Vector4Int128 min, Vector4Int128 max) {
             return new Vector4Int128(Int128.Clamp(X, min.X, max.X), Int128.Clamp(Y, min.Y, max.Y), Int128.Clamp(Z, min.Z, max.Z), Int128.Clamp(W, min.W, max.W));
         }
-
         #endregion
-
         #region Half, Twice, ComponentsSum
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int128 Half() => new Vector4Int128(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
 
@@ -407,9 +396,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Int128 ComponentsSum() => X + Y + Z + W;
-
         #endregion
-
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -441,9 +428,7 @@ namespace Intar {
         public Vector4Int128 WrappingAbs() {
             return new Vector4Int128(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y), Overflowing.WrappingAbs(Z), Overflowing.WrappingAbs(W));
         }
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
@@ -790,9 +775,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int128 WWWY() => new Vector4Int128(W, W, W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int128 WWWZ() => new Vector4Int128(W, W, W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int128 WWWW() => new Vector4Int128(W, W, W, W);
-
         #endregion
-
     }
 } // namespace Intar
 
