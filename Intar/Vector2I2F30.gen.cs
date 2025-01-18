@@ -210,6 +210,24 @@ namespace Intar {
         internal Vector2I2F30 Twice() => new Vector2I2F30(Repr.Twice());
         #endregion
         #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
+
+        /// <summary>
+        /// <para>Calculates the cross product of two vectors.</para>
+        /// </summary>
+        /// <remarks>
+        /// <div class="TIP alert alert-info">
+        /// <h5>Tip</h5>
+        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
+        /// </div>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2I2F30(I2F30.FromBits(1), I2F30.FromBits(2));
+        /// var b = new Vector2I2F30(I2F30.FromBits(3), I2F30.FromBits(4));
+        /// var c = a.Cross(b);
+        /// Assert.AreEqual(I4F60.FromBits(-2L), c);
+        /// </code>
+        /// </example>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 Cross(Vector2I2F30 other) {
             var tmp = Repr.Cross(other.Repr);
