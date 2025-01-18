@@ -1,23 +1,24 @@
 {% import "macros.cs" as macros %}
-{%- set bits   = macros::inttype(signed=signed, bits = int_nbits+frac_nbits) %}
-{%- set bits_u = macros::inttype(signed=false,  bits = int_nbits+frac_nbits) %}
-{%- set component    = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
-{%- set component_u  = macros::fixed_type(s=false,  i=int_nbits, f=frac_nbits) %}
-{%- set component_i2 = macros::fixed_type(s=true, i=2, f=int_nbits+frac_nbits-2) %}
+{%- set nbits = int_nbits+frac_nbits %}
+{%- set bits   = macros::inttype(signed=signed, bits=nbits) %}
+{%- set bits_u = macros::inttype(signed=false,  bits=nbits) %}
+{%- set component    = macros::fixed_type(s = signed, i = int_nbits, f = frac_nbits) %}
+{%- set component_u  = macros::fixed_type(s = false,  i = int_nbits, f = frac_nbits) %}
+{%- set component_i2 = macros::fixed_type(s = true,   i = 2,         f = nbits-2   ) %}
 {%- set vector    = macros::vector_type(dim=dim, type=component) %}
 {%- set vector_i2 = macros::vector_type(dim=dim, type=component_i2) %}
 {%- set vector_b = macros::vector_bool(dim=dim) %}
-{%- set repr   = macros::vector_primitive(dim=dim, signed=signed, bits = int_nbits+frac_nbits) %}
-{%- set repr_u = macros::vector_primitive(dim=dim, signed=false,  bits = int_nbits+frac_nbits) %}
-{%- if int_nbits+frac_nbits < 128 %}
+{%- set repr   = macros::vector_primitive(dim=dim, signed=signed, bits=nbits) %}
+{%- set repr_u = macros::vector_primitive(dim=dim, signed=false,  bits=nbits) %}
+{%- if nbits < 128 %}
     {%- set wide_bits_u = macros::inttype(bits= 2*int_nbits + 2*frac_nbits, signed=false) %}
     {%- set wide_component   = macros::fixed_type(s=signed, i = 2*int_nbits, f = 2*frac_nbits) %}
     {%- set wide_component_u = macros::fixed_type(s=false,  i = 2*int_nbits, f = 2*frac_nbits) %}
     {%- set wide_vector = macros::vector_type(dim=dim, type=wide_component) %}
-    {%- set wide_repr = macros::vector_primitive(dim=dim, signed=signed, bits = 2*int_nbits + 2*frac_nbits) %}
+    {%- set wide_repr = macros::vector_primitive(dim = dim, signed = signed, bits = 2*nbits) %}
 {%- endif %}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) %}
-{%- if int_nbits+frac_nbits > 64 -%}
+{%- if nbits > 64 -%}
 #if NET7_0_OR_GREATER
 
 {% endif -%}
@@ -45,9 +46,9 @@ namespace {{ namespace }} {
 #endif
 
         #endregion
-        {%- if int_nbits+frac_nbits < 128 %}
+        {%- if nbits < 128 %}
         #region WideRepr
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if nbits > 32 %}
 
 #if NET7_0_OR_GREATER
 {% endif %}
@@ -55,7 +56,7 @@ namespace {{ namespace }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Repr;
         }
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
 {% endif %}
@@ -82,7 +83,7 @@ namespace {{ namespace }} {
         #region Conversion
         public static explicit operator System.Numerics.Vector{{ dim }}({{ vector }} a) {
             return (System.Numerics.Vector{{ dim }})a.Repr / {%
-                if int_nbits+frac_nbits > 64 %}(float){%
+                if nbits > 64 %}(float){%
                 endif
             %}{{ component }}.OneRepr;
         }
@@ -91,7 +92,7 @@ namespace {{ namespace }} {
         public static explicit operator UnityEngine.Vector{{
             dim }}({{ vector }} a) {
             return (UnityEngine.Vector{{ dim }})a.Repr / {%
-                if int_nbits+frac_nbits > 64 %}(float){%
+                if nbits > 64 %}(float){%
                 endif
             %}{{ component }}.OneRepr;
         }
@@ -101,7 +102,7 @@ namespace {{ namespace }} {
         public static explicit operator Unity.Mathematics.float{{
             dim }}({{ vector }} a) {
             return (Unity.Mathematics.float{{ dim }})a.Repr / {%
-                if int_nbits+frac_nbits > 64 %}(float){%
+                if nbits > 64 %}(float){%
                 endif
             %}{{ component }}.OneRepr;
         }
@@ -167,9 +168,9 @@ namespace {{ namespace }} {
         }
         {%- endfor %}
         #endregion
-        {%- if int_nbits+frac_nbits < 128 %}
+        {%- if nbits < 128 %}
         #region IMultiplyOperators, IDivisionOperators
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if nbits > 32 %}
 
 #if NET7_0_OR_GREATER
 {% endif %}
@@ -197,7 +198,7 @@ namespace {{ namespace }} {
         public static {{ vector }} operator /({{ component }} a, {{ vector }} b) {
             return new {{ vector }}(({{ repr }})(a.WideBits * {{ component }}.OneRepr / b.WideRepr));
         }
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
 {% endif %}
@@ -285,8 +286,8 @@ namespace {{ namespace }} {
         internal {{ vector }} {{ m }}() => new {{ vector }}(Repr.{{ m }}());
         {%- endfor %}
         #endregion
-        {%- if int_nbits+frac_nbits < 128 %}
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if nbits < 128 %}
+        {%- if nbits > 32 %}
 
 #if NET7_0_OR_GREATER
 {% endif %}
@@ -382,18 +383,16 @@ namespace {{ namespace }} {
             return new {{ vector }}(tmp.Value);
         }
         #endregion
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if nbits > 32 %}
 
 #endif // NET7_0_OR_GREATER
 {% endif %}
         {%- endif %}
-        {%- if signed
-            and int_nbits + frac_nbits < 128
-            and int_nbits - frac_nbits == 2 %}
+        {%- if signed and nbits < 128 and int_nbits - frac_nbits == 2 %}
         #region Sin/Cos
         {%- for m in ['Sin', 'Cos'] %}
         {%- for o in [2, 3, 4, 5, 10, 11] %}
-        {%- if o > 5 and int_nbits + frac_nbits < 64 %}
+        {%- if o > 5 and nbits < 64 %}
             {%- continue %}
         {%- endif %}
         {%- set f = m ~ 'P' ~ o %}
@@ -461,7 +460,7 @@ namespace {{ namespace }} {
     }
 } // namespace {{ namespace }}
 
-{%- if int_nbits+frac_nbits > 64 %}
+{%- if nbits > 64 %}
 
 #endif // NET7_0_OR_GREATER
 {%- endif %}
