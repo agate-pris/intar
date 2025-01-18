@@ -451,6 +451,7 @@ namespace Intar {
         }
         #endregion
         #region Cross
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 Cross(Vector3Int32 other) {
             // (a1)   (b1)   (a2b3 - a3b2)
