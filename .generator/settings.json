@@ -222,6 +222,16 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}/Geometry",
+            "template_name": "Segment.cs",
+            "files": [
+                {
+                    "file_name": "Segment2I17F15.gen.cs",
+                    "params": { "namespace": "{{ namespace }}" }
+                }
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}",
             "template_name": "Vector.cs",
             "files": [

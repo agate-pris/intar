@@ -83,6 +83,27 @@ namespace Intar {
                 circle.Center - (I17F15)circle.Radius,
                 circle.Center + (I17F15)circle.Radius
             ) { }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Aabb2I17F15(Geometry.Segment2I17F15 segment) {
+            I17F15 minX, maxX;
+            if (segment.P1.X < segment.P2.X) {
+                minX = segment.P1.X;
+                maxX = segment.P2.X;
+            } else {
+                minX = segment.P2.X;
+                maxX = segment.P1.X;
+            }
+            I17F15 minY, maxY;
+            if (segment.P1.Y < segment.P2.Y) {
+                minY = segment.P1.Y;
+                maxY = segment.P2.Y;
+            } else {
+                minY = segment.P2.Y;
+                maxY = segment.P1.Y;
+            }
+            min = new Vector2I17F15(minX, minY);
+            max = new Vector2I17F15(maxX, maxY);
+        }
         #endregion
         #region ExpandX
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

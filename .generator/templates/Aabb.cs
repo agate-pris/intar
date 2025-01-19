@@ -14,6 +14,7 @@
 {%- set circle_type = 'Sphere' ~ component %}{% else %}
 {{- throw(message='not implemented') }}
 {%- endif %}
+{%- set segment_type = 'Segment' ~ dim ~ component %}
 {%- set type = 'Aabb' ~ dim ~ component -%}
 using System.Runtime.CompilerServices;
 
@@ -82,6 +83,29 @@ namespace {{ namespace }} {
                 circle.Center - ({{ component }})circle.Radius,
                 circle.Center + ({{ component }})circle.Radius
             ) { }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }}(Geometry.{{ segment_type }} segment) {
+            {%- for c in components %}
+            {{ component }} min{{ c }}, max{{ c }};
+            if (segment.P1.{{ c }} < segment.P2.{{ c }}) {
+                min{{ c }} = segment.P1.{{ c }};
+                max{{ c }} = segment.P2.{{ c }};
+            } else {
+                min{{ c }} = segment.P2.{{ c }};
+                max{{ c }} = segment.P1.{{ c }};
+            }
+            {%- endfor %}
+            min = new {{ vector }}(
+                {%- for c in components -%}
+                min{{ c }}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+            max = new {{ vector }}(
+                {%- for c in components -%}
+                max{{ c }}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
         #endregion
         {%- for com in components %}
         #region Expand{{ com }}
