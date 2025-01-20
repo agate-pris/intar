@@ -222,6 +222,7 @@ namespace Intar {
             var tmp = Repr.Cross(other.Repr);
             return Vector3I34F30.FromRepr(tmp);
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 Dot(Vector3I17F15 other) {
             return I34F30.FromBits(Repr.Dot(other.Repr));

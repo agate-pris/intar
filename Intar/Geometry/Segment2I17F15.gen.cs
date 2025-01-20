@@ -166,7 +166,7 @@ namespace Intar.Geometry {
             // ここではオーバーフローが発生する可能性を低減するため,
             // I17F15 にキャストする代わりに,
             // 小数部が 15 ビットになるように内部表現の除算のみを行う.
-            var rxs = r.Cross(s).Bits / I17F15.OneRepr;
+            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
 
             // r x s = 0 の場合, 線分は平行なため交差しない.
             // (重なっている場合は交差していないとみなす)
@@ -181,13 +181,13 @@ namespace Intar.Geometry {
             // t と u の小数部は 15 ビットになる.
 
             // (v x s) / (r x s)
-            var t = v.Cross(s).Bits / rxs;
+            var t = v.Determinant(s).Bits / rxs;
             if (t < 0 || I17F15.OneRepr < t) {
                 return false;
             }
 
             // (v x r) / (r x s)
-            var u = v.Cross(r).Bits / rxs;
+            var u = v.Determinant(r).Bits / rxs;
             if (u < 0 || I17F15.OneRepr < u) {
                 return false;
             }
@@ -228,7 +228,7 @@ namespace Intar.Geometry {
             // ここではオーバーフローが発生する可能性を低減するため,
             // I17F15 にキャストする代わりに,
             // 小数部が 15 ビットになるように内部表現の除算のみを行う.
-            var rxs = r.Cross(s).Bits / I17F15.OneRepr;
+            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
 
             // r x s = 0 の場合, 線分は平行なため交差しない.
             // (重なっている場合は交差していないとみなす)
@@ -245,8 +245,8 @@ namespace Intar.Geometry {
             // t = (v x s) / (r x s),
             // u = (v x r) / (r x s)
 
-            var t = v.Cross(s).Bits / rxs;
-            var u = v.Cross(r).Bits / rxs;
+            var t = v.Determinant(s).Bits / rxs;
+            var u = v.Determinant(r).Bits / rxs;
             return 0 <= t && t <= I17F15.OneRepr &&
                    0 <= u && u <= I17F15.OneRepr;
         }

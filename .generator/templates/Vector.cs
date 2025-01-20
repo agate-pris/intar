@@ -291,7 +291,9 @@ namespace {{ namespace }} {
 
 #if NET7_0_OR_GREATER
 {% endif %}
-        #region {% if signed and (dim == 3 or dim == 2) %}Cross, {% endif %}Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region {% if signed and dim == 3
+        %}Cross, {% endif %}{% if signed and dim == 2
+        %}Determinant, {% endif %}Dot, LengthSquared, Length, DistanceSquared, Distance
         {%- if signed %}
         {%- if dim == 3 %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -299,21 +301,17 @@ namespace {{ namespace }} {
             var tmp = Repr.Cross(other.Repr);
             return {{ wide_vector }}.FromRepr(tmp);
         }
-        {%- elif dim == 2 %}
+        {%- endif %}
+        {%- if dim == 2 %}
 
         /// <summary>
-        /// <para>Calculates the cross product of two vectors.</para>
+        /// <para>Calculates the determinant of matrix.</para>
         /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
-        /// </div>
         /// <example>
         /// <code>
         /// var a = new {{ vector }}({{ component }}.FromBits(1), {{ component }}.FromBits(2));
         /// var b = new {{ vector }}({{ component }}.FromBits(3), {{ component }}.FromBits(4));
-        /// var c = a.Cross(b);
+        /// var c = a.Determinant(b);
         /// Assert.AreEqual({{ wide_component }}.FromBits({%
             if nbits == 32 %}-2L{%
             else %}(int128)-2{%
@@ -321,14 +319,15 @@ namespace {{ namespace }} {
             %}), c);
         /// </code>
         /// </example>
-        /// </remarks>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} Cross({{ vector }} other) {
-            var tmp = Repr.Cross(other.Repr);
+        public {{ wide_component }} Determinant({{ vector }} other) {
+            var tmp = Repr.Determinant(other.Repr);
             return {{ wide_component }}.FromBits(tmp);
         }
         {%- endif %}
         {%- endif %}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} Dot({{ vector }} other) {
             return {{ wide_component }}.FromBits(Repr.Dot(other.Repr));

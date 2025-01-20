@@ -408,7 +408,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int ComponentsSum() => X + Y + Z;
         #endregion
-        #region BigMul, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
+        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 BigMul(int other) {
             return (Vector3Int64)this * other;
@@ -417,6 +417,14 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3Int64 BigMul(Vector3Int32 other) {
             return (Vector3Int64)this * other;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3Int64 Cross(Vector3Int32 other) {
+            // (a1)   (b1)   (a2b3 - a3b2)
+            // (a2) x (b2) = (a3b1 - a1b3)
+            // (a3)   (b3)   (a1b2 - a2b1)
+            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -448,16 +456,6 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Distance(Vector3Int32 other) {
             return AbsDiff(other).Length();
-        }
-        #endregion
-        #region Cross
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector3Int64 Cross(Vector3Int32 other) {
-            // (a1)   (b1)   (a2b3 - a3b2)
-            // (a2) x (b2) = (a3b1 - a1b3)
-            // (a3)   (b3)   (a1b2 - a2b1)
-            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
         }
         #endregion
         #region Overflowing
