@@ -239,6 +239,7 @@ namespace Intar {
 #if NET7_0_OR_GREATER
 
         #region Dot, LengthSquared, Length, DistanceSquared, Distance
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 Dot(Vector4I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));

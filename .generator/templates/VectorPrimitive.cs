@@ -468,7 +468,10 @@ namespace {{ namespace }} {
         {%- endfor %};
         #endregion
         {%- if bits < 128 %}
-        #region BigMul, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
+        #region BigMul{% if signed and dim == 3
+        %}, Cross{% endif %}{% if signed and dim == 2
+        %}, Determinant{% endif
+        %}, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
@@ -482,6 +485,43 @@ namespace {{ namespace }} {
         public {{ wide_vector }} BigMul({{ vector }} other) {
             return ({{ wide_vector }})this * other;
         }
+        {%- if signed and dim == 3 %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_vector }} Cross({{ vector }} other) {
+            // (a1)   (b1)   (a2b3 - a3b2)
+            // (a2) x (b2) = (a3b1 - a1b3)
+            // (a3)   (b3)   (a1b2 - a2b1)
+            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
+        }
+        {%- endif %}
+        {%- if signed and dim == 2 %}
+
+        /// <summary>
+        /// Calculates the determinant of matrix.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2Int32(1, 2);
+        /// var b = new Vector2Int32(3, 4);
+        /// var det = a.Determinant(b);
+        /// Assert.AreEqual(-2L, c);
+        /// </code>
+        /// </example>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component }} Determinant({{ vector }} other) {
+
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            var l = ({{ wide_component }})X * ({{ wide_component }})other.Y;
+            var r = ({{ wide_component }})Y * ({{ wide_component }})other.X;
+            return l - r;
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
+        }
+        {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_component }} Dot({{ vector }} other) {
@@ -527,63 +567,6 @@ namespace {{ namespace }} {
 #endif // NET7_0_OR_GREATER
 {% endif %}
         #endregion
-        {%- endif %}
-        {%- if signed and bits < 128 %}
-        {%- if dim == 3 or dim == 2 %}
-        #region Cross
-        {%- if bits > 32 %}
-
-#if NET7_0_OR_GREATER
-        {%- endif %}
-        {%- if dim == 3 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_vector }} Cross({{ vector }} other) {
-            // (a1)   (b1)   (a2b3 - a3b2)
-            // (a2) x (b2) = (a3b1 - a1b3)
-            // (a3)   (b3)   (a1b2 - a2b1)
-            return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
-        }
-        {%- elif dim == 2 %}
-
-        /// <summary>
-        /// Calculates the cross product of two vectors.
-        /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
-        /// </div>
-        /// <example>
-        /// <code>
-        /// var a = new Vector2Int32(1, 2);
-        /// var b = new Vector2Int32(3, 4);
-        /// var c = a.Cross(b);
-        /// Assert.AreEqual(-2L, c);
-        /// </code>
-        /// </example>
-        /// </remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ wide_component }} Cross({{ vector }} other) {
-
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
-            var l = ({{ wide_component }})X * ({{ wide_component }})other.Y;
-            var r = ({{ wide_component }})Y * ({{ wide_component }})other.X;
-            return l - r;
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-
-        }
-        {%- else %}
-        {{- throw(message='not implemented') }}
-        {%- endif %}
-        {%- if bits > 32 %}
-
-#endif // NET7_0_OR_GREATER
-{% endif %}
-        #endregion
-        {%- endif %}
         {%- endif %}
         #region Overflowing
         {%- for m in ['WrappingAdd', 'WrappingSub'] %}

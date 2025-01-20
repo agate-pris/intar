@@ -237,6 +237,7 @@ namespace Intar {
             var tmp = Repr.Cross(other.Repr);
             return Vector3I8F120.FromRepr(tmp);
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 Dot(Vector3I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));

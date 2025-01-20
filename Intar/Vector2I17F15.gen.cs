@@ -209,30 +209,26 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector2I17F15 Twice() => new Vector2I17F15(Repr.Twice());
         #endregion
-        #region Cross, Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region Determinant, Dot, LengthSquared, Length, DistanceSquared, Distance
 
         /// <summary>
-        /// <para>Calculates the cross product of two vectors.</para>
+        /// <para>Calculates the determinant of matrix.</para>
         /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
-        /// </div>
         /// <example>
         /// <code>
         /// var a = new Vector2I17F15(I17F15.FromBits(1), I17F15.FromBits(2));
         /// var b = new Vector2I17F15(I17F15.FromBits(3), I17F15.FromBits(4));
-        /// var c = a.Cross(b);
+        /// var c = a.Determinant(b);
         /// Assert.AreEqual(I34F30.FromBits(-2L), c);
         /// </code>
         /// </example>
-        /// </remarks>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I34F30 Cross(Vector2I17F15 other) {
-            var tmp = Repr.Cross(other.Repr);
+        public I34F30 Determinant(Vector2I17F15 other) {
+            var tmp = Repr.Determinant(other.Repr);
             return I34F30.FromBits(tmp);
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 Dot(Vector2I17F15 other) {
             return I34F30.FromBits(Repr.Dot(other.Repr));

@@ -224,6 +224,7 @@ namespace Intar {
         internal Vector4I2F30 Twice() => new Vector4I2F30(Repr.Twice());
         #endregion
         #region Dot, LengthSquared, Length, DistanceSquared, Distance
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I4F60 Dot(Vector4I2F30 other) {
             return I4F60.FromBits(Repr.Dot(other.Repr));

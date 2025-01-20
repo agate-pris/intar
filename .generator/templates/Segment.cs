@@ -187,7 +187,7 @@ namespace {{ namespace }}.Geometry {
             // ここではオーバーフローが発生する可能性を低減するため,
             // {{ component }} にキャストする代わりに,
             // 小数部が {{ frac_nbits }} ビットになるように内部表現の除算のみを行う.
-            var rxs = r.Cross(s).Bits / {{ component }}.OneRepr;
+            var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
 
             // r x s = 0 の場合, 線分は平行なため交差しない.
             // (重なっている場合は交差していないとみなす)
@@ -202,13 +202,13 @@ namespace {{ namespace }}.Geometry {
             // t と u の小数部は {{ frac_nbits }} ビットになる.
 
             // (v x s) / (r x s)
-            var t = v.Cross(s).Bits / rxs;
+            var t = v.Determinant(s).Bits / rxs;
             if (t < 0 || {{ component }}.OneRepr < t) {
                 return false;
             }
 
             // (v x r) / (r x s)
-            var u = v.Cross(r).Bits / rxs;
+            var u = v.Determinant(r).Bits / rxs;
             if (u < 0 || {{ component }}.OneRepr < u) {
                 return false;
             }
@@ -249,7 +249,7 @@ namespace {{ namespace }}.Geometry {
             // ここではオーバーフローが発生する可能性を低減するため,
             // {{ component }} にキャストする代わりに,
             // 小数部が {{ frac_nbits }} ビットになるように内部表現の除算のみを行う.
-            var rxs = r.Cross(s).Bits / {{ component }}.OneRepr;
+            var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
 
             // r x s = 0 の場合, 線分は平行なため交差しない.
             // (重なっている場合は交差していないとみなす)
@@ -266,8 +266,8 @@ namespace {{ namespace }}.Geometry {
             // t = (v x s) / (r x s),
             // u = (v x r) / (r x s)
 
-            var t = v.Cross(s).Bits / rxs;
-            var u = v.Cross(r).Bits / rxs;
+            var t = v.Determinant(s).Bits / rxs;
+            var u = v.Determinant(r).Bits / rxs;
             return 0 <= t && t <= {{ component }}.OneRepr &&
                    0 <= u && u <= {{ component }}.OneRepr;
         }

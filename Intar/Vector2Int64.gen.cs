@@ -401,7 +401,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal long ComponentsSum() => X + Y;
         #endregion
-        #region BigMul, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
+        #region BigMul, Determinant, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
 #if NET7_0_OR_GREATER
 
@@ -413,6 +413,31 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2Int128 BigMul(Vector2Int64 other) {
             return (Vector2Int128)this * other;
+        }
+
+        /// <summary>
+        /// Calculates the determinant of matrix.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2Int32(1, 2);
+        /// var b = new Vector2Int32(3, 4);
+        /// var det = a.Determinant(b);
+        /// Assert.AreEqual(-2L, c);
+        /// </code>
+        /// </example>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128 Determinant(Vector2Int64 other) {
+
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            var l = (Int128)X * (Int128)other.Y;
+            var r = (Int128)Y * (Int128)other.X;
+            return l - r;
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -444,43 +469,6 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong Distance(Vector2Int64 other) {
             return AbsDiff(other).Length();
-        }
-
-#endif // NET7_0_OR_GREATER
-
-        #endregion
-        #region Cross
-
-#if NET7_0_OR_GREATER
-
-        /// <summary>
-        /// Calculates the cross product of two vectors.
-        /// </summary>
-        /// <remarks>
-        /// <div class="TIP alert alert-info">
-        /// <h5>Tip</h5>
-        /// <para>The 2D vectors' cross product is not well-defined in the mathematical sense.</para>
-        /// </div>
-        /// <example>
-        /// <code>
-        /// var a = new Vector2Int32(1, 2);
-        /// var b = new Vector2Int32(3, 4);
-        /// var c = a.Cross(b);
-        /// Assert.AreEqual(-2L, c);
-        /// </code>
-        /// </example>
-        /// </remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Int128 Cross(Vector2Int64 other) {
-
-#pragma warning disable IDE0004 // 不要なキャストの削除
-
-            var l = (Int128)X * (Int128)other.Y;
-            var r = (Int128)Y * (Int128)other.X;
-            return l - r;
-
-#pragma warning restore IDE0004 // 不要なキャストの削除
-
         }
 
 #endif // NET7_0_OR_GREATER
