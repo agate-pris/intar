@@ -182,32 +182,37 @@ namespace {{ namespace }}.Geometry {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
 
-            // r x s (2 次元のクロス積)
-            // クロス積が極端に大きい場合, オーバーフローを引き起こす.
+            // ベクトル r とベクトル s からなる行列 A について,
+            // r と s がなす角を th とすると,
+            // det(A) = r x s = |r| |s| sin(th) となる.
+            // r と s の成分が極端に大きい場合, オーバーフローを引き起こすため注意する.
             // ここではオーバーフローが発生する可能性を低減するため,
-            // {{ component }} にキャストする代わりに,
             // 小数部が {{ frac_nbits }} ビットになるように内部表現の除算のみを行う.
+
             var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
 
-            // r x s = 0 の場合, 線分は平行なため交差しない.
-            // (重なっている場合は交差していないとみなす)
+            // det(A) = 0 の場合, 線分は平行なため交差しない.
+            // (線分が平行な場合, たとえ重なっていたとしても交差していないとみなす)
             if (rxs == 0) {
                 return false;
             }
 
             var v = other.P1 - P1;
 
-            // クロス積の小数部は {{ 2*frac_nbits }} ビット,
-            // rxs の小数部は {{ frac_nbits }} ビットなので,
-            // t と u の小数部は {{ frac_nbits }} ビットになる.
-
-            // (v x s) / (r x s)
+            // ベクトル v とベクトル s からなる行列 B について,
+            // det(B) / det(A) より直線 r と直線 s の交点の
+            // 直線 r に対する位置 t が求まる.
             var t = v.Determinant(s).Bits / rxs;
             if (t < 0 || {{ component }}.OneRepr < t) {
                 return false;
             }
 
-            // (v x r) / (r x s)
+            // ベクトル v とベクトル r からなる行列 C について,
+            // det(C) / det(A) より直線 r と直線 s の交点の
+            // 直線 s に対する位置 u が求まる.
+            // 本来は v の逆ベクトルを使うべきだが,
+            // 除数も sxr ではなく rxs であるため問題ない.
+            // (rxs = -sxr)
             var u = v.Determinant(r).Bits / rxs;
             if (u < 0 || {{ component }}.OneRepr < u) {
                 return false;
@@ -244,27 +249,13 @@ namespace {{ namespace }}.Geometry {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
 
-            // r x s (2 次元のクロス積)
-            // クロス積が極端に大きい場合, オーバーフローを引き起こす.
-            // ここではオーバーフローが発生する可能性を低減するため,
-            // {{ component }} にキャストする代わりに,
-            // 小数部が {{ frac_nbits }} ビットになるように内部表現の除算のみを行う.
             var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
 
-            // r x s = 0 の場合, 線分は平行なため交差しない.
-            // (重なっている場合は交差していないとみなす)
             if (rxs == 0) {
                 return false;
             }
 
             var v = other.P1 - P1;
-
-            // クロス積の小数部は {{ 2*frac_nbits }} ビット,
-            // rxs の小数部は {{ frac_nbits }} ビットなので,
-            // t と u の小数部は {{ frac_nbits }} ビットになる.
-
-            // t = (v x s) / (r x s),
-            // u = (v x r) / (r x s)
 
             var t = v.Determinant(s).Bits / rxs;
             var u = v.Determinant(r).Bits / rxs;
