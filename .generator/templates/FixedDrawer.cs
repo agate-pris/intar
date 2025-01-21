@@ -19,7 +19,7 @@ namespace {{ namespace }}.Editor {
 
         /// 値をシリアライズ時に保存する値に変換する
         internal static {{ bits_type }} ToBits(float value) {
-            value *= {{ type }}.OneRepr;
+            value = Mathf.Round(value * {{ type }}.OneRepr);
 
             // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
             return value <= {{ bits_type }}.MinValue ? {{ bits_type }}.MinValue :

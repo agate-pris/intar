@@ -15,7 +15,7 @@ namespace Intar.Editor {
 
         /// 値をシリアライズ時に保存する値に変換する
         internal static uint ToBits(float value) {
-            value *= U17F15.OneRepr;
+            value = Mathf.Round(value * U17F15.OneRepr);
 
             // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
             return value <= uint.MinValue ? uint.MinValue :

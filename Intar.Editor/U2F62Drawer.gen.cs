@@ -15,7 +15,7 @@ namespace Intar.Editor {
 
         /// 値をシリアライズ時に保存する値に変換する
         internal static ulong ToBits(float value) {
-            value *= U2F62.OneRepr;
+            value = Mathf.Round(value * U2F62.OneRepr);
 
             // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
             return value <= ulong.MinValue ? ulong.MinValue :
