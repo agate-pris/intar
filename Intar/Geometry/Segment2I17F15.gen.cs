@@ -131,31 +131,39 @@ namespace Intar.Geometry {
 
         // 線分と点の交差判定は実装しない.
 
-        /// <summary>
-        /// Checkes whether this segment is intersects with the specified segment.
-        /// </summary>
+        /// <summary>Check if the segment intersects with another segment.</summary>
+        /// <param name="other">The segment to check.</param>
+        /// <param name="intersection">The intersection point.</param>
+        /// <returns>True if the segment intersects with the other segment, false otherwise.
+        /// </returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
-        /// <para>If either segment is extremely long,
-        /// or if the segments are extremely far apart from each other,
-        /// overflow may occur.</para>
+        /// <para>This method causes an <b>overflow</b> in the following case:</para>
+        /// <list type="bullet">
+        /// <item><description>The segment is very long.</description></item>
+        /// <item><description>The other segment is very long.</description></item>
+        /// <item><description>The distance between the segment and the other segment is very large.
+        /// </description></item>
+        /// </list>
+        /// </div>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>NOTE</h5>
+        /// <para>This method may return <c>false</c> regardless of the position relationship
+        /// between this segment and the other segment in the following cases:</para>
+        /// <list type="bullet">
+        /// <item><description>Both this segment and the other segment are very short.
+        /// </description></item>
+        /// <item><description>The angle between this segment and the other segment is very small.
+        /// </description></item>
+        /// </list>
+        /// </div>
+        /// <div class="TIP alert alert-info">
+        /// <h5>TIP</h5>
+        /// <para>The <paramref name="intersection"/> parameter is not updated if this method
+        /// returns <c>false</c>.</para>
         /// </div>
         /// </remarks>
-        /// <param name="other">The segment to check.</param>
-        /// <param name="intersection">
-        /// <para>The intersection point.</para>
-        /// <div class="NOTE alert alert-info">
-        /// When this method returns false, the value will not be assigned.
-        /// </div>
-        /// </param>
-        /// <returns>
-        /// <para>Returns true if this segment intersects with the specified segment;
-        /// otherwise, false.</para>
-        /// <div class="NOTE alert alert-info">
-        /// If the segments are parallel, even if they overlap, this method will return false.
-        /// </div>
-        /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects(Segment2I17F15 other, ref Vector2I17F15 intersection) {
             var r = P2 - P1;
@@ -204,25 +212,33 @@ namespace Intar.Geometry {
             return true;
         }
 
-        /// <summary>
-        /// Checkes whether this segment is intersects with the specified segment.
-        /// </summary>
+        /// <summary>Check if the segment intersects with another segment.</summary>
+        /// <param name="other">The segment to check.</param>
+        /// <returns>True if the segment intersects with the other segment, false otherwise.
+        /// </returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
-        /// <para>If either segment is extremely long,
-        /// or if the segments are extremely far apart from each other,
-        /// overflow may occur.</para>
+        /// <para>This method causes an <b>overflow</b> in the following case:</para>
+        /// <list type="bullet">
+        /// <item><description>The segment is very long.</description></item>
+        /// <item><description>The other segment is very long.</description></item>
+        /// <item><description>The distance between the segment and the other segment is very large.
+        /// </description></item>
+        /// </list>
+        /// </div>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>NOTE</h5>
+        /// <para>This method may return <c>false</c> regardless of the position relationship
+        /// between this segment and the other segment in the following cases:</para>
+        /// <list type="bullet">
+        /// <item><description>Both this segment and the other segment are very short.
+        /// </description></item>
+        /// <item><description>The angle between this segment and the other segment is very small.
+        /// </description></item>
+        /// </list>
         /// </div>
         /// </remarks>
-        /// <param name="other">The segment to check.</param>
-        /// <returns>
-        /// <para>Returns true if this segment intersects with the specified segment;
-        /// otherwise, false.</para>
-        /// <div class="NOTE alert alert-info">
-        /// If the segments are parallel, even if they overlap, this method will return false.
-        /// </div>
-        /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects(Segment2I17F15 other) {
             var r = P2 - P1;
