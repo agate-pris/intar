@@ -119,7 +119,7 @@ namespace Intar.Geometry {
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
-        /// <para>Thie method causes an <b>overflow</b> in the following case:</para>
+        /// <para>This method causes an <b>overflow</b> in the following case:</para>
         /// <list type="bullet">
         /// <item><description>The sum of the radius of the circle and the radius of the other
         /// circle is very large.</description></item>
