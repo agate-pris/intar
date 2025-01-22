@@ -94,21 +94,17 @@ namespace Intar.Geometry {
             return new Aabb2I17F15(this);
         }
         #endregion
-        #region Disjoint, Intersects
+        #region Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint(Vector2I17F15 other) {
-            return Center.DistanceSquared(other) > Radius.BigMul(Radius);
+        public bool Intersects(Vector2I17F15 other) {
+            return Center.DistanceSquared(other) <= Radius.BigMul(Radius);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Intersects(Vector2I17F15 other) => !Disjoint(other);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint(CircleI17F15 other) {
+        public bool Intersects(CircleI17F15 other) {
             var r = Radius + other.Radius;
-            return Center.DistanceSquared(other.Center) > r.BigMul(r);
+            return Center.DistanceSquared(other.Center) <= r.BigMul(r);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Intersects(CircleI17F15 other) => !Disjoint(other);
         #endregion
 
 #if UNITY_EDITOR

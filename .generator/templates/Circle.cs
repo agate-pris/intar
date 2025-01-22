@@ -114,21 +114,17 @@ namespace {{ namespace }}.Geometry {
             return new Aabb{{ dim }}{{ component }}(this);
         }
         #endregion
-        #region Disjoint, Intersects
+        #region Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint({{ macros::vector_type(dim=dim, type=component) }} other) {
-            return Center.DistanceSquared(other) > Radius.BigMul(Radius);
+        public bool Intersects({{ macros::vector_type(dim=dim, type=component) }} other) {
+            return Center.DistanceSquared(other) <= Radius.BigMul(Radius);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Intersects({{ macros::vector_type(dim=dim, type=component) }} other) => !Disjoint(other);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint({{ type }} other) {
+        public bool Intersects({{ type }} other) {
             var r = Radius + other.Radius;
-            return Center.DistanceSquared(other.Center) > r.BigMul(r);
+            return Center.DistanceSquared(other.Center) <= r.BigMul(r);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Intersects({{ type }} other) => !Disjoint(other);
         #endregion
 
 #if UNITY_EDITOR
