@@ -134,6 +134,45 @@ namespace Intar.Geometry {
             return Center.DistanceSquared(other.Center) <= r.BigMul(r);
         }
         #endregion
+        #region Overlaps
+        /// <summary>Check if the circle overlaps with a point.</summary>
+        /// <param name="p">The point to check.</param>
+        /// <returns>True if the circle overlaps with the point, false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method causes an <b>overflow</b> in the following case:</para>
+        /// <list type="bullet">
+        /// <item><description>The specified point is very far away.</description></item>
+        /// </list>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Vector2I17F15 other) {
+            return Center.DistanceSquared(other) < Radius.BigMul(Radius);
+        }
+
+        /// <summary>Check if the circle overlaps with another circle.</summary>
+        /// <param name="other">The other circle to check.</param>
+        /// <returns>True if the circle overlaps with the other circle, false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method causes an <b>overflow</b> in the following case:</para>
+        /// <list type="bullet">
+        /// <item><description>The sum of the radius of the circle and the radius of the other
+        /// circle is very large.</description></item>
+        /// <item><description>The distance between the center of the circle and the center of the
+        /// other circle is very large.</description></item>
+        /// </list>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(CircleI17F15 other) {
+            var r = Radius + other.Radius;
+            return Center.DistanceSquared(other.Center) < r.BigMul(r);
+        }
+        #endregion
 
 #if UNITY_EDITOR
 
