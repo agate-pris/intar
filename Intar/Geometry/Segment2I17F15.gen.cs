@@ -127,7 +127,7 @@ namespace Intar.Geometry {
             return P1 + (v * t);
         }
         #endregion
-        #region Disjoint, Intersects
+        #region Intersects
 
         // 線分と点の交差判定は実装しない.
 
@@ -242,39 +242,11 @@ namespace Intar.Geometry {
                    0 <= u && u <= I17F15.OneRepr;
         }
 
-        /// <summary>
-        /// Checks whether this segment is disjoint with the specified segment.
-        /// </summary>
-        /// <remarks>
-        /// <div class="WARNING alert alert-info">
-        /// <h5>WARNING</h5>
-        /// <para>If either segment is extremely long,
-        /// or if the segments are extremely far apart from each other,
-        /// overflow may occur.</para>
-        /// </div>
-        /// </remarks>
-        /// <param name="other">The segment to check.</param>
-        /// <returns>
-        /// <para>Returns true if this segment is disjoint with the specified segment;
-        /// otherwise, false.</para>
-        /// <div class="NOTE alert alert-info">
-        /// If the segments are parallel, even if they overlap, this method will return true.
-        /// </div>
-        /// </returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint(Segment2I17F15 other) {
-            return !Intersects(other);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Disjoint(CircleI17F15 circle) {
-            var closestPoint = ClosestPoint(circle.Center);
-            var distanceSquared = (closestPoint - circle.Center).LengthSquared();
-            return distanceSquared > circle.Radius.BigMul(circle.Radius);
-        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects(CircleI17F15 circle) {
-            return !Disjoint(circle);
+            var closestPoint = ClosestPoint(circle.Center);
+            var distanceSquared = (closestPoint - circle.Center).LengthSquared();
+            return distanceSquared <= circle.Radius.BigMul(circle.Radius);
         }
         #endregion
 
