@@ -4,7 +4,7 @@
 {%- set component   = 'I17F15' %}
 {%- set component_u = 'U17F15' %}
 {%- if dim == 2 %}
-{%- set type = 'Circle' ~ component %}{% else %}
+{%- set name = 'circle' %}{% set type = 'Circle' ~ component %}{% else %}
 {{- throw(message='not implemented') }}
 {%- endif -%}
 using System;
@@ -115,16 +115,16 @@ namespace {{ namespace }}.Geometry {
         }
         #endregion
         #region Intersects
-        /// <summary>Check if the circle intersects with a point.</summary>
+        /// <summary>Check if the {{ name }} intersects with a point.</summary>
         /// <param name="p">The point to check.</param>
-        /// <returns>True if the circle intersects with the point, false otherwise.</returns>
+        /// <returns>True if the {{ name }} intersects with the point, false otherwise.</returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
         /// <para>This method causes an <b>overflow</b> in the following case:</para>
         /// <list type="bullet">
         {%- if dim > 2 %}
-        /// <item><description>The radius of the circle is very large.</description></item>
+        /// <item><description>The radius of the {{ name }} is very large.</description></item>
         {%- endif %}
         /// <item><description>The specified point is very far away.</description></item>
         /// </list>
@@ -135,19 +135,19 @@ namespace {{ namespace }}.Geometry {
             return Center.DistanceSquared(p) <= Radius.BigMul(Radius);
         }
 
-        /// <summary>Check if the circle intersects with another circle.</summary>
-        /// <param name="other">The other circle to check.</param>
-        /// <returns>True if the circle intersects with the other circle, false otherwise.
+        /// <summary>Check if the {{ name }} intersects with another {{ name }}.</summary>
+        /// <param name="other">The other {{ name }} to check.</param>
+        /// <returns>True if the {{ name }} intersects with the other {{ name }}, false otherwise.
         /// </returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
         /// <para>Thie method causes an <b>overflow</b> in the following case:</para>
         /// <list type="bullet">
-        /// <item><description>The sum of the radius of the circle and the radius of the other
-        /// circle is very large.</description></item>
-        /// <item><description>The distance between the center of the circle and the center of the
-        /// other circle is very large.</description></item>
+        /// <item><description>The sum of the radius of the {{ name }} and the radius of the other
+        /// {{ name }} is very large.</description></item>
+        /// <item><description>The distance between the center of the {{ name }} and the center of
+        /// the other {{ name }} is very large.</description></item>
         /// </list>
         /// </div>
         /// </remarks>
@@ -158,16 +158,16 @@ namespace {{ namespace }}.Geometry {
         }
         #endregion
         #region Overlaps
-        /// <summary>Check if the circle overlaps with a point.</summary>
+        /// <summary>Check if the {{ name }} overlaps with a point.</summary>
         /// <param name="p">The point to check.</param>
-        /// <returns>True if the circle overlaps with the point, false otherwise.</returns>
+        /// <returns>True if the {{ name }} overlaps with the point, false otherwise.</returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
         /// <para>This method causes an <b>overflow</b> in the following case:</para>
         /// <list type="bullet">
         {%- if dim > 2 %}
-        /// <item><description>The radius of the circle is very large.</description></item>
+        /// <item><description>The radius of the {{ name }} is very large.</description></item>
         {%- endif %}
         /// <item><description>The specified point is very far away.</description></item>
         /// </list>
@@ -178,18 +178,19 @@ namespace {{ namespace }}.Geometry {
             return Center.DistanceSquared(other) < Radius.BigMul(Radius);
         }
 
-        /// <summary>Check if the circle overlaps with another circle.</summary>
-        /// <param name="other">The other circle to check.</param>
-        /// <returns>True if the circle overlaps with the other circle, false otherwise.</returns>
+        /// <summary>Check if the {{ name }} overlaps with another {{ name }}.</summary>
+        /// <param name="other">The other {{ name }} to check.</param>
+        /// <returns>True if the {{ name }} overlaps with the other {{ name }}, false otherwise.
+        /// </returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
         /// <para>This method causes an <b>overflow</b> in the following case:</para>
         /// <list type="bullet">
-        /// <item><description>The sum of the radius of the circle and the radius of the other
-        /// circle is very large.</description></item>
-        /// <item><description>The distance between the center of the circle and the center of the
-        /// other circle is very large.</description></item>
+        /// <item><description>The sum of the radius of the {{ name }} and the radius of the other
+        /// {{ name }} is very large.</description></item>
+        /// <item><description>The distance between the center of the {{ name }} and the center of
+        /// the other {{ name }} is very large.</description></item>
         /// </list>
         /// </div>
         /// </remarks>

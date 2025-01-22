@@ -123,8 +123,8 @@ namespace Intar.Geometry {
         /// <list type="bullet">
         /// <item><description>The sum of the radius of the circle and the radius of the other
         /// circle is very large.</description></item>
-        /// <item><description>The distance between the center of the circle and the center of the
-        /// other circle is very large.</description></item>
+        /// <item><description>The distance between the center of the circle and the center of
+        /// the other circle is very large.</description></item>
         /// </list>
         /// </div>
         /// </remarks>
@@ -154,7 +154,8 @@ namespace Intar.Geometry {
 
         /// <summary>Check if the circle overlaps with another circle.</summary>
         /// <param name="other">The other circle to check.</param>
-        /// <returns>True if the circle overlaps with the other circle, false otherwise.</returns>
+        /// <returns>True if the circle overlaps with the other circle, false otherwise.
+        /// </returns>
         /// <remarks>
         /// <div class="WARNING alert alert-info">
         /// <h5>WARNING</h5>
@@ -162,8 +163,8 @@ namespace Intar.Geometry {
         /// <list type="bullet">
         /// <item><description>The sum of the radius of the circle and the radius of the other
         /// circle is very large.</description></item>
-        /// <item><description>The distance between the center of the circle and the center of the
-        /// other circle is very large.</description></item>
+        /// <item><description>The distance between the center of the circle and the center of
+        /// the other circle is very large.</description></item>
         /// </list>
         /// </div>
         /// </remarks>
