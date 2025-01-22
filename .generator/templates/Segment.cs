@@ -279,6 +279,23 @@ namespace {{ namespace }}.Geometry {
                    0 <= u && u <= {{ component }}.OneRepr;
         }
 
+        /// <summary>Check if the segment intersects with a circle.</summary>
+        /// <param name="circle">The circle to check.</param>
+        /// <returns>True if the segment intersects with the circle, false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method causes an <b>overflow</b> in the following case:</para>
+        /// <list type="bullet">
+        /// <item><description>The segment is very long.</description></item>
+        /// <item><description>The distance between the segment and the center of the circle is
+        /// very large.</description></item>
+        /// </list>
+        /// </div>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>NOTE</h5><para>The accuracy reduces when the segment is very short.</para>
+        /// </div>
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects({{ circle_type }} circle) {
             var closestPoint = ClosestPoint(circle.Center);
