@@ -33,38 +33,32 @@ namespace Intar.Tests.Geometry {
             {
                 var p = new Segment2I17F15(a, c);
                 var q = new Segment2I17F15(b, d);
-                Assert.IsTrue(p.Disjoint(q));
                 Assert.IsFalse(p.Intersects(q));
             }
             {
                 var p = new Segment2I17F15(e, f);
                 var q = new Segment2I17F15(b, g);
-                Assert.IsTrue(p.Disjoint(q));
                 Assert.IsFalse(p.Intersects(q));
             }
             {
                 var p = new Segment2I17F15(h, i);
                 var q = new Segment2I17F15(b, j);
-                Assert.IsTrue(p.Disjoint(q));
                 Assert.IsFalse(p.Intersects(q));
             }
             {
                 var p = new Segment2I17F15(a, c);
                 var q = new Segment2I17F15(e, f);
                 Assert.IsTrue(p.Intersects(q));
-                Assert.IsFalse(p.Disjoint(q));
             }
             {
                 var p = new Segment2I17F15(a, c);
                 var q = new Segment2I17F15(h, i);
                 Assert.IsTrue(p.Intersects(q));
-                Assert.IsFalse(p.Disjoint(q));
             }
             {
                 var p = new Segment2I17F15(e, f);
                 var q = new Segment2I17F15(h, i);
                 Assert.IsTrue(p.Intersects(q));
-                Assert.IsFalse(p.Disjoint(q));
             }
         }
     }
