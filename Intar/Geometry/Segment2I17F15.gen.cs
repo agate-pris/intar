@@ -282,6 +282,151 @@ namespace Intar.Geometry {
             return distanceSquared <= circle.Radius.BigMul(circle.Radius);
         }
         #endregion
+        #region Overlaps
+        /// <summary>Check if the segment overlaps with another segment.
+        /// </summary>
+        /// <param name="other">The segment to check.</param>
+        /// <param name="intersection">The intersection point.</param>
+        /// <returns>True if the segment overlaps with the other
+        /// segment, false otherwise.
+        /// </returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method causes an <b>overflow</b> in the following
+        /// case:</para>
+        /// <list type="bullet">
+        /// <item><description>The segment is very long.
+        /// </description></item>
+        /// <item><description>The other segment is very long.
+        /// </description></item>
+        /// <item><description>The distance between the segment and the
+        /// other segment is very large.
+        /// </description></item>
+        /// </list>
+        /// </div>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>NOTE</h5>
+        /// <para>This method may return <c>false</c> regardless of the
+        /// position relationship between this segment and the other
+        /// segment in the following cases:</para>
+        /// <list type="bullet">
+        /// <item><description>Both this segment and the other segment
+        /// are very short.</description></item>
+        /// <item><description>The angle between this segment and the
+        /// other segment is very small.</description></item>
+        /// </list>
+        /// </div>
+        /// <div class="TIP alert alert-info">
+        /// <h5>TIP</h5>
+        /// <para>The <paramref name="intersection"/> parameter is not
+        /// updated if this method returns <c>false</c>.</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Segment2I17F15 other, ref Vector2I17F15 intersection) {
+            var r = P2 - P1;
+            var s = other.P2 - other.P1;
+            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
+            if (rxs == 0) {
+                return false;
+            }
+
+            var v = other.P1 - P1;
+            var t = v.Determinant(s).Bits / rxs;
+            if (t <= 0 || I17F15.OneRepr <= t) {
+                return false;
+            }
+
+            var u = v.Determinant(r).Bits / rxs;
+            if (u <= 0 || I17F15.OneRepr <= u) {
+                return false;
+            }
+
+            intersection = P1 + (I17F15.FromBits((int)t) * r);
+            return true;
+        }
+
+        /// <summary>Check if the segment overlaps with another segment.
+        /// </summary>
+        /// <param name="other">The segment to check.</param>
+        /// <returns>True if the segment overlaps with the other
+        /// segment, false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method causes an <b>overflow</b> in the following
+        /// case:</para>
+        /// <list type="bullet">
+        /// <item><description>The segment is very long.
+        /// </description></item>
+        /// <item><description>The other segment is very long.
+        /// </description></item>
+        /// <item><description>The distance between the segment and the
+        /// other segment is very large.</description></item>
+        /// </list>
+        /// </div>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>NOTE</h5>
+        /// <para>This method may return <c>false</c> regardless of the
+        /// position relationship between this segment and the other
+        /// segment in the following cases:</para>
+        /// <list type="bullet">
+        /// <item><description>Both this segment and the other segment
+        /// are very short.</description></item>
+        /// <item><description>The angle between this segment and the
+        /// other segment is very small.</description></item>
+        /// </list>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Segment2I17F15 other) {
+            var r = P2 - P1;
+            var s = other.P2 - other.P1;
+            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
+            if (rxs == 0) {
+                return false;
+            }
+
+            var v = other.P1 - P1;
+            var t = v.Determinant(s).Bits / rxs;
+            if (t <= 0 || I17F15.OneRepr <= t) {
+                return false;
+            }
+
+            var u = v.Determinant(r).Bits / rxs;
+            return 0 < u && u < I17F15.OneRepr;
+        }
+
+        /// <summary>Check if the segment overlaps with a circle.
+        /// </summary>
+        /// <param name="circle">The circle to check.</param>
+        /// <returns>True if the segment overlaps with the circle,
+        /// false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method causes an <b>overflow</b> in the following
+        /// case:</para>
+        /// <list type="bullet">
+        /// <item><description>The segment is very long.
+        /// </description></item>
+        /// <item><description>The distance between the segment and the
+        /// center of the circle is very large.</description></item>
+        /// </list>
+        /// </div>
+        /// <div class="NOTE alert alert-info">
+        /// <h5>NOTE</h5><para>The accuracy reduces when the segment is
+        /// very short.</para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(CircleI17F15 circle) {
+            var closestPoint = ClosestPoint(circle.Center);
+            var distanceSquared = (closestPoint - circle.Center).LengthSquared();
+            return distanceSquared < circle.Radius.BigMul(circle.Radius);
+        }
+        #endregion
 
 #if UNITY_EDITOR
 
