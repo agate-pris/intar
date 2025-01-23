@@ -14,6 +14,7 @@ namespace Intar {
         internal const int EpsilonRepr = 1;
 
         internal const int OneRepr = 1 << FracNbits;
+        internal const int NegativeOneRepr = (1 << FracNbits) * -1;
         #endregion
         #region Bits
 
@@ -39,7 +40,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 FromBits(int bits) => new I2F30(bits);
         #endregion
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, NegativeOne, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -52,6 +53,7 @@ namespace Intar {
 
         public static readonly I2F30 Zero;
         public static readonly I2F30 One = new I2F30(OneRepr);
+        public static readonly I2F30 NegativeOne = new I2F30(NegativeOneRepr);
         public static readonly I2F30 MinValue = new I2F30(MinRepr);
         public static readonly I2F30 MaxValue = new I2F30(MaxRepr);
         internal static readonly I2F30 Epsilon = new I2F30(EpsilonRepr);

@@ -34,6 +34,11 @@ namespace {{ namespace }} {
         internal {{ const }} {{ self_bits_type }} OneRepr = {{
             macros::one(bits=bits, signed=signed)
         }} << FracNbits;
+        {%- if signed %}
+        internal {{ const }} {{ self_bits_type }} NegativeOneRepr = ({{
+            macros::one(bits=bits, signed=signed)
+        }} << FracNbits) * -1;
+        {%- endif %}
         #endregion
         #region Bits
 
@@ -59,7 +64,7 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
         #endregion
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, {% if signed %}NegativeOne, {% endif %}MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -72,6 +77,9 @@ namespace {{ namespace }} {
 
         public static readonly {{ self_type }} Zero;
         public static readonly {{ self_type }} One = new {{ self_type }}(OneRepr);
+        {%- if signed %}
+        public static readonly {{ self_type }} NegativeOne = new {{ self_type }}(NegativeOneRepr);
+        {%- endif %}
         public static readonly {{ self_type }} MinValue = new {{ self_type }}(MinRepr);
         public static readonly {{ self_type }} MaxValue = new {{ self_type }}(MaxRepr);
         internal static readonly {{ self_type }} Epsilon = new {{ self_type }}(EpsilonRepr);
