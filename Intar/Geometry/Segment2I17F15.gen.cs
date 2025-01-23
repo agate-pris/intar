@@ -243,19 +243,19 @@ namespace Intar.Geometry {
         public bool Intersects(Segment2I17F15 other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-
             var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-
             if (rxs == 0) {
                 return false;
             }
 
             var v = other.P1 - P1;
-
             var t = v.Determinant(s).Bits / rxs;
+            if (t < 0 || t > I17F15.OneRepr) {
+                return false;
+            }
+
             var u = v.Determinant(r).Bits / rxs;
-            return 0 <= t && t <= I17F15.OneRepr &&
-                   0 <= u && u <= I17F15.OneRepr;
+            return 0 <= u && u <= I17F15.OneRepr;
         }
 
         /// <summary>Check if the segment intersects with a circle.</summary>

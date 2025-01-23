@@ -264,19 +264,19 @@ namespace {{ namespace }}.Geometry {
         public bool Intersects({{ type }} other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-
             var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
-
             if (rxs == 0) {
                 return false;
             }
 
             var v = other.P1 - P1;
-
             var t = v.Determinant(s).Bits / rxs;
+            if (t < 0 || t > {{ component }}.OneRepr) {
+                return false;
+            }
+
             var u = v.Determinant(r).Bits / rxs;
-            return 0 <= t && t <= {{ component }}.OneRepr &&
-                   0 <= u && u <= {{ component }}.OneRepr;
+            return 0 <= u && u <= {{ component }}.OneRepr;
         }
 
         /// <summary>Check if the segment intersects with a circle.</summary>
