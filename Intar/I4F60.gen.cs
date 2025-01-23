@@ -14,6 +14,7 @@ namespace Intar {
         internal const long EpsilonRepr = 1;
 
         internal const long OneRepr = 1L << FracNbits;
+        internal const long NegativeOneRepr = (1L << FracNbits) * -1;
         #endregion
         #region Bits
 
@@ -39,7 +40,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I4F60 FromBits(long bits) => new I4F60(bits);
         #endregion
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, NegativeOne, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -52,6 +53,7 @@ namespace Intar {
 
         public static readonly I4F60 Zero;
         public static readonly I4F60 One = new I4F60(OneRepr);
+        public static readonly I4F60 NegativeOne = new I4F60(NegativeOneRepr);
         public static readonly I4F60 MinValue = new I4F60(MinRepr);
         public static readonly I4F60 MaxValue = new I4F60(MaxRepr);
         internal static readonly I4F60 Epsilon = new I4F60(EpsilonRepr);

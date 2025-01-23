@@ -16,6 +16,7 @@ namespace Intar {
         internal static readonly Int128 EpsilonRepr = 1;
 
         internal static readonly Int128 OneRepr = (Int128)1 << FracNbits;
+        internal static readonly Int128 NegativeOneRepr = ((Int128)1 << FracNbits) * -1;
         #endregion
         #region Bits
 
@@ -41,7 +42,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I8F120 FromBits(Int128 bits) => new I8F120(bits);
         #endregion
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, NegativeOne, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -54,6 +55,7 @@ namespace Intar {
 
         public static readonly I8F120 Zero;
         public static readonly I8F120 One = new I8F120(OneRepr);
+        public static readonly I8F120 NegativeOne = new I8F120(NegativeOneRepr);
         public static readonly I8F120 MinValue = new I8F120(MinRepr);
         public static readonly I8F120 MaxValue = new I8F120(MaxRepr);
         internal static readonly I8F120 Epsilon = new I8F120(EpsilonRepr);
