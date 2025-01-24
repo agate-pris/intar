@@ -34,22 +34,26 @@ namespace Intar.Tests {
                 new Vector2I17F15(I17F15.FromBits(300), I17F15.FromBits(400)),
             };
             {
-                var expand = envelope.Expand(new Aabb2I17F15(points[0]));
+                var expand = envelope;
+                expand.Encapsulate(new Aabb2I17F15(points[0]));
                 Assert.AreEqual(expand.Min, points[0]);
                 Assert.AreEqual(expand.Max, envelope.Max);
             }
             {
-                var expand = envelope.Expand(new Aabb2I17F15(points[8]));
+                var expand = envelope;
+                expand.Encapsulate(new Aabb2I17F15(points[8]));
                 Assert.AreEqual(expand.Max, points[8]);
                 Assert.AreEqual(expand.Min, envelope.Min);
             }
             {
-                var expand = envelope.Expand(points[0]);
+                var expand = envelope;
+                expand.Encapsulate(points[0]);
                 Assert.AreEqual(expand.Min, points[0]);
                 Assert.AreEqual(expand.Max, envelope.Max);
             }
             {
-                var expand = envelope.Expand(points[8]);
+                var expand = envelope;
+                expand.Encapsulate(points[8]);
                 Assert.AreEqual(expand.Min, envelope.Min);
                 Assert.AreEqual(expand.Max, points[8]);
             }
