@@ -145,5 +145,29 @@ namespace Intar {
             }
         }
         #endregion
+        #region Intersects
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects(Aabb2I17F15 other) {
+            if (max.X < other.min.X || min.X > other.max.X) {
+                return false;
+            }
+            if (max.Y < other.min.Y || min.Y > other.max.Y) {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+        #region Overlaps
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Aabb2I17F15 other) {
+            if (max.X <= other.min.X || min.X >= other.max.X) {
+                return false;
+            }
+            if (max.Y <= other.min.Y || min.Y >= other.max.Y) {
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 } // namespace Intar
