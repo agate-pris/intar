@@ -147,5 +147,16 @@ namespace {{ namespace }} {
             return true;
         }
         #endregion
+        #region Overlaps
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps({{ type }} other) {
+            {%- for c in components %}
+            if (max.{{ c }} <= other.min.{{ c }} || min.{{ c }} >= other.max.{{ c }}) {
+                return false;
+            }
+            {%- endfor %}
+            return true;
+        }
+        #endregion
     }
 } // namespace {{ namespace }}
