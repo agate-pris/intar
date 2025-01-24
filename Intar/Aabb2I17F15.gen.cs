@@ -105,78 +105,44 @@ namespace Intar {
             max = new Vector2I17F15(maxX, maxY);
         }
         #endregion
-        #region ExpandX
+        #region EncapsulateX
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15 ExpandX(I17F15 v) {
-            if (min.X > v) {
-                return new Aabb2I17F15(
-                    new Vector2I17F15(v, min.Y),
-                    max
-                );
-            } else if (max.X < v) {
-                return new Aabb2I17F15(
-                    min,
-                    new Vector2I17F15(v, max.Y)
-                );
-            } else {
-                return this;
+        public void EncapsulateX(I17F15 v) {
+            if (v < min.X) {
+                min.X = v;
+            } else if (v > max.X) {
+                max.X = v;
             }
         }
         #endregion
-        #region ExpandY
+        #region EncapsulateY
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15 ExpandY(I17F15 v) {
-            if (min.Y > v) {
-                return new Aabb2I17F15(
-                    new Vector2I17F15(min.X, v),
-                    max
-                );
-            } else if (max.Y < v) {
-                return new Aabb2I17F15(
-                    min,
-                    new Vector2I17F15(max.X, v)
-                );
-            } else {
-                return this;
+        public void EncapsulateY(I17F15 v) {
+            if (v < min.Y) {
+                min.Y = v;
+            } else if (v > max.Y) {
+                max.Y = v;
             }
         }
         #endregion
-        #region Expand
+        #region Encapsulate
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15 Expand(Aabb2I17F15 other) {
-            return new Aabb2I17F15(
-                min.Min(other.Min),
-                max.Max(other.Max)
-            );
+        public void Encapsulate(Aabb2I17F15 other) {
+            min = min.Min(other.min);
+            max = max.Max(other.max);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15 Expand(Vector2I17F15 p) {
-            I17F15 minX, maxX;
-            if (min.X > p.X) {
-                minX = p.X;
-                maxX = max.X;
-            } else if (max.X < p.X) {
-                minX = min.X;
-                maxX = p.X;
-            } else {
-                minX = min.X;
-                maxX = max.X;
+        public void Encapsulate(Vector2I17F15 p) {
+            if (p.X < min.X) {
+                min.X = p.X;
+            } else if (p.X > max.X) {
+                max.X = p.X;
             }
-            I17F15 minY, maxY;
-            if (min.Y > p.Y) {
-                minY = p.Y;
-                maxY = max.Y;
-            } else if (max.Y < p.Y) {
-                minY = min.Y;
-                maxY = p.Y;
-            } else {
-                minY = min.Y;
-                maxY = max.Y;
+            if (p.Y < min.Y) {
+                min.Y = p.Y;
+            } else if (p.Y > max.Y) {
+                max.Y = p.Y;
             }
-            return new Aabb2I17F15(
-                new Vector2I17F15(minX, minY),
-                new Vector2I17F15(maxX, maxY)
-            );
         }
         #endregion
     }

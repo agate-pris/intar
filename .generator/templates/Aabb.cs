@@ -108,72 +108,32 @@ namespace {{ namespace }} {
         }
         #endregion
         {%- for com in components %}
-        #region Expand{{ com }}
+        #region Encapsulate{{ com }}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Expand{{ com }}({{ component }} v) {
-            if (min.{{ com }} > v) {
-                return new {{ type }}(
-                    new {{ vector }}(
-                        {%- for c in components %}{% if c == com -%}
-                        v{% else -%}
-                        min.{{ c }}{% endif %}
-                        {%- if not loop.last %}, {% endif %}
-                        {%- endfor -%}
-                    ),
-                    max
-                );
-            } else if (max.{{ com }} < v) {
-                return new {{ type }}(
-                    min,
-                    new {{ vector }}(
-                        {%- for c in components %}{% if c == com -%}
-                        v{% else -%}
-                        max.{{ c }}{% endif %}
-                        {%- if not loop.last %}, {% endif %}
-                        {%- endfor -%}
-                    )
-                );
-            } else {
-                return this;
+        public void Encapsulate{{ com }}({{ component }} v) {
+            if (v < min.{{ com }}) {
+                min.{{ com }} = v;
+            } else if (v > max.{{ com }}) {
+                max.{{ com }} = v;
             }
         }
         #endregion
         {%- endfor %}
-        #region Expand
+        #region Encapsulate
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Expand({{ type }} other) {
-            return new {{ type }}(
-                min.Min(other.Min),
-                max.Max(other.Max)
-            );
+        public void Encapsulate({{ type }} other) {
+            min = min.Min(other.min);
+            max = max.Max(other.max);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }} Expand({{ vector }} p) {
+        public void Encapsulate({{ vector }} p) {
             {%- for c in components %}
-            {{ component }} min{{ c }}, max{{ c }};
-            if (min.{{ c }} > p.{{ c }}) {
-                min{{ c }} = p.{{ c }};
-                max{{ c }} = max.{{ c }};
-            } else if (max.{{ c }} < p.{{ c }}) {
-                min{{ c }} = min.{{ c }};
-                max{{ c }} = p.{{ c }};
-            } else {
-                min{{ c }} = min.{{ c }};
-                max{{ c }} = max.{{ c }};
+            if (p.{{ c }} < min.{{ c }}) {
+                min.{{ c }} = p.{{ c }};
+            } else if (p.{{ c }} > max.{{ c }}) {
+                max.{{ c }} = p.{{ c }};
             }
             {%- endfor %}
-            return new {{ type }}(
-                new {{ vector }}(
-                    {%- for c in components -%}
-                    min{{ c }}{% if not loop.last %}, {% endif %}
-                    {%- endfor -%}
-                ),
-                new {{ vector }}(
-                    {%- for c in components -%}
-                    max{{ c }}{% if not loop.last %}, {% endif %}
-                    {%- endfor -%}
-                )
-            );
         }
         #endregion
     }
