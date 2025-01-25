@@ -178,5 +178,17 @@ namespace Intar {
             return Scale(scale.X, scale.Y);
         }
         #endregion
+        #region ScaleX
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2I17F15 ScaleX(I17F15 scale) {
+            return Scale(scale, I17F15.One);
+        }
+        #endregion
+        #region ScaleY
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2I17F15 ScaleY(I17F15 scale) {
+            return Scale(I17F15.One, scale);
+        }
+        #endregion
     }
 } // namespace Intar

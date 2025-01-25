@@ -209,5 +209,23 @@ namespace Intar {
             return Scale(scale.X, scale.Y, scale.Z);
         }
         #endregion
+        #region ScaleX
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 ScaleX(I17F15 scale) {
+            return Scale(scale, I17F15.One, I17F15.One);
+        }
+        #endregion
+        #region ScaleY
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 ScaleY(I17F15 scale) {
+            return Scale(I17F15.One, scale, I17F15.One);
+        }
+        #endregion
+        #region ScaleZ
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 ScaleZ(I17F15 scale) {
+            return Scale(I17F15.One, I17F15.One, scale);
+        }
+        #endregion
     }
 } // namespace Intar

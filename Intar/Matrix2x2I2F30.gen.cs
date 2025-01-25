@@ -178,6 +178,18 @@ namespace Intar {
             return Scale(scale.X, scale.Y);
         }
         #endregion
+        #region ScaleX
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2I2F30 ScaleX(I2F30 scale) {
+            return Scale(scale, I2F30.One);
+        }
+        #endregion
+        #region ScaleY
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2I2F30 ScaleY(I2F30 scale) {
+            return Scale(I2F30.One, scale);
+        }
+        #endregion
         #region Rotate
 
         /// <summary>

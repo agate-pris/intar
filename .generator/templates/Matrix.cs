@@ -311,6 +311,18 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        {%- for c in components|slice(end=rows) %}
+        #region Scale{{ c }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale{{ c }}({{ component }} scale) {
+            return Scale(
+                {%- for i in range(end=cols) %}
+                {%- if components[i] == c %}scale{% else %}{{ component }}.One{% endif %}{%- if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+        #endregion
+        {%- endfor %}
         {%- else %}
         {{ throw(message='Transpose for rows != cols is not implemented.') }}
         {%- endif %}

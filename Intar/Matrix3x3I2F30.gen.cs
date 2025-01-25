@@ -209,6 +209,24 @@ namespace Intar {
             return Scale(scale.X, scale.Y, scale.Z);
         }
         #endregion
+        #region ScaleX
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I2F30 ScaleX(I2F30 scale) {
+            return Scale(scale, I2F30.One, I2F30.One);
+        }
+        #endregion
+        #region ScaleY
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I2F30 ScaleY(I2F30 scale) {
+            return Scale(I2F30.One, scale, I2F30.One);
+        }
+        #endregion
+        #region ScaleZ
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I2F30 ScaleZ(I2F30 scale) {
+            return Scale(I2F30.One, I2F30.One, scale);
+        }
+        #endregion
         #region Conversion
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Matrix3x3I2F30(QuaternionI2F30 q) {
