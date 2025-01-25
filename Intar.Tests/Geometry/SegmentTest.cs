@@ -51,12 +51,19 @@ namespace Intar.Tests.Geometry {
                                     var d = new Segment2I17F15(b.P2, b.P1);
                                     Assert.IsFalse(c.Intersects(d));
                                     Assert.IsFalse(d.Intersects(c));
+                                    Assert.IsFalse(c.Overlaps(d));
+                                    Assert.IsFalse(d.Overlaps(c));
                                 }
                                 Assert.IsFalse(a.Intersects(c));
                                 Assert.IsFalse(b.Intersects(c));
                                 Assert.IsFalse(c.Intersects(a));
                                 Assert.IsFalse(c.Intersects(b));
                                 Assert.IsFalse(c.Intersects(c));
+                                Assert.IsFalse(a.Overlaps(c));
+                                Assert.IsFalse(b.Overlaps(c));
+                                Assert.IsFalse(c.Overlaps(a));
+                                Assert.IsFalse(c.Overlaps(b));
+                                Assert.IsFalse(c.Overlaps(c));
                             } else if (!b.P1.Equals(b.P2)) {
                                 var d = new Segment2I17F15(b.P2, b.P1);
                                 Assert.IsFalse(a.Intersects(d));
@@ -64,11 +71,20 @@ namespace Intar.Tests.Geometry {
                                 Assert.IsFalse(d.Intersects(a));
                                 Assert.IsFalse(d.Intersects(b));
                                 Assert.IsFalse(d.Intersects(d));
+                                Assert.IsFalse(a.Overlaps(d));
+                                Assert.IsFalse(b.Overlaps(d));
+                                Assert.IsFalse(d.Overlaps(a));
+                                Assert.IsFalse(d.Overlaps(b));
+                                Assert.IsFalse(d.Overlaps(d));
                             }
                             Assert.IsFalse(a.Intersects(a));
                             Assert.IsFalse(a.Intersects(b));
                             Assert.IsFalse(b.Intersects(a));
                             Assert.IsFalse(b.Intersects(b));
+                            Assert.IsFalse(a.Overlaps(a));
+                            Assert.IsFalse(a.Overlaps(b));
+                            Assert.IsFalse(b.Overlaps(a));
+                            Assert.IsFalse(b.Overlaps(b));
                         }
                     }
                 }
@@ -137,6 +153,22 @@ namespace Intar.Tests.Geometry {
                     Assert.IsFalse(c.Intersects(c));
                     Assert.IsFalse(d.Intersects(b));
                     Assert.IsFalse(d.Intersects(d));
+                    Assert.IsFalse(a.Overlaps(a));
+                    Assert.IsFalse(a.Overlaps(b));
+                    Assert.IsFalse(a.Overlaps(c));
+                    Assert.IsFalse(a.Overlaps(d));
+                    Assert.IsFalse(b.Overlaps(a));
+                    Assert.IsFalse(b.Overlaps(b));
+                    Assert.IsFalse(b.Overlaps(c));
+                    Assert.IsFalse(b.Overlaps(d));
+                    Assert.IsFalse(c.Overlaps(a));
+                    Assert.IsFalse(c.Overlaps(b));
+                    Assert.IsFalse(c.Overlaps(c));
+                    Assert.IsFalse(c.Overlaps(d));
+                    Assert.IsFalse(d.Overlaps(a));
+                    Assert.IsFalse(d.Overlaps(b));
+                    Assert.IsFalse(d.Overlaps(c));
+                    Assert.IsFalse(d.Overlaps(d));
                     Assert.IsTrue(a.Intersects(b));
                     Assert.IsTrue(a.Intersects(d));
                     Assert.IsTrue(b.Intersects(a));
@@ -160,6 +192,14 @@ namespace Intar.Tests.Geometry {
                 Assert.IsFalse(c.Intersects(c));
                 Assert.IsFalse(d.Intersects(b));
                 Assert.IsFalse(d.Intersects(d));
+                Assert.IsFalse(a.Overlaps(a));
+                Assert.IsFalse(a.Overlaps(c));
+                Assert.IsFalse(b.Overlaps(b));
+                Assert.IsFalse(b.Overlaps(d));
+                Assert.IsFalse(c.Overlaps(a));
+                Assert.IsFalse(c.Overlaps(c));
+                Assert.IsFalse(d.Overlaps(b));
+                Assert.IsFalse(d.Overlaps(d));
                 Assert.IsTrue(a.Intersects(b));
                 Assert.IsTrue(a.Intersects(d));
                 Assert.IsTrue(b.Intersects(a));
@@ -168,6 +208,14 @@ namespace Intar.Tests.Geometry {
                 Assert.IsTrue(c.Intersects(d));
                 Assert.IsTrue(d.Intersects(a));
                 Assert.IsTrue(d.Intersects(c));
+                Assert.IsTrue(a.Overlaps(b));
+                Assert.IsTrue(a.Overlaps(d));
+                Assert.IsTrue(b.Overlaps(a));
+                Assert.IsTrue(b.Overlaps(c));
+                Assert.IsTrue(c.Overlaps(b));
+                Assert.IsTrue(c.Overlaps(d));
+                Assert.IsTrue(d.Overlaps(a));
+                Assert.IsTrue(d.Overlaps(c));
             }
         }
 
@@ -191,9 +239,11 @@ namespace Intar.Tests.Geometry {
                 };
                 foreach (var e in l) {
                     Assert.IsFalse(e.Intersects(c), $"{e}");
+                    Assert.IsFalse(e.Overlaps(c), $"{e}");
                     if (!e.P1.Equals(e.P2)) {
                         var r = new Segment2I17F15(e.P2, e.P1);
                         Assert.IsFalse(r.Intersects(c));
+                        Assert.IsFalse(r.Overlaps(c));
                     }
                 }
             }
@@ -207,9 +257,11 @@ namespace Intar.Tests.Geometry {
                 };
                 foreach (var e in l) {
                     Assert.IsTrue(e.Intersects(c), $"{e}");
+                    Assert.IsFalse(e.Overlaps(c), $"{e}");
                     if (!e.P1.Equals(e.P2)) {
                         var r = new Segment2I17F15(e.P2, e.P1);
                         Assert.IsTrue(r.Intersects(c), $"{r}");
+                        Assert.IsFalse(r.Overlaps(c), $"{r}");
                     }
                 }
             }
@@ -227,9 +279,11 @@ namespace Intar.Tests.Geometry {
                 };
                 foreach (var e in l) {
                     Assert.IsTrue(e.Intersects(c), $"{e}");
+                    Assert.IsTrue(e.Overlaps(c), $"{e}");
                     if (!e.P1.Equals(e.P2)) {
                         var r = new Segment2I17F15(e.P2, e.P1);
                         Assert.IsTrue(r.Intersects(c), $"{r}");
+                        Assert.IsTrue(r.Overlaps(c), $"{r}");
                     }
                 }
             }
