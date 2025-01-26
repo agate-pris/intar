@@ -13,3 +13,8 @@
 - Another fast fixed-point sine approximation | Coranac
   - http://www.coranac.com/2009/07/sines/
   - http://web.archive.org/web/20240629132053/http://www.coranac.com/2009/07/sines/
+- Maths - Conversion Matrix to Quaternion - Martin Baker
+  - https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+- [マルペケつくろーどっとコム](http://marupeke296.com/index.html) / [衝突判定編](http://marupeke296.com/COL_main.html)
+  - [OBBと点の最短距離](http://marupeke296.com/COL_3D_No12_OBBvsPoint.html)
+  - [OBBとOBBの衝突](http://marupeke296.com/COL_3D_No13_OBBvsOBB.html)
