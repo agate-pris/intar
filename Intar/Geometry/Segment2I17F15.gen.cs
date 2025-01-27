@@ -256,21 +256,54 @@ namespace Intar.Geometry {
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects(Segment2I17F15 other) {
-            var r = P2 - P1;
-            var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-            if (rxs == 0) {
+            // 交点を求めない場合, より高精度の判定を行う.
+            // その場合, 事前にバウンディングボックスによる判定を
+            // 行う必要がある. (理由は後述)
+            if (!Envelope().Intersects(other.Envelope())) {
                 return false;
             }
 
-            var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || I17F15.OneRepr < t) {
-                return false;
-            }
+            // 線分 AB, 線分 CD について交点が存在するとき,
+            // その交点を E とする.
+            // AB と CD がなす角を th,
+            // AC と AB がなす角を ph,
+            // AC と CD がなす角を lm とすると sin(th) < 0 の時
+            // 0 < |AC| sin(-ph) < |CD| sin(-th) かつ
+            // 0 < |AC| sin(-lm) < |AB| sin(-th) といえる.
+            // 上記の式を変形すると
+            // |CD| sin(th) < |AC| sin(ph) < 0
+            // |AB| sin(th) < |AC| sin(lm) < 0
+            // |AB| |CD| sin(th) < |AC| |AB| sin(ph) < 0
+            // |AB| |CD| sin(th) < |AC| |CD| sin(lm) < 0
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 <= u && u <= I17F15.OneRepr;
+            var ab = P2 - P1;
+            var cd = other.P2 - other.P1;
+            var ac = other.P1 - P1;
+
+            // i の計算は最適化により早期リターンより後になることを期待している.
+
+            var g = ab.Determinant(cd); // |AB| |CD| sin(th)
+            var h = ac.Determinant(cd); // |AC| |CD| sin(lm)
+            var i = ac.Determinant(ab); // |AC| |AB| sin(ph)
+
+            // g = 0 の時, いずれか, または両方の線分の長さが
+            // 0 であるか, 線分が平行である. この時, h = 0 かつ
+            // i = 0 であればすべての端点が一点に重なるか,
+            // 一直線上に並ぶことを意味する. この時,
+            // バウンディングボックスによる事前判定によって 1 点に
+            // 重なるか, 線分が重なることが保証される.
+
+            if (g < I34F30.Zero) {
+                if (h < g || I34F30.Zero < h) {
+                    return false;
+                }
+                return g <= i && i <= I34F30.Zero;
+            } else {
+                if (h < I34F30.Zero || g < h) {
+                    return false;
+                }
+                return I34F30.Zero <= i && i <= g;
+            }
         }
 
         /// <summary>Check if the segment intersects with a circle.</summary>
@@ -397,21 +430,37 @@ namespace Intar.Geometry {
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(Segment2I17F15 other) {
-            var r = P2 - P1;
-            var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-            if (rxs == 0) {
-                return false;
-            }
+            var ab = P2 - P1;
+            var cd = other.P2 - other.P1;
+            var ac = other.P1 - P1;
 
-            var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t <= 0 || I17F15.OneRepr <= t) {
-                return false;
-            }
+            // i の計算は最適化により早期リターンより後になることを期待している.
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 < u && u < I17F15.OneRepr;
+            var g = ab.Determinant(cd); // |AB| |CD| sin(th)
+            var h = ac.Determinant(cd); // |AC| |CD| sin(lm)
+            var i = ac.Determinant(ab); // |AC| |AB| sin(ph)
+
+            // Overlaps では g = 0 の場合, 後の分岐によって
+            // 必ず false が返る. g = 0 となる確率は低いため,
+            // ここでは早期リターンしない. Overlaps では
+            // g = 0 の場合常に false が返るため,
+            // すべての端点が一点に重なるか, 一直線上に並ぶ時に
+            // 誤って true を返すことはない. このため,
+            // バウンディングボックスによる事前判定を行わない.
+            // パフォーマンス最適化のためのバウンディングボックスによる
+            // 事前判定はユーザー責務となる.
+
+            if (g < I34F30.Zero) {
+                if (h <= g || I34F30.Zero <= h) {
+                    return false;
+                }
+                return g < i && i < I34F30.Zero;
+            } else {
+                if (h <= I34F30.Zero || g <= h) {
+                    return false;
+                }
+                return I34F30.Zero < i && i < g;
+            }
         }
 
         /// <summary>Check if the segment overlaps with a circle.
