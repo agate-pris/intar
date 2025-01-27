@@ -246,21 +246,65 @@ namespace Intar.Geometry {
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects(Segment2I17F15 other) {
+            // 交点を求める場合と異なり,
+            // ここでは rxs と直接比較することで
+            // より高精度の判定を行う.
+            //
+            // 交点を求めない場合 rxs による除算を行う必要性が
+            // 無いため rxs = 0 の場合に false を返す必要が無い.
+            //
+            // ただし, その場合互いの長さが 0 の場合
+            // rxs, t, そして u の全てが 0 になってしまい,
+            // まったく位置が異なる場合を誤検出してしまうため,
+            // バウンディングボックスによる判定を行う必要がある.
+            //
+            // rxs = 0 の時, いずれかの線分の長さが 0 または
+            // 線分が平行である. この時 t = 0 かつ u = 0 の場合
+            // true, それ以外の場合 false を返す.
+            //
+            // P1 と other.P1 を結ぶ線分の長さが 0 の場合,
+            // t と u は 0 になる. これは自明である.
+            // この時, 点 P1 と other.P1 は重なっているので
+            // true が返るのが正しいことは明らかである.
+            //
+            // 線分が並行な場合, 一直線上に並んでいれば
+            // t と u が 0 になる. その上で
+            // バウンディングボックスによる判定が true なら
+            // 線分は重なっている. 一直線上にならんでいない場合は
+            // t と u のいずれかが 0 以外になるため,
+            // 正しく false を返す.
+            //
+            // 片方の長さが 0 の場合, それが一直線上に並んでいる場合
+            // rxs, t, u が 0 になる. その場合,
+            // バウンディングボックスによる判定で
+            // 重ならない場合を検出できる.
+            // 一直線上に並ばない場合は t と u のいずれかが
+            // 0 以外になる.
+
+            if (!Envelope().Intersects(other.Envelope())) {
+                return false;
+            }
+
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-            if (rxs == 0) {
-                return false;
-            }
+            var rxs = r.Determinant(s);
 
             var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || I17F15.OneRepr < t) {
-                return false;
-            }
+            var t = v.Determinant(s);
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 <= u && u <= I17F15.OneRepr;
+            if (rxs < I34F30.Zero) {
+                if (t < rxs || I34F30.Zero < t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return rxs <= u && u <= I34F30.Zero;
+            } else {
+                if (t < I34F30.Zero || rxs < t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return I34F30.Zero <= u && u <= rxs;
+            }
         }
 
         /// <summary>Check if the segment intersects with a circle.</summary>
@@ -388,19 +432,30 @@ namespace Intar.Geometry {
         public bool Overlaps(Segment2I17F15 other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-            if (rxs == 0) {
-                return false;
-            }
+            var rxs = r.Determinant(s);
+
+            // Overlaps では rxs = 0 の場合, 後の分岐によって
+            // 必ず false が返る. rxs = 0 となる確率は低いため,
+            // ここで早期リターンするのはむしろパフォーマンスを
+            // 悪化させるため, それを行わない. Overlaps では
+            // バウンディングボックスによる判定を行う必要が無い.
 
             var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t <= 0 || I17F15.OneRepr <= t) {
-                return false;
-            }
+            var t = v.Determinant(s);
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 < u && u < I17F15.OneRepr;
+            if (rxs < I34F30.Zero) {
+                if (t <= rxs || I34F30.Zero <= t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return rxs < u && u < I34F30.Zero;
+            } else {
+                if (t <= I34F30.Zero || rxs <= t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return I34F30.Zero < u && u < rxs;
+            }
         }
 
         /// <summary>Check if the segment overlaps with a circle.
