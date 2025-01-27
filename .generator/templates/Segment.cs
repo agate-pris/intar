@@ -3,7 +3,8 @@
 {%- set frac_nbits = 15 %}
 {%- set nbits = int_nbits+frac_nbits %}
 {%- set bits = macros::inttype(signed=true, bits=nbits) %}
-{%- set component   = macros::fixed_type(s=true,  i=int_nbits, f=frac_nbits) %}
+{%- set component      = macros::fixed_type(s=true, i=int_nbits,   f=frac_nbits  ) %}
+{%- set component_wide = macros::fixed_type(s=true, i=int_nbits*2, f=frac_nbits*2) %}
 {%- set dim = 2 %}
 {%- set components = ['X', 'Y', 'Z', 'W']|slice(end=dim) %}
 {%- set vector_type = macros::vector_type(dim=dim, type=component) %}
@@ -269,19 +270,31 @@ namespace {{ namespace }}.Geometry {
         public bool Intersects({{ type }} other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
-            if (rxs == 0) {
+            var rxs = r.Determinant(s);
+            if (rxs == {{ component_wide }}.Zero) {
                 return false;
             }
+
+            // 交点を求める場合と異なり,
+            // ここでは rxs と直接比較することで
+            // より高精度の判定を行う.
 
             var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || {{ component }}.OneRepr < t) {
-                return false;
-            }
+            var t = v.Determinant(s);
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 <= u && u <= {{ component }}.OneRepr;
+            if (rxs < {{ component_wide }}.Zero) {
+                if (t < rxs || {{ component_wide }}.Zero < t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return rxs <= u && u <= {{ component_wide }}.Zero;
+            } else {
+                if (t < {{ component_wide }}.Zero || rxs < t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return {{ component_wide }}.Zero <= u && u <= rxs;
+            }
         }
 
         /// <summary>Check if the segment intersects with a circle.</summary>
@@ -409,19 +422,27 @@ namespace {{ namespace }}.Geometry {
         public bool Overlaps({{ type }} other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
-            if (rxs == 0) {
+            var rxs = r.Determinant(s);
+            if (rxs == {{ component_wide }}.Zero) {
                 return false;
             }
 
             var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t <= 0 || {{ component }}.OneRepr <= t) {
-                return false;
-            }
+            var t = v.Determinant(s);
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 < u && u < {{ component }}.OneRepr;
+            if (rxs < {{ component_wide }}.Zero) {
+                if (t <= rxs || {{ component_wide }}.Zero <= t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return rxs < u && u < {{ component_wide }}.Zero;
+            } else {
+                if (t <= {{ component_wide }}.Zero || rxs <= t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return {{ component_wide }}.Zero < u && u < rxs;
+            }
         }
 
         /// <summary>Check if the segment overlaps with a circle.

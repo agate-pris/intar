@@ -248,19 +248,31 @@ namespace Intar.Geometry {
         public bool Intersects(Segment2I17F15 other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-            if (rxs == 0) {
+            var rxs = r.Determinant(s);
+            if (rxs == I34F30.Zero) {
                 return false;
             }
+
+            // 交点を求める場合と異なり,
+            // ここでは rxs と直接比較することで
+            // より高精度の判定を行う.
 
             var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || I17F15.OneRepr < t) {
-                return false;
-            }
+            var t = v.Determinant(s);
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 <= u && u <= I17F15.OneRepr;
+            if (rxs < I34F30.Zero) {
+                if (t < rxs || I34F30.Zero < t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return rxs <= u && u <= I34F30.Zero;
+            } else {
+                if (t < I34F30.Zero || rxs < t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return I34F30.Zero <= u && u <= rxs;
+            }
         }
 
         /// <summary>Check if the segment intersects with a circle.</summary>
@@ -388,19 +400,27 @@ namespace Intar.Geometry {
         public bool Overlaps(Segment2I17F15 other) {
             var r = P2 - P1;
             var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / I17F15.OneRepr;
-            if (rxs == 0) {
+            var rxs = r.Determinant(s);
+            if (rxs == I34F30.Zero) {
                 return false;
             }
 
             var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t <= 0 || I17F15.OneRepr <= t) {
-                return false;
-            }
+            var t = v.Determinant(s);
 
-            var u = v.Determinant(r).Bits / rxs;
-            return 0 < u && u < I17F15.OneRepr;
+            if (rxs < I34F30.Zero) {
+                if (t <= rxs || I34F30.Zero <= t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return rxs < u && u < I34F30.Zero;
+            } else {
+                if (t <= I34F30.Zero || rxs <= t) {
+                    return false;
+                }
+                var u = v.Determinant(r);
+                return I34F30.Zero < u && u < rxs;
+            }
         }
 
         /// <summary>Check if the segment overlaps with a circle.
