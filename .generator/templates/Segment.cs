@@ -276,7 +276,7 @@ namespace {{ namespace }}.Geometry {
 
             var v = other.P1 - P1;
             var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || t > {{ component }}.OneRepr) {
+            if (t < 0 || {{ component }}.OneRepr < t) {
                 return false;
             }
 

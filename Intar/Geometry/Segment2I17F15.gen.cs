@@ -255,7 +255,7 @@ namespace Intar.Geometry {
 
             var v = other.P1 - P1;
             var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || t > I17F15.OneRepr) {
+            if (t < 0 || I17F15.OneRepr < t) {
                 return false;
             }
 
