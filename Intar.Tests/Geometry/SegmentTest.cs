@@ -3,411 +3,224 @@ using NUnit.Framework;
 
 namespace Intar.Tests.Geometry {
     public class SegmentTest {
+        static void AssertIntersects(Segment2I17F15 a, Segment2I17F15 b, bool cond) {
+            var c = new Segment2I17F15(a.P2, a.P1);
+            var d = new Segment2I17F15(b.P2, b.P1);
+            var e = new Segment2I17F15(a.P1, a.P1);
+            var f = new Segment2I17F15(a.P2, a.P2);
+            var g = new Segment2I17F15(b.P1, b.P1);
+            var h = new Segment2I17F15(b.P2, b.P2);
+            if (!a.Intersects(a) ||
+                !a.Intersects(c) ||
+                !b.Intersects(b) ||
+                !b.Intersects(d) ||
+                !c.Intersects(a) ||
+                !c.Intersects(c) ||
+                !d.Intersects(b) ||
+                !d.Intersects(d)) {
+                Assert.Fail();
+            }
+            if (!e.Intersects(e) ||
+                !f.Intersects(f) ||
+                !g.Intersects(g) ||
+                !h.Intersects(h)) {
+                Assert.Fail();
+            }
+            if (!a.Intersects(e) ||
+                !a.Intersects(f) ||
+                !b.Intersects(g) ||
+                !b.Intersects(h) ||
+                !c.Intersects(e) ||
+                !c.Intersects(f) ||
+                !d.Intersects(g) ||
+                !d.Intersects(h)) {
+                Assert.Fail();
+            }
+            if (a.Intersects(b) != cond ||
+                a.Intersects(d) != cond ||
+                b.Intersects(a) != cond ||
+                b.Intersects(c) != cond ||
+                c.Intersects(b) != cond ||
+                c.Intersects(d) != cond ||
+                d.Intersects(a) != cond ||
+                d.Intersects(c) != cond) {
+                Assert.Fail();
+            }
+            if (!cond) {
+                if (a.Intersects(g) ||
+                    a.Intersects(h) ||
+                    b.Intersects(e) ||
+                    b.Intersects(f) ||
+                    c.Intersects(g) ||
+                    c.Intersects(h) ||
+                    d.Intersects(e) ||
+                    d.Intersects(f)) {
+                    Assert.Fail();
+                }
+            }
+        }
+        static void AssertOverlaps(Segment2I17F15 a, Segment2I17F15 b, bool cond) {
+            var c = new Segment2I17F15(a.P2, a.P1);
+            var d = new Segment2I17F15(b.P2, b.P1);
+            var e = new Segment2I17F15(a.P1, a.P1);
+            var f = new Segment2I17F15(a.P2, a.P2);
+            var g = new Segment2I17F15(b.P1, b.P1);
+            var h = new Segment2I17F15(b.P2, b.P2);
+            if (a.Overlaps(a) ||
+                a.Overlaps(c) ||
+                b.Overlaps(b) ||
+                b.Overlaps(d) ||
+                c.Overlaps(a) ||
+                c.Overlaps(c) ||
+                d.Overlaps(b) ||
+                d.Overlaps(d)) {
+                Assert.Fail();
+            }
+            if (a.Overlaps(b) != cond ||
+                a.Overlaps(d) != cond ||
+                b.Overlaps(a) != cond ||
+                b.Overlaps(c) != cond ||
+                c.Overlaps(b) != cond ||
+                c.Overlaps(d) != cond ||
+                d.Overlaps(a) != cond ||
+                d.Overlaps(c) != cond) {
+                Assert.Fail();
+            }
+            if (a.Overlaps(e) ||
+                a.Overlaps(f) ||
+                b.Overlaps(g) ||
+                b.Overlaps(h) ||
+                c.Overlaps(e) ||
+                c.Overlaps(f) ||
+                d.Overlaps(g) ||
+                d.Overlaps(h) ||
+                e.Overlaps(a) ||
+                e.Overlaps(c) ||
+                f.Overlaps(a) ||
+                f.Overlaps(c) ||
+                g.Overlaps(b) ||
+                g.Overlaps(d) ||
+                h.Overlaps(b) ||
+                h.Overlaps(d)) {
+                Assert.Fail();
+            }
+        }
         [Test]
         public static void TestSegment() {
             var p1 = Vector2I17F15.Zero;
             var p2 = Vector2I17F15.UnitX;
             var p3 = Vector2I17F15.UnitY;
             var p4 = Vector2I17F15.One;
+
+            // 点と点
             {
-                var l = new Segment2I17F15[][] {
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p1, p1),
-                        new Segment2I17F15(p1, p2),
-                        new Segment2I17F15(p2, p2),
-                        new Segment2I17F15(p3, p3),
-                        new Segment2I17F15(p3, p4),
-                        new Segment2I17F15(p4, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p1, p1),
-                        new Segment2I17F15(p1, p3),
-                        new Segment2I17F15(p2, p2),
-                        new Segment2I17F15(p2, p4),
-                        new Segment2I17F15(p3, p3),
-                        new Segment2I17F15(p4, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p1, p1),
-                        new Segment2I17F15(p1, p4),
-                        new Segment2I17F15(p2, p2),
-                        new Segment2I17F15(p3, p3),
-                        new Segment2I17F15(p4, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p1, p1),
-                        new Segment2I17F15(p2, p2),
-                        new Segment2I17F15(p2, p3),
-                        new Segment2I17F15(p3, p3),
-                        new Segment2I17F15(p4, p4),
-                    },
+                var segs = new Segment2I17F15[] {
+                    new Segment2I17F15(p1, p1),
+                    new Segment2I17F15(p2, p2),
+                    new Segment2I17F15(p3, p3),
+                    new Segment2I17F15(p4, p4),
                 };
-                foreach (var segments in l) {
-                    foreach (var a in segments) {
-                        foreach (var b in segments) {
-                            if (!a.P1.Equals(a.P2)) {
-                                var c = new Segment2I17F15(a.P2, a.P1);
-                                if (!b.P1.Equals(b.P2)) {
-                                    var d = new Segment2I17F15(b.P2, b.P1);
-                                    if (c.Intersects(d)) {
-                                        Assert.Fail();
-                                    }
-                                    if (d.Intersects(c)) {
-                                        Assert.Fail();
-                                    }
-                                    if (c.Overlaps(d)) {
-                                        Assert.Fail();
-                                    }
-                                    if (d.Overlaps(c)) {
-                                        Assert.Fail();
-                                    }
-                                }
-                                if (a.Intersects(c)) {
-                                    Assert.Fail();
-                                }
-                                if (b.Intersects(c)) {
-                                    Assert.Fail();
-                                }
-                                if (c.Intersects(a)) {
-                                    Assert.Fail();
-                                }
-                                if (c.Intersects(b)) {
-                                    Assert.Fail();
-                                }
-                                if (c.Intersects(c)) {
-                                    Assert.Fail();
-                                }
-                                if (a.Overlaps(c)) {
-                                    Assert.Fail();
-                                }
-                                if (b.Overlaps(c)) {
-                                    Assert.Fail();
-                                }
-                                if (c.Overlaps(a)) {
-                                    Assert.Fail();
-                                }
-                                if (c.Overlaps(b)) {
-                                    Assert.Fail();
-                                }
-                                if (c.Overlaps(c)) {
-                                    Assert.Fail();
-                                }
-                            } else if (!b.P1.Equals(b.P2)) {
-                                var d = new Segment2I17F15(b.P2, b.P1);
-                                if (a.Intersects(d)) {
-                                    Assert.Fail();
-                                }
-                                if (b.Intersects(d)) {
-                                    Assert.Fail();
-                                }
-                                if (d.Intersects(a)) {
-                                    Assert.Fail();
-                                }
-                                if (d.Intersects(b)) {
-                                    Assert.Fail();
-                                }
-                                if (d.Intersects(d)) {
-                                    Assert.Fail();
-                                }
-                                if (a.Overlaps(d)) {
-                                    Assert.Fail();
-                                }
-                                if (b.Overlaps(d)) {
-                                    Assert.Fail();
-                                }
-                                if (d.Overlaps(a)) {
-                                    Assert.Fail();
-                                }
-                                if (d.Overlaps(b)) {
-                                    Assert.Fail();
-                                }
-                                if (d.Overlaps(d)) {
-                                    Assert.Fail();
-                                }
-                            }
-                            if (a.Intersects(a)) {
-                                Assert.Fail();
-                            }
-                            if (a.Intersects(b)) {
-                                Assert.Fail();
-                            }
-                            if (b.Intersects(a)) {
-                                Assert.Fail();
-                            }
-                            if (b.Intersects(b)) {
-                                Assert.Fail();
-                            }
-                            if (a.Overlaps(a)) {
-                                Assert.Fail();
-                            }
-                            if (a.Overlaps(b)) {
-                                Assert.Fail();
-                            }
-                            if (b.Overlaps(a)) {
-                                Assert.Fail();
-                            }
-                            if (b.Overlaps(b)) {
-                                Assert.Fail();
-                            }
+                foreach (var a in segs) {
+                    foreach (var b in segs) {
+                        if (a.Equals(b)) {
+                            continue;
                         }
+                        AssertIntersects(a, b, false);
+                        AssertOverlaps(a, b, false);
                     }
                 }
             }
+
+            // !Intersects, !Overlaps
+            {
+                var l = new Segment2I17F15[][] {
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p1, p2),
+                        new Segment2I17F15(p3, p4),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p1, p3),
+                        new Segment2I17F15(p2, p4),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p2, p4),
+                        new Segment2I17F15(p1, p3),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p3, p4),
+                        new Segment2I17F15(p1, p2),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p1, p4),
+                        new Segment2I17F15(p2, p2),
+                        new Segment2I17F15(p3, p3),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p2, p3),
+                        new Segment2I17F15(p1, p1),
+                        new Segment2I17F15(p4, p4),
+                    },
+                };
+                foreach (var segs in l) {
+                    for (var i = 1; i < segs.Length; i++) {
+                        AssertIntersects(segs[0], segs[i], false);
+                        AssertOverlaps(segs[0], segs[i], false);
+                    }
+                }
+            }
+
+            // Intersects, !Overlaps
             {
                 var l = new Segment2I17F15[][] {
                     new Segment2I17F15[] {
                         new Segment2I17F15(p1, p2),
                         new Segment2I17F15(p1, p3),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p1, p2),
-                        new Segment2I17F15(p1, p4),
+                        new Segment2I17F15(p2, p4),
                     },
                     new Segment2I17F15[] {
                         new Segment2I17F15(p1, p3),
+                        new Segment2I17F15(p1, p2),
+                        new Segment2I17F15(p3, p4),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p2, p4),
+                        new Segment2I17F15(p2, p1),
+                        new Segment2I17F15(p4, p3),
+                    },
+                    new Segment2I17F15[] {
+                        new Segment2I17F15(p3, p4),
+                        new Segment2I17F15(p3, p1),
+                        new Segment2I17F15(p4, p2),
+                    },
+                    new Segment2I17F15[] {
                         new Segment2I17F15(p1, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p2, p1),
-                        new Segment2I17F15(p2, p3),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p2, p1),
-                        new Segment2I17F15(p2, p4),
+                        new Segment2I17F15(p1, p2),
+                        new Segment2I17F15(p1, p3),
+                        new Segment2I17F15(p4, p2),
+                        new Segment2I17F15(p4, p3),
                     },
                     new Segment2I17F15[] {
                         new Segment2I17F15(p2, p3),
+                        new Segment2I17F15(p2, p1),
                         new Segment2I17F15(p2, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p3, p1),
-                        new Segment2I17F15(p3, p2),
-                    },
-                    new Segment2I17F15[] {
                         new Segment2I17F15(p3, p1),
                         new Segment2I17F15(p3, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p3, p2),
-                        new Segment2I17F15(p3, p4),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p4, p1),
-                        new Segment2I17F15(p4, p2),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p4, p1),
-                        new Segment2I17F15(p4, p3),
-                    },
-                    new Segment2I17F15[] {
-                        new Segment2I17F15(p4, p2),
-                        new Segment2I17F15(p4, p3),
                     },
                 };
-                foreach (var segments in l) {
-                    var a = segments[0];
-                    var b = segments[1];
-                    var c = new Segment2I17F15(a.P2, a.P1);
-                    var d = new Segment2I17F15(b.P2, b.P1);
-                    if (a.Intersects(a)) {
-                        Assert.Fail();
-                    }
-                    if (a.Intersects(c)) {
-                        Assert.Fail();
-                    }
-                    if (b.Intersects(b)) {
-                        Assert.Fail();
-                    }
-                    if (b.Intersects(d)) {
-                        Assert.Fail();
-                    }
-                    if (c.Intersects(a)) {
-                        Assert.Fail();
-                    }
-                    if (c.Intersects(c)) {
-                        Assert.Fail();
-                    }
-                    if (d.Intersects(b)) {
-                        Assert.Fail();
-                    }
-                    if (d.Intersects(d)) {
-                        Assert.Fail();
-                    }
-                    if (a.Overlaps(a)) {
-                        Assert.Fail();
-                    }
-                    if (a.Overlaps(b)) {
-                        Assert.Fail();
-                    }
-                    if (a.Overlaps(c)) {
-                        Assert.Fail();
-                    }
-                    if (a.Overlaps(d)) {
-                        Assert.Fail();
-                    }
-                    if (b.Overlaps(a)) {
-                        Assert.Fail();
-                    }
-                    if (b.Overlaps(b)) {
-                        Assert.Fail();
-                    }
-                    if (b.Overlaps(c)) {
-                        Assert.Fail();
-                    }
-                    if (b.Overlaps(d)) {
-                        Assert.Fail();
-                    }
-                    if (c.Overlaps(a)) {
-                        Assert.Fail();
-                    }
-                    if (c.Overlaps(b)) {
-                        Assert.Fail();
-                    }
-                    if (c.Overlaps(c)) {
-                        Assert.Fail();
-                    }
-                    if (c.Overlaps(d)) {
-                        Assert.Fail();
-                    }
-                    if (d.Overlaps(a)) {
-                        Assert.Fail();
-                    }
-                    if (d.Overlaps(b)) {
-                        Assert.Fail();
-                    }
-                    if (d.Overlaps(c)) {
-                        Assert.Fail();
-                    }
-                    if (d.Overlaps(d)) {
-                        Assert.Fail();
-                    }
-                    if (!a.Intersects(b)) {
-                        Assert.Fail();
-                    }
-                    if (!a.Intersects(d)) {
-                        Assert.Fail();
-                    }
-                    if (!b.Intersects(a)) {
-                        Assert.Fail();
-                    }
-                    if (!b.Intersects(c)) {
-                        Assert.Fail();
-                    }
-                    if (!c.Intersects(b)) {
-                        Assert.Fail();
-                    }
-                    if (!c.Intersects(d)) {
-                        Assert.Fail();
-                    }
-                    if (!d.Intersects(a)) {
-                        Assert.Fail();
-                    }
-                    if (!d.Intersects(c)) {
-                        Assert.Fail();
+                foreach (var segs in l) {
+                    for (var i = 1; i < segs.Length; i++) {
+                        AssertIntersects(segs[0], segs[i], true);
+                        AssertOverlaps(segs[0], segs[i], false);
                     }
                 }
             }
+
+            // Intersects, Overlaps
             {
-                var a = new Segment2I17F15(p1, p4);
-                var b = new Segment2I17F15(p2, p3);
-                var c = new Segment2I17F15(p4, p1);
-                var d = new Segment2I17F15(p3, p2);
-                if (a.Intersects(a)) {
-                    Assert.Fail();
-                }
-                if (a.Intersects(c)) {
-                    Assert.Fail();
-                }
-                if (b.Intersects(b)) {
-                    Assert.Fail();
-                }
-                if (b.Intersects(d)) {
-                    Assert.Fail();
-                }
-                if (c.Intersects(a)) {
-                    Assert.Fail();
-                }
-                if (c.Intersects(c)) {
-                    Assert.Fail();
-                }
-                if (d.Intersects(b)) {
-                    Assert.Fail();
-                }
-                if (d.Intersects(d)) {
-                    Assert.Fail();
-                }
-                if (a.Overlaps(a)) {
-                    Assert.Fail();
-                }
-                if (a.Overlaps(c)) {
-                    Assert.Fail();
-                }
-                if (b.Overlaps(b)) {
-                    Assert.Fail();
-                }
-                if (b.Overlaps(d)) {
-                    Assert.Fail();
-                }
-                if (c.Overlaps(a)) {
-                    Assert.Fail();
-                }
-                if (c.Overlaps(c)) {
-                    Assert.Fail();
-                }
-                if (d.Overlaps(b)) {
-                    Assert.Fail();
-                }
-                if (d.Overlaps(d)) {
-                    Assert.Fail();
-                }
-                if (!a.Intersects(b)) {
-                    Assert.Fail();
-                }
-                if (!a.Intersects(d)) {
-                    Assert.Fail();
-                }
-                if (!b.Intersects(a)) {
-                    Assert.Fail();
-                }
-                if (!b.Intersects(c)) {
-                    Assert.Fail();
-                }
-                if (!c.Intersects(b)) {
-                    Assert.Fail();
-                }
-                if (!c.Intersects(d)) {
-                    Assert.Fail();
-                }
-                if (!d.Intersects(a)) {
-                    Assert.Fail();
-                }
-                if (!d.Intersects(c)) {
-                    Assert.Fail();
-                }
-                if (!a.Overlaps(b)) {
-                    Assert.Fail();
-                }
-                if (!a.Overlaps(d)) {
-                    Assert.Fail();
-                }
-                if (!b.Overlaps(a)) {
-                    Assert.Fail();
-                }
-                if (!b.Overlaps(c)) {
-                    Assert.Fail();
-                }
-                if (!c.Overlaps(b)) {
-                    Assert.Fail();
-                }
-                if (!c.Overlaps(d)) {
-                    Assert.Fail();
-                }
-                if (!d.Overlaps(a)) {
-                    Assert.Fail();
-                }
-                if (!d.Overlaps(c)) {
-                    Assert.Fail();
-                }
+                var s1 = new Segment2I17F15(p1, p4);
+                var s2 = new Segment2I17F15(p2, p3);
+                AssertIntersects(s1, s2, true);
+                AssertOverlaps(s1, s2, true);
             }
         }
 
