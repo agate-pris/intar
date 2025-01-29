@@ -187,54 +187,64 @@ namespace {{ namespace }}.Geometry {
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects({{ type }} other, ref {{ vector_type }} intersection) {
-            var r = P2 - P1;
-            var s = other.P2 - other.P1;
+            var ab = P2 - P1;
+            var cd = other.P2 - other.P1;
 
-            // ベクトル r とベクトル s からなる行列 A について,
-            // r と s がなす角を th とすると,
-            // det(A) = r x s = |r| |s| sin(th) となる.
-            // r と s の成分が極端に大きい場合, オーバーフローを引き起こすため注意する.
-            // ここではオーバーフローが発生する可能性を低減するため,
-            // 小数部が {{ frac_nbits }} ビットになるように内部表現の除算のみを行う.
+            // 線分 AB, 線分 CD について交点が存在するとき,
+            // AB と CD がなす角を th,
+            // AC と AB がなす角を ph,
+            // AC と CD がなす角を lm とすると sin(th) < 0 の時
+            // 0 < |AC| sin(-ph) < |CD| sin(-th) かつ
+            // 0 < |AC| sin(-lm) < |AB| sin(-th) といえる.
+            // 上記の式を変形すると
+            // |CD| sin(th) < |AC| sin(ph) < 0
+            // |AB| sin(th) < |AC| sin(lm) < 0
+            // |AB| |CD| sin(th) < |AC| |AB| sin(ph) < 0
+            // |AB| |CD| sin(th) < |AC| |CD| sin(lm) < 0
 
-            var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
+            // |AB| |CD| sin(th)
+            var g = ab.Determinant(cd).Bits / {{ component }}.OneRepr;
 
-            // det(A) = 0 の場合, 線分は平行なため交差しない.
-            // (線分が平行な場合, たとえ重なっていたとしても交差していないとみなす)
-            if (rxs == 0) {
+            // g = 0 の場合, いずれか, または両方の線分の長さが 0,
+            // または平行である. 平行かつ線分が重なっている場合,
+            // 交点が一点に定まらないため, ここでは false を返す.
+            // 完全に一点に加算っている場合は交点も一点に定まるが,
+            // アルゴリズムの統一感を損なうため, そのために専用の
+            // ロジックを用意することは許容しない.
+            if (g == 0) {
                 return false;
             }
 
-            var v = other.P1 - P1;
+            var ac = other.P1 - P1;
 
-            // 最終的に t が [0, 1] の範囲に収まらなければならないので,
-            // rxs の小数部を {{ frac_nbits }} ビットににしてしまい,
-            // false を返す条件として rxs と比較するのではなく,
+            // 最終的に h が [0, 1] の範囲に収まらなければならないので,
+            // g の小数部を 15 ビットににしてしまい,
+            // false を返す条件として g と比較するのではなく,
             // 除算後の値と比較することには妥当性がある.
 
-            // ベクトル v とベクトル s からなる行列 B について,
-            // det(B) / det(A) より直線 r と直線 s の交点の
-            // 直線 r に対する位置 t が求まる.
-            var t = v.Determinant(s).Bits / rxs;
-            if (t < 0 || {{ component }}.OneRepr < t) {
+            // |AC| |CD| sin(lm)   |AC| sin(lm)
+            // ----------------- = ------------
+            // |AB| |CD| sin(th)   |AB| sin(th)
+            var h = ac.Determinant(cd).Bits / g;
+            if (h < 0 || {{ component }}.OneRepr < h) {
                 return false;
             }
 
-            // ベクトル v とベクトル r からなる行列 C について,
-            // det(C) / det(A) より直線 r と直線 s の交点の
-            // 直線 s に対する位置 u が求まる.
-            // 本来は v の逆ベクトルを使うべきだが,
-            // 除数も sxr ではなく rxs であるため問題ない.
-            // (rxs = -sxr)
-            var u = v.Determinant(r).Bits / rxs;
-            if (u < 0 || {{ component }}.OneRepr < u) {
+            // i の判定を, 除算前の g の値との比較で行うこともできるが,
+            // h の判定との対称性を損なうため, ここでは h と同様の
+            // ロジックを用いる.
+
+            // |AC| |AB| sin(ph)  |AC| sin(ph)
+            // ----------------- = ------------
+            // |AB| |CD| sin(th)  |CD| sin(th)
+            var i = ac.Determinant(ab).Bits / g;
+            if (i < 0 || {{ component }}.OneRepr < i) {
                 return false;
             }
 
-            // 0 <= t <= 1 かつ 0 <= u <= 1 の場合,
-            // 線分は交差している.
+            // 0 <= t <= 1 かつ 0 <= u <= 1 の時, 線分は交差している.
             // 前提条件により t のキャストは必ず成功する.
-            intersection = P1 + ({{ component }}.FromBits(({{ bits }})t) * r);
+            intersection = P1 + ({{ component }}.FromBits(({{ bits }})h) * ab);
             return true;
         }
 
@@ -351,25 +361,26 @@ namespace {{ namespace }}.Geometry {
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps({{ type }} other, ref {{ vector_type }} intersection) {
-            var r = P2 - P1;
-            var s = other.P2 - other.P1;
-            var rxs = r.Determinant(s).Bits / {{ component }}.OneRepr;
-            if (rxs == 0) {
+            var ab = P2 - P1;
+            var cd = other.P2 - other.P1;
+            var g = ab.Determinant(cd).Bits / {{ component }}.OneRepr;
+            if (g == 0) {
                 return false;
             }
 
-            var v = other.P1 - P1;
-            var t = v.Determinant(s).Bits / rxs;
-            if (t <= 0 || {{ component }}.OneRepr <= t) {
+            var ac = other.P1 - P1;
+
+            var h = ac.Determinant(cd).Bits / g;
+            if (h <= 0 || {{ component }}.OneRepr <= h) {
                 return false;
             }
 
-            var u = v.Determinant(r).Bits / rxs;
-            if (u <= 0 || {{ component }}.OneRepr <= u) {
+            var i = ac.Determinant(ab).Bits / g;
+            if (i <= 0 || {{ component }}.OneRepr <= i) {
                 return false;
             }
 
-            intersection = P1 + ({{ component }}.FromBits(({{ bits }})t) * r);
+            intersection = P1 + ({{ component }}.FromBits(({{ bits }})h) * ab);
             return true;
         }
 
