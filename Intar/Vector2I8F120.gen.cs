@@ -80,9 +80,10 @@ namespace Intar {
             return new Vector2I8F120(repr);
         }
         #endregion
-        #region Zero, One, UnitX, UnitY
+        #region Zero, One, NegativeOne, UnitX, UnitY
         public static readonly Vector2I8F120 Zero = new Vector2I8F120(I8F120.Zero);
         public static readonly Vector2I8F120 One = new Vector2I8F120(I8F120.One);
+        public static readonly Vector2I8F120 NegativeOne = new Vector2I8F120(I8F120.NegativeOne);
         public static readonly Vector2I8F120 UnitX = new Vector2I8F120(I8F120.One, I8F120.Zero);
         public static readonly Vector2I8F120 UnitY = new Vector2I8F120(I8F120.Zero, I8F120.One);
         #endregion
