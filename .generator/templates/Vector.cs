@@ -138,9 +138,12 @@ namespace {{ namespace }} {
             return new {{ vector }}(repr);
         }
         #endregion
-        #region Zero, One, {% for c in components %}Unit{{ c }}{% if not loop.last %}, {% endif %}{% endfor %}
+        #region Zero, One{% if signed %}, NegativeOne{% endif %}, {% for c in components %}Unit{{ c }}{% if not loop.last %}, {% endif %}{% endfor %}
         public static readonly {{ vector }} Zero = new {{ vector }}({{ component }}.Zero);
         public static readonly {{ vector }} One = new {{ vector }}({{ component }}.One);
+        {%- if signed %}
+        public static readonly {{ vector }} NegativeOne = new {{ vector }}({{ component }}.NegativeOne);
+        {%- endif %}
         {%- for i in range(end=dim) %}
         {%- if i >= dim %}{% continue %}{% endif %}
         public static readonly {{ vector }} Unit{{ components[i] }} = new {{ vector }}(

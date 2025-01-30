@@ -84,9 +84,10 @@ namespace Intar {
             return new Vector2I17F15(repr);
         }
         #endregion
-        #region Zero, One, UnitX, UnitY
+        #region Zero, One, NegativeOne, UnitX, UnitY
         public static readonly Vector2I17F15 Zero = new Vector2I17F15(I17F15.Zero);
         public static readonly Vector2I17F15 One = new Vector2I17F15(I17F15.One);
+        public static readonly Vector2I17F15 NegativeOne = new Vector2I17F15(I17F15.NegativeOne);
         public static readonly Vector2I17F15 UnitX = new Vector2I17F15(I17F15.One, I17F15.Zero);
         public static readonly Vector2I17F15 UnitY = new Vector2I17F15(I17F15.Zero, I17F15.One);
         #endregion

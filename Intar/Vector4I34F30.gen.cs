@@ -102,9 +102,10 @@ namespace Intar {
             return new Vector4I34F30(repr);
         }
         #endregion
-        #region Zero, One, UnitX, UnitY, UnitZ, UnitW
+        #region Zero, One, NegativeOne, UnitX, UnitY, UnitZ, UnitW
         public static readonly Vector4I34F30 Zero = new Vector4I34F30(I34F30.Zero);
         public static readonly Vector4I34F30 One = new Vector4I34F30(I34F30.One);
+        public static readonly Vector4I34F30 NegativeOne = new Vector4I34F30(I34F30.NegativeOne);
         public static readonly Vector4I34F30 UnitX = new Vector4I34F30(I34F30.One, I34F30.Zero, I34F30.Zero, I34F30.Zero);
         public static readonly Vector4I34F30 UnitY = new Vector4I34F30(I34F30.Zero, I34F30.One, I34F30.Zero, I34F30.Zero);
         public static readonly Vector4I34F30 UnitZ = new Vector4I34F30(I34F30.Zero, I34F30.Zero, I34F30.One, I34F30.Zero);
