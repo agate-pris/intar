@@ -147,9 +147,7 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects({{ type }} other) {
             {%- for c in components %}
-            if (max.{{ c }} < other.min.{{ c }} || min.{{ c }} > other.max.{{ c }}) {
-                return false;
-            }
+            if (max.{{ c }} < other.min.{{ c }} || other.max.{{ c }} < min.{{ c }}) { return false; }
             {%- endfor %}
             return true;
         }
@@ -165,9 +163,7 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps({{ type }} other) {
             {%- for c in components %}
-            if (max.{{ c }} <= other.min.{{ c }} || min.{{ c }} >= other.max.{{ c }}) {
-                return false;
-            }
+            if (max.{{ c }} <= other.min.{{ c }} || other.max.{{ c }} <= min.{{ c }}) { return false; }
             {%- endfor %}
             return true;
         }
