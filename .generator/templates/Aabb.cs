@@ -138,6 +138,13 @@ namespace {{ namespace }} {
         #endregion
         #region Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects({{ vector }} p) {
+            {%- for c in components %}
+            if (p.{{ c }} < min.{{ c }} || max.{{ c }} < p.{{ c }}) { return false; }
+            {%- endfor %}
+            return true;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects({{ type }} other) {
             {%- for c in components %}
             if (max.{{ c }} < other.min.{{ c }} || min.{{ c }} > other.max.{{ c }}) {
@@ -148,6 +155,13 @@ namespace {{ namespace }} {
         }
         #endregion
         #region Overlaps
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps({{ vector }} p) {
+            {%- for c in components %}
+            if (p.{{ c }} <= min.{{ c }} || max.{{ c }} <= p.{{ c }}) { return false; }
+            {%- endfor %}
+            return true;
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps({{ type }} other) {
             {%- for c in components %}
