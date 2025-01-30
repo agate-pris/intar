@@ -147,6 +147,12 @@ namespace Intar {
         #endregion
         #region Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects(Vector2I17F15 p) {
+            if (p.X < min.X || max.X < p.X) { return false; }
+            if (p.Y < min.Y || max.Y < p.Y) { return false; }
+            return true;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Intersects(Aabb2I17F15 other) {
             if (max.X < other.min.X || min.X > other.max.X) {
                 return false;
@@ -158,6 +164,12 @@ namespace Intar {
         }
         #endregion
         #region Overlaps
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Vector2I17F15 p) {
+            if (p.X <= min.X || max.X <= p.X) { return false; }
+            if (p.Y <= min.Y || max.Y <= p.Y) { return false; }
+            return true;
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(Aabb2I17F15 other) {
             if (max.X <= other.min.X || min.X >= other.max.X) {
