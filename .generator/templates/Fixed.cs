@@ -26,9 +26,6 @@ namespace {{ namespace }} {
 
         internal {{ const }} {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
         internal {{ const }} {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
-        {%- if signed %}
-        internal {{ const }} {{ self_bits_utype }} MaxReprUnsigned = {% if bits > 64 %}({{ self_bits_utype }}){% endif %}MaxRepr;
-        {%- endif %}
         internal {{ const }} {{ self_bits_type }} EpsilonRepr = 1;
 
         internal {{ const }} {{ self_bits_type }} OneRepr = {{

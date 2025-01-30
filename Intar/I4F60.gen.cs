@@ -10,7 +10,6 @@ namespace Intar {
 
         internal const long MinRepr = long.MinValue;
         internal const long MaxRepr = long.MaxValue;
-        internal const ulong MaxReprUnsigned = MaxRepr;
         internal const long EpsilonRepr = 1;
 
         internal const long OneRepr = 1L << FracNbits;

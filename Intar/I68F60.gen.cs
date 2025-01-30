@@ -12,7 +12,6 @@ namespace Intar {
 
         internal static readonly Int128 MinRepr = Int128.MinValue;
         internal static readonly Int128 MaxRepr = Int128.MaxValue;
-        internal static readonly UInt128 MaxReprUnsigned = (UInt128)MaxRepr;
         internal static readonly Int128 EpsilonRepr = 1;
 
         internal static readonly Int128 OneRepr = (Int128)1 << FracNbits;
