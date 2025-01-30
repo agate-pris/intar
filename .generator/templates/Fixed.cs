@@ -32,9 +32,7 @@ namespace {{ namespace }} {
             macros::one(bits=bits, signed=signed)
         }} << FracNbits;
         {%- if signed %}
-        internal {{ const }} {{ self_bits_type }} NegativeOneRepr = ({{
-            macros::one(bits=bits, signed=signed)
-        }} << FracNbits) * -1;
+        internal {{ const }} {{ self_bits_type }} NegativeOneRepr = -OneRepr;
         {%- endif %}
         #endregion
         #region Bits

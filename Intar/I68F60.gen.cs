@@ -15,7 +15,7 @@ namespace Intar {
         internal static readonly Int128 EpsilonRepr = 1;
 
         internal static readonly Int128 OneRepr = (Int128)1 << FracNbits;
-        internal static readonly Int128 NegativeOneRepr = ((Int128)1 << FracNbits) * -1;
+        internal static readonly Int128 NegativeOneRepr = -OneRepr;
         #endregion
         #region Bits
 

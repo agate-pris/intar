@@ -13,7 +13,7 @@ namespace Intar {
         internal const int EpsilonRepr = 1;
 
         internal const int OneRepr = 1 << FracNbits;
-        internal const int NegativeOneRepr = (1 << FracNbits) * -1;
+        internal const int NegativeOneRepr = -OneRepr;
         #endregion
         #region Bits
 
