@@ -271,6 +271,9 @@ namespace Intar.Geometry {
                 }
             }
 
+            // p2 - p1, p4 - p1 の代わりにアフィン変換の列を
+            // 直接使うことで引き算の分の計算を省略することができる.
+
             var v1 = Transform.RotationScale.C0;
             var v2 = Transform.RotationScale.C1;
             var v3 = segment.P2 - segment.P1;
