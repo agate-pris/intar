@@ -14,7 +14,8 @@ namespace Intar.Tests.Geometry {
 
             // 基本的なテスト
             {
-                var a = I17F15.FromBits(I17F15.OneRepr * 2);
+                var a = I17F15.FromBits(I17F15.OneRepr + 1);
+                var b = I17F15.FromBits(I17F15.OneRepr - 1);
                 var boxes = new Box2I17F15[] {
                     new Box2I17F15(Vector2I17F15.Zero, Vector2I17F15.One),
                     new Box2I17F15(Vector2I17F15.Zero, -Vector2I17F15.One),
@@ -22,29 +23,89 @@ namespace Intar.Tests.Geometry {
                     new Box2I17F15(Vector2I17F15.Zero, new Vector2I17F15(I17F15.NegativeOne, I17F15.One)),
                 };
                 var l = new I17F15[] {
-                    I17F15.Zero, I17F15.One, a, -I17F15.One, -a
+                    I17F15.Zero, I17F15.One, -I17F15.One, a, -a, b, -b
                 };
-                foreach (var b in boxes) {
+                foreach (var box in boxes) {
                     foreach (var x in l) {
                         foreach (var y in l) {
                             var p = new Vector2I17F15(x, y);
                             if (x == a || x == -a ||
                                 y == a || y == -a) {
-                                if (b.Intersects(p) || b.Overlaps(p)) {
+                                if (box.Intersects(p) || box.Overlaps(p)) {
                                     Assert.Fail();
                                 }
                             } else if (
                                 x == I17F15.One || x == I17F15.NegativeOne ||
                                 y == I17F15.One || y == I17F15.NegativeOne) {
-                                if (!b.Intersects(p) || b.Overlaps(p)) {
+                                if (!box.Intersects(p) || box.Overlaps(p)) {
                                     Assert.Fail();
                                 }
                             } else {
-                                if (!b.Intersects(b) || !b.Overlaps(p)) {
+                                if (!box.Intersects(box) || !box.Overlaps(p)) {
                                     Assert.Fail();
                                 }
                             }
                         }
+                    }
+                }
+            }
+
+            // 点
+            {
+                var centers = new Vector2I17F15[] {
+                    Vector2I17F15.Zero,
+                    Vector2I17F15.One,
+                    Vector2I17F15.UnitX,
+                    Vector2I17F15.UnitY,
+                    Vector2I17F15.UnitX - Vector2I17F15.UnitY,
+                    Vector2I17F15.UnitY - Vector2I17F15.UnitX,
+                    -Vector2I17F15.One,
+                    -Vector2I17F15.UnitX,
+                    -Vector2I17F15.UnitY,
+                };
+                foreach (var c in centers) {
+                    var a = I17F15.FromBits(1);
+                    var b = new Box2I17F15(c, Vector2I17F15.Zero);
+                    if (!b.Intersects(c + Vector2I17F15.Zero)) { Assert.Fail(); }
+                    if (b.Intersects(c + (Vector2I17F15.One * a))) { Assert.Fail(); }
+                    if (b.Intersects(c + (Vector2I17F15.UnitX * a))) { Assert.Fail(); }
+                    if (b.Intersects(c + (Vector2I17F15.UnitY * a))) { Assert.Fail(); }
+                    if (b.Intersects(c - (Vector2I17F15.One * a))) { Assert.Fail(); }
+                    if (b.Intersects(c - (Vector2I17F15.UnitX * a))) { Assert.Fail(); }
+                    if (b.Intersects(c - (Vector2I17F15.UnitY * a))) { Assert.Fail(); }
+                    if (b.Intersects(c + ((Vector2I17F15.UnitX - Vector2I17F15.UnitY) * a))) { Assert.Fail(); }
+                    if (b.Intersects(c + ((Vector2I17F15.UnitY - Vector2I17F15.UnitX) * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c + Vector2I17F15.Zero)) { Assert.Fail(); }
+                    if (b.Overlaps(c + (Vector2I17F15.One * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c + (Vector2I17F15.UnitX * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c + (Vector2I17F15.UnitY * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c - (Vector2I17F15.One * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c - (Vector2I17F15.UnitX * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c - (Vector2I17F15.UnitY * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c + ((Vector2I17F15.UnitX - Vector2I17F15.UnitY) * a))) { Assert.Fail(); }
+                    if (b.Overlaps(c + ((Vector2I17F15.UnitY - Vector2I17F15.UnitX) * a))) { Assert.Fail(); }
+                }
+            }
+
+            // ((-1, 0), (1, 0), (1, 0), (-1, 0))
+            {
+                var boxes = new Box2I17F15[] {
+                    new Box2I17F15(Vector2I17F15.Zero, Vector2I17F15.UnitX),
+                    new Box2I17F15(Vector2I17F15.Zero, -Vector2I17F15.UnitX),
+                };
+                var intersections = new Vector2I17F15[] {
+                    Vector2I17F15.UnitX, -Vector2I17F15.UnitX,
+                };
+                var disjoints = new Vector2I17F15[] {
+                };
+                foreach (var box in boxes) {
+                    foreach (var intersection in intersections) {
+                        if (!box.Intersects(intersection)) { Assert.Fail(); }
+                        if (box.Overlaps(intersection)) { Assert.Fail(); }
+                    }
+                    foreach (var disjoint in disjoints) {
+                        if (box.Intersects(disjoint)) { Assert.Fail(); }
+                        if (box.Overlaps(disjoint)) { Assert.Fail(); }
                     }
                 }
             }
@@ -70,37 +131,6 @@ namespace Intar.Tests.Geometry {
                 foreach (var p in l) {
                     Assert.IsTrue(b.Intersects(p));
                     Assert.IsFalse(b.Overlaps(p));
-                }
-            }
-
-            // 線分・点
-            {
-                var v = I17F15.FromBits(90);
-                var l = new List<Box2I17F15> {
-                    new Box2I17F15(Vector2I17F15.Zero, Vector2I17F15.Zero),
-                    new Box2I17F15(Vector2I17F15.Zero, new Vector2I17F15(v, v)),
-                    new Box2I17F15(Vector2I17F15.Zero, Vector2I17F15.UnitX),
-                    new Box2I17F15(Vector2I17F15.Zero, Vector2I17F15.UnitY),
-                    new Box2I17F15(
-                        new AffineTransform2I17F15(
-                            new Matrix2x2I17F15(
-                                new Vector2I17F15(I17F15.Zero, (I17F15)0.5f),
-                                new Vector2I17F15(I17F15.Zero, (I17F15)0.5f)
-                            ), Vector2I17F15.Zero
-                        ), Vector2I17F15.One
-                    ),
-                    new Box2I17F15(
-                        new AffineTransform2I17F15(
-                            new Matrix2x2I17F15(
-                                new Vector2I17F15((I17F15)(+0.5f), I17F15.Zero),
-                                new Vector2I17F15((I17F15)(-0.5f), I17F15.Zero)
-                            ), Vector2I17F15.Zero
-                        ), Vector2I17F15.One
-                    ),
-                };
-                foreach (var b in l) {
-                    Assert.IsFalse(b.Intersects(Vector2I17F15.Zero));
-                    Assert.IsFalse(b.Overlaps(Vector2I17F15.Zero));
                 }
             }
         }
