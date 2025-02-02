@@ -5,11 +5,37 @@ namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(I4F60))]
     public class I4F60Drawer : PropertyDrawer {
         float? cache;
+
         /// フィールドに表示する値を最大値・最小値で制限する
-        static float Clamp(float value) {
+        internal static float Clamp(float value) {
             var min = (float)I4F60.MinValue;
             var max = (float)I4F60.MaxValue;
             return Mathf.Clamp(value, min, max);
+        }
+
+        /// 値をシリアライズ時に保存する値に変換する
+        internal static long ToBits(float value) {
+            value = Mathf.Round(value * I4F60.OneRepr);
+
+            // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
+            return value <= long.MinValue ? long.MinValue :
+                   value >= long.MaxValue ? long.MaxValue :
+                   (long)value;
+        }
+
+        internal static float Restore(long bits) {
+            float f;
+            {
+                var sign = 0.5f * System.Math.Sign(bits);
+                f = bits * 100.0f / I4F60.OneRepr;
+                f = Mathf.Round(f + sign) / 100;
+            }
+            long i;
+            {
+                var tmp = f * I4F60.OneRepr;
+                i = (long)tmp;
+            }
+            return bits == i ? f : (float)bits / I4F60.OneRepr;
         }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
@@ -20,7 +46,7 @@ namespace Intar.Editor {
 
             // すでに値がキャッシュされている場合はそれを使う
             // それ以外の場合, プロパティから値を取得してキャッシュする
-            var value = cache ?? (float)bits.longValue / I4F60.OneRepr;
+            var value = cache ?? Restore(bits.longValue);
 
             // UI を表示 & 入力を取得
             EditorGUI.BeginChangeCheck();
@@ -30,13 +56,7 @@ namespace Intar.Editor {
             cache = Clamp(value);
 
             if (EditorGUI.EndChangeCheck()) {
-                value *= I4F60.OneRepr;
-
-                // 必ず <=, >= を使う. Clamp ではオーバーフローを引き起こす.
-                bits.longValue
-                    = value <= long.MinValue ? long.MinValue
-                    : value >= long.MaxValue ? long.MaxValue
-                    : (long)value;
+                bits.longValue = ToBits(value);
             }
 
             EditorGUI.EndProperty();

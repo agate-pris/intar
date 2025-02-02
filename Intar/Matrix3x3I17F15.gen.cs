@@ -13,19 +13,23 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Vector3I17F15 C0;
         public Vector3I17F15 C1;
         public Vector3I17F15 C2;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-        #region Constructors
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         Matrix3x3I17F15(Vector3Int32 c0Repr, Vector3Int32 c1Repr, Vector3Int32 c2Repr) {
             C0 = Vector3I17F15.FromRepr(c0Repr);
@@ -108,7 +112,9 @@ namespace Intar {
         }
         #endregion
         #region Conversions
+
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float3x3(Matrix3x3I17F15 a) {
             return new Unity.Mathematics.float3x3(
@@ -117,7 +123,9 @@ namespace Intar {
                 (float)a.C0.Z, (float)a.C1.Z, (float)a.C2.Z
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -177,6 +185,46 @@ namespace Intar {
                 new Vector3Int32(C0.Repr.Y, C1.Repr.Y, C2.Repr.Y),
                 new Vector3Int32(C0.Repr.Z, C1.Repr.Z, C2.Repr.Z)
             );
+        }
+        #endregion
+        #region Scale
+
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 Scale(I17F15 x, I17F15 y, I17F15 z) {
+            return new Matrix3x3I17F15(
+                Vector3I17F15.FromRepr(new Vector3Int32(x.Bits, I17F15.Zero.Bits, I17F15.Zero.Bits)),
+                Vector3I17F15.FromRepr(new Vector3Int32(I17F15.Zero.Bits, y.Bits, I17F15.Zero.Bits)),
+                Vector3I17F15.FromRepr(new Vector3Int32(I17F15.Zero.Bits, I17F15.Zero.Bits, z.Bits))
+            );
+        }
+
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 Scale(Vector3I17F15 scale) {
+            return Scale(scale.X, scale.Y, scale.Z);
+        }
+        #endregion
+        #region ScaleX
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 ScaleX(I17F15 scale) {
+            return Scale(scale, I17F15.One, I17F15.One);
+        }
+        #endregion
+        #region ScaleY
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 ScaleY(I17F15 scale) {
+            return Scale(I17F15.One, scale, I17F15.One);
+        }
+        #endregion
+        #region ScaleZ
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x3I17F15 ScaleZ(I17F15 scale) {
+            return Scale(I17F15.One, I17F15.One, scale);
         }
         #endregion
     }

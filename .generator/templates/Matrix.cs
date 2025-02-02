@@ -39,19 +39,23 @@ namespace {{ namespace }} {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
         #region Fields
+
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+{# lf #}
         {%- for i in range(end=cols) %}
         public {{ col }} C{{ i }};
         {%- endfor %}
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-        #region Constructors
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ type }}(
             {%- for i in range(end=cols) -%}
@@ -173,6 +177,7 @@ namespace {{ namespace }} {
         // 行優先・列優先の違いによる混乱を防ぐため定義しない.
 
 #if UNITY_5_3_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Matrix4x4({{ type }} a) {
             return new UnityEngine.Matrix4x4(
@@ -188,9 +193,12 @@ namespace {{ namespace }} {
                 {%- endfor %}1)
             );
         }
+
 #endif // UNITY_5_3_OR_NEWER
         {%- endif %}
+
 #if UNITY_2018_1_OR_NEWER
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float{{ rows }}x{{ cols }}({{ type }} a) {
             return new Unity.Mathematics.float{{ rows }}x{{ cols }}(
@@ -202,7 +210,9 @@ namespace {{ namespace }} {
                 {%- endfor %}
             );
         }
+
 #endif // UNITY_2018_1_OR_NEWER
+
         #endregion
         #region IAdditionOperators, ISubtractionOperators
         {%- for o in ['+', '-'] %}
@@ -263,12 +273,61 @@ namespace {{ namespace }} {
             );
         }
         #endregion
+        #region Scale
+
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale(
+            {%- for i in range(end=cols) %}
+            {{- component }} {{ components[i]|lower }}
+            {%- if not loop.last %}, {% endif %}
+            {%- endfor -%}
+        ) {
+            return new {{ type }}(
+                {%- for i in range(end=cols) %}
+                {{ col }}.FromRepr(new {{ repr }}(
+                    {%- for j in range(end=rows) %}
+                    {%- if i == j -%}
+                    {{ components[i]|lower }}.Bits{%- else -%}
+                    {{ component }}.Zero.Bits{% endif %}
+                    {%- if not loop.last %}, {% endif %}
+                    {%- endfor -%}
+                )){%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            );
+        }
+
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale({{ col }} scale) {
+            return Scale(
+                {%- for i in range(end=cols) -%}
+                scale.{{ components[i] }}{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+        #endregion
+        {%- for c in components|slice(end=rows) %}
+        #region Scale{{ c }}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} Scale{{ c }}({{ component }} scale) {
+            return Scale(
+                {%- for i in range(end=cols) %}
+                {%- if components[i] == c %}scale{% else %}{{ component }}.One{% endif %}{%- if not loop.last %}, {% endif %}
+                {%- endfor -%}
+            );
+        }
+        #endregion
+        {%- endfor %}
         {%- else %}
         {{ throw(message='Transpose for rows != cols is not implemented.') }}
         {%- endif %}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Conversion
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator {{ type }}({{ quaternion }} q) {
             var pnn = new {{ repr_3 }}(+2, -2, -2);
@@ -282,10 +341,16 @@ namespace {{ namespace }} {
         }
         #endregion
         {%- endif %}
+        {#- 3 次元の回転行列 #}
         {%- if rows == 3 and cols == 3 and signed and int_nbits == 2 %}
         #region Rotate X/Y/Z
         {%- for o in sin %}
         {%- for i in range(end=3) %}
+
+        /// <summary>
+        /// Create a rotation matrix around the {{ components[i]|lower }}-axis.
+        /// Sine and cosine are approximated by polynomials of degree {{ o }}.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} Rotate{{ components[i] }}P{{ o }}({{ angle }} angle) {
             var s = Mathi.SinP{{ o }}(angle.Bits);
@@ -469,6 +534,26 @@ namespace {{ namespace }} {
             var c1 = {{ vector_3 }}.FromRepr(({{ repr }})(f.Value.Cross(c0.Value).Repr / {{ component }}.OneRepr));
             return new {{ type }}(c0.Value.Repr, c1.Repr, f.Value.Repr);
         }
+        #endregion
+        {%- endif %}
+        {#- 2 次元の回転行列 #}
+        {%- if rows == 2 and cols == 2 and signed and int_nbits == 2 %}
+        #region Rotate
+        {%- for o in sin %}
+
+        /// <summary>
+        /// Create a rotation matrix.
+        /// Sine and cosine are approximated by polynomials of degree {{ o }}.
+        /// </summary>
+        public static {{ type }} RotateP{{ o }}({{ angle }} angle) {
+            var s = angle.SinP{{ o }}();
+            var c = angle.CosP{{ o }}();
+            return new {{ type }}(
+                new {{ col }}(c, s),
+                new {{ col }}(-s, c)
+            );
+        }
+        {%- endfor %}
         #endregion
         {%- endif %}
     }

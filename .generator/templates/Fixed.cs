@@ -1,15 +1,16 @@
 {% import "macros.cs" as macros %}
 {%- set self_type = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
 {%- set type_u    = macros::fixed_type(s=false,  i=int_nbits, f=frac_nbits) %}
-{%- set self_bits_type      = macros::inttype(bits=int_nbits  +frac_nbits,   signed=signed) %}
-{%- set self_bits_utype     = macros::inttype(bits=int_nbits  +frac_nbits,   signed=false)  %}
-{%- if 64 < int_nbits+frac_nbits %}
+{%- set self_bits_type  = macros::inttype(bits = int_nbits+frac_nbits, signed = signed) %}
+{%- set self_bits_utype = macros::inttype(bits = int_nbits+frac_nbits, signed = false)  %}
+{%- set bits = int_nbits+frac_nbits %}
+{%- if bits > 64 %}
     {%- set const = 'static readonly' %}{%- else %}
     {%- set const = 'const' %}
 {%- endif %}
 
 {#- 固定小数点数の定義 -#}
-{%- if 64 < int_nbits+frac_nbits -%}
+{%- if bits > 64 -%}
 #if NET7_0_OR_GREATER
 
 {% endif -%}
@@ -19,39 +20,37 @@ using System.Runtime.CompilerServices;
 namespace {{ namespace }} {
     [Serializable]
     public struct {{ self_type }} : IEquatable<{{ self_type }}>, IFormattable {
-
         #region Consts
-
         public const int IntNbits = {{ int_nbits }};
         public const int FracNbits = {{ frac_nbits }};
 
         internal {{ const }} {{ self_bits_type }} MinRepr = {{ self_bits_type }}.MinValue;
         internal {{ const }} {{ self_bits_type }} MaxRepr = {{ self_bits_type }}.MaxValue;
-        {%- if signed %}
-        internal {{ const }} {{ self_bits_utype }} MaxReprUnsigned = {% if int_nbits + frac_nbits > 64 %}({{ self_bits_utype }}){% endif %}MaxRepr;
-        {%- endif %}
         internal {{ const }} {{ self_bits_type }} EpsilonRepr = 1;
 
         internal {{ const }} {{ self_bits_type }} OneRepr = {{
-            macros::one(bits=int_nbits+frac_nbits, signed=signed)
+            macros::one(bits=bits, signed=signed)
         }} << FracNbits;
-
+        {%- if signed %}
+        internal {{ const }} {{ self_bits_type }} NegativeOneRepr = -OneRepr;
+        {%- endif %}
         #endregion
+        #region Bits
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public {{ self_bits_type }} Bits;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
-        #region Constructor, FromBits
-
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         {{ self_type }}({{ self_bits_type }} bits) {
             Bits = bits;
@@ -59,10 +58,8 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} FromBits({{ self_bits_type }} bits) => new {{ self_type }}(bits);
-
         #endregion
-
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, {% if signed %}NegativeOne, {% endif %}MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -75,36 +72,34 @@ namespace {{ namespace }} {
 
         public static readonly {{ self_type }} Zero;
         public static readonly {{ self_type }} One = new {{ self_type }}(OneRepr);
+        {%- if signed %}
+        public static readonly {{ self_type }} NegativeOne = new {{ self_type }}(NegativeOneRepr);
+        {%- endif %}
         public static readonly {{ self_type }} MinValue = new {{ self_type }}(MinRepr);
         public static readonly {{ self_type }} MaxValue = new {{ self_type }}(MaxRepr);
         internal static readonly {{ self_type }} Epsilon = new {{ self_type }}(EpsilonRepr);
-
         #endregion
-
-        {%- if int_nbits+frac_nbits < 128 %}
-
+        {%- if bits < 128 %}
         #region WideBits
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if bits == 64 %}
 
 #if NET7_0_OR_GREATER
+{# lf #}
         {%- endif %}
-
         internal {{
             macros::inttype(bits=int_nbits*2+frac_nbits*2, signed=signed)
         }} WideBits {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Bits;
         }
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if bits == 64 %}
 
 #endif // NET7_0_OR_GREATER
+{# lf #}
         {%- endif %}
-
         #endregion
         {%- endif %}
-
         #region IAdditionOperatos, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator +({{ self_type }} left, {{ self_type }} right) {
             return FromBits(left.Bits + right.Bits);
@@ -114,20 +109,17 @@ namespace {{ namespace }} {
         public static {{ self_type }} operator -({{ self_type }} left, {{ self_type }} right) {
             return FromBits(left.Bits - right.Bits);
         }
-
         #endregion
-
-        {%- if int_nbits+frac_nbits < 128 %}
-
+        {%- if bits < 128 %}
         #region IMultiplicationOperators, IDivisionOperators
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if bits == 64 %}
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
         // 乗算, 除算演算子は .NET 7 以降でのみ使用可能.
 
 #if NET7_0_OR_GREATER
+{# lf #}
         {%- endif %}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator *({{ self_type }} left, {{ self_type }} right) {
             return FromBits(({{ self_bits_type }})(left.WideBits * right.Bits / OneRepr));
@@ -137,17 +129,14 @@ namespace {{ namespace }} {
         public static {{ self_type }} operator /({{ self_type }} left, {{ self_type }} right) {
             return FromBits(({{ self_bits_type }})(left.WideBits * OneRepr / right.Bits));
         }
-
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if bits == 64 %}
 
 #endif // NET7_0_OR_GREATER
+{# lf #}
         {%- endif %}
-
         #endregion
         {%- endif %}
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} operator +({{ self_type }} x) => FromBits(+x.Bits);
 
@@ -158,20 +147,15 @@ namespace {{ namespace }} {
         {%- else %}
 
         // 符号なし固定小数点数は単項マイナス演算子を持たない。
+{# lf #}
         {%- endif %}
-
         #endregion
-
         #region IEqualityOperators, IComparisonOperators
-{# 改行 #}
         {%- for op in ['==', '!=', '<', '>', '<=', '>='] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator {{ op }}({{ self_type }} left, {{ self_type }} right) => left.Bits {{ op }} right.Bits;
         {%- endfor %}
-
         #endregion
-
         #region Object
-
         public override bool Equals(object obj) => obj is {{ self_type }} o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,27 +163,18 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ((double)this).ToString((IFormatProvider)null);
-
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals({{ self_type }} other) => this == other;
-
         #endregion
-
         #region IFormattable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
-
         #endregion
-
         #region IComparable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo({{ self_type }} value) {
             if (this < value) {
@@ -210,22 +185,19 @@ namespace {{ namespace }} {
                 return 0;
             }
         }
-
         #endregion
-
         #region Min, Max, Clamp
-{# 改行 #}
         {%- for m in ['Min', 'Max'] %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{
         self_type }} {{ m }}({{ self_type
-        }} other) => FromBits({% if int_nbits+frac_nbits > 64
+        }} other) => FromBits({% if bits > 64
         %}{{ self_bits_type }}{% else
         %}Math{% endif %}.{{ m }}(Bits, other.Bits));
         {%- endfor %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type }} Clamp({{ self_type }} min, {{ self_type }} max) {
-            {%- if int_nbits + frac_nbits > 64 %}
+            {%- if bits > 64 %}
             return FromBits({{ self_bits_type }}.Clamp(Bits, min.Bits, max.Bits));
             {%- else %}
 #if NET5_0_OR_GREATER
@@ -235,11 +207,8 @@ namespace {{ namespace }} {
 #endif
             {%- endif %}
         }
-
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsNegative() => Bits < 0;
 
@@ -247,7 +216,7 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ self_type
-        }} Abs() => FromBits({% if int_nbits+frac_nbits > 64
+        }} Abs() => FromBits({% if bits > 64
         %}{{ self_bits_type }}{% else
         %}Math{% endif %}.Abs(Bits));
 
@@ -255,9 +224,7 @@ namespace {{ namespace }} {
         public {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }} UnsignedAbs() {
             return {{ macros::fixed_type(s=false, i=int_nbits, f=frac_nbits) }}.FromBits(Mathi.UnsignedAbs(Bits));
         }
-
         {%- endif %}
-
         #endregion
         {%- if signed %}
         #region AbsDiff
@@ -267,11 +234,11 @@ namespace {{ namespace }} {
         }
         #endregion
         {%- endif %}
+        #region Half, Twice
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal {{ self_type }} Twice() => FromBits(Mathi.Twice(Bits));
-
+        #endregion
         #region BigMul
-
         {%- for output in fixed_list %}
         {%- for rhs in fixed_list %}
         {%- if  int_nbits + rhs[0] != output[0]
@@ -280,7 +247,7 @@ namespace {{ namespace }} {
         {%- endif %}
         {%- set   signed_big = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
         {%- set unsigned_big = macros::fixed_type(s=false, i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
-        {%- if output[0] + output[1] > 64 %}
+        {%- if output[0] + output[1] > 64 and bits < 128 %}
 
 #if NET7_0_OR_GREATER
         {%- endif %}
@@ -294,7 +261,6 @@ namespace {{ namespace }} {
         }} other) {
             return {{ t }}.FromBits(WideBits * other.WideBits);
         }
-
         {%- else %}
         {%- set t = macros::fixed_type(s=true,  i=int_nbits+rhs[0], f=frac_nbits+rhs[1]) %}
         {%- set u = macros::inttype(signed=true,  bits=int_nbits+rhs[0]+frac_nbits+rhs[1]) %}
@@ -303,34 +269,29 @@ namespace {{ namespace }} {
         public {{ t }} BigMul({{
             macros::fixed_type(s=s, i=rhs[0], f=rhs[1])
         }} other) {
-            {%- if int_nbits + frac_nbits > 32 %}
+            {%- if bits > 32 %}
                 {%- set c = '(' ~ u ~ ')' %}{% else %}
                 {%- set c = '' %}
             {%- endif %}
             return {{ t }}.FromBits({{ c }}Bits * {{ c }}other.Bits);
         }
-
         {%- endif %}
         {%- endfor %}
-        {%- if output[0] + output[1] > 64 %}
+        {%- if output[0] + output[1] > 64 and bits < 128 %}
 
 #endif // NET7_0_OR_GREATER
+{# lf #}
         {%- endif %}
         {%- endfor %}
         {%- endfor %}
-
         #endregion
-
         {%- if signed %}
-        {%- if  int_nbits + frac_nbits <= 64
-            and int_nbits - frac_nbits ==  2 %}
-
+        {%- if bits < 128 and int_nbits - frac_nbits ==  2 %}
         #region Asin, Acos, Atan
         {%- for order in [3, 7] %}
         {%- if order == 7 and int_nbits < 32 %}
             {%- continue %}
         {%- endif %}
-
         {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
         {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
 
@@ -346,9 +307,8 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ asin }} AsinP{{ order }}() => AsinP{{ order }}(Bits);
         {%- endfor %}
-
         {%- for order in [2, 3, 9] %}
-        {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
+        {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
         {%- if order == 9 and int_nbits < 32 %}
             {%- continue %}
         {%- endif %}
@@ -359,13 +319,11 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ atan }} AtanP{{ order }}() => AtanP{{ order }}(Bits);
         {%- endfor %}
-
         #endregion
         {%- endif %}
-        {%- if int_nbits+frac_nbits <= 64 %}
-
+        {%- if bits < 128 %}
         #region Atan2
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if bits == 64 %}
 
 #if NET7_0_OR_GREATER
         {%- endif %}
@@ -374,8 +332,8 @@ namespace {{ namespace }} {
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
         {%- for order in [2, 3, 9] %}
-        {%- if order > 3 and int_nbits+frac_nbits < 64 %}{% continue %}{% endif %}
-        {%- set atan = macros::fixed_type(i=2, f=int_nbits+frac_nbits - 2, s=true) %}
+        {%- if order > 3 and bits < 64 %}{% continue %}{% endif %}
+        {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
         {%- if int_nbits == 2 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -392,7 +350,7 @@ namespace {{ namespace }} {
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
 #pragma warning restore IDE0079 // 不要な抑制を削除します
-        {%- if int_nbits+frac_nbits > 32 %}
+        {%- if bits == 64 %}
 
 #endif // NET7_0_OR_GREATER
         {%- endif %}
@@ -400,21 +358,17 @@ namespace {{ namespace }} {
         #endregion
         {%- endif %}
         {%- endif %}
-
-        {%- if signed
-            and int_nbits + frac_nbits <= 64
-            and int_nbits - frac_nbits ==  2 %}
-
+        {%- if signed and bits < 128 and int_nbits - frac_nbits ==  2 %}
         #region Sin, Cos
         {%- set sin = ['Sin', '正弦比'] %}
         {%- set cos = ['Cos', '余弦比'] %}
         {%- for m in [sin, cos] %}
         {%- for o in [2, 3, 4, 5, 10, 11] %}
-        {%- if o > 5 and int_nbits + frac_nbits < 64 %}
+        {%- if o > 5 and bits < 64 %}
             {%- continue %}
         {%- endif %}
         {%- set f = m[0] ~ 'P' ~ o %}
-        {%- set t = macros::fixed_type(i=2, f=int_nbits+frac_nbits-2, s=true) %}
+        {%- set t = macros::fixed_type(i=2, f=bits-2, s=true) %}
 
         /// <summary>
         /// {{ o }} 次の多項式で{{ m[1] }}を近似する。
@@ -433,7 +387,18 @@ namespace {{ namespace }} {
         public {{ t }} {{ f }}() => {{ f }}(Bits);
         {%- endfor %}
         {%- endfor %}
-
+        #endregion
+        {%- endif %}
+        {%- if signed and frac_nbits%15 == 0 %}
+        #region Swizzling
+        {%- for d in range(start=2, end=5) %}
+        {%- for e in ['0', '1', 'X'] %}
+        public {{ macros::vector_type(dim=d, type=self_type)
+        }} {% for i in range(end=d-1) %}X{% endfor %}{{ e }}() => {{ macros::vector_type(dim=d, type=self_type)
+        }}.FromRepr(new {{ macros::vector_primitive(dim=d, signed=signed, bits=bits)
+        }}({% for i in range(end=d-1) %}Bits, {% endfor %}{% if e == 'X' %}Bits{% elif e == '1' %}OneRepr{% else %}{{ e }}{% endif %}));
+        {%- endfor %}
+        {%- endfor %}
         #endregion
         {%- endif %}
 
@@ -444,7 +409,6 @@ namespace {{ namespace }} {
 #pragma warning disable IDE0004 // 不要なキャストの削除
 
         #region Conversion from integer
-
         {%- for bits in [32, 64, 128] %}
         {%- if bits > 64 %}
 
@@ -488,7 +452,6 @@ namespace {{ namespace }} {
             return FromBits(({{ self_bits_type }})(num * ({{ from }})OneRepr));
         }
         {%- endfor %}
-
         #endregion
         #region Conversion from fixed-point number
 
@@ -501,7 +464,6 @@ namespace {{ namespace }} {
 
 #if NET7_0_OR_GREATER
         {%- endif %}
-
         {%- set from = macros::fixed_type(s=s, i=i, f=f) %}
 
         /// <summary>
@@ -549,6 +511,7 @@ namespace {{ namespace }} {
 #endif // NET7_0_OR_GREATER
         {%- endif %}
         {%- endfor %}
+
         #endregion
         #region Conversion to floating-point number
 
@@ -561,7 +524,6 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator {{ t }}({{ self_type }} v) => ({{ t }})v.Bits / ({{ t }})OneRepr;
         {%- endfor %}
-
         #endregion
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です
@@ -571,7 +533,7 @@ namespace {{ namespace }} {
     }
 } // namespace {{ namespace }}
 
-{%- if 64 < int_nbits+frac_nbits %}
+{%- if bits > 64 %}
 
 #endif // NET7_0_OR_GREATER
 {%- endif %}

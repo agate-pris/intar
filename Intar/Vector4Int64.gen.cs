@@ -4,45 +4,59 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct Vector4Int64 : IEquatable<Vector4Int64> {
+        #region X, Y, Z, W
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public long X;
         public long Y;
         public long Z;
         public long W;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #endregion
 
+        #endregion
+        #region Conversion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Vector4(Vector4Int64 a) {
             return new System.Numerics.Vector4(a.X, a.Y, a.Z, a.W);
         }
 
 #if UNITY_5_3_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Vector4(Vector4Int64 a) {
             return new UnityEngine.Vector4(a.X, a.Y, a.Z, a.W);
         }
-#endif
+
+#endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float4(Vector4Int64 a) {
             return new Unity.Mathematics.float4(a.X, a.Y, a.Z, a.W);
         }
-#endif
 
+#endif // UNITY_2018_1_OR_NEWER
+
+        #endregion
+        #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64(long x, long y, long z, long w) {
             X = x;
             Y = y;
             Z = z;
             W = w;
         }
-
+        #endregion
+        #region Indexer
         public long this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
@@ -65,7 +79,7 @@ namespace Intar {
                 }
             }
         }
-
+        #endregion
         #region IComparisonOperators, IEqualityOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -157,9 +171,7 @@ namespace Intar {
         public static Vector4Bool operator !=(Vector4Int64 left, long right) {
             return new Vector4Bool(left.X != right, left.Y != right, left.Z != right, left.W != right);
         }
-
         #endregion
-
         #region IShiftOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -182,25 +194,19 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4Int64 other) {
             return X == other.X && Y == other.Y && Z == other.Z && W == other.W;
         }
-
         #endregion
-
         #region Object
 
         public override bool Equals(object obj) => obj is Vector4Int64 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(X, Y, Z, W);
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -262,28 +268,20 @@ namespace Intar {
         public static Vector4Int64 operator /(long left, Vector4Int64 right) {
             return new Vector4Int64(left / right.X, left / right.Y, left / right.Z, left / right.W);
         }
-
         #endregion
-
         #region IUnaryPlusOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int64 operator +(Vector4Int64 x) {
             return new Vector4Int64(+x.X, +x.Y, +x.Z, +x.W);
         }
-
         #endregion
-
         #region IUnarryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4Int64 operator -(Vector4Int64 x) {
             return new Vector4Int64(-x.X, -x.Y, -x.Z, -x.W);
         }
-
         #endregion
-
-        #region Conversion Operators
+        #region Conversion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -321,7 +319,6 @@ namespace Intar {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -365,9 +362,7 @@ namespace Intar {
             );
         }
         #endregion
-
         #region Min, Max, MaxComponent, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Min(Vector4Int64 other) {
             return new Vector4Int64(Math.Min(X, other.X), Math.Min(Y, other.Y), Math.Min(Z, other.Z), Math.Min(W, other.W));
@@ -382,26 +377,35 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Clamp(long min, long max) {
+
 #if NET5_0_OR_GREATER
+
             return new Vector4Int64(Math.Clamp(X, min, max), Math.Clamp(Y, min, max), Math.Clamp(Z, min, max), Math.Clamp(W, min, max));
+
 #else
+
             return new Vector4Int64(Mathi.Clamp(X, min, max), Mathi.Clamp(Y, min, max), Mathi.Clamp(Z, min, max), Mathi.Clamp(W, min, max));
+
 #endif
+
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Clamp(Vector4Int64 min, Vector4Int64 max) {
+
 #if NET5_0_OR_GREATER
+
             return new Vector4Int64(Math.Clamp(X, min.X, max.X), Math.Clamp(Y, min.Y, max.Y), Math.Clamp(Z, min.Z, max.Z), Math.Clamp(W, min.W, max.W));
+
 #else
+
             return new Vector4Int64(Mathi.Clamp(X, min.X, max.X), Mathi.Clamp(Y, min.Y, max.Y), Mathi.Clamp(Z, min.Z, max.Z), Mathi.Clamp(W, min.W, max.W));
+
 #endif
+
         }
-
         #endregion
-
         #region Half, Twice, ComponentsSum
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4Int64 Half() => new Vector4Int64(Mathi.Half(X), Mathi.Half(Y), Mathi.Half(Z), Mathi.Half(W));
 
@@ -410,10 +414,8 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal long ComponentsSum() => X + Y + Z + W;
-
         #endregion
-
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
+        #region BigMul, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
 
 #if NET7_0_OR_GREATER
 
@@ -461,7 +463,6 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region Overflowing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -493,13 +494,13 @@ namespace Intar {
         public Vector4Int64 WrappingAbs() {
             return new Vector4Int64(Overflowing.WrappingAbs(X), Overflowing.WrappingAbs(Y), Overflowing.WrappingAbs(Z), Overflowing.WrappingAbs(W));
         }
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 X0() => new Vector2Int64(X, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 X1() => new Vector2Int64(X, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 XX() => new Vector2Int64(X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 XY() => new Vector2Int64(X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 XZ() => new Vector2Int64(X, Z);
@@ -516,6 +517,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 WY() => new Vector2Int64(W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 WZ() => new Vector2Int64(W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2Int64 WW() => new Vector2Int64(W, W);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XY0() => new Vector3Int64(X, Y, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XY1() => new Vector3Int64(X, Y, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XXX() => new Vector3Int64(X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XXY() => new Vector3Int64(X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 XXZ() => new Vector3Int64(X, X, Z);
@@ -580,6 +583,8 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 WWY() => new Vector3Int64(W, W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 WWZ() => new Vector3Int64(W, W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3Int64 WWW() => new Vector3Int64(W, W, W);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XYZ0() => new Vector4Int64(X, Y, Z, 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XYZ1() => new Vector4Int64(X, Y, Z, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXXX() => new Vector4Int64(X, X, X, X);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXXY() => new Vector4Int64(X, X, X, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 XXXZ() => new Vector4Int64(X, X, X, Z);
@@ -836,8 +841,6 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 WWWY() => new Vector4Int64(W, W, W, Y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 WWWZ() => new Vector4Int64(W, W, W, Z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector4Int64 WWWW() => new Vector4Int64(W, W, W, W);
-
         #endregion
-
     }
 } // namespace Intar

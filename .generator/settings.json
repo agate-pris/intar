@@ -37,9 +37,21 @@
     "output_dest": [
         {
             "dir_path": "../{{ namespace }}",
+            "template_name": "Aabb.cs",
+            "files": [
+                {
+                    "file_name": "Aabb2I17F15.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}"
+                    }
+                }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}",
             "template_name": "AffineTransform.cs",
             "files": [
-                {%- for d in [3] %}
+                {%- for d in [2, 3] %}
                 {
                     "file_name": "AffineTransform{{ d }}I17F15.gen.cs",
                     "params": {
@@ -61,9 +73,26 @@
         },
         {
             "dir_path": "../{{ namespace }}/Geometry",
+            "template_name": "Box.cs",
+            "files": [
+                { "file_name": "Box2I17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}.Editor/Geometry",
+            "template_name": "BoxDrawer.cs",
+            "files": [
+                {
+                    "file_name": "Box2I17F15Drawer.gen.cs",
+                    "params": { "namespace": "{{ namespace }}" }
+                }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}/Geometry",
             "template_name": "Circle.cs",
             "files": [
-                { "file_name": "Circle2I17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+                { "file_name": "CircleI17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
             ]
         },
         {
@@ -118,15 +147,54 @@
             "dir_path": "../{{ namespace }}",
             "template_name": "Matrix.cs",
             "files": [
-                {%- for r in [3] %}
-                {%- for c in [3] %}
+                {%- for dim in [2, 3] %}
+                {%- set r = dim %}
+                {%- set c = dim %}
                 {%- for if in [1715, 230] %}
                 {%- for s in [true] %}
                 {%- set f = if % 100 %}
                 {%- set i = (if - f) / 100 %}
-                { "file_name": "Matrix{{ r }}x{{ c }}{% if s %}I{% else %}U{% endif %}{{ i }}F{{ f }}.gen.cs", "params": { "namespace": "{{ namespace }}", "rows": {{ r }}, "cols": {{ c }}, "signed": {{ s }}, "int_nbits": {{ i }}, "frac_nbits": {{ f }} } }
+                {
+                    "file_name": "Matrix{{ r }}x{{ c }}{% if s %}I{% else %}U{% endif %}{{ i }}F{{ f }}.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "rows": {{ r }},
+                        "cols": {{ c }},
+                        "signed": {{ s }},
+                        "int_nbits": {{ i }},
+                        "frac_nbits": {{ f }}
+                    }
+                }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}.Editor",
+            "template_name": "MatrixDrawer.cs",
+            "files": [
+                {%- for dim in [2, 3] %}
+                {%- set r = dim %}
+                {%- set c = dim %}
+                {%- for if in [1715, 230] %}
+                {%- for s in [true] %}
+                {%- set f = if % 100 %}
+                {%- set i = (if - f) / 100 %}
+                {
+                    "file_name": "Matrix{{ r }}x{{ c }}{% if s %}I{% else %}U{% endif %}{{ i }}F{{ f }}Drawer.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "rows": {{ r }},
+                        "cols": {{ c }},
+                        "signed": {{ s }},
+                        "int_nbits": {{ i }},
+                        "frac_nbits": {{ f }}
+                    }
+                }
                 {%- if not loop.last %},{% endif %}
                 {%- endfor %}
                 {%- if not loop.last %},{% endif %}
@@ -167,6 +235,16 @@
                         "int_nbits": 2,
                         "frac_nbits": 30
                     }
+                }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}/Geometry",
+            "template_name": "Segment.cs",
+            "files": [
+                {
+                    "file_name": "Segment2I17F15.gen.cs",
+                    "params": { "namespace": "{{ namespace }}" }
                 }
             ]
         },

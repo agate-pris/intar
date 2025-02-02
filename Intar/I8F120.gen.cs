@@ -6,35 +6,33 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct I8F120 : IEquatable<I8F120>, IFormattable {
-
         #region Consts
-
         public const int IntNbits = 8;
         public const int FracNbits = 120;
 
         internal static readonly Int128 MinRepr = Int128.MinValue;
         internal static readonly Int128 MaxRepr = Int128.MaxValue;
-        internal static readonly UInt128 MaxReprUnsigned = (UInt128)MaxRepr;
         internal static readonly Int128 EpsilonRepr = 1;
 
         internal static readonly Int128 OneRepr = (Int128)1 << FracNbits;
-
+        internal static readonly Int128 NegativeOneRepr = -OneRepr;
         #endregion
+        #region Bits
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public Int128 Bits;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
-        #region Constructor, FromBits
-
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         I8F120(Int128 bits) {
             Bits = bits;
@@ -42,10 +40,8 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I8F120 FromBits(Int128 bits) => new I8F120(bits);
-
         #endregion
-
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, NegativeOne, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -58,14 +54,12 @@ namespace Intar {
 
         public static readonly I8F120 Zero;
         public static readonly I8F120 One = new I8F120(OneRepr);
+        public static readonly I8F120 NegativeOne = new I8F120(NegativeOneRepr);
         public static readonly I8F120 MinValue = new I8F120(MinRepr);
         public static readonly I8F120 MaxValue = new I8F120(MaxRepr);
         internal static readonly I8F120 Epsilon = new I8F120(EpsilonRepr);
-
         #endregion
-
         #region IAdditionOperatos, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I8F120 operator +(I8F120 left, I8F120 right) {
             return FromBits(left.Bits + right.Bits);
@@ -75,32 +69,23 @@ namespace Intar {
         public static I8F120 operator -(I8F120 left, I8F120 right) {
             return FromBits(left.Bits - right.Bits);
         }
-
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I8F120 operator +(I8F120 x) => FromBits(+x.Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I8F120 operator -(I8F120 x) => FromBits(-x.Bits);
-
         #endregion
-
         #region IEqualityOperators, IComparisonOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(I8F120 left, I8F120 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(I8F120 left, I8F120 right) => left.Bits != right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(I8F120 left, I8F120 right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(I8F120 left, I8F120 right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I8F120 left, I8F120 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I8F120 left, I8F120 right) => left.Bits >= right.Bits;
-
         #endregion
-
         #region Object
-
         public override bool Equals(object obj) => obj is I8F120 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -108,27 +93,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ((double)this).ToString((IFormatProvider)null);
-
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(I8F120 other) => this == other;
-
         #endregion
-
         #region IFormattable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
-
         #endregion
-
         #region IComparable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(I8F120 value) {
             if (this < value) {
@@ -139,11 +115,8 @@ namespace Intar {
                 return 0;
             }
         }
-
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F120 Min(I8F120 other) => FromBits(Int128.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I8F120 Max(I8F120 other) => FromBits(Int128.Max(Bits, other.Bits));
 
@@ -151,11 +124,8 @@ namespace Intar {
         public I8F120 Clamp(I8F120 min, I8F120 max) {
             return FromBits(Int128.Clamp(Bits, min.Bits, max.Bits));
         }
-
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsNegative() => Bits < 0;
 
@@ -166,7 +136,6 @@ namespace Intar {
         public U8F120 UnsignedAbs() {
             return U8F120.FromBits(Mathi.UnsignedAbs(Bits));
         }
-
         #endregion
         #region AbsDiff
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -174,11 +143,22 @@ namespace Intar {
             return U8F120.FromBits(Mathi.AbsDiff(Bits, other.Bits));
         }
         #endregion
+        #region Half, Twice
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I8F120 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I8F120 Twice() => FromBits(Mathi.Twice(Bits));
-
+        #endregion
         #region BigMul
-
+        #endregion
+        #region Swizzling
+        public Vector2I8F120 X0() => Vector2I8F120.FromRepr(new Vector2Int128(Bits, 0));
+        public Vector2I8F120 X1() => Vector2I8F120.FromRepr(new Vector2Int128(Bits, OneRepr));
+        public Vector2I8F120 XX() => Vector2I8F120.FromRepr(new Vector2Int128(Bits, Bits));
+        public Vector3I8F120 XX0() => Vector3I8F120.FromRepr(new Vector3Int128(Bits, Bits, 0));
+        public Vector3I8F120 XX1() => Vector3I8F120.FromRepr(new Vector3Int128(Bits, Bits, OneRepr));
+        public Vector3I8F120 XXX() => Vector3I8F120.FromRepr(new Vector3Int128(Bits, Bits, Bits));
+        public Vector4I8F120 XXX0() => Vector4I8F120.FromRepr(new Vector4Int128(Bits, Bits, Bits, 0));
+        public Vector4I8F120 XXX1() => Vector4I8F120.FromRepr(new Vector4Int128(Bits, Bits, Bits, OneRepr));
+        public Vector4I8F120 XXXX() => Vector4I8F120.FromRepr(new Vector4Int128(Bits, Bits, Bits, Bits));
         #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
@@ -267,7 +247,6 @@ namespace Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない.
             return FromBits((Int128)(num * (double)OneRepr));
         }
-
         #endregion
         #region Conversion from fixed-point number
 
@@ -442,6 +421,7 @@ namespace Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
         #endregion
         #region Conversion to floating-point number
 
@@ -453,7 +433,6 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(I8F120 v) => (double)v.Bits / (double)OneRepr;
-
         #endregion
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です

@@ -90,9 +90,10 @@ namespace Intar {
             return new Vector2I4F60(repr);
         }
         #endregion
-        #region Zero, One, UnitX, UnitY
+        #region Zero, One, NegativeOne, UnitX, UnitY
         public static readonly Vector2I4F60 Zero = new Vector2I4F60(I4F60.Zero);
         public static readonly Vector2I4F60 One = new Vector2I4F60(I4F60.One);
+        public static readonly Vector2I4F60 NegativeOne = new Vector2I4F60(I4F60.NegativeOne);
         public static readonly Vector2I4F60 UnitX = new Vector2I4F60(I4F60.One, I4F60.Zero);
         public static readonly Vector2I4F60 UnitY = new Vector2I4F60(I4F60.Zero, I4F60.One);
         #endregion
@@ -102,8 +103,24 @@ namespace Intar {
             return new Vector2I4F60(a.Repr + b.Repr);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I4F60 operator +(I4F60 a, Vector2I4F60 b) {
+            return new Vector2I4F60(a.Bits + b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I4F60 operator +(Vector2I4F60 a, I4F60 b) {
+            return new Vector2I4F60(a.Repr + b.Bits);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I4F60 operator -(Vector2I4F60 a, Vector2I4F60 b) {
             return new Vector2I4F60(a.Repr - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I4F60 operator -(I4F60 a, Vector2I4F60 b) {
+            return new Vector2I4F60(a.Bits - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I4F60 operator -(Vector2I4F60 a, I4F60 b) {
+            return new Vector2I4F60(a.Repr - b.Bits);
         }
         #endregion
         #region IMultiplyOperators, IDivisionOperators
@@ -208,7 +225,26 @@ namespace Intar {
 
 #if NET7_0_OR_GREATER
 
-        #region Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region Determinant, Dot, LengthSquared, Length, DistanceSquared, Distance
+
+        /// <summary>
+        /// <para>Calculates the determinant of matrix.</para>
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2I4F60(I4F60.FromBits(1), I4F60.FromBits(2));
+        /// var b = new Vector2I4F60(I4F60.FromBits(3), I4F60.FromBits(4));
+        /// var c = a.Determinant(b);
+        /// Assert.AreEqual(I8F120.FromBits((int128)-2), c);
+        /// </code>
+        /// </example>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I8F120 Determinant(Vector2I4F60 other) {
+            var tmp = Repr.Determinant(other.Repr);
+            return I8F120.FromBits(tmp);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I8F120 Dot(Vector2I4F60 other) {
             return I8F120.FromBits(Repr.Dot(other.Repr));
@@ -288,10 +324,14 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XX() => Vector2I4F60.FromRepr(Repr.XX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XY() => Vector2I4F60.FromRepr(Repr.XY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YX() => Vector2I4F60.FromRepr(Repr.YX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YY() => Vector2I4F60.FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 X0() => FromRepr(Repr.X0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 X1() => FromRepr(Repr.X1());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XX() => FromRepr(Repr.XX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 XY() => FromRepr(Repr.XY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YX() => FromRepr(Repr.YX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I4F60 YY() => FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XY0() => Vector3I4F60.FromRepr(Repr.XY0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XY1() => Vector3I4F60.FromRepr(Repr.XY1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXX() => Vector3I4F60.FromRepr(Repr.XXX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XXY() => Vector3I4F60.FromRepr(Repr.XXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I4F60 XYX() => Vector3I4F60.FromRepr(Repr.XYX());

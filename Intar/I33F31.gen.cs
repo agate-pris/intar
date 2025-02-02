@@ -4,35 +4,33 @@ using System.Runtime.CompilerServices;
 namespace Intar {
     [Serializable]
     public struct I33F31 : IEquatable<I33F31>, IFormattable {
-
         #region Consts
-
         public const int IntNbits = 33;
         public const int FracNbits = 31;
 
         internal const long MinRepr = long.MinValue;
         internal const long MaxRepr = long.MaxValue;
-        internal const ulong MaxReprUnsigned = MaxRepr;
         internal const long EpsilonRepr = 1;
 
         internal const long OneRepr = 1L << FracNbits;
-
+        internal const long NegativeOneRepr = -OneRepr;
         #endregion
+        #region Bits
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+
         public long Bits;
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
+
         #endregion
-
-        #region Constructor, FromBits
-
+        #region Construction
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         I33F31(long bits) {
             Bits = bits;
@@ -40,10 +38,8 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 FromBits(long bits) => new I33F31(bits);
-
         #endregion
-
-        #region Zero, One, MinValue, MaxValue, Epsilon
+        #region Zero, One, NegativeOne, MinValue, MaxValue, Epsilon
 
         // > 14.5.6.2 Static field initialization
         // >
@@ -56,12 +52,11 @@ namespace Intar {
 
         public static readonly I33F31 Zero;
         public static readonly I33F31 One = new I33F31(OneRepr);
+        public static readonly I33F31 NegativeOne = new I33F31(NegativeOneRepr);
         public static readonly I33F31 MinValue = new I33F31(MinRepr);
         public static readonly I33F31 MaxValue = new I33F31(MaxRepr);
         internal static readonly I33F31 Epsilon = new I33F31(EpsilonRepr);
-
         #endregion
-
         #region WideBits
 
 #if NET7_0_OR_GREATER
@@ -74,9 +69,7 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IAdditionOperatos, ISubtractionOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 operator +(I33F31 left, I33F31 right) {
             return FromBits(left.Bits + right.Bits);
@@ -86,9 +79,7 @@ namespace Intar {
         public static I33F31 operator -(I33F31 left, I33F31 right) {
             return FromBits(left.Bits - right.Bits);
         }
-
         #endregion
-
         #region IMultiplicationOperators, IDivisionOperators
 
         // 128 ビット整数型は .NET 7 以降にしか無いので,
@@ -109,30 +100,22 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region IUnaryPlusOperators, IUnaryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 operator +(I33F31 x) => FromBits(+x.Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I33F31 operator -(I33F31 x) => FromBits(-x.Bits);
-
         #endregion
-
         #region IEqualityOperators, IComparisonOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator ==(I33F31 left, I33F31 right) => left.Bits == right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator !=(I33F31 left, I33F31 right) => left.Bits != right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <(I33F31 left, I33F31 right) => left.Bits < right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >(I33F31 left, I33F31 right) => left.Bits > right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator <=(I33F31 left, I33F31 right) => left.Bits <= right.Bits;
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator >=(I33F31 left, I33F31 right) => left.Bits >= right.Bits;
-
         #endregion
-
         #region Object
-
         public override bool Equals(object obj) => obj is I33F31 o && Equals(o);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -140,27 +123,18 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() => ((double)this).ToString((IFormatProvider)null);
-
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(I33F31 other) => this == other;
-
         #endregion
-
         #region IFormattable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToString(string format, IFormatProvider formatProvider) {
             return ((double)this).ToString(format, formatProvider);
         }
-
         #endregion
-
         #region IComparable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(I33F31 value) {
             if (this < value) {
@@ -171,11 +145,8 @@ namespace Intar {
                 return 0;
             }
         }
-
         #endregion
-
         #region Min, Max, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Min(I33F31 other) => FromBits(Math.Min(Bits, other.Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public I33F31 Max(I33F31 other) => FromBits(Math.Max(Bits, other.Bits));
 
@@ -187,11 +158,8 @@ namespace Intar {
             return FromBits(Mathi.Clamp(Bits, min.Bits, max.Bits));
 #endif
         }
-
         #endregion
-
         #region IsNegative, Abs, UnsignedAbs
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsNegative() => Bits < 0;
 
@@ -202,7 +170,6 @@ namespace Intar {
         public U33F31 UnsignedAbs() {
             return U33F31.FromBits(Mathi.UnsignedAbs(Bits));
         }
-
         #endregion
         #region AbsDiff
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -210,13 +177,12 @@ namespace Intar {
             return U33F31.FromBits(Mathi.AbsDiff(Bits, other.Bits));
         }
         #endregion
+        #region Half, Twice
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Half() => FromBits(Mathi.Half(Bits));
         [MethodImpl(MethodImplOptions.AggressiveInlining)] internal I33F31 Twice() => FromBits(Mathi.Twice(Bits));
-
-        #region BigMul
-
         #endregion
-
+        #region BigMul
+        #endregion
         #region Asin, Acos, Atan
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -260,9 +226,7 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 AtanP9() => AtanP9(Bits);
-
         #endregion
-
         #region Atan2
 
 #if NET7_0_OR_GREATER
@@ -291,7 +255,6 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-
         #region Sin, Cos
 
         /// <summary>
@@ -485,7 +448,6 @@ namespace Intar {
         /// <returns>余弦比</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F62 CosP11() => CosP11(Bits);
-
         #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
@@ -574,7 +536,6 @@ namespace Intar {
             // 基数 (Radix) が 2 の自然数冪でない限りない.
             return FromBits((long)(num * (double)OneRepr));
         }
-
         #endregion
         #region Conversion from fixed-point number
 
@@ -753,6 +714,7 @@ namespace Intar {
         }
 
 #endif // NET7_0_OR_GREATER
+
         #endregion
         #region Conversion to floating-point number
 
@@ -764,7 +726,6 @@ namespace Intar {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(I33F31 v) => (double)v.Bits / (double)OneRepr;
-
         #endregion
 
 #pragma warning restore CS0652 // 整数定数への比較は無意味です。定数が型の範囲外です

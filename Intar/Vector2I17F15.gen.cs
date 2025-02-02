@@ -84,9 +84,10 @@ namespace Intar {
             return new Vector2I17F15(repr);
         }
         #endregion
-        #region Zero, One, UnitX, UnitY
+        #region Zero, One, NegativeOne, UnitX, UnitY
         public static readonly Vector2I17F15 Zero = new Vector2I17F15(I17F15.Zero);
         public static readonly Vector2I17F15 One = new Vector2I17F15(I17F15.One);
+        public static readonly Vector2I17F15 NegativeOne = new Vector2I17F15(I17F15.NegativeOne);
         public static readonly Vector2I17F15 UnitX = new Vector2I17F15(I17F15.One, I17F15.Zero);
         public static readonly Vector2I17F15 UnitY = new Vector2I17F15(I17F15.Zero, I17F15.One);
         #endregion
@@ -96,8 +97,24 @@ namespace Intar {
             return new Vector2I17F15(a.Repr + b.Repr);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I17F15 operator +(I17F15 a, Vector2I17F15 b) {
+            return new Vector2I17F15(a.Bits + b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I17F15 operator +(Vector2I17F15 a, I17F15 b) {
+            return new Vector2I17F15(a.Repr + b.Bits);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2I17F15 operator -(Vector2I17F15 a, Vector2I17F15 b) {
             return new Vector2I17F15(a.Repr - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I17F15 operator -(I17F15 a, Vector2I17F15 b) {
+            return new Vector2I17F15(a.Bits - b.Repr);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2I17F15 operator -(Vector2I17F15 a, I17F15 b) {
+            return new Vector2I17F15(a.Repr - b.Bits);
         }
         #endregion
         #region IMultiplyOperators, IDivisionOperators
@@ -193,7 +210,26 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Vector2I17F15 Twice() => new Vector2I17F15(Repr.Twice());
         #endregion
-        #region Dot, LengthSquared, Length, DistanceSquared, Distance
+        #region Determinant, Dot, LengthSquared, Length, DistanceSquared, Distance
+
+        /// <summary>
+        /// <para>Calculates the determinant of matrix.</para>
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2I17F15(I17F15.FromBits(1), I17F15.FromBits(2));
+        /// var b = new Vector2I17F15(I17F15.FromBits(3), I17F15.FromBits(4));
+        /// var c = a.Determinant(b);
+        /// Assert.AreEqual(I34F30.FromBits(-2L), c);
+        /// </code>
+        /// </example>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public I34F30 Determinant(Vector2I17F15 other) {
+            var tmp = Repr.Determinant(other.Repr);
+            return I34F30.FromBits(tmp);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I34F30 Dot(Vector2I17F15 other) {
             return I34F30.FromBits(Repr.Dot(other.Repr));
@@ -313,10 +349,14 @@ namespace Intar {
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XX() => Vector2I17F15.FromRepr(Repr.XX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XY() => Vector2I17F15.FromRepr(Repr.XY());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YX() => Vector2I17F15.FromRepr(Repr.YX());
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YY() => Vector2I17F15.FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 X0() => FromRepr(Repr.X0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 X1() => FromRepr(Repr.X1());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XX() => FromRepr(Repr.XX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 XY() => FromRepr(Repr.XY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YX() => FromRepr(Repr.YX());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector2I17F15 YY() => FromRepr(Repr.YY());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XY0() => Vector3I17F15.FromRepr(Repr.XY0());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XY1() => Vector3I17F15.FromRepr(Repr.XY1());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXX() => Vector3I17F15.FromRepr(Repr.XXX());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XXY() => Vector3I17F15.FromRepr(Repr.XXY());
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public Vector3I17F15 XYX() => Vector3I17F15.FromRepr(Repr.XYX());

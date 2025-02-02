@@ -24,21 +24,25 @@ using System.Runtime.CompilerServices;
 namespace {{ namespace }} {
     [Serializable]
     public struct {{ vector }} : IEquatable<{{ vector }}> {
+        #region {% for c in components %}{{ c }}{% if not loop.last %}, {% endif %}{% endfor %}
 
-        #region Fields
 #if NET5_0_OR_GREATER
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #endif
+{# lf #}
         {%- for c in components %}
         public {{ component }} {{ c }};
         {%- endfor %}
+
 #if NET5_0_OR_GREATER
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 #endif
-        #endregion
 
+        #endregion
+        #region Conversion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator System.Numerics.Vector{{
             dim }}({{ vector }} a) {
             return new System.Numerics.Vector{{ dim }}(
@@ -50,6 +54,8 @@ namespace {{ namespace }} {
         }
 
 #if UNITY_5_3_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UnityEngine.Vector{{
             dim }}({{ vector }} a) {
             return new UnityEngine.Vector{{ dim }}(
@@ -59,9 +65,12 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-#endif
+
+#endif // UNITY_5_3_OR_NEWER
 
 #if UNITY_2018_1_OR_NEWER
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Unity.Mathematics.float{{
             dim }}({{ vector }} a) {
             return new Unity.Mathematics.float{{ dim }}(
@@ -71,8 +80,12 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-#endif
 
+#endif // UNITY_2018_1_OR_NEWER
+
+        #endregion
+        #region Construction
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }}(
             {%- for c in components %}
             {{- component }} {{ c | lower }}
@@ -83,7 +96,8 @@ namespace {{ namespace }} {
             {{ c }} = {{ c | lower }};
             {%- endfor %}
         }
-
+        #endregion
+        #region Indexer
         public {{ component }} this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get {
@@ -104,9 +118,8 @@ namespace {{ namespace }} {
                 }
             }
         }
-
+        #endregion
         #region IComparisonOperators, IEqualityOperators
-
         {%- for o in ['<', '>', '<=', '>=', '==', '!='] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -136,9 +149,7 @@ namespace {{ namespace }} {
             );
         }
         {%- endfor %}
-
         #endregion
-
         #region IShiftOperators
         {%- for o in ['<<', '>>', '>>>'] %}
         {%- if o == '>>>' %}
@@ -161,9 +172,7 @@ namespace {{ namespace }} {
         {%- endfor %}
 
         #endregion
-
         #region IEquatable
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals({{ vector }} other) {
             return
@@ -172,9 +181,7 @@ namespace {{ namespace }} {
             {%- endfor -%}
             ;
         }
-
         #endregion
-
         #region Object
 
         public override bool Equals(object obj) => obj is {{ vector }} o && Equals(o);
@@ -185,11 +192,8 @@ namespace {{ namespace }} {
             {%- if not loop.first %}, {% endif %}{{ c }}
             {%- endfor -%}
         );
-
         #endregion
-
         #region IAdditionOperators, ISubtractionOperators, IMultiplyOperators, IDivisionOperators
-
         {%- for o in ['+', '-', '*', '/'] %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -225,11 +229,8 @@ namespace {{ namespace }} {
             );
         }
         {%- endfor %}
-
         #endregion
-
         #region IUnaryPlusOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator +({{ vector }} x) {
             return new {{ vector }}(
@@ -239,14 +240,10 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-
         #endregion
-
         {#- 単項マイナス演算子は符号付きベクトル型に対してのみ定義する #}
         {%- if signed %}
-
         #region IUnarryNegationOperators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ vector }} operator -({{ vector }} x) {
             return new {{ vector }}(
@@ -256,11 +253,9 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-
         #endregion
         {%- endif %}
-
-        #region Conversion Operators
+        #region Conversion
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0004 // 不要なキャストの削除
@@ -300,7 +295,6 @@ namespace {{ namespace }} {
 #pragma warning restore IDE0079 // 不要な抑制を削除します
 
         #endregion
-
         #region IsNegative{% if signed %}, Abs, UnsignedAbs, IsNegativeAndUnsignedAbs{% endif %}, AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -311,7 +305,6 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-
         {%- if signed %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -343,11 +336,9 @@ namespace {{ namespace }} {
             );
             return (isNegative, unsignedAbs);
         }
-
         {%- else %}
 
         // 符号なしベクトル型に対しては Abs, UnsignedAbs は定義しない.
-
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -359,9 +350,7 @@ namespace {{ namespace }} {
             );
         }
         #endregion
-
         #region Min, Max, MaxComponent, Clamp
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Min({{ vector }} other) {
             return new {{ vector }}(
@@ -379,7 +368,6 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
-
         {%- if signed %}
 
         // MaxComponent は符号なしの場合のみ定義する。
@@ -407,20 +395,25 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
             {%- else %}
+
 #if NET5_0_OR_GREATER
+
             return new {{ vector }}(
                 {%- for c in components -%}
                 Math.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
                 {%- endfor -%}
             );
+
 #else
+
             return new {{ vector }}(
                 {%- for c in components -%}
                 Mathi.Clamp({{ c }}, min, max){% if not loop.last %}, {% endif %}
                 {%- endfor -%}
             );
+
 #endif
-            {%- endif %}
+{% endif %}
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -433,26 +426,28 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
             {%- else %}
+
 #if NET5_0_OR_GREATER
+
             return new {{ vector }}(
                 {%- for c in components -%}
                 Math.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
                 {%- endfor -%}
             );
+
 #else
+
             return new {{ vector }}(
                 {%- for c in components -%}
                 Mathi.Clamp({{ c }}, min.{{ c }}, max.{{ c }}){% if not loop.last %}, {% endif %}
                 {%- endfor -%}
             );
+
 #endif
-            {%- endif %}
+{% endif %}
         }
-
         #endregion
-
         #region Half, Twice, ComponentsSum
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ vector }} Half() => new {{ vector }}(
             {%- for c in components -%}
@@ -471,17 +466,16 @@ namespace {{ namespace }} {
         internal {{ component }} ComponentsSum() => {% for c in components -%}
             {{ c }}{% if not loop.last %} + {% endif %}
         {%- endfor %};
-
         #endregion
-
         {%- if bits < 128 %}
-
-        #region BigMul, Cross, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
+        #region BigMul{% if signed and dim == 3
+        %}, Cross{% endif %}{% if signed and dim == 2
+        %}, Determinant{% endif
+        %}, Dot, LengthSquared, Length, HalfLength, DistanceSquared, Distance
         {%- if bits > 32 %}
 
 #if NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ wide_vector }} BigMul({{ component }} other) {
             return ({{ wide_vector }})this * other;
@@ -499,6 +493,33 @@ namespace {{ namespace }} {
             // (a2) x (b2) = (a3b1 - a1b3)
             // (a3)   (b3)   (a1b2 - a2b1)
             return YZX().BigMul(other.ZXY()) - ZXY().BigMul(other.YZX());
+        }
+        {%- endif %}
+        {%- if signed and dim == 2 %}
+
+        /// <summary>
+        /// Calculates the determinant of matrix.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// var a = new Vector2Int32(1, 2);
+        /// var b = new Vector2Int32(3, 4);
+        /// var det = a.Determinant(b);
+        /// Assert.AreEqual(-2L, c);
+        /// </code>
+        /// </example>
+        /// <returns>Returns this.X * other.Y - other.X * this.Y.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ wide_component }} Determinant({{ vector }} other) {
+
+#pragma warning disable IDE0004 // 不要なキャストの削除
+
+            var l = ({{ wide_component }})X * ({{ wide_component }})other.Y;
+            var r = ({{ wide_component }})Y * ({{ wide_component }})other.X;
+            return l - r;
+
+#pragma warning restore IDE0004 // 不要なキャストの削除
+
         }
         {%- endif %}
 
@@ -544,11 +565,9 @@ namespace {{ namespace }} {
         {%- if bits > 32 %}
 
 #endif // NET7_0_OR_GREATER
-        {%- endif %}
-
+{% endif %}
         #endregion
         {%- endif %}
-
         #region Overflowing
         {%- for m in ['WrappingAdd', 'WrappingSub'] %}
 
@@ -606,19 +625,26 @@ namespace {{ namespace }} {
             );
         }
         {%- endif %}
-
         #endregion
-
         #region Swizzling
 
         // プロパティないしフィールドではないことを明示するためにメソッドとして定義
-{# 改行 #}
+{# lf #}
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_primitive(dim=2, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} X{{ e }}() => new {{ t }}(X, {{ e }});
+        {%- endfor %}
 
         {%- for x in components %}
         {%- for y in components %}
         {%- set t = macros::vector_primitive(dim=2, signed=signed, bits=bits) %}
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} {{ x }}{{ y }}() => new {{ t }}({{ x }}, {{ y }});
         {%- endfor %}
+        {%- endfor %}
+
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_primitive(dim=3, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} XY{{ e }}() => new {{ t }}(X, Y, {{ e }});
         {%- endfor %}
 
         {%- for x in components %}
@@ -630,6 +656,13 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
 
+        {%- if dim > 2 %}
+        {%- for e in [0, 1] %}
+        {%- set t = macros::vector_primitive(dim=4, signed=signed, bits=bits) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public {{ t }} XYZ{{ e }}() => new {{ t }}(X, Y, Z, {{ e }});
+        {%- endfor %}
+        {%- endif %}
+
         {%- for x in components %}
         {%- for y in components %}
         {%- for z in components %}
@@ -640,9 +673,7 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- endfor %}
         {%- endfor %}
-
         #endregion
-
     }
 } // namespace {{ namespace }}
 {%- if 64 < bits %}
