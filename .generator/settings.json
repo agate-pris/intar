@@ -73,6 +73,23 @@
         },
         {
             "dir_path": "../{{ namespace }}/Geometry",
+            "template_name": "Box.cs",
+            "files": [
+                { "file_name": "Box2I17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}.Editor/Geometry",
+            "template_name": "BoxDrawer.cs",
+            "files": [
+                {
+                    "file_name": "Box2I17F15Drawer.gen.cs",
+                    "params": { "namespace": "{{ namespace }}" }
+                }
+            ]
+        },
+        {
+            "dir_path": "../{{ namespace }}/Geometry",
             "template_name": "Circle.cs",
             "files": [
                 { "file_name": "CircleI17F15.gen.cs", "params": { "namespace": "{{ namespace }}" } }
