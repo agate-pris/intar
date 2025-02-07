@@ -16,12 +16,24 @@
 {%- endif %}
 {%- set segment_type = 'Segment' ~ dim ~ component %}
 {%- set type = 'Aabb' ~ dim ~ component -%}
+using System;
 using System.Runtime.CompilerServices;
 
+#if UNITY_5_3_OR_NEWER
+using UnityEngine;
+#endif // UNITY_5_3_OR_NEWER
+
 namespace {{ namespace }} {
+    [Serializable]
     public struct {{ type }} {
         #region min, max
+#if UNITY_5_3_OR_NEWER
+        [SerializeField]
+#endif // UNITY_5_3_OR_NEWER
         {{ vector }} min;
+#if UNITY_5_3_OR_NEWER
+        [SerializeField]
+#endif // UNITY_5_3_OR_NEWER
         {{ vector }} max;
         #endregion
         #region Min, Max
