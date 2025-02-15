@@ -24,18 +24,13 @@ namespace Intar.Editor {
         }
 
         internal static float Restore(uint bits) {
-            float f;
-            {
-                var sign = bits == 0 ? 0.0f : 0.5f;
-                f = bits * 100.0f / U17F15.OneRepr;
-                f = Mathf.Round(f + sign) / 100;
+            for (var scale = 1.0f; scale < (1 << 25); scale *= 10) {
+                var f = Mathf.Round(bits * scale / U17F15.OneRepr) / scale;
+                if (bits == ToBits(f)) {
+                    return f;
+                }
             }
-            uint i;
-            {
-                var tmp = f * U17F15.OneRepr;
-                i = (uint)tmp;
-            }
-            return bits == i ? f : (float)bits / U17F15.OneRepr;
+            return (float)bits / U17F15.OneRepr;
         }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
