@@ -1,9 +1,21 @@
+using System;
 using System.Runtime.CompilerServices;
 
+#if UNITY_5_3_OR_NEWER
+using UnityEngine;
+#endif // UNITY_5_3_OR_NEWER
+
 namespace Intar {
+    [Serializable]
     public struct Aabb2I17F15 {
         #region min, max
+#if UNITY_5_3_OR_NEWER
+        [SerializeField]
+#endif // UNITY_5_3_OR_NEWER
         Vector2I17F15 min;
+#if UNITY_5_3_OR_NEWER
+        [SerializeField]
+#endif // UNITY_5_3_OR_NEWER
         Vector2I17F15 max;
         #endregion
         #region Min, Max

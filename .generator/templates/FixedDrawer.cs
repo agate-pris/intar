@@ -28,22 +28,13 @@ namespace {{ namespace }}.Editor {
         }
 
         internal static float Restore({{ bits_type }} bits) {
-            float f;
-            {
-                {%- if signed %}
-                var sign = 0.5f * System.Math.Sign(bits);
-                {%- else %}
-                var sign = bits == 0 ? 0.0f : 0.5f;
-                {%- endif %}
-                f = bits * 100.0f / {{ type }}.OneRepr;
-                f = Mathf.Round(f + sign) / 100;
+            for (var scale = 1.0f; scale < (1 << 25); scale *= 10) {
+                var f = Mathf.Round(bits * scale / {{ type }}.OneRepr) / scale;
+                if (bits == ToBits(f)) {
+                    return f;
+                }
             }
-            {{ bits_type }} i;
-            {
-                var tmp = f * {{ type }}.OneRepr;
-                i = ({{ bits_type }})tmp;
-            }
-            return bits == i ? f : (float)bits / {{ type }}.OneRepr;
+            return (float)bits / {{ type }}.OneRepr;
         }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
