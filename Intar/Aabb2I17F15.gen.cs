@@ -116,6 +116,13 @@ namespace Intar {
             min = new Vector2I17F15(minX, minY);
             max = new Vector2I17F15(maxX, maxY);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Aabb2I17F15(Geometry.Box2I17F15 box) : this(
+            new Geometry.Segment2I17F15(box.P1, box.P2)
+        ) {
+            Encapsulate(box.P3);
+            Encapsulate(box.P4);
+        }
         #endregion
         #region EncapsulateX
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
