@@ -163,6 +163,18 @@ namespace Intar {
                 max.Y = p.Y;
             }
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.CircleI17F15 a) {
+            Encapsulate(new Aabb2I17F15(a));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.Segment2I17F15 a) {
+            Encapsulate(new Aabb2I17F15(a));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.Box2I17F15 a) {
+            Encapsulate(new Aabb2I17F15(a));
+        }
         #endregion
         #region Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
