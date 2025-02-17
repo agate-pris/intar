@@ -161,6 +161,18 @@ namespace {{ namespace }} {
             }
             {%- endfor %}
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.{{ circle_type }} a) {
+            Encapsulate(new {{ type }}(a));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.{{ segment_type }} a) {
+            Encapsulate(new {{ type }}(a));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.{{ box_type }} a) {
+            Encapsulate(new {{ type }}(a));
+        }
         #endregion
         #region Intersects
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
