@@ -15,6 +15,7 @@
 {{- throw(message='not implemented') }}
 {%- endif %}
 {%- set segment_type = 'Segment' ~ dim ~ component %}
+{%- set box_type = 'Box' ~ dim ~ component %}
 {%- set type = 'Aabb' ~ dim ~ component -%}
 using System;
 using System.Runtime.CompilerServices;
@@ -118,6 +119,19 @@ namespace {{ namespace }} {
                 {%- endfor -%}
             );
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public {{ type }}(Geometry.{{ box_type }} box) : this(
+            new Geometry.{{ segment_type }}(box.P1, box.P2)
+        ) {
+            {%- for i in range(start=3, end=5) %}
+            Encapsulate(box.P{{ i }});
+            {%- endfor %}
+            {%- if dim > 2 %}
+            {%- for i in range(start=5, end=9) %}
+            Encapsulate(box.P{{ i }});
+            {%- endfor %}
+            {%- endif %}
+        }
         #endregion
         {%- for com in components %}
         #region Encapsulate{{ com }}
@@ -146,6 +160,18 @@ namespace {{ namespace }} {
                 max.{{ c }} = p.{{ c }};
             }
             {%- endfor %}
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.{{ circle_type }} a) {
+            Encapsulate(new {{ type }}(a));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.{{ segment_type }} a) {
+            Encapsulate(new {{ type }}(a));
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Encapsulate(Geometry.{{ box_type }} a) {
+            Encapsulate(new {{ type }}(a));
         }
         #endregion
         #region Intersects
