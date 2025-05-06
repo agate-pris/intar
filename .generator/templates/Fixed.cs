@@ -337,8 +337,8 @@ namespace {{ namespace }} {
         {%- if int_nbits == 2 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ atan }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
-            return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
+        public static {{ self_type }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
+            return {{ self_type }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
         }
         {%- endif %}
 
