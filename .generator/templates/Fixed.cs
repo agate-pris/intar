@@ -321,7 +321,7 @@ namespace {{ namespace }} {
         {%- endfor %}
         #endregion
         {%- endif %}
-        {%- if bits < 128 %}
+        {%- if bits < 128 and int_nbits == 2 %}
         #region Atan2
         {%- if bits == 64 %}
 
@@ -333,18 +333,10 @@ namespace {{ namespace }} {
 
         {%- for order in [2, 3, 9] %}
         {%- if order > 3 and bits < 64 %}{% continue %}{% endif %}
-        {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
-        {%- if int_nbits == 2 %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
             return {{ self_type }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
-        }
-        {%- endif %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
-            return {{ atan }}.Atan2P{{ order }}(Bits, other.Bits);
         }
         {%- endfor %}
 

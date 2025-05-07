@@ -198,34 +198,6 @@ namespace Intar {
 #endif // NET7_0_OR_GREATER
 
         #endregion
-        #region Atan2
-
-#if NET7_0_OR_GREATER
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0002 // メンバー アクセスを単純化します
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 Atan2P2(I34F30 other) {
-            return I2F62.Atan2P2(Bits, other.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 Atan2P3(I34F30 other) {
-            return I2F62.Atan2P3(Bits, other.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 Atan2P9(I34F30 other) {
-            return I2F62.Atan2P9(Bits, other.Bits);
-        }
-
-#pragma warning restore IDE0002 // メンバー アクセスを単純化します
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
-#endif // NET7_0_OR_GREATER
-
-        #endregion
         #region Swizzling
         public Vector2I34F30 X0() => Vector2I34F30.FromRepr(new Vector2Int64(Bits, 0));
         public Vector2I34F30 X1() => Vector2I34F30.FromRepr(new Vector2Int64(Bits, OneRepr));
