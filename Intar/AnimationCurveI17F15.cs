@@ -26,10 +26,12 @@ namespace Intar {
 
     [Serializable]
     public struct KeyframeI17F15 {
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
         public I17F15 Time;
         public I17F15 Value;
         public I17F15 InTangent;
         public I17F15 OutTangent;
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #if false // 未実装
         public WeightedMode WeightedMode;
         public I17F15 InWeight;
@@ -126,8 +128,10 @@ namespace Intar {
         }
         #endregion
         #region PreWrapMode, PostWrapMode
+#pragma warning disable CA1051 // 参照可能なインスタンス フィールドを宣言しません
         public WrapMode PostWrapMode;
         public WrapMode PreWrapMode;
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
         #endregion
         #region Evaluate
         // 重み付きの場合、ニュートン法で解く必要がある。
