@@ -439,10 +439,10 @@ namespace {{ namespace }} {
                     } else if (y > -x) {
                         return AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
                     } else {
-                        return 0 - pi_4;
+                        return -pi_4;
                     }
                 } else {
-                    return 0 - pi_2;
+                    return -pi_2;
                 }
             } else if (y > 0) {
                 if (x < 0) {
