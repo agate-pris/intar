@@ -111,6 +111,11 @@ namespace Intar.Tests.Mathi {
             const int pi = 1 << 30;
             const double toReal = 1.0 / one;
             const double toRad = Math.PI / pi;
+
+            Utility.AssertAreEqual(0, atan(0));
+            Utility.AssertAreEqual(pi / 4, atan(1 << 15));
+            Utility.AssertAreEqual(-pi / 4, atan(-1 << 15));
+
             Utility.AssertAreEqual((pi / 2) - expectedHead[1], atan(int.MaxValue));
             Utility.AssertAreEqual(expectedHead[1] - (pi / 2), atan(int.MinValue));
             Utility.AssertAreEqual(Math.Atan(int.MaxValue * toReal), atan(int.MaxValue) * toRad, error);
@@ -156,10 +161,16 @@ namespace Intar.Tests.Mathi {
             const long pi = 1L << 62;
             const double toReal = 1.0 / one;
             const double toRad = Math.PI / pi;
+
+            Utility.AssertAreEqual(0, atan(0));
+            Utility.AssertAreEqual(pi / 4, atan(1L << 31));
+            Utility.AssertAreEqual(-pi / 4, atan(-1L << 31));
+
             Utility.AssertAreEqual((pi / 2) - expectedHead[1], atan(long.MaxValue));
             Utility.AssertAreEqual(expectedHead[1] - (pi / 2), atan(long.MinValue));
             Utility.AssertAreEqual(Math.Atan(long.MaxValue * toReal), atan(long.MaxValue) * toRad, error);
             Utility.AssertAreEqual(Math.Atan(long.MinValue * toReal), atan(long.MinValue) * toRad, error);
+
             {
                 for (var i = 0; i < expectedHead.Length; ++i) {
                     Console.WriteLine($"atan({i})={atan(i)}");
@@ -237,7 +248,7 @@ namespace Intar.Tests.Mathi {
                 4100842062, 4784315739, 5467789416, 6151263093,
             };
             var tail = new long[] {
-                1152938291486523392, 1152938290949644663,
+                1152921504606846976, 1152938290949644663,
                 1152938290412765934, 1152938289875887205,
                 1152938291486492120, 1152938290949613390,
                 1152938290412734660, 1152938289875855930,
@@ -271,6 +282,20 @@ namespace Intar.Tests.Mathi {
         static void TestAtan2(
             Func<int, int, int> atan2,
             Func<int, int> atan, double error) {
+            const int pi = 1 << 30;
+            const int pi_2 = pi / 2;
+            const int pi_4 = pi / 4;
+
+            Utility.AssertAreEqual(0, atan2(0, 0));
+            Utility.AssertAreEqual(0, atan2(0, 1));
+            Utility.AssertAreEqual(pi_2, atan2(1, 0));
+            Utility.AssertAreEqual(-pi_2, atan2(-1, 0));
+            Utility.AssertAreEqual(pi, atan2(0, -1));
+            Utility.AssertAreEqual(pi_4, atan2(1, 1));
+            Utility.AssertAreEqual(pi_4 + pi_2, atan2(1, -1));
+            Utility.AssertAreEqual(pi_4 - pi_2, atan2(-1, 1));
+            Utility.AssertAreEqual(pi_4 - pi, atan2(-1, -1));
+
             for (var i = 1; i <= 32768; ++i) {
                 const int k1 = 1 << 16;
                 const int k2 = -k1;
@@ -305,7 +330,6 @@ namespace Intar.Tests.Mathi {
                 Utility.AssertAreEqual(expected7, atan2(k2, p41), i);
                 Utility.AssertAreEqual(expected7, atan2(k2, p42), i);
             }
-            const int pi = 1 << 30;
             const double toRad = Math.PI / pi;
             var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
             var max = 0.0;
@@ -326,6 +350,19 @@ namespace Intar.Tests.Mathi {
             Func<long, long, long> atan2,
             Func<long, long> atan, double error) {
             const long pi = 1L << 62;
+            const long pi_2 = pi / 2;
+            const long pi_4 = pi / 4;
+
+            Utility.AssertAreEqual(0, atan2(0, 0));
+            Utility.AssertAreEqual(0, atan2(0, 1));
+            Utility.AssertAreEqual(pi_2, atan2(1, 0));
+            Utility.AssertAreEqual(-pi_2, atan2(-1, 0));
+            Utility.AssertAreEqual(pi, atan2(0, -1));
+            Utility.AssertAreEqual(pi_4, atan2(1, 1));
+            Utility.AssertAreEqual(pi_4 + pi_2, atan2(1, -1));
+            Utility.AssertAreEqual(pi_4 - pi_2, atan2(-1, 1));
+            Utility.AssertAreEqual(pi_4 - pi, atan2(-1, -1));
+
             for (var i = 1L; i <= 1L << 31; i += 1024) {
                 const long k1 = 1L << 32;
                 const long k2 = -k1;
