@@ -204,25 +204,6 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public I2F30 AtanP3() => AtanP3(Bits);
         #endregion
-        #region Atan2
-
-#pragma warning disable IDE0079 // 不要な抑制を削除します
-#pragma warning disable IDE0002 // メンバー アクセスを単純化します
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Atan2P2(I17F15 other) {
-            return I2F30.Atan2P2(Bits, other.Bits);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Atan2P3(I17F15 other) {
-            return I2F30.Atan2P3(Bits, other.Bits);
-        }
-
-#pragma warning restore IDE0002 // メンバー アクセスを単純化します
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-
-        #endregion
         #region Sin, Cos
 
         /// <summary>
