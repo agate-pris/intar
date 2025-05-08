@@ -351,10 +351,26 @@ namespace {{ namespace }} {
             const {{ t }} oneNeg = -one;
             const {{ t }} right = {{ one }} << {{ 2 * shift - 1 }};
             const {{ t }} rightNeg = -right;
+
+            // AtanInternal.P2 と AtanInternal.P3 は
+            // 0 < x かつ 0 < y かつ x = y の場合
+            // 厳密に PI / 4 に相当する値を返すが,
+            // ここでは AtanInternal.P9 とロジックを統一するため
+            // 厳密に y と x が等しいか否かを調べる.
+            // AtanInternal.P9 は厳密に PI / 4 に相当する値を返さないため,
+            // 必ず y と x が等しいか否かを調べる必要がある.
+            // if 文 1 つ分のオーバーヘッドは, これを許容する.
+            // 高頻度で y = x になる場合, 計算量の削減が期待できるかもしれないが,
+            // その削減分で if 文 1 つ分の増分を吸収できるかは不明.
+
             if (x < oneNeg) {
                 return rightNeg - AtanInternal.P{{ o }}(AtanInternal.Inv(x));
             } else if (x > one) {
                 return right - AtanInternal.P{{ o }}(AtanInternal.Inv(x));
+            } else if (x == oneNeg) {
+                return rightNeg / 2;
+            } else if (x == one) {
+                return right / 2;
             } else {
                 return AtanInternal.P{{ o }}(x);
             }
@@ -392,35 +408,64 @@ namespace {{ namespace }} {
         /// <returns>2 の {{ pi_shift }} 乗を PI とする逆正接</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ i }} Atan2P{{ o }}({{ i }} y, {{ i }} x) {
-            const {{ i }} straight = {{ one }} << {{ pi_shift }};
-            const {{ i }} right = straight / 2;
-            const {{ i }} rightNeg = -right;
+            const {{ i }} pi = {{ one }} << {{ pi_shift }};
+            const {{ i }} pi_2 = pi / 2;
+            const {{ i }} pi_4 = pi / 4;
+            const {{ i }} negativePi_2 = -pi_2;
+
+            // AtanInternal.P2 と AtanInternal.P3 は
+            // 0 < x かつ 0 < y かつ x = y の場合
+            // 厳密に PI / 4 に相当する値を返すが,
+            // ここでは AtanInternal.P9 とロジックを統一するため
+            // 厳密に y と x が等しいか否かを調べる.
+            // AtanInternal.P9 は厳密に PI / 4 に相当する値を返さないため,
+            // 必ず y と x が等しいか否かを調べる必要がある.
+            // if 文 1 つ分のオーバーヘッドは, これを許容する.
+            // 高頻度で y = x になる場合, 計算量の削減が期待できるかもしれないが,
+            // その削減分で if 文 1 つ分の増分を吸収できるかは不明.
+
             if (y < 0) {
                 if (x < 0) {
-                    return y < x
-                        ? rightNeg - AtanInternal.P{{ o }}(AtanInternal.Div(x, y))
-                        : AtanInternal.P{{ o }}(AtanInternal.Div(y, x)) - straight;
+                    if (y < x) {
+                        return negativePi_2 - AtanInternal.P{{ o }}(AtanInternal.Div(x, y));
+                    } else if (y > x) {
+                        return AtanInternal.P{{ o }}(AtanInternal.Div(y, x)) - pi;
+                    } else {
+                        return pi_4 - pi;
+                    }
                 } else if (x > 0) {
-                    return y < -x
-                        ? rightNeg - AtanInternal.P{{ o }}(AtanInternal.Div(x, y))
-                        : AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
+                    if (y < -x) {
+                        return negativePi_2 - AtanInternal.P{{ o }}(AtanInternal.Div(x, y));
+                    } else if (y > -x) {
+                        return AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
+                    } else {
+                        return 0 - pi_4;
+                    }
                 } else {
-                    return rightNeg;
+                    return 0 - pi_2;
                 }
             } else if (y > 0) {
                 if (x < 0) {
-                    return -y < x
-                        ? right - AtanInternal.P{{ o }}(AtanInternal.Div(x, y))
-                        : straight + AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
+                    if (-y < x) {
+                        return pi_2 - AtanInternal.P{{ o }}(AtanInternal.Div(x, y));
+                    } else if (-y > x) {
+                        return pi + AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
+                    } else {
+                        return pi - pi_4;
+                    }
                 } else if (x > 0) {
-                    return y > x
-                        ? right - AtanInternal.P{{ o }}(AtanInternal.Div(x, y))
-                        : AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
+                    if (y > x) {
+                        return pi_2 - AtanInternal.P{{ o }}(AtanInternal.Div(x, y));
+                    } else if (y < x) {
+                        return AtanInternal.P{{ o }}(AtanInternal.Div(y, x));
+                    } else {
+                        return pi_4;
+                    }
                 } else {
-                    return right;
+                    return pi_2;
                 }
             } else {
-                return x < 0 ? straight : 0;
+                return x < 0 ? pi : 0;
             }
         }
         {%- endfor %}
