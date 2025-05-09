@@ -383,6 +383,23 @@ namespace {{ namespace }} {
             }
             {%- endif %}
         }
+
+        {%- for f in fixed_list %}
+        {%- if f[0] + f[1] > bits %}{% continue %}{% endif %}
+
+        /// <summary>
+        {%- if int_nbits == 2 %}
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        {%- elif int_nbits - frac_nbits == 2 %}
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        {%- endif %}
+        /// </summary>
+        {%- set arg = macros::fixed_type(i=f[0], f=f[1], s=true) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} Atan2P{{ order }}({{ arg }} y, {{ arg }} x) {
+            return Atan2P{{ order }}(y.Bits, x.Bits);
+        }
+        {%- endfor %}
         {%- endfor %}
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
