@@ -213,19 +213,10 @@ namespace Intar {
         public static I2F62 AtanP2(long x) => I2F62.FromBits(Mathi.AtanP2(x));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AtanP2() => AtanP2(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 AtanP3(long x) => I2F62.FromBits(Mathi.AtanP3(x));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AtanP3() => AtanP3(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 AtanP9(long x) => I2F62.FromBits(Mathi.AtanP9(x));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AtanP9() => AtanP9(Bits);
         #endregion
         #region Sin, Cos
 

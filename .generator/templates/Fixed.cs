@@ -315,9 +315,6 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ atan }} AtanP{{ order }}({{ self_bits_type }} x) => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(x));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ atan }} AtanP{{ order }}() => AtanP{{ order }}(Bits);
         {%- endfor %}
         #endregion
         {%- endif %}
