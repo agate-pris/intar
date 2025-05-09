@@ -190,16 +190,25 @@ namespace Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 Atan2P2(long y, long x) {
             return I2F62.FromBits(Mathi.Atan2P2(y, x));
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 Atan2P3(long y, long x) {
             return I2F62.FromBits(Mathi.Atan2P3(y, x));
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 Atan2P9(long y, long x) {
             return I2F62.FromBits(Mathi.Atan2P9(y, x));

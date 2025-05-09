@@ -198,6 +198,103 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 AtanP3(int x) => I2F30.FromBits(Mathi.AtanP3(x));
         #endregion
+        #region Atan2
+
+#pragma warning disable IDE0079 // 不要な抑制を削除します
+#pragma warning disable IDE0002 // メンバー アクセスを単純化します
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P2(int y, int x) {
+            const int pi = 2 * OneRepr;
+            const int pi_4 = pi / 4;
+            if (y < 0) {
+                if (x < 0) {
+                    var bits = y < x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > x ? (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)) - pi
+                        : pi_4 - pi;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y < -x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > -x ? Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : -pi_4;
+                    return FromBits(bits);
+                } else {
+                    return NegativeOne;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    var bits = -y < x
+                        ? OneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : -y > x ? pi + (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2))
+                        : pi - pi_4;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y > x
+                        ? OneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y < x ? Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : pi_4;
+                    return FromBits(bits);
+                } else {
+                    return One;
+                }
+            } else {
+                return FromBits((x < 0) ? pi : 0);
+            }
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(int y, int x) {
+            const int pi = 2 * OneRepr;
+            const int pi_4 = pi / 4;
+            if (y < 0) {
+                if (x < 0) {
+                    var bits = y < x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > x ? (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)) - pi
+                        : pi_4 - pi;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y < -x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > -x ? Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : -pi_4;
+                    return FromBits(bits);
+                } else {
+                    return NegativeOne;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    var bits = -y < x
+                        ? OneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : -y > x ? pi + (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2))
+                        : pi - pi_4;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y > x
+                        ? OneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y < x ? Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : pi_4;
+                    return FromBits(bits);
+                } else {
+                    return One;
+                }
+            } else {
+                return FromBits((x < 0) ? pi : 0);
+            }
+        }
+
+#pragma warning restore IDE0002 // メンバー アクセスを単純化します
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+
+        #endregion
         #region Sin, Cos
 
         /// <summary>

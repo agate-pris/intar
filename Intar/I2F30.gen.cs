@@ -183,11 +183,17 @@ namespace Intar {
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 Atan2P2(int y, int x) {
             return I2F30.FromBits(Mathi.Atan2P2(y, x));
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 Atan2P3(int y, int x) {
             return I2F30.FromBits(Mathi.Atan2P3(y, x));

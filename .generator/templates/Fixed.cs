@@ -318,7 +318,8 @@ namespace {{ namespace }} {
         {%- endfor %}
         #endregion
         {%- endif %}
-        {%- if bits < 128 and int_nbits == 2 %}
+        {%- if bits < 128 %}
+        {%- if int_nbits == 2 or int_nbits - frac_nbits == 2 %}
         #region Atan2
         {%- if bits == 64 %}
 
@@ -331,9 +332,56 @@ namespace {{ namespace }} {
         {%- for order in [2, 3, 9] %}
         {%- if order > 3 and bits < 64 %}{% continue %}{% endif %}
 
+        /// <summary>
+        {%- if int_nbits == 2 %}
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        {%- elif int_nbits - frac_nbits == 2 %}
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        {%- endif %}
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
+            {%- if int_nbits == 2 %}
             return {{ self_type }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
+            {%- else %}
+            {{ const }} {{ self_bits_type }} pi = 2 * OneRepr;
+            {{ const }} {{ self_bits_type }} pi_4 = pi / 4;
+            if (y < 0) {
+                if (x < 0) {
+                    var bits = y < x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > x ? (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)) - pi
+                        : pi_4 - pi;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y < -x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > -x ? Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : -pi_4;
+                    return FromBits(bits);
+                } else {
+                    return NegativeOne;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    var bits = -y < x
+                        ? OneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : -y > x ? pi + (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2))
+                        : pi - pi_4;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y > x
+                        ? OneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y < x ? Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : pi_4;
+                    return FromBits(bits);
+                } else {
+                    return One;
+                }
+            } else {
+                return FromBits((x < 0) ? pi : 0);
+            }
+            {%- endif %}
         }
         {%- endfor %}
 
@@ -345,6 +393,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         #endregion
+        {%- endif %}
         {%- endif %}
         {%- endif %}
         {%- if signed and bits < 128 and int_nbits - frac_nbits ==  2 %}
