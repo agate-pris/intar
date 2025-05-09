@@ -192,22 +192,10 @@ namespace Intar {
         public static I2F62 AsinP3(long bits) => I2F62.FromBits(Mathi.AsinP3(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62 AcosP3() => AcosP3(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AsinP3() => AsinP3(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U2F62 AcosP7(long bits) => U2F62.FromBits(Mathi.AcosP7(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 AsinP7(long bits) => I2F62.FromBits(Mathi.AsinP7(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F62 AcosP7() => AcosP7(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F62 AsinP7() => AsinP7(Bits);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 AtanP2(long x) => I2F62.FromBits(Mathi.AtanP2(x));
