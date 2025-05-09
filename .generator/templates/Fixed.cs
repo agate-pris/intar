@@ -400,6 +400,22 @@ namespace {{ namespace }} {
             return Atan2P{{ order }}(y.Bits, x.Bits);
         }
         {%- endfor %}
+        {%- for v in vector_list %}
+        {%- if v[0] + v[1] > bits %}{% continue %}{% endif %}
+        {%- set arg = macros::vector_type(dim=2, type=macros::fixed_type(i=v[0], f=v[1], s=true)) %}
+
+        /// <summary>
+        {%- if int_nbits == 2 %}
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        {%- elif int_nbits - frac_nbits == 2 %}
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        {%- endif %}
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} Atan2P{{ order }}({{ arg }} v) {
+            return Atan2P{{ order }}(v.Y.Bits, v.X.Bits);
+        }
+        {%- endfor %}
         {%- endfor %}
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します

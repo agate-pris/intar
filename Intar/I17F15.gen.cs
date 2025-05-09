@@ -267,6 +267,22 @@ namespace Intar {
         /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P2(Vector2I17F15 v) {
+            return Atan2P2(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P2(Vector2I2F30 v) {
+            return Atan2P2(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I17F15 Atan2P3(int y, int x) {
             const int pi = 2 * OneRepr;
             const int pi_4 = pi / 4;
@@ -321,6 +337,22 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I17F15 Atan2P3(I2F30 y, I2F30 x) {
             return Atan2P3(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(Vector2I17F15 v) {
+            return Atan2P3(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(Vector2I2F30 v) {
+            return Atan2P3(v.Y.Bits, v.X.Bits);
         }
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
