@@ -196,13 +196,7 @@ namespace Intar {
         public static I2F30 AtanP2(int x) => I2F30.FromBits(Mathi.AtanP2(x));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AtanP2() => AtanP2(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 AtanP3(int x) => I2F30.FromBits(Mathi.AtanP3(x));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AtanP3() => AtanP3(Bits);
         #endregion
         #region Sin, Cos
 
