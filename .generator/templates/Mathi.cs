@@ -163,8 +163,8 @@ namespace {{ namespace }} {
         /// <summary>
         /// 逆正弦を近似する｡
         /// </summary>
-        /// <param name="x">2 の 15 乗を 1 とする正弦</param>
-        /// <returns>0 以上 π 以下の､ π を 2 の 31 乗で表した角度｡</returns>
+        /// <param name="x">2 の {{ p[1] / 2 - 1 }} 乗を 1 とする正弦</param>
+        /// <returns>0 以上 π 以下の､ π を 2 の {{ p[1] - 1 }} 乗で表した角度｡</returns>
         /// <remarks>
         /// <div class="CAUTION alert alert-info">
         /// <h5>Caution</h5>
