@@ -187,12 +187,6 @@ namespace Intar {
         public static I2F30 AsinP3(int bits) => I2F30.FromBits(Mathi.AsinP3(bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 AcosP3() => AcosP3(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AsinP3() => AsinP3(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 AtanP2(int x) => I2F30.FromBits(Mathi.AtanP2(x));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

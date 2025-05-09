@@ -300,12 +300,6 @@ namespace {{ namespace }} {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ asin }} AsinP{{ order }}({{ self_bits_type }} bits) => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ acos }} AcosP{{ order }}() => AcosP{{ order }}(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ asin }} AsinP{{ order }}() => AsinP{{ order }}(Bits);
         {%- endfor %}
         {%- for order in [2, 3, 9] %}
         {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
