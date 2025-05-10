@@ -286,31 +286,28 @@ namespace {{ namespace }} {
         {%- endfor %}
         #endregion
         {%- if signed %}
-        {%- if bits < 128 and int_nbits - frac_nbits ==  2 %}
-        #region Asin, Acos, Atan
+        {%- if bits < 128 %}
+        {%- if int_nbits == 2 %}
+        #region Asin, Atan
+        {%- set arg = macros::fixed_type(i=2+frac_nbits/2, f=frac_nbits/2, s=true) %}
         {%- for order in [3, 7] %}
         {%- if order > 3 and bits < 64 %}
             {%- continue %}
         {%- endif %}
-        {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
-        {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ acos }} AcosP{{ order }}({{ self_bits_type }} bits) => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ asin }} AsinP{{ order }}({{ self_bits_type }} bits) => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(bits));
+        public static {{ self_type }} AsinP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AsinP{{ order }}(x.Bits));
         {%- endfor %}
         {%- for order in [2, 3, 9] %}
-        {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
         {%- if order > 3 and bits < 64 %}
             {%- continue %}
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ atan }} AtanP{{ order }}({{ self_bits_type }} x) => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(x));
+        public static {{ self_type }} AtanP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AtanP{{ order }}(x.Bits));
         {%- endfor %}
         #endregion
+        {%- endif %}
         {%- endif %}
         {%- if bits < 128 %}
         {%- if int_nbits == 2 or int_nbits - frac_nbits == 2 %}
@@ -419,6 +416,22 @@ namespace {{ namespace }} {
 #endif // NET7_0_OR_GREATER
         {%- endif %}
 
+        #endregion
+        {%- endif %}
+        {%- endif %}
+        {%- else %}
+        {%- if bits < 128 %}
+        {%- if int_nbits == 2 %}
+        #region Acos
+        {%- set arg = macros::fixed_type(i=2+frac_nbits/2, f=frac_nbits/2, s=true) %}
+        {%- for order in [3, 7] %}
+        {%- if order > 3 and bits < 64 %}
+            {%- continue %}
+        {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} AcosP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AcosP{{ order }}(x.Bits));
+        {%- endfor %}
         #endregion
         {%- endif %}
         {%- endif %}
