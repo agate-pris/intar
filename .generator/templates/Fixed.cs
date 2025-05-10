@@ -289,7 +289,7 @@ namespace {{ namespace }} {
         {%- if bits < 128 and int_nbits - frac_nbits ==  2 %}
         #region Asin, Acos, Atan
         {%- for order in [3, 7] %}
-        {%- if order == 7 and int_nbits < 32 %}
+        {%- if order > 3 and bits < 64 %}
             {%- continue %}
         {%- endif %}
         {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
@@ -303,7 +303,7 @@ namespace {{ namespace }} {
         {%- endfor %}
         {%- for order in [2, 3, 9] %}
         {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
-        {%- if order == 9 and int_nbits < 32 %}
+        {%- if order > 3 and bits < 64 %}
             {%- continue %}
         {%- endif %}
 
