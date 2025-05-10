@@ -300,12 +300,14 @@ namespace {{ namespace }} {
                 var angle = ({{
                     macros::fixed_type(s=true, i=(int_nbits+frac_nbits)/2 + 1, f=(int_nbits+frac_nbits)/2 - 1)
                 }}){{
-                    macros::fixed_type(s=true, i=int_nbits+frac_nbits+1, f=int_nbits+frac_nbits-1)
+                    macros::fixed_type(s=false, i=2, f=2*int_nbits+2*frac_nbits-2)
                 }}.AcosP{%
                     if   int_nbits + frac_nbits == 32 %}3{%
                     elif int_nbits + frac_nbits == 64 %}7{%
                     else %}{{ throw(message='unimplemented') }}{%
-                    endif %}(({{ wide_bits }})d.Bits);
+                    endif %}(({{
+                        macros::fixed_type(s=true, i=int_nbits+frac_nbits+1, f=int_nbits+frac_nbits-1)
+                    }})d);
 
                 // 閾値が 0.0005 の場合 invSin の最大値は
                 // (1 - (1-0.0005)^2)^(-0.5)=31.6267301900746 となる.

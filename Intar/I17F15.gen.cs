@@ -178,20 +178,6 @@ namespace Intar {
             return I34F30.FromBits(Bits * other.Bits);
         }
         #endregion
-        #region Asin, Acos, Atan
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 AcosP3(int bits) => U2F30.FromBits(Mathi.AcosP3(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 AsinP3(int bits) => I2F30.FromBits(Mathi.AsinP3(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 AtanP2(int x) => I2F30.FromBits(Mathi.AtanP2(x));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 AtanP3(int x) => I2F30.FromBits(Mathi.AtanP3(x));
-        #endregion
         #region Atan2
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します

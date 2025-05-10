@@ -162,6 +162,11 @@ namespace Intar {
             return U4F60.FromBits(WideBits * other.WideBits);
         }
         #endregion
+        #region Acos
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F30 AcosP3(I17F15 x) => U2F30.FromBits(Mathi.AcosP3(x.Bits));
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 

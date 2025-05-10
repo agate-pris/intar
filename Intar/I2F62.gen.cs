@@ -183,6 +183,23 @@ namespace Intar {
         #endregion
         #region BigMul
         #endregion
+        #region Asin, Atan
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AsinP3(I33F31 x) => I2F62.FromBits(Mathi.AsinP3(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AsinP7(I33F31 x) => I2F62.FromBits(Mathi.AsinP7(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AtanP2(I33F31 x) => I2F62.FromBits(Mathi.AtanP2(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AtanP3(I33F31 x) => I2F62.FromBits(Mathi.AtanP3(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F62 AtanP9(I33F31 x) => I2F62.FromBits(Mathi.AtanP9(x.Bits));
+        #endregion
         #region Atan2
 
 #if NET7_0_OR_GREATER
