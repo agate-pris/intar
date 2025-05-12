@@ -2,17 +2,86 @@
 {%- set bits = int_nbits+frac_nbits %}
 {%- set bits_type  = macros::inttype(signed=signed, bits=bits) %}
 {%- set fixed = macros::fixed_type(s=signed, i=int_nbits, f=frac_nbits) %}
-{%- if bits > 32 -%}
+{%- if int_nbits - frac_nbits == 2 %}
+using Intar.Rand;
+{% endif %}
+{%- if bits > 32 and int_nbits - frac_nbits != 2 %}
 #if NET7_0_OR_GREATER
-
-{% endif -%}
+{% endif %}
 using NUnit.Framework;
 using System;
+{%- if bits > 32 and int_nbits - frac_nbits != 2 %}
+
+#endif // NET7_0_OR_GREATER
+{%- endif %}
 
 namespace {{ namespace }}.Tests {
     public class {{ fixed }}Test {
+        {%- if int_nbits - frac_nbits == 2 %}
+        {%- for arg_bits in fixed_list %}
+        {%- if arg_bits[0] - arg_bits[1] != 2 %}{% continue %}{% endif %}
+        {%- set arg = macros::fixed_type(i=arg_bits[0], f=arg_bits[1], s=true) %}
+        {%- for order in [3, 7] %}
+        {%- if order > 3 and arg_bits[0]+arg_bits[1] < 64 %}
+            {%- continue %}
+        {%- endif %}
+        {%- if frac_nbits > 2*arg_bits[1] %}
+            {%- continue %}
+        {%- endif %}
+
+        static void TestAsinP{{ order }}{{ arg }}({{ macros::inttype(signed=true, bits=arg_bits[0]+arg_bits[1]) }} x) {
+            var arg1 = {{ arg }}.FromBits(x);
+            var arg2 = -arg1;
+            var actual1 = {{ fixed }}.AsinP{{ order }}(arg1);
+            var actual2 = {{ fixed }}.AsinP{{ order }}(arg2);
+            var actual3 = {{ fixed }}.AcosP{{ order }}(arg1);
+            var actual4 = {{ fixed }}.AcosP{{ order }}(arg2);
+            Utility.AssertAreEqual(Math.Asin((double)arg1), Math.PI / 2 * (double)actual1, 2e-4);
+            Utility.AssertAreEqual(Math.Asin((double)arg2), Math.PI / 2 * (double)actual2, 2e-4);
+            Utility.AssertAreEqual(Math.Acos((double)arg1), Math.PI / 2 * (double)actual3, 2e-4);
+            Utility.AssertAreEqual(Math.Acos((double)arg2), Math.PI / 2 * (double)actual4, 2e-4);
+            if (actual1 != -actual2) {
+                Assert.AreEqual(actual1, -actual2, $"actual1.Bits:{actual1.Bits} actual2.Bits:{actual2.Bits}");
+            }
+            if ({{ fixed }}.One - actual1 != actual3) {
+                Assert.AreEqual({{ fixed }}.One - actual1, actual3, $"actual1.Bits:{actual1.Bits} actual3.Bits:{actual3.Bits}");
+            }
+            if ({{ fixed }}.One + actual1 != actual4) {
+                Assert.AreEqual({{ fixed }}.One + actual1, actual4, $"actual1.Bits:{actual1.Bits} actual4.Bits:{actual4.Bits}");
+            }
+        }
+
+        [Test]
+        public static void TestAsinP{{ order }}{{ arg }}() {
+            // Asin, Acos のテスト
+            // 引数の正負と Asin/Acos に対し,
+            // 戻り値の鏡面対称性をテストする.
+            {%- if arg_bits[0] + arg_bits[1] == 32 %}
+            // 32 ビットの場合, 0 から 1 まで全ての値をテストする.
+            for (var i = 0; i <= 32768; i++) {
+                TestAsinP{{ order }}{{ arg }}(i);
+            }
+            {%- else %}
+            // 64 ビットの場合, 最初の 10000 要素, 最後の 10000 要素,
+            // そしてランダムな 10000 要素をテストする.
+            var rng = new Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i <= 10000; i++) {
+                TestAsinP{{ order }}{{ arg }}(i);
+                TestAsinP{{ order }}{{ arg }}({{ arg }}.OneRepr - i);
+                TestAsinP{{ order }}{{ arg }}(rng.NextInt64(0, {{ arg }}.OneRepr));
+            }
+            {%- endif %}
+        }
+        {%- endfor %}{# order in [3, 7] #}
+        {%- endfor %}{# arg_bits in fixed_list #}
+        {%- endif %}
+{%- if bits > 32 %}
+
+#if NET7_0_OR_GREATER
+{%- endif %}
         {%- for order in [2, 3, 9] %}
         {%- if bits < 64 and order == 9 %}{% continue %}{% endif %}
+
         static void TestAtan2P{{ order }}({{ bits_type }} y, {{ bits_type }} x) {
             {%- if int_nbits == 2 %}
             const double scale = Math.PI;
@@ -138,9 +207,10 @@ namespace {{ namespace }}.Tests {
             }
         }
         {%- endfor %}
-    }
-} // namespace {{ namespace }}.Tests
 {%- if bits > 32 %}
 
 #endif // NET7_0_OR_GREATER
 {%- endif %}
+
+    }
+} // namespace {{ namespace }}.Tests
