@@ -1,8 +1,10 @@
+
 using NUnit.Framework;
 using System;
 
 namespace Intar.Tests {
     public class I2F30Test {
+
         static void TestAtan2P2(int y, int x) {
             const double scale = Math.PI;
             var negativeY = -y;
@@ -84,6 +86,7 @@ namespace Intar.Tests {
                 }
             }
         }
+
         static void TestAtan2P3(int y, int x) {
             const double scale = Math.PI;
             var negativeY = -y;
@@ -165,5 +168,6 @@ namespace Intar.Tests {
                 }
             }
         }
+
     }
 } // namespace Intar.Tests
