@@ -178,6 +178,110 @@ namespace Intar {
             return I34F30.FromBits(Bits * other.Bits);
         }
         #endregion
+        #region Asin, Acos
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 AcosP3(I17F15 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((uint)x.Bits);
+                    bits /= 1U << 15;
+                    return FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((uint)-x.Bits);
+                    bits /= 1U << 15;
+                    return FromBits(2 * OneRepr) - FromBits((int)bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 AsinP3(I17F15 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((uint)x.Bits);
+                    bits /= 1U << 15;
+                    return One - FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((uint)-x.Bits);
+                    bits /= 1U << 15;
+                    return FromBits((int)bits) - One;
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 AcosP3(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits(2 * OneRepr) - FromBits((int)bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 AsinP3(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return One - FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits) - One;
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 AcosP7(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P7((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P7((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits(2 * OneRepr) - FromBits((int)bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 AsinP7(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P7((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return One - FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P7((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits) - One;
+                }
+            }
+        }
+        #endregion
         #region Atan2
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します

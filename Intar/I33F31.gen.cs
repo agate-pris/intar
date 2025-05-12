@@ -183,6 +183,76 @@ namespace Intar {
         #endregion
         #region BigMul
         #endregion
+        #region Asin, Acos
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 AcosP3(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((ulong)x.Bits);
+                    bits /= 1UL << 31;
+                    return FromBits((long)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((ulong)-x.Bits);
+                    bits /= 1UL << 31;
+                    return FromBits(2 * OneRepr) - FromBits((long)bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 AsinP3(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((ulong)x.Bits);
+                    bits /= 1UL << 31;
+                    return One - FromBits((long)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((ulong)-x.Bits);
+                    bits /= 1UL << 31;
+                    return FromBits((long)bits) - One;
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 AcosP7(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P7((ulong)x.Bits);
+                    bits /= 1UL << 31;
+                    return FromBits((long)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P7((ulong)-x.Bits);
+                    bits /= 1UL << 31;
+                    return FromBits(2 * OneRepr) - FromBits((long)bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I33F31 AsinP7(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P7((ulong)x.Bits);
+                    bits /= 1UL << 31;
+                    return One - FromBits((long)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P7((ulong)-x.Bits);
+                    bits /= 1UL << 31;
+                    return FromBits((long)bits) - One;
+                }
+            }
+        }
+        #endregion
         #region Atan2
 
 #if NET7_0_OR_GREATER
