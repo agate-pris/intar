@@ -307,6 +307,79 @@ namespace {{ namespace }} {
         public static {{ self_type }} AtanP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AtanP{{ order }}(x.Bits));
         {%- endfor %}
         #endregion
+        {%- elif int_nbits - frac_nbits == 2 %}
+        #region Asin, Acos
+        {%- for fixed in fixed_list %}
+        {%- if fixed[0] - fixed[1] != 2 %}{% continue %}{% endif %}
+        {%- set arg = macros::fixed_type(i=fixed[0], f=fixed[1], s=true) %}
+        {%- for order in [3, 7] %}
+        {%- if order > 3 and fixed[0]+fixed[1] < 64 %}
+            {%- continue %}
+        {%- endif %}
+        {%- if frac_nbits > 2*fixed[1] %}
+            {%- continue %}
+        {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} AcosP{{ order }}({{ arg }} x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return FromBits(({{ self_bits_type }})bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})-x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return FromBits(2 * OneRepr) - FromBits(({{ self_bits_type }})bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} AsinP{{ order }}({{ arg }} x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return One - FromBits(({{ self_bits_type }})bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})-x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return FromBits(({{ self_bits_type }})bits) - One;
+                }
+            }
+        }
+        {%- endfor %}{# order in [3, 7] #}
+        {%- endfor %}{# fixed in fixed_list #}
+        #endregion
         {%- endif %}
         {%- endif %}
         {%- if bits < 128 %}

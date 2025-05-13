@@ -1,10 +1,88 @@
-#if NET7_0_OR_GREATER
+
+using Intar.Rand;
 
 using NUnit.Framework;
 using System;
 
 namespace Intar.Tests {
     public class I33F31Test {
+
+        static void TestAsinP3I33F31(long x) {
+            var arg1 = I33F31.FromBits(x);
+            var arg2 = -arg1;
+            var actual1 = I33F31.AsinP3(arg1);
+            var actual2 = I33F31.AsinP3(arg2);
+            var actual3 = I33F31.AcosP3(arg1);
+            var actual4 = I33F31.AcosP3(arg2);
+            Utility.AssertAreEqual(Math.Asin((double)arg1), Math.PI / 2 * (double)actual1, 2e-4);
+            Utility.AssertAreEqual(Math.Asin((double)arg2), Math.PI / 2 * (double)actual2, 2e-4);
+            Utility.AssertAreEqual(Math.Acos((double)arg1), Math.PI / 2 * (double)actual3, 2e-4);
+            Utility.AssertAreEqual(Math.Acos((double)arg2), Math.PI / 2 * (double)actual4, 2e-4);
+            if (actual1 != -actual2) {
+                Assert.AreEqual(actual1, -actual2, $"actual1.Bits:{actual1.Bits} actual2.Bits:{actual2.Bits}");
+            }
+            if (I33F31.One - actual1 != actual3) {
+                Assert.AreEqual(I33F31.One - actual1, actual3, $"actual1.Bits:{actual1.Bits} actual3.Bits:{actual3.Bits}");
+            }
+            if (I33F31.One + actual1 != actual4) {
+                Assert.AreEqual(I33F31.One + actual1, actual4, $"actual1.Bits:{actual1.Bits} actual4.Bits:{actual4.Bits}");
+            }
+        }
+
+        [Test]
+        public static void TestAsinP3I33F31() {
+            // Asin, Acos のテスト
+            // 引数の正負と Asin/Acos に対し,
+            // 戻り値の鏡面対称性をテストする.
+            // 64 ビットの場合, 最初の 10000 要素, 最後の 10000 要素,
+            // そしてランダムな 10000 要素をテストする.
+            var rng = new Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i <= 10000; i++) {
+                TestAsinP3I33F31(i);
+                TestAsinP3I33F31(I33F31.OneRepr - i);
+                TestAsinP3I33F31(rng.NextInt64(0, I33F31.OneRepr));
+            }
+        }
+
+        static void TestAsinP7I33F31(long x) {
+            var arg1 = I33F31.FromBits(x);
+            var arg2 = -arg1;
+            var actual1 = I33F31.AsinP7(arg1);
+            var actual2 = I33F31.AsinP7(arg2);
+            var actual3 = I33F31.AcosP7(arg1);
+            var actual4 = I33F31.AcosP7(arg2);
+            Utility.AssertAreEqual(Math.Asin((double)arg1), Math.PI / 2 * (double)actual1, 2e-4);
+            Utility.AssertAreEqual(Math.Asin((double)arg2), Math.PI / 2 * (double)actual2, 2e-4);
+            Utility.AssertAreEqual(Math.Acos((double)arg1), Math.PI / 2 * (double)actual3, 2e-4);
+            Utility.AssertAreEqual(Math.Acos((double)arg2), Math.PI / 2 * (double)actual4, 2e-4);
+            if (actual1 != -actual2) {
+                Assert.AreEqual(actual1, -actual2, $"actual1.Bits:{actual1.Bits} actual2.Bits:{actual2.Bits}");
+            }
+            if (I33F31.One - actual1 != actual3) {
+                Assert.AreEqual(I33F31.One - actual1, actual3, $"actual1.Bits:{actual1.Bits} actual3.Bits:{actual3.Bits}");
+            }
+            if (I33F31.One + actual1 != actual4) {
+                Assert.AreEqual(I33F31.One + actual1, actual4, $"actual1.Bits:{actual1.Bits} actual4.Bits:{actual4.Bits}");
+            }
+        }
+
+        [Test]
+        public static void TestAsinP7I33F31() {
+            // Asin, Acos のテスト
+            // 引数の正負と Asin/Acos に対し,
+            // 戻り値の鏡面対称性をテストする.
+            // 64 ビットの場合, 最初の 10000 要素, 最後の 10000 要素,
+            // そしてランダムな 10000 要素をテストする.
+            var rng = new Xoroshiro128StarStar(1, 2);
+            for (var i = 0; i <= 10000; i++) {
+                TestAsinP7I33F31(i);
+                TestAsinP7I33F31(I33F31.OneRepr - i);
+                TestAsinP7I33F31(rng.NextInt64(0, I33F31.OneRepr));
+            }
+        }
+
+#if NET7_0_OR_GREATER
+
         static void TestAtan2P2(long y, long x) {
             const double scale = Math.PI / 2;
             var negativeY = -y;
@@ -85,6 +163,7 @@ namespace Intar.Tests {
                 }
             }
         }
+
         static void TestAtan2P3(long y, long x) {
             const double scale = Math.PI / 2;
             var negativeY = -y;
@@ -165,6 +244,7 @@ namespace Intar.Tests {
                 }
             }
         }
+
         static void TestAtan2P9(long y, long x) {
             const double scale = Math.PI / 2;
             var negativeY = -y;
@@ -245,7 +325,8 @@ namespace Intar.Tests {
                 }
             }
         }
-    }
-} // namespace Intar.Tests
 
 #endif // NET7_0_OR_GREATER
+
+    }
+} // namespace Intar.Tests

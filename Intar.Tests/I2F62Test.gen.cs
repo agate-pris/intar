@@ -1,10 +1,16 @@
+
 #if NET7_0_OR_GREATER
 
 using NUnit.Framework;
 using System;
 
+#endif // NET7_0_OR_GREATER
+
 namespace Intar.Tests {
     public class I2F62Test {
+
+#if NET7_0_OR_GREATER
+
         static void TestAtan2P2(long y, long x) {
             const double scale = Math.PI;
             var negativeY = -y;
@@ -86,6 +92,7 @@ namespace Intar.Tests {
                 }
             }
         }
+
         static void TestAtan2P3(long y, long x) {
             const double scale = Math.PI;
             var negativeY = -y;
@@ -167,6 +174,7 @@ namespace Intar.Tests {
                 }
             }
         }
+
         static void TestAtan2P9(long y, long x) {
             const double scale = Math.PI;
             var negativeY = -y;
@@ -248,7 +256,8 @@ namespace Intar.Tests {
                 }
             }
         }
-    }
-} // namespace Intar.Tests
 
 #endif // NET7_0_OR_GREATER
+
+    }
+} // namespace Intar.Tests
