@@ -296,7 +296,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} AsinP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AsinP{{ order }}(x.Bits));
+        public static {{ self_type }} AsinP{{ order }}({{ arg }} x) => FromBits(Mathi.AsinP{{ order }}(x.Bits));
         {%- endfor %}
         {%- for order in [2, 3, 9] %}
         {%- if order > 3 and bits < 64 %}
@@ -304,7 +304,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} AtanP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AtanP{{ order }}(x.Bits));
+        public static {{ self_type }} AtanP{{ order }}({{ arg }} x) => FromBits(Mathi.AtanP{{ order }}(x.Bits));
         {%- endfor %}
         #endregion
         {%- elif int_nbits - frac_nbits == 2 %}
@@ -406,7 +406,7 @@ namespace {{ namespace }} {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ self_type }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
             {%- if int_nbits == 2 %}
-            return {{ self_type }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
+            return FromBits(Mathi.Atan2P{{ order }}(y, x));
             {%- else %}
             {{ const }} {{ self_bits_type }} pi = 2 * OneRepr;
             {{ const }} {{ self_bits_type }} pi_4 = pi / 4;
@@ -503,7 +503,7 @@ namespace {{ namespace }} {
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ self_type }} AcosP{{ order }}({{ arg }} x) => {{ self_type }}.FromBits(Mathi.AcosP{{ order }}(x.Bits));
+        public static {{ self_type }} AcosP{{ order }}({{ arg }} x) => FromBits(Mathi.AcosP{{ order }}(x.Bits));
         {%- endfor %}
         #endregion
         {%- endif %}

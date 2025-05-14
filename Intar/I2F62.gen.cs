@@ -186,19 +186,19 @@ namespace Intar {
         #region Asin, Atan
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 AsinP3(I33F31 x) => I2F62.FromBits(Mathi.AsinP3(x.Bits));
+        public static I2F62 AsinP3(I33F31 x) => FromBits(Mathi.AsinP3(x.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 AsinP7(I33F31 x) => I2F62.FromBits(Mathi.AsinP7(x.Bits));
+        public static I2F62 AsinP7(I33F31 x) => FromBits(Mathi.AsinP7(x.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 AtanP2(I33F31 x) => I2F62.FromBits(Mathi.AtanP2(x.Bits));
+        public static I2F62 AtanP2(I33F31 x) => FromBits(Mathi.AtanP2(x.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 AtanP3(I33F31 x) => I2F62.FromBits(Mathi.AtanP3(x.Bits));
+        public static I2F62 AtanP3(I33F31 x) => FromBits(Mathi.AtanP3(x.Bits));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F62 AtanP9(I33F31 x) => I2F62.FromBits(Mathi.AtanP9(x.Bits));
+        public static I2F62 AtanP9(I33F31 x) => FromBits(Mathi.AtanP9(x.Bits));
         #endregion
         #region Atan2
 
@@ -212,7 +212,7 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 Atan2P2(long y, long x) {
-            return I2F62.FromBits(Mathi.Atan2P2(y, x));
+            return FromBits(Mathi.Atan2P2(y, x));
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 Atan2P3(long y, long x) {
-            return I2F62.FromBits(Mathi.Atan2P3(y, x));
+            return FromBits(Mathi.Atan2P3(y, x));
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace Intar {
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F62 Atan2P9(long y, long x) {
-            return I2F62.FromBits(Mathi.Atan2P9(y, x));
+            return FromBits(Mathi.Atan2P9(y, x));
         }
 
         /// <summary>
