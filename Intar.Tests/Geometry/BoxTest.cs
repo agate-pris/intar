@@ -120,8 +120,7 @@ namespace Intar.Tests.Geometry {
                 var intersections = new Vector2I17F15[] {
                     Vector2I17F15.UnitX, -Vector2I17F15.UnitX,
                 };
-                var disjoints = new Vector2I17F15[] {
-                };
+                var disjoints = System.Array.Empty<Vector2I17F15>();
                 foreach (var box in boxes) {
                     foreach (var intersection in intersections) {
                         if (!box.Intersects(intersection)) { Assert.Fail(); }

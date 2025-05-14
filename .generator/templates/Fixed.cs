@@ -286,42 +286,104 @@ namespace {{ namespace }} {
         {%- endfor %}
         #endregion
         {%- if signed %}
-        {%- if bits < 128 and int_nbits - frac_nbits ==  2 %}
-        #region Asin, Acos, Atan
+        {%- if bits < 128 %}
+        {%- if int_nbits == 2 %}
+        #region Asin, Atan
+        {%- set arg = macros::fixed_type(i=2+frac_nbits/2, f=frac_nbits/2, s=true) %}
         {%- for order in [3, 7] %}
-        {%- if order == 7 and int_nbits < 32 %}
+        {%- if order > 3 and bits < 64 %}
             {%- continue %}
         {%- endif %}
-        {%- set acos = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=false) %}
-        {%- set asin = macros::fixed_type(i=int_nbits-frac_nbits, f=2*frac_nbits, s=true ) %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ acos }} AcosP{{ order }}({{ self_bits_type }} bits) => {{ acos }}.FromBits(Mathi.AcosP{{ order }}(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ asin }} AsinP{{ order }}({{ self_bits_type }} bits) => {{ asin }}.FromBits(Mathi.AsinP{{ order }}(bits));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ acos }} AcosP{{ order }}() => AcosP{{ order }}(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ asin }} AsinP{{ order }}() => AsinP{{ order }}(Bits);
+        public static {{ self_type }} AsinP{{ order }}({{ arg }} x) => FromBits(Mathi.AsinP{{ order }}(x.Bits));
         {%- endfor %}
         {%- for order in [2, 3, 9] %}
-        {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
-        {%- if order == 9 and int_nbits < 32 %}
+        {%- if order > 3 and bits < 64 %}
             {%- continue %}
         {%- endif %}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ atan }} AtanP{{ order }}({{ self_bits_type }} x) => {{ atan }}.FromBits(Mathi.AtanP{{ order }}(x));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ atan }} AtanP{{ order }}() => AtanP{{ order }}(Bits);
+        public static {{ self_type }} AtanP{{ order }}({{ arg }} x) => FromBits(Mathi.AtanP{{ order }}(x.Bits));
         {%- endfor %}
         #endregion
+        {%- elif int_nbits - frac_nbits == 2 %}
+        #region Asin, Acos
+        {%- for fixed in fixed_list %}
+        {%- if fixed[0] - fixed[1] != 2 %}{% continue %}{% endif %}
+        {%- set arg = macros::fixed_type(i=fixed[0], f=fixed[1], s=true) %}
+        {%- for order in [3, 7] %}
+        {%- if order > 3 and fixed[0]+fixed[1] < 64 %}
+            {%- continue %}
+        {%- endif %}
+        {%- if frac_nbits > 2*fixed[1] %}
+            {%- continue %}
+        {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} AcosP{{ order }}({{ arg }} x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return FromBits(({{ self_bits_type }})bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})-x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return FromBits(2 * OneRepr) - FromBits(({{ self_bits_type }})bits);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} AsinP{{ order }}({{ arg }} x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return One - FromBits(({{ self_bits_type }})bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P{{ order }}(({{
+                        macros::inttype(
+                            bits=fixed[0]+fixed[1], signed=false
+                        )
+                    }})-x.Bits);
+                    bits /= {{ macros::one(
+                        bits=fixed[0]+fixed[1], signed=false
+                    ) }} << {{ 2*fixed[1] - frac_nbits }};
+                    return FromBits(({{ self_bits_type }})bits) - One;
+                }
+            }
+        }
+        {%- endfor %}{# order in [3, 7] #}
+        {%- endfor %}{# fixed in fixed_list #}
+        #endregion
+        {%- endif %}
         {%- endif %}
         {%- if bits < 128 %}
+        {%- if int_nbits == 2 or int_nbits - frac_nbits == 2 %}
         #region Atan2
         {%- if bits == 64 %}
 
@@ -333,19 +395,91 @@ namespace {{ namespace }} {
 
         {%- for order in [2, 3, 9] %}
         {%- if order > 3 and bits < 64 %}{% continue %}{% endif %}
-        {%- set atan = macros::fixed_type(i=2, f=bits-2, s=true) %}
+
+        /// <summary>
         {%- if int_nbits == 2 %}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static {{ atan }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
-            return {{ atan }}.FromBits(Mathi.Atan2P{{ order }}(y, x));
-        }
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        {%- elif int_nbits - frac_nbits == 2 %}
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
         {%- endif %}
-
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ atan }} Atan2P{{ order }}({{ self_type }} other) {
-            return {{ atan }}.Atan2P{{ order }}(Bits, other.Bits);
+        public static {{ self_type }} Atan2P{{ order }}({{ self_bits_type }} y, {{ self_bits_type }} x) {
+            {%- if int_nbits == 2 %}
+            return FromBits(Mathi.Atan2P{{ order }}(y, x));
+            {%- else %}
+            {{ const }} {{ self_bits_type }} pi = 2 * OneRepr;
+            {{ const }} {{ self_bits_type }} pi_4 = pi / 4;
+            if (y < 0) {
+                if (x < 0) {
+                    var bits = y < x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > x ? (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)) - pi
+                        : pi_4 - pi;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y < -x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > -x ? Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : -pi_4;
+                    return FromBits(bits);
+                } else {
+                    return NegativeOne;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    var bits = -y < x
+                        ? OneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : -y > x ? pi + (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2))
+                        : pi - pi_4;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y > x
+                        ? OneRepr - (Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y < x ? Mathi.AtanInternal.P{{ order }}(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : pi_4;
+                    return FromBits(bits);
+                } else {
+                    return One;
+                }
+            } else {
+                return FromBits((x < 0) ? pi : 0);
+            }
+            {%- endif %}
         }
+
+        {%- for f in fixed_list %}
+        {%- if f[0] + f[1] > bits %}{% continue %}{% endif %}
+
+        /// <summary>
+        {%- if int_nbits == 2 %}
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        {%- elif int_nbits - frac_nbits == 2 %}
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        {%- endif %}
+        /// </summary>
+        {%- set arg = macros::fixed_type(i=f[0], f=f[1], s=true) %}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} Atan2P{{ order }}({{ arg }} y, {{ arg }} x) {
+            return Atan2P{{ order }}(y.Bits, x.Bits);
+        }
+        {%- endfor %}
+        {%- for v in vector_list %}
+        {%- if v[0] + v[1] > bits %}{% continue %}{% endif %}
+        {%- set arg = macros::vector_type(dim=2, type=macros::fixed_type(i=v[0], f=v[1], s=true)) %}
+
+        /// <summary>
+        {%- if int_nbits == 2 %}
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        {%- elif int_nbits - frac_nbits == 2 %}
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        {%- endif %}
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} Atan2P{{ order }}({{ arg }} v) {
+            return Atan2P{{ order }}(v.Y.Bits, v.X.Bits);
+        }
+        {%- endfor %}
         {%- endfor %}
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します
@@ -356,6 +490,23 @@ namespace {{ namespace }} {
         {%- endif %}
 
         #endregion
+        {%- endif %}
+        {%- endif %}
+        {%- else %}
+        {%- if bits < 128 %}
+        {%- if int_nbits == 2 %}
+        #region Acos
+        {%- set arg = macros::fixed_type(i=2+frac_nbits/2, f=frac_nbits/2, s=true) %}
+        {%- for order in [3, 7] %}
+        {%- if order > 3 and bits < 64 %}
+            {%- continue %}
+        {%- endif %}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ self_type }} AcosP{{ order }}({{ arg }} x) => FromBits(Mathi.AcosP{{ order }}(x.Bits));
+        {%- endfor %}
+        #endregion
+        {%- endif %}
         {%- endif %}
         {%- endif %}
         {%- if signed and bits < 128 and int_nbits - frac_nbits ==  2 %}

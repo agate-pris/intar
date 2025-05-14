@@ -167,6 +167,14 @@ namespace Intar {
         #endregion
         #region BigMul
         #endregion
+        #region Acos
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F62 AcosP3(I33F31 x) => FromBits(Mathi.AcosP3(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static U2F62 AcosP7(I33F31 x) => FromBits(Mathi.AcosP7(x.Bits));
+        #endregion
 
         // コード生成の簡単のため、冗長なキャストを許容する。
 

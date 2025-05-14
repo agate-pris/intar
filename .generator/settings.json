@@ -109,6 +109,26 @@
             ]
         },
         {
+            "dir_path": "../{{ namespace }}.Tests",
+            "template_name": "FixedTest.cs",
+            "files": [
+                {%- for f in [fixed_1, fixed_2, fixed_4, fixed_6] %}
+                {
+                    "file_name": "I{{ f[0] }}F{{ f[1] }}Test.gen.cs",
+                    "params": {
+                        "namespace": "{{ namespace }}",
+                        "signed": true,
+                        "int_nbits": {{ f[0] }},
+                        "frac_nbits": {{ f[1] }},
+                        "fixed_list": {{ fixed_list | json_encode() }},
+                        "vector_list": {{ vector_list | json_encode() }}
+                    }
+                }
+                {%- if not loop.last %},{% endif %}
+                {%- endfor %}
+            ]
+        },
+        {
             "dir_path": "../{{ namespace }}.Editor",
             "template_name": "FixedDrawer.cs",
             "files": [

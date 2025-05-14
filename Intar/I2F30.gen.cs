@@ -178,29 +178,100 @@ namespace Intar {
             return I4F60.FromBits(Bits * other.Bits);
         }
         #endregion
+        #region Asin, Atan
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 AsinP3(I17F15 x) => FromBits(Mathi.AsinP3(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 AtanP2(I17F15 x) => FromBits(Mathi.AtanP2(x.Bits));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 AtanP3(I17F15 x) => FromBits(Mathi.AtanP3(x.Bits));
+        #endregion
         #region Atan2
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 Atan2P2(int y, int x) {
-            return I2F30.FromBits(Mathi.Atan2P2(y, x));
+            return FromBits(Mathi.Atan2P2(y, x));
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Atan2P2(I2F30 other) {
-            return I2F30.Atan2P2(Bits, other.Bits);
+        public static I2F30 Atan2P2(I17F15 y, I17F15 x) {
+            return Atan2P2(y.Bits, x.Bits);
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P2(I2F30 y, I2F30 x) {
+            return Atan2P2(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P2(Vector2I17F15 v) {
+            return Atan2P2(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P2(Vector2I2F30 v) {
+            return Atan2P2(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static I2F30 Atan2P3(int y, int x) {
-            return I2F30.FromBits(Mathi.Atan2P3(y, x));
+            return FromBits(Mathi.Atan2P3(y, x));
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Atan2P3(I2F30 other) {
-            return I2F30.Atan2P3(Bits, other.Bits);
+        public static I2F30 Atan2P3(I17F15 y, I17F15 x) {
+            return Atan2P3(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P3(I2F30 y, I2F30 x) {
+            return Atan2P3(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P3(Vector2I17F15 v) {
+            return Atan2P3(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I2F30 Atan2P3(Vector2I2F30 v) {
+            return Atan2P3(v.Y.Bits, v.X.Bits);
         }
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します

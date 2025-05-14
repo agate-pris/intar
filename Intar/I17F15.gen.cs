@@ -178,45 +178,265 @@ namespace Intar {
             return I34F30.FromBits(Bits * other.Bits);
         }
         #endregion
-        #region Asin, Acos, Atan
+        #region Asin, Acos
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U2F30 AcosP3(int bits) => U2F30.FromBits(Mathi.AcosP3(bits));
+        public static I17F15 AcosP3(I17F15 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((uint)x.Bits);
+                    bits /= 1U << 15;
+                    return FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((uint)-x.Bits);
+                    bits /= 1U << 15;
+                    return FromBits(2 * OneRepr) - FromBits((int)bits);
+                }
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 AsinP3(int bits) => I2F30.FromBits(Mathi.AsinP3(bits));
+        public static I17F15 AsinP3(I17F15 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((uint)x.Bits);
+                    bits /= 1U << 15;
+                    return One - FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((uint)-x.Bits);
+                    bits /= 1U << 15;
+                    return FromBits((int)bits) - One;
+                }
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public U2F30 AcosP3() => AcosP3(Bits);
+        public static I17F15 AcosP3(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits(2 * OneRepr) - FromBits((int)bits);
+                }
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AsinP3() => AsinP3(Bits);
+        public static I17F15 AsinP3(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P3((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return One - FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P3((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits) - One;
+                }
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 AtanP2(int x) => I2F30.FromBits(Mathi.AtanP2(x));
+        public static I17F15 AcosP7(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return One;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P7((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P7((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits(2 * OneRepr) - FromBits((int)bits);
+                }
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AtanP2() => AtanP2(Bits);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static I2F30 AtanP3(int x) => I2F30.FromBits(Mathi.AtanP3(x));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 AtanP3() => AtanP3(Bits);
+        public static I17F15 AsinP7(I33F31 x) {
+            switch (Math.Sign(x.Bits)) {
+                case 0: return Zero;
+                case 1: {
+                    var bits = Mathi.AsinInternal.P7((ulong)x.Bits);
+                    bits /= 1UL << 47;
+                    return One - FromBits((int)bits);
+                }
+                default: {
+                    var bits = Mathi.AsinInternal.P7((ulong)-x.Bits);
+                    bits /= 1UL << 47;
+                    return FromBits((int)bits) - One;
+                }
+            }
+        }
         #endregion
         #region Atan2
 
 #pragma warning disable IDE0079 // 不要な抑制を削除します
 #pragma warning disable IDE0002 // メンバー アクセスを単純化します
 
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Atan2P2(I17F15 other) {
-            return I2F30.Atan2P2(Bits, other.Bits);
+        public static I17F15 Atan2P2(int y, int x) {
+            const int pi = 2 * OneRepr;
+            const int pi_4 = pi / 4;
+            if (y < 0) {
+                if (x < 0) {
+                    var bits = y < x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > x ? (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)) - pi
+                        : pi_4 - pi;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y < -x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > -x ? Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : -pi_4;
+                    return FromBits(bits);
+                } else {
+                    return NegativeOne;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    var bits = -y < x
+                        ? OneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : -y > x ? pi + (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2))
+                        : pi - pi_4;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y > x
+                        ? OneRepr - (Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y < x ? Mathi.AtanInternal.P2(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : pi_4;
+                    return FromBits(bits);
+                } else {
+                    return One;
+                }
+            } else {
+                return FromBits((x < 0) ? pi : 0);
+            }
         }
 
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public I2F30 Atan2P3(I17F15 other) {
-            return I2F30.Atan2P3(Bits, other.Bits);
+        public static I17F15 Atan2P2(I17F15 y, I17F15 x) {
+            return Atan2P2(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P2(I2F30 y, I2F30 x) {
+            return Atan2P2(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P2(Vector2I17F15 v) {
+            return Atan2P2(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P2(Vector2I2F30 v) {
+            return Atan2P2(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(int y, int x) {
+            const int pi = 2 * OneRepr;
+            const int pi_4 = pi / 4;
+            if (y < 0) {
+                if (x < 0) {
+                    var bits = y < x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > x ? (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)) - pi
+                        : pi_4 - pi;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y < -x
+                        ? NegativeOneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y > -x ? Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : -pi_4;
+                    return FromBits(bits);
+                } else {
+                    return NegativeOne;
+                }
+            } else if (y > 0) {
+                if (x < 0) {
+                    var bits = -y < x
+                        ? OneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : -y > x ? pi + (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2))
+                        : pi - pi_4;
+                    return FromBits(bits);
+                } else if (x > 0) {
+                    var bits = y > x
+                        ? OneRepr - (Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(x, y)) / (OneRepr / 2))
+                        : y < x ? Mathi.AtanInternal.P3(Mathi.AtanInternal.Div(y, x)) / (OneRepr / 2)
+                        : pi_4;
+                    return FromBits(bits);
+                } else {
+                    return One;
+                }
+            } else {
+                return FromBits((x < 0) ? pi : 0);
+            }
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(I17F15 y, I17F15 x) {
+            return Atan2P3(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(I2F30 y, I2F30 x) {
+            return Atan2P3(y.Bits, x.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(Vector2I17F15 v) {
+            return Atan2P3(v.Y.Bits, v.X.Bits);
+        }
+
+        /// <summary>
+        /// <see cref="One" /> を PI / 2 とする逆正接の値を返す｡
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static I17F15 Atan2P3(Vector2I2F30 v) {
+            return Atan2P3(v.Y.Bits, v.X.Bits);
         }
 
 #pragma warning restore IDE0002 // メンバー アクセスを単純化します

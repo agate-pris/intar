@@ -9,6 +9,12 @@ using System;
 namespace Intar.Tests.Mathi {
     public static class MiscTest {
         [Test]
+        public static void NegativeMinTest() {
+            Assert.AreEqual(unchecked(-int.MinValue), int.MinValue);
+            Assert.AreEqual(unchecked((uint)int.MinValue), 1U + int.MaxValue);
+        }
+
+        [Test]
         public static void TestAbsDiff() {
             Utility.AssertAreEqual(Intar.Mathi.AbsDiff(2, 100), 98);
             Utility.AssertAreEqual(Intar.Mathi.AbsDiff(2U, 100U), 98);
