@@ -431,6 +431,55 @@ namespace {{ namespace }}.Geometry {
             // 全ての軸で重なりがある場合, 交差している.
             return true;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects({{ aabb }} other) {
+            var p0 = P1;
+            var p1 = P2;
+            var p2 = P3;
+            var p3 = P4;
+
+            {
+                var b = new {{ aabb }}(new {{ segment }}(p0, p1));
+                b.Encapsulate(p2);
+                b.Encapsulate(p3);
+                if (!b.Intersects(other)) {
+                    return false;
+                }
+            }
+
+            var q0 = new {{ translation }}(other.MaxX, other.MinY);
+            var q1 = new {{ translation }}(other.MinX, other.MinY);
+            var q2 = new {{ translation }}(other.MinX, other.MaxY);
+            var q3 = new {{ translation }}(other.MaxX, other.MaxY);
+
+            {
+                var v0 = Transform.RotationScale.C0;
+                var v1 = Transform.RotationScale.C1;
+                {%- for i in range(end=2) %}
+                if (!v{{ i }}.Equals({{ translation }}.Zero)) {
+                    var prjMin1 = v{{ i }}.Determinant(p0);
+                    var prjMin2 = v{{ i }}.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    {%- for j in range(start=1, end=4) %}
+                    {%- if i == 0 and (j == 1 or j == 2)
+                        or i == 1 and (j == 2 or j == 3)
+                    %}{% continue %}{% endif %}
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v{{ i }}, p{{ j }}, prjMin1, prjMax1);
+                    {%- endfor %}
+                    {%- for j in range(start=1, end=4) %}
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v{{ i }}, q{{ j }}, prjMin2, prjMax2);
+                    {%- endfor %}
+                    if (prjMax1 < prjMin2 || prjMax2 < prjMin1) {
+                        return false;
+                    }
+                }
+                {%- endfor %}
+            }
+
+            return true;
+        }
         #endregion
         #region Overlaps
         /// <summary>Check if the box overlaps with a point.</summary>
@@ -630,6 +679,55 @@ namespace {{ namespace }}.Geometry {
                     {%- if i == 3 and (j == 2 or j == 3)
                         or i == 4 and (j == 3 or j == 4)
                     %}{% continue %}{% endif %}
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v{{ i }}, q{{ j }}, prjMin2, prjMax2);
+                    {%- endfor %}
+                    if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
+                        return false;
+                    }
+                }
+                {%- endfor %}
+            }
+
+            return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps({{ aabb }} other) {
+            var p0 = P1;
+            var p1 = P2;
+            var p2 = P3;
+            var p3 = P4;
+
+            {
+                var b = new {{ aabb }}(new {{ segment }}(p0, p1));
+                b.Encapsulate(p2);
+                b.Encapsulate(p3);
+                if (!b.Overlaps(other)) {
+                    return false;
+                }
+            }
+
+            var q0 = new {{ translation }}(other.MaxX, other.MinY);
+            var q1 = new {{ translation }}(other.MinX, other.MinY);
+            var q2 = new {{ translation }}(other.MinX, other.MaxY);
+            var q3 = new {{ translation }}(other.MaxX, other.MaxY);
+
+            {
+                var v0 = Transform.RotationScale.C0;
+                var v1 = Transform.RotationScale.C1;
+                {%- for i in range(end=2) %}
+                if (!v{{ i }}.Equals({{ translation }}.Zero)) {
+                    var prjMin1 = v{{ i }}.Determinant(p0);
+                    var prjMin2 = v{{ i }}.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    {%- for j in range(start=1, end=4) %}
+                    {%- if i == 0 and (j == 1 or j == 2)
+                        or i == 1 and (j == 2 or j == 3)
+                    %}{% continue %}{% endif %}
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v{{ i }}, p{{ j }}, prjMin1, prjMax1);
+                    {%- endfor %}
+                    {%- for j in range(start=1, end=4) %}
                     (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v{{ i }}, q{{ j }}, prjMin2, prjMax2);
                     {%- endfor %}
                     if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
