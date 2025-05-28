@@ -440,6 +440,61 @@ namespace Intar.Geometry {
             // 全ての軸で重なりがある場合, 交差している.
             return true;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects(Aabb2I17F15 other) {
+            var p0 = P1;
+            var p1 = P2;
+            var p2 = P3;
+            var p3 = P4;
+
+            {
+                var b = new Aabb2I17F15(new Segment2I17F15(p0, p1));
+                b.Encapsulate(p2);
+                b.Encapsulate(p3);
+                if (!b.Intersects(other)) {
+                    return false;
+                }
+            }
+
+            var q0 = new Vector2I17F15(other.MaxX, other.MinY);
+            var q1 = new Vector2I17F15(other.MinX, other.MinY);
+            var q2 = new Vector2I17F15(other.MinX, other.MaxY);
+            var q3 = new Vector2I17F15(other.MaxX, other.MaxY);
+
+            {
+                var v0 = Transform.RotationScale.C0;
+                var v1 = Transform.RotationScale.C1;
+                if (!v0.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v0.Determinant(p0);
+                    var prjMin2 = v0.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v0, p3, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q3, prjMin2, prjMax2);
+                    if (prjMax1 < prjMin2 || prjMax2 < prjMin1) {
+                        return false;
+                    }
+                }
+                if (!v1.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v1.Determinant(p0);
+                    var prjMin2 = v1.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v1, p1, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q3, prjMin2, prjMax2);
+                    if (prjMax1 < prjMin2 || prjMax2 < prjMin1) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
         #endregion
         #region Overlaps
         /// <summary>Check if the box overlaps with a point.</summary>
@@ -683,6 +738,61 @@ namespace Intar.Geometry {
                     (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v4, p3, prjMin1, prjMax1);
                     (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v4, p4, prjMin1, prjMax1);
                     (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v4, q2, prjMin2, prjMax2);
+                    if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Aabb2I17F15 other) {
+            var p0 = P1;
+            var p1 = P2;
+            var p2 = P3;
+            var p3 = P4;
+
+            {
+                var b = new Aabb2I17F15(new Segment2I17F15(p0, p1));
+                b.Encapsulate(p2);
+                b.Encapsulate(p3);
+                if (!b.Overlaps(other)) {
+                    return false;
+                }
+            }
+
+            var q0 = new Vector2I17F15(other.MaxX, other.MinY);
+            var q1 = new Vector2I17F15(other.MinX, other.MinY);
+            var q2 = new Vector2I17F15(other.MinX, other.MaxY);
+            var q3 = new Vector2I17F15(other.MaxX, other.MaxY);
+
+            {
+                var v0 = Transform.RotationScale.C0;
+                var v1 = Transform.RotationScale.C1;
+                if (!v0.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v0.Determinant(p0);
+                    var prjMin2 = v0.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v0, p3, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q3, prjMin2, prjMax2);
+                    if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
+                        return false;
+                    }
+                }
+                if (!v1.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v1.Determinant(p0);
+                    var prjMin2 = v1.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v1, p1, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q3, prjMin2, prjMax2);
                     if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
                         return false;
                     }
