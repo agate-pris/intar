@@ -6,6 +6,16 @@ using NUnit.Framework;
 namespace Intar.Tests.Rand {
     public class Xoroshiro128StarStarTest {
         [Test]
+        public static void TestZero() {
+            var rng = new Intar.Rand.Xoroshiro128StarStar(0, 0);
+            for (var i = 0; i < 100; ++i) {
+                Utility.AssertAreEqual(0UL, rng.NextUInt64());
+                Utility.AssertAreEqual(0L, rng.NextInt64());
+                Utility.AssertAreEqual(0, rng.Next());
+            }
+        }
+
+        [Test]
         public static void NextTest() {
             var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
             var expected = new ulong[] {
