@@ -37,7 +37,7 @@ namespace {{ namespace }} {
 #endif // UNITY_5_3_OR_NEWER
         {{ vector }} max;
         #endregion
-        #region Min, Max
+        #region Min, Max, Size
         public {{ vector }} Min {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min;
@@ -56,9 +56,13 @@ namespace {{ namespace }} {
                 min = min.Min(value);
             }
         }
+        public {{ vector }} Size {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max - min;
+        }
         #endregion
         {%- for c in components %}
-        #region Min{{ c }}, Max{{ c }}
+        #region Min{{ c }}, Max{{ c }}, Size{{ c }}
         public {{ component }} Min{{ c }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min.{{ c }};
@@ -76,6 +80,10 @@ namespace {{ namespace }} {
                 max.{{ c }} = value;
                 min.{{ c }} = min.{{ c }}.Min(value);
             }
+        }
+        public {{ component }} Size{{ c }} {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max.{{ c }} - min.{{ c }};
         }
         #endregion
         {%- endfor %}

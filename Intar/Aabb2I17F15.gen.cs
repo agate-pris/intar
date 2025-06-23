@@ -18,7 +18,7 @@ namespace Intar {
 #endif // UNITY_5_3_OR_NEWER
         Vector2I17F15 max;
         #endregion
-        #region Min, Max
+        #region Min, Max, Size
         public Vector2I17F15 Min {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min;
@@ -37,8 +37,12 @@ namespace Intar {
                 min = min.Min(value);
             }
         }
+        public Vector2I17F15 Size {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max - min;
+        }
         #endregion
-        #region MinX, MaxX
+        #region MinX, MaxX, SizeX
         public I17F15 MinX {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min.X;
@@ -57,8 +61,12 @@ namespace Intar {
                 min.X = min.X.Min(value);
             }
         }
+        public I17F15 SizeX {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max.X - min.X;
+        }
         #endregion
-        #region MinY, MaxY
+        #region MinY, MaxY, SizeY
         public I17F15 MinY {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min.Y;
@@ -76,6 +84,10 @@ namespace Intar {
                 max.Y = value;
                 min.Y = min.Y.Min(value);
             }
+        }
+        public I17F15 SizeY {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max.Y - min.Y;
         }
         #endregion
         #region Construction
