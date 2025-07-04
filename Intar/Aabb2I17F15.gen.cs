@@ -135,6 +135,21 @@ namespace Intar {
             Encapsulate(box.P3);
             Encapsulate(box.P4);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Aabb2I17F15? CheckedFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
+            if (max.X < min.X || max.Y < min.Y) {
+                return null;
+            }
+            return new Aabb2I17F15(min, max);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Aabb2I17F15 StrictFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
+            var nullable = CheckedFromMinMax(min, max);
+            if (nullable.HasValue) {
+                return nullable.Value;
+            }
+            throw new ArgumentException("Invalid Aabb2I17F15: max must be greater than or equal to min.");
+        }
         #endregion
         #region EncapsulateX
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

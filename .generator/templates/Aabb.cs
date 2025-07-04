@@ -140,6 +140,23 @@ namespace {{ namespace }} {
             {%- endfor %}
             {%- endif %}
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }}? CheckedFromMinMax({{ vector }} min, {{ vector }} max) {
+            if ({%- for c in components %}max.{{ c }} < min.{{ c }}
+                {%- if not loop.last %} || {% endif %}
+                {%- endfor %}) {
+                return null;
+            }
+            return new {{ type }}(min, max);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} StrictFromMinMax({{ vector }} min, {{ vector }} max) {
+            var nullable = CheckedFromMinMax(min, max);
+            if (nullable.HasValue) {
+                return nullable.Value;
+            }
+            throw new ArgumentException("Invalid {{ type }}: max must be greater than or equal to min.");
+        }
         #endregion
         {%- for com in components %}
         #region Encapsulate{{ com }}
