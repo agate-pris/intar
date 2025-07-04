@@ -36,9 +36,11 @@ namespace Intar.Rand {
             return (long)result;
         }
         public long NextInt64(long minValue, long maxValue) {
-            var d = maxValue - minValue;
-            var a = NextInt64(d);
-            return minValue + a;
+            unchecked {
+                var d = (ulong)(maxValue - minValue);
+                var a = (long)NextUInt64(d);
+                return minValue + a;
+            }
         }
         public int Next() => unchecked((int)NextInt64());
         public int Next(int maxValue) {
