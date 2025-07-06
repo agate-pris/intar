@@ -88,10 +88,21 @@ namespace {{ namespace }} {
         #endregion
         {%- endfor %}
         #region Construction
+        /// <summary>
+        /// <para>新しい {{ type }} を作成します｡</para>
+        /// <param name="center">{{ type }} の中心位置</param>
+        /// <param name="size">{{ type }} の寸法</param>
+        /// <param name="strictSize">
+        /// <para>true の場合 size が 2 で割り切れない場合､ 中心位置が僅かに不方向にずれます｡</para>
+        /// <para>false の場合 size が 2 で割り切れない場合､ 寸法が僅かに縮小します｡</para>
+        /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ type }}({{ vector }} min, {{ vector }} max) {
-            this.min = min;
-            this.max = max;
+        public {{ type }}({{ vector }} center, {{ vector }} size, bool strictSize = false) {
+            var extents = size.Half();
+            max = center + extents;
+            min = strictSize
+                ? max - size
+                : center - extents;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}({{ vector }} p) {
@@ -99,11 +110,10 @@ namespace {{ namespace }} {
             max = p;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }}(Geometry.{{ circle_type }} circle)
-            : this(
-                circle.Center - ({{ component }})circle.Radius,
-                circle.Center + ({{ component }})circle.Radius
-            ) { }
+        public {{ type }}(Geometry.{{ circle_type }} circle) {
+            min = circle.Center - (I17F15)circle.Radius;
+            max = circle.Center + (I17F15)circle.Radius;
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}(Geometry.{{ segment_type }} segment) {
             {%- for c in components %}
@@ -147,7 +157,10 @@ namespace {{ namespace }} {
                 {%- endfor %}) {
                 return null;
             }
-            return new {{ type }}(min, max);
+            return new {{ type }} {
+                min = min,
+                max = max,
+            };
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} StrictFromMinMax({{ vector }} min, {{ vector }} max) {

@@ -91,10 +91,21 @@ namespace Intar {
         }
         #endregion
         #region Construction
+        /// <summary>
+        /// <para>新しい Aabb2I17F15 を作成します｡</para>
+        /// <param name="center">Aabb2I17F15 の中心位置</param>
+        /// <param name="size">Aabb2I17F15 の寸法</param>
+        /// <param name="strictSize">
+        /// <para>true の場合 size が 2 で割り切れない場合､ 中心位置が僅かに不方向にずれます｡</para>
+        /// <para>false の場合 size が 2 で割り切れない場合､ 寸法が僅かに縮小します｡</para>
+        /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        Aabb2I17F15(Vector2I17F15 min, Vector2I17F15 max) {
-            this.min = min;
-            this.max = max;
+        public Aabb2I17F15(Vector2I17F15 center, Vector2I17F15 size, bool strictSize = false) {
+            var extents = size.Half();
+            max = center + extents;
+            min = strictSize
+                ? max - size
+                : center - extents;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Aabb2I17F15(Vector2I17F15 p) {
@@ -102,11 +113,10 @@ namespace Intar {
             max = p;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15(Geometry.CircleI17F15 circle)
-            : this(
-                circle.Center - (I17F15)circle.Radius,
-                circle.Center + (I17F15)circle.Radius
-            ) { }
+        public Aabb2I17F15(Geometry.CircleI17F15 circle) {
+            min = circle.Center - (I17F15)circle.Radius;
+            max = circle.Center + (I17F15)circle.Radius;
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Aabb2I17F15(Geometry.Segment2I17F15 segment) {
             I17F15 minX, maxX;
@@ -140,7 +150,10 @@ namespace Intar {
             if (max.X < min.X || max.Y < min.Y) {
                 return null;
             }
-            return new Aabb2I17F15(min, max);
+            return new Aabb2I17F15 {
+                min = min,
+                max = max,
+            };
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Aabb2I17F15 StrictFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
