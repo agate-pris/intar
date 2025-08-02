@@ -48,7 +48,7 @@ namespace {{ namespace }}.Editor.Geometry {
                         {%- endfor %}
                         center = new Vector{{ dim }}(
                             {%- for c in components %}
-                            {{ component }}Drawer.Restore({{ c|lower }}.{{ bits }}Value)
+                            {{ component }}Drawer.FromBits({{ c|lower }}.{{ bits }}Value)
                             {%- if not loop.last %},{% endif %}
                             {%- endfor %}
                         );
@@ -60,7 +60,7 @@ namespace {{ namespace }}.Editor.Geometry {
                         {%- endfor %}
                         size = 2 * new Vector{{ dim }}(
                             {%- for c in components %}
-                            {{ component }}Drawer.Restore({{ c|lower }}.{{ bits }}Value)
+                            {{ component }}Drawer.FromBits({{ c|lower }}.{{ bits }}Value)
                             {%- if not loop.last %},{% endif %}
                             {%- endfor %}
                         );

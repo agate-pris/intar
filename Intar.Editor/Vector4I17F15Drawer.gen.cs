@@ -19,10 +19,10 @@ namespace Intar.Editor {
             // すでに値がキャッシュされている場合はそれを使う
             // それ以外の場合, プロパティから値を取得してキャッシュする
             var value = cache ?? new Vector4(
-                I17F15Drawer.Restore(x.intValue),
-                I17F15Drawer.Restore(y.intValue),
-                I17F15Drawer.Restore(z.intValue),
-                I17F15Drawer.Restore(w.intValue)
+                I17F15Drawer.FromBits(x.intValue),
+                I17F15Drawer.FromBits(y.intValue),
+                I17F15Drawer.FromBits(z.intValue),
+                I17F15Drawer.FromBits(w.intValue)
             );
 
             // UI を表示 & 入力を取得

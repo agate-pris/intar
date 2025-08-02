@@ -4,13 +4,10 @@ using UnityEngine;
 namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(I34F30))]
     public class I34F30Drawer : PropertyDrawer {
-        float? cache;
-
         /// フィールドに表示する値を最大値・最小値で制限する
         internal static float Clamp(float value) {
-            var min = (float)I34F30.MinValue;
-            var max = (float)I34F30.MaxValue;
-            return Mathf.Clamp(value, min, max);
+            var max = (float)((long)I34F30.MaxValue);
+            return Mathf.Clamp(value, -max, max);
         }
 
         /// 値をシリアライズ時に保存する値に変換する
@@ -23,7 +20,7 @@ namespace Intar.Editor {
                    (long)value;
         }
 
-        internal static float Restore(long bits) {
+        internal static float FromBits(long bits) {
             for (var scale = 1.0f; scale < (1 << 25); scale *= 10) {
                 var f = Mathf.Round(bits * scale / I34F30.OneRepr) / scale;
                 if (bits == ToBits(f)) {
@@ -39,19 +36,16 @@ namespace Intar.Editor {
 
             var bits = property.FindPropertyRelative("Bits");
 
-            // すでに値がキャッシュされている場合はそれを使う
-            // それ以外の場合, プロパティから値を取得してキャッシュする
-            var value = cache ?? Restore(bits.longValue);
+            // プロパティから値を取得し float に変換
+            var f = FromBits(bits.longValue);
 
             // UI を表示 & 入力を取得
             EditorGUI.BeginChangeCheck();
-            value = EditorGUI.FloatField(position, label, value);
-
-            // 値を正規化してキャッシュを更新
-            cache = Clamp(value);
+            f = EditorGUI.FloatField(position, label, f);
 
             if (EditorGUI.EndChangeCheck()) {
-                bits.longValue = ToBits(value);
+                // 値を正規化してプロパティに反映
+                bits.longValue = ToBits(Clamp(f));
             }
 
             EditorGUI.EndProperty();

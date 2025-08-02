@@ -33,8 +33,8 @@ namespace Intar.Editor.Geometry {
                         var x = translation.FindPropertyRelative("X");
                         var y = translation.FindPropertyRelative("Y");
                         center = new Vector2(
-                            I17F15Drawer.Restore(x.intValue),
-                            I17F15Drawer.Restore(y.intValue)
+                            I17F15Drawer.FromBits(x.intValue),
+                            I17F15Drawer.FromBits(y.intValue)
                         );
                     }
                     {
@@ -42,8 +42,8 @@ namespace Intar.Editor.Geometry {
                         var x = extents.FindPropertyRelative("X");
                         var y = extents.FindPropertyRelative("Y");
                         size = 2 * new Vector2(
-                            I17F15Drawer.Restore(x.intValue),
-                            I17F15Drawer.Restore(y.intValue)
+                            I17F15Drawer.FromBits(x.intValue),
+                            I17F15Drawer.FromBits(y.intValue)
                         );
                     }
                     {

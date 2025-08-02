@@ -35,10 +35,10 @@ namespace Intar.Editor {
                     for (var i = 0; i < keys.arraySize; i++) {
                         var key = keys.GetArrayElementAtIndex(i);
                         _ = proxy.AddKey(new Keyframe(
-                            I17F15Drawer.Restore(key.FindPropertyRelative("Time.Bits").intValue),
-                            I17F15Drawer.Restore(key.FindPropertyRelative("Value.Bits").intValue),
-                            I17F15Drawer.Restore(key.FindPropertyRelative("InTangent.Bits").intValue),
-                            I17F15Drawer.Restore(key.FindPropertyRelative("OutTangent.Bits").intValue)
+                            I17F15Drawer.FromBits(key.FindPropertyRelative("Time.Bits").intValue),
+                            I17F15Drawer.FromBits(key.FindPropertyRelative("Value.Bits").intValue),
+                            I17F15Drawer.FromBits(key.FindPropertyRelative("InTangent.Bits").intValue),
+                            I17F15Drawer.FromBits(key.FindPropertyRelative("OutTangent.Bits").intValue)
                         ));
                     }
                 }

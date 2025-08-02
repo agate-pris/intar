@@ -8,13 +8,14 @@ using UnityEngine;
 namespace {{ namespace }}.Editor {
     [CustomPropertyDrawer(typeof({{ type }}))]
     public class {{ type }}Drawer : PropertyDrawer {
-        float? cache;
-
         /// フィールドに表示する値を最大値・最小値で制限する
         internal static float Clamp(float value) {
-            var min = (float){{ type }}.MinValue;
-            var max = (float){{ type }}.MaxValue;
-            return Mathf.Clamp(value, min, max);
+            var max = (float)(({{ bits_type }}){{ type }}.MaxValue);
+            {%- if signed %}
+            return Mathf.Clamp(value, -max, max);
+            {%- else %}
+            return Mathf.Clamp(value, 0, max);
+            {%- endif %}
         }
 
         /// 値をシリアライズ時に保存する値に変換する
@@ -27,7 +28,7 @@ namespace {{ namespace }}.Editor {
                    ({{ bits_type }})value;
         }
 
-        internal static float Restore({{ bits_type }} bits) {
+        internal static float FromBits({{ bits_type }} bits) {
             for (var scale = 1.0f; scale < (1 << 25); scale *= 10) {
                 var f = Mathf.Round(bits * scale / {{ type }}.OneRepr) / scale;
                 if (bits == ToBits(f)) {
@@ -43,19 +44,16 @@ namespace {{ namespace }}.Editor {
 
             var bits = property.FindPropertyRelative("Bits");
 
-            // すでに値がキャッシュされている場合はそれを使う
-            // それ以外の場合, プロパティから値を取得してキャッシュする
-            var value = cache ?? Restore(bits.{{ bits_type }}Value);
+            // プロパティから値を取得し float に変換
+            var f = FromBits(bits.{{ bits_type }}Value);
 
             // UI を表示 & 入力を取得
             EditorGUI.BeginChangeCheck();
-            value = EditorGUI.FloatField(position, label, value);
-
-            // 値を正規化してキャッシュを更新
-            cache = Clamp(value);
+            f = EditorGUI.FloatField(position, label, f);
 
             if (EditorGUI.EndChangeCheck()) {
-                bits.{{ bits_type }}Value = ToBits(value);
+                // 値を正規化してプロパティに反映
+                bits.{{ bits_type }}Value = ToBits(Clamp(f));
             }
 
             EditorGUI.EndProperty();
