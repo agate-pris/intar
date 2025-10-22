@@ -33,5 +33,11 @@ namespace Intar.Editor {
 
             EditorGUI.EndProperty();
         }
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+            var l = EditorGUIUtility.wideMode ? 1 : 2;
+            var s = l - 1;
+            return (l * EditorGUIUtility.singleLineHeight)
+                 + (s * EditorGUIUtility.standardVerticalSpacing);
+        }
     }
 }
