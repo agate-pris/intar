@@ -147,6 +147,13 @@ namespace {{ namespace }} {
             };
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} UncheckedFromMinMax({{ vector }} min, {{ vector }} max) {
+            return new {{ type }} {
+                min = min,
+                max = max,
+            };
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static {{ type }} StrictFromMinMax({{ vector }} min, {{ vector }} max) {
             var nullable = CheckedFromMinMax(min, max);
             if (nullable.HasValue) {

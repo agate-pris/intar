@@ -140,6 +140,13 @@ namespace Intar {
             };
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Aabb2I17F15 UncheckedFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
+            return new Aabb2I17F15 {
+                min = min,
+                max = max,
+            };
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Aabb2I17F15 StrictFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
             var nullable = CheckedFromMinMax(min, max);
             if (nullable.HasValue) {
