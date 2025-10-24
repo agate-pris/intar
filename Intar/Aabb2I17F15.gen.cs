@@ -91,22 +91,6 @@ namespace Intar {
         }
         #endregion
         #region Construction
-        /// <summary>
-        /// <para>新しい Aabb2I17F15 を作成します｡</para>
-        /// <param name="center">Aabb2I17F15 の中心位置</param>
-        /// <param name="size">Aabb2I17F15 の寸法</param>
-        /// <param name="strictSize">
-        /// <para>true の場合 size が 2 で割り切れない場合､ 中心位置が僅かに不方向にずれます｡</para>
-        /// <para>false の場合 size が 2 で割り切れない場合､ 寸法が僅かに縮小します｡</para>
-        /// </param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15(Vector2I17F15 center, Vector2I17F15 size, bool strictSize = false) {
-            var extents = size.Half();
-            max = center + extents;
-            min = strictSize
-                ? max - size
-                : center - extents;
-        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Aabb2I17F15(Vector2I17F15 p) {
             min = p;
