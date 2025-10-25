@@ -16,7 +16,7 @@ namespace Intar.Tests.Rand {
         }
 
         [Test]
-        public static void NextTest() {
+        public static void NextUInt64Test() {
             var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
             var expected = new ulong[] {
                 5760, 97769243520, 9706862127477703552, 9223447511460779954, 8358291023205304566,
@@ -24,7 +24,32 @@ namespace Intar.Tests.Rand {
                 6959129367028440372, 16822147227405758281,
             };
             foreach (var e in expected) {
-                Utility.AssertAreEqual(e, unchecked((ulong)rng.NextInt64()));
+                Utility.AssertAreEqual(e, rng.NextUInt64());
+            }
+        }
+
+        [Test]
+        public static void NextInt64Test() {
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var expected = new long[] {
+                5760, 97769243520, -8739881946231848064, -9223296562248771662, 8358291023205304566,
+                -2751124075060248848, 8517900938696309774, -1860263725506946247,
+                6959129367028440372, -1624596846303793335
+            };
+            foreach (var e in expected) {
+                Utility.AssertAreEqual(e, rng.NextInt64());
+            }
+        }
+
+        [Test]
+        public static void NextTest() {
+            var rng = new Intar.Rand.Xoroshiro128StarStar(1, 2);
+            var expected = new int[] {
+                5760, -1015004288, 17280, -854288462, -948107018,
+                -721273104, 586529806, 1822235449, -877126348, -1730695351,
+            };
+            foreach (var e in expected) {
+                Utility.AssertAreEqual(e, rng.Next());
             }
         }
 
