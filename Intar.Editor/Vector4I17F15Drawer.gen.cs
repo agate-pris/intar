@@ -4,7 +4,6 @@ using UnityEngine;
 namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(Vector4I17F15))]
     public class Vector4I17F15Drawer : PropertyDrawer {
-        Vector4? cache;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
             // prefab override logic works on the entire property.
@@ -16,30 +15,35 @@ namespace Intar.Editor {
             var z = repr.FindPropertyRelative("Z");
             var w = repr.FindPropertyRelative("W");
 
-            // すでに値がキャッシュされている場合はそれを使う
-            // それ以外の場合, プロパティから値を取得してキャッシュする
-            var value = cache ?? new Vector4(
-                I17F15Drawer.Restore(x.intValue),
-                I17F15Drawer.Restore(y.intValue),
-                I17F15Drawer.Restore(z.intValue),
-                I17F15Drawer.Restore(w.intValue)
+            // プロパティから値を取得
+            var value = new Vector4(
+                I17F15Drawer.FromBits(x.intValue),
+                I17F15Drawer.FromBits(y.intValue),
+                I17F15Drawer.FromBits(z.intValue),
+                I17F15Drawer.FromBits(w.intValue)
             );
 
             // UI を表示 & 入力を取得
             EditorGUI.BeginChangeCheck();
             value = EditorGUI.Vector4Field(position, label, value);
 
-            // 値を正規化してキャッシュを更新
-            cache = new Vector4(I17F15Drawer.Clamp(value.x), I17F15Drawer.Clamp(value.y), I17F15Drawer.Clamp(value.z), I17F15Drawer.Clamp(value.w));
+            // 値を正規化
+            value = new Vector4(I17F15Drawer.Clamp(value.x), I17F15Drawer.Clamp(value.y), I17F15Drawer.Clamp(value.z), I17F15Drawer.Clamp(value.w));
 
             if (EditorGUI.EndChangeCheck()) {
-                x.intValue = I17F15Drawer.ToBits(cache.Value.x);
-                y.intValue = I17F15Drawer.ToBits(cache.Value.y);
-                z.intValue = I17F15Drawer.ToBits(cache.Value.z);
-                w.intValue = I17F15Drawer.ToBits(cache.Value.w);
+                x.intValue = I17F15Drawer.ToBits(value.x);
+                y.intValue = I17F15Drawer.ToBits(value.y);
+                z.intValue = I17F15Drawer.ToBits(value.z);
+                w.intValue = I17F15Drawer.ToBits(value.w);
             }
 
             EditorGUI.EndProperty();
+        }
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+            var l = EditorGUIUtility.wideMode ? 1 : 2;
+            var s = l - 1;
+            return (l * EditorGUIUtility.singleLineHeight)
+                 + (s * EditorGUIUtility.standardVerticalSpacing);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Intar.Editor {
                     for (var c = 0; c < 2; c++) {
                         var p = property.FindPropertyRelative($"{colPropertyPaths[c]}.Repr.{rowPropertyPaths[r]}");
                         properties.Add(p);
-                        cache.Add(I2F30Drawer.Restore(p.intValue));
+                        cache.Add(I2F30Drawer.FromBits(p.intValue));
                     }
                 }
             }

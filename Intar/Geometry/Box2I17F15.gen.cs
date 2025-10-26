@@ -440,6 +440,82 @@ namespace Intar.Geometry {
             // 全ての軸で重なりがある場合, 交差している.
             return true;
         }
+
+        /// <summary>Checks if the box intersects with an axis-aligned bounding box.</summary>
+        /// <param name="other">The axis-aligned bounding box to check.</param>
+        /// <returns>True if the box intersects with the axis-aligned bounding box, false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method will cause an <b>overflow</b> in the following case:
+        /// <list type="bullet">
+        /// <item><description>The box is very large.</description></item>
+        /// <item><description>The axis-aligned bounding box is very large.</description></item>
+        /// </list>
+        /// </para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Intersects(Aabb2I17F15 other) {
+            var p0 = P1;
+            var p1 = P2;
+            var p2 = P3;
+            var p3 = P4;
+
+            {
+                var b = new Aabb2I17F15(new Segment2I17F15(p0, p1));
+                b.Encapsulate(p2);
+                b.Encapsulate(p3);
+                if (!b.Intersects(other)) {
+                    return false;
+                }
+            }
+
+            var q0 = new Vector2I17F15(other.MaxX, other.MinY);
+            var q1 = new Vector2I17F15(other.MinX, other.MinY);
+            var q2 = new Vector2I17F15(other.MinX, other.MaxY);
+            var q3 = new Vector2I17F15(other.MaxX, other.MaxY);
+
+            // このボックスの全てのエッジに垂直な分離軸を調べる.
+            // 各軸に対して投影を計算し, 範囲が重ならないか確認する.
+            // 分離軸がゼロベクトルの場合, 投影は常に 0 になるためスキップする.
+            // 座標軸に沿ったバウンディングボックスの分離軸については
+            // このメソッドの前方で行った判定で十分であるため,
+            // ボックスを引数とする Intersects と異なり省略できる.
+
+            {
+                var v0 = Transform.RotationScale.C0;
+                var v1 = Transform.RotationScale.C1;
+                if (!v0.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v0.Determinant(p0);
+                    var prjMin2 = v0.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v0, p3, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q3, prjMin2, prjMax2);
+                    if (prjMax1 < prjMin2 || prjMax2 < prjMin1) {
+                        return false;
+                    }
+                }
+                if (!v1.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v1.Determinant(p0);
+                    var prjMin2 = v1.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v1, p1, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q3, prjMin2, prjMax2);
+                    if (prjMax1 < prjMin2 || prjMax2 < prjMin1) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
         #endregion
         #region Overlaps
         /// <summary>Check if the box overlaps with a point.</summary>
@@ -683,6 +759,78 @@ namespace Intar.Geometry {
                     (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v4, p3, prjMin1, prjMax1);
                     (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v4, p4, prjMin1, prjMax1);
                     (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v4, q2, prjMin2, prjMax2);
+                    if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>Checks if the box overlaps with an axis-aligned bounding box.</summary>
+        /// <param name="other">The axis-aligned bounding box to check.</param>
+        /// <returns>True if the box overlaps with the axis-aligned bounding box, false otherwise.</returns>
+        /// <remarks>
+        /// <div class="WARNING alert alert-info">
+        /// <h5>WARNING</h5>
+        /// <para>This method will cause an <b>overflow</b> in the following case:
+        /// <list type="bullet">
+        /// <item><description>The box is very large.</description></item>
+        /// <item><description>The axis-aligned bounding box is very large.</description></item>
+        /// </list>
+        /// </para>
+        /// </div>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Aabb2I17F15 other) {
+            var p0 = P1;
+            var p1 = P2;
+            var p2 = P3;
+            var p3 = P4;
+
+            {
+                var b = new Aabb2I17F15(new Segment2I17F15(p0, p1));
+                b.Encapsulate(p2);
+                b.Encapsulate(p3);
+                if (!b.Overlaps(other)) {
+                    return false;
+                }
+            }
+
+            var q0 = new Vector2I17F15(other.MaxX, other.MinY);
+            var q1 = new Vector2I17F15(other.MinX, other.MinY);
+            var q2 = new Vector2I17F15(other.MinX, other.MaxY);
+            var q3 = new Vector2I17F15(other.MaxX, other.MaxY);
+
+            // このメソッドの前方の判定で十分であるため
+            // 座標軸に沿ったバウンディングボックスの分離軸についての判定は不要.
+
+            {
+                var v0 = Transform.RotationScale.C0;
+                var v1 = Transform.RotationScale.C1;
+                if (!v0.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v0.Determinant(p0);
+                    var prjMin2 = v0.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v0, p3, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v0, q3, prjMin2, prjMax2);
+                    if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
+                        return false;
+                    }
+                }
+                if (!v1.Equals(Vector2I17F15.Zero)) {
+                    var prjMin1 = v1.Determinant(p0);
+                    var prjMin2 = v1.Determinant(q0);
+                    var prjMax1 = prjMin1;
+                    var prjMax2 = prjMin2;
+                    (prjMin1, prjMax1) = AccumulateDistanceFromAxis(v1, p1, prjMin1, prjMax1);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q1, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q2, prjMin2, prjMax2);
+                    (prjMin2, prjMax2) = AccumulateDistanceFromAxis(v1, q3, prjMin2, prjMax2);
                     if (prjMax1 <= prjMin2 || prjMax2 <= prjMin1) {
                         return false;
                     }

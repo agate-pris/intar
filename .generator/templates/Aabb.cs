@@ -37,7 +37,7 @@ namespace {{ namespace }} {
 #endif // UNITY_5_3_OR_NEWER
         {{ vector }} max;
         #endregion
-        #region Min, Max
+        #region Min, Max, Size
         public {{ vector }} Min {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min;
@@ -56,9 +56,13 @@ namespace {{ namespace }} {
                 min = min.Min(value);
             }
         }
+        public {{ vector }} Size {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max - min;
+        }
         #endregion
         {%- for c in components %}
-        #region Min{{ c }}, Max{{ c }}
+        #region Min{{ c }}, Max{{ c }}, Size{{ c }}
         public {{ component }} Min{{ c }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min.{{ c }};
@@ -77,25 +81,23 @@ namespace {{ namespace }} {
                 min.{{ c }} = min.{{ c }}.Min(value);
             }
         }
+        public {{ component }} Size{{ c }} {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max.{{ c }} - min.{{ c }};
+        }
         #endregion
         {%- endfor %}
         #region Construction
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        {{ type }}({{ vector }} min, {{ vector }} max) {
-            this.min = min;
-            this.max = max;
-        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}({{ vector }} p) {
             min = p;
             max = p;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public {{ type }}(Geometry.{{ circle_type }} circle)
-            : this(
-                circle.Center - ({{ component }})circle.Radius,
-                circle.Center + ({{ component }})circle.Radius
-            ) { }
+        public {{ type }}(Geometry.{{ circle_type }} circle) {
+            min = circle.Center - ({{ component }})circle.Radius;
+            max = circle.Center + ({{ component }})circle.Radius;
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}(Geometry.{{ segment_type }} segment) {
             {%- for c in components %}
@@ -131,6 +133,33 @@ namespace {{ namespace }} {
             Encapsulate(box.P{{ i }});
             {%- endfor %}
             {%- endif %}
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }}? CheckedFromMinMax({{ vector }} min, {{ vector }} max) {
+            if ({%- for c in components %}max.{{ c }} < min.{{ c }}
+                {%- if not loop.last %} || {% endif %}
+                {%- endfor %}) {
+                return null;
+            }
+            return new {{ type }} {
+                min = min,
+                max = max,
+            };
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} UncheckedFromMinMax({{ vector }} min, {{ vector }} max) {
+            return new {{ type }} {
+                min = min,
+                max = max,
+            };
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static {{ type }} StrictFromMinMax({{ vector }} min, {{ vector }} max) {
+            var nullable = CheckedFromMinMax(min, max);
+            if (nullable.HasValue) {
+                return nullable.Value;
+            }
+            throw new ArgumentException("Invalid {{ type }}: max must be greater than or equal to min.");
         }
         #endregion
         {%- for com in components %}

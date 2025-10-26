@@ -4,13 +4,10 @@ using UnityEngine;
 namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(U17F15))]
     public class U17F15Drawer : PropertyDrawer {
-        float? cache;
-
         /// フィールドに表示する値を最大値・最小値で制限する
         internal static float Clamp(float value) {
-            var min = (float)U17F15.MinValue;
-            var max = (float)U17F15.MaxValue;
-            return Mathf.Clamp(value, min, max);
+            var max = (float)((uint)U17F15.MaxValue);
+            return Mathf.Clamp(value, 0, max);
         }
 
         /// 値をシリアライズ時に保存する値に変換する
@@ -23,7 +20,7 @@ namespace Intar.Editor {
                    (uint)value;
         }
 
-        internal static float Restore(uint bits) {
+        internal static float FromBits(uint bits) {
             for (var scale = 1.0f; scale < (1 << 25); scale *= 10) {
                 var f = Mathf.Round(bits * scale / U17F15.OneRepr) / scale;
                 if (bits == ToBits(f)) {
@@ -39,19 +36,16 @@ namespace Intar.Editor {
 
             var bits = property.FindPropertyRelative("Bits");
 
-            // すでに値がキャッシュされている場合はそれを使う
-            // それ以外の場合, プロパティから値を取得してキャッシュする
-            var value = cache ?? Restore(bits.uintValue);
+            // プロパティから値を取得し float に変換
+            var f = FromBits(bits.uintValue);
 
             // UI を表示 & 入力を取得
             EditorGUI.BeginChangeCheck();
-            value = EditorGUI.FloatField(position, label, value);
-
-            // 値を正規化してキャッシュを更新
-            cache = Clamp(value);
+            f = EditorGUI.FloatField(position, label, f);
 
             if (EditorGUI.EndChangeCheck()) {
-                bits.uintValue = ToBits(value);
+                // 値を正規化してプロパティに反映
+                bits.uintValue = ToBits(Clamp(f));
             }
 
             EditorGUI.EndProperty();

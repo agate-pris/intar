@@ -33,7 +33,7 @@ namespace {{ namespace }}.Editor {
                     for (var c = 0; c < {{ cols }}; c++) {
                         var p = property.FindPropertyRelative($"{colPropertyPaths[c]}.Repr.{rowPropertyPaths[r]}");
                         properties.Add(p);
-                        cache.Add({{ component }}Drawer.Restore(p.{{ bits_type }}Value));
+                        cache.Add({{ component }}Drawer.FromBits(p.{{ bits_type }}Value));
                     }
                 }
             }

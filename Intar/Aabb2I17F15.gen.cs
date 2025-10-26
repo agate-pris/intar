@@ -18,7 +18,7 @@ namespace Intar {
 #endif // UNITY_5_3_OR_NEWER
         Vector2I17F15 max;
         #endregion
-        #region Min, Max
+        #region Min, Max, Size
         public Vector2I17F15 Min {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min;
@@ -37,8 +37,12 @@ namespace Intar {
                 min = min.Min(value);
             }
         }
+        public Vector2I17F15 Size {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max - min;
+        }
         #endregion
-        #region MinX, MaxX
+        #region MinX, MaxX, SizeX
         public I17F15 MinX {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min.X;
@@ -57,8 +61,12 @@ namespace Intar {
                 min.X = min.X.Min(value);
             }
         }
+        public I17F15 SizeX {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max.X - min.X;
+        }
         #endregion
-        #region MinY, MaxY
+        #region MinY, MaxY, SizeY
         public I17F15 MinY {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => min.Y;
@@ -77,24 +85,22 @@ namespace Intar {
                 min.Y = min.Y.Min(value);
             }
         }
+        public I17F15 SizeY {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => max.Y - min.Y;
+        }
         #endregion
         #region Construction
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        Aabb2I17F15(Vector2I17F15 min, Vector2I17F15 max) {
-            this.min = min;
-            this.max = max;
-        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Aabb2I17F15(Vector2I17F15 p) {
             min = p;
             max = p;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Aabb2I17F15(Geometry.CircleI17F15 circle)
-            : this(
-                circle.Center - (I17F15)circle.Radius,
-                circle.Center + (I17F15)circle.Radius
-            ) { }
+        public Aabb2I17F15(Geometry.CircleI17F15 circle) {
+            min = circle.Center - (I17F15)circle.Radius;
+            max = circle.Center + (I17F15)circle.Radius;
+        }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Aabb2I17F15(Geometry.Segment2I17F15 segment) {
             I17F15 minX, maxX;
@@ -122,6 +128,31 @@ namespace Intar {
         ) {
             Encapsulate(box.P3);
             Encapsulate(box.P4);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Aabb2I17F15? CheckedFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
+            if (max.X < min.X || max.Y < min.Y) {
+                return null;
+            }
+            return new Aabb2I17F15 {
+                min = min,
+                max = max,
+            };
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Aabb2I17F15 UncheckedFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
+            return new Aabb2I17F15 {
+                min = min,
+                max = max,
+            };
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Aabb2I17F15 StrictFromMinMax(Vector2I17F15 min, Vector2I17F15 max) {
+            var nullable = CheckedFromMinMax(min, max);
+            if (nullable.HasValue) {
+                return nullable.Value;
+            }
+            throw new ArgumentException("Invalid Aabb2I17F15: max must be greater than or equal to min.");
         }
         #endregion
         #region EncapsulateX

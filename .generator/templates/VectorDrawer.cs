@@ -10,7 +10,6 @@ using UnityEngine;
 namespace {{ namespace }}.Editor {
     [CustomPropertyDrawer(typeof({{ type }}))]
     public class {{ type }}Drawer : PropertyDrawer {
-        Vector{{ dim }}? cache;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             // Using BeginProperty / EndProperty on the parent property means that
             // prefab override logic works on the entire property.
@@ -21,11 +20,10 @@ namespace {{ namespace }}.Editor {
             var {{ c|lower }} = repr.FindPropertyRelative("{{ c }}");
             {%- endfor %}
 
-            // すでに値がキャッシュされている場合はそれを使う
-            // それ以外の場合, プロパティから値を取得してキャッシュする
-            var value = cache ?? new Vector{{ dim }}(
+            // プロパティから値を取得
+            var value = new Vector{{ dim }}(
                 {%- for c in components %}
-                {{ component }}Drawer.Restore({{ c|lower }}.{{ bits_type }}Value){% if not loop.last %},{% endif %}
+                {{ component }}Drawer.FromBits({{ c|lower }}.{{ bits_type }}Value){% if not loop.last %},{% endif %}
                 {%- endfor %}
             );
 
@@ -33,8 +31,8 @@ namespace {{ namespace }}.Editor {
             EditorGUI.BeginChangeCheck();
             value = EditorGUI.Vector{{ dim }}Field(position, label, value);
 
-            // 値を正規化してキャッシュを更新
-            cache = new Vector{{ dim }}(
+            // 値を正規化
+            value = new Vector{{ dim }}(
                 {%- for c in components -%}
                 {{ component }}Drawer.Clamp(value.{{ c|lower }}){% if not loop.last %}, {% endif %}
                 {%- endfor -%}
@@ -42,11 +40,17 @@ namespace {{ namespace }}.Editor {
 
             if (EditorGUI.EndChangeCheck()) {
                 {%- for c in components %}
-                {{ c|lower }}.{{ bits_type }}Value = {{ component }}Drawer.ToBits(cache.Value.{{ c|lower }});
+                {{ c|lower }}.{{ bits_type }}Value = {{ component }}Drawer.ToBits(value.{{ c|lower }});
                 {%- endfor %}
             }
 
             EditorGUI.EndProperty();
+        }
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+            var l = EditorGUIUtility.wideMode ? 1 : 2;
+            var s = l - 1;
+            return (l * EditorGUIUtility.singleLineHeight)
+                 + (s * EditorGUIUtility.standardVerticalSpacing);
         }
     }
 }

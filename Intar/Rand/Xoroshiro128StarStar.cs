@@ -7,27 +7,50 @@ namespace Intar.Rand {
             this.s1 = s1;
         }
 
-        public long NextInt64() {
+        public ulong NextUInt64() {
             var s0 = this.s0;
             var s1 = this.s1;
             var result = unchecked(BitOperations.RotateLeft(s0 * 5, 7) * 9);
             s1 ^= s0;
             this.s0 = BitOperations.RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);
             this.s1 = BitOperations.RotateLeft(s1, 37);
-            return unchecked((long)result);
+            return result;
+        }
+        public ulong NextUInt64(ulong maxValue) {
+            var t = ulong.MaxValue / maxValue * maxValue;
+            ulong result;
+            do {
+                result = NextUInt64();
+            } while (t <= result);
+            result %= maxValue;
+            return result;
+        }
+        public ulong NextUInt64(ulong minValue, ulong maxValue) {
+            var d = maxValue - minValue;
+            var a = NextUInt64(d);
+            return minValue + a;
+        }
+        public long NextInt64() => unchecked((long)NextUInt64());
+        public long NextInt64(long maxValue) {
+            var result = NextUInt64((ulong)maxValue);
+            return (long)result;
         }
         public long NextInt64(long minValue, long maxValue) {
-            var d = Mathi.AbsDiff(minValue, maxValue);
-            var x = unchecked((ulong)NextInt64());
-            while (ulong.MaxValue / d * d <= x) {
-                x = unchecked((ulong)NextInt64());
+            unchecked {
+                var d = (ulong)(maxValue - minValue);
+                var a = (long)NextUInt64(d);
+                return minValue + a;
             }
-            return Overflowing.WrappingAddUnsigned(minValue, x % d);
         }
-        public long NextInt64(long maxValue) => NextInt64(0, maxValue);
         public int Next() => unchecked((int)NextInt64());
-        public int Next(int minValue, int maxValue) => unchecked((int)NextInt64(minValue, maxValue));
-        public int Next(int maxValue) => Next(0, maxValue);
+        public int Next(int maxValue) {
+            var result = NextInt64(maxValue);
+            return (int)result;
+        }
+        public int Next(int minValue, int maxValue) {
+            var result = NextInt64(minValue, maxValue);
+            return (int)result;
+        }
 
         public void Jump() {
             const ulong k1 = 0xdf900294d8f554a5UL;
