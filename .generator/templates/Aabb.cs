@@ -95,8 +95,8 @@ namespace {{ namespace }} {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}(Geometry.{{ circle_type }} circle) {
-            min = circle.Center - (I17F15)circle.Radius;
-            max = circle.Center + (I17F15)circle.Radius;
+            min = circle.Center - ({{ component }})circle.Radius;
+            max = circle.Center + ({{ component }})circle.Radius;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public {{ type }}(Geometry.{{ segment_type }} segment) {
