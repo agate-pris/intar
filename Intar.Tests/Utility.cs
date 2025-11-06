@@ -36,12 +36,6 @@ namespace Intar.Tests {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AssertAreEqual(int expected, int actual, int x) {
-            if (expected != actual) {
-                Assert.AreEqual(expected, actual, $"x: {x}");
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(long expected, long actual) {
             if (expected != actual) {
                 Assert.AreEqual(expected, actual);
@@ -51,12 +45,6 @@ namespace Intar.Tests {
         public static void AssertAreEqual(long expected, long actual, string message) {
             if (expected != actual) {
                 Assert.AreEqual(expected, actual, message);
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AssertAreEqual(long expected, long actual, long x) {
-            if (expected != actual) {
-                Assert.AreEqual(expected, actual, $"x: {x}");
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -93,18 +81,6 @@ namespace Intar.Tests {
         public static void AssertAreEqual(double expected, double actual, double delta, string message) {
             if (Math.Abs(expected - actual) > delta) {
                 Assert.AreEqual(expected, actual, delta, message);
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AssertAreEqual(double expected, double actual, double delta, int x) {
-            if (Math.Abs(expected - actual) > delta) {
-                Assert.AreEqual(expected, actual, delta, $"x: {x}");
-            }
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AssertAreEqual(double expected, double actual, double delta, long x) {
-            if (Math.Abs(expected - actual) > delta) {
-                Assert.AreEqual(expected, actual, delta, $"x: {x}");
             }
         }
         #endregion

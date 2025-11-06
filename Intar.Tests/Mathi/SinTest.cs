@@ -64,7 +64,7 @@ namespace Intar.Tests.Mathi {
             const double toReal = 1.0 / (1 << 30);
             var a = f(x);
             Utility.AssertAreEqual(expected, a, x);
-            Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, x);
+            Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, $"x:{x}");
         }
         static void Test(long expected, Func<long, long> f, Func<double, double> g, long x, double delta) {
             const long pi = 1L << 32;
@@ -72,7 +72,7 @@ namespace Intar.Tests.Mathi {
             const double toReal = 1.0 / (1L << 62);
             var a = f(x);
             Utility.AssertAreEqual(expected, a, x);
-            Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, x);
+            Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, $"x:{x}");
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)] static void TestSin(int expected, Func<int, int> sin, int x, double delta) => Test(expected, sin, Math.Sin, x, delta);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] static void TestCos(int expected, Func<int, int> cos, int x, double delta) => Test(expected, cos, Math.Cos, x, delta);
@@ -144,7 +144,7 @@ namespace Intar.Tests.Mathi {
             for (var x = 0; x < pi / 2; ++x) {
                 var expected = Math.Cos(x * toRad);
                 var actual = cos(x);
-                Utility.AssertAreEqual(expected, actual * toReal, delta, x);
+                Utility.AssertAreEqual(expected, actual * toReal, delta, $"x:{x}");
                 var p = -x;
                 TestCos(actual, cos, p, delta);
                 TestSin(actual, sin, p + (pi / 2), delta);
