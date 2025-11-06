@@ -73,13 +73,21 @@ namespace Intar.Tests {
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(double expected, double actual, double delta) {
-            if (Math.Abs(expected - actual) > delta) {
+            if (double.IsNaN(expected) || double.IsInfinity(expected)) {
+                if (expected != actual) {
+                    Assert.AreEqual(expected, actual);
+                }
+            } else if (Math.Abs(expected - actual) > delta) {
                 Assert.AreEqual(expected, actual, delta);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(double expected, double actual, double delta, string message) {
-            if (Math.Abs(expected - actual) > delta) {
+            if (double.IsNaN(expected) || double.IsInfinity(expected)) {
+                if (expected != actual) {
+                    Assert.AreEqual(expected, actual, message);
+                }
+            } else if (Math.Abs(expected - actual) > delta) {
                 Assert.AreEqual(expected, actual, delta, message);
             }
         }
