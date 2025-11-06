@@ -30,6 +30,12 @@ namespace Intar.Tests {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(int expected, int actual, string message) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, message);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(int expected, int actual, int x) {
             if (expected != actual) {
                 Assert.AreEqual(expected, actual, $"x: {x}");
@@ -39,6 +45,12 @@ namespace Intar.Tests {
         public static void AssertAreEqual(long expected, long actual) {
             if (expected != actual) {
                 Assert.AreEqual(expected, actual);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(long expected, long actual, string message) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, message);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,15 +66,33 @@ namespace Intar.Tests {
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(uint expected, uint actual, string message) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, message);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(ulong expected, ulong actual) {
             if (expected != actual) {
                 Assert.AreEqual(expected, actual);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(ulong expected, ulong actual, string message) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, message);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AssertAreEqual(double expected, double actual, double delta) {
             if (Math.Abs(expected - actual) > delta) {
                 Assert.AreEqual(expected, actual, delta);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(double expected, double actual, double delta, string message) {
+            if (Math.Abs(expected - actual) > delta) {
+                Assert.AreEqual(expected, actual, delta, message);
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
