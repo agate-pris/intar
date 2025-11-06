@@ -53,12 +53,14 @@ namespace Intar {
 
     public enum WrapMode {
         Default,
-        Once,
+        Clamp,
         Loop,
 #if false // 未実装
         PingPong = 4,
         ClampForever = 8,
 #endif
+        [Obsolete("Use Clamp instead. Once is kept for backward compatibility.")]
+        Once = Clamp,
     }
 
     [Serializable]
@@ -235,9 +237,9 @@ namespace Intar {
 
                 // UnityEngine.AnimationCurve では
                 // ClampForever は Once と同じ挙動。
-                if (PostWrapMode == WrapMode.Once && last.Time <= time) {
+                if (PostWrapMode == WrapMode.Clamp && last.Time <= time) {
                     return last.Value;
-                } else if (PreWrapMode == WrapMode.Once && time <= first.Time) {
+                } else if (PreWrapMode == WrapMode.Clamp && time <= first.Time) {
                     return first.Value;
                 }
 
