@@ -6,7 +6,7 @@ namespace Intar.Editor {
     public class AnimationCurveI17F15Drawer : PropertyDrawer {
         static UnityEngine.WrapMode Convert(WrapMode wrapMode) {
             switch (wrapMode) {
-                case WrapMode.Once: return UnityEngine.WrapMode.ClampForever;
+                case WrapMode.Clamp: return UnityEngine.WrapMode.ClampForever;
                 case WrapMode.Loop: return UnityEngine.WrapMode.Loop;
                 case WrapMode.Default:
                 default: return UnityEngine.WrapMode.Clamp;
@@ -19,7 +19,7 @@ namespace Intar.Editor {
                 case UnityEngine.WrapMode.Once:
                 case UnityEngine.WrapMode.Default:
                 case UnityEngine.WrapMode.ClampForever:
-                default: return WrapMode.Once;
+                default: return WrapMode.Clamp;
             }
         }
         AnimationCurve proxy;
