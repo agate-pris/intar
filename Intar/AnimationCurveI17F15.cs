@@ -59,8 +59,6 @@ namespace Intar {
         PingPong = 4,
         ClampForever = 8,
 #endif
-        [Obsolete("Use Clamp instead. Once is kept for backward compatibility.")]
-        Once = Clamp,
     }
 
     [Serializable]
