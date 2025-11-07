@@ -4,21 +4,32 @@ using UnityEngine;
 namespace Intar.Editor {
     [CustomPropertyDrawer(typeof(AnimationCurveI17F15))]
     public class AnimationCurveI17F15Drawer : PropertyDrawer {
+        // UnityAnimationCurve の preWrapMode と postWrapMode は
+        // シリアライズ・デシリアライズ時に以下のように変換される.
+        //
+        // * PingPong            <=> 0
+        // * Loop                <=> 1
+        // * Clamp, ClampForever ==> 2
+        // * Default             <=> 3
+        // * ClampForever        <== default
+        //
+        // また, デフォルト構築時は ClampForever になる.
+
         static UnityEngine.WrapMode Convert(WrapMode wrapMode) {
             switch (wrapMode) {
-                case WrapMode.Clamp: return UnityEngine.WrapMode.ClampForever;
+                case WrapMode.Default: return UnityEngine.WrapMode.Default;
                 case WrapMode.Loop: return UnityEngine.WrapMode.Loop;
-                case WrapMode.Default:
-                default: return UnityEngine.WrapMode.Clamp;
+                case WrapMode.Clamp:
+                default: return UnityEngine.WrapMode.ClampForever;
             }
         }
         static WrapMode Convert(UnityEngine.WrapMode wrapMode) {
             switch (wrapMode) {
-                case UnityEngine.WrapMode.Loop:
-                case UnityEngine.WrapMode.PingPong: return WrapMode.Loop;
-                case UnityEngine.WrapMode.Once:
-                case UnityEngine.WrapMode.Default:
+                case UnityEngine.WrapMode.Default: return WrapMode.Default;
+                case UnityEngine.WrapMode.Loop: return WrapMode.Loop;
+                case UnityEngine.WrapMode.PingPong:
                 case UnityEngine.WrapMode.ClampForever:
+                case UnityEngine.WrapMode.Clamp:
                 default: return WrapMode.Clamp;
             }
         }
@@ -42,8 +53,8 @@ namespace Intar.Editor {
                         ));
                     }
                 }
-                proxy.preWrapMode = Convert((WrapMode)property.FindPropertyRelative("PreWrapMode").enumValueIndex);
-                proxy.postWrapMode = Convert((WrapMode)property.FindPropertyRelative("PostWrapMode").enumValueIndex);
+                proxy.preWrapMode = Convert((WrapMode)property.FindPropertyRelative("PreWrapMode").intValue);
+                proxy.postWrapMode = Convert((WrapMode)property.FindPropertyRelative("PostWrapMode").intValue);
             }
 
             // GUI を描画し変更を検知する
@@ -67,8 +78,8 @@ namespace Intar.Editor {
                 }
 
                 // Update wrap modes
-                property.FindPropertyRelative("PreWrapMode").enumValueIndex = (int)Convert(proxy.preWrapMode);
-                property.FindPropertyRelative("PostWrapMode").enumValueIndex = (int)Convert(proxy.postWrapMode);
+                property.FindPropertyRelative("PreWrapMode").intValue = (int)Convert(proxy.preWrapMode);
+                property.FindPropertyRelative("PostWrapMode").intValue = (int)Convert(proxy.postWrapMode);
 
                 _ = property.serializedObject.ApplyModifiedProperties();
             }
