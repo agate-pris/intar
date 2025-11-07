@@ -52,8 +52,7 @@ namespace Intar {
     }
 
     public enum WrapMode {
-        Default,
-        Clamp,
+        Clamp = 1,
         Loop,
 #if false // 未実装
         PingPong = 4,
@@ -237,14 +236,14 @@ namespace Intar {
                 // ClampForever は Once と同じ挙動。
                 if (last.Time <= time) {
                     switch (PostWrapMode) {
-                        case WrapMode.Default:
+                        case 0:
                         case WrapMode.Loop: break;
                         case WrapMode.Clamp:
                         default: return last.Value;
                     }
                 } else if (time <= first.Time) {
                     switch (PreWrapMode) {
-                        case WrapMode.Default:
+                        case 0:
                         case WrapMode.Loop: break;
                         case WrapMode.Clamp:
                         default: return first.Value;
