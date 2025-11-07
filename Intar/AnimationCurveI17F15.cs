@@ -235,10 +235,20 @@ namespace Intar {
 
                 // UnityEngine.AnimationCurve では
                 // ClampForever は Once と同じ挙動。
-                if (PostWrapMode == WrapMode.Clamp && last.Time <= time) {
-                    return last.Value;
-                } else if (PreWrapMode == WrapMode.Clamp && time <= first.Time) {
-                    return first.Value;
+                if (last.Time <= time) {
+                    switch (PostWrapMode) {
+                        case WrapMode.Default:
+                        case WrapMode.Loop: break;
+                        case WrapMode.Clamp:
+                        default: return last.Value;
+                    }
+                } else if (time <= first.Time) {
+                    switch (PreWrapMode) {
+                        case WrapMode.Default:
+                        case WrapMode.Loop: break;
+                        case WrapMode.Clamp:
+                        default: return first.Value;
+                    }
                 }
 
                 // Default は Loop と同じ挙動。
