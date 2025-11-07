@@ -17,7 +17,7 @@ namespace Intar.Editor {
 
         static UnityEngine.WrapMode Convert(WrapMode wrapMode) {
             switch (wrapMode) {
-                case WrapMode.Default: return UnityEngine.WrapMode.Default;
+                case 0: return UnityEngine.WrapMode.Default;
                 case WrapMode.Loop: return UnityEngine.WrapMode.Loop;
                 case WrapMode.Clamp:
                 default: return UnityEngine.WrapMode.ClampForever;
@@ -25,7 +25,7 @@ namespace Intar.Editor {
         }
         static WrapMode Convert(UnityEngine.WrapMode wrapMode) {
             switch (wrapMode) {
-                case UnityEngine.WrapMode.Default: return WrapMode.Default;
+                case UnityEngine.WrapMode.Default: return 0;
                 case UnityEngine.WrapMode.Loop: return WrapMode.Loop;
                 case UnityEngine.WrapMode.PingPong:
                 case UnityEngine.WrapMode.ClampForever:
