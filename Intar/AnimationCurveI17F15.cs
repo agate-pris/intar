@@ -49,6 +49,9 @@ namespace Intar {
             InTangent = inTangent;
             OutTangent = outTangent;
         }
+        public KeyframeI17F15(
+            I17F15 time, I17F15 value
+        ) : this(time, value, I17F15.Zero, I17F15.Zero) { }
     }
 
     public enum WrapMode {
