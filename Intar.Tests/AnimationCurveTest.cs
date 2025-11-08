@@ -25,5 +25,12 @@ namespace Intar.Tests {
             Assert.IsTrue(d == k.InTangent);
             Assert.IsTrue(e == k.OutTangent);
         }
+
+        [Test]
+        public static void TestAnimationCurveI17F15Constructor() {
+            var curve = new AnimationCurveI17F15();
+            Assert.AreEqual(curve.PreWrapMode, WrapMode.Clamp);
+            Assert.AreEqual(curve.PostWrapMode, WrapMode.Clamp);
+        }
     }
 }

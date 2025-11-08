@@ -286,6 +286,12 @@ namespace Intar {
             }
         }
         #endregion
+        #region Constructor
+        public AnimationCurveI17F15() {
+            PreWrapMode = WrapMode.Clamp;
+            PostWrapMode = WrapMode.Clamp;
+        }
+        #endregion
         #region Conversion
 #if UNITY_5_3_OR_NEWER
         public static explicit operator AnimationCurve(AnimationCurveI17F15 a) {
