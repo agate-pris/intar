@@ -286,7 +286,7 @@ namespace Intar {
             }
         }
         #endregion
-
+        #region Conversion
 #if UNITY_5_3_OR_NEWER
         public static explicit operator AnimationCurve(AnimationCurveI17F15 a) {
             var curve = new AnimationCurve();
@@ -303,6 +303,6 @@ namespace Intar {
             return curve;
         }
 #endif
-
+        #endregion
     }
 } // namespace Intar
