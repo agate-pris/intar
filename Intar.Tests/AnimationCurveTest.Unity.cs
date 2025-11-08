@@ -34,5 +34,12 @@ namespace Intar.Tests {
             Assert.IsTrue(7 == k.inWeight);
             Assert.IsTrue(8 == k.outWeight);
         }
+
+        [Test]
+        public static void TestAnimationCurveConstructor() {
+            var curve = new AnimationCurve();
+            Assert.IsTrue(curve.preWrapMode == UnityEngine.WrapMode.ClampForever);
+            Assert.IsTrue(curve.postWrapMode == UnityEngine.WrapMode.ClampForever);
+        }
     }
 }
