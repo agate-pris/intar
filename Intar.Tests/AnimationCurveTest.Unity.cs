@@ -40,6 +40,13 @@ namespace Intar.Tests {
             var curve = new AnimationCurve();
             Assert.IsTrue(curve.preWrapMode == UnityEngine.WrapMode.ClampForever);
             Assert.IsTrue(curve.postWrapMode == UnityEngine.WrapMode.ClampForever);
+            Assert.AreEqual(0, curve.length);
+            Assert.IsNotNull(curve.keys);
+
+            // length と keys のアクセス順序が逆でも正しく動作することを確認
+            curve = new AnimationCurve();
+            Assert.IsNotNull(curve.keys);
+            Assert.AreEqual(0, curve.length);
         }
     }
 }

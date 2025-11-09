@@ -31,6 +31,13 @@ namespace Intar.Tests {
             var curve = new AnimationCurveI17F15();
             Assert.AreEqual(curve.PreWrapMode, WrapMode.Clamp);
             Assert.AreEqual(curve.PostWrapMode, WrapMode.Clamp);
+            Assert.AreEqual(0, curve.Length);
+            Assert.IsNotNull(curve.Keys);
+
+            // Length と Keys のアクセス順序が逆でも正しく動作することを確認
+            curve = new AnimationCurveI17F15();
+            Assert.IsNotNull(curve.Keys);
+            Assert.AreEqual(0, curve.Length);
         }
     }
 }
