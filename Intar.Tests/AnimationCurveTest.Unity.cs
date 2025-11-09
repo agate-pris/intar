@@ -48,5 +48,31 @@ namespace Intar.Tests {
             Assert.IsNotNull(curve.keys);
             Assert.AreEqual(0, curve.length);
         }
+
+        [Test]
+        public static void TestSetKeys() {
+            var keys = new Keyframe[] {
+                new Keyframe(4, 5),
+                new Keyframe(4, 4),
+                new Keyframe(3, 4),
+                new Keyframe(3, 3),
+                new Keyframe(2, 3),
+                new Keyframe(2, 2),
+                new Keyframe(1, 2),
+                new Keyframe(1, 1),
+            };
+            var curve = new AnimationCurve { keys = keys };
+
+            // keys 設定時, 値が安定ソートされることをテスト
+            Assert.AreEqual(8, curve.length);
+            Assert.AreEqual(keys[6], curve[0]);
+            Assert.AreEqual(keys[7], curve[1]);
+            Assert.AreEqual(keys[4], curve[2]);
+            Assert.AreEqual(keys[5], curve[3]);
+            Assert.AreEqual(keys[2], curve[4]);
+            Assert.AreEqual(keys[3], curve[5]);
+            Assert.AreEqual(keys[0], curve[6]);
+            Assert.AreEqual(keys[1], curve[7]);
+        }
     }
 }
