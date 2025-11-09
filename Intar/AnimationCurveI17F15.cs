@@ -85,6 +85,7 @@ namespace Intar {
                     return;
                 }
                 keys = new List<KeyframeI17F15>(value);
+                Utility.InsertionSort(keys, (a, b) => a.Time.CompareTo(b.Time));
             }
         }
         public int Length {
