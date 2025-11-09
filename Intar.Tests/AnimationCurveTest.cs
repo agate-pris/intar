@@ -39,5 +39,32 @@ namespace Intar.Tests {
             Assert.IsNotNull(curve.Keys);
             Assert.AreEqual(0, curve.Length);
         }
+
+        [Test]
+        public static void TestSetKeysI17F15() {
+            var keys = new KeyframeI17F15[] {
+                new KeyframeI17F15(I17F15.FromBits(4000), I17F15.FromBits(5000)),
+                new KeyframeI17F15(I17F15.FromBits(4000), I17F15.FromBits(4000)),
+                new KeyframeI17F15(I17F15.FromBits(3000), I17F15.FromBits(4000)),
+                new KeyframeI17F15(I17F15.FromBits(3000), I17F15.FromBits(3000)),
+                new KeyframeI17F15(I17F15.FromBits(2000), I17F15.FromBits(3000)),
+                new KeyframeI17F15(I17F15.FromBits(2000), I17F15.FromBits(2000)),
+                new KeyframeI17F15(I17F15.FromBits(1000), I17F15.FromBits(2000)),
+                new KeyframeI17F15(I17F15.FromBits(1000), I17F15.FromBits(1000)),
+            };
+            var curve = new AnimationCurveI17F15 { Keys = keys };
+
+            // Keys 設定時, 値が安定ソートされることをテスト
+            Assert.AreEqual(8, curve.Length);
+            Assert.AreEqual(keys[6], curve[0]);
+            Assert.AreEqual(keys[7], curve[1]);
+            Assert.AreEqual(keys[4], curve[2]);
+            Assert.AreEqual(keys[5], curve[3]);
+            Assert.AreEqual(keys[2], curve[4]);
+            Assert.AreEqual(keys[3], curve[5]);
+            Assert.AreEqual(keys[0], curve[6]);
+            Assert.AreEqual(keys[1], curve[7]);
+        }
+
     }
 }
