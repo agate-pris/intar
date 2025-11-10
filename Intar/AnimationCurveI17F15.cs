@@ -111,7 +111,7 @@ namespace Intar {
                 }
             }
             keys.Add(key);
-            return 0;
+            return keys.Count - 1;
         }
         public void MoveKey(int index, KeyframeI17F15 key) {
             keys[index] = key;

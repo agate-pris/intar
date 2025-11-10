@@ -50,6 +50,52 @@ namespace Intar.Tests {
         }
 
         [Test]
+        public static void TestAddKey() {
+            var curve = new AnimationCurve();
+            var k1 = new Keyframe(2, 2);
+            var k2 = new Keyframe(2, 3);
+            var k3 = new Keyframe(4, 4);
+            var k4 = new Keyframe(3, 3);
+            var k5 = new Keyframe(1, 1);
+            var i = curve.AddKey(k1);
+            Utility.AssertAreEqual(1, curve.length);
+            Utility.AssertAreEqual(0, i);
+            Utility.AssertAreEqual(k1.time, curve[i].time);
+            Utility.AssertAreEqual(k1.value, curve[i].value);
+            Utility.AssertAreEqual(-1, curve.AddKey(k2));
+            Utility.AssertAreEqual(1, curve.length);
+            Utility.AssertAreEqual(k1.time, curve[i].time);
+            Utility.AssertAreEqual(k1.value, curve[i].value);
+            i = curve.AddKey(k3);
+            Utility.AssertAreEqual(2, curve.length);
+            Utility.AssertAreEqual(1, i);
+            Utility.AssertAreEqual(k1.time, curve[0].time);
+            Utility.AssertAreEqual(k1.value, curve[0].value);
+            Utility.AssertAreEqual(k3.time, curve[i].time);
+            Utility.AssertAreEqual(k3.value, curve[i].value);
+            i = curve.AddKey(k4);
+            Utility.AssertAreEqual(3, curve.length);
+            Utility.AssertAreEqual(1, i);
+            Utility.AssertAreEqual(k1.time, curve[0].time);
+            Utility.AssertAreEqual(k1.value, curve[0].value);
+            Utility.AssertAreEqual(k4.time, curve[i].time);
+            Utility.AssertAreEqual(k4.value, curve[i].value);
+            Utility.AssertAreEqual(k3.time, curve[2].time);
+            Utility.AssertAreEqual(k3.value, curve[2].value);
+            i = curve.AddKey(k5);
+            Utility.AssertAreEqual(4, curve.length);
+            Utility.AssertAreEqual(0, i);
+            Utility.AssertAreEqual(k5.time, curve[i].time);
+            Utility.AssertAreEqual(k5.value, curve[i].value);
+            Utility.AssertAreEqual(k1.time, curve[1].time);
+            Utility.AssertAreEqual(k1.value, curve[1].value);
+            Utility.AssertAreEqual(k4.time, curve[2].time);
+            Utility.AssertAreEqual(k4.value, curve[2].value);
+            Utility.AssertAreEqual(k3.time, curve[3].time);
+            Utility.AssertAreEqual(k3.value, curve[3].value);
+        }
+
+        [Test]
         public static void TestSetKeys() {
             var keys = new Keyframe[] {
                 new Keyframe(4, 5),
