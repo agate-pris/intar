@@ -103,6 +103,18 @@ namespace Intar.Tests {
                 Assert.AreEqual(expected, actual, delta, message);
             }
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(I17F15 expected, I17F15 actual) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual);
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AssertAreEqual(I17F15 expected, I17F15 actual, string message) {
+            if (expected != actual) {
+                Assert.AreEqual(expected, actual, message);
+            }
+        }
         #endregion
         #region RandomInt, RandomAxis, RandomI17F15, Random01I17F15, Random01Single, RandomPosition, RandomScale
         /// <summary>
