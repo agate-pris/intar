@@ -72,32 +72,22 @@ namespace Intar {
         List<KeyframeI17F15> keys;
         public KeyframeI17F15[] Keys {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get {
-                if (keys == null) {
-                    return Array.Empty<KeyframeI17F15>();
-                }
-                return keys.ToArray();
-            }
+            get => keys.ToArray();
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
-                if (value == null || value.Length == 0) {
-                    keys = null;
+                keys.Clear();
+                if (value == null) {
                     return;
                 }
-                keys = new List<KeyframeI17F15>(value);
+                keys.AddRange(value);
                 Utility.InsertionSort(keys, (a, b) => a.Time.CompareTo(b.Time));
             }
         }
         public int Length {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => keys == null ? 0 : keys.Count;
+            get => keys.Count;
         }
         public int AddKey(KeyframeI17F15 key) {
-            if (keys == null) {
-                keys = new List<KeyframeI17F15> { key };
-                return 0;
-            }
-
             // key を挿入する位置を探す。
             for (var i = 0; i < keys.Count; i++) {
                 if (key.Time < keys[i].Time) {
@@ -118,16 +108,10 @@ namespace Intar {
             keys.Sort((a, b) => a.Time.CompareTo(b.Time));
         }
         public void RemoveKey(int index) {
-            if (keys == null) {
-                return;
-            }
             keys.RemoveAt(index);
-            if (keys.Count == 0) {
-                keys = null;
-            }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ClearKeys() => keys = null;
+        public void ClearKeys() => keys.Clear();
         public KeyframeI17F15 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => keys[index];
@@ -221,10 +205,6 @@ namespace Intar {
             return (h00 * left.Value) + (h10 * m0) + (h01 * right.Value) + (h11 * m1);
         }
         public I17F15 Evaluate(I17F15 time) {
-            if (keys == null) {
-                return I17F15.Zero;
-            }
-
             {
                 var length = keys.Count;
                 if (length == 0) {
@@ -292,6 +272,7 @@ namespace Intar {
         public AnimationCurveI17F15() {
             PreWrapMode = WrapMode.Clamp;
             PostWrapMode = WrapMode.Clamp;
+            keys = new List<KeyframeI17F15>();
         }
         #endregion
         #region Conversion
