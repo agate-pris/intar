@@ -144,5 +144,30 @@ namespace Intar.Tests {
             Assert.AreEqual(keys[0], curve[6]);
             Assert.AreEqual(keys[1], curve[7]);
         }
+
+        [Test]
+        public static void TestRemoveKeyI17F15() {
+            var curve = new AnimationCurveI17F15();
+
+            // AnimationCurveI17F15 は ArgumentOutOfRangeException をスローする.
+
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => {
+                curve.RemoveKey(0);
+            });
+
+            _ = curve.AddKey(new KeyframeI17F15((I17F15)1, (I17F15)1));
+            Utility.AssertAreEqual(1, curve.Length);
+
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => {
+                curve.RemoveKey(-1);
+            });
+
+            curve.RemoveKey(0);
+            Utility.AssertAreEqual(0, curve.Length);
+
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => {
+                curve.RemoveKey(0);
+            });
+        }
     }
 }

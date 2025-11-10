@@ -151,5 +151,30 @@ namespace Intar.Tests {
             Assert.AreEqual(keys[0], curve[6]);
             Assert.AreEqual(keys[1], curve[7]);
         }
+
+        [Test]
+        public static void TestRemoveKey() {
+            var curve = new AnimationCurve();
+
+            // AnimationCurve は IndexOutOfRangeException をスローする.
+
+            _ = Assert.Throws<IndexOutOfRangeException>(() => {
+                curve.RemoveKey(0);
+            });
+
+            _ = curve.AddKey(new Keyframe(1, 1));
+            Utility.AssertAreEqual(1, curve.length);
+
+            _ = Assert.Throws<IndexOutOfRangeException>(() => {
+                curve.RemoveKey(-1);
+            });
+
+            curve.RemoveKey(0);
+            Utility.AssertAreEqual(0, curve.length);
+
+            _ = Assert.Throws<IndexOutOfRangeException>(() => {
+                curve.RemoveKey(0);
+            });
+        }
     }
 }
