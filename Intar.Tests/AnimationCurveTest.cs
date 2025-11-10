@@ -111,6 +111,5 @@ namespace Intar.Tests {
             Assert.AreEqual(keys[0], curve[6]);
             Assert.AreEqual(keys[1], curve[7]);
         }
-
     }
 }
