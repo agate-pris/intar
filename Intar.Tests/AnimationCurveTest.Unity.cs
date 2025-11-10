@@ -97,6 +97,13 @@ namespace Intar.Tests {
 
         [Test]
         public static void TestSetKeys() {
+            var curve = new AnimationCurve();
+            Assert.AreEqual(0, curve.length);
+            curve.keys = new Keyframe[] { };
+            Assert.AreEqual(0, curve.length);
+            curve.keys = null;
+            Assert.AreEqual(0, curve.length);
+
             var keys = new Keyframe[] {
                 new Keyframe(4, 5),
                 new Keyframe(4, 4),
@@ -107,7 +114,7 @@ namespace Intar.Tests {
                 new Keyframe(1, 2),
                 new Keyframe(1, 1),
             };
-            var curve = new AnimationCurve { keys = keys };
+            curve.keys = keys;
 
             // keys 設定時, 値が安定ソートされることをテスト
             Assert.AreEqual(8, curve.length);

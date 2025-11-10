@@ -88,6 +88,13 @@ namespace Intar.Tests {
 
         [Test]
         public static void TestSetKeysI17F15() {
+            var curve = new AnimationCurveI17F15();
+            Assert.AreEqual(0, curve.Length);
+            curve.Keys = new KeyframeI17F15[] { };
+            Assert.AreEqual(0, curve.Length);
+            curve.Keys = null;
+            Assert.AreEqual(0, curve.Length);
+
             var keys = new KeyframeI17F15[] {
                 new KeyframeI17F15(I17F15.FromBits(4000), I17F15.FromBits(5000)),
                 new KeyframeI17F15(I17F15.FromBits(4000), I17F15.FromBits(4000)),
@@ -98,7 +105,7 @@ namespace Intar.Tests {
                 new KeyframeI17F15(I17F15.FromBits(1000), I17F15.FromBits(2000)),
                 new KeyframeI17F15(I17F15.FromBits(1000), I17F15.FromBits(1000)),
             };
-            var curve = new AnimationCurveI17F15 { Keys = keys };
+            curve.Keys = keys;
 
             // Keys 設定時, 値が安定ソートされることをテスト
             Assert.AreEqual(8, curve.Length);
