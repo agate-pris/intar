@@ -92,25 +92,26 @@ namespace Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => keys == null ? 0 : keys.Count;
         }
-        public void AddKey(KeyframeI17F15 key) {
+        public int AddKey(KeyframeI17F15 key) {
             if (keys == null) {
                 keys = new List<KeyframeI17F15> { key };
-                return;
+                return 0;
             }
 
             // key を挿入する位置を探す。
             for (var i = 0; i < keys.Count; i++) {
                 if (key.Time < keys[i].Time) {
                     keys.Insert(i, key);
-                    return;
+                    return i;
                 }
 
                 // すでに key が存在する場合は何もしない。
                 if (key.Time == keys[i].Time) {
-                    return;
+                    return -1;
                 }
             }
             keys.Add(key);
+            return 0;
         }
         public void MoveKey(int index, KeyframeI17F15 key) {
             keys[index] = key;
