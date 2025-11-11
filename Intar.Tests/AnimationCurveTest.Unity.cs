@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using UnityEngine;
 
 namespace Intar.Tests {
@@ -47,6 +48,29 @@ namespace Intar.Tests {
             curve = new AnimationCurve();
             Assert.IsNotNull(curve.keys);
             Assert.AreEqual(0, curve.length);
+        }
+
+        [Test]
+        public static void TestIndexer() {
+            var curve = new AnimationCurve();
+            for (var i = 0; i < 3; i++) {
+                for (var j = -1; j <= curve.length; j++) {
+                    if (j < 0 || j == curve.length) {
+                        // UnityEngine.AnimationCurve は IndexOutOfRangeException をスローする.
+                        var e = Assert.Throws<IndexOutOfRangeException>(() => {
+                            var k = curve[j];
+                            Debug.Log(k);
+                        }, $"i:{i} j:{j}");
+                        Debug.Log(e);
+                    } else {
+                        Assert.DoesNotThrow(() => {
+                            var k = curve[j];
+                            Debug.Log(k);
+                        }, $"i:{i} j:{j}");
+                    }
+                }
+                _ = curve.AddKey(new Keyframe(i + 1, (i + 1) * 2));
+            }
         }
 
         [Test]

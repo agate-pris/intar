@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace Intar.Tests {
     public partial class AnimationCurveTest {
@@ -38,6 +39,31 @@ namespace Intar.Tests {
             curve = new AnimationCurveI17F15();
             Assert.IsNotNull(curve.Keys);
             Assert.AreEqual(0, curve.Length);
+        }
+
+        [Test]
+        public static void TestIndexerI17F15() {
+            var curve = new AnimationCurveI17F15();
+            for (var i = 0; i < 3; i++) {
+                for (var j = -1; j <= curve.Length; j++) {
+                    if (j < 0 || j == curve.Length) {
+                        // AnimationCurveI17F15 は ArgumentOutOfRangeException をスローする.
+                        var e = Assert.Throws<ArgumentOutOfRangeException>(() => {
+                            var k = curve[j];
+                            Console.WriteLine(k);
+                        }, $"i:{i} j:{j}");
+                        Console.WriteLine(e);
+                    } else {
+                        Assert.DoesNotThrow(() => {
+                            var k = curve[j];
+                            Console.WriteLine(k);
+                        }, $"i:{i} j:{j}");
+                    }
+                }
+                var t = (I17F15)(i + 1);
+                var v = (I17F15)((i + 1) * 2);
+                _ = curve.AddKey(new KeyframeI17F15(t, v));
+            }
         }
 
         [Test]
