@@ -169,5 +169,61 @@ namespace Intar.Tests {
                 curve.RemoveKey(0);
             });
         }
+
+        [Test]
+        public static void TestMoveKeyI17F15() {
+            var curve = new AnimationCurveI17F15();
+
+            // AnimationCurveI17F15 はインデックスが不正な場合
+            // ArgumentOutOfRangeException をスローする.
+            var e = Assert.Throws<ArgumentOutOfRangeException>(() => {
+                _ = curve.MoveKey(0, new KeyframeI17F15((I17F15)1, (I17F15)1));
+            });
+            Console.WriteLine(e);
+
+            var i = curve.AddKey(new KeyframeI17F15((I17F15)1, (I17F15)1));
+            Utility.AssertAreEqual(0, i);
+            Utility.AssertAreEqual(1, curve.Length);
+            Utility.AssertAreEqual((I17F15)1, curve[i].Time);
+            Utility.AssertAreEqual((I17F15)1, curve[i].Value);
+            i = curve.MoveKey(0, new KeyframeI17F15((I17F15)2, (I17F15)2));
+            Utility.AssertAreEqual(0, i);
+            Utility.AssertAreEqual(1, curve.Length);
+            Utility.AssertAreEqual((I17F15)2, curve[i].Time);
+            Utility.AssertAreEqual((I17F15)2, curve[i].Value);
+
+            i = curve.AddKey(new KeyframeI17F15((I17F15)3, (I17F15)3));
+            Utility.AssertAreEqual(1, i);
+            Utility.AssertAreEqual(2, curve.Length);
+            Utility.AssertAreEqual((I17F15)2, curve[0].Time);
+            Utility.AssertAreEqual((I17F15)2, curve[0].Value);
+            Utility.AssertAreEqual((I17F15)3, curve[1].Time);
+            Utility.AssertAreEqual((I17F15)3, curve[1].Value);
+
+            i = curve.MoveKey(0, new KeyframeI17F15((I17F15)4, (I17F15)4));
+            Utility.AssertAreEqual(1, i);
+            Utility.AssertAreEqual(2, curve.Length);
+            Utility.AssertAreEqual((I17F15)3, curve[0].Time);
+            Utility.AssertAreEqual((I17F15)3, curve[0].Value);
+            Utility.AssertAreEqual((I17F15)4, curve[1].Time);
+            Utility.AssertAreEqual((I17F15)4, curve[1].Value);
+
+            i = curve.MoveKey(1, new KeyframeI17F15((I17F15)1, (I17F15)1));
+            Utility.AssertAreEqual(0, i);
+            Utility.AssertAreEqual(2, curve.Length);
+            Utility.AssertAreEqual((I17F15)1, curve[0].Time);
+            Utility.AssertAreEqual((I17F15)1, curve[0].Value);
+            Utility.AssertAreEqual((I17F15)3, curve[1].Time);
+            Utility.AssertAreEqual((I17F15)3, curve[1].Value);
+
+            // KeyframeI17F15.Time が既存のキーと重複する場合,
+            // 例外をスローせず指定したインデックスのキーを削除し -1 を返す.
+
+            i = curve.MoveKey(0, new KeyframeI17F15((I17F15)3, (I17F15)5));
+            Utility.AssertAreEqual(-1, i);
+            Utility.AssertAreEqual(1, curve.Length);
+            Utility.AssertAreEqual((I17F15)3, curve[0].Time);
+            Utility.AssertAreEqual((I17F15)3, curve[0].Value);
+        }
     }
 }

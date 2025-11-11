@@ -103,9 +103,9 @@ namespace Intar {
             keys.Add(key);
             return keys.Count - 1;
         }
-        public void MoveKey(int index, KeyframeI17F15 key) {
-            keys[index] = key;
-            keys.Sort((a, b) => a.Time.CompareTo(b.Time));
+        public int MoveKey(int index, KeyframeI17F15 key) {
+            RemoveKey(index);
+            return AddKey(key);
         }
         public void RemoveKey(int index) {
             keys.RemoveAt(index);
