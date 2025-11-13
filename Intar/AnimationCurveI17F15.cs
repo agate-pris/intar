@@ -59,7 +59,6 @@ namespace Intar {
         Loop,
 #if false // 未実装
         PingPong = 4,
-        ClampForever = 8,
 #endif
     }
 
@@ -124,6 +123,40 @@ namespace Intar {
         public WrapMode PreWrapMode;
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
+        #endregion
+        #region LoopTime
+        /// <summary>
+        /// ループした時間を計算する.
+        /// </summary>
+        /// <remarks>
+        /// <c>begin</c> と <c>end</c> が同値の場合 <c>null</c> を返す.
+        /// <c>AddKey</c> は <c>Time</c> が同値の場合ただその操作を無視するため,
+        /// <c>begin</c> と <c>end</c> が同値になることはない.
+        /// (キー数が 1 つになるか否かによって判別できる.)
+        /// </remarks>
+        internal static I17F15? LoopTime(I17F15 begin, I17F15 end, I17F15 time) {
+            var duration = end - begin;
+
+            // 周期長が 0 の場合 null を返す.
+            if (duration == I17F15.Zero) {
+                return null;
+            }
+
+            // time が [begin, end) の範囲に収まるように調整する.
+            return begin + Utility.FlooredRem(time - begin, duration);
+        }
+        #endregion
+        #region FindKey
+        internal int FindKey(I17F15 time) {
+            var i = 0;
+            var c = keys == null ? 0 : keys.Count;
+            for (; i < c; i++) {
+                if (time < keys[i].Time) {
+                    break;
+                }
+            }
+            return i;
+        }
         #endregion
         #region Evaluate
         // 重み付きの場合、ニュートン法で解く必要がある。
@@ -205,66 +238,91 @@ namespace Intar {
             return (h00 * left.Value) + (h10 * m0) + (h01 * right.Value) + (h11 * m1);
         }
         public I17F15 Evaluate(I17F15 time) {
-            {
-                var length = keys.Count;
-                if (length == 0) {
-                    return I17F15.Zero;
-                }
+            switch (keys.Count) {
+                default: break;
+                case 0: return I17F15.Zero;
+                case 1: return keys[0].Value;
+            }
 
-                var first = keys[0];
-                if (length == 1) {
-                    return first.Value;
-                }
-                var last = keys[length - 1];
+            var first = keys[0];
+            var last = keys[keys.Count - 1];
 
-                // UnityEngine.AnimationCurve では
-                // ClampForever は Once と同じ挙動。
-                if (last.Time <= time) {
-                    switch (PostWrapMode) {
-                        case 0:
-                        case WrapMode.Loop: break;
-                        case WrapMode.Clamp:
-                        default: return last.Value;
+            if (last.Time <= time) {
+                switch (PostWrapMode) {
+                    default: throw new NotImplementedException($"{PostWrapMode}");
+#if false
+                    case 0: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // それ以外の場合 Loop と同様.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
                     }
-                } else if (time <= first.Time) {
-                    switch (PreWrapMode) {
-                        case 0:
-                        case WrapMode.Loop: break;
-                        case WrapMode.Clamp:
-                        default: return first.Value;
+#endif
+                    case WrapMode.Clamp: return last.Value;
+                    case WrapMode.Loop: {
+                        // 周期長が 0 の場合, 最初の値を返す.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return first.Value;
+                        }
+                        time = t.Value;
+                        break;
                     }
                 }
+            } else if (time <= first.Time) {
+                // 周期長が 0 の場合, 最初の if 節と,
+                // この else if 節の両方の条件を満たす場合,
+                // 必ず if 節の中で早期リターンするため,
+                // この else if 節を if 節にする必要はない.
+                // もし if 節にした場合, 条件式を評価するコストが増える.
 
-                // Default は Loop と同じ挙動。
-                // （UnityEngine.AnimationCurve と同じ）
-
-                var duration = last.Time - first.Time;
-
-                // 周期長が 0 の場合 last.Value を返す。
-                // それ以外の場合、time が [first.Time, last.Time) の範囲に収まるように調整する。
-                if (duration == I17F15.Zero) {
-                    return last.Value;
-                } else {
-                    var fromFirst = time - first.Time;
-                    var progress = I17F15.FromBits(fromFirst.Bits % duration.Bits);
-                    var negative = progress < I17F15.Zero;
-                    time = (negative ? last.Time : first.Time) + progress;
+                switch (PreWrapMode) {
+                    default: throw new NotImplementedException($"{PreWrapMode}");
+#if false
+                    case 0: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // それ以外の場合 Loop と同様.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+#endif
+                    case WrapMode.Clamp: return first.Value;
+                    case WrapMode.Loop: {
+                        // 周期長が 0 の場合 I17F15.Zero を返す.
+                        // (UnityEngine.AnimationCurve は NaN を返す.)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return I17F15.Zero;
+                        }
+                        time = t.Value;
+                        break;
+                    }
                 }
             }
 
+            // first.Time < time の場合のみ補間処理を行う.
+            if (time <= first.Time) {
+                return first.Value;
+            }
+
             {
-                KeyframeI17F15 key1, key2;
-                var i = 0;
-                // length > 1 かつ begin <= time < end であるため、
-                // keys[i].Time <= time < keys[i + 1].Time となる i が存在する。
-                // また time < key[length - 1].Time（end）であるため、
-                // i < length - 1 である。
-                while (keys[i].Time <= time) {
-                    i++;
+                var i = FindKey(time);
+                if (i == keys.Count) {
+                    return last.Value;
+                } else {
+                    return Evaluate(time, keys[i - 1], keys[i]);
                 }
-                key1 = Keys[i - 1];
-                key2 = Keys[i];
-                return Evaluate(time, key1, key2);
             }
         }
         #endregion

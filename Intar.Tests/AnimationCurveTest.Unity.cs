@@ -398,5 +398,244 @@ namespace Intar.Tests {
                 }
             }
         }
+
+        /// <summary>
+        /// 周期長が 0 のカーブのテスト
+        /// </summary>
+        [TestCase(true)]
+        [TestCase(false)]
+        public static void TestEvaluateZeroDuration(bool dryRun) {
+            for (var flag = 0; flag < 1; flag++) {
+                int first, second, third, last;
+                if (flag == 0) {
+                    first = 1;
+                    second = 4;
+                    third = 3;
+                    last = 2;
+                } else {
+                    first = 2;
+                    second = 3;
+                    third = 4;
+                    last = 1;
+                }
+                var curve = new AnimationCurve {
+                    keys = new Keyframe[] {
+                        new Keyframe(1, first),
+                        new Keyframe(1, second),
+                        new Keyframe(1, third),
+                        new Keyframe(1, last),
+                    }
+                };
+                var message = "";
+                for (var t = 0; t <= 2; t++) {
+                    foreach (var pre in wrapModes) {
+                        curve.preWrapMode = pre;
+                        foreach (var post in wrapModes) {
+                            curve.postWrapMode = post;
+                            var a = curve.Evaluate(t);
+                            float e;
+                            if (t == 0) {
+                                switch (pre) {
+                                    default:
+                                    throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                    case UnityEngine.WrapMode.Default:
+                                    case UnityEngine.WrapMode.PingPong:
+                                    e = last;
+                                    break;
+
+                                    case UnityEngine.WrapMode.Clamp:
+                                    case UnityEngine.WrapMode.ClampForever:
+                                    e = first;
+                                    break;
+
+                                    case UnityEngine.WrapMode.Loop:
+                                    e = float.NaN;
+                                    break;
+                                }
+                            } else {
+                                switch (post) {
+                                    default:
+                                    throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                    case UnityEngine.WrapMode.Default:
+                                    case UnityEngine.WrapMode.Clamp:
+                                    case UnityEngine.WrapMode.PingPong:
+                                    case UnityEngine.WrapMode.ClampForever:
+                                    e = last;
+                                    break;
+
+                                    case UnityEngine.WrapMode.Loop:
+                                    e = first;
+                                    break;
+                                }
+                            }
+                            var expectedIsNaN = float.IsNaN(e);
+                            var actualIsNaN = float.IsNaN(a);
+                            if (dryRun) {
+                                message += $"time:{t} preWrapMode:{pre} postWrapMode:{post} expected:{e} ";
+                                if ((expectedIsNaN && actualIsNaN) || e == a) {
+                                    message += $"actual:{a}\n";
+                                } else {
+                                    message += $"<color=red>actual:{a}</color>\n";
+                                }
+                            } else if (expectedIsNaN) {
+                                Assert.IsTrue(actualIsNaN);
+                            } else {
+                                Utility.AssertAreEqual(e, a);
+                            }
+                        }
+                    }
+                }
+                if (dryRun) {
+                    Console.WriteLine(message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// キーとキーの間の時間が 0 のカーブのテスト
+        /// </summary>
+        [TestCase(true)]
+        [TestCase(false)]
+        public static void TestEvaluateZeroInterval(bool dryRun) {
+            // キーの時間が同じ場合, 後に追加されたキーの値が評価されることをテスト.
+
+            var curve = new AnimationCurve {
+                keys = new Keyframe[] {
+                    new Keyframe(1F, 1F),
+                    new Keyframe(1F, 2F),
+                    new Keyframe(2F, 2F),
+                    new Keyframe(2F, 3F),
+                    new Keyframe(3F, 3F),
+                    new Keyframe(3F, 4F),
+                }
+            };
+            var message = "";
+            for (var t = 0; t <= 6; t++) {
+                foreach (var pre in wrapModes) {
+                    curve.preWrapMode = pre;
+                    foreach (var post in wrapModes) {
+                        curve.postWrapMode = post;
+                        var a = curve.Evaluate(t);
+                        float e;
+                        switch (t) {
+                            default:
+                            throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                            case 0:
+                            switch (pre) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                case UnityEngine.WrapMode.Default:
+                                case UnityEngine.WrapMode.Loop:
+                                case UnityEngine.WrapMode.PingPong:
+                                e = 3F;
+                                break;
+
+                                case UnityEngine.WrapMode.Clamp:
+                                case UnityEngine.WrapMode.ClampForever:
+                                e = 1F;
+                                break;
+                            }
+                            break;
+
+                            case 1:
+                            e = 1F;
+                            break;
+
+                            case 2:
+                            e = 3F;
+                            break;
+
+                            case 3:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                case UnityEngine.WrapMode.Default:
+                                case UnityEngine.WrapMode.Loop:
+                                e = 1F;
+                                break;
+
+                                case UnityEngine.WrapMode.Clamp:
+                                case UnityEngine.WrapMode.PingPong:
+                                case UnityEngine.WrapMode.ClampForever:
+                                e = 4F;
+                                break;
+                            }
+                            break;
+
+                            case 4:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                case UnityEngine.WrapMode.Default:
+                                case UnityEngine.WrapMode.Loop:
+                                case UnityEngine.WrapMode.PingPong:
+                                e = 3F;
+                                break;
+
+                                case UnityEngine.WrapMode.Clamp:
+                                case UnityEngine.WrapMode.ClampForever:
+                                e = 4F;
+                                break;
+                            }
+                            break;
+
+                            case 5:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                case UnityEngine.WrapMode.Default:
+                                case UnityEngine.WrapMode.Loop:
+                                case UnityEngine.WrapMode.PingPong:
+                                e = 1F;
+                                break;
+
+                                case UnityEngine.WrapMode.Clamp:
+                                case UnityEngine.WrapMode.ClampForever:
+                                e = 4F;
+                                break;
+                            }
+                            break;
+                            case 6:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+                                case UnityEngine.WrapMode.Default:
+                                case UnityEngine.WrapMode.Loop:
+                                case UnityEngine.WrapMode.PingPong:
+                                e = 3F;
+                                break;
+
+                                case UnityEngine.WrapMode.Clamp:
+                                case UnityEngine.WrapMode.ClampForever:
+                                e = 4F;
+                                break;
+                            }
+                            break;
+                        }
+                        if (dryRun) {
+                            message += $"time:{t} preWrapMode:{pre} postWrapMode:{post} expected:{e} ";
+                            if (e == a) {
+                                message += $"actual:{a}\n";
+                            } else {
+                                message += $"<color=red>actual:{a}</color>\n";
+                            }
+                        } else {
+                            Utility.AssertAreEqual(e, a);
+                        }
+                    }
+                }
+            }
+            if (dryRun) {
+                Debug.Log(message);
+            }
+        }
     }
 }

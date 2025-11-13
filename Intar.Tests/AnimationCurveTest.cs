@@ -5,6 +5,9 @@ using System;
 namespace Intar.Tests {
     public partial class AnimationCurveTest {
         static readonly WrapMode[] wrapModesI17F15 = new WrapMode[] {
+#if false
+            0,
+#endif
             WrapMode.Clamp,
             WrapMode.Loop,
         };
@@ -345,6 +348,9 @@ namespace Intar.Tests {
                         default:
                         throw new NotImplementedException(preWrapMode.ToString());
 
+#if false
+                        case 0:
+#endif
                         case WrapMode.Loop:
                         Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)(-0.125F)));
                         Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)(+0.000F)));
@@ -363,6 +369,9 @@ namespace Intar.Tests {
                         default:
                         throw new NotImplementedException(preWrapMode.ToString());
 
+#if false
+                        case 0:
+#endif
                         case WrapMode.Loop:
                         Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)2.000F));
                         Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)2.125F));
@@ -378,6 +387,211 @@ namespace Intar.Tests {
                         Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)3.000F));
                         Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)3.125F));
                         break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 周期長が 0 のカーブのテスト
+        /// </summary>
+        [Test]
+        public static void TestEvaluateZeroDurationI17F15() {
+            for (var flag = 0; flag < 1; flag++) {
+                I17F15 first, second, third, last;
+                if (flag == 0) {
+                    first = (I17F15)1;
+                    second = (I17F15)4;
+                    third = (I17F15)3;
+                    last = (I17F15)2;
+                } else {
+                    first = (I17F15)2;
+                    second = (I17F15)3;
+                    third = (I17F15)4;
+                    last = (I17F15)1;
+                }
+                var curve = new AnimationCurveI17F15 {
+                    Keys = new KeyframeI17F15[] {
+                        new KeyframeI17F15((I17F15)1, first),
+                        new KeyframeI17F15((I17F15)1, second),
+                        new KeyframeI17F15((I17F15)1, third),
+                        new KeyframeI17F15((I17F15)1, last),
+                    }
+                };
+                for (var t = 0; t <= 2; t++) {
+                    foreach (var pre in wrapModesI17F15) {
+                        curve.PreWrapMode = pre;
+                        foreach (var post in wrapModesI17F15) {
+                            curve.PostWrapMode = post;
+                            var time = (I17F15)t;
+                            var actual = curve.Evaluate(time);
+                            I17F15 expected;
+                            if (t == 0) {
+                                switch (pre) {
+                                    default:
+                                    throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                    case 0:
+                                    expected = last;
+                                    break;
+#endif
+
+                                    case WrapMode.Clamp:
+                                    expected = first;
+                                    break;
+
+                                    case WrapMode.Loop:
+                                    expected = I17F15.Zero;
+                                    break;
+                                }
+                            } else {
+                                switch (post) {
+                                    default:
+                                    throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                    case 0:
+#endif
+                                    case WrapMode.Clamp:
+                                    expected = last;
+                                    break;
+
+                                    case WrapMode.Loop:
+                                    expected = first;
+                                    break;
+                                }
+                            }
+                            Utility.AssertAreEqual(expected, actual, $"time:{t} preWrapMode:{pre} postWrapMode:{post} expected:{expected} actual:{actual}");
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// キーとキーの間の時間が 0 のカーブのテスト
+        /// </summary>
+        [Test]
+        public static void TestEvaluateZeroIntervalI17F15() {
+            // キーの時間が同じ場合, 後に追加されたキーの値が評価されることをテスト.
+            var curve = new AnimationCurveI17F15 {
+                Keys = new KeyframeI17F15[] {
+                    new KeyframeI17F15((I17F15)1, (I17F15)1),
+                    new KeyframeI17F15((I17F15)1, (I17F15)2),
+                    new KeyframeI17F15((I17F15)2, (I17F15)2),
+                    new KeyframeI17F15((I17F15)2, (I17F15)3),
+                    new KeyframeI17F15((I17F15)3, (I17F15)3),
+                    new KeyframeI17F15((I17F15)3, (I17F15)4),
+                }
+            };
+            for (var t = 0; t <= 6; t++) {
+                foreach (var pre in wrapModesI17F15) {
+                    curve.PreWrapMode = pre;
+                    foreach (var post in wrapModesI17F15) {
+                        curve.PostWrapMode = post;
+                        var actual = curve.Evaluate((I17F15)t);
+
+                        I17F15 expected;
+                        switch (t) {
+                            default: throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+                            case 0:
+                            switch (pre) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                case 0:
+#endif
+                                case WrapMode.Loop:
+                                expected = (I17F15)3;
+                                break;
+
+                                case WrapMode.Clamp:
+                                expected = (I17F15)1;
+                                break;
+                            }
+                            break;
+
+                            case 1:
+                            expected = (I17F15)1;
+                            break;
+                            case 2:
+                            expected = (I17F15)3;
+                            break;
+                            case 3:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                case 0:
+#endif
+                                case WrapMode.Loop:
+                                expected = (I17F15)1;
+                                break;
+
+                                case WrapMode.Clamp:
+                                expected = (I17F15)4;
+                                break;
+                            }
+                            break;
+
+                            case 4:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                case 0:
+#endif
+                                case WrapMode.Loop:
+                                expected = (I17F15)3;
+                                break;
+
+                                case WrapMode.Clamp:
+                                expected = (I17F15)4;
+                                break;
+                            }
+                            break;
+
+                            case 5:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                case 0:
+#endif
+                                case WrapMode.Loop:
+                                expected = (I17F15)1;
+                                break;
+
+                                case WrapMode.Clamp:
+                                expected = (I17F15)4;
+                                break;
+                            }
+                            break;
+
+                            case 6:
+                            switch (post) {
+                                default:
+                                throw new NotImplementedException($"time:{t} preWrapMode:{pre} postWrapMode:{post}");
+
+#if false
+                                case 0:
+#endif
+                                case WrapMode.Loop:
+                                expected = (I17F15)3;
+                                break;
+
+                                case WrapMode.Clamp:
+                                expected = (I17F15)4;
+                                break;
+                            }
+                            break;
+                        }
+                        Utility.AssertAreEqual(expected, actual, $"time:{t} preWrapMode:{pre} postWrapMode:{post} expected:{expected} actual:{actual}");
                     }
                 }
             }
