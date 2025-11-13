@@ -57,9 +57,7 @@ namespace Intar {
     public enum WrapMode {
         Clamp = 1,
         Loop,
-#if false // 未実装
         PingPong = 4,
-#endif
     }
 
     [Serializable]
@@ -124,7 +122,7 @@ namespace Intar {
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
         #endregion
-        #region LoopTime
+        #region LoopTime, PingPongTime
         /// <summary>
         /// ループした時間を計算する.
         /// </summary>
@@ -144,6 +142,22 @@ namespace Intar {
 
             // time が [begin, end) の範囲に収まるように調整する.
             return begin + Utility.FlooredRem(time - begin, duration);
+        }
+        internal static I17F15? PingPongTime(I17F15 begin, I17F15 end, I17F15 time) {
+            var halfDuration = end - begin;
+
+            // 周期長が 0 の場合 null を返す.
+            if (halfDuration == I17F15.Zero) {
+                return null;
+            }
+            var duration = I17F15.FromBits(2 * halfDuration.Bits);
+
+            // time が [begin, end] の範囲に収まるように調整する.
+            time = Utility.TruncatedRem(time - begin, duration).Abs();
+            time = 0 == time.Bits / halfDuration.Bits
+                ? time
+                : duration - time;
+            return begin + time;
         }
         #endregion
         #region FindKey
@@ -274,6 +288,16 @@ namespace Intar {
                         time = t.Value;
                         break;
                     }
+                    case WrapMode.PingPong: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = PingPongTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
                 }
             } else if (time <= first.Time) {
                 // 周期長が 0 の場合, 最初の if 節と,
@@ -304,6 +328,16 @@ namespace Intar {
                         var t = LoopTime(first.Time, last.Time, time);
                         if (!t.HasValue) {
                             return I17F15.Zero;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+                    case WrapMode.PingPong: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = PingPongTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
                         }
                         time = t.Value;
                         break;

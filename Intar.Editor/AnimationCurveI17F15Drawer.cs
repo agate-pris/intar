@@ -22,6 +22,7 @@ namespace Intar.Editor {
                 return UnityEngine.WrapMode.Default;
 #endif
                 case WrapMode.Loop: return UnityEngine.WrapMode.Loop;
+                case WrapMode.PingPong: return UnityEngine.WrapMode.PingPong;
                 case WrapMode.Clamp:
                 default: return UnityEngine.WrapMode.ClampForever;
             }
@@ -33,7 +34,7 @@ namespace Intar.Editor {
                 return 0;
 #endif
                 case UnityEngine.WrapMode.Loop: return WrapMode.Loop;
-                case UnityEngine.WrapMode.PingPong:
+                case UnityEngine.WrapMode.PingPong: return WrapMode.PingPong;
                 case UnityEngine.WrapMode.ClampForever:
                 case UnityEngine.WrapMode.Clamp:
                 default: return WrapMode.Clamp;
