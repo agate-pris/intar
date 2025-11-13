@@ -49,14 +49,11 @@ namespace Intar.Tests {
                     if (j < 0 || j == curve.Length) {
                         // AnimationCurveI17F15 は ArgumentOutOfRangeException をスローする.
                         var e = Assert.Throws<ArgumentOutOfRangeException>(() => {
-                            var k = curve[j];
-                            Console.WriteLine(k);
+                            _ = curve[j];
                         }, $"i:{i} j:{j}");
-                        Console.WriteLine(e);
                     } else {
                         Assert.DoesNotThrow(() => {
-                            var k = curve[j];
-                            Console.WriteLine(k);
+                            _ = curve[j];
                         }, $"i:{i} j:{j}");
                     }
                 }
@@ -179,7 +176,6 @@ namespace Intar.Tests {
             var e = Assert.Throws<ArgumentOutOfRangeException>(() => {
                 _ = curve.MoveKey(0, new KeyframeI17F15((I17F15)1, (I17F15)1));
             });
-            Console.WriteLine(e);
 
             var i = curve.AddKey(new KeyframeI17F15((I17F15)1, (I17F15)1));
             Utility.AssertAreEqual(0, i);

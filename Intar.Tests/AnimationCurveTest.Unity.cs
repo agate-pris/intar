@@ -58,14 +58,11 @@ namespace Intar.Tests {
                     if (j < 0 || j == curve.length) {
                         // UnityEngine.AnimationCurve は IndexOutOfRangeException をスローする.
                         var e = Assert.Throws<IndexOutOfRangeException>(() => {
-                            var k = curve[j];
-                            Debug.Log(k);
+                            _ = curve[j];
                         }, $"i:{i} j:{j}");
-                        Debug.Log(e);
                     } else {
                         Assert.DoesNotThrow(() => {
-                            var k = curve[j];
-                            Debug.Log(k);
+                            _ = curve[j];
                         }, $"i:{i} j:{j}");
                     }
                 }
@@ -186,7 +183,6 @@ namespace Intar.Tests {
             var e = Assert.Throws<IndexOutOfRangeException>(() => {
                 _ = curve.MoveKey(0, new Keyframe(1, 1));
             });
-            Debug.Log(e.Message);
 
             var i = curve.AddKey(new Keyframe(1, 1));
             Utility.AssertAreEqual(0, i);
