@@ -116,7 +116,7 @@ namespace Intar.Tests {
         public static void TestSetKeysI17F15() {
             var curve = new AnimationCurveI17F15();
             Assert.AreEqual(0, curve.Length);
-            curve.Keys = new KeyframeI17F15[] { };
+            curve.Keys = Array.Empty<KeyframeI17F15>();
             Assert.AreEqual(0, curve.Length);
             curve.Keys = null;
             Assert.AreEqual(0, curve.Length);

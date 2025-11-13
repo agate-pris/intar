@@ -123,7 +123,7 @@ namespace Intar.Tests {
         public static void TestSetKeys() {
             var curve = new AnimationCurve();
             Assert.AreEqual(0, curve.length);
-            curve.keys = new Keyframe[] { };
+            curve.keys = Array.Empty<Keyframe>();
             Assert.AreEqual(0, curve.length);
             curve.keys = null;
             Assert.AreEqual(0, curve.length);
