@@ -1,9 +1,18 @@
+using Intar.Rand;
 using NUnit.Framework;
 using System;
 using UnityEngine;
 
 namespace Intar.Tests {
     public partial class AnimationCurveTest {
+        static readonly UnityEngine.WrapMode[] wrapModes = new UnityEngine.WrapMode[] {
+            UnityEngine.WrapMode.Default,
+            UnityEngine.WrapMode.Clamp,
+            UnityEngine.WrapMode.Loop,
+            UnityEngine.WrapMode.PingPong,
+            UnityEngine.WrapMode.ClampForever,
+        };
+
         [Test]
         public static void TestKeyframe() {
             var k = new Keyframe();
@@ -227,6 +236,167 @@ namespace Intar.Tests {
             Utility.AssertAreEqual(1, curve.length);
             Utility.AssertAreEqual(3, curve[0].time);
             Utility.AssertAreEqual(3, curve[0].value);
+        }
+
+        /// <summary>
+        /// キー数が 0 または 1 の場合,
+        /// それぞれ PreWrapMode, PostWrapMode に関わらず
+        /// どこで評価しても 0 またはそのキーの値であることをテスト.
+        /// </summary>
+        static void TestEvaluateLessThanTwoKeys(UnityEngine.WrapMode preWrapMode, UnityEngine.WrapMode postWrapMode, Keyframe? keyFrame) {
+            var randomNumberGenerator = new Xoroshiro128StarStar(1, 2);
+            var value = keyFrame.HasValue ? keyFrame.Value.value : 0F;
+            var rng = randomNumberGenerator;
+            var curve = new AnimationCurve {
+                preWrapMode = preWrapMode,
+                postWrapMode = postWrapMode,
+            };
+            if (keyFrame.HasValue) {
+                var time = keyFrame.Value.time;
+                _ = curve.AddKey(new Keyframe(time, value));
+                Utility.AssertAreEqual(value, curve.Evaluate(time));
+            }
+            Utility.AssertAreEqual(value, curve.Evaluate(0F));
+            Utility.AssertAreEqual(value, curve.Evaluate(1F));
+            Utility.AssertAreEqual(value, curve.Evaluate(-1F));
+            for (var i = 0; i < 100; i++) {
+                const long k = 1L << 32;
+                var randomNumber = (float)rng.NextInt64(0, 1 + k) / k;
+                Utility.AssertAreEqual(value, curve.Evaluate(randomNumber));
+                Utility.AssertAreEqual(value, curve.Evaluate(randomNumber + 1));
+                Utility.AssertAreEqual(value, curve.Evaluate(randomNumber - 1));
+            }
+        }
+
+        [Test]
+        public static void TestEvaluateLessThanTwoKeys() {
+            var values = new float[] {
+                0, 1, -1,
+            };
+            var randomNumberGenerator = new Xoroshiro128StarStar(1, 2);
+            foreach (var preWrapMode in wrapModes) {
+                foreach (var postWrapMode in wrapModes) {
+                    // キー無しの場合常に評価値が 0 になることをテスト
+                    TestEvaluateLessThanTwoKeys(preWrapMode, postWrapMode, null);
+
+                    foreach (var v1 in values) {
+                        foreach (var v2 in values) {
+                            // 時間と値が境界値のキー 1 つの場合
+                            // 常に評価値が値と同値になることをテスト
+                            TestEvaluateLessThanTwoKeys(preWrapMode, postWrapMode, new Keyframe(v1, v2));
+                        }
+
+                        var rng = randomNumberGenerator;
+                        for (var i = 0; i < 100; i++) {
+                            var v2 = rng.Next(-32768, 32768) / 32768F;
+
+                            // 時間が境界値, 値が乱数のキー 1 つの場合または
+                            // 時間が乱数, 値が境界値のキー 1 つの場合
+                            // 各々常に評価値が値と同値になることをテスト
+                            TestEvaluateLessThanTwoKeys(preWrapMode, postWrapMode, new Keyframe(v1, v2));
+                            TestEvaluateLessThanTwoKeys(preWrapMode, postWrapMode, new Keyframe(v2, v1));
+                        }
+                    }
+                    {
+                        // 時間と値が乱数のキー 1 つの場合
+                        // 評価値が常に値と同値になることをテスト
+                        var rng1 = randomNumberGenerator;
+                        for (var i = 10; i < 10; i++) {
+                            var rng2 = randomNumberGenerator;
+                            var time = rng1.Next(-32768, 32768) / 32768F;
+                            for (var j = 10; j < 10; j++) {
+                                var value = rng2.Next(-32768, 32768) / 32768F;
+                                TestEvaluateLessThanTwoKeys(preWrapMode, postWrapMode, new Keyframe(time, value));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// キー数が 2 つの場合,
+        /// それぞれのキーの時間で評価した時,
+        /// その評価値が PreWrapMode 及び PostWrapMode に応じた値になることをテスト.
+        /// </summary>
+        [Test]
+        public static void TestEvaluateTwoKeys() {
+            var curve = new AnimationCurve();
+            _ = curve.AddKey(new Keyframe(1F, 0F, 1F, 1F));
+            _ = curve.AddKey(new Keyframe(2F, 1F, 1F, 1F));
+
+            // 基本的にループ時, [0, 1) の範囲に収まるように評価されることをテスト.
+            // また preWrapMode, postWrapMode が Default の場合
+            // Loop と同じ挙動であることをテスト.
+            foreach (var preWrapMode in wrapModes) {
+                curve.preWrapMode = preWrapMode;
+                foreach (var postWrapMode in wrapModes) {
+                    curve.postWrapMode = postWrapMode;
+                    Utility.AssertAreEqual(0.000F, curve.Evaluate(1.000F));
+                    Utility.AssertAreEqual(0.125F, curve.Evaluate(1.125F));
+                    Utility.AssertAreEqual(0.875F, curve.Evaluate(1.875F));
+                    switch (preWrapMode) {
+                        default:
+                        throw new NotImplementedException(preWrapMode.ToString());
+
+                        case UnityEngine.WrapMode.Default:
+                        case UnityEngine.WrapMode.Loop:
+                        Utility.AssertAreEqual(0.875F, curve.Evaluate(-0.125F));
+                        Utility.AssertAreEqual(0.000F, curve.Evaluate(+0.000F));
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(+0.125F));
+                        Utility.AssertAreEqual(0.875F, curve.Evaluate(+0.875F));
+                        break;
+
+                        case UnityEngine.WrapMode.Clamp:
+                        case UnityEngine.WrapMode.ClampForever:
+                        Utility.AssertAreEqual(0F, curve.Evaluate(-0.125F));
+                        Utility.AssertAreEqual(0F, curve.Evaluate(+0.000F));
+                        Utility.AssertAreEqual(0F, curve.Evaluate(+0.125F));
+                        Utility.AssertAreEqual(0F, curve.Evaluate(+0.875F));
+                        break;
+
+                        case UnityEngine.WrapMode.PingPong:
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(-1.125F));
+                        Utility.AssertAreEqual(0.000F, curve.Evaluate(-1.000F));
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(-0.875F));
+                        Utility.AssertAreEqual(0.875F, curve.Evaluate(-0.125F));
+                        Utility.AssertAreEqual(1.000F, curve.Evaluate(+0.000F));
+                        Utility.AssertAreEqual(0.875F, curve.Evaluate(+0.125F));
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(+0.875F));
+                        break;
+                    }
+                    switch (postWrapMode) {
+                        default:
+                        throw new NotImplementedException(preWrapMode.ToString());
+
+                        case UnityEngine.WrapMode.Default:
+                        case UnityEngine.WrapMode.Loop:
+                        Utility.AssertAreEqual(0.000F, curve.Evaluate(2.000F));
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(2.125F));
+                        Utility.AssertAreEqual(0.875F, curve.Evaluate(2.875F));
+                        Utility.AssertAreEqual(0.000F, curve.Evaluate(3.000F));
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(3.125F));
+                        break;
+
+                        case UnityEngine.WrapMode.Clamp:
+                        case UnityEngine.WrapMode.ClampForever:
+                        Utility.AssertAreEqual(1F, curve.Evaluate(2.000F));
+                        Utility.AssertAreEqual(1F, curve.Evaluate(2.125F));
+                        Utility.AssertAreEqual(1F, curve.Evaluate(2.875F));
+                        Utility.AssertAreEqual(1F, curve.Evaluate(3.000F));
+                        Utility.AssertAreEqual(1F, curve.Evaluate(3.125F));
+                        break;
+
+                        case UnityEngine.WrapMode.PingPong:
+                        Utility.AssertAreEqual(1.000F, curve.Evaluate(2.000F));
+                        Utility.AssertAreEqual(0.875F, curve.Evaluate(2.125F));
+                        Utility.AssertAreEqual(0.125F, curve.Evaluate(2.875F));
+                        Utility.AssertAreEqual(0.000F, curve.Evaluate(3.000F));
+                        Utility.AssertAreEqual(0.125f, curve.Evaluate(3.125F));
+                        break;
+                    }
+                }
+            }
         }
     }
 }

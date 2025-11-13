@@ -1,8 +1,14 @@
+using Intar.Rand;
 using NUnit.Framework;
 using System;
 
 namespace Intar.Tests {
     public partial class AnimationCurveTest {
+        static readonly WrapMode[] wrapModesI17F15 = new WrapMode[] {
+            WrapMode.Clamp,
+            WrapMode.Loop,
+        };
+
         [Test]
         public static void TestKeyframeI17F15() {
             var a = I17F15.FromBits(1000);
@@ -143,6 +149,21 @@ namespace Intar.Tests {
         }
 
         [Test]
+        public static void TestClearKeys() {
+            var curve = new AnimationCurveI17F15();
+
+            // 初期状態で ClearKeys を呼んでも問題ないことをテスト
+            curve.ClearKeys();
+            Utility.AssertAreEqual(0, curve.Length);
+
+            _ = curve.AddKey(new KeyframeI17F15((I17F15)1, (I17F15)1));
+            Utility.AssertAreEqual(1, curve.Length);
+
+            curve.ClearKeys();
+            Utility.AssertAreEqual(0, curve.Length);
+        }
+
+        [Test]
         public static void TestRemoveKeyI17F15() {
             var curve = new AnimationCurveI17F15();
 
@@ -220,6 +241,146 @@ namespace Intar.Tests {
             Utility.AssertAreEqual(1, curve.Length);
             Utility.AssertAreEqual((I17F15)3, curve[0].Time);
             Utility.AssertAreEqual((I17F15)3, curve[0].Value);
+        }
+
+        /// <summary>
+        /// キー数が 0 または 1 の場合,
+        /// それぞれ PreWrapMode, PostWrapMode に関わらず
+        /// どこで評価しても 0 またはそのキーの値であることをテスト.
+        /// </summary>
+        static void TestEvaluateLessThanTwoKeysI17F15(WrapMode preWrapMode, WrapMode postWrapMode, KeyframeI17F15? keyFrame) {
+            var randomNumberGenerator = new Xoroshiro128StarStar(1, 2);
+            var value = keyFrame.HasValue ? keyFrame.Value.Value : I17F15.Zero;
+            var rng = randomNumberGenerator;
+            var curve = new AnimationCurveI17F15 {
+                PreWrapMode = preWrapMode,
+                PostWrapMode = postWrapMode,
+            };
+            if (keyFrame.HasValue) {
+                _ = curve.AddKey(keyFrame.Value);
+                Utility.AssertAreEqual(value, curve.Evaluate(keyFrame.Value.Time));
+            }
+            Utility.AssertAreEqual(value, curve.Evaluate(I17F15.Zero));
+            Utility.AssertAreEqual(value, curve.Evaluate(I17F15.One));
+            Utility.AssertAreEqual(value, curve.Evaluate(I17F15.NegativeOne));
+            for (var i = 0; i < 100; i++) {
+                const int k = 1 << 15;
+                var randomNumber = I17F15.FromBits(rng.Next(0, 1 + k));
+                Utility.AssertAreEqual(value, curve.Evaluate(randomNumber));
+                Utility.AssertAreEqual(value, curve.Evaluate(randomNumber + I17F15.One));
+                Utility.AssertAreEqual(value, curve.Evaluate(randomNumber - I17F15.One));
+            }
+        }
+
+        [Test]
+        public static void TestEvaluateLessThanTwoKeysI17F15() {
+            var values = new I17F15[] {
+                I17F15.Zero,
+                I17F15.One,
+                I17F15.NegativeOne,
+            };
+            var randomNumberGenerator = new Xoroshiro128StarStar(1, 2);
+            foreach (var preWrapMode in wrapModesI17F15) {
+                foreach (var postWrapMode in wrapModesI17F15) {
+                    // キー無しの場合常に評価値が 0 になることをテスト
+                    TestEvaluateLessThanTwoKeysI17F15(preWrapMode, postWrapMode, null);
+
+                    foreach (var v1 in values) {
+                        foreach (var v2 in values) {
+                            // 時間と値が境界値のキー 1 つの場合
+                            // 常に評価値が値と同値になることをテスト
+                            TestEvaluateLessThanTwoKeysI17F15(preWrapMode, postWrapMode, new KeyframeI17F15(v1, v2));
+                        }
+
+                        var rng = randomNumberGenerator;
+                        for (var i = 0; i < 100; i++) {
+                            var v2 = I17F15.FromBits(rng.Next(-32768, 32768));
+
+                            // 時間が境界値, 値が乱数のキー 1 つの場合または
+                            // 時間が乱数, 値が境界値のキー 1 つの場合
+                            // 各々常に評価値が値と同値になることをテスト
+                            TestEvaluateLessThanTwoKeysI17F15(preWrapMode, postWrapMode, new KeyframeI17F15(v1, v2));
+                            TestEvaluateLessThanTwoKeysI17F15(preWrapMode, postWrapMode, new KeyframeI17F15(v2, v1));
+                        }
+                    }
+                    {
+                        // 時間と値が乱数のキー 1 つの場合
+                        // 評価値が常に値と同値になることをテスト
+                        var rng1 = randomNumberGenerator;
+                        for (var i = 10; i < 10; i++) {
+                            var rng2 = randomNumberGenerator;
+                            var time = I17F15.FromBits(rng1.Next(-32768, 32768));
+                            for (var j = 10; j < 10; j++) {
+                                var value = I17F15.FromBits(rng2.Next(-32768, 32768));
+                                TestEvaluateLessThanTwoKeysI17F15(preWrapMode, postWrapMode, new KeyframeI17F15(time, value));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// キー数が 2 つの場合,
+        /// それぞれのキーの時間で評価した時,
+        /// その評価値が PreWrapMode 及び PostWrapMode に応じた値になることをテスト.
+        /// </summary>
+        [Test]
+        public static void TestEvaluateTwoKeysI17F15() {
+            var curve = new AnimationCurveI17F15();
+            _ = curve.AddKey(new KeyframeI17F15((I17F15)1, (I17F15)0, (I17F15)1, (I17F15)1));
+            _ = curve.AddKey(new KeyframeI17F15((I17F15)2, (I17F15)1, (I17F15)1, (I17F15)1));
+
+            // 基本的にループ時, [0, 1) の範囲に収まるように評価されることをテスト.
+            // また PreWrapMode, PostWrapMode が Default の場合
+            // Loop と同じ挙動であることをテスト.
+            foreach (var preWrapMode in wrapModesI17F15) {
+                curve.PreWrapMode = preWrapMode;
+                foreach (var postWrapMode in wrapModesI17F15) {
+                    curve.PostWrapMode = postWrapMode;
+                    Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)1.000F));
+                    Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)1.125F));
+                    Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)1.875F));
+                    switch (preWrapMode) {
+                        default:
+                        throw new NotImplementedException(preWrapMode.ToString());
+
+                        case WrapMode.Loop:
+                        Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)(-0.125F)));
+                        Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)(+0.000F)));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)(+0.125F)));
+                        Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)(+0.875F)));
+                        break;
+
+                        case WrapMode.Clamp:
+                        Utility.AssertAreEqual((I17F15)0, curve.Evaluate((I17F15)(-0.125F)));
+                        Utility.AssertAreEqual((I17F15)0, curve.Evaluate((I17F15)(+0.000F)));
+                        Utility.AssertAreEqual((I17F15)0, curve.Evaluate((I17F15)(+0.125F)));
+                        Utility.AssertAreEqual((I17F15)0, curve.Evaluate((I17F15)(+0.875F)));
+                        break;
+                    }
+                    switch (postWrapMode) {
+                        default:
+                        throw new NotImplementedException(preWrapMode.ToString());
+
+                        case WrapMode.Loop:
+                        Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)2.000F));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)2.125F));
+                        Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)2.875F));
+                        Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)3.000F));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)3.125F));
+                        break;
+
+                        case WrapMode.Clamp:
+                        Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)2.000F));
+                        Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)2.125F));
+                        Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)2.875F));
+                        Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)3.000F));
+                        Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)3.125F));
+                        break;
+                    }
+                }
+            }
         }
     }
 }
