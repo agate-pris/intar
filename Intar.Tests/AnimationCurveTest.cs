@@ -10,6 +10,7 @@ namespace Intar.Tests {
 #endif
             WrapMode.Clamp,
             WrapMode.Loop,
+            WrapMode.PingPong,
         };
 
         [Test]
@@ -364,6 +365,16 @@ namespace Intar.Tests {
                         Utility.AssertAreEqual((I17F15)0, curve.Evaluate((I17F15)(+0.125F)));
                         Utility.AssertAreEqual((I17F15)0, curve.Evaluate((I17F15)(+0.875F)));
                         break;
+
+                        case WrapMode.PingPong:
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)(-1.125F)));
+                        Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)(-1.000F)));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)(-0.875F)));
+                        Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)(-0.125F)));
+                        Utility.AssertAreEqual((I17F15)1.000F, curve.Evaluate((I17F15)(+0.000F)));
+                        Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)(+0.125F)));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)(+0.875F)));
+                        break;
                     }
                     switch (postWrapMode) {
                         default:
@@ -386,6 +397,14 @@ namespace Intar.Tests {
                         Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)2.875F));
                         Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)3.000F));
                         Utility.AssertAreEqual((I17F15)1, curve.Evaluate((I17F15)3.125F));
+                        break;
+
+                        case WrapMode.PingPong:
+                        Utility.AssertAreEqual((I17F15)1.000F, curve.Evaluate((I17F15)2.000F));
+                        Utility.AssertAreEqual((I17F15)0.875F, curve.Evaluate((I17F15)2.125F));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)2.875F));
+                        Utility.AssertAreEqual((I17F15)0.000F, curve.Evaluate((I17F15)3.000F));
+                        Utility.AssertAreEqual((I17F15)0.125F, curve.Evaluate((I17F15)3.125F));
                         break;
                     }
                 }
@@ -433,9 +452,10 @@ namespace Intar.Tests {
 
 #if false
                                     case 0:
+#endif
+                                    case WrapMode.PingPong:
                                     expected = last;
                                     break;
-#endif
 
                                     case WrapMode.Clamp:
                                     expected = first;
@@ -454,6 +474,7 @@ namespace Intar.Tests {
                                     case 0:
 #endif
                                     case WrapMode.Clamp:
+                                    case WrapMode.PingPong:
                                     expected = last;
                                     break;
 
@@ -504,6 +525,7 @@ namespace Intar.Tests {
                                 case 0:
 #endif
                                 case WrapMode.Loop:
+                                case WrapMode.PingPong:
                                 expected = (I17F15)3;
                                 break;
 
@@ -532,6 +554,7 @@ namespace Intar.Tests {
                                 break;
 
                                 case WrapMode.Clamp:
+                                case WrapMode.PingPong:
                                 expected = (I17F15)4;
                                 break;
                             }
@@ -546,6 +569,7 @@ namespace Intar.Tests {
                                 case 0:
 #endif
                                 case WrapMode.Loop:
+                                case WrapMode.PingPong:
                                 expected = (I17F15)3;
                                 break;
 
@@ -564,6 +588,7 @@ namespace Intar.Tests {
                                 case 0:
 #endif
                                 case WrapMode.Loop:
+                                case WrapMode.PingPong:
                                 expected = (I17F15)1;
                                 break;
 
@@ -582,6 +607,7 @@ namespace Intar.Tests {
                                 case 0:
 #endif
                                 case WrapMode.Loop:
+                                case WrapMode.PingPong:
                                 expected = (I17F15)3;
                                 break;
 
