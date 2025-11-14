@@ -1,6 +1,7 @@
 using Intar.Rand;
 using NUnit.Framework;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Intar.Tests {
@@ -12,6 +13,51 @@ namespace Intar.Tests {
             UnityEngine.WrapMode.PingPong,
             UnityEngine.WrapMode.ClampForever,
         };
+
+        static float RandomTangent() {
+            const float th = 1.57F;
+            return (float)Math.Tan(UnityEngine.Random.Range(-th, th));
+        }
+        static float RandomWeight() => UnityEngine.Random.value;
+        static void SetRandomKeyframe(float time, ref Keyframe key) {
+            key.time = time;
+            key.value = UnityEngine.Random.Range(-10F, +10F);
+            key.inTangent = RandomTangent();
+            key.outTangent = RandomTangent();
+            key.inWeight = RandomWeight();
+            key.outWeight = RandomWeight();
+            key.weightedMode = (WeightedMode)UnityEngine.Random.Range(0, 4);
+        }
+
+        internal static bool RandomBool() => UnityEngine.Random.value < 0.5F;
+        internal static UnityEngine.WrapMode RandomWrapMode() {
+            return (UnityEngine.WrapMode)Math.Pow(2, UnityEngine.Random.Range(-1, 4));
+        }
+        internal static AnimationUtility.TangentMode RandomTangentMode() {
+            return (AnimationUtility.TangentMode)UnityEngine.Random.Range(0, 5);
+        }
+        internal static Keyframe RandomKeyframe(float time) {
+            var keyframe = new Keyframe();
+            SetRandomKeyframe(time, ref keyframe);
+            return keyframe;
+        }
+
+        /// <summary>
+        /// <c>Keyframe.time</c>, <c>Keyframe.value</c>, <c>Keyframe.inTangent</c>,
+        /// <c>Keyframe.outTangent</c>, <c>Keyframe.inWeight</c>, <c>Keyframe.outWeight</c>,
+        /// そして <c>Keyframe.weightedMode</c> が等しいことを確認する.
+        /// </summary>
+        static void TestKeyframe(Keyframe expected, Keyframe actual) {
+            Utility.AssertAreEqual(expected.time, actual.time);
+            Utility.AssertAreEqual(expected.value, actual.value);
+            Utility.AssertAreEqual(expected.inTangent, actual.inTangent);
+            Utility.AssertAreEqual(expected.outTangent, actual.outTangent);
+            Utility.AssertAreEqual(expected.inWeight, actual.inWeight);
+            Utility.AssertAreEqual(expected.outWeight, actual.outWeight);
+            if (expected.weightedMode != actual.weightedMode) {
+                Assert.Fail($"Keyframe.weightedMode mismatch. expected:{expected.weightedMode} actual:{actual.weightedMode}");
+            }
+        }
 
         [Test]
         public static void TestKeyframe() {
@@ -183,9 +229,41 @@ namespace Intar.Tests {
             });
         }
 
-        [Test]
-        public static void TestMoveKey() {
-            var curve = new AnimationCurve();
+        static void TestMoveKey() {
+            static int MoveKeyRandom(AnimationCurve curve, int index, float time, ref Keyframe keyframe, int expected, int length) {
+                var l = RandomTangentMode();
+                var r = RandomTangentMode();
+                var b = RandomBool();
+
+                // SetKeyLeftTangentMode, SetKeyRightTangentMode,
+                // そして SetKeyBroken による副作用が MoveKey で修正されることをテスト.
+                AnimationUtility.SetKeyLeftTangentMode(curve, index, l);
+                AnimationUtility.SetKeyRightTangentMode(curve, index, r);
+                AnimationUtility.SetKeyBroken(curve, index, b);
+                var key = curve[index];
+                SetRandomKeyframe(time, ref key);
+                index = curve.MoveKey(index, key);
+                Utility.AssertAreEqual(expected, index);
+                Utility.AssertAreEqual(length, curve.length);
+                if (index == -1) {
+                    return index;
+                }
+                var failed =
+                    l != AnimationUtility.GetKeyLeftTangentMode(curve, index) ||
+                    r != AnimationUtility.GetKeyRightTangentMode(curve, index) ||
+                    b != AnimationUtility.GetKeyBroken(curve, index);
+                if (failed) {
+                    Assert.Fail($"MoveKeyRandom failed. index:{index} time:{time} l:{l} r:{r} b:{b}");
+                }
+                TestKeyframe(key, curve[index]);
+                keyframe = key;
+                return index;
+            }
+
+            var curve = new AnimationCurve() {
+                preWrapMode = RandomWrapMode(),
+                postWrapMode = RandomWrapMode(),
+            };
 
             // AnimationCurve.MoveKey はインデックスが不正な場合
             // IndexOutOfRangeException をスローする.
@@ -193,49 +271,42 @@ namespace Intar.Tests {
                 _ = curve.MoveKey(0, new Keyframe(1, 1));
             });
 
-            var i = curve.AddKey(new Keyframe(1, 1));
+            var k1 = RandomKeyframe(1);
+            var i = curve.AddKey(k1);
             Utility.AssertAreEqual(0, i);
             Utility.AssertAreEqual(1, curve.length);
             Utility.AssertAreEqual(1, curve[i].time);
-            Utility.AssertAreEqual(1, curve[i].value);
-            i = curve.MoveKey(0, new Keyframe(2, 2));
+            TestKeyframe(k1, curve[i]);
+
+            i = MoveKeyRandom(curve, i, 2, ref k1, 0, 1);
             Utility.AssertAreEqual(0, i);
             Utility.AssertAreEqual(1, curve.length);
-            Utility.AssertAreEqual(2, curve[i].time);
-            Utility.AssertAreEqual(2, curve[i].value);
 
-            i = curve.AddKey(new Keyframe(3, 3));
+            var k2 = RandomKeyframe(3);
+            i = curve.AddKey(k2);
             Utility.AssertAreEqual(1, i);
             Utility.AssertAreEqual(2, curve.length);
-            Utility.AssertAreEqual(2, curve[0].time);
-            Utility.AssertAreEqual(2, curve[0].value);
-            Utility.AssertAreEqual(3, curve[1].time);
-            Utility.AssertAreEqual(3, curve[1].value);
+            TestKeyframe(k1, curve[0]);
+            TestKeyframe(k2, curve[1]);
 
-            i = curve.MoveKey(0, new Keyframe(4, 4));
-            Utility.AssertAreEqual(1, i);
-            Utility.AssertAreEqual(2, curve.length);
-            Utility.AssertAreEqual(3, curve[0].time);
-            Utility.AssertAreEqual(3, curve[0].value);
-            Utility.AssertAreEqual(4, curve[1].time);
-            Utility.AssertAreEqual(4, curve[1].value);
+            i = MoveKeyRandom(curve, 0, 4, ref k1, 1, 2);
+            TestKeyframe(k2, curve[0]);
 
-            i = curve.MoveKey(1, new Keyframe(1, 1));
-            Utility.AssertAreEqual(0, i);
-            Utility.AssertAreEqual(2, curve.length);
-            Utility.AssertAreEqual(1, curve[0].time);
-            Utility.AssertAreEqual(1, curve[0].value);
-            Utility.AssertAreEqual(3, curve[1].time);
-            Utility.AssertAreEqual(3, curve[1].value);
+            i = MoveKeyRandom(curve, 1, 1, ref k1, 0, 2);
+            TestKeyframe(k1, curve[i]);
 
             // Keyframe.time が既存のキーと重複する場合,
             // 例外をスローせず指定したインデックスのキーを削除し -1 を返す.
 
-            i = curve.MoveKey(0, new Keyframe(3, 5));
-            Utility.AssertAreEqual(-1, i);
-            Utility.AssertAreEqual(1, curve.length);
-            Utility.AssertAreEqual(3, curve[0].time);
-            Utility.AssertAreEqual(3, curve[0].value);
+            i = MoveKeyRandom(curve, 0, 3, ref k1, -1, 1);
+            TestKeyframe(k2, curve[0]);
+        }
+
+        [TestCase(9999)]
+        public static void TestMoveKey(int testCount) {
+            for (var i = 0; i < testCount; i++) {
+                TestMoveKey();
+            }
         }
 
         /// <summary>
@@ -635,6 +706,111 @@ namespace Intar.Tests {
             }
             if (dryRun) {
                 Debug.Log(message);
+            }
+        }
+
+        /// <summary>
+        /// <c>Keyframe.tangentMode</c> を直接操作することで
+        /// <c>AnimationUtility.GetKeyBroken</c>、
+        /// <c>AnimationUtility.GetKeyLeftTangentMode</c>、そして
+        /// <c>AnimationUtility.GetKeyRightTangentMode</c>
+        /// を使用せずにパラメータを操作できることをテストする。
+        /// また、<c>AnimationCurve.MoveKey</c>
+        /// を使用することでそれらの関数の使用によって自動的に変更されたパラメータを修正できることをテストする。
+        /// </summary>
+        /// <param name="testCount"></param>
+        [TestCase(100)]
+        public static void TestRestoreKeys(int testCount) {
+            for (var testIndex = 0; testIndex < testCount; testIndex++) {
+                var count = UnityEngine.Random.Range(1, 100);
+                var keys = new Keyframe[count];
+
+                var brokenFlags = new bool[count];
+                var leftModes = new AnimationUtility.TangentMode[count];
+                var rightModes = new AnimationUtility.TangentMode[count];
+
+                for (var i = 0; i < count; i++) {
+                    var time = (float)i / count;
+                    var value = UnityEngine.Random.Range(-1F, +1F);
+                    var inTangent = UnityEngine.Random.Range(-1F, +1F);
+                    var outTangent = UnityEngine.Random.Range(-1F, +1F);
+                    var inWeight = UnityEngine.Random.Range(0F, +1F);
+                    var outWeight = UnityEngine.Random.Range(0F, +1F);
+                    var weightedMode = (WeightedMode)UnityEngine.Random.Range(0, 4);
+                    var broken = UnityEngine.Random.value < 0.5F;
+                    var left = UnityEngine.Random.Range(0, 5);
+                    var right = UnityEngine.Random.Range(0, 5);
+                    var tangentMode = (broken ? 1 : 0) | (left << 1) | (right << 5);
+
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+                    keys[i] = new Keyframe(time, value, inTangent, outTangent, inWeight, outWeight) {
+                        weightedMode = weightedMode,
+                        tangentMode = tangentMode,
+                    };
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
+
+                    brokenFlags[i] = broken;
+                    leftModes[i] = (AnimationUtility.TangentMode)left;
+                    rightModes[i] = (AnimationUtility.TangentMode)right;
+                }
+
+                // keys 設定時に各値が影響を受けないことをテスト.
+                var curve = new AnimationCurve { keys = keys };
+                for (var i = 0; i < count; i++) {
+                    var actual = curve[i];
+
+                    Utility.AssertAreEqual(keys[i].time, actual.time);
+                    Utility.AssertAreEqual(keys[i].value, actual.value);
+                    Utility.AssertAreEqual(keys[i].inTangent, actual.inTangent);
+                    Utility.AssertAreEqual(keys[i].outTangent, actual.outTangent);
+                    Utility.AssertAreEqual(keys[i].inWeight, actual.inWeight);
+                    Utility.AssertAreEqual(keys[i].outWeight, actual.outWeight);
+                    Assert.AreEqual(keys[i].weightedMode, actual.weightedMode);
+
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+                    Assert.AreEqual(keys[i].tangentMode, actual.tangentMode);
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
+
+                    Assert.AreEqual(brokenFlags[i], AnimationUtility.GetKeyBroken(curve, i));
+                    Assert.AreEqual(leftModes[i], AnimationUtility.GetKeyLeftTangentMode(curve, i));
+                    Assert.AreEqual(rightModes[i], AnimationUtility.GetKeyRightTangentMode(curve, i));
+                }
+
+                // * 上書きを防ぐため
+                //   SetKeyLeftTangentMode, SetKeyRightTangentMode, SetKeyBroken の順序で設定する.
+                // * SetKeyLeftTangentMode, SetKeyRightTangentMode, SetKeyBroken は
+                //   inTangent, outTangent, inWeight, outWeight を上書きするため
+                //   MoveKey で再設定する.
+                for (var i = 0; i < count; i++) {
+                    AnimationUtility.SetKeyLeftTangentMode(curve, i, leftModes[i]);
+                    AnimationUtility.SetKeyRightTangentMode(curve, i, rightModes[i]);
+                    AnimationUtility.SetKeyBroken(curve, i, brokenFlags[i]);
+                    var k = curve[i];
+                    k.inTangent = keys[i].inTangent;
+                    k.outTangent = keys[i].outTangent;
+                    k.inWeight = keys[i].inWeight;
+                    k.outWeight = keys[i].outWeight;
+                    _ = curve.MoveKey(i, k);
+                }
+
+                for (var i = 0; i < count; i++) {
+                    var actual = curve[i];
+
+                    Assert.AreEqual(leftModes[i], AnimationUtility.GetKeyLeftTangentMode(curve, i));
+                    Assert.AreEqual(rightModes[i], AnimationUtility.GetKeyRightTangentMode(curve, i));
+                    Assert.AreEqual(brokenFlags[i], AnimationUtility.GetKeyBroken(curve, i));
+                    Assert.AreEqual(keys[i].weightedMode, actual.weightedMode);
+                    Utility.AssertAreEqual(keys[i].time, actual.time);
+                    Utility.AssertAreEqual(keys[i].value, actual.value);
+                    Utility.AssertAreEqual(keys[i].inTangent, actual.inTangent);
+                    Utility.AssertAreEqual(keys[i].outTangent, actual.outTangent);
+                    Utility.AssertAreEqual(keys[i].inWeight, actual.inWeight);
+                    Utility.AssertAreEqual(keys[i].outWeight, actual.outWeight);
+
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+                    Utility.AssertAreEqual(keys[i].tangentMode, curve[i].tangentMode);
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
+                }
             }
         }
     }
