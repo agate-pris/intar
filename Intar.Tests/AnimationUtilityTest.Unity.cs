@@ -206,7 +206,7 @@ namespace Intar.Tests {
                     // inTangent は元の値を維持する.
                     Utility.AssertAreEqual(keys[i].inTangent, curve[i].inTangent);
 
-                    // outTangent は broken が true の場合 inTangent と同じ値,
+                    // outTangent は broken が false の場合 inTangent と同じ値,
                     // それ以外の場合は元の値になる.
                     var broken = AnimationUtility.GetKeyBroken(curve, i);
                     var outTangent = broken ? keys[i].outTangent : keys[i].inTangent;
