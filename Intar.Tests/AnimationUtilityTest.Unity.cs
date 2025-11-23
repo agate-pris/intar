@@ -8,12 +8,11 @@ namespace Intar.Tests {
     public partial class AnimationUtilityTest {
         const float defaultWeight = 1.0F / 3;
 
-        static float SafeDiv(float y, float x) {
-            if (Math.Abs(x) > 1e-3F) {
-                return y / x;
-            } else {
-                return 0;
-            }
+        /// <summary>安全な除算を行う.</summary>
+        /// <param name="defaultValue"><c>x</c> の絶対値がしきい値以下の時に返される値</param>
+        /// <param name="threshold">しきい値. デフォルト値は適当なので注意.</param>
+        static float SafeDiv(float y, float x, float defaultValue = 0, float threshold = 1e-3F) {
+            return Math.Abs(x) > threshold ? y / x : defaultValue;
         }
 
         /// <summary>2 つのキーの間の傾きを計算する.</summary>
