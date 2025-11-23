@@ -31,7 +31,7 @@ namespace Intar.Tests {
 
         internal static bool RandomBool() => UnityEngine.Random.value < 0.5F;
         internal static UnityEngine.WrapMode RandomWrapMode() {
-            return (UnityEngine.WrapMode)Math.Pow(2, UnityEngine.Random.Range(-1, 4));
+            return wrapModes[UnityEngine.Random.Range(0, wrapModes.Length)];
         }
         internal static AnimationUtility.TangentMode RandomTangentMode() {
             return (AnimationUtility.TangentMode)UnityEngine.Random.Range(0, 5);
