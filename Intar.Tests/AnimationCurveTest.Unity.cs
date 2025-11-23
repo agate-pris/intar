@@ -232,7 +232,7 @@ namespace Intar.Tests {
         }
 
         static void TestMoveKey() {
-            static int MoveKeyRandom(AnimationCurve curve, int index, float time, ref Keyframe keyframe, int expected, int length) {
+            static void MoveKeyRandom(AnimationCurve curve, int index, float time, ref Keyframe keyframe, int expected, int length) {
                 var l = RandomTangentMode();
                 var r = RandomTangentMode();
                 var b = RandomBool();
@@ -248,7 +248,7 @@ namespace Intar.Tests {
                 Utility.AssertAreEqual(expected, index);
                 Utility.AssertAreEqual(length, curve.length);
                 if (index == -1) {
-                    return index;
+                    return;
                 }
                 var failed =
                     l != AnimationUtility.GetKeyLeftTangentMode(curve, index) ||
@@ -259,7 +259,6 @@ namespace Intar.Tests {
                 }
                 TestKeyframe(key, curve[index]);
                 keyframe = key;
-                return index;
             }
 
             var curve = new AnimationCurve() {
@@ -277,30 +276,27 @@ namespace Intar.Tests {
             var i = curve.AddKey(k1);
             Utility.AssertAreEqual(0, i);
             Utility.AssertAreEqual(1, curve.length);
-            Utility.AssertAreEqual(1, curve[i].time);
             TestKeyframe(k1, curve[i]);
 
-            i = MoveKeyRandom(curve, i, 2, ref k1, 0, 1);
-            Utility.AssertAreEqual(0, i);
-            Utility.AssertAreEqual(1, curve.length);
+            MoveKeyRandom(curve, i, 2, ref k1, 0, 1);
 
             var k2 = RandomKeyframe(3);
             i = curve.AddKey(k2);
             Utility.AssertAreEqual(1, i);
             Utility.AssertAreEqual(2, curve.length);
             TestKeyframe(k1, curve[0]);
-            TestKeyframe(k2, curve[1]);
+            TestKeyframe(k2, curve[i]);
 
-            i = MoveKeyRandom(curve, 0, 4, ref k1, 1, 2);
+            MoveKeyRandom(curve, 0, 4, ref k1, 1, 2);
             TestKeyframe(k2, curve[0]);
 
-            i = MoveKeyRandom(curve, 1, 1, ref k1, 0, 2);
-            TestKeyframe(k1, curve[i]);
+            MoveKeyRandom(curve, 1, 1, ref k1, 0, 2);
+            TestKeyframe(k2, curve[1]);
 
             // Keyframe.time が既存のキーと重複する場合,
             // 例外をスローせず指定したインデックスのキーを削除し -1 を返す.
 
-            i = MoveKeyRandom(curve, 0, 3, ref k1, -1, 1);
+            MoveKeyRandom(curve, 0, 3, ref k1, -1, 1);
             TestKeyframe(k2, curve[0]);
         }
 
