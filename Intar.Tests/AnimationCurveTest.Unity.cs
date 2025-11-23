@@ -15,7 +15,9 @@ namespace Intar.Tests {
         };
 
         static float RandomTangent() {
-            const float th = 1.57F;
+            // タンジェントが極端な値になるのを防ぐため角度の範囲を制限する.
+            // (pi / 2 = 1.570796...)
+            const float th = 1.5F;
             return (float)Math.Tan(UnityEngine.Random.Range(-th, th));
         }
         static float RandomWeight() => UnityEngine.Random.value;
