@@ -41,7 +41,7 @@ namespace Intar.Tests {
         }
 
         /// <summary><c>TangentMode.ClampedAuto</c> に対応する傾きを計算する.</summary>
-        /// <param name="bias">上界・外界を決定するバイアス値</param>
+        /// <param name="bias">上界・下界を決定するバイアス値</param>
         /// <returns>キー数が 2 未満の場合は <c>null</c>.</returns>
         static float? CalculateTangentClampedAuto(AnimationCurve curve, int index, float bias = 0.5F) {
             // キー数が 2 未満の場合は計算できない.
