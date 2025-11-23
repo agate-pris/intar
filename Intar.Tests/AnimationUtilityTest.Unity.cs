@@ -363,7 +363,7 @@ namespace Intar.Tests {
                     Assert.Fail($"SetKeyLeftTangentMode failed: expected {expected}, actual {actual}");
                 }
 
-                // Free 以外の場合 broken は false になる.
+                // Free 以外の場合 broken は true になる.
                 brokens[i] |= expected != AnimationUtility.TangentMode.Free;
             }
 
