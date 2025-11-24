@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Collections;
 
 #if UNITY_5_3_OR_NEWER
 using UnityEngine;
@@ -52,6 +53,77 @@ namespace Intar {
         public KeyframeI17F15(
             I17F15 time, I17F15 value
         ) : this(time, value, I17F15.Zero, I17F15.Zero) { }
+    }
+
+    [GenerateTestsForBurstCompatibility]
+    public struct AnimationCurveEvaluator {
+        internal static I17F15 HermiteInterpolate(I17F15 time,
+            KeyframeI17F15 left,
+            KeyframeI17F15 right,
+            I17F15 defaultValue) {
+            var dx = right.Time - left.Time;
+            if (dx == I17F15.Zero) {
+                return defaultValue;
+            }
+            var m0 = left.OutTangent.WideBits * dx.Bits / I17F15.OneRepr;
+            var m1 = right.InTangent.WideBits * dx.Bits / I17F15.OneRepr;
+            var t = (time.WideBits - left.Time.WideBits) * I17F15.OneRepr / dx.Bits;
+            return HermiteInterpolate(t, left.Value, m0, m1, right.Value);
+        }
+
+        static I17F15 HermiteInterpolate(long t, I17F15 p0, long m0, long m1, I17F15 p1) {
+            // 3 次エルミート補間は単位区間 [0, 1] について, t = 0 における始点 p0, t = 1 における
+            // 終点 p1, t = 0 における開始接ベクトル m0, t = 1 における開始接ベクトル m1 を
+            // 与えられた時, 以下の多項式で表される.
+            //
+            // p(t) = ( 2 * t^3 - 3 * t^2 + 1) * p0
+            //      + (     t^3 - 2 * t^2 + t) * m0
+            //      + (-2 * t^3 + 3 * t^2    ) * p1
+            //      + (     t^3 -     t^2    ) * m1
+            //
+            // 誤差を小さくするため以下のように式変形する.
+            //
+            // p(t)
+            // = t * ( 2 * p0 * t^2 - 3 * p0 * t    ) + p0
+            // + t * (          t^2 - 2      * t + 1) * m0
+            // + t * (-2 *      t^2 + 3      * t    ) * p1
+            // + t * (          t^2 -          t    ) * m1
+            // = t * (t * ( 2 * t - 3 * p0)    ) + p0
+            // + t * (t * (     t - 2     ) + 1) * m0
+            // + t * (t * (-2 * t + 3     )    ) * p1
+            // + t * (t * (     t - 1     )    ) * m1
+            // = t * (t * ( 2   p0 * t - 3 * p0)     ) + p0
+            // + t * (t * (     m0 * t - 2 * m0) + m0)
+            // + t * (t * (-2 * p1 * t + 3 * p1)     )
+            // + t * (t * (     m1 * t -     m1)     )
+            // = ((t * ( 2   p0 * t - 3 * p0)     )
+            //  + (t * (     m0 * t - 2 * m0) + m0)
+            //  + (t * (-2 * p1 * t + 3 * p1)     )
+            //  + (t * (     m1 * t -     m1)     )) * t + p0
+            // = (( 2   p0 * t - 3 * p0)
+            //  + (     m0 * t - 2 * m0)
+            //  + (-2 * p1 * t + 3 * p1)
+            //  + (     m1 * t -     m1)) * t + m0) * t + p0
+            // = (( 2   p0)
+            //  + (     m0)
+            //  + (-2 * p1)
+            //  + (     m1)) * t + 3 * p1 - 3 * p0 - 2 * m0 - m1) * t + m0) * t + p0
+
+            var _2 = (I17F15)2;
+            var _3 = (I17F15)3;
+
+            var pd = p1.WideBits - p0.WideBits;
+
+            var a = m0 + m1 - (_2.WideBits * pd / I17F15.OneRepr);
+            var b = (_3.WideBits * pd / I17F15.OneRepr) - (_2.WideBits * m0 / I17F15.OneRepr) - m1;
+            var c = m0;
+            var d = p0.WideBits;
+
+            var bits = (t * a / I17F15.OneRepr) + b;
+            bits = (t * bits / I17F15.OneRepr) + c;
+            bits = (t * bits / I17F15.OneRepr) + d;
+            return I17F15.FromBits((int)bits);
+        }
     }
 
     public enum WrapMode {
