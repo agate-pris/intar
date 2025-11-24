@@ -51,7 +51,7 @@ namespace Intar.Tests {
             key.outTangent = RandomTangent();
             key.inWeight = RandomWeight();
             key.outWeight = RandomWeight();
-            key.weightedMode = (WeightedMode)UnityEngine.Random.Range(0, 4);
+            key.weightedMode = (UnityEngine.WeightedMode)UnityEngine.Random.Range(0, 4);
         }
 
         internal static bool RandomBool() => UnityEngine.Random.value < 0.5F;
