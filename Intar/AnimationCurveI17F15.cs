@@ -11,7 +11,6 @@ using UnityEngine;
 #endif
 
 namespace Intar {
-#if false // 未実装
     public enum WeightedMode {
         None,
         In,
@@ -19,6 +18,7 @@ namespace Intar {
         Both,
     }
 
+#if false // 未実装
     public enum TangentMode {
         Free,
         Auto,
