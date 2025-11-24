@@ -36,14 +36,27 @@ namespace Intar {
         public I17F15 Value;
         public I17F15 InTangent;
         public I17F15 OutTangent;
-#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
-#pragma warning restore IDE0079 // 不要な抑制を削除します
-#if false // 未実装
         public WeightedMode WeightedMode;
         public I17F15 InWeight;
         public I17F15 OutWeight;
+#pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
+#pragma warning restore IDE0079 // 不要な抑制を削除します
+#if false // 未実装
         public TangentMode TangentMode;
 #endif
+        public KeyframeI17F15(
+            I17F15 time, I17F15 value,
+            I17F15 inTangent, I17F15 outTangent,
+            I17F15 inWeight, I17F15 outWeight
+        ) {
+            Time = time;
+            Value = value;
+            InTangent = inTangent;
+            OutTangent = outTangent;
+            InWeight = inWeight;
+            OutWeight = outWeight;
+            WeightedMode = WeightedMode.Both;
+        }
         public KeyframeI17F15(
             I17F15 time, I17F15 value,
             I17F15 inTangent, I17F15 outTangent
@@ -52,6 +65,9 @@ namespace Intar {
             Value = value;
             InTangent = inTangent;
             OutTangent = outTangent;
+            InWeight = I17F15.Zero;
+            OutWeight = I17F15.Zero;
+            WeightedMode = WeightedMode.None;
         }
         public KeyframeI17F15(
             I17F15 time, I17F15 value
