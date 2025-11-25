@@ -301,28 +301,6 @@ namespace Intar {
             return oneMinusT3 * outValue + 3 * oneMinusT2 * t * y1 + 3 * oneMinusT * t2 * y2 + t3 * inValue;
         }
 #endif
-        internal static I17F15 Evaluate(I17F15 time, KeyframeI17F15 left, KeyframeI17F15 right) {
-            var dt = right.Time - left.Time;
-            if (dt == I17F15.Zero) {
-                return right.Value;
-            }
-
-            // 正規化時間 (0 <= t <= 1)
-            var t = (time - left.Time) / dt;
-
-            var t2 = t * t;
-            var t3 = t2 * t;
-
-            var h01 = (t2 * (I17F15)3) - (t3 * (I17F15)2);
-            var h00 = I17F15.One - h01;
-            var h11 = t3 - t2;
-            var h10 = h11 - t2 + t;
-
-            var m0 = left.OutTangent * dt;
-            var m1 = right.InTangent * dt;
-
-            return (h00 * left.Value) + (h10 * m0) + (h01 * right.Value) + (h11 * m1);
-        }
         public I17F15 Evaluate(I17F15 time) {
             switch (keys.Count) {
                 default: break;
