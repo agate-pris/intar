@@ -427,7 +427,10 @@ namespace Intar {
                 if (i == keys.Count) {
                     return last.Value;
                 } else {
-                    return Evaluate(time, keys[i - 1], keys[i]);
+                    return AnimationCurveEvaluator.HermiteInterpolate(time,
+                        keys[i - 1],
+                        keys[i],
+                        keys[i].Value);
                 }
             }
         }
