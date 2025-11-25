@@ -14,16 +14,39 @@ namespace Intar.Tests {
             UnityEngine.WrapMode.ClampForever,
         };
 
-        static float RandomTangent() {
+        static WrapMode Convert(UnityEngine.WrapMode a) {
+            switch (a) {
+                default:
+                throw new NotImplementedException($"{a}");
+                case UnityEngine.WrapMode.Default: return WrapMode.Loop;
+                case UnityEngine.WrapMode.ClampForever: return WrapMode.Clamp;
+                case UnityEngine.WrapMode.Clamp:
+                case UnityEngine.WrapMode.Loop:
+                case UnityEngine.WrapMode.PingPong:
+                return (WrapMode)a;
+            }
+        }
+
+        // 各種ユーティリイティメソッドは一度
+        // 小さめの I17F15 を生成してから float に変換することで,
+        // 厳密に等しい値を取り扱えるようにする. これは特に
+        // AnimationCurve のループの境界を正しく評価するために重要である.
+
+        static I17F15 RandomValueI17F15() {
+            return (I17F15)UnityEngine.Random.Range(-10F, +10F);
+        }
+        static float RandomValue() => (float)RandomValueI17F15();
+        static I17F15 RandomTangentI17F15() {
             // タンジェントが極端な値になるのを防ぐため角度の範囲を制限する.
             // (pi / 2 = 1.570796...)
             const float th = 1.5F;
-            return (float)Math.Tan(UnityEngine.Random.Range(-th, th));
+            return (I17F15)Math.Tan(UnityEngine.Random.Range(-th, th));
         }
+        static float RandomTangent() => (float)RandomTangentI17F15();
         static float RandomWeight() => UnityEngine.Random.value;
         static void SetRandomKeyframe(float time, ref Keyframe key) {
             key.time = time;
-            key.value = UnityEngine.Random.Range(-10F, +10F);
+            key.value = RandomValue();
             key.inTangent = RandomTangent();
             key.outTangent = RandomTangent();
             key.inWeight = RandomWeight();
@@ -464,6 +487,37 @@ namespace Intar.Tests {
                         Utility.AssertAreEqual(0.125f, curve.Evaluate(3.125F));
                         break;
                     }
+                }
+            }
+        }
+
+        [TestCase(2, 0.003F, 1000)]
+        [TestCase(3, 0.003F, 1000)]
+        [TestCase(4, 0.003F, 1000)]
+        [TestCase(5, 0.003F, 1000)]
+        public static void TestEvaluateRandom(int length, float delta, int testCount) {
+            for (var testIndex = 0; testIndex < testCount; testIndex++) {
+                var curve = new AnimationCurve() {
+                    preWrapMode = RandomWrapMode(),
+                    postWrapMode = RandomWrapMode(),
+                };
+                var curveI17F15 = new AnimationCurveI17F15() {
+                    PreWrapMode = Convert(curve.preWrapMode),
+                    PostWrapMode = Convert(curve.postWrapMode),
+                };
+                for (var i = 0; i < length; i++) {
+                    var t = (I17F15)(UnityEngine.Random.value + (i * 1.5F));
+                    var v = RandomValueI17F15();
+                    var inTangent = RandomTangentI17F15();
+                    var outTangent = RandomTangentI17F15();
+                    _ = curve.AddKey(new Keyframe((float)t, (float)v, (float)inTangent, (float)outTangent));
+                    _ = curveI17F15.AddKey(new KeyframeI17F15(t, v, inTangent, outTangent));
+                }
+                for (var i = 0; i < 100; i++) {
+                    var t = (I17F15)UnityEngine.Random.Range(length * -3F, length * 3F);
+                    var e = curve.Evaluate((float)t);
+                    var a = (float)curveI17F15.Evaluate(t);
+                    Utility.AssertAreEqual(e, a, delta);
                 }
             }
         }
