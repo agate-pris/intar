@@ -61,13 +61,16 @@ namespace Intar {
             KeyframeI17F15 left,
             KeyframeI17F15 right,
             I17F15 defaultValue) {
-            var dx = right.Time - left.Time;
-            if (dx == I17F15.Zero) {
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
+
+            var dx = right.Time.WideBits - left.Time.WideBits;
+            if (dx == 0) {
                 return defaultValue;
             }
-            var m0 = left.OutTangent.WideBits * dx.Bits / I17F15.OneRepr;
-            var m1 = right.InTangent.WideBits * dx.Bits / I17F15.OneRepr;
-            var t = (time.WideBits - left.Time.WideBits) * I17F15.OneRepr / dx.Bits;
+            var m0 = left.OutTangent.WideBits * dx / I17F15.OneRepr;
+            var m1 = right.InTangent.WideBits * dx / I17F15.OneRepr;
+            var t = (time.WideBits - left.Time.WideBits) * I17F15.OneRepr / dx;
             return HermiteInterpolate(t, left.Value, m0, m1, right.Value);
         }
 
@@ -84,35 +87,36 @@ namespace Intar {
             // 誤差を小さくするため以下のように式変形する.
             //
             // p(t)
-            // = t * ( 2 * p0 * t^2 - 3 * p0 * t    ) + p0
-            // + t * (          t^2 - 2      * t + 1) * m0
-            // + t * (-2 *      t^2 + 3      * t    ) * p1
-            // + t * (          t^2 -          t    ) * m1
-            // = t * (t * ( 2 * t - 3 * p0)    ) + p0
-            // + t * (t * (     t - 2     ) + 1) * m0
-            // + t * (t * (-2 * t + 3     )    ) * p1
-            // + t * (t * (     t - 1     )    ) * m1
-            // = t * (t * ( 2   p0 * t - 3 * p0)     ) + p0
+            // = ( 2 * p0 * t^3 - 3 * p0 * t^2 + p0    )
+            // + (     m0 * t^3 - 2 * m0 * t^2 + m0 * t)
+            // + (-2 * p1 * t^3 + 3 * p1 * t^2         )
+            // + (     m1 * t^3 -     m1 * t^2         )
+            // = t * ( 2 * p0 * t^2 - 3 * p0 * t     ) + p0
+            // + t * (     m0 * t^2 - 2 * m0 * t + m0)
+            // + t * (-2 * p1 * t^2 + 3 * p1 * t     )
+            // + t * (     m1 * t^2 -     m1 * t     )
+            // = t * (t * ( 2 * p0 * t - 3 * p0)     ) + p0
             // + t * (t * (     m0 * t - 2 * m0) + m0)
             // + t * (t * (-2 * p1 * t + 3 * p1)     )
             // + t * (t * (     m1 * t -     m1)     )
-            // = ((t * ( 2   p0 * t - 3 * p0)     )
+            // = ((t * ( 2 * p0 * t - 3 * p0)     )
             //  + (t * (     m0 * t - 2 * m0) + m0)
             //  + (t * (-2 * p1 * t + 3 * p1)     )
-            //  + (t * (     m1 * t -     m1)     )) * t + p0
-            // = (( 2   p0 * t - 3 * p0)
-            //  + (     m0 * t - 2 * m0)
-            //  + (-2 * p1 * t + 3 * p1)
-            //  + (     m1 * t -     m1)) * t + m0) * t + p0
-            // = (( 2   p0)
-            //  + (     m0)
-            //  + (-2 * p1)
-            //  + (     m1)) * t + 3 * p1 - 3 * p0 - 2 * m0 - m1) * t + m0) * t + p0
+            //  + (t * (     m1 * t -     m1)     )) * t + d (d = p0)
+            // = ((2 * p0 * t - 3 * p0
+            //   +     m0 * t - 2 * m0
+            //   - 2 * p1 * t + 3 * p1
+            //   +     m1 * t -     m1) * t + c) * t + d (c = m0, d = p0)
+            // = (a * t + b) * t + c) * t + d (a = 2 * p0 + m0 - 2 * p1 + m1
+            //                                 b = -3 * p0 - 2 * m0 + 3 * p1 - m1
+            //                                 c = m0, d = p0)
 
             var _2 = (I17F15)2;
             var _3 = (I17F15)3;
 
             var pd = p1.WideBits - p0.WideBits;
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
 
             var a = m0 + m1 - (_2.WideBits * pd / I17F15.OneRepr);
             var b = (_3.WideBits * pd / I17F15.OneRepr) - (_2.WideBits * m0 / I17F15.OneRepr) - m1;
