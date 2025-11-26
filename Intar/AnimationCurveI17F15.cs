@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Collections;
 
 #if UNITY_5_3_OR_NEWER
 using UnityEngine;
@@ -52,6 +53,81 @@ namespace Intar {
         public KeyframeI17F15(
             I17F15 time, I17F15 value
         ) : this(time, value, I17F15.Zero, I17F15.Zero) { }
+    }
+
+    [GenerateTestsForBurstCompatibility]
+    public struct AnimationCurveEvaluator {
+        internal static I17F15 HermiteInterpolate(I17F15 time,
+            KeyframeI17F15 left,
+            KeyframeI17F15 right,
+            I17F15 defaultValue) {
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
+
+            var dx = right.Time.WideBits - left.Time.WideBits;
+            if (dx == 0) {
+                return defaultValue;
+            }
+            var m0 = left.OutTangent.WideBits * dx / I17F15.OneRepr;
+            var m1 = right.InTangent.WideBits * dx / I17F15.OneRepr;
+            var t = (time.WideBits - left.Time.WideBits) * I17F15.OneRepr / dx;
+            return HermiteInterpolate(t, left.Value, m0, m1, right.Value);
+        }
+
+        static I17F15 HermiteInterpolate(long t, I17F15 p0, long m0, long m1, I17F15 p1) {
+            // 3 次エルミート補間は単位区間 [0, 1] について, t = 0 における始点 p0, t = 1 における
+            // 終点 p1, t = 0 における開始接ベクトル m0, t = 1 における終了接ベクトル m1 を
+            // 与えられた時, 以下の多項式で表される.
+            //
+            // p(t) = ( 2 * t^3 - 3 * t^2 + 1) * p0
+            //      + (     t^3 - 2 * t^2 + t) * m0
+            //      + (-2 * t^3 + 3 * t^2    ) * p1
+            //      + (     t^3 -     t^2    ) * m1
+            //
+            // 誤差を小さくするため以下のように式変形する.
+            //
+            // p(t)
+            // = ( 2 * p0 * t^3 - 3 * p0 * t^2 + p0    )
+            // + (     m0 * t^3 - 2 * m0 * t^2 + m0 * t)
+            // + (-2 * p1 * t^3 + 3 * p1 * t^2         )
+            // + (     m1 * t^3 -     m1 * t^2         )
+            // = t * ( 2 * p0 * t^2 - 3 * p0 * t     ) + p0
+            // + t * (     m0 * t^2 - 2 * m0 * t + m0)
+            // + t * (-2 * p1 * t^2 + 3 * p1 * t     )
+            // + t * (     m1 * t^2 -     m1 * t     )
+            // = t * (t * ( 2 * p0 * t - 3 * p0)     ) + p0
+            // + t * (t * (     m0 * t - 2 * m0) + m0)
+            // + t * (t * (-2 * p1 * t + 3 * p1)     )
+            // + t * (t * (     m1 * t -     m1)     )
+            // = ((t * ( 2 * p0 * t - 3 * p0)     )
+            //  + (t * (     m0 * t - 2 * m0) + m0)
+            //  + (t * (-2 * p1 * t + 3 * p1)     )
+            //  + (t * (     m1 * t -     m1)     )) * t + d (d = p0)
+            // = ((2 * p0 * t - 3 * p0
+            //   +     m0 * t - 2 * m0
+            //   - 2 * p1 * t + 3 * p1
+            //   +     m1 * t -     m1) * t + c) * t + d (c = m0, d = p0)
+            // = (a * t + b) * t + c) * t + d (a = 2 * p0 + m0 - 2 * p1 + m1
+            //                                 b = -3 * p0 - 2 * m0 + 3 * p1 - m1
+            //                                 c = m0, d = p0)
+
+            var _2 = (I17F15)2;
+            var _3 = (I17F15)3;
+
+            var pd = p1.WideBits - p0.WideBits;
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
+
+            var a = m0 + m1 - (_2.WideBits * pd / I17F15.OneRepr);
+            var b = (_3.WideBits * pd / I17F15.OneRepr) - (_2.WideBits * m0 / I17F15.OneRepr) - m1;
+            var c = m0;
+            var d = p0.WideBits;
+
+            var bits = (t * a / I17F15.OneRepr) + b;
+            bits = (t * bits / I17F15.OneRepr) + c;
+            bits = (t * bits / I17F15.OneRepr) + d;
+            return I17F15.FromBits((int)bits);
+        }
     }
 
     public enum WrapMode {
@@ -229,28 +305,6 @@ namespace Intar {
             return oneMinusT3 * outValue + 3 * oneMinusT2 * t * y1 + 3 * oneMinusT * t2 * y2 + t3 * inValue;
         }
 #endif
-        internal static I17F15 Evaluate(I17F15 time, KeyframeI17F15 left, KeyframeI17F15 right) {
-            var dt = right.Time - left.Time;
-            if (dt == I17F15.Zero) {
-                return right.Value;
-            }
-
-            // 正規化時間 (0 <= t <= 1)
-            var t = (time - left.Time) / dt;
-
-            var t2 = t * t;
-            var t3 = t2 * t;
-
-            var h01 = (t2 * (I17F15)3) - (t3 * (I17F15)2);
-            var h00 = I17F15.One - h01;
-            var h11 = t3 - t2;
-            var h10 = h11 - t2 + t;
-
-            var m0 = left.OutTangent * dt;
-            var m1 = right.InTangent * dt;
-
-            return (h00 * left.Value) + (h10 * m0) + (h01 * right.Value) + (h11 * m1);
-        }
         public I17F15 Evaluate(I17F15 time) {
             switch (keys.Count) {
                 default: break;
@@ -355,7 +409,10 @@ namespace Intar {
                 if (i == keys.Count) {
                     return last.Value;
                 } else {
-                    return Evaluate(time, keys[i - 1], keys[i]);
+                    return AnimationCurveEvaluator.HermiteInterpolate(time,
+                        keys[i - 1],
+                        keys[i],
+                        keys[i].Value);
                 }
             }
         }
