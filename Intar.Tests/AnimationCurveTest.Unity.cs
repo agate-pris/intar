@@ -491,10 +491,10 @@ namespace Intar.Tests {
             }
         }
 
-        [TestCase(2, 0.003F, 1000)]
-        [TestCase(3, 0.003F, 1000)]
-        [TestCase(4, 0.003F, 1000)]
-        [TestCase(5, 0.003F, 1000)]
+        [TestCase(2, 0.002F, 1000)]
+        [TestCase(3, 0.002F, 1000)]
+        [TestCase(4, 0.002F, 1000)]
+        [TestCase(5, 0.002F, 1000)]
         public static void TestEvaluateRandom(int length, float delta, int testCount) {
             for (var testIndex = 0; testIndex < testCount; testIndex++) {
                 var curve = new AnimationCurve() {
