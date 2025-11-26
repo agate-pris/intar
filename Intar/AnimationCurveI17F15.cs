@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ using Unity.Collections;
 
 #if UNITY_5_3_OR_NEWER
 using UnityEngine;
+using Unity.Mathematics;
 #endif
 
 namespace Intar {
@@ -83,6 +85,19 @@ namespace Intar {
         static long Mul(long a, long b) => a * b / I17F15.OneRepr;
         static long Div(long a, long b) => a * I17F15.OneRepr / b;
 
+#if true
+        static long Cbrt(long x) {
+            if (x < 0) {
+                return (long)(-math.exp(math.log(-x / 32768.0F) / 3.0f) * 32768);
+            } else {
+                return (long)(math.exp(math.log(x / 32768.0F) / 3.0f) * 32768);
+            }
+        }
+        static ulong CbrtPositive(ulong x) {
+            return (ulong)(Math.Exp(Math.Log((double)x / 32768) / 3) * 32768);
+        }
+#endif
+
         internal static I17F15 HermiteInterpolate(I17F15 time,
             KeyframeI17F15 left,
             KeyframeI17F15 right,
@@ -131,6 +146,448 @@ namespace Intar {
             bits = Mul(t, bits) + m0;
             bits = Mul(t, bits) + p0;
             return I17F15.FromBits((int)bits);
+        }
+
+        internal static I17F15 BezierInterpolate(I17F15 time,
+            KeyframeI17F15 left,
+            KeyframeI17F15 right,
+            I17F15 defaultValue) {
+            if (left.Time == right.Time) {
+                return defaultValue;
+            }
+            var dx = right.Time.WideBits - left.Time.Bits;
+            var t = Div(time.WideBits - left.Time.Bits, dx);
+            var m1 = Mul(left.OutTangent.Bits, dx);
+            var m2 = Mul(right.InTangent.Bits, dx);
+            long outWeight;
+            long inWeight;
+            if (left.WeightedMode == WeightedMode.None &&
+                left.WeightedMode == WeightedMode.In) {
+                outWeight = I17F15.OneRepr / 3;
+            } else {
+                outWeight = left.OutWeight.Bits;
+            }
+            if (right.WeightedMode == WeightedMode.None &&
+                right.WeightedMode == WeightedMode.Out) {
+                inWeight = I17F15.OneRepr / 3;
+            } else {
+                inWeight = right.InWeight.Bits;
+            }
+            return BezierInterpolate(t, left.Value.Bits, m1, outWeight, right.Value.Bits, m2, inWeight);
+        }
+
+#if true
+        internal static float FAST_CBRT_POSITIVE(float x) {
+            return math.exp(math.log(x) / 3.0f);
+        }
+
+        static float FAST_CBRT(float x) {
+            return (x < 0) ? -math.exp(math.log(-x) / 3.0f) : math.exp(math.log(x) / 3.0f);
+        }
+
+        static float BezierExtractU(float t, float w1, float w2) {
+            var a = (3.0F * w1) - (3.0F * w2) + 1.0F;
+            var b = (-6.0F * w1) + (3.0F * w2);
+            var c = 3.0F * w1;
+            var d = -t;
+
+
+            if (math.abs(a) > 1e-3f) {
+                Debug.Log("float1");
+                var p = -b / (3.0F * a);
+                var p2 = p * p;
+                var p3 = p2 * p;
+
+                var q = p3 + (((b * c) - (3.0F * a * d)) / (6.0F * a * a));
+                var q2 = q * q;
+
+                var r = c / (3.0F * a);
+                var rmp2 = r - p2;
+
+                var s = q2 + (rmp2 * rmp2 * rmp2);
+
+                if (s < 0.0F) {
+                    Debug.Log("float2");
+                    var ssi = math.sqrt(-s);
+                    var r_1 = math.sqrt(-s + q2);
+                    var phi = math.atan2(ssi, q);
+
+                    var r_3 = FAST_CBRT_POSITIVE(r_1);
+                    var phi_3 = phi / 3.0F;
+
+                    // Extract cubic roots.
+                    var u1 = (2.0F * r_3 * math.cos(phi_3)) + p;
+                    var u2 = (2.0F * r_3 * math.cos(phi_3 + (2.0F * math.PI / 3.0f))) + p;
+                    var u3 = (2.0F * r_3 * math.cos(phi_3 - (2.0F * math.PI / 3.0f))) + p;
+
+                    if (u1 >= 0.0F && u1 <= 1.0F) {
+                        Debug.Log("float3");
+                        return u1;
+                    } else if (u2 >= 0.0F && u2 <= 1.0F) {
+                        Debug.Log("float4");
+                        return u2;
+                    } else if (u3 >= 0.0F && u3 <= 1.0F) {
+                        Debug.Log("float5");
+                        return u3;
+                    }
+
+                    // Aiming at solving numerical imprecisions when u is outside [0,1].
+                    Debug.Log("float6");
+                    return (t < 0.5F) ? 0.0F : 1.0F;
+                } else {
+                    Debug.Log("float7");
+                    var ss = math.sqrt(s);
+                    var u = FAST_CBRT(q + ss) + FAST_CBRT(q - ss) + p;
+
+                    if (u >= 0.0F && u <= 1.0F) {
+                        Debug.Log($"float8 {u}");
+                        return u;
+                    }
+
+                    // Aiming at solving numerical imprecisions when u is outside [0,1].
+                    Debug.Log("float9");
+                    return (t < 0.5F) ? 0.0F : 1.0F;
+                }
+            }
+
+            if (math.abs(b) > 1e-3f) {
+                Debug.Log("float10");
+                var s = (c * c) - (4.0F * b * d);
+                var ss = math.sqrt(s);
+
+                var u1 = (-c - ss) / (2.0F * b);
+                var u2 = (-c + ss) / (2.0F * b);
+
+                if (u1 >= 0.0F && u1 <= 1.0F) {
+                    Debug.Log("float11");
+                    return u1;
+                } else if (u2 >= 0.0F && u2 <= 1.0F) {
+                    Debug.Log("float12");
+                    return u2;
+                }
+
+                // Aiming at solving numerical imprecisions when u is outside [0,1].
+                Debug.Log("float13");
+                return (t < 0.5F) ? 0.0F : 1.0F;
+            }
+
+            if (math.abs(c) > 1e-3f) {
+                Debug.Log("float14");
+                return -d / c;
+            }
+
+            Debug.Log("float15");
+            return 0.0F;
+        }
+#endif
+
+        static I17F15 BezierInterpolate(long t, long v1, long m1, long w1, long v2, long m2, long w2) {
+            var u = BezierExtractU(t, w1, I17F15.OneRepr - w2);
+            Debug.Log($"u:{u}");
+#if true
+            {
+                var uFloat = BezierExtractU((float)t / 32768, w1, 1.0F - w2);
+                Assert.AreEqual(uFloat, u, Math.Abs(uFloat) * 0.1);
+            }
+#endif
+            var p1 = v1 + Mul(w1, m1);
+            var p2 = v2 - Mul(w2, m2);
+            return BezierInterpolate(u, v1, p1, p2, v2);
+        }
+
+        static I17F15 BezierInterpolate(long t, long p0, long p1, long p2, long p3) {
+            // p(t) = t * (t * (t * a + b) + c) + d
+            //      =           (1 - t)^3 * p0
+            //      + 3 * t   * (1 - t)^2 * p1
+            //      + 3 * t^2 * (1 - t)   * p2
+            //      +     t^3             * p3
+            //
+            // (1 - t)^2 = 1 - 2t +  t^2
+            // (1 - t)^3 = 1 - 3t + 3t^2 - t^3
+            //
+            // p(t) =           (1 - 3t + 3 * t^2 - t^3) * p0
+            //      + 3 * t   * (1 - 2t +     t^2      ) * p1
+            //      + 3 * t^2 * (1 -  t                ) * p2
+            //      +     t^3                            * p3
+            //      = (1 - 3t + 3 * t^2 -     t^3) * p0
+            //      + (    3t - 6 * t^2 + 3 * t^3) * p1
+            //      + (         3 * t^2 - 3 * t^3) * p2
+            //      +                         t^3  * p3
+            //
+            // a = 3 * p1 - 3 * p2 + p3 - p0
+            // b = 3 * p0 - 6 * p1 + 3 * p2
+            // c = 3 * p1 - 3 * p0
+            // d = p0
+
+            var _3p0 = 3 * p0;
+            var _3p1 = 3 * p1;
+            var _3p2 = 3 * p2;
+            var c = _3p1 - _3p0;
+            var b = _3p0 - (6 * p1) + _3p2;
+            var a = _3p1 - _3p2 + p3 - p0;
+
+            var bits = Mul(a, t) + b;
+            bits = Mul(bits, t) + c;
+            bits = Mul(bits, t) + p0;
+            return I17F15.FromBits((int)bits);
+        }
+
+        // カルダノの方法に基づいて三次方程式の解の公式で解の個数を求め,
+        // それに基づいて値を決定している.
+        static long BezierExtractU(long t, long w1, long w2) {
+            // time(u) =           (1 - u)^3 * 0
+            //         + 3 * u   * (1 - u)^2 * w1
+            //         + 3 * u^2 * (1 - u)   * (1 - w2)
+            //         +     u^3             * 1
+            // (w2 = 1 - w2 として扱う)
+            //
+            // time(u) = a * u^3 + b * u^2 + c * u + d とする.
+            //
+            // すると 3 次の項 a が十分に小さい場合は 2 次方程式,
+            // 2 次の項 b も十分に小さい場合は 1 次方程式として扱えることが分かる.
+
+            //  0 <= w1 <= 1
+            //  0 <= w2 <= 1
+            // -2 <= a  <= 4
+            // -6 <= b  <= 3
+            //  0 <= c  <= 3
+            // -1 <= d  <= 0
+
+            var a = (3 * w1) - (3 * w2) + I17F15.OneRepr;
+            var b = (3 * w2) - (6 * w1);
+            var c = 3 * w1;
+            var d = -t;
+
+            var aFloat = (((3.0F * w1) - (3.0F * w2)) / 32768) + 1;
+            var bFloat = ((-6.0F * w1) + (3.0F * w2)) / 32768;
+            var cFloat = 3.0F * w1 / 32768;
+            var dFloat = -t / 32768F;
+            Assert.AreEqual(aFloat, a / 32768.0F, 1e-5f);
+            Assert.AreEqual(bFloat, b / 32768.0F, 1e-5f);
+            Assert.AreEqual(cFloat, c / 32768.0F, 1e-5f);
+            Assert.AreEqual(dFloat, d / 32768.0F, 1e-5f);
+
+            Debug.Log($"a:{a / 32768.0F} b:{b / 32768F} c:{c / 32768F} d:{d / 32768F}");
+
+            // 1e-3f approx 32 in I17F15 (32/32768 approx 0.001)
+            var epsilon = 32;
+
+            if (Math.Abs(a) > epsilon) {
+                Debug.Log("Foo");
+#if false
+                throw new NotImplementedException();
+#else
+                // カルダノの方法による解の公式の
+                // ビエトの解を用いて 3 次方程式を変形する.
+                //
+                // (x / a)^3 = 3 * x / a + b / a とすると
+                // x / a - 2 cos a すなわち x = 2a cos a ならば
+                // cos 3a = b / (2 * a)
+                // a = 1/3 * arccos(b / (2 * a)) と表せる.
+                // x = 2 a cos a = 2 a cos(1/3 * arccos(b / (2 * a)))
+                // という解が得られる. この解のことをビエトの解という.
+                //
+                // D = - (4 * (-3)^3 + 27 * (-b / a)^2) = 27 * (4 - (b / a)^2) > 0
+                // => |b / (2 * a)| < 1
+                //
+                // 0 < a < pi / 3 なる解 a を a1 とすると
+                // a2= a1 + 2pi/3, a3 = a1 + 4pi/3 となる.
+
+                //     -b
+                // p = --
+                //     3a
+                // -inf <= p <= inf (-6 / 0.003 <= p <= 3 / 0.003)
+
+                var p = Div(-b, 3 * a);
+                var p2 = Mul(p, p);
+                var p3 = Mul(p2, p);
+
+                var pFloat = -bFloat / (3 * aFloat);
+                var p2Float = pFloat * pFloat;
+                var p3Float = p2Float * pFloat;
+                Assert.AreEqual(pFloat, p / 32768.0F, Math.Abs(pFloat) * 0.1);
+                Assert.AreEqual(p2Float, p2 / 32768.0F, Math.Abs(p2Float) * 0.1);
+                Assert.AreEqual(p3Float, p3 / 32768.0F, Math.Abs(p3Float) * 0.1);
+
+                //           b c - 3 a d
+                // q = p^3 + -----------
+                //              6 a^2
+                //     b c - 3 a d      b^3
+                //   = ----------- - ------
+                //        6 a^2      27 a^3
+
+                var q = p3 + (((b * c) - (3 * a * d)) / (6 * Mul(a, a)));
+                var q2 = Mul(q, q);
+
+                var qFloat = p3Float + (((bFloat * cFloat) - (3 * aFloat * dFloat)) / (6 * aFloat * aFloat));
+                var q2Float = qFloat * qFloat;
+                Assert.AreEqual(qFloat, q / 32768.0F, Math.Abs(qFloat) * 0.1);
+                Assert.AreEqual(q2Float, q2 / 32768.0F, Math.Abs(q2Float) * 0.1);
+
+                //      c
+                // r = --
+                //     3a
+
+                var r = Div(c, 3 * a);
+                var rmp2 = r - p2;
+
+                var rFloat = cFloat / (3 * aFloat);
+                var rmp2Float = rFloat - p2Float;
+                Assert.AreEqual(rFloat, r / 32768.0F, 1e-3f);
+
+                // s = q^2 + (r - p^2)^3
+                //     (b c - 3 a d)     ( c     b^2 )
+                //   = (-----------)^2 + (--- - -----)^3
+                //     (   6 a^2   )     (3 a   9 a^2)
+
+                long s30;
+                //long s;
+                {
+                    var tmp1 = (b * c) - (3 * a * d);
+                    var tmp2 = 6 * a * a / I17F15.OneRepr;
+                    var tmp3 = tmp1 / tmp2;
+                    tmp3 *= tmp3;
+                    tmp1 = b * b;
+                    tmp2 = 9 * a * a / I17F15.OneRepr;
+                    var tmp4 = (c * 32768 / (3 * a)) - (tmp1 / tmp2);
+                    tmp4 *= Mul(tmp4, tmp4);
+                    s30 = tmp3 + tmp4;
+                }
+
+                var sFloat = q2Float + (rmp2Float * rmp2Float * rmp2Float);
+                //Assert.AreEqual(sFloat, s / 32768.0F, 1e-1f);
+
+                if (s30 < 0) {
+                    Debug.Log("Bar");
+                    var ssi = Mathi.Sqrt(Mathi.UnsignedAbs(s30));
+                    var r_1 = Mathi.Sqrt(Mathi.UnsignedAbs(s30) + (ulong)(q * q));
+                    var phi = Mathi.Atan2P3((int)ssi, (int)q); // Returns ratio to PI/2
+
+                    var ssiFloat = math.sqrt(-sFloat);
+                    var r_1Float = math.sqrt(-sFloat + q2Float);
+                    var phiFloat = math.atan2(ssiFloat, qFloat);
+                    Assert.AreEqual(ssiFloat, ssi / 32768.0F, ssiFloat * 0.01);
+                    Assert.AreEqual(r_1Float, r_1 / 32768.0F, r_1Float * 0.01);
+                    Assert.AreEqual(phiFloat / math.PI, phi / (float)(1 << 30), 1e-2f);
+
+                    var r_3 = CbrtPositive(r_1);
+                    var phi_3 = phi / (3 * (1 << 14));
+
+                    var r_3Float = FAST_CBRT_POSITIVE(r_1Float);
+                    var phi_3Float = phiFloat / 3;
+                    Assert.AreEqual(r_3Float, r_3 / 32768.0F, 1e-3f);
+                    Assert.AreEqual(phi_3Float / math.PI * 2, phi_3 / 32768.0F, 1e-3f);
+
+                    // Extract cubic roots.
+                    // CosP5 takes ratio to PI/2.
+                    // 2PI/3 radians is 4/3 in ratio units.
+                    var offset = I17F15.OneRepr * 4 / 3;
+                    //var _2 = (I17F15)2;
+
+                    var cos1 = Mathi.CosP5(phi_3);
+                    var cos2 = Mathi.CosP5(phi_3 + offset);
+                    var cos3 = Mathi.CosP5(phi_3 - offset);
+
+                    var cos1Float = math.cos(phi_3Float);
+                    var cos2Float = math.cos(phi_3Float + (2 * math.PI / 3.0f));
+                    var cos3Float = math.cos(phi_3Float - (2 * math.PI / 3.0f));
+                    Assert.AreEqual(cos1Float, cos1 / (float)(1 << 30), 1e-2f);
+                    Assert.AreEqual(cos2Float, cos2 / (float)(1 << 30), 1e-2f);
+                    Assert.AreEqual(cos3Float, cos3 / (float)(1 << 30), 1e-2f);
+
+                    var u1 = (cos1 / I17F15.OneRepr * (long)r_3 * 2) + (p * 32768);
+                    var u2 = (cos2 / I17F15.OneRepr * (long)r_3 * 2) + (p * 32768);
+                    var u3 = (cos3 / I17F15.OneRepr * (long)r_3 * 2) + (p * 32768);
+
+                    var u1Float = (2 * r_3Float * cos1Float) + pFloat;
+                    var u2Float = (2 * r_3Float * cos2Float) + pFloat;
+                    var u3Float = (2 * r_3Float * cos3Float) + pFloat;
+
+                    Assert.AreEqual(u1Float, u1 / 32768.0F, 1e-2f);
+                    Assert.AreEqual(u2Float, u2 / 32768.0F, 1e-2f);
+                    Assert.AreEqual(u3Float, u3 / 32768.0F, 1e-2f);
+
+                    Debug.Log($"{u1Float} {u2Float} {u3Float}");
+
+                    if (u1 >= 0 && u1 <= (1 << 30)) {
+                        Debug.Log("aaa");
+                        return u1 / 32768;
+                    } else if (u2 >= 0 && u2 <= (1 << 30)) {
+                        Debug.Log("bbb");
+                        return u2 / 32768;
+                    } else if (u3 >= 0 && u3 <= (1 << 30)) {
+                        Debug.Log("ccc");
+                        return u3 / 32768;
+                    }
+
+                    Debug.Log("ddd");
+                    return (t < I17F15.OneRepr / 2) ? 0 : I17F15.OneRepr;
+                } else {
+                    var ss = (long)Mathi.Sqrt((ulong)s30);
+
+                    var ssFloat = math.sqrt(sFloat);
+                    Assert.AreEqual(ssFloat, ss / 32768.0F, 1e-2f);
+
+                    long u;
+                    {
+                        var tmp1 = Cbrt(q + ss);
+                        var tmp2 = Cbrt(q - ss);
+                        u = tmp1 + tmp2 + p;
+
+                        var tmp1Float = FAST_CBRT(qFloat + ssFloat);
+                        var tmp2Float = FAST_CBRT(qFloat - ssFloat);
+                        Assert.AreEqual(tmp1Float, tmp1 / 32768.0F, 1e-1f);
+                        Assert.AreEqual(tmp2Float, tmp2 / 32768.0F, 1e-1f);
+                    }
+
+                    var uFloat = FAST_CBRT(qFloat + ssFloat) + FAST_CBRT(qFloat - ssFloat) + pFloat;
+                    Assert.AreEqual(uFloat, u / 32768.0F, 1e-1f);
+
+                    if (u >= 0 && u <= I17F15.OneRepr) {
+                        Debug.Log($"Baz {uFloat} {u} {u / 32768.0F}");
+                        return u;
+                    }
+
+                    Debug.Log("Qux");
+                    return (t < I17F15.OneRepr / 2) ? 0 : I17F15.OneRepr;
+                }
+#endif
+            }
+
+            if (Math.Abs(b) > epsilon) {
+                var s = (c * c) - (4 * b * d);
+
+                var sFloat = (cFloat * cFloat) - (4.0F * bFloat * dFloat);
+                Assert.AreEqual(sFloat, s / 32768.0F, 1e-3f);
+
+                // ここ本当にキャストして大丈夫？
+                var ss = (long)Mathi.Sqrt((ulong)s);
+
+                var ssFloat = math.sqrt(sFloat);
+                Assert.AreEqual(ssFloat, ss / 32768.0F, 1e-3f);
+
+                var u1 = Div(-c - ss, 2 * b);
+                var u2 = Div(-c + ss, 2 * b);
+
+                var u1Float = (-cFloat - ssFloat) / (2.0F * bFloat);
+                var u2Float = (-cFloat + ssFloat) / (2.0F * bFloat);
+                Assert.AreEqual(u1Float, u1 / 32768.0F, 1e-3f);
+                Assert.AreEqual(u2Float, u2 / 32768.0F, 1e-3f);
+
+                if (u1 >= 0 && u1 <= I17F15.OneRepr) {
+                    return u1;
+                } else if (u2 >= 0 && u2 <= I17F15.OneRepr) {
+                    return u2;
+                }
+
+                return (t < I17F15.OneRepr / 2) ? 0 : I17F15.OneRepr;
+            }
+
+            if (Math.Abs(c) > epsilon) {
+                return Div(-d, c);
+            }
+
+            return 0;
         }
     }
 
