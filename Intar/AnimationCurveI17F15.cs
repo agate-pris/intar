@@ -191,7 +191,6 @@ namespace Intar {
             var c = 3.0F * w1;
             var d = -t;
 
-
             if (math.abs(a) > 1e-3f) {
                 Debug.Log("float1");
                 var p = -b / (3.0F * a);
@@ -870,10 +869,37 @@ namespace Intar {
                 if (i == keys.Count) {
                     return last.Value;
                 } else {
-                    return AnimationCurveEvaluator.HermiteInterpolate(time,
-                        keys[i - 1],
-                        keys[i],
-                        keys[i].Value);
+                    var l = keys[i - 1];
+                    var r = keys[i];
+                    bool isHermite;
+                    switch (l.WeightedMode) {
+                        default:
+                        throw new NotImplementedException($"{l.WeightedMode}");
+                        case WeightedMode.None:
+                        case WeightedMode.In:
+                        switch (r.WeightedMode) {
+                            default:
+                            throw new NotImplementedException($"{r.WeightedMode}");
+                            case WeightedMode.None:
+                            case WeightedMode.Out:
+                            isHermite = true;
+                            break;
+                            case WeightedMode.In:
+                            case WeightedMode.Both:
+                            isHermite = false;
+                            break;
+                        }
+                        break;
+                        case WeightedMode.Out:
+                        case WeightedMode.Both:
+                        isHermite = false;
+                        break;
+                    }
+                    if (isHermite) {
+                        return AnimationCurveEvaluator.HermiteInterpolate(time, l, r, r.Value);
+                    } else {
+                        return AnimationCurveEvaluator.BezierInterpolate(time, l, r, r.Value);
+                    }
                 }
             }
         }
