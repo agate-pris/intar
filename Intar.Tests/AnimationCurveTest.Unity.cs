@@ -520,8 +520,15 @@ namespace Intar.Tests {
                     var v = RandomValueI17F15();
                     var inTangent = RandomTangentI17F15();
                     var outTangent = RandomTangentI17F15();
-                    _ = curve.AddKey(new Keyframe((float)t, (float)v, (float)inTangent, (float)outTangent));
-                    _ = curveI17F15.AddKey(new KeyframeI17F15(t, v, inTangent, outTangent));
+                    if (RandomBool()) {
+                        var inWeight = RandomWeightI17F15();
+                        var outWeight = RandomWeightI17F15();
+                        _ = curve.AddKey(new Keyframe((float)t, (float)v, (float)inTangent, (float)outTangent, (float)inWeight, (float)outWeight));
+                        _ = curveI17F15.AddKey(new KeyframeI17F15(t, v, inTangent, outTangent, inWeight, outWeight));
+                    } else {
+                        _ = curve.AddKey(new Keyframe((float)t, (float)v, (float)inTangent, (float)outTangent));
+                        _ = curveI17F15.AddKey(new KeyframeI17F15(t, v, inTangent, outTangent));
+                    }
                 }
                 for (var i = 0; i < 100; i++) {
                     var t = (I17F15)UnityEngine.Random.Range(length * -3F, length * 3F);
