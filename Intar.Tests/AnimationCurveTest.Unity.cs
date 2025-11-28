@@ -43,7 +43,8 @@ namespace Intar.Tests {
             return (I17F15)Math.Tan(UnityEngine.Random.Range(-th, th));
         }
         static float RandomTangent() => (float)RandomTangentI17F15();
-        static float RandomWeight() => UnityEngine.Random.value;
+        static I17F15 RandomWeightI17F15() => (I17F15)UnityEngine.Random.value;
+        static float RandomWeight() => (float)RandomWeightI17F15();
         static void SetRandomKeyframe(float time, ref Keyframe key) {
             key.time = time;
             key.value = RandomValue();
