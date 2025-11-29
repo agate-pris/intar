@@ -332,6 +332,16 @@ namespace Intar.Tests {
         [Test]
         public static void TestEvaluateTwoKeysI17F15() {
             var curve = new AnimationCurveI17F15();
+
+            _ = curve.AddKey(new KeyframeI17F15((I17F15)0.5, (I17F15)1.5, (I17F15)1.5, (I17F15)1.5));
+            _ = curve.AddKey(new KeyframeI17F15((I17F15)1.25, (I17F15)0.25, (I17F15)0.25, (I17F15)0.25));
+            {
+                var actual = curve.Evaluate((I17F15)0.875);
+                Utility.AssertAreEqual(32512, actual.Bits);
+                Utility.AssertAreEqual(0.99218738079071045, (double)actual, 1e-3F);
+            }
+
+            curve.ClearKeys();
             _ = curve.AddKey(new KeyframeI17F15((I17F15)1, (I17F15)0, (I17F15)1, (I17F15)1));
             _ = curve.AddKey(new KeyframeI17F15((I17F15)2, (I17F15)1, (I17F15)1, (I17F15)1));
 

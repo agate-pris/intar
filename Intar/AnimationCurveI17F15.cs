@@ -64,24 +64,28 @@ namespace Intar {
     [BurstCompatible]
 #endif
     public struct AnimationCurveEvaluator {
+        static long Mul(long a, long b) => a * b / I17F15.OneRepr;
+        static long Div(long a, long b) => a * I17F15.OneRepr / b;
+
         internal static I17F15 HermiteInterpolate(I17F15 time,
             KeyframeI17F15 left,
             KeyframeI17F15 right,
             I17F15 defaultValue) {
 
-            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
-
-            var dx = right.Time.WideBits - left.Time.WideBits;
-            if (dx == 0) {
+            if (left.Time == right.Time) {
                 return defaultValue;
             }
-            var m0 = left.OutTangent.WideBits * dx / I17F15.OneRepr;
-            var m1 = right.InTangent.WideBits * dx / I17F15.OneRepr;
-            var t = (time.WideBits - left.Time.WideBits) * I17F15.OneRepr / dx;
-            return HermiteInterpolate(t, left.Value, m0, m1, right.Value);
+            var dx = right.Time.WideBits - left.Time.Bits;
+
+            var m0 = Mul(left.OutTangent.Bits, dx);
+            var m1 = Mul(right.InTangent.Bits, dx);
+            var t = Div(time.WideBits - left.Time.Bits, dx);
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
+            return HermiteInterpolate(t, left.Value.Bits, m0, m1, right.Value.Bits);
         }
 
-        static I17F15 HermiteInterpolate(long t, I17F15 p0, long m0, long m1, I17F15 p1) {
+        static I17F15 HermiteInterpolate(long t, long p0, long m0, long m1, long p1) {
             // 3 次エルミート補間は単位区間 [0, 1] について, t = 0 における始点 p0, t = 1 における
             // 終点 p1, t = 0 における開始接ベクトル m0, t = 1 における終了接ベクトル m1 を
             // 与えられた時, 以下の多項式で表される.
@@ -93,46 +97,23 @@ namespace Intar {
             //
             // 誤差を小さくするため以下のように式変形する.
             //
-            // p(t)
-            // = ( 2 * p0 * t^3 - 3 * p0 * t^2 + p0    )
-            // + (     m0 * t^3 - 2 * m0 * t^2 + m0 * t)
-            // + (-2 * p1 * t^3 + 3 * p1 * t^2         )
-            // + (     m1 * t^3 -     m1 * t^2         )
-            // = t * ( 2 * p0 * t^2 - 3 * p0 * t     ) + p0
-            // + t * (     m0 * t^2 - 2 * m0 * t + m0)
-            // + t * (-2 * p1 * t^2 + 3 * p1 * t     )
-            // + t * (     m1 * t^2 -     m1 * t     )
-            // = t * (t * ( 2 * p0 * t - 3 * p0)     ) + p0
-            // + t * (t * (     m0 * t - 2 * m0) + m0)
-            // + t * (t * (-2 * p1 * t + 3 * p1)     )
-            // + t * (t * (     m1 * t -     m1)     )
-            // = ((t * ( 2 * p0 * t - 3 * p0)     )
-            //  + (t * (     m0 * t - 2 * m0) + m0)
-            //  + (t * (-2 * p1 * t + 3 * p1)     )
-            //  + (t * (     m1 * t -     m1)     )) * t + d (d = p0)
-            // = ((2 * p0 * t - 3 * p0
-            //   +     m0 * t - 2 * m0
-            //   - 2 * p1 * t + 3 * p1
-            //   +     m1 * t -     m1) * t + c) * t + d (c = m0, d = p0)
-            // = (a * t + b) * t + c) * t + d (a = 2 * p0 + m0 - 2 * p1 + m1
-            //                                 b = -3 * p0 - 2 * m0 + 3 * p1 - m1
-            //                                 c = m0, d = p0)
+            // p(t) = t * (t * (t * a + b) + c) + d とるすと a, b, c, d は以下のようになる.
+            //
+            // a = m0 + m1 -  2 * (p1 - p0)
+            // b = 3 * (p1 - p0) - 2 * m0 - m1
+            // c = m0
+            // d = p0
 
-            var _2 = (I17F15)2;
-            var _3 = (I17F15)3;
+            var pd = p1 - p0;
 
-            var pd = p1.WideBits - p0.WideBits;
+            var a = m0 + m1 - (2 * pd);
+            var b = (3 * pd) - (2 * m0) - m1;
 
             // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
 
-            var a = m0 + m1 - (_2.WideBits * pd / I17F15.OneRepr);
-            var b = (_3.WideBits * pd / I17F15.OneRepr) - (_2.WideBits * m0 / I17F15.OneRepr) - m1;
-            var c = m0;
-            var d = p0.WideBits;
-
-            var bits = (t * a / I17F15.OneRepr) + b;
-            bits = (t * bits / I17F15.OneRepr) + c;
-            bits = (t * bits / I17F15.OneRepr) + d;
+            var bits = Mul(t, a) + b;
+            bits = Mul(t, bits) + m0;
+            bits = Mul(t, bits) + p0;
             return I17F15.FromBits((int)bits);
         }
     }

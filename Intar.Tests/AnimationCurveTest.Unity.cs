@@ -414,6 +414,15 @@ namespace Intar.Tests {
         [Test]
         public static void TestEvaluateTwoKeys() {
             var curve = new AnimationCurve();
+
+            _ = curve.AddKey(new Keyframe(0.5F, 1.5F, 1.5F, 1.5F));
+            _ = curve.AddKey(new Keyframe(1.25F, 0.25F, 0.25F, 0.25F));
+            {
+                var actual = curve.Evaluate(0.875F);
+                Utility.AssertAreEqual(0.99218738079071045, actual, 1e-3F);
+            }
+
+            curve.ClearKeys();
             _ = curve.AddKey(new Keyframe(1F, 0F, 1F, 1F));
             _ = curve.AddKey(new Keyframe(2F, 1F, 1F, 1F));
 
