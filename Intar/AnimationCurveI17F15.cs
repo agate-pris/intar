@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
+#if UNITY_2020_3_OR_NEWER
 using Unity.Collections;
+#endif
 
 #if UNITY_5_3_OR_NEWER
 using UnityEngine;
@@ -55,7 +58,11 @@ namespace Intar {
         ) : this(time, value, I17F15.Zero, I17F15.Zero) { }
     }
 
+#if UNITY_2022_2_OR_NEWER
     [GenerateTestsForBurstCompatibility]
+#elif UNITY_2020_3_OR_NEWER
+    [BurstCompatible]
+#endif
     public struct AnimationCurveEvaluator {
         internal static I17F15 HermiteInterpolate(I17F15 time,
             KeyframeI17F15 left,
