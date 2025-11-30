@@ -36,6 +36,7 @@ csharp_style_prefer_readonly_struct_member = false
 
 # Expression-level preferences
 csharp_style_implicit_object_creation_when_type_is_apparent = false
+csharp_style_prefer_index_operator = false
 
 #### C# Formatting Rules ####
 
@@ -64,5 +65,10 @@ dotnet_diagnostic.IDE0023.severity = silent
 # IDE0024: オペレーターにブロック本体を使用する
 dotnet_diagnostic.IDE0024.severity = silent
 
+# IDE0044: 読み取り専用修飾子を追加します
+dotnet_diagnostic.IDE0044.severity = suggestion
+
+# IDE0045: 条件式に変換します
 # IDE0046: 条件式に変換します
+dotnet_diagnostic.IDE0045.severity = silent
 dotnet_diagnostic.IDE0046.severity = silent

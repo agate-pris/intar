@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0;net6.0;net7.0</TargetFrameworks>
 
-    <Version>0.33.0</Version>
+    <Version>0.34.0</Version>
 
     <!-- Output binaries to .bin to avoid detection by Unity 3D. -->
     <BaseOutputPath>.bin\</BaseOutputPath>
@@ -27,6 +27,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="SoapFormatter" Version="1.1.9" />
+    <Compile Remove="**\*.Unity.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net462'">

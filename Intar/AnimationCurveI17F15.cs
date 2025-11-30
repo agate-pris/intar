@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
+#if UNITY_2020_3_OR_NEWER
+using Unity.Collections;
+#endif
+
 #if UNITY_5_3_OR_NEWER
 using UnityEngine;
 #endif
@@ -14,15 +18,15 @@ namespace Intar {
         Out,
         Both,
     }
+#endif
 
-    public enum TangentMode {
+    enum TangentMode {
         Free,
         Auto,
         Linear,
         Constant,
         ClampedAuto,
     }
-#endif
 
     [Serializable]
     public struct KeyframeI17F15 {
@@ -34,11 +38,14 @@ namespace Intar {
         public I17F15 OutTangent;
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
+#if UNITY_5_3_OR_NEWER
+        [SerializeField]
+#endif // UNITY_5_3_OR_NEWER
+        internal int tangentMode;
 #if false // 未実装
         public WeightedMode WeightedMode;
         public I17F15 InWeight;
         public I17F15 OutWeight;
-        public TangentMode TangentMode;
 #endif
         public KeyframeI17F15(
             I17F15 time, I17F15 value,
@@ -48,17 +55,83 @@ namespace Intar {
             Value = value;
             InTangent = inTangent;
             OutTangent = outTangent;
+            tangentMode = 0;
+        }
+        public KeyframeI17F15(
+            I17F15 time, I17F15 value
+        ) : this(time, value, I17F15.Zero, I17F15.Zero) { }
+        internal TangentMode GetLeftTangentMode() {
+            return (TangentMode)((tangentMode >> 1) & 0b1111);
+        }
+        internal TangentMode GetRightTangentMode() {
+            return (TangentMode)((tangentMode >> 5) & 0b1111);
+        }
+    }
+
+#if UNITY_2022_2_OR_NEWER
+    [GenerateTestsForBurstCompatibility]
+#elif UNITY_2020_3_OR_NEWER
+    [BurstCompatible]
+#endif
+    public struct AnimationCurveEvaluator {
+        static long Mul(long a, long b) => a * b / I17F15.OneRepr;
+        static long Div(long a, long b) => a * I17F15.OneRepr / b;
+
+        internal static I17F15 HermiteInterpolate(I17F15 time,
+            KeyframeI17F15 left,
+            KeyframeI17F15 right,
+            I17F15 defaultValue) {
+
+            if (left.Time == right.Time) {
+                return defaultValue;
+            }
+            var dx = right.Time.WideBits - left.Time.Bits;
+
+            var m0 = Mul(left.OutTangent.Bits, dx);
+            var m1 = Mul(right.InTangent.Bits, dx);
+            var t = Div(time.WideBits - left.Time.Bits, dx);
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
+            return HermiteInterpolate(t, left.Value.Bits, m0, m1, right.Value.Bits);
+        }
+
+        static I17F15 HermiteInterpolate(long t, long p0, long m0, long m1, long p1) {
+            // 3 次エルミート補間は単位区間 [0, 1] について, t = 0 における始点 p0, t = 1 における
+            // 終点 p1, t = 0 における開始接ベクトル m0, t = 1 における終了接ベクトル m1 を
+            // 与えられた時, 以下の多項式で表される.
+            //
+            // p(t) = ( 2 * t^3 - 3 * t^2 + 1) * p0
+            //      + (     t^3 - 2 * t^2 + t) * m0
+            //      + (-2 * t^3 + 3 * t^2    ) * p1
+            //      + (     t^3 -     t^2    ) * m1
+            //
+            // 誤差を小さくするため以下のように式変形する.
+            //
+            // p(t) = t * (t * (t * a + b) + c) + d とるすと a, b, c, d は以下のようになる.
+            //
+            // a = m0 + m1 -  2 * (p1 - p0)
+            // b = 3 * (p1 - p0) - 2 * m0 - m1
+            // c = m0
+            // d = p0
+
+            var pd = p1 - p0;
+
+            var a = m0 + m1 - (2 * pd);
+            var b = (3 * pd) - (2 * m0) - m1;
+
+            // 極端な値が与えられた場合オーバーフローを引き起こすが許容する.
+
+            var bits = Mul(t, a) + b;
+            bits = Mul(t, bits) + m0;
+            bits = Mul(t, bits) + p0;
+            return I17F15.FromBits((int)bits);
         }
     }
 
     public enum WrapMode {
-        Default,
-        Once,
+        Clamp = 1,
         Loop,
-#if false // 未実装
         PingPong = 4,
-        ClampForever = 8,
-#endif
     }
 
     [Serializable]
@@ -70,60 +143,46 @@ namespace Intar {
         List<KeyframeI17F15> keys;
         public KeyframeI17F15[] Keys {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get {
-                if (keys == null) {
-                    return Array.Empty<KeyframeI17F15>();
-                }
-                return keys.ToArray();
-            }
+            get => keys.ToArray();
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set {
-                if (value == null || value.Length == 0) {
-                    keys = null;
+                keys.Clear();
+                if (value == null) {
                     return;
                 }
-                keys = new List<KeyframeI17F15>(value);
+                keys.AddRange(value);
+                Utility.InsertionSort(keys, (a, b) => a.Time.CompareTo(b.Time));
             }
         }
         public int Length {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => keys == null ? 0 : keys.Count;
+            get => keys.Count;
         }
-        public void AddKey(KeyframeI17F15 key) {
-            if (keys == null) {
-                keys = new List<KeyframeI17F15> { key };
-                return;
-            }
-
+        public int AddKey(KeyframeI17F15 key) {
             // key を挿入する位置を探す。
             for (var i = 0; i < keys.Count; i++) {
                 if (key.Time < keys[i].Time) {
                     keys.Insert(i, key);
-                    return;
+                    return i;
                 }
 
                 // すでに key が存在する場合は何もしない。
                 if (key.Time == keys[i].Time) {
-                    return;
+                    return -1;
                 }
             }
             keys.Add(key);
+            return keys.Count - 1;
         }
-        public void MoveKey(int index, KeyframeI17F15 key) {
-            keys[index] = key;
-            keys.Sort((a, b) => a.Time.CompareTo(b.Time));
+        public int MoveKey(int index, KeyframeI17F15 key) {
+            RemoveKey(index);
+            return AddKey(key);
         }
         public void RemoveKey(int index) {
-            if (keys == null) {
-                return;
-            }
             keys.RemoveAt(index);
-            if (keys.Count == 0) {
-                keys = null;
-            }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ClearKeys() => keys = null;
+        public void ClearKeys() => keys.Clear();
         public KeyframeI17F15 this[int index] {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => keys[index];
@@ -136,6 +195,56 @@ namespace Intar {
         public WrapMode PreWrapMode;
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
+        #endregion
+        #region LoopTime, PingPongTime
+        /// <summary>
+        /// ループした時間を計算する.
+        /// </summary>
+        /// <remarks>
+        /// <c>begin</c> と <c>end</c> が同値の場合 <c>null</c> を返す.
+        /// <c>AddKey</c> は <c>Time</c> が同値の場合ただその操作を無視するため,
+        /// <c>begin</c> と <c>end</c> が同値になることはない.
+        /// (キー数が 1 つになるか否かによって判別できる.)
+        /// </remarks>
+        internal static I17F15? LoopTime(I17F15 begin, I17F15 end, I17F15 time) {
+            var duration = end - begin;
+
+            // 周期長が 0 の場合 null を返す.
+            if (duration == I17F15.Zero) {
+                return null;
+            }
+
+            // time が [begin, end) の範囲に収まるように調整する.
+            return begin + Utility.FlooredRem(time - begin, duration);
+        }
+        internal static I17F15? PingPongTime(I17F15 begin, I17F15 end, I17F15 time) {
+            var halfDuration = end - begin;
+
+            // 周期長が 0 の場合 null を返す.
+            if (halfDuration == I17F15.Zero) {
+                return null;
+            }
+            var duration = I17F15.FromBits(2 * halfDuration.Bits);
+
+            // time が [begin, end] の範囲に収まるように調整する.
+            time = Utility.TruncatedRem(time - begin, duration).Abs();
+            time = 0 == time.Bits / halfDuration.Bits
+                ? time
+                : duration - time;
+            return begin + time;
+        }
+        #endregion
+        #region FindKey
+        internal int FindKey(I17F15 time) {
+            var i = 0;
+            var c = keys == null ? 0 : keys.Count;
+            for (; i < c; i++) {
+                if (time < keys[i].Time) {
+                    break;
+                }
+            }
+            return i;
+        }
         #endregion
         #region Evaluate
         // 重み付きの場合、ニュートン法で解く必要がある。
@@ -194,87 +303,129 @@ namespace Intar {
             return oneMinusT3 * outValue + 3 * oneMinusT2 * t * y1 + 3 * oneMinusT * t2 * y2 + t3 * inValue;
         }
 #endif
-        internal static I17F15 Evaluate(I17F15 time, KeyframeI17F15 left, KeyframeI17F15 right) {
-            var dt = right.Time - left.Time;
-            if (dt == I17F15.Zero) {
-                return right.Value;
+        public I17F15 Evaluate(I17F15 time) {
+            switch (keys.Count) {
+                default: break;
+                case 0: return I17F15.Zero;
+                case 1: return keys[0].Value;
             }
 
-            // 正規化時間 (0 <= t <= 1)
-            var t = (time - left.Time) / dt;
+            var first = keys[0];
+            var last = keys[keys.Count - 1];
 
-            var t2 = t * t;
-            var t3 = t2 * t;
+            if (last.Time <= time) {
+                switch (PostWrapMode) {
+                    default: throw new NotImplementedException($"{PostWrapMode}");
+#if false
+                    case 0: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // それ以外の場合 Loop と同様.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+#endif
+                    case WrapMode.Clamp: return last.Value;
+                    case WrapMode.Loop: {
+                        // 周期長が 0 の場合, 最初の値を返す.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return first.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+                    case WrapMode.PingPong: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = PingPongTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+                }
+            } else if (time <= first.Time) {
+                // 周期長が 0 の場合, 最初の if 節と,
+                // この else if 節の両方の条件を満たす場合,
+                // 必ず if 節の中で早期リターンするため,
+                // この else if 節を if 節にする必要はない.
+                // もし if 節にした場合, 条件式を評価するコストが増える.
 
-            var h01 = (t2 * (I17F15)3) - (t3 * (I17F15)2);
-            var h00 = I17F15.One - h01;
-            var h11 = t3 - t2;
-            var h10 = h11 - t2 + t;
+                switch (PreWrapMode) {
+                    default: throw new NotImplementedException($"{PreWrapMode}");
+#if false
+                    case 0: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // それ以外の場合 Loop と同様.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+#endif
+                    case WrapMode.Clamp: return first.Value;
+                    case WrapMode.Loop: {
+                        // 周期長が 0 の場合 I17F15.Zero を返す.
+                        // (UnityEngine.AnimationCurve は NaN を返す.)
+                        var t = LoopTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return I17F15.Zero;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+                    case WrapMode.PingPong: {
+                        // 周期長が 0 の場合, 最後の値を返す.
+                        // (UnityEngine.AnimationCurve 準拠)
+                        var t = PingPongTime(first.Time, last.Time, time);
+                        if (!t.HasValue) {
+                            return last.Value;
+                        }
+                        time = t.Value;
+                        break;
+                    }
+                }
+            }
 
-            var m0 = left.OutTangent * dt;
-            var m1 = right.InTangent * dt;
-
-            return (h00 * left.Value) + (h10 * m0) + (h01 * right.Value) + (h11 * m1);
-        }
-        public I17F15 Evaluate(I17F15 time) {
-            if (keys == null) {
-                return I17F15.Zero;
+            // first.Time < time の場合のみ補間処理を行う.
+            if (time <= first.Time) {
+                return first.Value;
             }
 
             {
-                var length = keys.Count;
-                if (length == 0) {
-                    return I17F15.Zero;
-                }
-
-                var first = keys[0];
-                if (length == 1) {
-                    return first.Value;
-                }
-                var last = keys[length - 1];
-
-                // UnityEngine.AnimationCurve では
-                // ClampForever は Once と同じ挙動。
-                if (PostWrapMode == WrapMode.Once && last.Time <= time) {
-                    return last.Value;
-                } else if (PreWrapMode == WrapMode.Once && time <= first.Time) {
-                    return first.Value;
-                }
-
-                // Default は Loop と同じ挙動。
-                // （UnityEngine.AnimationCurve と同じ）
-
-                var duration = last.Time - first.Time;
-
-                // 周期長が 0 の場合 last.Value を返す。
-                // それ以外の場合、time が [first.Time, last.Time) の範囲に収まるように調整する。
-                if (duration == I17F15.Zero) {
+                var i = FindKey(time);
+                if (i == keys.Count) {
                     return last.Value;
                 } else {
-                    var fromFirst = time - first.Time;
-                    var progress = I17F15.FromBits(fromFirst.Bits % duration.Bits);
-                    var negative = progress < I17F15.Zero;
-                    time = (negative ? last.Time : first.Time) + progress;
+                    var l = keys[i - 1];
+                    var r = keys[i];
+                    if (TangentMode.Constant == l.GetRightTangentMode() ||
+                        TangentMode.Constant == r.GetLeftTangentMode()) {
+                        return l.Value;
+                    }
+                    return AnimationCurveEvaluator.HermiteInterpolate(time, l, r, l.Value);
                 }
-            }
-
-            {
-                KeyframeI17F15 key1, key2;
-                var i = 0;
-                // length > 1 かつ begin <= time < end であるため、
-                // keys[i].Time <= time < keys[i + 1].Time となる i が存在する。
-                // また time < key[length - 1].Time（end）であるため、
-                // i < length - 1 である。
-                while (keys[i].Time <= time) {
-                    i++;
-                }
-                key1 = Keys[i - 1];
-                key2 = Keys[i];
-                return Evaluate(time, key1, key2);
             }
         }
         #endregion
-
+        #region Constructor
+        public AnimationCurveI17F15() {
+            PreWrapMode = WrapMode.Clamp;
+            PostWrapMode = WrapMode.Clamp;
+            keys = new List<KeyframeI17F15>();
+        }
+        #endregion
+        #region Conversion
 #if UNITY_5_3_OR_NEWER
         public static explicit operator AnimationCurve(AnimationCurveI17F15 a) {
             var curve = new AnimationCurve();
@@ -291,6 +442,6 @@ namespace Intar {
             return curve;
         }
 #endif
-
+        #endregion
     }
 } // namespace Intar
