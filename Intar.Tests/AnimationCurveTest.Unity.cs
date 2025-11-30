@@ -537,7 +537,7 @@ namespace Intar.Tests {
         [TestCase(true)]
         [TestCase(false)]
         public static void TestEvaluateZeroDuration(bool dryRun) {
-            for (var flag = 0; flag < 1; flag++) {
+            for (var flag = 0; flag < 2; flag++) {
                 int first, second, third, last;
                 if (flag == 0) {
                     first = 1;
