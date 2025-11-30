@@ -415,6 +415,52 @@ namespace Intar.Tests {
         public static void TestEvaluateTwoKeys() {
             var curve = new AnimationCurve();
 
+            // 左右のいずれか, または両方のタンジェントが Constant の場合,
+            // その区間内で一定値になることをテスト.
+            for (var i = 0; i < 4; i++) {
+                var broken0 = 1 == (i % 2);
+                var broken1 = 1 == (i / 2 % 2);
+                for (var j = 0; j < 4; j++) {
+                    var constant0L = 1 == (j % 2);
+                    var constant1R = 1 == (j / 2 % 2);
+                    for (var k = 0; k < 4; k++) {
+                        var constant0R = 1 == (k % 2);
+                        var constant1L = 1 == (k / 2 % 2);
+                        curve.ClearKeys();
+                        _ = curve.AddKey(new Keyframe(0.5F, 1.5F));
+                        _ = curve.AddKey(new Keyframe(1.25F, 0.25F));
+                        AnimationUtility.SetKeyBroken(curve, 0, broken0);
+                        AnimationUtility.SetKeyBroken(curve, 1, broken1);
+                        if (constant0L) {
+                            AnimationUtility.SetKeyLeftTangentMode(curve, 0, AnimationUtility.TangentMode.Constant);
+                        } else {
+                            AnimationUtility.SetKeyLeftTangentMode(curve, 0, AnimationUtility.TangentMode.Free);
+                        }
+                        if (constant1R) {
+                            AnimationUtility.SetKeyRightTangentMode(curve, 1, AnimationUtility.TangentMode.Constant);
+                        } else {
+                            AnimationUtility.SetKeyRightTangentMode(curve, 1, AnimationUtility.TangentMode.Free);
+                        }
+                        if (constant0R) {
+                            AnimationUtility.SetKeyRightTangentMode(curve, 0, AnimationUtility.TangentMode.Constant);
+                        } else {
+                            AnimationUtility.SetKeyRightTangentMode(curve, 0, AnimationUtility.TangentMode.Free);
+                        }
+                        if (constant1L) {
+                            AnimationUtility.SetKeyLeftTangentMode(curve, 1, AnimationUtility.TangentMode.Constant);
+                        } else {
+                            AnimationUtility.SetKeyLeftTangentMode(curve, 1, AnimationUtility.TangentMode.Free);
+                        }
+                        if (constant0R || constant1L) {
+                            Utility.AssertAreEqual(1.5F, curve.Evaluate(1));
+                        } else {
+                            Utility.AssertAreEqual(0.57407402992248535F, curve.Evaluate(1));
+                        }
+                    }
+                }
+            }
+
+            curve.ClearKeys();
             _ = curve.AddKey(new Keyframe(0.5F, 1.5F, 1.5F, 1.5F));
             _ = curve.AddKey(new Keyframe(1.25F, 0.25F, 0.25F, 0.25F));
             {
