@@ -68,6 +68,17 @@ namespace Intar.Editor {
                 default: return WrapMode.Clamp;
             }
         }
+        static int Convert(float tangent) {
+            if (float.IsNaN(tangent)) {
+                return -1;
+            } else if (float.IsPositiveInfinity(tangent)) {
+                return int.MaxValue;
+            } else if (float.IsNegativeInfinity(tangent)) {
+                return int.MinValue;
+            } else {
+                return I17F15Drawer.ToBits(tangent);
+            }
+        }
         AnimationCurve proxy;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             var keys = property.FindPropertyRelative("keys");
@@ -79,13 +90,29 @@ namespace Intar.Editor {
                 proxy = new AnimationCurve();
                 if (keys.arraySize > 0) {
                     for (var i = 0; i < keys.arraySize; i++) {
-                        var key = keys.GetArrayElementAtIndex(i);
-                        _ = proxy.AddKey(new Keyframe(
-                            I17F15Drawer.FromBits(key.FindPropertyRelative("Time.Bits").intValue),
-                            I17F15Drawer.FromBits(key.FindPropertyRelative("Value.Bits").intValue),
-                            I17F15Drawer.FromBits(key.FindPropertyRelative("InTangent.Bits").intValue),
-                            I17F15Drawer.FromBits(key.FindPropertyRelative("OutTangent.Bits").intValue)
-                        ));
+                        var e = keys.GetArrayElementAtIndex(i);
+                        var tangentMode = e.FindPropertyRelative("tangentMode").intValue;
+                        float inTangent, outTangent;
+                        if (TangentMode.Constant == (TangentMode)(0b1111 & (tangentMode >> 1))) {
+                            inTangent = float.PositiveInfinity;
+                        } else {
+                            inTangent = I17F15Drawer.FromBits(e.FindPropertyRelative("InTangent.Bits").intValue);
+                        }
+                        if (TangentMode.Constant == (TangentMode)(0b1111 & (tangentMode >> 5))) {
+                            outTangent = float.PositiveInfinity;
+                        } else {
+                            outTangent = I17F15Drawer.FromBits(e.FindPropertyRelative("OutTangent.Bits").intValue);
+                        }
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+                        var key = new Keyframe(
+                            I17F15Drawer.FromBits(e.FindPropertyRelative("Time.Bits").intValue),
+                            I17F15Drawer.FromBits(e.FindPropertyRelative("Value.Bits").intValue),
+                            inTangent, outTangent
+                        ) {
+                            tangentMode = tangentMode,
+                        };
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
+                        _ = proxy.AddKey(key);
                     }
                 }
                 proxy.preWrapMode = Convert((WrapMode)property.FindPropertyRelative("PreWrapMode").intValue);
@@ -108,8 +135,11 @@ namespace Intar.Editor {
                     var k = proxy.keys[i];
                     key.FindPropertyRelative("Time.Bits").intValue = I17F15Drawer.ToBits(k.time);
                     key.FindPropertyRelative("Value.Bits").intValue = I17F15Drawer.ToBits(k.value);
-                    key.FindPropertyRelative("InTangent.Bits").intValue = I17F15Drawer.ToBits(k.inTangent);
-                    key.FindPropertyRelative("OutTangent.Bits").intValue = I17F15Drawer.ToBits(k.outTangent);
+                    key.FindPropertyRelative("InTangent.Bits").intValue = Convert(k.inTangent);
+                    key.FindPropertyRelative("OutTangent.Bits").intValue = Convert(k.outTangent);
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+                    key.FindPropertyRelative("tangentMode").intValue = k.tangentMode;
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
                 }
 
                 // Update wrap modes

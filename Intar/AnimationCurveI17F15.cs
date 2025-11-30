@@ -18,15 +18,15 @@ namespace Intar {
         Out,
         Both,
     }
+#endif
 
-    public enum TangentMode {
+    enum TangentMode {
         Free,
         Auto,
         Linear,
         Constant,
         ClampedAuto,
     }
-#endif
 
     [Serializable]
     public struct KeyframeI17F15 {
@@ -38,11 +38,14 @@ namespace Intar {
         public I17F15 OutTangent;
 #pragma warning restore CA1051 // 参照可能なインスタンス フィールドを宣言しません
 #pragma warning restore IDE0079 // 不要な抑制を削除します
+#if UNITY_5_3_OR_NEWER
+        [SerializeField]
+#endif // UNITY_5_3_OR_NEWER
+        internal int tangentMode;
 #if false // 未実装
         public WeightedMode WeightedMode;
         public I17F15 InWeight;
         public I17F15 OutWeight;
-        public TangentMode TangentMode;
 #endif
         public KeyframeI17F15(
             I17F15 time, I17F15 value,
@@ -52,10 +55,17 @@ namespace Intar {
             Value = value;
             InTangent = inTangent;
             OutTangent = outTangent;
+            tangentMode = 0;
         }
         public KeyframeI17F15(
             I17F15 time, I17F15 value
         ) : this(time, value, I17F15.Zero, I17F15.Zero) { }
+        internal TangentMode GetLeftTangentMode() {
+            return (TangentMode)((tangentMode >> 1) & 0b1111);
+        }
+        internal TangentMode GetRightTangentMode() {
+            return (TangentMode)((tangentMode >> 5) & 0b1111);
+        }
     }
 
 #if UNITY_2022_2_OR_NEWER
@@ -397,10 +407,13 @@ namespace Intar {
                 if (i == keys.Count) {
                     return last.Value;
                 } else {
-                    return AnimationCurveEvaluator.HermiteInterpolate(time,
-                        keys[i - 1],
-                        keys[i],
-                        keys[i].Value);
+                    var l = keys[i - 1];
+                    var r = keys[i];
+                    if (TangentMode.Constant == l.GetRightTangentMode() ||
+                        TangentMode.Constant == r.GetLeftTangentMode()) {
+                        return l.Value;
+                    }
+                    return AnimationCurveEvaluator.HermiteInterpolate(time, l, r, l.Value);
                 }
             }
         }

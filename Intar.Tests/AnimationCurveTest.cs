@@ -333,6 +333,26 @@ namespace Intar.Tests {
         public static void TestEvaluateTwoKeysI17F15() {
             var curve = new AnimationCurveI17F15();
 
+            {
+                // 左右のいずれか, または両方のタンジェントが Constant の場合,
+                // その区間内で一定値になることをテスト.
+                var t = (I17F15)1;
+                var expected = (I17F15)1.5F;
+                var k1 = new KeyframeI17F15((I17F15)0.5F, expected);
+                var k2 = new KeyframeI17F15((I17F15)1.25F, (I17F15)0.25F);
+                k1.tangentMode = ((int)TangentMode.Constant) << 5;
+                _ = curve.AddKey(k1);
+                _ = curve.AddKey(k2);
+                Utility.AssertAreEqual(expected, curve.Evaluate(t));
+                k2.tangentMode = ((int)TangentMode.Constant) << 1;
+                curve.MoveKey(1, k2);
+                Utility.AssertAreEqual(expected, curve.Evaluate(t));
+                k1.tangentMode = 0;
+                curve.MoveKey(0, k1);
+                Utility.AssertAreEqual(expected, curve.Evaluate(t));
+            }
+
+            curve.ClearKeys();
             _ = curve.AddKey(new KeyframeI17F15((I17F15)0.5, (I17F15)1.5, (I17F15)1.5, (I17F15)1.5));
             _ = curve.AddKey(new KeyframeI17F15((I17F15)1.25, (I17F15)0.25, (I17F15)0.25, (I17F15)0.25));
             {
