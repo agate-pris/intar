@@ -7,55 +7,67 @@ namespace Intar.Tests.Mathi {
     public class SinTest {
         [Test]
         public static void TestConsts() {
-            var actual = new ulong[] {
-                Intar.Mathi.SinInternal.P11I64A,
-                Intar.Mathi.SinInternal.P11I64B,
-                Intar.Mathi.SinInternal.P11I64C,
-                Intar.Mathi.SinInternal.P11I64D,
-                Intar.Mathi.SinInternal.P11I64E,
-                Intar.Mathi.SinInternal.P11I64F,
-                Intar.Mathi.SinInternal.P10I64A,
-                Intar.Mathi.SinInternal.P10I64B,
-                Intar.Mathi.SinInternal.P10I64C,
-                Intar.Mathi.SinInternal.P10I64D,
-                Intar.Mathi.SinInternal.P10I64E,
-                Intar.Mathi.SinInternal.P5I64A,
-                Intar.Mathi.SinInternal.P5I64B,
-                Intar.Mathi.SinInternal.P5I64C,
-                Intar.Mathi.SinInternal.P4I64A,
-                Intar.Mathi.SinInternal.P4I64B,
-                Intar.Mathi.SinInternal.P5I32A,
-                Intar.Mathi.SinInternal.P5I32B,
-                Intar.Mathi.SinInternal.P5I32C,
-                Intar.Mathi.SinInternal.P4I32A,
-                Intar.Mathi.SinInternal.P4I32B,
+            const int k1 = (8 * 2) - 1;
+            const int k2 = (8 * 4) - 1;
+            const int k3 = (8 * 8) - 1;
+            const int k4 = k2 - k1;
+            const int k5 = k3 - k2;
+            var ks = new int[] {
+                0,
+                0, 3,
+                1, 4,
+                0, 2, 6, 11, 16,
+                1, 4, 8, 13, 19,
             };
-            for (var i = 0; i < actual.Length; ++i) {
-                Console.WriteLine($"{actual[i]},");
+            var k6 = ks[2] - ks[1];
+            var k7 = ks[4] - ks[3];
+
+            var p4K32A = (k2 + ks[1], k2, Intar.Mathi.SinInternal.P4I32A);
+            var p4K32B = (k4 + ks[1], k4 - k6, Intar.Mathi.SinInternal.P4I32B);
+            var p4K64A = (k3 + ks[1], k3, Intar.Mathi.SinInternal.P4I64A);
+            var p4K64B = (k5 + ks[1], k5 - k6, Intar.Mathi.SinInternal.P4I64B);
+            var p5K32A = (k2 + ks[0], k2, Intar.Mathi.SinInternal.P5I32A);
+            var p5K32B = (k2 + ks[3], k2, Intar.Mathi.SinInternal.P5I32B);
+            var p5K32C = (k4 + ks[3], k4 - k7, Intar.Mathi.SinInternal.P5I32C);
+            var p5K64A = (k3 + ks[0], k3, Intar.Mathi.SinInternal.P5I64A);
+            var p5K64B = (k3 + ks[3], k3, Intar.Mathi.SinInternal.P5I64B);
+            var p5K64C = (k5 + ks[3], k5 - k7, Intar.Mathi.SinInternal.P5I64C);
+            var p10K64A = (k3 + ks[5], k3, Intar.Mathi.SinInternal.P10I64A);
+            var p10K64B = (k3 + ks[6], k3, Intar.Mathi.SinInternal.P10I64B);
+            var p10K64C = (k3 + ks[7], k3, Intar.Mathi.SinInternal.P10I64C);
+            var p10K64D = (k3 + ks[8], k3, Intar.Mathi.SinInternal.P10I64D);
+            var p10K64E = (k5 + ks[8], k5 - (ks[9] - ks[8]), Intar.Mathi.SinInternal.P10I64E);
+            var p11K64B = (k3 + ks[10], k3, Intar.Mathi.SinInternal.P11I64B);
+            var p11K64C = (k3 + ks[11], k3, Intar.Mathi.SinInternal.P11I64C);
+            var p11K64D = (k3 + ks[12], k3, Intar.Mathi.SinInternal.P11I64D);
+            var p11K64E = (k3 + ks[13], k3, Intar.Mathi.SinInternal.P11I64E);
+            var p11K64F = (k5 + ks[13], k5 - (ks[14] - ks[13]), Intar.Mathi.SinInternal.P11I64F);
+
+            var cases = new[] {
+                ("1.0", 1, new[] { p5K32A, p5K64A }),
+                ("0.49670", 2, new[] { p4K32A, p4K64A }),
+                ("0.03705", 4, new[] { p4K32B, p4K64B }),
+                ("0.16605", 3, new[] { p5K32B, p5K64B }),
+                ("0.00761", 5, new[] { p5K32C, p5K64C }),
+                ("0.4999999963", 2, new[] { p10K64A }),
+                ("0.0416666418", 4, new[] { p10K64B }),
+                ("0.0013888397", 6, new[] { p10K64C }),
+                ("0.0000247609", 8, new[] { p10K64D }),
+                ("0.0000002605", 10, new[] { p10K64E }),
+                ("0.1666666664", 3, new[] { p11K64B }),
+                ("0.0083333315", 5, new[] { p11K64C }),
+                ("0.0001984090", 7, new[] { p11K64D }),
+                ("0.0000027526", 9, new[] { p11K64E }),
+                ("0.0000000239", 11, new[] { p11K64F }),
+            };
+            foreach (var c in cases) {
+                var k = BigRationalTest.ParseReal(c.Item1);
+                var lower = k * BigRationalTest.FracPi2Lower.Pow(c.Item2);
+                var upper = k * BigRationalTest.FracPi2Upper.Pow(c.Item2);
+                foreach (var p in c.Item3) {
+                    BigRationalTest.Test(lower, upper, p.Item1, p.Item3, p.Item2);
+                }
             }
-            Assert.AreEqual(new ulong[] {
-                14488038916154245685,
-                11915934368436992009,
-                11760553260076371255,
-                11054273349336558994,
-                12108815703571716367,
-                16602603363585481494,
-                11378879071774596408,
-                9358747397805171131,
-                12315189113921640896,
-                17335849242745400440,
-                14400453044121993745,
-                14488038916154245685,
-                11871845430268727827,
-                10739739599844454195,
-                11303778553548845368,
-                16643606305160959259,
-                3373259426,
-                2764129413,
-                2500540483,
-                2631866036,
-                3875141568,
-            }, actual);
         }
 
         static void Test(int expected, Func<int, int> f, Func<double, double> g, int x, double delta) {

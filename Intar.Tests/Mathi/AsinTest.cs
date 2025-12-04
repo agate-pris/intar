@@ -6,51 +6,56 @@ namespace Intar.Tests.Mathi {
     public class AsinTest {
         [Test]
         public static void TestConsts() {
-            var actual = new ulong[] {
-                Intar.Mathi.AsinInternal.P3U32A,
-                Intar.Mathi.AsinInternal.P3U32B,
-                Intar.Mathi.AsinInternal.P3U32C,
-                Intar.Mathi.AsinInternal.P3U32D,
-                Intar.Mathi.AsinInternal.P3U64A,
-                Intar.Mathi.AsinInternal.P3U64B,
-                Intar.Mathi.AsinInternal.P3U64C,
-                Intar.Mathi.AsinInternal.P3U64D,
-                Intar.Mathi.AsinInternal.P7U64A,
-                Intar.Mathi.AsinInternal.P7U64B,
-                Intar.Mathi.AsinInternal.P7U64C,
-                Intar.Mathi.AsinInternal.P7U64D,
-                Intar.Mathi.AsinInternal.P7U64E,
-                Intar.Mathi.AsinInternal.P7U64F,
-                Intar.Mathi.AsinInternal.P7U64G,
-                Intar.Mathi.AsinInternal.P7U64H,
+            const int k1 = (8 * 2) - 1;
+            const int k2 = (8 * 4) - 1;
+            const int k3 = (8 * 8) - 1;
+            const int k4 = k2 - k1;
+            const int k5 = k3 - k2;
+            var ks = new int[] {
+                1, 3, 5, 7,
+                1, 3, 5, 5, 6, 7, 8, 11,
             };
-            for (var i = 0; i < 4; ++i) {
-                Assert.IsTrue(actual[i] > 1U << 31);
+            var k6 = ks[3] - ks[2];
+
+            var p3K32A = (k2 + ks[0], k2, Intar.Mathi.AsinInternal.P3U32A);
+            var p3K32B = (k2 + ks[1], k2, Intar.Mathi.AsinInternal.P3U32B);
+            var p3K32C = (k2 + ks[2], k2, Intar.Mathi.AsinInternal.P3U32C);
+            var p3K32D = (k4 + ks[2], k4 - k6, Intar.Mathi.AsinInternal.P3U32D);
+            var p3K64A = (k3 + ks[0], k3, Intar.Mathi.AsinInternal.P3U64A);
+            var p3K64B = (k3 + ks[1], k3, Intar.Mathi.AsinInternal.P3U64B);
+            var p3K64C = (k3 + ks[2], k3, Intar.Mathi.AsinInternal.P3U64C);
+            var p3K64D = (k5 + ks[2], k5 - k6, Intar.Mathi.AsinInternal.P3U64D);
+            var p7K64A = (k3 + ks[4], k3, Intar.Mathi.AsinInternal.P7U64A);
+            var p7K64B = (k3 + ks[5], k3, Intar.Mathi.AsinInternal.P7U64B);
+            var p7K64C = (k3 + ks[6], k3, Intar.Mathi.AsinInternal.P7U64C);
+            var p7K64D = (k3 + ks[7], k3, Intar.Mathi.AsinInternal.P7U64D);
+            var p7K64E = (k3 + ks[8], k3, Intar.Mathi.AsinInternal.P7U64E);
+            var p7K64F = (k3 + ks[9], k3, Intar.Mathi.AsinInternal.P7U64F);
+            var p7K64G = (k3 + ks[10], k3, Intar.Mathi.AsinInternal.P7U64G);
+            var p7K64H = (k5 + ks[10], k5 - (ks[11] - ks[10]), Intar.Mathi.AsinInternal.P7U64H);
+
+            var cases = new[] {
+                ("1.5707288", new[] { p3K32A, p3K64A }),
+                ("0.2121144", new[] { p3K32B, p3K64B }),
+                ("0.0742610", new[] { p3K32C, p3K64C }),
+                ("0.0187293", new[] { p3K32D, p3K64D }),
+                ("1.5707963050", new[] { p7K64A } ),
+                ("0.2145988016", new[] { p7K64B } ),
+                ("0.0889789874", new[] { p7K64C } ),
+                ("0.0501743046", new[] { p7K64D } ),
+                ("0.0308918810", new[] { p7K64E } ),
+                ("0.0170881256", new[] { p7K64F } ),
+                ("0.0066700901", new[] { p7K64G } ),
+                ("0.0012624911", new[] { p7K64H } ),
+            };
+            foreach (var c in cases) {
+                var k = BigRationalTest.ParseReal(c.Item1);
+                var lower = k * BigRationalTest.Frac2PiLower;
+                var upper = k * BigRationalTest.Frac2PiUpper;
+                foreach (var precision in c.Item2) {
+                    BigRationalTest.Test(lower, upper, precision.Item1, precision.Item3, precision.Item2);
+                }
             }
-            for (var i = 4; i < actual.Length; ++i) {
-                Assert.IsTrue(actual[i] > 1UL << 63);
-            }
-            foreach (var x in actual) {
-                Console.WriteLine($"{x},");
-            }
-            Assert.AreEqual(new ulong[] {
-                4294782660,
-                2319904613,
-                3248783419,
-                3277490973,
-                18445951068606135392,
-                9963914441109755535,
-                13953418538510380357,
-                14076716544798613906,
-                18446743817759831598,
-                10080617338130213281,
-                16718884102355766130,
-                9427600920570779471,
-                11608983047221464490,
-                12843229610990092589,
-                10026318940480150471,
-                15181969944445121899,
-            }, actual);
         }
 
         static void TestAsin(

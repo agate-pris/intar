@@ -3,8 +3,6 @@ using System.Runtime.CompilerServices;
 
 namespace Intar {
     public static class Mathi {
-        const decimal Pi = 3.1415926535897932384626433833m;
-
         #region AbsDiff
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,48 +70,26 @@ namespace Intar {
         #region Asin / Acos
 
         internal static class AsinInternal {
-            const decimal Frac2Pi = 2 / Pi;
-            const decimal Z32 = Frac2Pi * (1UL << 31);
-            const decimal Z64 = Frac2Pi * (1UL << 63);
-
-            // 4294782660
-            // 2319904613
-            // 3248783419
-            // 3277490973
-            // 18445951068606135392
-            // 9963914441109755535
-            // 13953418538510380357
-            // 14076716544798613906
-            // 18446743817759831598
-            // 10080617338130213281
-            // 16718884102355766130
-            // 9427600920570779471
-            // 11608983047221464490
-            // 12843229610990092589
-            // 10026318940480150471
-            // 15181969944445121899
-
-            internal const uint P3U32A = (uint)(0.5m + (Z32 * (1 << 1) * 1.5707288m));
-            internal const uint P3U32B = (uint)(0.5m + (Z32 * (1 << 3) * 0.2121144m));
-            internal const uint P3U32C = (uint)(0.5m + (Z32 * (1 << 5) * 0.0742610m));
-            internal const uint P3U32D = (uint)(0.0m + (Z32 * (1 << 7) * 0.0187293m));
-            internal const ulong P3U64A = (ulong)(0.5m + (Z64 * (1 << 1) * 1.5707288m));
-            internal const ulong P3U64B = (ulong)(0.5m + (Z64 * (1 << 3) * 0.2121144m));
-            internal const ulong P3U64C = (ulong)(0.5m + (Z64 * (1 << 5) * 0.0742610m));
-            internal const ulong P3U64D = (ulong)(0.0m + (Z64 * (1 << 7) * 0.0187293m));
-            internal const ulong P7U64A = (ulong)(0.5m + (Z64 * 1.570_796_305_0m * (1 << 1)));
-            internal const ulong P7U64B = (ulong)(0.5m + (Z64 * 0.214_598_801_6m * (1 << 3)));
-            internal const ulong P7U64C = (ulong)(0.5m + (Z64 * 0.088_978_987_4m * (1 << 5)));
-            internal const ulong P7U64D = (ulong)(0.5m + (Z64 * 0.050_174_304_6m * (1 << 5)));
-            internal const ulong P7U64E = (ulong)(0.5m + (Z64 * 0.030_891_881_0m * (1 << 6)));
-            internal const ulong P7U64F = (ulong)(0.5m + (Z64 * 0.017_088_125_6m * (1 << 7)));
-            internal const ulong P7U64G = (ulong)(0.5m + (Z64 * 0.006_670_090_1m * (1 << 8)));
-            internal const ulong P7U64H = (ulong)(0.0m + (Z64 * 0.001_262_491_1m * (1 << 11)));
+            internal const uint P3U32A = 4294782660U;
+            internal const uint P3U32B = 2319904613U;
+            internal const uint P3U32C = 3248783419U;
+            internal const uint P3U32D = 25005U;
+            internal const ulong P3U64A = 18445951068606135392UL;
+            internal const ulong P3U64B = 9963914441109755535UL;
+            internal const ulong P3U64C = 13953418538510380357UL;
+            internal const ulong P3U64D = 1638745487U;
+            internal const ulong P7U64A = 18446743817759831598UL;
+            internal const ulong P7U64B = 10080617338130213281UL;
+            internal const ulong P7U64C = 16718884102355766130UL;
+            internal const ulong P7U64D = 9427600920570779471UL;
+            internal const ulong P7U64E = 11608983047221464490UL;
+            internal const ulong P7U64F = 12843229610990092589UL;
+            internal const ulong P7U64G = 10026318940480150471UL;
+            internal const ulong P7U64H = 883706959UL;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P3(uint x) {
-                var y = 1U << (15 + 7 - 5);
-                y = (P3U32D + (y / 2)) >> (15 + 7 - 5);
+                var y = P3U32D;
                 y = (P3U32C - (y * x)) >> (15 + 5 - 3);
                 y = (P3U32B - (y * x)) >> (15 + 3 - 1);
                 y = (P3U32A - (y * x)) >> (15 + 1 + 1);
@@ -123,8 +99,7 @@ namespace Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P3(ulong x) {
-                var y = 1UL << (31 + 7 - 5);
-                y = (P3U64D + (y / 2)) >> (31 + 7 - 5);
+                var y = P3U64D;
                 y = (P3U64C - (y * x)) >> (31 + 5 - 3);
                 y = (P3U64B - (y * x)) >> (31 + 3 - 1);
                 y = (P3U64A - (y * x)) >> (31 + 1 + 1);
@@ -134,8 +109,7 @@ namespace Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P7(ulong x) {
-                var y = 1UL << (31 + 11 - 8);
-                y = (P7U64H + (y / 2)) >> (31 + 11 - 8);
+                var y = P7U64H;
                 y = (P7U64G - (y * x)) >> (31 + 8 - 7);
                 y = (P7U64F - (y * x)) >> (31 + 7 - 6);
                 y = (P7U64E - (y * x)) >> (31 + 6 - 5);
@@ -348,48 +322,28 @@ namespace Intar {
 
 #endif // NET7_0_OR_GREATER
 
-            const decimal Z1 = (1UL << 31) / Pi;
-            const decimal Z2 = (1UL << 63) / Pi;
-
-            // 2147483648
-            // 2147483648
-            // 9223372036854775808
-            // 9223372036854775808
-            // 2985813123
-            // 2676294767
-            // 2900504177
-            // 12823969718335781357
-            // 11494598498449691202
-            // 12457570583526187604
-            // 11741988375818245753
-            // 15515570644620693826
-            // 16923976036855135454
-            // 15996234637818023067
-            // 15659410489582290881
-
             const uint P2U32A = 1U << 31;
             const uint P3U32A = 1U << 31;
             const ulong P2U64A = 1UL << 63;
             const ulong P3U64A = 1UL << 63;
-            internal const uint P2U32B = (uint)(0.0m + (Z1 * (1U << 4) * 0.273m));
-            internal const uint P3U32B = (uint)(0.5m + (Z1 * (1U << 4) * 0.2447m));
-            internal const uint P3U32C = (uint)(0.0m + (Z1 * (1U << 6) * 0.0663m));
-            internal const ulong P2U64B = (ulong)(0.0m + (Z2 * (1UL << 4) * 0.273m));
-            internal const ulong P3U64B = (ulong)(0.5m + (Z2 * (1UL << 4) * 0.2447m));
-            internal const ulong P3U64C = (ulong)(0.0m + (Z2 * (1UL << 6) * 0.0663m));
-            internal const ulong P9U64A = (ulong)(0.5m + (Z2 * (1UL << 2) * 0.999_866_0m));
-            internal const ulong P9U64B = (ulong)(0.5m + (Z2 * (1UL << 4) * 0.330_299_5m));
-            internal const ulong P9U64C = (ulong)(0.5m + (Z2 * (1UL << 5) * 0.180_141_0m));
-            internal const ulong P9U64D = (ulong)(0.5m + (Z2 * (1UL << 6) * 0.085_133_0m));
-            internal const ulong P9U64E = (ulong)(0.0m + (Z2 * (1UL << 8) * 0.020_835_1m));
+            internal const uint P2U32B = 22780U;
+            internal const uint P3U32B = 2676294767U;
+            internal const uint P3U32C = 22129U;
+            internal const ulong P2U64B = 1492906562UL;
+            internal const ulong P3U64B = 11494598498449691202UL;
+            internal const ulong P3U64C = 1450252089UL;
+            internal const ulong P9U64A = 11741988375818245753UL;
+            internal const ulong P9U64B = 15515570644620693826UL;
+            internal const ulong P9U64C = 16923976036855135454UL;
+            internal const ulong P9U64D = 15996234637818023067UL;
+            internal const ulong P9U64E = 1822995312UL;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static int P2(int x) {
                 const uint one = 1U << 15;
                 var w = (uint)Math.Abs(x);
                 var z = one - w;
-                var y = 1U << (15 + 2);
-                y = (P2U32B + (y / 2)) >> (15 + 2);
+                var y = P2U32B;
                 y = (P2U32A + (z * y)) >> (15 + 3);
                 return (int)y * x;
             }
@@ -399,8 +353,7 @@ namespace Intar {
                 const uint one = 1U << 15;
                 var w = (uint)Math.Abs(x);
                 var z = one - w;
-                var y = 1U << (15 + 6 - 4);
-                y = (P3U32C + (y / 2)) >> (15 + 6 - 4);
+                var y = P3U32C;
                 y = (P3U32B + (y * w)) >> (15 + 4 - 2);
                 y = (P3U32A + (z * y)) >> (15 + 3);
                 return (int)y * x;
@@ -411,8 +364,7 @@ namespace Intar {
                 const ulong one = 1UL << 31;
                 var w = (ulong)Math.Abs(x);
                 var z = one - w;
-                var y = 1UL << (31 + 2);
-                y = (P2U64B + (y / 2)) >> (31 + 2);
+                var y = P2U64B;
                 y = (P2U64A + (z * y)) >> (31 + 3);
                 return (long)y * x;
             }
@@ -422,8 +374,7 @@ namespace Intar {
                 const ulong one = 1UL << 31;
                 var w = (ulong)Math.Abs(x);
                 var z = one - w;
-                var y = 1UL << (31 + 6 - 4);
-                y = (P3U64C + (y / 2)) >> (31 + 6 - 4);
+                var y = P3U64C;
                 y = (P3U64B + (y * w)) >> (31 + 4 - 2);
                 y = (P3U64A + (z * y)) >> (31 + 3);
                 return (long)y * x;
@@ -432,8 +383,7 @@ namespace Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static long P9(long x) {
                 var z = (ulong)(x * x) >> 31;
-                var y = 1UL << (31 + 8 - 6);
-                y = (P9U64E + (y / 2)) >> (31 + 8 - 6);
+                var y = P9U64E;
                 y = (P9U64D - (y * z)) >> (31 + 6 - 5);
                 y = (P9U64C - (y * z)) >> (31 + 5 - 4);
                 y = (P9U64B - (y * z)) >> (31 + 4 - 2);
@@ -1336,80 +1286,39 @@ namespace Intar {
                 }
             }
 
-            const decimal Z32 = 1UL << 31;
-            const decimal Z64 = 1UL << 63;
-            const decimal K01 = Pi / 2;
-            const decimal K02 = K01 * K01;
-            const decimal K03 = K02 * K01;
-            const decimal K04 = K03 * K01;
-            const decimal K05 = K04 * K01;
-            const decimal K06 = K05 * K01;
-            const decimal K07 = K06 * K01;
-            const decimal K08 = K07 * K01;
-            const decimal K09 = K08 * K01;
-            const decimal K10 = K09 * K01;
-            const decimal K11 = K10 * K01;
-
             // Milton Abramowitz and Irene Stegun .
             // Handbook of Mathematical Function With Formulas, Graphs, and Mathematical Tables (Abramowitz and Stegun) .
             // United States Department of Commerce, National Bureau of Standards (NBS) , 1964
 
-            // 14488038916154245685
-            // 11915934368436992009
-            // 11760553260076371255
-            // 11054273349336558994
-            // 12108815703571716367
-            // 16602603363585481494
-            // 11378879071774596408
-            // 9358747397805171131
-            // 12315189113921640896
-            // 17335849242745400440
-            // 14400453044121993745
-            // 14488038916154245685
-            // 11871845430268727827
-            // 10739739599844454195
-            // 11303778553548845368
-            // 16643606305160959259
-            // 3373259426
-            // 2764129413
-            // 2500540483
-            // 2631866036
-            // 3875141568
-
-            // もっとも最初に計算に使う係数 (P11I64F など) は
-            // 0.5 に相当する値を別途加算するため、
-            // ここでは加算しない。
-
-            internal const ulong P11I64A = (ulong)(0.5m + (1.000_000_000_0m * K01 * Z64));
-            internal const ulong P11I64B = (ulong)(0.5m + (0.166_666_666_4m * K03 * Z64 * (1 << 1)));
-            internal const ulong P11I64C = (ulong)(0.5m + (0.008_333_331_5m * K05 * Z64 * (1 << 4)));
-            internal const ulong P11I64D = (ulong)(0.5m + (0.000_198_409_0m * K07 * Z64 * (1 << 8)));
-            internal const ulong P11I64E = (ulong)(0.5m + (0.000_002_752_6m * K09 * Z64 * (1 << 13)));
-            internal const ulong P11I64F = (ulong)(0.0m + (0.000_000_023_9m * K11 * Z64 * (1 << 19)));
-            internal const ulong P10I64A = (ulong)(0.5m + (0.499_999_996_3m * K02 * Z64));
-            internal const ulong P10I64B = (ulong)(0.5m + (0.041_666_641_8m * K04 * Z64 * (1 << 2)));
-            internal const ulong P10I64C = (ulong)(0.5m + (0.001_388_839_7m * K06 * Z64 * (1 << 6)));
-            internal const ulong P10I64D = (ulong)(0.5m + (0.000_024_760_9m * K08 * Z64 * (1 << 11)));
-            internal const ulong P10I64E = (ulong)(0.0m + (0.000_000_260_5m * K10 * Z64 * (1 << 16)));
-            internal const ulong P5I64A = (ulong)(0.5m + (1.00000m * K01 * Z64));
-            internal const ulong P5I64B = (ulong)(0.5m + (0.16605m * K03 * Z64 * (1 << 1)));
-            internal const ulong P5I64C = (ulong)(0.0m + (0.00761m * K05 * Z64 * (1 << 4)));
-            internal const ulong P4I64A = (ulong)(0.5m + (0.49670m * K02 * Z64));
-            internal const ulong P4I64B = (ulong)(0.0m + (0.03705m * K04 * Z64 * (1 << 3)));
-            internal const uint P5I32A = (uint)(0.5m + (1.00000m * K01 * Z32));
-            internal const uint P5I32B = (uint)(0.5m + (0.16605m * K03 * Z32 * (1 << 1)));
-            internal const uint P5I32C = (uint)(0.0m + (0.00761m * K05 * Z32 * (1 << 4)));
-            internal const uint P4I32A = (uint)(0.5m + (0.49670m * K02 * Z32));
-            internal const uint P4I32B = (uint)(0.0m + (0.03705m * K04 * Z32 * (1 << 3)));
+            internal const ulong P11I64A = 14488038916154245685UL;
+            internal const ulong P11I64B = 11915934368436992009UL;
+            internal const ulong P11I64C = 11760553260076371255UL;
+            internal const ulong P11I64D = 11054273349336558994UL;
+            internal const ulong P11I64E = 12108815703571716367UL;
+            internal const ulong P11I64F = 120799838UL;
+            internal const ulong P10I64A = 11378879071774596408UL;
+            internal const ulong P10I64B = 9358747397805171131UL;
+            internal const ulong P10I64C = 12315189113921640896UL;
+            internal const ulong P10I64D = 17335849242745400440UL;
+            internal const ulong P10I64E = 209554172UL;
+            internal const ulong P5I64A = 14488038916154245685UL;
+            internal const ulong P5I64B = 11871845430268727827UL;
+            internal const ulong P5I64C = 625135121UL;
+            internal const ulong P4I64A = 11303778553548845368UL;
+            internal const ulong P4I64B = 968785392UL;
+            internal const uint P5I32A = 3373259426U;
+            internal const uint P5I32B = 2764129413U;
+            internal const uint P5I32C = 9539U;
+            internal const uint P4I32A = 2631866036U;
+            internal const uint P4I32B = 14782U;
 
             // 精度に対して与える影響が軽微であるため､
             // 乗算前に一度にまとめてビットシフトを行う｡
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P11(ulong z) {
-                var y = 1UL;
-                y = P11I64F + ((y << (31 + 6)) / 2);
-                y = P11I64E - ((y >> (31 + 6)) * z);
+                var y = P11I64F;
+                y = P11I64E - (y * z);
                 y = P11I64D - ((y >> (31 + 5)) * z);
                 y = P11I64C - ((y >> (31 + 4)) * z);
                 y = P11I64B - ((y >> (31 + 3)) * z);
@@ -1419,9 +1328,8 @@ namespace Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P10(ulong z) {
-                var y = 1UL;
-                y = P10I64E + ((y << (31 + 5)) / 2);
-                y = P10I64D - ((y >> (31 + 5)) * z);
+                var y = P10I64E;
+                y = P10I64D - (y * z);
                 y = P10I64C - ((y >> (31 + 5)) * z);
                 y = P10I64B - ((y >> (31 + 4)) * z);
                 y = P10I64A - ((y >> (31 + 2)) * z);
@@ -1437,18 +1345,16 @@ namespace Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P5(ulong z) {
-                var y = 1UL;
-                y = P5I64C + ((y << (31 + 3)) / 2);
-                y = P5I64B - ((y >> (31 + 3)) * z);
+                var y = P5I64C;
+                y = P5I64B - (y * z);
                 y = P5I64A - ((y >> (31 + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P4(ulong z) {
-                var y = 1UL;
-                y = P4I64B + ((y << (31 + 3)) / 2);
-                y = P4I64A - ((y >> (31 + 3)) * z);
+                var y = P4I64B;
+                y = P4I64A - (y * z);
                 return (y >> 32) * z;
             }
 
@@ -1461,18 +1367,16 @@ namespace Intar {
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P5(uint z) {
-                var y = 1U;
-                y = P5I32C + ((y << (15 + 3)) / 2);
-                y = P5I32B - ((y >> (15 + 3)) * z);
+                var y = P5I32C;
+                y = P5I32B - (y * z);
                 y = P5I32A - ((y >> (15 + 1)) * z);
                 return y;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P4(uint z) {
-                var y = 1U;
-                y = P4I32B + ((y << (15 + 3)) / 2);
-                y = P4I32A - ((y >> (15 + 3)) * z);
+                var y = P4I32B;
+                y = P4I32A - (y * z);
                 return (y >> 16) * z;
             }
         }

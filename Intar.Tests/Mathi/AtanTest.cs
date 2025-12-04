@@ -6,35 +6,50 @@ namespace Intar.Tests.Mathi {
     public class AtanTest {
         [Test]
         public static void TestConsts() {
-            var actual = new ulong[] {
-                Intar.Mathi.AtanInternal.P9U64A,
-                Intar.Mathi.AtanInternal.P9U64B,
-                Intar.Mathi.AtanInternal.P9U64C,
-                Intar.Mathi.AtanInternal.P9U64D,
-                Intar.Mathi.AtanInternal.P9U64E,
-                Intar.Mathi.AtanInternal.P3U64B,
-                Intar.Mathi.AtanInternal.P3U64C,
-                Intar.Mathi.AtanInternal.P2U64B,
-                Intar.Mathi.AtanInternal.P3U32B,
-                Intar.Mathi.AtanInternal.P3U32C,
-                Intar.Mathi.AtanInternal.P2U32B,
+            const int k1 = (8 * 2) - 1;
+            const int k2 = (8 * 4) - 1;
+            const int k3 = (8 * 8) - 1;
+            const int k4 = k2 - k1;
+            const int k5 = k3 - k2;
+            var ks = new int[] {
+                2, 4,
+                2, 4, 6,
+                2, 4, 5, 6, 8,
             };
-            for (var i = 0; i < actual.Length; ++i) {
-                Console.WriteLine($"{actual[i]},");
+            var k6 = ks[1] - ks[0];
+            var k7 = ks[4] - ks[3];
+
+            var p2K32B = (k4 + ks[0], k4 - k6, Intar.Mathi.AtanInternal.P2U32B);
+            var p2K64B = (k5 + ks[0], k5 - k6, Intar.Mathi.AtanInternal.P2U64B);
+            var p3K32B = (k2 + ks[3], k2, Intar.Mathi.AtanInternal.P3U32B);
+            var p3K32C = (k4 + ks[3], k4 - k7, Intar.Mathi.AtanInternal.P3U32C);
+            var p3K64B = (k3 + ks[3], k3, Intar.Mathi.AtanInternal.P3U64B);
+            var p3K64C = (k5 + ks[3], k5 - k7, Intar.Mathi.AtanInternal.P3U64C);
+            var p9K64A = (k3 + ks[5], k3, Intar.Mathi.AtanInternal.P9U64A);
+            var p9K64B = (k3 + ks[6], k3, Intar.Mathi.AtanInternal.P9U64B);
+            var p9K64C = (k3 + ks[7], k3, Intar.Mathi.AtanInternal.P9U64C);
+            var p9K64D = (k3 + ks[8], k3, Intar.Mathi.AtanInternal.P9U64D);
+            var p9K64E = (k5 + ks[8], k5 - (ks[9] - ks[8]), Intar.Mathi.AtanInternal.P9U64E);
+
+            var cases = new[] {
+                ("0.273", new[] { p2K32B, p2K64B } ),
+                ("0.2447", new[] { p3K32B, p3K64B }),
+                ("0.0663", new[] { p3K32C, p3K64C } ),
+                ("0.9998660", new[] { p9K64A }),
+                ("0.3302995", new[] { p9K64B }),
+                ("0.1801410", new[] { p9K64C }),
+                ("0.0851330", new[] { p9K64D }),
+                ("0.0208351", new[] { p9K64E }),
+            };
+
+            foreach (var c in cases) {
+                var k = BigRationalTest.ParseReal(c.Item1);
+                var lower = k * BigRationalTest.Frac1PiLower;
+                var upper = k * BigRationalTest.Frac1PiUpper;
+                foreach (var precision in c.Item2) {
+                    BigRationalTest.Test(lower, upper, precision.Item1, precision.Item3, precision.Item2);
+                }
             }
-            Assert.AreEqual(new ulong[] {
-                11741988375818245753,
-                15515570644620693826,
-                16923976036855135454,
-                15996234637818023067,
-                15659410489582290881,
-                11494598498449691202,
-                12457570583526187604,
-                12823969718335781357,
-                2676294767,
-                2900504177,
-                2985813123,
-            }, actual);
         }
 
         [Test]
