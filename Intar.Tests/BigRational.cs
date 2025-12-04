@@ -1,70 +1,56 @@
+using System.Numerics;
+
 namespace Intar.Tests {
-        readonly struct BigRational
-        {
-            readonly BigInteger numer;
-            readonly BigInteger denom;
-            public BigRational(BigInteger numer, BigInteger denom)
-            {
-                var gcd = BigInteger.GreatestCommonDivisor(numer, denom);
-                numer /= gcd;
-                denom /= gcd;
-                this.numer = numer;
-                this.denom = denom;
+    readonly struct BigRational {
+        readonly BigInteger numer;
+        readonly BigInteger denom;
+        public BigRational(BigInteger numer, BigInteger denom) {
+            var gcd = BigInteger.GreatestCommonDivisor(numer, denom);
+            numer /= gcd;
+            denom /= gcd;
+            this.numer = numer;
+            this.denom = denom;
+        }
+        public BigRational(BigInteger numer) : this(numer, 1) { }
+        public override string ToString() {
+            return $"{numer}/{denom}";
+        }
+        public static BigRational operator *(BigRational left, int right) {
+            return new BigRational(left.numer * right, left.denom);
+        }
+        public static BigRational operator *(BigRational left, BigRational right) {
+            return new BigRational(left.numer * right.numer, left.denom * right.denom);
+        }
+        public static BigRational operator /(BigRational left, int right) {
+            return new BigRational(left.numer, left.denom * right);
+        }
+        public static BigRational operator /(int left, BigRational right) {
+            return new BigRational(left * right.denom, right.numer);
+        }
+        public static bool operator <(BigRational left, ulong right) {
+            return left.numer < left.denom * right;
+        }
+        public static bool operator >(BigRational left, ulong right) {
+            return left.numer > left.denom * right;
+        }
+        public static explicit operator int(BigRational v) {
+            return (int)(v.numer / v.denom);
+        }
+        public static explicit operator ulong(BigRational v) {
+            return (ulong)(v.numer / v.denom);
+        }
+        public BigRational Round() {
+            BigInteger tmp;
+            if (numer < 0 == denom < 0) {
+                tmp = 2 * numer + denom;
+            } else {
+                tmp = 2 * numer - denom;
             }
-            public BigRational(BigInteger numer) : this(numer, 1) { }
-            public override string ToString()
-            {
-                return $"{numer}/{denom}";
-            }
-            public static BigRational operator *(BigRational left, int right)
-            {
-                return new BigRational(left.numer * right, left.denom);
-            }
-            public static BigRational operator *(BigRational left, BigRational right)
-            {
-                return new BigRational(left.numer * right.numer, left.denom * right.denom);
-            }
-            public static BigRational operator /(BigRational left, int right)
-            {
-                return new BigRational(left.numer, left.denom * right);
-            }
-            public static BigRational operator /(int left, BigRational right)
-            {
-                return new BigRational(left * right.denom, right.numer);
-            }
-            public static bool operator <(BigRational left, ulong right)
-            {
-                return left.numer < left.denom * right;
-            }
-            public static bool operator >(BigRational left, ulong right)
-            {
-                return left.numer > left.denom * right;
-            }
-            public static explicit operator int(BigRational v)
-            {
-                return (int)(v.numer / v.denom);
-            }
-            public static explicit operator ulong(BigRational v)
-            {
-                return (ulong)(v.numer / v.denom);
-            }
-            public BigRational Round()
-            {
-                BigInteger tmp;
-                if (numer < 0 == denom < 0)
-                {
-                    tmp = 2 * numer + denom;
-                }
-                else
-                {
-                    tmp = 2 * numer - denom;
-                }
-                return new BigRational(tmp / (2 * denom));
-            }
-            public BigRational Pow(int exponent)
-            {
-                return new BigRational(BigInteger.Pow(numer, exponent), BigInteger.Pow(denom, exponent));
-            }
+            return new BigRational(tmp / (2 * denom));
+        }
+        public BigRational Pow(int exponent) {
+            return new BigRational(BigInteger.Pow(numer, exponent), BigInteger.Pow(denom, exponent));
+        }
         }
                 static readonly BigRational piLower = ParseReal("3.1415926535897932384626433832795028841971");
         static readonly BigRational piUpper = ParseReal("3.1415926535897932384626433832795028841972");
@@ -74,15 +60,11 @@ namespace Intar.Tests {
         static readonly BigRational frac2PiUpper = 2 / piLower;
         static readonly BigRational fracPi2Lower = piLower / 2;
         static readonly BigRational fracPi2Upper = piUpper / 2;
-        static BigRational ParseReal(string s)
-        {
+        static BigRational ParseReal(string s) {
             var i = s.IndexOf('.');
-            if (i < 0)
-            {
+            if (i < 0) {
                 return new BigRational(BigInteger.Parse(s));
-            }
-            else
-            {
+            } else {
                 var numer = s.Remove(i, 1);
                 var denom = "1" + new string('0', s.Length - i - 1);
                 return new BigRational(BigInteger.Parse(numer), BigInteger.Parse(denom));
@@ -95,21 +77,18 @@ namespace Intar.Tests {
             int epectedCount,
             uint expected,
             bool floor
-        )
-        {
+        ) {
             const ulong z = 1U << 31;
             {
                 var count = 0;
-                while (lower < z)
-                {
+                while (lower < z) {
                     count++;
                     lower *= 2;
                     upper *= 2;
                 }
                 Debug.Assert(31 + epectedCount == count, $"lower:{lower} epectedCount:{epectedCount} count:{count}");
             }
-            if (!floor)
-            {
+            if (!floor) {
                 lower = lower.Round();
                 upper = upper.Round();
             }
@@ -124,21 +103,18 @@ namespace Intar.Tests {
             int epectedCount,
             ulong expected,
             bool floor
-        )
-        {
+        ) {
             const ulong z = 1UL << 63;
             {
                 var count = 0;
-                while (lower < z)
-                {
+                while (lower < z) {
                     count++;
                     lower *= 2;
                     upper *= 2;
                 }
                 Debug.Assert(63 + epectedCount == count, $"lower:{lower} epectedCount:{epectedCount} count:{count}");
             }
-            if (!floor)
-            {
+            if (!floor) {
                 lower = lower.Round();
                 upper = upper.Round();
             }
@@ -147,43 +123,37 @@ namespace Intar.Tests {
             Debug.Assert(l == u);
             Debug.Assert(expected == l);
         }
-        static void CheckAsin32(string v, int expectedCount, uint expected, bool floor)
-        {
+        static void CheckAsin32(string v, int expectedCount, uint expected, bool floor) {
             var k = ParseReal(v);
             var lower = frac2PiLower * k;
             var upper = frac2PiUpper * k;
             Check32(lower, upper, expectedCount, expected, floor);
         }
-        static void CheckAsin64(string v, int expectedCount, ulong expected, bool floor)
-        {
+        static void CheckAsin64(string v, int expectedCount, ulong expected, bool floor) {
             var k = ParseReal(v);
             var lower = frac2PiLower * k;
             var upper = frac2PiUpper * k;
             Check64(lower, upper, expectedCount, expected, floor);
         }
-        static void CheckAtan32(string s, int expectedCount, uint expected, bool floor)
-        {
+        static void CheckAtan32(string s, int expectedCount, uint expected, bool floor) {
             var k = ParseReal(s);
             var lower = frac1PiLower * k;
             var upper = frac1PiUpper * k;
             Check32(lower, upper, expectedCount, expected, floor);
         }
-        static void CheckAtan64(string s, int expectedCount, ulong expected, bool floor)
-        {
+        static void CheckAtan64(string s, int expectedCount, ulong expected, bool floor) {
             var k = ParseReal(s);
             var lower = frac1PiLower * k;
             var upper = frac1PiUpper * k;
             Check64(lower, upper, expectedCount, expected, floor);
         }
-        static void CheckSin32(string s, int exponent, int expectedCount, uint expected, bool floor)
-        {
+        static void CheckSin32(string s, int exponent, int expectedCount, uint expected, bool floor) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
             var upper = fracPi2Upper.Pow(exponent) * k;
             Check32(lower, upper, expectedCount, expected, floor);
         }
-        static void CheckSin64(string s, int exponent, int expectedCount, ulong expected, bool floor)
-        {
+        static void CheckSin64(string s, int exponent, int expectedCount, ulong expected, bool floor) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
             var upper = fracPi2Upper.Pow(exponent) * k;
@@ -191,8 +161,7 @@ namespace Intar.Tests {
         }
 
         [Test]
-        public static void TestShift()
-        {
+        public static void TestShift() {
             Debug.Assert(1U == 2U >> 1);
             Debug.Assert(0U == 0x7fffffffU >> 31);
             Debug.Assert(1U == 0x80000000U >> 31);
@@ -206,18 +175,15 @@ namespace Intar.Tests {
         }
 
         [Test]
-        public static void TestConstant()
-        {
+        public static void TestConstant() {
             Console.WriteLine("Test");
             Debug.Assert(1 == (ulong)new BigRational(5, 3));
             Debug.Assert(1 == (ulong)new BigRational(-5, -3));
             Assert.Throws<FormatException>(() => ParseReal("1.2.3"));
-            Assert.Throws<OverflowException>(() =>
-            {
+            Assert.Throws<OverflowException>(() => {
                 Debug.Assert(ulong.MaxValue == (ulong)new BigRational(5, -3));
             });
-            Assert.Throws<OverflowException>(() =>
-            {
+            Assert.Throws<OverflowException>(() => {
                 Debug.Assert(ulong.MaxValue == (ulong)new BigRational(-5, 3));
             });
             Debug.Assert(1 == (int)new BigRational(4, 3).Round());
