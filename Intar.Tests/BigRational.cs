@@ -1,9 +1,15 @@
+using NUnit.Framework;
+using NUnit.Framework.Internal;
+using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Intar.Tests {
     readonly struct BigRational {
         readonly BigInteger numer;
         readonly BigInteger denom;
+        public BigInteger Numer => numer;
+        public BigInteger Denom => denom;
         public BigRational(BigInteger numer, BigInteger denom) {
             var gcd = BigInteger.GreatestCommonDivisor(numer, denom);
             numer /= gcd;
@@ -27,32 +33,103 @@ namespace Intar.Tests {
         public static BigRational operator /(int left, BigRational right) {
             return new BigRational(left * right.denom, right.numer);
         }
+        public static bool operator <(BigRational x, BigInteger y) {
+            return x.numer < x.denom * y;
+        }
+        public static bool operator >(BigRational x, BigInteger y) {
+            return x.numer > x.denom * y;
+        }
         public static bool operator <(BigRational left, ulong right) {
             return left.numer < left.denom * right;
         }
         public static bool operator >(BigRational left, ulong right) {
             return left.numer > left.denom * right;
         }
-        public static explicit operator int(BigRational v) {
-            return (int)(v.numer / v.denom);
+        public static explicit operator BigInteger(BigRational v) {
+            return v.numer / v.denom;
         }
         public static explicit operator ulong(BigRational v) {
             return (ulong)(v.numer / v.denom);
         }
+        public static BigRational Abs(BigRational v) {
+            return new BigRational(BigInteger.Abs(v.numer), BigInteger.Abs(v.denom));
+        }
+        public static bool IsNegative(BigRational v) {
+            return (v.numer < 0) != (v.denom < 0);
+        }
         public BigRational Round() {
             BigInteger tmp;
-            if (numer < 0 == denom < 0) {
-                tmp = 2 * numer + denom;
+            if ((numer < 0) == (denom < 0)) {
+                tmp = (2 * numer) + denom;
             } else {
-                tmp = 2 * numer - denom;
+                tmp = (2 * numer) - denom;
             }
             return new BigRational(tmp / (2 * denom));
         }
         public BigRational Pow(int exponent) {
             return new BigRational(BigInteger.Pow(numer, exponent), BigInteger.Pow(denom, exponent));
         }
+    }
+
+    public class BigRationalTest {
+        [Test]
+        public static void TestBigRational() {
+            // 0 方向に丸められることをテスト
+            Utility.AssertAreEqual(1, (ulong)new BigRational(4, 3));
+            Utility.AssertAreEqual(1, (ulong)new BigRational(5, 3));
+            Utility.AssertAreEqual(1, (ulong)new BigRational(-4, -3));
+            Utility.AssertAreEqual(1, (ulong)new BigRational(-5, -3));
+
+            // 四捨五入されることをテスト
+            Utility.AssertAreEqual(1, (ulong)new BigRational(1, 2).Round());
+            Utility.AssertAreEqual(1, (ulong)new BigRational(4, 3).Round());
+            Utility.AssertAreEqual(1, (ulong)new BigRational(-1, -2).Round());
+            Utility.AssertAreEqual(1, (ulong)new BigRational(-4, -3).Round());
+            Utility.AssertAreEqual(2, (ulong)new BigRational(5, 3).Round());
+            Utility.AssertAreEqual(2, (ulong)new BigRational(-5, -3).Round());
+
+            // 負数を符号なし整数にキャストした時例外をスローすることをテスト.
+            var e = Assert.Throws<OverflowException>(() => {
+                Debug.Assert(ulong.MaxValue == (ulong)new BigRational(5, -3));
+            });
+            Utility.Log(e.ToString());
+
+            e = Assert.Throws<OverflowException>(() => {
+                Debug.Assert(ulong.MaxValue == (ulong)new BigRational(-5, 3));
+            });
+            Utility.Log(e.ToString());
         }
-                static readonly BigRational piLower = ParseReal("3.1415926535897932384626433832795028841971");
+
+        /// <summary>
+        /// 小数をパースして分数に変換する.
+        /// </summary>
+        /// <param name="s">小数を表現する文字列</param>
+        /// <returns>与えられた小数を精確に表現する分数</returns>
+        static BigRational ParseReal(string s) {
+            var i = s.IndexOf('.');
+            var provider = System.Globalization.CultureInfo.InvariantCulture;
+            if (i < 0) {
+                return new BigRational(BigInteger.Parse(s, provider));
+            } else {
+                var numer = s.Remove(i, 1);
+                var denom = "1" + new string('0', s.Length - i - 1);
+                var n = BigInteger.Parse(numer, provider);
+                var d = BigInteger.Parse(denom, provider);
+                return new BigRational(n, d);
+            }
+        }
+
+        [Test]
+        public static void TestParseReal() {
+            var x = ParseReal("1.2");
+            Utility.AssertAreEqual(6, (int)x.Numer);
+            Utility.AssertAreEqual(5, (int)x.Denom);
+
+            var e = Assert.Throws<FormatException>(() => ParseReal("1.2.3"));
+            Console.WriteLine(x);
+        }
+
+        static readonly BigRational piLower = ParseReal("3.1415926535897932384626433832795028841971");
         static readonly BigRational piUpper = ParseReal("3.1415926535897932384626433832795028841972");
         static readonly BigRational frac1PiLower = 1 / piUpper;
         static readonly BigRational frac1PiUpper = 1 / piLower;
@@ -60,49 +137,91 @@ namespace Intar.Tests {
         static readonly BigRational frac2PiUpper = 2 / piLower;
         static readonly BigRational fracPi2Lower = piLower / 2;
         static readonly BigRational fracPi2Upper = piUpper / 2;
-        static BigRational ParseReal(string s) {
-            var i = s.IndexOf('.');
-            if (i < 0) {
-                return new BigRational(BigInteger.Parse(s));
-            } else {
-                var numer = s.Remove(i, 1);
-                var denom = "1" + new string('0', s.Length - i - 1);
-                return new BigRational(BigInteger.Parse(numer), BigInteger.Parse(denom));
+
+        struct BigFloat {
+            public int exp;
+            public BigInteger frac;
+            public BigFloat(int exp, BigInteger frac) {
+                this.exp = exp;
+                this.frac = frac;
             }
+            public static bool operator ==(BigFloat x, BigFloat y) {
+                return (x.exp == y.exp) && (x.frac == y.frac);
+            }
+            public static bool operator !=(BigFloat x, BigFloat y) {
+                return (x.exp != y.exp) || (x.frac != y.frac);
+            }
+            public override bool Equals(object obj) {
+                return obj is BigFloat u && this == u;
+            }
+            public override int GetHashCode() {
+                return HashCode.Combine(frac, exp);
+            }
+            public override string ToString() {
+                return $"ResultU32 {{ exp: {exp}, frac: {frac} }}";
+            }
+        }
+
+        static BigFloat Calc(BigRational v, bool round, int frac) {
+            var k = new BigInteger(1);
+            for (var i = 0; i < frac; i++) {
+                k *= 2;
+            }
+
+            var abs = BigRational.Abs(v);
+
+            var exp = 0;
+            while (v < k) {
+                exp++;
+                abs *= 2;
+            }
+
+            if (round) {
+                abs = abs.Round();
+            }
+            return new BigFloat(exp, (BigInteger)abs);
+        }
+
+        static BigFloat Calc32(BigRational v, bool round) {
+            // 下位 31 ビットを小数部とする値を求めるため,
+            // 下界が 2^31 以上になるまで 2 をかけ続ける.
+            // その後, 乗算回数が期待した値であることを確認する.
+            // ([0.125, 0.25) なら 33 回, [0.25, 0.5) なら 32 回, [0.5, 1.0) なら 31 回)
+            var exp = 0;
+            while (v < (1U << 31)) {
+                exp++;
+                v *= 2;
+            }
+
+            if (round) {
+                v = v.Round();
+            }
+            return new BigFloat(exp, (uint)v);
         }
 
         static void Check32(
             BigRational lower,
             BigRational upper,
-            int epectedCount,
-            uint expected,
-            bool floor
+            BigFloat expected,
+            bool round
         ) {
-            const ulong z = 1U << 31;
-            {
-                var count = 0;
-                while (lower < z) {
-                    count++;
-                    lower *= 2;
-                    upper *= 2;
-                }
-                Debug.Assert(31 + epectedCount == count, $"lower:{lower} epectedCount:{epectedCount} count:{count}");
+            var l = Calc32(lower, round);
+            var u = Calc32(upper, round);
+            if (l == u &&
+                expected == l &&
+                expected == u) {
+                return;
             }
-            if (!floor) {
-                lower = lower.Round();
-                upper = upper.Round();
-            }
-            var l = (uint)lower;
-            var u = (uint)upper;
-            Debug.Assert(l == u);
-            Debug.Assert(expected == l);
+            Assert.AreEqual(l, u);
+            Assert.AreEqual(expected, l);
+            Assert.AreEqual(expected, u);
         }
         static void Check64(
             BigRational lower,
             BigRational upper,
             int epectedCount,
             ulong expected,
-            bool floor
+            bool round
         ) {
             const ulong z = 1UL << 63;
             {
@@ -112,139 +231,140 @@ namespace Intar.Tests {
                     lower *= 2;
                     upper *= 2;
                 }
-                Debug.Assert(63 + epectedCount == count, $"lower:{lower} epectedCount:{epectedCount} count:{count}");
+                Utility.AssertAreEqual(63 + epectedCount, count, $"lower:{lower} epectedCount:{epectedCount} count:{count}");
             }
-            if (!floor) {
+            if (round) {
                 lower = lower.Round();
                 upper = upper.Round();
             }
             var l = (ulong)lower;
             var u = (ulong)upper;
-            Debug.Assert(l == u);
-            Debug.Assert(expected == l);
+            Utility.AssertAreEqual(l, u);
+            Utility.AssertAreEqual(expected, l);
         }
-        static void CheckAsin32(string v, int expectedCount, uint expected, bool floor) {
+        static void CheckAsin32(string v, int expectedCount, uint expected, bool round) {
             var k = ParseReal(v);
             var lower = frac2PiLower * k;
             var upper = frac2PiUpper * k;
-            Check32(lower, upper, expectedCount, expected, floor);
+            Check32(lower, upper, new BigFloat(expectedCount, expected), round);
         }
-        static void CheckAsin64(string v, int expectedCount, ulong expected, bool floor) {
+        static void CheckAsin64(string v, int expectedCount, ulong expected, bool round) {
             var k = ParseReal(v);
             var lower = frac2PiLower * k;
             var upper = frac2PiUpper * k;
-            Check64(lower, upper, expectedCount, expected, floor);
+            Check64(lower, upper, expectedCount, expected, round);
         }
-        static void CheckAtan32(string s, int expectedCount, uint expected, bool floor) {
+        static void CheckAtan32(string s, int expectedCount, uint expected, bool round) {
             var k = ParseReal(s);
             var lower = frac1PiLower * k;
             var upper = frac1PiUpper * k;
-            Check32(lower, upper, expectedCount, expected, floor);
+            Check32(lower, upper, new BigFloat(expectedCount, expected), round);
         }
-        static void CheckAtan64(string s, int expectedCount, ulong expected, bool floor) {
+        static void CheckAtan64(string s, int expectedCount, ulong expected, bool round) {
             var k = ParseReal(s);
             var lower = frac1PiLower * k;
             var upper = frac1PiUpper * k;
-            Check64(lower, upper, expectedCount, expected, floor);
+            Check64(lower, upper, expectedCount, expected, round);
         }
-        static void CheckSin32(string s, int exponent, int expectedCount, uint expected, bool floor) {
+        static void CheckSin32(string s, int exponent, int expectedCount, uint expected, bool round) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
             var upper = fracPi2Upper.Pow(exponent) * k;
-            Check32(lower, upper, expectedCount, expected, floor);
+            Check32(lower, upper, new BigFloat(expectedCount, expected), round);
         }
-        static void CheckSin64(string s, int exponent, int expectedCount, ulong expected, bool floor) {
+        static void CheckSin64(string s, int exponent, int expectedCount, ulong expected, bool round) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
             var upper = fracPi2Upper.Pow(exponent) * k;
-            Check64(lower, upper, expectedCount, expected, floor);
-        }
-
-        [Test]
-        public static void TestShift() {
-            Debug.Assert(1U == 2U >> 1);
-            Debug.Assert(0U == 0x7fffffffU >> 31);
-            Debug.Assert(1U == 0x80000000U >> 31);
-            var x = (F32)3.14F;
-            Console.WriteLine((float)x);
-            var y = (F32)2.5F;
-            Console.WriteLine((float)y);
-            Console.WriteLine((float)(x + y));
-            var z = (F32)10.27F;
-            Console.WriteLine((float)(x + z));
+            Check64(lower, upper, expectedCount, expected, round);
         }
 
         [Test]
         public static void TestConstant() {
-            Console.WriteLine("Test");
-            Debug.Assert(1 == (ulong)new BigRational(5, 3));
-            Debug.Assert(1 == (ulong)new BigRational(-5, -3));
-            Assert.Throws<FormatException>(() => ParseReal("1.2.3"));
-            Assert.Throws<OverflowException>(() => {
-                Debug.Assert(ulong.MaxValue == (ulong)new BigRational(5, -3));
-            });
-            Assert.Throws<OverflowException>(() => {
-                Debug.Assert(ulong.MaxValue == (ulong)new BigRational(-5, 3));
-            });
-            Debug.Assert(1 == (int)new BigRational(4, 3).Round());
-            Debug.Assert(1 == (int)new BigRational(-4, -3).Round());
-            Debug.Assert(-1 == (int)new BigRational(4, -3).Round());
-            Debug.Assert(-1 == (int)new BigRational(-4, 3).Round());
-            Debug.Assert(2 == (int)new BigRational(5, 3).Round());
-            Debug.Assert(2 == (int)new BigRational(-5, -3).Round());
-            Debug.Assert(-2 == (int)new BigRational(5, -3).Round());
-            Debug.Assert(-2 == (int)new BigRational(-5, 3).Round());
-            Debug.Assert(1 == (int)new BigRational(1, 2).Round());
-            Debug.Assert(1 == (int)new BigRational(-1, -2).Round());
-            Debug.Assert(-1 == (int)new BigRational(1, -2).Round());
-            Debug.Assert(-1 == (int)new BigRational(-1, 2).Round());
-            CheckAsin32("1.5707288", 1, 4294782660, false);
-            CheckAsin64("1.5707288", 1, 18445951068606135392, false);
-            CheckAsin32("0.2121144", 3, 2319904613, false);
-            CheckAsin64("0.2121144", 3, 9963914441109755535, false);
-            CheckAsin32("0.0742610", 5, 3248783419, false);
-            CheckAsin64("0.0742610", 5, 13953418538510380357, false);
-            CheckAsin32("0.0187293", 7, 3277490973, true);
-            CheckAsin64("0.0187293", 7, 14076716544798613906, true);
-            CheckAsin64("1.5707963050", 1, 18446743817759831598, false);
-            CheckAsin64("0.2145988016", 3, 10080617338130213281, false);
-            CheckAsin64("0.0889789874", 5, 16718884102355766130, false);
-            CheckAsin64("0.0501743046", 5, 9427600920570779471, false);
-            CheckAsin64("0.0308918810", 6, 11608983047221464490, false);
-            CheckAsin64("0.0170881256", 7, 12843229610990092589, false);
-            CheckAsin64("0.0066700901", 8, 10026318940480150471, false);
-            CheckAsin64("0.0012624911", 11, 15181969944445121899, true);
-            CheckAtan32("0.273", 4, 2985813123, true);
-            CheckAtan64("0.273", 4, 12823969718335781357, true);
-            CheckAtan32("0.2447", 4, 2676294767, false);
-            CheckAtan64("0.2447", 4, 11494598498449691202, false);
-            CheckAtan32("0.0663", 6, 2900504177, true);
-            CheckAtan64("0.0663", 6, 12457570583526187604, true);
-            CheckAtan64("0.9998660", 2, 11741988375818245753, false);
-            CheckAtan64("0.3302995", 4, 15515570644620693826, false);
-            CheckAtan64("0.1801410", 5, 16923976036855135454, false);
-            CheckAtan64("0.0851330", 6, 15996234637818023067, false);
-            CheckAtan64("0.0208351", 8, 15659410489582290881, true);
-            Check32(fracPi2Lower, fracPi2Upper, 0, 3373259426, false);
-            Check64(fracPi2Lower, fracPi2Upper, 0, 14488038916154245685, false);
-            CheckSin32("0.16605", 3, 1, 2764129413, false);
-            CheckSin64("0.16605", 3, 1, 11871845430268727827, false);
-            CheckSin32("0.00761", 5, 4, 2500540483, true);
-            CheckSin64("0.00761", 5, 4, 10739739599844454195, true);
-            CheckSin32("0.49670", 2, 0, 2631866036, false);
-            CheckSin64("0.49670", 2, 0, 11303778553548845368, false);
-            CheckSin32("0.03705", 4, 3, 3875141568, true);
-            CheckSin64("0.03705", 4, 3, 16643606305160959259, true);
-            CheckSin64("0.1666666664", 3, 1, 11915934368436992009, false);
-            CheckSin64("0.0083333315", 5, 4, 11760553260076371255, false);
-            CheckSin64("0.0001984090", 7, 8, 11054273349336558994, false);
-            CheckSin64("0.0000027526", 9, 13, 12108815703571716367, false);
-            CheckSin64("0.0000000239", 11, 19, 16602603363585481494, true);
-            CheckSin64("0.4999999963", 2, 0, 11378879071774596408, false);
-            CheckSin64("0.0416666418", 4, 2, 9358747397805171131, false);
-            CheckSin64("0.0013888397", 6, 6, 12315189113921640896, false);
-            CheckSin64("0.0000247609", 8, 11, 17335849242745400440, false);
-            CheckSin64("0.0000002605", 10, 16, 14400453044121993745, true);
+            var asin = new string[] {
+                "1.5707288",
+                "0.2121144",
+                "0.0742610",
+                "0.0187293",
+                "1.5707963050",
+                "0.2145988016",
+                "0.0889789874",
+                "0.0501743046",
+                "0.0308918810",
+                "0.0170881256",
+                "0.0066700901",
+                "0.0012624911",
+            };
+            var atan = new string[] {
+                "0.273",
+                "0.2447",
+                "0.2447",
+                "0.0663",
+            };
+            var sin = new string[] {
+                "0.16605",
+                "0.00761",
+                "0.49670",
+                "0.03705",
+            };
+            CheckAsin32(asin[0], 1, Intar.Mathi.AsinInternal.P3U32A, true);
+            CheckAsin64(asin[0], 1, Intar.Mathi.AsinInternal.P3U64A, true);
+            CheckAsin32(asin[1], 3, Intar.Mathi.AsinInternal.P3U32B, true);
+            CheckAsin64(asin[1], 3, Intar.Mathi.AsinInternal.P3U64B, true);
+            CheckAsin32(asin[2], 5, Intar.Mathi.AsinInternal.P3U32C, true);
+            CheckAsin64(asin[2], 5, Intar.Mathi.AsinInternal.P3U64C, true);
+            CheckAsin32(asin[3], 7, Intar.Mathi.AsinInternal.P3U32D, false);
+            CheckAsin64(asin[3], 7, Intar.Mathi.AsinInternal.P3U64D, false);
+            CheckAtan32(atan[0], 4, Intar.Mathi.AtanInternal.P2U32B, false);
+            CheckAtan64(atan[0], 4, Intar.Mathi.AtanInternal.P2U64B, false);
+            CheckAtan32(atan[1], 4, Intar.Mathi.AtanInternal.P3U32B, true);
+            CheckAtan64(atan[1], 4, Intar.Mathi.AtanInternal.P3U64B, true);
+            CheckAtan32(atan[2], 6, Intar.Mathi.AtanInternal.P3U32C, false);
+            CheckAtan64(atan[2], 6, Intar.Mathi.AtanInternal.P3U64C, false);
+            CheckSin32(sin[0], 3, 1, Intar.Mathi.SinInternal.P5I32B, true);
+            CheckSin64(sin[0], 3, 1, Intar.Mathi.SinInternal.P5I64B, true);
+            CheckSin32(sin[1], 5, 4, Intar.Mathi.SinInternal.P5I32C, false);
+            CheckSin64(sin[1], 5, 4, Intar.Mathi.SinInternal.P5I64C, false);
+            CheckSin32(sin[2], 2, 0, Intar.Mathi.SinInternal.P4I32A, true);
+            CheckSin64(sin[2], 2, 0, Intar.Mathi.SinInternal.P4I64A, true);
+            CheckSin32(sin[3], 4, 3, Intar.Mathi.SinInternal.P4I32B, false);
+            CheckSin64(sin[3], 4, 3, Intar.Mathi.SinInternal.P4I64B, false);
+            CheckAsin64("1.5707963050", 1, Intar.Mathi.AsinInternal.P7U64A, true);
+            CheckAsin64("0.2145988016", 3, Intar.Mathi.AsinInternal.P7U64B, true);
+            CheckAsin64("0.0889789874", 5, Intar.Mathi.AsinInternal.P7U64C, true);
+            CheckAsin64("0.0501743046", 5, Intar.Mathi.AsinInternal.P7U64D, true);
+            CheckAsin64("0.0308918810", 6, Intar.Mathi.AsinInternal.P7U64E, true);
+            CheckAsin64("0.0170881256", 7, Intar.Mathi.AsinInternal.P7U64F, true);
+            CheckAsin64("0.0066700901", 8, Intar.Mathi.AsinInternal.P7U64G, true);
+            CheckAsin64("0.0012624911", 11, Intar.Mathi.AsinInternal.P7U64H, false);
+            CheckAtan64("0.9998660", 2, Intar.Mathi.AtanInternal.P9U64A, true);
+            CheckAtan64("0.3302995", 4, Intar.Mathi.AtanInternal.P9U64B, true);
+            CheckAtan64("0.1801410", 5, Intar.Mathi.AtanInternal.P9U64C, true);
+            CheckAtan64("0.0851330", 6, Intar.Mathi.AtanInternal.P9U64D, true);
+            CheckAtan64("0.0208351", 8, Intar.Mathi.AtanInternal.P9U64E, false);
+            Check32(fracPi2Lower, fracPi2Upper, new BigFloat(0, Intar.Mathi.SinInternal.P5I32A), true);
+            Check64(fracPi2Lower, fracPi2Upper, 0, Intar.Mathi.SinInternal.P5I64A, true);
+            Check64(fracPi2Lower, fracPi2Upper, 0, Intar.Mathi.SinInternal.P11I64A, true);
+            CheckSin64("0.1666666664", 3, 1, Intar.Mathi.SinInternal.P11I64B, true);
+            CheckSin64("0.0083333315", 5, 4, Intar.Mathi.SinInternal.P11I64C, true);
+            CheckSin64("0.0001984090", 7, 8, Intar.Mathi.SinInternal.P11I64D, true);
+            CheckSin64("0.0000027526", 9, 13, Intar.Mathi.SinInternal.P11I64E, true);
+            CheckSin64("0.0000000239", 11, 19, Intar.Mathi.SinInternal.P11I64F, false);
+            CheckSin64("0.4999999963", 2, 0, Intar.Mathi.SinInternal.P10I64A, true);
+            CheckSin64("0.0416666418", 4, 2, Intar.Mathi.SinInternal.P10I64B, true);
+            CheckSin64("0.0013888397", 6, 6, Intar.Mathi.SinInternal.P10I64C, true);
+            CheckSin64("0.0000247609", 8, 11, Intar.Mathi.SinInternal.P10I64D, true);
+            CheckSin64("0.0000002605", 10, 16, Intar.Mathi.SinInternal.P10I64E, false);
+        }
+
+        [Test]
+        public static void TestX() {
+            // SinP3, SinP5 では
+            // SinInternal.MakeArgOdd によって入力の範囲は
+            // int の場合 [-0x8000, 0x8000] の範囲に,
+            // long の場合 [-0x80000000, 0x80000000] の範囲に制限される.
+            // その後, 呼び出し時に 2 乗してからビットシフトすることで
+            // それぞれ [0, 0x8000], [0, 0x80000000] の範囲に制限される.
         }
     }
 }
