@@ -10,6 +10,7 @@ namespace Intar.Tests {
         readonly BigInteger denom;
         public BigInteger Numer => numer;
         public BigInteger Denom => denom;
+        public int Sign => numer.Sign * denom.Sign;
         public BigRational(BigInteger numer, BigInteger denom) {
             var gcd = BigInteger.GreatestCommonDivisor(numer, denom);
             numer /= gcd;
@@ -34,16 +35,40 @@ namespace Intar.Tests {
             return new BigRational(left * right.denom, right.numer);
         }
         public static bool operator <(BigRational x, BigInteger y) {
+            if (x.denom.IsZero) {
+                return false;
+            }
             return x.numer < x.denom * y;
         }
         public static bool operator >(BigRational x, BigInteger y) {
+            if (x.denom.IsZero) {
+                return false;
+            }
             return x.numer > x.denom * y;
         }
-        public static bool operator <(BigRational left, ulong right) {
-            return left.numer < left.denom * right;
+        public static bool operator <=(BigInteger x, BigRational y) {
+            if (y.denom.IsZero) {
+                return false;
+            }
+            return x * y.denom <= y.numer;
         }
-        public static bool operator >(BigRational left, ulong right) {
-            return left.numer > left.denom * right;
+        public static bool operator >=(BigInteger x, BigRational y) {
+            if (y.denom.IsZero) {
+                return false;
+            }
+            return x * y.denom >= y.numer;
+        }
+        public static bool operator <(BigRational x, ulong y) {
+            if (x.denom.IsZero) {
+                return false;
+            }
+            return x.numer < x.denom * y;
+        }
+        public static bool operator >(BigRational x, ulong y) {
+            if (x.denom.IsZero) {
+                return false;
+            }
+            return x.numer > x.denom * y;
         }
         public static explicit operator BigInteger(BigRational v) {
             return v.numer / v.denom;
@@ -53,9 +78,6 @@ namespace Intar.Tests {
         }
         public static BigRational Abs(BigRational v) {
             return new BigRational(BigInteger.Abs(v.numer), BigInteger.Abs(v.denom));
-        }
-        public static bool IsNegative(BigRational v) {
-            return (v.numer < 0) != (v.denom < 0);
         }
         public BigRational Round() {
             BigInteger tmp;
@@ -162,49 +184,66 @@ namespace Intar.Tests {
             }
         }
 
-        static BigFloat Calc(BigRational v, bool round, int frac) {
-            var k = new BigInteger(1);
-            for (var i = 0; i < frac; i++) {
+        static BigFloat? Calc(BigRational v, bool round, int exponent) {
+            if (v.Denom == 0) {
+                return null;
+            }
+
+            var sign = v.Sign;
+            if (sign == 0) {
+                return new BigFloat();
+            }
+            v = BigRational.Abs(v);
+
+            // 2^exponent < f(v) <= e^(exponent+1) になるように
+            // v と exp を調整する. (f(v) = v または Round(v))
+
+            var k = BigInteger.Pow(2, exponent);
+            var exp = 0;
+            if (round) {
+                var p = v.Round();
+
+                while (p < k) {
+                    exp--;
+                    v *= 2;
+                    p = v.Round();
+                }
+
                 k *= 2;
+                while (k <= p) {
+                    exp++;
+                    v /= 2;
+                    p = v.Round();
+                }
+
+                v = p;
+            } else {
+                while (v < k) {
+                    exp--;
+                    v *= 2;
+                }
+
+                k *= 2;
+                while (k <= v) {
+                    exp++;
+                    v /= 2;
+                }
             }
 
-            var abs = BigRational.Abs(v);
-
-            var exp = 0;
-            while (v < k) {
-                exp++;
-                abs *= 2;
-            }
-
-            if (round) {
-                abs = abs.Round();
-            }
-            return new BigFloat(exp, (BigInteger)abs);
+            return new BigFloat(exp, (BigInteger)v * sign);
         }
 
-        static BigFloat Calc32(BigRational v, bool round) {
-            // 下位 31 ビットを小数部とする値を求めるため,
-            // 下界が 2^31 以上になるまで 2 をかけ続ける.
-            // その後, 乗算回数が期待した値であることを確認する.
-            // ([0.125, 0.25) なら 33 回, [0.25, 0.5) なら 32 回, [0.5, 1.0) なら 31 回)
-            var exp = 0;
-            while (v < (1U << 31)) {
-                exp++;
-                v *= 2;
-            }
-
-            if (round) {
-                v = v.Round();
-            }
-            return new BigFloat(exp, (uint)v);
-        }
+        static BigFloat? Calc32(BigRational v, bool round) => Calc(v, round, 31);
+        static BigFloat? Calc64(BigRational v, bool round) => Calc(v, round, 63);
 
         static void Check32(
             BigRational lower,
             BigRational upper,
-            BigFloat expected,
+            int shift,
+            uint frac,
             bool round
         ) {
+            var expected = new BigFloat(-31 - shift, frac);
             var l = Calc32(lower, round);
             var u = Calc32(upper, round);
             if (l == u &&
@@ -219,64 +258,57 @@ namespace Intar.Tests {
         static void Check64(
             BigRational lower,
             BigRational upper,
-            int epectedCount,
-            ulong expected,
+            int shift,
+            ulong frac,
             bool round
         ) {
-            const ulong z = 1UL << 63;
-            {
-                var count = 0;
-                while (lower < z) {
-                    count++;
-                    lower *= 2;
-                    upper *= 2;
-                }
-                Utility.AssertAreEqual(63 + epectedCount, count, $"lower:{lower} epectedCount:{epectedCount} count:{count}");
+            var expected = new BigFloat(-63 - shift, frac);
+            var l = Calc64(lower, round);
+            var u = Calc64(upper, round);
+            if (l == u &&
+                expected == l &&
+                expected == u) {
+                return;
             }
-            if (round) {
-                lower = lower.Round();
-                upper = upper.Round();
-            }
-            var l = (ulong)lower;
-            var u = (ulong)upper;
-            Utility.AssertAreEqual(l, u);
-            Utility.AssertAreEqual(expected, l);
+            Assert.AreEqual(l, u);
+            Assert.AreEqual(expected, l);
+            Assert.AreEqual(expected, u);
         }
-        static void CheckAsin32(string v, int expectedCount, uint expected, bool round) {
+        static void CheckAsin32(string v, int expectedShift, uint expectedFrac, bool round) {
             var k = ParseReal(v);
             var lower = frac2PiLower * k;
             var upper = frac2PiUpper * k;
-            Check32(lower, upper, new BigFloat(expectedCount, expected), round);
+            Check32(lower, upper, expectedShift, expectedFrac, round);
         }
-        static void CheckAsin64(string v, int expectedCount, ulong expected, bool round) {
+        static void CheckAsin64(string v, int expectedShift, ulong expectedFrac, bool round) {
             var k = ParseReal(v);
             var lower = frac2PiLower * k;
             var upper = frac2PiUpper * k;
-            Check64(lower, upper, expectedCount, expected, round);
+            Check64(lower, upper, expectedShift, expectedFrac, round);
         }
-        static void CheckAtan32(string s, int expectedCount, uint expected, bool round) {
+        static void CheckAtan32(string s, int expectedShift, uint expectedFrac, bool round) {
             var k = ParseReal(s);
             var lower = frac1PiLower * k;
             var upper = frac1PiUpper * k;
-            Check32(lower, upper, new BigFloat(expectedCount, expected), round);
+            Check32(lower, upper, expectedShift, expectedFrac, round);
         }
-        static void CheckAtan64(string s, int expectedCount, ulong expected, bool round) {
+        static void CheckAtan64(string s, int expectedShift, ulong expectedFrac, bool round) {
             var k = ParseReal(s);
             var lower = frac1PiLower * k;
             var upper = frac1PiUpper * k;
-            Check64(lower, upper, expectedCount, expected, round);
+            Check64(lower, upper, expectedShift, expectedFrac, round);
         }
-        static void CheckSin32(string s, int exponent, int expectedCount, uint expected, bool round) {
+        static void CheckSin32(string s, int exponent, int expectedShift, uint expectedFrac, bool round) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
             var upper = fracPi2Upper.Pow(exponent) * k;
-            Check32(lower, upper, new BigFloat(expectedCount, expected), round);
+            Check32(lower, upper, expectedShift, expectedFrac, round);
         }
-        static void CheckSin64(string s, int exponent, int expectedCount, ulong expected, bool round) {
+        static void CheckSin64(string s, int exponent, int expectedShift, ulong expectedFrac, bool round) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
             var upper = fracPi2Upper.Pow(exponent) * k;
-            Check64(lower, upper, expectedCount, expected, round);
+            Check64(lower, upper, expectedShift, expectedFrac, round);
         }
 
         [Test]
@@ -297,7 +329,6 @@ namespace Intar.Tests {
             };
             var atan = new string[] {
                 "0.273",
-                "0.2447",
                 "0.2447",
                 "0.0663",
             };
@@ -342,7 +373,7 @@ namespace Intar.Tests {
             CheckAtan64("0.1801410", 5, Intar.Mathi.AtanInternal.P9U64C, true);
             CheckAtan64("0.0851330", 6, Intar.Mathi.AtanInternal.P9U64D, true);
             CheckAtan64("0.0208351", 8, Intar.Mathi.AtanInternal.P9U64E, false);
-            Check32(fracPi2Lower, fracPi2Upper, new BigFloat(0, Intar.Mathi.SinInternal.P5I32A), true);
+            Check32(fracPi2Lower, fracPi2Upper, 0, Intar.Mathi.SinInternal.P5I32A, true);
             Check64(fracPi2Lower, fracPi2Upper, 0, Intar.Mathi.SinInternal.P5I64A, true);
             Check64(fracPi2Lower, fracPi2Upper, 0, Intar.Mathi.SinInternal.P11I64A, true);
             CheckSin64("0.1666666664", 3, 1, Intar.Mathi.SinInternal.P11I64B, true);
