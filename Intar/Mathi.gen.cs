@@ -72,43 +72,22 @@ namespace Intar {
         #region Asin / Acos
 
         internal static class AsinInternal {
-            const decimal Frac2Pi = 2 / Pi;
-            const decimal Z32 = Frac2Pi * (1UL << 31);
-            const decimal Z64 = Frac2Pi * (1UL << 63);
-
-            // 4294782660
-            // 2319904613
-            // 3248783419
-            // 3277490973
-            // 18445951068606135392
-            // 9963914441109755535
-            // 13953418538510380357
-            // 14076716544798613906
-            // 18446743817759831598
-            // 10080617338130213281
-            // 16718884102355766130
-            // 9427600920570779471
-            // 11608983047221464490
-            // 12843229610990092589
-            // 10026318940480150471
-            // 15181969944445121899
-
-            internal const uint P3U32A = (uint)(0.5m + (Z32 * (1 << 1) * 1.5707288m));
-            internal const uint P3U32B = (uint)(0.5m + (Z32 * (1 << 3) * 0.2121144m));
-            internal const uint P3U32C = (uint)(0.5m + (Z32 * (1 << 5) * 0.0742610m));
-            internal const uint P3U32D = (uint)(0.0m + (Z32 * (1 << 7) * 0.0187293m));
-            internal const ulong P3U64A = (ulong)(0.5m + (Z64 * (1 << 1) * 1.5707288m));
-            internal const ulong P3U64B = (ulong)(0.5m + (Z64 * (1 << 3) * 0.2121144m));
-            internal const ulong P3U64C = (ulong)(0.5m + (Z64 * (1 << 5) * 0.0742610m));
-            internal const ulong P3U64D = (ulong)(0.0m + (Z64 * (1 << 7) * 0.0187293m));
-            internal const ulong P7U64A = (ulong)(0.5m + (Z64 * 1.570_796_305_0m * (1 << 1)));
-            internal const ulong P7U64B = (ulong)(0.5m + (Z64 * 0.214_598_801_6m * (1 << 3)));
-            internal const ulong P7U64C = (ulong)(0.5m + (Z64 * 0.088_978_987_4m * (1 << 5)));
-            internal const ulong P7U64D = (ulong)(0.5m + (Z64 * 0.050_174_304_6m * (1 << 5)));
-            internal const ulong P7U64E = (ulong)(0.5m + (Z64 * 0.030_891_881_0m * (1 << 6)));
-            internal const ulong P7U64F = (ulong)(0.5m + (Z64 * 0.017_088_125_6m * (1 << 7)));
-            internal const ulong P7U64G = (ulong)(0.5m + (Z64 * 0.006_670_090_1m * (1 << 8)));
-            internal const ulong P7U64H = (ulong)(0.0m + (Z64 * 0.001_262_491_1m * (1 << 11)));
+            internal const uint P3U32A = 4294782660U;
+            internal const uint P3U32B = 2319904613U;
+            internal const uint P3U32C = 3248783419U;
+            internal const uint P3U32D = 3277490973U;
+            internal const ulong P3U64A = 18445951068606135392UL;
+            internal const ulong P3U64B = 9963914441109755535UL;
+            internal const ulong P3U64C = 13953418538510380357UL;
+            internal const ulong P3U64D = 14076716544798613906UL;
+            internal const ulong P7U64A = 18446743817759831598UL;
+            internal const ulong P7U64B = 10080617338130213281UL;
+            internal const ulong P7U64C = 16718884102355766130UL;
+            internal const ulong P7U64D = 9427600920570779471UL;
+            internal const ulong P7U64E = 11608983047221464490UL;
+            internal const ulong P7U64F = 12843229610990092589UL;
+            internal const ulong P7U64G = 10026318940480150471UL;
+            internal const ulong P7U64H = 15181969944445121899UL;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P3(uint x) {
