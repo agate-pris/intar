@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using System;
 using System.Diagnostics;
@@ -274,30 +275,129 @@ namespace Intar.Tests {
             Assert.AreEqual(expected, l);
             Assert.AreEqual(expected, u);
         }
-        static void CheckAsin32(string v, int expectedShift, uint expectedFrac, bool round) {
-            var k = ParseReal(v);
-            var lower = frac2PiLower * k;
-            var upper = frac2PiUpper * k;
-            Check32(lower, upper, expectedShift, expectedFrac, round);
+        struct X {
+            public int i;
+            public int p;
+            public ulong v;
+            public X(int i, int p, ulong v) {
+                this.i = i;
+                this.p = p;
+                this.v = v;
+            }
         }
-        static void CheckAsin64(string v, int expectedShift, ulong expectedFrac, bool round) {
-            var k = ParseReal(v);
-            var lower = frac2PiLower * k;
-            var upper = frac2PiUpper * k;
-            Check64(lower, upper, expectedShift, expectedFrac, round);
+        struct Y {
+            public string s;
+            public X[] x;
+            public Y(string s, X[] x) {
+                this.s = s;
+                this.x = x;
+            }
         }
-        static void CheckAtan32(string s, int expectedShift, uint expectedFrac, bool round) {
-            var k = ParseReal(s);
-            var lower = frac1PiLower * k;
-            var upper = frac1PiUpper * k;
-            Check32(lower, upper, expectedShift, expectedFrac, round);
+        [Test]
+        public static void TestAsinConstant() {
+            const int k1 = (8 * 2) - 1;
+            const int k2 = (8 * 4) - 1;
+            const int k3 = (8 * 8) - 1;
+            const int k4 = k2 - k1;
+            const int k5 = k3 - k2;
+            var ks = new int[] {
+                1, 3, 5, 7,
+                1, 3, 5, 5, 6, 7, 8, 11,
+            };
+            var x = new Y[] {
+                new Y("1.5707288", new X[] { new X(k2 + ks[0], k2, Intar.Mathi.AsinInternal.P3U32A), new X(k3 + ks[0], k3, Intar.Mathi.AsinInternal.P3U64A), }),
+                new Y("0.2121144", new X[] { new X(k2 + ks[1], k2, Intar.Mathi.AsinInternal.P3U32B), new X(k3 + ks[1], k3, Intar.Mathi.AsinInternal.P3U64B), }),
+                new Y("0.0742610", new X[] { new X(k2 + ks[2], k2, Intar.Mathi.AsinInternal.P3U32C), new X(k3 + ks[2], k3, Intar.Mathi.AsinInternal.P3U64C), }),
+                new Y("0.0187293", new X[] { new X(k4 + ks[2], k4 - (ks[3] - ks[2]), 25005), new X(k5 + ks[2], k5 - (ks[3] - ks[2]), 1638745487), }),
+                new Y("1.5707963050",new X[] { new X(k3 + ks[4], k3, Intar.Mathi.AsinInternal.P7U64A) } ),
+                new Y("0.2145988016",new X[] { new X(k3 + ks[5], k3, Intar.Mathi.AsinInternal.P7U64B) } ),
+                new Y("0.0889789874",new X[] { new X(k3 + ks[6], k3, Intar.Mathi.AsinInternal.P7U64C) } ),
+                new Y("0.0501743046",new X[] { new X(k3 + ks[7], k3, Intar.Mathi.AsinInternal.P7U64D) } ),
+                new Y("0.0308918810",new X[] { new X(k3 + ks[8], k3, Intar.Mathi.AsinInternal.P7U64E) } ),
+                new Y("0.0170881256",new X[] { new X(k3 + ks[9], k3, Intar.Mathi.AsinInternal.P7U64F) } ),
+                new Y("0.0066700901",new X[] { new X(k3 + ks[10], k3, Intar.Mathi.AsinInternal.P7U64G) } ),
+                new Y("0.0012624911",new X[] { new X(k5 + ks[10], k5 - (ks[11] - ks[10]), 883706959) } ),
+            };
+            foreach (var item in x) {
+                var k = ParseReal(item.s);
+                var lower = frac2PiLower * k;
+                var upper = frac2PiUpper * k;
+                foreach (var item2 in item.x) {
+                    var l = lower;
+                    var u = upper;
+                    for (var i = 0; i < item2.i; i++) {
+                        l *= 2;
+                        u *= 2;
+                    }
+                    Utility.AssertAreEqual((ulong)l.Round(), item2.v);
+                    Utility.AssertAreEqual((ulong)u.Round(), item2.v);
+                    Assert.IsTrue(1UL << item2.p < item2.v);
+                }
+            }
         }
-        static void CheckAtan64(string s, int expectedShift, ulong expectedFrac, bool round) {
-            var k = ParseReal(s);
-            var lower = frac1PiLower * k;
-            var upper = frac1PiUpper * k;
-            Check64(lower, upper, expectedShift, expectedFrac, round);
+
+        [Test]
+        public static void TestAtanConstant() {
+            const int k1 = (8 * 2) - 1;
+            const int k2 = (8 * 4) - 1;
+            const int k3 = (8 * 8) - 1;
+            const int k4 = k2 - k1;
+            const int k5 = k3 - k2;
+            var ks = new int[] {
+                2, 4,
+                2, 4, 6,
+                2, 4, 5, 6, 8,
+            };
+            var cases = new Y[] {
+                new Y("0.273", new X[] { new X(k4 + ks[0], k4 - (ks[1] - ks[0]), 22780), new X(k5 + ks[0], k5 - (ks[1] - ks[0]), 1492906562) } ),
+                new Y("0.2447", new X[] { new X(k2 + ks[3], k2, Intar.Mathi.AtanInternal.P3U32B), new X(k3 + ks[3], k3, Intar.Mathi.AtanInternal.P3U64B) }),
+                new Y("0.0663", new X[] { new X(k4 + ks[3], k4 - (ks[4] - ks[3]), 22129), new X(k5 + ks[3], k5 - (ks[4] - ks[3]), 1450252089) } ),
+                new Y("0.9998660", new X[] { new X(k3 + ks[5], k3, Intar.Mathi.AtanInternal.P9U64A) }),
+                new Y("0.3302995", new X[] { new X(k3 + ks[6], k3, Intar.Mathi.AtanInternal.P9U64B) }),
+                new Y("0.1801410", new X[] { new X(k3 + ks[7], k3, Intar.Mathi.AtanInternal.P9U64C) }),
+                new Y("0.0851330", new X[] { new X(k3 + ks[8], k3, Intar.Mathi.AtanInternal.P9U64D) }),
+                new Y("0.0208351", new X[] { new X(k5 + ks[8], k5 - (ks[9] - ks[8]), 1822995312) }),
+            };
+            foreach (var item in cases) {
+                var k = ParseReal(item.s);
+                var lower = frac1PiLower * k;
+                var upper = frac1PiUpper * k;
+                foreach (var item2 in item.x) {
+                    var l = lower;
+                    var u = upper;
+                    for (var i = 0; i < item2.i; i++) {
+                        l *= 2;
+                        u *= 2;
+                    }
+                    Utility.AssertAreEqual((ulong)l.Round(), item2.v);
+                    Utility.AssertAreEqual((ulong)u.Round(), item2.v);
+                    Assert.IsTrue(1UL << item2.p < item2.v);
+                }
+            }
         }
+
+        [Test]
+        public static void TestSinConstant() {
+            var cases = new[] {
+                //("1.0", 1, 63 + 0, Intar.Mathi.SinInternal.P5I64A),
+                ("0.16605", 3, 63 + 1, Intar.Mathi.SinInternal.P5I64B),
+                //("0.00761", 5, 63 + 4, Intar.Mathi.SinInternal.P5I64C),
+                ("0.49670", 2, 63 + 0, Intar.Mathi.SinInternal.P4I64A),
+                //("0.03705", 4, 63 + 3, Intar.Mathi.SinInternal.P4I64B),
+            };
+            foreach (var c in cases) {
+                var k = ParseReal(c.Item1);
+                var lower = fracPi2Lower.Pow(c.Item2) * k;
+                var upper = fracPi2Upper.Pow(c.Item2) * k;
+                for (var i = 0; i < c.Item3; i++) {
+                    lower *= 2;
+                    upper *= 2;
+                }
+                Utility.AssertAreEqual((ulong)lower.Round(), c.Item4, $"{c.Item3}");
+                Utility.AssertAreEqual((ulong)upper.Round(), c.Item4, $"{c.Item3}");
+            }
+        }
+
         static void CheckSin32(string s, int exponent, int expectedShift, uint expectedFrac, bool round) {
             var k = ParseReal(s);
             var lower = fracPi2Lower.Pow(exponent) * k;
@@ -313,30 +413,6 @@ namespace Intar.Tests {
 
         [Test]
         public static void TestConstant() {
-            var asin = new string[] {
-                "1.5707288",
-                "0.2121144",
-                "0.0742610",
-                "0.0187293",
-                "1.5707963050",
-                "0.2145988016",
-                "0.0889789874",
-                "0.0501743046",
-                "0.0308918810",
-                "0.0170881256",
-                "0.0066700901",
-                "0.0012624911",
-            };
-            var atan = new string[] {
-                "0.273",
-                "0.2447",
-                "0.0663",
-                "0.9998660",
-                "0.3302995",
-                "0.1801410",
-                "0.0851330",
-                "0.0208351",
-            };
             var sin = new string[] {
                 "1.0",
                 "0.16605",
@@ -354,161 +430,6 @@ namespace Intar.Tests {
                 "0.0000247609",
                 "0.0000002605",
             };
-
-            // AsinInternal.P3
-            {
-                const int k = 15 + 7 - 5;
-
-                // 3277490973
-                var r = ParseReal(asin[3]);
-                var l = r * frac2PiLower;
-                var f = Calc(l, false, 31);
-                Console.WriteLine($"AsinInternal.P3 f:{f}");
-
-                // 25005
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AsinInternal.P3 x:{x}");
-
-                var g = Calc(l, true, 31 - k);
-
-                Utility.AssertAreEqual((ulong)x, (ulong)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -7 - (31 - k));
-            }
-            {
-                const int k = 31 + 7 - 5;
-
-                // 14076716544798613906
-                var r = ParseReal(asin[3]);
-                var l = r * frac2PiLower;
-                var f = Calc(l, false, 63);
-                Console.WriteLine($"AsinInternal.P3 f:{f}");
-
-                // 1638745487
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AsinInternal.P3 x:{x}");
-
-                var g = Calc(l, true, 63 - k);
-
-                Utility.AssertAreEqual((ulong)x, (ulong)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -7 - (63 - k));
-            }
-
-            // AsinInternal.P7
-            {
-                const int k = 31 + 11 - 8;
-
-                // 15181969944445121899
-                var r = ParseReal(asin[11]);
-                var l = r * frac2PiLower;
-                var f = Calc(l, false, 63);
-                Console.WriteLine($"AsinInternal.P7 f:{f}");
-
-                // 883706959
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AsinInternal.P7 x:{x}");
-
-                var g = Calc(l, true, 63 - k);
-                Utility.AssertAreEqual((ulong)x, (long)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -11 - (63 - k));
-            }
-
-            // AtanInternal.P2
-            {
-                // f(x)
-                // = 1 / 4 * x + 0.273 / pi * x * (1 - x)
-                // = x * (1 / 4 + 0.273 / pi * (1 - x))
-                //
-                // 0.273 / pi < 0.25 であるから
-                // 1 / 4 + 0.273 / pi * (1 - x) < 0.5 (0 <= x <= 1)
-
-                const int k = 15 + 4 - 2;
-
-                // 2985813123
-                var r = ParseReal(atan[0]);
-                var l = r * frac1PiLower;
-                var f = Calc(l, false, 31);
-                Console.WriteLine($"AtanInternal.P2 f:{f}");
-
-                // 22780
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AtanInternal.P2 x:{x}");
-
-                var g = Calc(l, true, 31 - k);
-
-                Utility.AssertAreEqual((ulong)x, (ulong)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -4 - (31 - k));
-            }
-            {
-                const int k = 31 + 4 - 2;
-                var r = ParseReal(atan[0]);
-                var l = r * frac1PiLower;
-                var f = Calc(l, false, 63);
-
-                // 1492906562
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AtanInternal.P2 x:{x}");
-
-                var g = Calc(l, true, 63 - k);
-                Utility.AssertAreEqual((ulong)x, (ulong)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -4 - (63 - k));
-            }
-
-            // AtanInternal.P3
-            {
-                const int k = 15 + 6 - 4;
-
-                // 2900504177
-                var r = ParseReal(atan[2]);
-                var l = r * frac1PiLower;
-                var f = Calc(l, false, 31);
-                Console.WriteLine($"AtanInternal.P3 f:{f}");
-
-                // 22129
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AtanInternal.P3 x:{x}");
-
-                var g = Calc(l, true, 31 - k);
-
-                Utility.AssertAreEqual((ulong)x, (ulong)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -6 - (31 - k));
-            }
-            {
-                const int k = 31 + 6 - 4;
-
-                var r = ParseReal(atan[2]);
-                var l = r * frac1PiLower;
-                var f = Calc(l, false, 63);
-
-                // 1450252089
-                var x = (f.Value.frac + (1UL << (k - 1))) >> k;
-                Console.WriteLine($"AtanInternal.P3 x:{x}");
-
-                var g = Calc(l, true, 63 - k);
-
-                Utility.AssertAreEqual((ulong)x, (ulong)g.Value.frac);
-                Utility.AssertAreEqual(g.Value.exp, -6 - (63 - k));
-            }
-
-            // Atan P9 64
-            {
-                const int index = 7;
-                const int k1 = 8;
-                const int k2 = 6;
-                const int k3 = k1 - k2;
-                const int k4 = 63 - 31 - k3;
-                const int k5 = -32 - k2;
-                var r = ParseReal(atan[index]);
-                var l = r * frac1PiLower;
-                var u = r * frac1PiUpper;
-                var expected = new BigInteger((Intar.Mathi.AtanInternal.P9U64E + (1UL << (31 + k3 - 1))) >> (31 + k3));
-                var a64L = Calc(l, true, k4);
-                var a64U = Calc(u, true, k4);
-                Assert.AreEqual(a64L.Value.exp, k5);
-                Assert.AreEqual(a64L.Value.frac, a64U.Value.frac);
-                Assert.AreEqual(a64L.Value.frac, expected);
-                Assert.AreEqual(a64U.Value.exp, k5);
-                Assert.AreEqual(a64U.Value.frac, expected);
-            }
 
             // Sin P11 64
             {
@@ -598,34 +519,6 @@ namespace Intar.Tests {
                 Assert.AreEqual(a64U.Value.frac, expected64);
             }
 
-            CheckAsin32(asin[0], 1, Intar.Mathi.AsinInternal.P3U32A, true);
-            CheckAsin64(asin[0], 1, Intar.Mathi.AsinInternal.P3U64A, true);
-            CheckAsin32(asin[1], 3, Intar.Mathi.AsinInternal.P3U32B, true);
-            CheckAsin64(asin[1], 3, Intar.Mathi.AsinInternal.P3U64B, true);
-            CheckAsin32(asin[2], 5, Intar.Mathi.AsinInternal.P3U32C, true);
-            CheckAsin64(asin[2], 5, Intar.Mathi.AsinInternal.P3U64C, true);
-            CheckAsin32(asin[3], 7, Intar.Mathi.AsinInternal.P3U32D, false);
-            CheckAsin64(asin[3], 7, Intar.Mathi.AsinInternal.P3U64D, false);
-            CheckAsin64(asin[4], 1, Intar.Mathi.AsinInternal.P7U64A, true);
-            CheckAsin64(asin[5], 3, Intar.Mathi.AsinInternal.P7U64B, true);
-            CheckAsin64(asin[6], 5, Intar.Mathi.AsinInternal.P7U64C, true);
-            CheckAsin64(asin[7], 5, Intar.Mathi.AsinInternal.P7U64D, true);
-            CheckAsin64(asin[8], 6, Intar.Mathi.AsinInternal.P7U64E, true);
-            CheckAsin64(asin[9], 7, Intar.Mathi.AsinInternal.P7U64F, true);
-            CheckAsin64(asin[10], 8, Intar.Mathi.AsinInternal.P7U64G, true);
-            CheckAsin64(asin[11], 11, Intar.Mathi.AsinInternal.P7U64H, false);
-
-            CheckAtan32(atan[0], 4, Intar.Mathi.AtanInternal.P2U32B, false);
-            CheckAtan64(atan[0], 4, Intar.Mathi.AtanInternal.P2U64B, false);
-            CheckAtan32(atan[1], 4, Intar.Mathi.AtanInternal.P3U32B, true);
-            CheckAtan64(atan[1], 4, Intar.Mathi.AtanInternal.P3U64B, true);
-            CheckAtan32(atan[2], 6, Intar.Mathi.AtanInternal.P3U32C, false);
-            CheckAtan64(atan[2], 6, Intar.Mathi.AtanInternal.P3U64C, false);
-            CheckAtan64(atan[3], 2, Intar.Mathi.AtanInternal.P9U64A, true);
-            CheckAtan64(atan[4], 4, Intar.Mathi.AtanInternal.P9U64B, true);
-            CheckAtan64(atan[5], 5, Intar.Mathi.AtanInternal.P9U64C, true);
-            CheckAtan64(atan[6], 6, Intar.Mathi.AtanInternal.P9U64D, true);
-            CheckAtan64(atan[7], 8, Intar.Mathi.AtanInternal.P9U64E, false);
             CheckSin32(sin[0], 1, 0, Intar.Mathi.SinInternal.P5I32A, true);
             CheckSin64(sin[0], 1, 0, Intar.Mathi.SinInternal.P5I64A, true);
             CheckSin64(sin[0], 1, 0, Intar.Mathi.SinInternal.P11I64A, true);
