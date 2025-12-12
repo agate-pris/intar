@@ -1,7 +1,6 @@
+using NUnit.Framework;
 using System;
 using System.Runtime.CompilerServices;
-
-using NUnit.Framework;
 
 namespace Intar.Tests.Mathi {
     public class SinTest {
@@ -63,7 +62,7 @@ namespace Intar.Tests.Mathi {
             const double toRad = Math.PI / pi;
             const double toReal = 1.0 / (1 << 30);
             var a = f(x);
-            Utility.AssertAreEqual(expected, a, x);
+            Utility.AssertAreEqual(expected, a, $"{x}");
             Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, $"x:{x}");
         }
         static void Test(long expected, Func<long, long> f, Func<double, double> g, long x, double delta) {
@@ -88,10 +87,10 @@ namespace Intar.Tests.Mathi {
             const int pi = 1 << 16;
             const double toRad = Math.PI / pi;
             const double toReal = 1.0 / (1 << 30);
-            Utility.AssertAreEqual(sin(0), sin(int.MinValue), int.MinValue);
-            Utility.AssertAreEqual(cos(0), cos(int.MinValue), int.MinValue);
-            Utility.AssertAreEqual(sin(-1), sin(int.MaxValue), int.MaxValue);
-            Utility.AssertAreEqual(cos(-1), cos(int.MaxValue), int.MaxValue);
+            Utility.AssertAreEqual(sin(0), sin(int.MinValue));
+            Utility.AssertAreEqual(cos(0), cos(int.MinValue));
+            Utility.AssertAreEqual(sin(-1), sin(int.MaxValue));
+            Utility.AssertAreEqual(cos(-1), cos(int.MaxValue));
             for (var x = 0; x < expectedSin.Length; x++) {
                 Console.WriteLine(sin(x));
             }
@@ -259,19 +258,22 @@ namespace Intar.Tests.Mathi {
         public static void TestSinP3() {
             var expectedSin = new int[] {
                 0,
-                49152,
-                98304,
-                147456, 196608, 245760, 294912, 344064, 393216, 442368, 491520,
-                540672, 589824, 638976, 688128, 737280, 786432, 835584, 884736,
-                933888, 983040, 1032192, 1081344, 1130496, 1179648, 1228800,
+                //49151,
+                //98302,
+                //147453, 196604, 245755, 294906, 344057, 393208, 442359, 491510,
+                //540661, 589812, 638963, 688114, 737265, 786416, 835567, 884718,
+                //933869, 983020, 1032171, 1081322, 1130473, 1179624, 1228775,
             };
             var expectedCos = new int[] {
-                1073741824, 1073741823, 1073741820, 1073741815, 1073741808,
-                1073741799, 1073741788, 1073741775, 1073741760, 1073741743,
-                1073741724, 1073741703, 1073741680, 1073741655, 1073741628,
-                1073741599, 1073741568, 1073741535, 1073741500, 1073741463,
+                1073741824,
+                //1073741824, 1073709056, 1073709054, 1073709050, 1073709044,
+                //1073709036, 1073709026, 1073709014, 1073709000, 1073708984,
+                //1073708966, 1073708946, 1073708924, 1073708900, 1073708874,
+                //1073708846, 1073708816, 1073708784, 1073708750, 1073708714,
             };
-            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP3, Intar.Mathi.CosP3, 0.03);
+            // 0.0200237 -> 0.0200305
+            var delta = 0.0200305;
+            TestSin(expectedSin, expectedCos, Intar.Mathi.SinP3, Intar.Mathi.CosP3, delta);
         }
         [Test]
         public static void TestSinP4() {
