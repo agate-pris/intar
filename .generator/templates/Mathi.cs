@@ -668,8 +668,7 @@ namespace {{ namespace }} {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static {{ type }} P3({{ type }} z) {
                 const {{ type }} a = ({{ one }} << {{ shift * 2 }}) * 3;
-                const {{ type }} b = ({{ one }} << {{ shift * 2 }}) * 2;
-                return a - ((b >> {{ shift + 1 }}) * z);
+                return a - z;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -749,7 +748,7 @@ namespace {{ namespace }} {
         {%- elif o is odd  and m == 'Cos' %} => SinP{{ o }}(Overflowing.WrappingAdd(x, {{ one }} << {{ shift }}));
         {%- elif o is odd %} {
             x = SinInternal.MakeArgOdd(x);
-            return x * ({{ type }})(SinInternal.P{{ o }}(({{ utype }})(x * x) >> {{ shift }}) >> {{ shift + 1 }});
+            return x * ({{ type }})(SinInternal.P{{ o }}(({{ utype }})(x * x){% if o != 3 %} >> {{ shift }}{% endif %}) >> {{ shift + 1 }});
         }
         {%- else %} {
             const {{ type }} fracPi2 = {{ one }} << {{ shift }};
