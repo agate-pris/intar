@@ -1,7 +1,7 @@
 use std::{collections::HashMap, path::Path};
 
 use anyhow::{Context, Result};
-use clap::{Parser, arg};
+use clap::Parser;
 use serde::Deserialize;
 use tera::{Tera, Value, from_value, to_value};
 
