@@ -63,7 +63,7 @@ namespace Intar.Tests.Mathi {
             const double toRad = Math.PI / pi;
             const double toReal = 1.0 / (1 << 30);
             var a = f(x);
-            Utility.AssertAreEqual(expected, a, x);
+            Utility.AssertAreEqual(expected, a, $"{x}");
             Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, $"x:{x}");
         }
         static void Test(long expected, Func<long, long> f, Func<double, double> g, long x, double delta) {
@@ -71,7 +71,7 @@ namespace Intar.Tests.Mathi {
             const double toRad = Math.PI / pi;
             const double toReal = 1.0 / (1L << 62);
             var a = f(x);
-            Utility.AssertAreEqual(expected, a, x);
+            Utility.AssertAreEqual(expected, a, $"{x}");
             Utility.AssertAreEqual(g(x * toRad), a * toReal, delta, $"x:{x}");
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)] static void TestSin(int expected, Func<int, int> sin, int x, double delta) => Test(expected, sin, Math.Sin, x, delta);
@@ -88,10 +88,10 @@ namespace Intar.Tests.Mathi {
             const int pi = 1 << 16;
             const double toRad = Math.PI / pi;
             const double toReal = 1.0 / (1 << 30);
-            Utility.AssertAreEqual(sin(0), sin(int.MinValue), int.MinValue);
-            Utility.AssertAreEqual(cos(0), cos(int.MinValue), int.MinValue);
-            Utility.AssertAreEqual(sin(-1), sin(int.MaxValue), int.MaxValue);
-            Utility.AssertAreEqual(cos(-1), cos(int.MaxValue), int.MaxValue);
+            Utility.AssertAreEqual(sin(0), sin(int.MinValue), $"{int.MinValue}");
+            Utility.AssertAreEqual(cos(0), cos(int.MinValue), $"{int.MinValue}");
+            Utility.AssertAreEqual(sin(-1), sin(int.MaxValue), $"{int.MaxValue}");
+            Utility.AssertAreEqual(cos(-1), cos(int.MaxValue), $"{int.MaxValue}");
             for (var x = 0; x < expectedSin.Length; x++) {
                 Console.WriteLine(sin(x));
             }
@@ -170,10 +170,10 @@ namespace Intar.Tests.Mathi {
             Func<long, long> cos, double delta
         ) {
             const long pi = 1L << 32;
-            Utility.AssertAreEqual(sin(0), sin(long.MinValue), long.MinValue);
-            Utility.AssertAreEqual(cos(0), cos(long.MinValue), long.MinValue);
-            Utility.AssertAreEqual(sin(-1), sin(long.MaxValue), long.MaxValue);
-            Utility.AssertAreEqual(cos(-1), cos(long.MaxValue), long.MaxValue);
+            Utility.AssertAreEqual(sin(0), sin(long.MinValue), $"{long.MinValue}");
+            Utility.AssertAreEqual(cos(0), cos(long.MinValue), $"{long.MinValue}");
+            Utility.AssertAreEqual(sin(-1), sin(long.MaxValue), $"{long.MaxValue}");
+            Utility.AssertAreEqual(cos(-1), cos(long.MaxValue), $"{long.MaxValue}");
             for (var x = 0; x < expectedSin.Length; x++) {
                 Console.WriteLine(sin(x));
             }

@@ -76,10 +76,10 @@ namespace Intar.Tests.Mathi {
                 var ePos = expectedHead[iPos];
                 var eNeg = -ePos;
                 var iNeg = -iPos;
-                Utility.AssertAreEqual(ePos, asin(iPos), iPos);
-                Utility.AssertAreEqual(eNeg, asin(iNeg), iPos);
-                Utility.AssertAreEqual(ePos + (pi / 2), acos(iNeg), iPos);
-                Utility.AssertAreEqual(eNeg + (pi / 2), acos(iPos), iPos);
+                Utility.AssertAreEqual(ePos, asin(iPos), $"{iPos}");
+                Utility.AssertAreEqual(eNeg, asin(iNeg), $"{iPos}");
+                Utility.AssertAreEqual(ePos + (pi / 2), acos(iNeg), $"{iPos}");
+                Utility.AssertAreEqual(eNeg + (pi / 2), acos(iPos), $"{iPos}");
             }
             for (var iPos = 0; iPos < expectedTail.Length; ++iPos) {
                 var ePos = expectedTail[iPos];
@@ -87,10 +87,10 @@ namespace Intar.Tests.Mathi {
                 var iNeg = -iPos;
                 var a = iNeg + one;
                 var b = iPos - one;
-                Utility.AssertAreEqual(ePos, asin(a), iPos);
-                Utility.AssertAreEqual(eNeg, asin(b), iPos);
-                Utility.AssertAreEqual(ePos + (pi / 2), acos(b), iPos);
-                Utility.AssertAreEqual(eNeg + (pi / 2), acos(a), iPos);
+                Utility.AssertAreEqual(ePos, asin(a), $"{iPos}");
+                Utility.AssertAreEqual(eNeg, asin(b), $"{iPos}");
+                Utility.AssertAreEqual(ePos + (pi / 2), acos(b), $"{iPos}");
+                Utility.AssertAreEqual(eNeg + (pi / 2), acos(a), $"{iPos}");
             }
         }
         static void TestAsin(
@@ -125,10 +125,10 @@ namespace Intar.Tests.Mathi {
                 Utility.AssertAreEqual(Math.Asin(iNeg * toReal), asin(iNeg) * toRad, error, $"iPos:{iPos}");
                 Utility.AssertAreEqual(Math.Acos(iPos * toReal), acos(iPos) * toRad, error, $"iPos:{iPos}");
                 Utility.AssertAreEqual(Math.Acos(iNeg * toReal), acos(iNeg) * toRad, error, $"iPos:{iPos}");
-                Utility.AssertAreEqual(ePos, asin(iPos), iPos);
-                Utility.AssertAreEqual(eNeg, asin(iNeg), iPos);
-                Utility.AssertAreEqual((pi / 2) + (ulong)ePos, acos(iNeg), iPos);
-                Utility.AssertAreEqual((pi / 2) - (ulong)ePos, acos(iPos), iPos);
+                Utility.AssertAreEqual(ePos, asin(iPos), $"{iPos}");
+                Utility.AssertAreEqual(eNeg, asin(iNeg), $"{iPos}");
+                Utility.AssertAreEqual((pi / 2) + (ulong)ePos, acos(iNeg), $"{iPos}");
+                Utility.AssertAreEqual((pi / 2) - (ulong)ePos, acos(iPos), $"{iPos}");
             }
             for (var iPos = 0; iPos < expectedTail.Length; ++iPos) {
                 var ePos = expectedTail[iPos];
@@ -140,10 +140,10 @@ namespace Intar.Tests.Mathi {
                 Utility.AssertAreEqual(Math.Asin(b * toReal), asin(b) * toRad, error, $"iPos:{iPos}");
                 Utility.AssertAreEqual(Math.Acos(b * toReal), acos(b) * toRad, error, $"iPos:{iPos}");
                 Utility.AssertAreEqual(Math.Acos(a * toReal), acos(a) * toRad, error, $"iPos:{iPos}");
-                Utility.AssertAreEqual(ePos, asin(a), iPos);
-                Utility.AssertAreEqual(eNeg, asin(b), iPos);
-                Utility.AssertAreEqual((pi / 2) + (ulong)ePos, acos(b), iPos);
-                Utility.AssertAreEqual((pi / 2) - (ulong)ePos, acos(a), iPos);
+                Utility.AssertAreEqual(ePos, asin(a), $"{iPos}");
+                Utility.AssertAreEqual(eNeg, asin(b), $"{iPos}");
+                Utility.AssertAreEqual((pi / 2) + (ulong)ePos, acos(b), $"{iPos}");
+                Utility.AssertAreEqual((pi / 2) - (ulong)ePos, acos(a), $"{iPos}");
             }
         }
 
