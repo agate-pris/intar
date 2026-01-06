@@ -1339,8 +1339,7 @@ namespace Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static ulong P3(ulong z) {
                 const ulong a = (1UL << 62) * 3;
-                const ulong b = (1UL << 62) * 2;
-                return a - ((b >> 32) * z);
+                return a - z;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1361,8 +1360,7 @@ namespace Intar {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static uint P3(uint z) {
                 const uint a = (1U << 30) * 3;
-                const uint b = (1U << 30) * 2;
-                return a - ((b >> 16) * z);
+                return a - z;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1500,7 +1498,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SinP3(int x) {
             x = SinInternal.MakeArgOdd(x);
-            return x * (int)(SinInternal.P3((uint)(x * x) >> 15) >> 16);
+            return x * (int)(SinInternal.P3((uint)(x * x)) >> 16);
         }
 
         /// <summary>
@@ -1541,7 +1539,7 @@ namespace Intar {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long SinP3(long x) {
             x = SinInternal.MakeArgOdd(x);
-            return x * (long)(SinInternal.P3((ulong)(x * x) >> 31) >> 32);
+            return x * (long)(SinInternal.P3((ulong)(x * x)) >> 32);
         }
 
         /// <summary>
