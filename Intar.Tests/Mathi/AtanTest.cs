@@ -439,5 +439,62 @@ namespace Intar.Tests.Mathi {
 
 #endif
 
+        [Test]
+        public static void TestAtanP2Overflow() {
+            const uint z = 1U << 15;
+            const uint k = (1U << 31) + (Intar.Mathi.AtanInternal.P2U32B * z);
+            Console.WriteLine($"{uint.MaxValue}\n{k}");
+            Assert.IsTrue(uint.MaxValue >= k);
+        }
+
+        [Test]
+        public static void TestAtanP2LOverflow() {
+            const ulong z = 1UL << 31;
+            const ulong k = (1UL << 63) + (Intar.Mathi.AtanInternal.P2U64B * z);
+            Console.WriteLine($"{ulong.MaxValue}\n{k}");
+            Assert.IsTrue(ulong.MaxValue >= k);
+        }
+
+        [Test]
+        public static void TestAtanP3Overflow() {
+            const uint z = 1U << 15;
+            const uint k1 = Intar.Mathi.AtanInternal.P3U32B + (Intar.Mathi.AtanInternal.P3U32C * z);
+            Console.WriteLine($"{uint.MaxValue}\n{k1}");
+            const uint k2 = (1U << 31) + (z * (k1 >> (15 + 4 - 2)));
+            Console.WriteLine($"{uint.MaxValue}\n{k2}");
+            Assert.IsTrue(uint.MaxValue >= k1);
+            Assert.IsTrue(uint.MaxValue >= k2);
+        }
+
+        [Test]
+        public static void TestAtanP3LOverflow() {
+            const ulong z = 1UL << 31;
+            const ulong k1 = Intar.Mathi.AtanInternal.P3U64B + (Intar.Mathi.AtanInternal.P3U64C * z);
+            Console.WriteLine($"{ulong.MaxValue}\n{k1}");
+            const ulong k2 = (1UL << 63) + (z * (k1 >> (31 + 4 - 2)));
+            Console.WriteLine($"{ulong.MaxValue}\n{k2}");
+            Assert.IsTrue(ulong.MaxValue >= k1);
+            Assert.IsTrue(ulong.MaxValue >= k2);
+        }
+
+        [Test]
+        public static void TestAtanP9Overflow() {
+            const ulong z = 1UL << 31;
+            const ulong e = z * Intar.Mathi.AtanInternal.P9U64E;
+            const ulong d = z * (Intar.Mathi.AtanInternal.P9U64D >> (31 + 6 - 5));
+            const ulong c = z * (Intar.Mathi.AtanInternal.P9U64C >> (31 + 5 - 4));
+            const ulong b = z * (Intar.Mathi.AtanInternal.P9U64B >> (31 + 4 - 2));
+            const ulong a = z * (Intar.Mathi.AtanInternal.P9U64A >> (31 + 3));
+            Console.WriteLine($"{Intar.Mathi.AtanInternal.P9U64D}\n{e}");
+            Console.WriteLine($"{Intar.Mathi.AtanInternal.P9U64C}\n{d}");
+            Console.WriteLine($"{Intar.Mathi.AtanInternal.P9U64B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.AtanInternal.P9U64A}\n{b}");
+            Console.WriteLine($"{1UL << 62}\n{a}");
+            Assert.IsTrue(Intar.Mathi.AtanInternal.P9U64D >= e);
+            Assert.IsTrue(Intar.Mathi.AtanInternal.P9U64C >= d);
+            Assert.IsTrue(Intar.Mathi.AtanInternal.P9U64B >= c);
+            Assert.IsTrue(Intar.Mathi.AtanInternal.P9U64A >= b);
+            Assert.IsTrue((1UL << 62) >= a);
+        }
     }
 }

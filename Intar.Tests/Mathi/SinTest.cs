@@ -441,5 +441,98 @@ namespace Intar.Tests.Mathi {
             };
             TestSin(expectedSin, expectedCos, Intar.Mathi.SinP11, Intar.Mathi.CosP11, 0.000002);
         }
+
+        [Test]
+        public static void TestSinP4Overflow() {
+            const uint z = 1U << 15;
+            const uint b = z * Intar.Mathi.SinInternal.P4I32B;
+            const uint a = z * (Intar.Mathi.SinInternal.P4I32A >> 16);
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P5I32A}\n{b}");
+            Console.WriteLine($"{1U << 31}\n{a}");
+            Assert.IsTrue(Intar.Mathi.SinInternal.P5I32A >= b);
+            Assert.IsTrue((1U << 31) > a);
+        }
+
+        [Test]
+        public static void TestSinP4LOverflow() {
+            const ulong z = 1UL << 31;
+            const ulong b = z * Intar.Mathi.SinInternal.P4I64B;
+            const ulong a = z * (Intar.Mathi.SinInternal.P4I64A >> 32);
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P4I64A}\n{b}");
+            Console.WriteLine($"{1UL << 63}\n{a}");
+            Assert.IsTrue(Intar.Mathi.SinInternal.P5I64A >= b);
+            Assert.IsTrue((1UL << 63) > a);
+        }
+
+        [Test]
+        public static void TestSinP5Overflow() {
+            const uint z = 1U << 15;
+            const uint c = z * Intar.Mathi.SinInternal.P5I32C;
+            const uint b = z * (Intar.Mathi.SinInternal.P5I32B >> (15 + 1));
+            const uint a = z * (Intar.Mathi.SinInternal.P5I32A >> 16);
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P5I32B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P5I32A}\n{b}");
+            Console.WriteLine($"{1U << 31}\n{a}");
+            Assert.IsTrue(Intar.Mathi.SinInternal.P5I32B >= c);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P5I32A >= b);
+            Assert.IsTrue((1U << 31) > a);
+        }
+
+        [Test]
+        public static void TestSinP5LOverflow() {
+            const ulong z = 1UL << 31;
+            const ulong c = z * Intar.Mathi.SinInternal.P5I64C;
+            const ulong b = z * (Intar.Mathi.SinInternal.P5I64B >> (31 + 1));
+            const ulong a = z * (Intar.Mathi.SinInternal.P5I64A >> 32);
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P5I64B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P5I64A}\n{b}");
+            Console.WriteLine($"{1UL << 63}\n{a}");
+            Assert.IsTrue(Intar.Mathi.SinInternal.P5I64B >= c);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P5I64A >= b);
+            Assert.IsTrue((1UL << 63) > a);
+        }
+
+        [Test]
+        public static void TestSinP10Overflow() {
+            const ulong z = 1UL << 31;
+            const ulong e = z * Intar.Mathi.SinInternal.P10I64E;
+            const ulong d = z * (Intar.Mathi.SinInternal.P10I64D >> (31 + 5));
+            const ulong c = z * (Intar.Mathi.SinInternal.P10I64C >> (31 + 4));
+            const ulong b = z * (Intar.Mathi.SinInternal.P10I64B >> (31 + 2));
+            const ulong a = z * (Intar.Mathi.SinInternal.P10I64A >> 32);
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P10I64D}\n{e}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P10I64C}\n{d}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P10I64B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P10I64A}\n{b}");
+            Console.WriteLine($"{1UL << 63}\n{a}");
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64D >= e);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64C >= d);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64B >= c);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64A >= b);
+            Assert.IsTrue((1UL << 63) > a);
+        }
+
+        [Test]
+        public static void TestSinP11Overflow() {
+            const ulong z = 1UL << 31;
+            const ulong f = z * Intar.Mathi.SinInternal.P11I64F;
+            const ulong e = z * (Intar.Mathi.SinInternal.P11I64E >> (31 + 5));
+            const ulong d = z * (Intar.Mathi.SinInternal.P11I64D >> (31 + 4));
+            const ulong c = z * (Intar.Mathi.SinInternal.P11I64C >> (31 + 3));
+            const ulong b = z * (Intar.Mathi.SinInternal.P11I64B >> (31 + 1));
+            const ulong a = z * (Intar.Mathi.SinInternal.P11I64A >> 32);
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P11I64E}\n{f}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P11I64D}\n{e}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P11I64C}\n{d}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P11I64B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.SinInternal.P11I64A}\n{b}");
+            Console.WriteLine($"{1UL << 63}\n{a}");
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64E >= f);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64D >= e);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64C >= d);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64B >= c);
+            Assert.IsTrue(Intar.Mathi.SinInternal.P11I64A >= b);
+            Assert.IsTrue((1UL << 63) > a);
+        }
     }
 }

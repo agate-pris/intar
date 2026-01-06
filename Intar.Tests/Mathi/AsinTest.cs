@@ -205,5 +205,68 @@ namespace Intar.Tests.Mathi {
             };
             TestAsin(head, tail, Intar.Mathi.AsinP7, Intar.Mathi.AcosP7, 0.00000003);
         }
+
+        [Test]
+        public static void TestAsinP3Overflow() {
+            const uint z = 1U << 15;
+            const uint d = z * Intar.Mathi.AsinInternal.P3U32D;
+            const uint c = z * (Intar.Mathi.AsinInternal.P3U32C >> (15 + 5 - 3));
+            const uint b = z * (Intar.Mathi.AsinInternal.P3U32B >> (15 + 3 - 1));
+            const uint a = z * (Intar.Mathi.AsinInternal.P3U32A >> (15 + 1 + 1));
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P3U32C}\n{d}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P3U32B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P3U32A}\n{b}");
+            Console.WriteLine($"{1U << 30}\n{a}");
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P3U32C >= d);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P3U32B >= c);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P3U32A >= b);
+            Assert.IsTrue((1U << 30) > a);
+        }
+
+        [Test]
+        public static void TestAsinP3LOverflow() {
+            const ulong z = 1UL << 31;
+            const ulong d = z * Intar.Mathi.AsinInternal.P3U64D;
+            const ulong c = z * (Intar.Mathi.AsinInternal.P3U64C >> (31 + 5 - 3));
+            const ulong b = z * (Intar.Mathi.AsinInternal.P3U64B >> (31 + 3 - 1));
+            const ulong a = z * (Intar.Mathi.AsinInternal.P3U64A >> (31 + 1 + 1));
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P3U64C}\n{d}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P3U64B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P3U64A}\n{b}");
+            Console.WriteLine($"{1UL << 62}\n{a}");
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P3U64C >= d);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P3U64B >= c);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P3U64A >= b);
+            Assert.IsTrue((1UL << 62) > a);
+        }
+
+        [Test]
+        public static void TestAsinP7LLOverflow() {
+            const ulong z = 1UL << 31;
+            const ulong h = z * Intar.Mathi.AsinInternal.P7U64H;
+            const ulong g = z * (Intar.Mathi.AsinInternal.P7U64G >> (31 + 8 - 7));
+            const ulong f = z * (Intar.Mathi.AsinInternal.P7U64F >> (31 + 7 - 6));
+            const ulong e = z * (Intar.Mathi.AsinInternal.P7U64E >> (31 + 6 - 5));
+            const ulong d = z * (Intar.Mathi.AsinInternal.P7U64D >> (31 + 5 - 5));
+            const ulong c = z * (Intar.Mathi.AsinInternal.P7U64C >> (31 + 5 - 3));
+            const ulong b = z * (Intar.Mathi.AsinInternal.P7U64B >> (31 + 3 - 1));
+            const ulong a = z * (Intar.Mathi.AsinInternal.P7U64A >> (31 + 1 + 1));
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64G}\n{h}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64F}\n{g}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64E}\n{f}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64D}\n{e}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64C}\n{d}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64B}\n{c}");
+            Console.WriteLine($"{Intar.Mathi.AsinInternal.P7U64A}\n{b}");
+            Console.WriteLine($"{1UL << 62}\n{a}");
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64G >= h);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64F >= g);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64E >= f);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64D >= e);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64C >= d);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64B >= c);
+            Assert.IsTrue(Intar.Mathi.AsinInternal.P7U64A >= b);
+            Assert.IsTrue((1UL << 62) > a);
+        }
     }
 }
